@@ -6,6 +6,7 @@
 package irms.common.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Howard
+ * @author Scarlett
  */
 @Entity
 public class StaffEntity implements Serializable {
@@ -21,15 +22,75 @@ public class StaffEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private String staffNo;
+    
+    private String displayName;
+    
+    private String password;
+    
+    private String email;
 
-    public Long getId() {
+    private String handphone;
+    
+    private String departemnt;
+    
+   public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getHandphone() {
+        return handphone;
+    }
+
+    public void setHandphone(String handphone) {
+        this.handphone = handphone;
+    }
+
+    public String getDepartemnt() {
+        return departemnt;
+    }
+
+    public void setDepartemnt(String departemnt) {
+        this.departemnt = departemnt;
+    }
+
+    public String getStaffNo() {
+        return staffNo;
+    }
+
+    public void setStaffNo(String staffNo) {
+        this.staffNo = staffNo;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
