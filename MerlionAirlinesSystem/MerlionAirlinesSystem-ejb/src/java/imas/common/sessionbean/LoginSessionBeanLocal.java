@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package irms.common.sessionbean;
+package imas.common.sessionbean;
 
 import javax.ejb.Local;
 
@@ -14,6 +14,6 @@ import javax.ejb.Local;
 @Local
 public interface LoginSessionBeanLocal {
 
-    Boolean doLogin();
+    Boolean doLogin(String staffNo, String password);
     
 }

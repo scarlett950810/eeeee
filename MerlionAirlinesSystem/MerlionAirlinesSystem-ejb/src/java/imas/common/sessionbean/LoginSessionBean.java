@@ -3,12 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package irms.common.sessionbean;
+package imas.common.sessionbean;
 
+import imas.common.entity.StaffEntity;
 import javax.ejb.Stateful;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 /**
  *
  * @author Howard
@@ -16,8 +21,11 @@ import java.sql.SQLException;
 @Stateful
 public class LoginSessionBean implements LoginSessionBeanLocal {                
 
+    @PersistenceContext
+    private EntityManager entityManager;
+    
     @Override
-    public Boolean doLogin() {
+    public Boolean doLogin(String staffNo, String password) {
         /*String url = "jdbc:mysql://localhost:3307/MerlionInternal";
         String username = "root";
         String password = "1234";
@@ -33,6 +41,19 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         }
         */
         
+        
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber AND s.password = :password");
+        query.setParameter("staffNumber", staffNo);
+        query.setParameter("password", password);
+        
+        List<StaffEntity> staff = (List<StaffEntity>)query.getResultList();
+        if(!staff.isEmpty()){
+            return true;
+        }else{
+            return false;
+        }
+        
+    
     }
     
 }

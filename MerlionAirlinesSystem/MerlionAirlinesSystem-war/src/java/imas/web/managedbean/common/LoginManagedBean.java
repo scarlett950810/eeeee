@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package irms.web.managedbean.common;
+package imas.web.managedbean.common;
 
-import irms.common.sessionbean.LoginSessionBeanLocal;
+import imas.common.sessionbean.LoginSessionBeanLocal;
+import java.io.IOException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -21,7 +24,7 @@ import javax.inject.Named;
 public class LoginManagedBean {
     @EJB
     private LoginSessionBeanLocal loginSessionBean;
-
+    
     /**
      * Creates a new instance of LoginManagedBean
      */
@@ -29,9 +32,16 @@ public class LoginManagedBean {
         
     }
     
-    public Boolean doLogin()
+    public void doLogin(String staffNo, String password) throws IOException
     {
-        return loginSessionBean.doLogin();
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        
+        if(loginSessionBean.doLogin(staffNo, password)==true){
+            ec.redirect("LandingPage.xhtml");
+        }else{
+            System.out.print("log in failed");
+        }
     }
     
 }
