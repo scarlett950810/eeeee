@@ -10,9 +10,11 @@ import java.io.IOException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -24,7 +26,7 @@ import javax.inject.Named;
 public class LoginManagedBean {
     @EJB
     private LoginSessionBeanLocal loginSessionBean;
-    
+
     /**
      * Creates a new instance of LoginManagedBean
      */
@@ -32,16 +34,15 @@ public class LoginManagedBean {
         
     }
     
-    public void doLogin(String staffNo, String password) throws IOException
-    {
+    public void doLogin(String staffNo, String password) throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         
         if(loginSessionBean.doLogin(staffNo, password)==true){
-            ec.redirect("LandingPage.xhtml");
+            ec.redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/LandingPage.xhtml");
         }else{
-            System.out.print("log in failed");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "Invalid credentials"));
         }
     }
-    
+
 }
