@@ -38,9 +38,9 @@ public class LoginManagedBean {
         ExternalContext ec = fc.getExternalContext();
         
         if(loginSessionBean.doLogin(staffNo, password)==true){
-            ec.redirect("LandingPage.xhtml");
+            ec.redirect(ec.getRequestContextPath() + "/templates/DefaultTemplate.xhtml");
         }else{
-            System.out.print("log in failed");
+            ec.redirect(ec.getRequestContextPath() + "/templates/DefaultTemplate.xhtml");
         }
     }
     
