@@ -26,12 +26,30 @@ import org.primefaces.context.RequestContext;
 public class LoginManagedBean {
     @EJB
     private LoginSessionBeanLocal loginSessionBean;
-
+    
+    private boolean loggedIn;
+ 
     /**
      * Creates a new instance of LoginManagedBean
      */
     public LoginManagedBean() {
-        
+        this.loggedIn = false;
+    }
+
+    public LoginSessionBeanLocal getLoginSessionBean() {
+        return loginSessionBean;
+    }
+
+    public void setLoginSessionBean(LoginSessionBeanLocal loginSessionBean) {
+        this.loginSessionBean = loginSessionBean;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
     
     public void doLogin(String staffNo, String password) throws IOException {
@@ -40,6 +58,7 @@ public class LoginManagedBean {
         
         if(loginSessionBean.doLogin(staffNo, password)==true){
             ec.redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/LandingPage.xhtml");
+            loggedIn = true;
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "Invalid credentials"));
         }
