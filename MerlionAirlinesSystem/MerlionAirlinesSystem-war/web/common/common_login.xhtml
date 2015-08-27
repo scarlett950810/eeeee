@@ -9,12 +9,13 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-    <head>
+    <h:head>
         <title>Internal Log In</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-
+    </h:head>
+    <h:body>
+        
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
         <h:form>
             <h:panelGrid id ="loginPG" columns="2" cellpadding="5" style="margin-bottom: 10px;">
                 <h:outputLabel for="staffNo" value="Staff ID" />
@@ -22,16 +23,16 @@ and open the template in the editor.
                     <p:watermark for="staffNo" value="Please enter username" />
                 </p:inputText>                        
 
-                <h:outputLabel for="password" value="Password: " />
+                <p:outputLabel for="password" value="Password: " />
                 <p:password style="width:100%;" id="password" binding="#{password}" label="Password" required="true" requiredMessage="Please input password">
                     <p:watermark for="password" value="Please enter password" />
                 </p:password>
 
-                <h:commandButton id="internalLogin" value="Log In" action="#{loginManagedBean.doLogin(staffNo.value,password.value)}" />
-            
+                <p:commandButton id="internalLogin" value="Log In" actionListener="#{loginManagedBean.doLogin(staffNo.value,password.value)}" />
+
             </h:panelGrid>
-         
+
         </h:form>
 
-    </body>
+    </h:body>
 </html>
