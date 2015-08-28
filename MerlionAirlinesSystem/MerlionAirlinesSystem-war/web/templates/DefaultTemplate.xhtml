@@ -21,20 +21,27 @@
                 <p:graphicImage name="img/merlionLogo.jpg" height="50px" style="float: left;"></p:graphicImage>
             </ui:insert>
         </div>
-     
+
         <div id="content" class="center_content">
 
             <ui:insert name="menubar">
-                    <div id='cssmenu'>
-                        <ul>
-                           <li class='active'><a href='#'><span>Home</span></a></li>
-                           <li><a href='#'><span>Products</span></a></li>
-                           <li><a href='#'><span>Company</span></a></li>
-                           <li class='last'><a href='#'><span>Contact</span></a></li>
-                        </ul>
-                    </div>
+                <div id='cssmenu'>
+                    <ul>
+                        <li class='active'><a href='#'><span>Home</span></a></li>
+                        <li><a href='#'><span>Products</span></a></li>
+                        <li><a href='#'><span>Company</span></a></li>
+                        <li class='last'><a href='#'><span>Contact</span></a></li>
+                    </ul>
+                </div>
             </ui:insert>
-           
+
+            <ui:insert name="toolbox">
+                <p:stack icon="../resources/img/menuStack/menu.png" expanded="true">
+                    <p:menuitem value="Home" icon="../resources/img/menuStack/home.png" url="#"/>
+                    <p:menuitem value="Sign out" icon="../resources/img/menuStack/signOut.png" url="#"/>
+                </p:stack>    
+            </ui:insert>
+
         </div>
 
         <div id="bottom">
