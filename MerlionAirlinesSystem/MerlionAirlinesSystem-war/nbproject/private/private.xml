@@ -5,7 +5,8 @@
         <group>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/common/common_login.xhtml</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/common/LoginManagedBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/common/LandingPage.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/templates/DefaultTemplate.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/resources/css/sidemenu.css</file>
         </group>
     </open-files>
 </project-private>
