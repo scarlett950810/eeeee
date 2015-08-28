@@ -21,7 +21,7 @@
                 <p:graphicImage name="img/merlionLogo.jpg" height="50px" style="float: left;"></p:graphicImage>
             </ui:insert>
         </div>
-     
+
         <div id="content" class="center_content">
 
             <ui:insert name="menubar">
@@ -34,7 +34,14 @@
                     </ul>
                 </div>
             </ui:insert>
-           
+
+            <ui:insert name="toolbox">
+                <p:stack icon="../resources/img/menuStack/menu.png" expanded="true">
+                    <p:menuitem value="Home" icon="../resources/img/menuStack/home.png" url="#"/>
+                    <p:menuitem value="Sign out" icon="../resources/img/menuStack/signOut.png" url="#"/>
+                </p:stack>    
+            </ui:insert>
+
         </div>
 
         <div id="bottom">
