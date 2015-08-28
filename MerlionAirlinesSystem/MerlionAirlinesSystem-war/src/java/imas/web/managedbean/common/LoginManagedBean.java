@@ -58,9 +58,9 @@ public class LoginManagedBean {
     public void doLogin(String staffNo, String password) throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-
-        if (loginSessionBean.doLogin(staffNo, password) == true) {
-            ec.redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/LandingPage.xhtml");
+        
+        if(loginSessionBean.doLogin(staffNo, password)==true){
+            ec.redirect(ec.getRequestContextPath() + "/templates/DefaultTemplate.xhtml");
             loggedIn = true;
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "Invalid credentials"));
