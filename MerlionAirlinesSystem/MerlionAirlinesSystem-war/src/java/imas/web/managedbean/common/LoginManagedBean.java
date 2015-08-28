@@ -58,8 +58,8 @@ public class LoginManagedBean {
     public void doLogin(String staffNo, String password) throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        
-        if(loginSessionBean.doLogin(staffNo, password)==true){
+
+        if (loginSessionBean.doLogin(staffNo, password) == true) {
             ec.redirect(ec.getRequestContextPath() + "/templates/DefaultTemplate.xhtml");
             loggedIn = true;
         } else {
@@ -67,7 +67,7 @@ public class LoginManagedBean {
         }
     }
 
-   public void welcome() {
+    public void welcome() {
         FacesContext.getCurrentInstance().addMessage(
                 null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome Back",
@@ -87,13 +87,10 @@ public class LoginManagedBean {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         try {
             String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-            FacesContext.getCurrentInstance().getExternalContext().redirect(url + "/common/common_login.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
 
         } catch (IOException ex) {
             Logger.getLogger(LoginManagedBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
-
-     
-   
