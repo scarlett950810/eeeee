@@ -57,7 +57,8 @@ public class LoginManagedBean {
         ExternalContext ec = fc.getExternalContext();
         
         if(loginSessionBean.doLogin(staffNo, password)==true){
-            ec.redirect(ec.getRequestContextPath() + "/templates/DefaultTemplate.xhtml");
+              ec.redirect("common/common_landing.xhtml"); //
+//            ec.redirect(ec.getRequestContextPath() + "/templates/DefaultTemplate.xhtml");
             loggedIn = true;
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "Invalid credentials"));
