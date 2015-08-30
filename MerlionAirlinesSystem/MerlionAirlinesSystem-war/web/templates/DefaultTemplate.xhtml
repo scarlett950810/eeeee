@@ -6,10 +6,18 @@
       xmlns:p="http://primefaces.org/ui">
     <style type="text/css">
 
-        #menuBasket img{
+        #menuBasket img {
             left: -24px !important;
             padding-top: 0px !important;
         }
+        
+        .layout, .ui-layout-unit {
+            border: none !important;
+        }
+        
+        #layoutUnit_top .ui-widget-content {
+             background-color:#001F5F !important;
+         }
 
     </style>
 
@@ -23,65 +31,57 @@
 
     <h:body>
 
-        <div id="top">
-            <ui:insert name="top">
+        <p:layout fullPage="true">
+
+            <p:layoutUnit id="layoutUnit_top" position="north" size="70" resizable="true">
                 <p:graphicImage name="img/merlionLogo.jpg" height="50px" style="float: left;"></p:graphicImage>
-            </ui:insert>
-        </div>
+            </p:layoutUnit>
 
-        <div id="content" class="center_content">
+            <p:layoutUnit position="south" size="20">
+                <p:layoutUnit position="center">Merlion Airline</p:layoutUnit>
+            </p:layoutUnit>
 
-            <ui:insert name="menubar">
-                <div id='cssmenu'>
-                    <ul>
-                        <li class='active'><a href='#'><span>Home</span></a></li>
-                        <li><a href='#'><span>Products</span></a></li>
-                        <li><a href='#'><span>Company</span></a></li>
-                        <li class='last'><a href='#'><span>Contact</span></a></li>
-                    </ul>
-                </div>
-            </ui:insert>
+            <p:layoutUnit position="west" size="200" resizable="true" collapsible="true">
+                <ui:insert name="menubar"></ui:insert>
+            </p:layoutUnit>
 
-            <ui:insert name="toolbox">
-                <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" id="menuBasket">                    
-                    <p:menuitem value="Logout" icon="../resources/img/menuStack/signOut.png" url="#"/>
-                    <p:menuitem value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
-                    <p:menuitem value="Inbox" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('inbox').show();" actionListener="#{loginManagedBean.getMessages}"/>
-                    <p:menuitem value="Home" icon="../resources/img/menuStack/home.png" url="#"/>
-                </p:stack>
+            <p:layoutUnit position="center">
+                
+                    <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" id="menuBasket">                    
+                        <p:menuitem value="Logout" icon="../resources/img/menuStack/signOut.png" url="#"/>
+                        <p:menuitem value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
+                        <p:menuitem value="Inbox" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('inbox').show();" actionListener="#{loginManagedBean.getMessages}"/>
+                        <p:menuitem value="Home" icon="../resources/img/menuStack/home.png" url="#"/>
+                    </p:stack>
 
-                <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
-                    <h:form id="announcements">
-                        <h:outputText value="Unread announcement" />
-                        <p:dataList value="#{loginManagedBean.unreadAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                            <h:outputText value="#{announcement.content}" style="display:inline-block"/>
-                        </p:dataList>
-                        <h:outputText value="All announcement" />
-                        <p:dataList value="#{loginManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                            <h:outputText value="#{announcement.content}" style="display:inline-block"/>
-                        </p:dataList>
-                    </h:form>
-                    <!--            uncomment and add back #.
-                                    <h:form id="messages">
-                                            <p:dataList value="{loginManagedBean.getAllMessages}" var="message" paginator="true" rows="10" styleClass="paginated">
-                                            </p:dataList>
-                                            <p:dataList value="{loginManagedBean.getUnreadMessagess}" var="message" paginator="true" rows="10" styleClass="paginated">
-                                            </p:dataList>
-                                        </h:form>-->
-                </p:dialog>
+                    <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
+                        <h:form id="announcements">
+                            <h:outputText value="Unread announcement" />
+                            <p:dataList value="#{loginManagedBean.unreadAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
+                                <h:outputText value="#{announcement.content}" style="display:inline-block"/>
+                            </p:dataList>
+                            <h:outputText value="All announcement" />
+                            <p:dataList value="#{loginManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
+                                <h:outputText value="#{announcement.content}" style="display:inline-block"/>
+                            </p:dataList>
+                        </h:form>
+                        <!--            uncomment and add back #.
+                                        <h:form id="messages">
+                                                <p:dataList value="{loginManagedBean.getAllMessages}" var="message" paginator="true" rows="10" styleClass="paginated">
+                                                </p:dataList>
+                                                <p:dataList value="{loginManagedBean.getUnreadMessagess}" var="message" paginator="true" rows="10" styleClass="paginated">
+                                                </p:dataList>
+                                            </h:form>-->
+                    </p:dialog>
 
-                <p:dialog header="Inbox" widgetVar="inbox" minHeight="40" showEffect="clip" hideEffect="clip">
-                    <h:outputText value="Messages" />
-                </p:dialog>
-            </ui:insert>
+                    <p:dialog header="Inbox" widgetVar="inbox" minHeight="40" showEffect="clip" hideEffect="clip">
+                        <h:outputText value="Messages" />
+                    </p:dialog>
+                
+            </p:layoutUnit>
 
-        </div>
-
-        <div id="bottom">
-            <ui:insert name="bottom">Merlion Airline</ui:insert>
-        </div>
+        </p:layout>
 
     </h:body>
-    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript" ></script>
 
 </html>
