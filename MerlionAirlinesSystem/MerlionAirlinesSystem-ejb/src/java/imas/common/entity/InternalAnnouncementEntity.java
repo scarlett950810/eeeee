@@ -10,21 +10,35 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author Scarlett
  */
 @Entity
-public class InternalNotificationEntity implements Serializable {
+public class InternalAnnouncementEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @ManyToOne
     private StaffEntity receiver;
     
     private String content;
+    
+    private boolean isRead;
+
+    public InternalAnnouncementEntity() {
+    }
+
+    public InternalAnnouncementEntity(StaffEntity receiver, String content) {
+        this.receiver = receiver;
+        this.content = content;
+        this.isRead = false;
+    }
     
     public Long getId() {
         return id;
@@ -50,6 +64,14 @@ public class InternalNotificationEntity implements Serializable {
         this.content = content;
     }
 
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        this.isRead = read;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -60,10 +82,10 @@ public class InternalNotificationEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof InternalNotificationEntity)) {
+        if (!(object instanceof InternalAnnouncementEntity)) {
             return false;
         }
-        InternalNotificationEntity other = (InternalNotificationEntity) object;
+        InternalAnnouncementEntity other = (InternalAnnouncementEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

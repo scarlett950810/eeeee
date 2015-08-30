@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -22,11 +24,27 @@ public class InternalMessageEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JoinColumn(referencedColumnName = "id")
+    @ManyToOne
     private StaffEntity sender;
     
+    @JoinColumn(referencedColumnName = "id")
+    @ManyToOne
     private StaffEntity receiver;
     
     private String content;
+    
+    private boolean isRead;
+
+    public InternalMessageEntity() {
+    }
+
+    public InternalMessageEntity(StaffEntity sender, StaffEntity receiver, String content) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.content = content;
+        this.isRead = false;
+    }
     
     public Long getId() {
         return id;
@@ -58,6 +76,14 @@ public class InternalMessageEntity implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setIsRead(boolean read) {
+        this.isRead = read;
     }
 
     @Override

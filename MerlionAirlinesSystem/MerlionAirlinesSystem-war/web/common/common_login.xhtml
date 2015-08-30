@@ -16,7 +16,8 @@ and open the template in the editor.
     <h:body>
         
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-        <h:form>
+        <h:form id="internalLoginForm">
+            <p:focus context="internalLoginForm"/>
             <h:panelGrid id ="loginPG" columns="2" cellpadding="5" style="margin-bottom: 10px;">
                 <p:outputLabel for="staffNo" value="Staff ID" />
                 <p:inputText style="width:100%;" id="staffNo" binding="#{staffNo}" label="StaffNo" required="true" requiredMessage="Please input your staff ID">

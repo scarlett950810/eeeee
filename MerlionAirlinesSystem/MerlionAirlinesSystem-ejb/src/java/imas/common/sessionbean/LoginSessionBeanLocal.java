@@ -5,6 +5,9 @@
  */
 package imas.common.sessionbean;
 
+import imas.common.entity.InternalAnnouncementEntity;
+import imas.common.entity.StaffEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,6 +17,10 @@ import javax.ejb.Local;
 @Local
 public interface LoginSessionBeanLocal {
 
-    Boolean doLogin(String staffNo, String password);
+    public StaffEntity doLogin(String staffNo, String password);
+
+    public List<InternalAnnouncementEntity> getAllAnnoucements(StaffEntity staffEntity);
+
+    public List<InternalAnnouncementEntity> getUnreadAnnoucements(StaffEntity staffEntity);
     
 }
