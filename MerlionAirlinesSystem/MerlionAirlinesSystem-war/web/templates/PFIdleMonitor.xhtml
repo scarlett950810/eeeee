@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+     
+    </h:head>
+
+    <h:body>
+        <p:growl id="msg" showDetail="true" sticky="true" />
+
+	<!-- If idle 10 seconds, run 'idleDialog' -->
+	<p:idleMonitor timeout="10000" onidle="idleDialog.show()" />
+
+       
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:idleMonitor timeout="10000" onidle="idleDialog.show;"/>
+
+            <p:confirmDialog id="confirmDialog"
+                             message="You have been idle for a while, 
+                             Please click ok to continue."
+                             header="Are you there?" severity="alert" widgetVar="idleDialog">
+
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{loginManagedBean.welcome()}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{loginManagedBean.logout()}" />
+
+            </p:confirmDialog>
+
+    </h:body>
+
+</html>
