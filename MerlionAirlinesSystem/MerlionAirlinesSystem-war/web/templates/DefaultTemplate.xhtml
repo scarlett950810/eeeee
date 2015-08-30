@@ -46,7 +46,6 @@
             </p:layoutUnit>
 
             <p:layoutUnit position="center">
-                
                     <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" id="menuBasket">                    
                         <p:menuitem value="Logout" icon="../resources/img/menuStack/signOut.png" url="#"/>
                         <p:menuitem value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
@@ -77,7 +76,8 @@
                     <p:dialog header="Inbox" widgetVar="inbox" minHeight="40" showEffect="clip" hideEffect="clip">
                         <h:outputText value="Messages" />
                     </p:dialog>
-                
+                    
+                <ui:insert name="centerPanel"></ui:insert>
             </p:layoutUnit>
 
         </p:layout>
