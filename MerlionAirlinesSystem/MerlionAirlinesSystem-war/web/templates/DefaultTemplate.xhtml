@@ -17,30 +17,43 @@
     <h:body>
 
         <p:layout id="top">
-            <ui:insert name="top">
-                <p:graphicImage name="img/merlionLogo.jpg" height="50px" style="float: left;"></p:graphicImage>
-            </ui:insert>
+            <p:layoutUnit id="centerLayout" position="center">
+                <ui:insert name="top">
+                    <p:graphicImage name="img/merlionLogo.jpg" height="50px" style="float: left;"></p:graphicImage>
+                </ui:insert> 
+            </p:layoutUnit>
         </p:layout>
 
         <p:layout id="content" class="center_content">
+            <p:layoutUnit id="centerLayout" position="center">
+                <ui:insert name="menubar">
+                    <p:outputPanel id='cssmenu'>
+                        <ul>
+                            <li class='active'><a href='#'><span>Home</span></a></li>
+                            <li><a href='#'><span>Products</span></a></li>
+                            <li><a href='#'><span>Company</span></a></li>
+                            <li class='last'><a href='#'><span>Contact</span></a></li>
+                        </ul>
+                    </p:outputPanel>
+                </ui:insert>
 
-            <ui:insert name="menubar">
-                
-            </ui:insert>
-
-            <ui:insert name="toolbox">
-                <p:stack icon="../resources/img/menuStack/menu.png" expanded="true">
-                    <p:menuitem value="Home" icon="../resources/img/menuStack/home.png" url="#"/>
-                    <p:menuitem value="Sign out" icon="../resources/img/menuStack/signOut.png" url="#"/>
-                </p:stack>    
-            </ui:insert>
+                <ui:insert name="toolbox">
+                    <p:stack icon="../resources/img/menuStack/menu.png" expanded="true">
+                        <p:menuitem value="Home" icon="../resources/img/menuStack/home.png" url="#"/>
+                        <p:menuitem value="Sign out" icon="../resources/img/menuStack/signOut.png" url="#"/>
+                    </p:stack>    
+                </ui:insert>
+            </p:layoutUnit>
 
         </p:layout>
 
-        <p:layout id="bottom">
-            <ui:insert name="bottom">Merlion Airline</ui:insert>
+        <p:layout id="bottom"> 
+            <p:layoutUnit id="centerLayout" position="center">
+                <ui:insert name="bottom">Merlion Airline</ui:insert>
+            </p:layoutUnit>
         </p:layout>
-
+        
+        
     </h:body>
     
 
