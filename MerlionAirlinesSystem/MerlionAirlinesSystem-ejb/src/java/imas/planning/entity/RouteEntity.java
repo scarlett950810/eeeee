@@ -34,6 +34,18 @@ public class RouteEntity  implements Serializable {
     private Integer distance;    
     private Double flightHours;
 
+    public RouteEntity() {
+    }
+
+    public RouteEntity(AirportEntity originAirport, AirportEntity destinationAirport, Double revenue, Double cost, Integer distance, Double flightHours) {
+        this.originAirport = originAirport;
+        this.destinationAirport = destinationAirport;
+        this.revenue = revenue;
+        this.cost = cost;
+        this.distance = distance;
+        this.flightHours = flightHours;
+    }
+
     /**
      * Get the value of flightHours
      *

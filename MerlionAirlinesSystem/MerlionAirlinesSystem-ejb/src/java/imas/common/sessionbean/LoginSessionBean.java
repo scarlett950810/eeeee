@@ -23,6 +23,9 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    public LoginSessionBean() {
+    }
     
     @Override
     public Boolean doLogin(String staffNo, String password) {

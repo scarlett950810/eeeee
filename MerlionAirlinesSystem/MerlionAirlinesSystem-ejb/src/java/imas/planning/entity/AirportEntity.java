@@ -6,14 +6,10 @@
 package imas.planning.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 /**
  *
@@ -31,6 +27,39 @@ public class AirportEntity implements Serializable {
     private String cityName;
     
     private String airportName;
+    
+    private String airportCode;
+
+    /**
+     * Get the value of AirportCode
+     *
+     * @return the value of AirportCode
+     */
+    public String getAirportCode() {
+        return airportCode;
+    }
+
+    /**
+     * Set the value of AirportCode
+     *
+     * @param airportCode new value of AirportCode
+     */
+    public void setAirportCode(String airportCode) {
+        this.airportCode = airportCode;
+    }
+
+    
+    public AirportEntity(){
+        
+    }
+
+    public AirportEntity(Boolean hubOrSpoke, String cityName, String airportName, String airportCode) {
+        this.hubOrSpoke = hubOrSpoke;
+        this.cityName = cityName;
+        this.airportName = airportName;
+        this.airportCode = airportCode;
+    }
+    
     
 
     /**
