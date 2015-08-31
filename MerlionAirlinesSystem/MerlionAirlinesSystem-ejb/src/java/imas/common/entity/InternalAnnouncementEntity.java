@@ -118,7 +118,7 @@ public class InternalAnnouncementEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "irms.common.entity.NotificationEntity[ id=" + id + " ]";
+        return "irms.common.entity.InternalAnnouncementEntity[ id=" + id + " ]";
     }
     
 }
