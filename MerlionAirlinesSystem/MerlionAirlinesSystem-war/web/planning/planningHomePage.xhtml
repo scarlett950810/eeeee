@@ -1,21 +1,24 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../templates/DefaultTemplate.xhtml">
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui">
 
 
     <ui:define name="menubar">
-        <div id='cssmenu'>
-            <ul>
-                <li class='active'><a href='#'><span>Home</span></a></li>
-                <li><a href='planningAddAirport.xhtml'><span>Add Airport</span></a></li>
-                <li><a href='#'><span>Company</span></a></li>
-                <li class='last'><a href='#'><span>Contact</span></a></li>
-            </ul>
-        </div>
+        <!--referring to http://www.primefaces.org/showcase/ui/menu/megaMenu.xhtml-->
+        <p:megaMenu>
+            <p:submenu label="Example 1" icon="ui-icon-document"></p:submenu>
+            <p:submenu label="Example 2" icon="ui-icon-check"></p:submenu>
+            <p:submenu label="Example 3" icon="ui-icon-pencil"></p:submenu>
+        </p:megaMenu>
+        
     </ui:define>
 
-    
+    <ui:define name="centerPanel">
+        customerize center panel.
+    </ui:define>
+
 
     
 

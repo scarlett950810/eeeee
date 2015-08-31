@@ -5,12 +5,13 @@
  */
 package imas.common.sessionbean;
 
+import imas.common.entity.InternalAnnouncementEntity;
 import imas.common.entity.StaffEntity;
 import javax.ejb.Stateful;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -27,23 +28,15 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     public LoginSessionBean() {
     }
     
+    /**
+     *
+     * @param staffNo
+     * @param password
+     * @return staffId
+     */
     @Override
-    public Boolean doLogin(String staffNo, String password) {
-        /*String url = "jdbc:mysql://localhost:3307/MerlionInternal";
-        String username = "root";
-        String password = "1234";
-
-        System.out.println("Connecting database…");
-
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            System.out.println("Database connected!");
-            return true;
-        }
-        catch (SQLException e) {
-            throw new IllegalStateException("Cannot connect the database!", e);
-        }
-        */
-        
+    public boolean doLogin(String staffNo, String password) {
+//        insertData();
         
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber AND s.password = :password");
         query.setParameter("staffNumber", staffNo);
@@ -51,12 +44,22 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         
         List<StaffEntity> staff = (List<StaffEntity>)query.getResultList();
         if(!staff.isEmpty()){
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffEntity", (StaffEntity) staff.get(0));
             return true;
         }else{
             return false;
         }
-        
-    
     }
-    
+
+    private void insertData() {
+        StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "admin");
+        entityManager.persist(s);
+        
+        InternalAnnouncementEntity i1 = new InternalAnnouncementEntity(s, "read message", "hello. This message is read.", new Date());
+        i1.setIsRead(true);
+        entityManager.persist(i1);
+        
+        InternalAnnouncementEntity i2 = new InternalAnnouncementEntity(s, "unread message", "An unread message.", new Date());
+        entityManager.persist(i2);
+    }
 }

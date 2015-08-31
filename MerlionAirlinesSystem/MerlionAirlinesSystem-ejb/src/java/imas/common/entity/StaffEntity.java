@@ -6,10 +6,12 @@
 package imas.common.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -32,9 +34,30 @@ public class StaffEntity implements Serializable {
 
     private String handphone;
     
-    private String departemnt;
+    private String department;
     
-   public Long getId() {
+    @OneToMany(mappedBy = "receiver")
+    private List<InternalAnnouncementEntity> announcements;
+    
+    @OneToMany(mappedBy = "sender")
+    private List<InternalMessageEntity> sentMessages;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<InternalMessageEntity> receivedMessages;
+    
+    public StaffEntity() {
+    }
+    
+    public StaffEntity(String staffNo, String displayName, String password, String email, String handphone, String department) {
+        this.staffNo = staffNo;
+        this.displayName = displayName;
+        this.password = password;
+        this.email = email;
+        this.handphone = handphone;
+        this.department = department;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -59,11 +82,11 @@ public class StaffEntity implements Serializable {
     }
 
     public String getDepartemnt() {
-        return departemnt;
+        return department;
     }
 
-    public void setDepartemnt(String departemnt) {
-        this.departemnt = departemnt;
+    public void setDepartemnt(String department) {
+        this.department = department;
     }
 
     public String getStaffNo() {
@@ -88,6 +111,30 @@ public class StaffEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<InternalAnnouncementEntity> getAnnouncements() {
+        return announcements;
+    }
+
+    public void setAnnouncements(List<InternalAnnouncementEntity> announcements) {
+        this.announcements = announcements;
+    }
+
+    public List<InternalMessageEntity> getSentMessages() {
+        return sentMessages;
+    }
+
+    public void setSentMessages(List<InternalMessageEntity> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    public List<InternalMessageEntity> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    public void setReceivedMessages(List<InternalMessageEntity> receivedMessages) {
+        this.receivedMessages = receivedMessages;
     }
     
     @Override
