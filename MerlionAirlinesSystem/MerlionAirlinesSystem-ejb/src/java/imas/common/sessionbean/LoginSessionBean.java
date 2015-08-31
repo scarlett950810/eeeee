@@ -24,6 +24,9 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    public LoginSessionBean() {
+    }
     
     /**
      *
