@@ -55,13 +55,8 @@
 
                     <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
                         <h:form id="announcements">
-                            <h:outputText value="Unread announcement" />
-                            <p:dataList value="#{loginManagedBean.unreadAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                                <h:outputText value="#{announcement.content}" style="display:inline-block"/>
-                            </p:dataList>
-                            <h:outputText value="All announcement" />
-                            <p:dataList value="#{loginManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                                <h:outputText value="#{announcement.content}" style="display:inline-block"/>
+                            <p:dataList value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
+                                <h:outputText value="#{announcement.sentTime} - #{announcement.title}: #{announcement.content}" style="display:inline-block"/>
                             </p:dataList>
                         </h:form>
                         <!--            uncomment and add back #.
