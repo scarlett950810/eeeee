@@ -7,8 +7,6 @@ package imas.web.managedbean.common;
 
 import imas.common.sessionbean.LoginSessionBeanLocal;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -46,13 +44,13 @@ public class LoginManagedBean {
     public void doLogin(String staffNo, String password) throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        
+
         if (loginSessionBean.doLogin(staffNo, password)) {
             ec.redirect(ec.getRequestContextPath() + "/common/common_landing.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "Invalid credentials"));
         }
-        
+
     }
 
     public void welcome() {
@@ -63,7 +61,8 @@ public class LoginManagedBean {
 
     }
 
-    public void logout() {
+    public String doLogout() {
+        System.out.print("loginManagedBean.doLogout called.");
         FacesContext.getCurrentInstance().addMessage(
                 null,
                 new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -73,13 +72,13 @@ public class LoginManagedBean {
         // invalidate session, and redirect to other pages
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-        try {
-            String url = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
+//        try {
+        return "http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml";
+//            FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
 
-        } catch (IOException ex) {
-            Logger.getLogger(LoginManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        } catch (IOException ex) {
+//            Logger.getLogger(LoginManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
-   
+
 }
