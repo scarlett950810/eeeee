@@ -9,6 +9,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/simple-sidebar.css"/>
+        <h:outputScript name="./js/bootstrap.min.js"/>
+
         <title><ui:insert name="title">Merlion Airlines Internal System</ui:insert></title>
         <ui:insert name="head"></ui:insert>
     </h:head>
@@ -17,19 +20,19 @@
 
         <p:layout fullPage="true">
 
-            <p:layoutUnit id="layoutUnit_top" position="north" size="70" resizable="true">
-                <p:graphicImage name="img/merlionLogo.jpg" height="50px" style="float: left;"></p:graphicImage>
+            <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
+                <p:graphicImage name="img/merlionLogo.jpg" height="100%" style="float: left;"></p:graphicImage>
             </p:layoutUnit>
 
             <p:layoutUnit position="south" size="20">
                 <p:layoutUnit position="center">Merlion Airline</p:layoutUnit>
             </p:layoutUnit>
 
-            <p:layoutUnit position="west" size="200" resizable="true" collapsible="true">
+            <p:layoutUnit id="layoutUnit_left" position="west" size="15%" resizable="true" collapsible="true">
                 <ui:insert name="menubar"></ui:insert>
             </p:layoutUnit>
 
-            <p:layoutUnit position="center">
+            <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
                 <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" id="menuBasket">                    
                     <p:menuitem value="Logout" icon="../resources/img/menuStack/signOut.png" url="#"/>
                     <p:menuitem value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
