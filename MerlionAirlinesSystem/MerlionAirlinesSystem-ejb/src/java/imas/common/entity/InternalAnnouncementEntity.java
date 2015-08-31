@@ -6,12 +6,13 @@
 package imas.common.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -27,17 +28,24 @@ public class InternalAnnouncementEntity implements Serializable {
     @ManyToOne
     private StaffEntity receiver;
     
+    private String title;
+    
     private String content;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date sentTime;
     
     private boolean isRead;
 
     public InternalAnnouncementEntity() {
     }
 
-    public InternalAnnouncementEntity(StaffEntity receiver, String content) {
+    public InternalAnnouncementEntity(StaffEntity receiver,String title, String content, Date sentTime) {
         this.receiver = receiver;
+        this.title = title;
         this.content = content;
         this.isRead = false;
+        this.sentTime = sentTime;
     }
     
     public Long getId() {
@@ -64,12 +72,28 @@ public class InternalAnnouncementEntity implements Serializable {
         this.content = content;
     }
 
-    public boolean isRead() {
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Date getSentTime() {
+        return sentTime;
+    }
+
+    public void setSentTime(Date sentTime) {
+        this.sentTime = sentTime;
+    }
+
+    public boolean isIsRead() {
         return isRead;
     }
 
-    public void setRead(boolean read) {
-        this.isRead = read;
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
     }
 
     @Override

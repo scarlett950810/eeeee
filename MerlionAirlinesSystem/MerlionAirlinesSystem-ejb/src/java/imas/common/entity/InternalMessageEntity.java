@@ -6,12 +6,14 @@
 package imas.common.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -34,15 +36,19 @@ public class InternalMessageEntity implements Serializable {
     
     private String content;
     
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date sentTime;
+    
     private boolean isRead;
 
     public InternalMessageEntity() {
     }
 
-    public InternalMessageEntity(StaffEntity sender, StaffEntity receiver, String content) {
+    public InternalMessageEntity(StaffEntity sender, StaffEntity receiver, String content, Date sentTime) {
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
+        this.sentTime = sentTime;
         this.isRead = false;
     }
     
@@ -78,7 +84,15 @@ public class InternalMessageEntity implements Serializable {
         this.content = content;
     }
 
-    public boolean isRead() {
+    public Date getSentTime() {
+        return sentTime;
+    }
+
+    public void setSentTime(Date sentTime) {
+        this.sentTime = sentTime;
+    }
+
+    public boolean isIsRead() {
         return isRead;
     }
 
