@@ -30,6 +30,18 @@ public class SeatEntity implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private AircraftEntity aircraftSeats;
 
+    public SeatEntity() {
+
+    }
+
+    public SeatEntity(Long id, String setNo, String availability, String seatClass, AircraftEntity aircraftSeats) {
+        this.id = id;
+        this.setNo = setNo;
+        this.availability = availability;
+        this.seatClass = seatClass;
+        this.aircraftSeats = aircraftSeats;
+    }
+
     public Long getId() {
         return id;
     }

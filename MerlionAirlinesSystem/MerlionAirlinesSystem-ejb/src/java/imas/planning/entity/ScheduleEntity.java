@@ -19,16 +19,26 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class ScheduleEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date startTime;
- 
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date endTime;
-    
+
+    public ScheduleEntity() {
+
+    }
+
+    public ScheduleEntity(Long id, Date startTime, Date endTime) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 
     public Date getStartTime() {
         return startTime;
@@ -45,8 +55,6 @@ public class ScheduleEntity implements Serializable {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
-   
-    
 
     public Long getId() {
         return id;
@@ -80,5 +88,5 @@ public class ScheduleEntity implements Serializable {
     public String toString() {
         return "imas.planning.entity.ScheduleEntity[ id=" + id + " ]";
     }
-    
+
 }

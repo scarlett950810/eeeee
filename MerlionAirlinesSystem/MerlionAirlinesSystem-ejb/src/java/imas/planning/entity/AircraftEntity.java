@@ -54,15 +54,40 @@ public class AircraftEntity implements Serializable {
     //private SeatEntity Configuration;  
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "aircraftSeats")
     private List<SeatEntity> seats = new ArrayList<SeatEntity>();
-      // Hub
+    // Hub
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    private AirportEntity airportHub;
+    private AirportEntity airportHub = new AirportEntity();
     // aircraft location
+
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    private AirportEntity airportLocation;
+    private AirportEntity airportLocation = new AirportEntity();
     //group
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private AircraftGroupEntity aircraftGroup;
+
+    public AircraftEntity(){
+    }
+
+    public AircraftEntity(Long id, String tailId, Integer aircraftRange, String aircraftType, Integer aircraftSpace, Double cruisingSpeed, Double wingSpan, Double aircraftWeight, Double aircraftLength, Double aircraftHeight, String powerPlant, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String aircraftCondition, AircraftGroupEntity aircraftGroup) {
+        this.id = id;
+        this.tailId = tailId;
+        this.aircraftRange = aircraftRange;
+        this.aircraftType = aircraftType;
+        this.aircraftSpace = aircraftSpace;
+        this.cruisingSpeed = cruisingSpeed;
+        this.wingSpan = wingSpan;
+        this.aircraftWeight = aircraftWeight;
+        this.aircraftLength = aircraftLength;
+        this.aircraftHeight = aircraftHeight;
+        this.powerPlant = powerPlant;
+        this.purchasePrice = purchasePrice;
+        this.deprecation = deprecation;
+        this.netAssetValue = netAssetValue;
+        this.aircraftLife = aircraftLife;
+        this.operationYear = operationYear;
+        this.aircraftCondition = aircraftCondition;
+        this.aircraftGroup = aircraftGroup;
+    }
 
     public AircraftGroupEntity getAircraftGroup() {
         return aircraftGroup;
@@ -87,7 +112,6 @@ public class AircraftEntity implements Serializable {
     public void setAirportHub(AirportEntity airportHub) {
         this.airportHub = airportHub;
     }
-    
 
     public Long getId() {
         return id;

@@ -35,6 +35,21 @@ public class FlightRecordEntity implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private FlightEntity flightRecords;
 
+    public FlightRecordEntity() {
+
+    }
+
+    public FlightRecordEntity(Long id, String EORAviolation, String significantMechnicalFailures, String fuelDumping, String illness, String overWeightLanding, String extraRemark, FlightEntity flightRecords) {
+        this.id = id;
+        this.EORAviolation = EORAviolation;
+        this.significantMechnicalFailures = significantMechnicalFailures;
+        this.fuelDumping = fuelDumping;
+        this.illness = illness;
+        this.overWeightLanding = overWeightLanding;
+        this.extraRemark = extraRemark;
+        this.flightRecords = flightRecords;
+    }
+
     public Long getId() {
         return id;
     }

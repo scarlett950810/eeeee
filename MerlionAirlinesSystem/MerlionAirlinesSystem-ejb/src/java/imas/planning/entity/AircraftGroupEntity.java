@@ -32,6 +32,17 @@ public class AircraftGroupEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "aircraftGroup")
     private List<AircraftEntity> group = new ArrayList<AircraftEntity>();
 
+    public AircraftGroupEntity() {
+
+    }
+
+    public AircraftGroupEntity(Long id, Long groupId, String type, int number) {
+        this.id = id;
+        this.groupId = groupId;
+        this.type = type;
+        this.number = number;
+    }
+
     public Long getId() {
         return id;
     }

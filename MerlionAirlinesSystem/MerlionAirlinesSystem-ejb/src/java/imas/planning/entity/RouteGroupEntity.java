@@ -27,6 +27,16 @@ public class RouteGroupEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "routeGroup")
     private List<RouteEntity> group = new ArrayList<RouteEntity>();
 
+    public RouteGroupEntity() {
+
+    }
+
+    public RouteGroupEntity(Long id, Long minRange, Long maxRange) {
+        this.id = id;
+        this.minRange = minRange;
+        this.maxRange = maxRange;
+    }
+
     public Long getMinRange() {
         return minRange;
     }

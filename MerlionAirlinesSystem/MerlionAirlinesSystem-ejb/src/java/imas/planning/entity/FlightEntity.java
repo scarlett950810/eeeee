@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-
 /**
  *
  * @author Lei
@@ -33,26 +32,38 @@ public class FlightEntity implements Serializable {
     private Long duration;
     //booking
     //ticket
-    
+
     //private AircraftEntity aircraft;
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private AircraftEntity aircraftFlight;
-   //route
-    @ManyToOne(cascade={CascadeType.PERSIST})
+    //route
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private RouteEntity routeFlights;
-    
-   // private FlightRecordEntity flightRecord;
+
+    // private FlightRecordEntity flightRecord;
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "flightRecords")
     private List<FlightRecordEntity> flightRes = new ArrayList<FlightRecordEntity>();
-    
-      public Long getId() {
+
+    public FlightEntity() {
+
+    }
+
+    public FlightEntity(Long id, String flightNo, Double distance, Long duration, AircraftEntity aircraftFlight, RouteEntity routeFlights) {
+        this.id = id;
+        this.flightNo = flightNo;
+        this.distance = distance;
+        this.duration = duration;
+        this.aircraftFlight = aircraftFlight;
+        this.routeFlights = routeFlights;
+    }
+
+    public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getFlightNo() {
         return flightNo;
@@ -85,6 +96,7 @@ public class FlightEntity implements Serializable {
     public void setDuration(Long duration) {
         this.duration = duration;
     }
+
     public List<FlightRecordEntity> getFlightRes() {
         return flightRes;
     }
@@ -92,15 +104,15 @@ public class FlightEntity implements Serializable {
     public void setFlightRes(List<FlightRecordEntity> flightRes) {
         this.flightRes = flightRes;
     }
-    
-      public AircraftEntity getAircraftFlight() {
+
+    public AircraftEntity getAircraftFlight() {
         return aircraftFlight;
     }
 
     public void setAircraftFlight(AircraftEntity aircraftFlight) {
         this.aircraftFlight = aircraftFlight;
     }
-   
+
     @Override
     public int hashCode() {
         int hash = 0;
