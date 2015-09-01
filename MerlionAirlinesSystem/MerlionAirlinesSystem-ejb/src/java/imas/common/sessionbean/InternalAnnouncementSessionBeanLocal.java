@@ -5,15 +5,17 @@
  */
 package imas.common.sessionbean;
 
+import imas.common.entity.InternalAnnouncementEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
  *
- * @author Howard
+ * @author Scarlett
  */
 @Local
-public interface LoginSessionBeanLocal {
+public interface InternalAnnouncementSessionBeanLocal {
 
-    public boolean doLogin(String staffNo, String password);
-    
+    public List<InternalAnnouncementEntity> getAllAnnouncements();
+
 }
