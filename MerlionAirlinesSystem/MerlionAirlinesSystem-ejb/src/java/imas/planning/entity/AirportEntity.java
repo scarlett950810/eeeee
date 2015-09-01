@@ -6,10 +6,14 @@
 package imas.planning.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -17,40 +21,22 @@ import javax.persistence.Id;
  */
 @Entity
 public class AirportEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
     private Boolean hubOrSpoke;
-    
     private String cityName;
-    
-    private String airportName;
-    
+    private String airportName;  
     private String airportCode;
 
-    /**
-     * Get the value of AirportCode
-     *
-     * @return the value of AirportCode
-     */
-    public String getAirportCode() {
-        return airportCode;
-    }
-
-    /**
-     * Set the value of AirportCode
-     *
-     * @param airportCode new value of AirportCode
-     */
-    public void setAirportCode(String airportCode) {
-        this.airportCode = airportCode;
-    }
-
-    
-    public AirportEntity(){
+  /*@OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "airportHub")
+    private List<AircraftEntity> AirportsH = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "airportLocation")
+    private List<AircraftEntity> AirportsLct = new ArrayList<>();*/
         
+    public AirportEntity(){   
     }
 
     public AirportEntity(Boolean hubOrSpoke, String cityName, String airportName, String airportCode) {
@@ -60,7 +46,38 @@ public class AirportEntity implements Serializable {
         this.airportCode = airportCode;
     }
     
-    
+//    public List<AircraftEntity> getAirportsH() {
+//        return AirportsH;
+//    }
+//
+//    public void setAirportsH(List<AircraftEntity> AirportsH) {
+//        this.AirportsH = AirportsH;
+//    }
+
+    // aircraft location
+//    public List<AircraftEntity> getAirportsLct() {
+//        return AirportsLct;
+//    }
+//
+//    public void setAirportsLct(List<AircraftEntity> AirportsLct) {
+//        this.AirportsLct = AirportsLct;
+//    }
+
+    public String getAirportCode() {
+        return airportCode;
+    }
+
+    public void setAirportCode(String airportCode) {
+        this.airportCode = airportCode;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     /**
      * Get the value of airportName
@@ -80,7 +97,6 @@ public class AirportEntity implements Serializable {
         this.airportName = airportName;
     }
 
-
     /**
      * Get the value of cityName
      *
@@ -99,7 +115,6 @@ public class AirportEntity implements Serializable {
         this.cityName = cityName;
     }
 
-
     /**
      * Get the value of hubOrSpoke
      *
@@ -116,16 +131,6 @@ public class AirportEntity implements Serializable {
      */
     public void setHubOrSpoke(Boolean hubOrSpoke) {
         this.hubOrSpoke = hubOrSpoke;
-    }
-
-    
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
