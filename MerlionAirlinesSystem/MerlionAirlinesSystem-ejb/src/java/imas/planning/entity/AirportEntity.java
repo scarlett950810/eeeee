@@ -21,17 +21,44 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class AirportEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
     private Boolean hubOrSpoke;
-    
     private String cityName;
-    
     private String airportName;
-    
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "airportHub")
+    private List<AircraftEntity> AirportsH = new ArrayList<AircraftEntity>();
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "airportLocation")
+    private List<AircraftEntity> AirportsLct = new ArrayList<AircraftEntity>();
+
+    public List<AircraftEntity> getAirportsH() {
+        return AirportsH;
+    }
+
+    public void setAirportsH(List<AircraftEntity> AirportsH) {
+        this.AirportsH = AirportsH;
+    }
+
+    // aircraft location
+    public List<AircraftEntity> getAirportsLct() {
+        return AirportsLct;
+    }
+
+    public void setAirportsLct(List<AircraftEntity> AirportsLct) {
+        this.AirportsLct = AirportsLct;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     /**
      * Get the value of airportName
@@ -51,7 +78,6 @@ public class AirportEntity implements Serializable {
         this.airportName = airportName;
     }
 
-
     /**
      * Get the value of cityName
      *
@@ -70,7 +96,6 @@ public class AirportEntity implements Serializable {
         this.cityName = cityName;
     }
 
-
     /**
      * Get the value of hubOrSpoke
      *
@@ -87,16 +112,6 @@ public class AirportEntity implements Serializable {
      */
     public void setHubOrSpoke(Boolean hubOrSpoke) {
         this.hubOrSpoke = hubOrSpoke;
-    }
-
-    
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
@@ -123,5 +138,5 @@ public class AirportEntity implements Serializable {
     public String toString() {
         return "imas.common.entity.AirportEntity[ id=" + id + " ]";
     }
-    
+
 }
