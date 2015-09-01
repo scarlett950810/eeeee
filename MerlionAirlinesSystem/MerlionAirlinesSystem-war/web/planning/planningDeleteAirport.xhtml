@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    #{airportManagedBean.fetchAirport()}
+
+    <h:head>
+        <title>Delete Airport</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+    <h:body>
+        <h:form>           
+            <p:panel header="Delete Airport">
+<!--                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">-->
+
+<!--                    <p:outputLabel for="deleteAirport" value="Airport to be deleted:"  />
+                    <p:selectOneMenu id="DeleteAirport" value="{airportManagedBean.airport}" panelStyle="width:180px"
+                                     effect="fade" var="a" style="width:160px" filter="true" filterMatchMode="startsWith">
+                        <f:selectItems value="{airportManagedBean.airportList}" var="airport" itemLabel="{airport.airportName}, {airport.airportCode}" itemValue="{airport.airportCode}" />
+
+                        <p:column style="width:10%">
+                            <h:outputText styleClass="ui-theme ui-theme-{a.airportName}" />
+                        </p:column>
+
+                        <p:column>
+                            <h:outputText value="{a.airportName}" />
+                        </p:column>
+                    </p:selectOneMenu>-->
+
+                    <p:outputLabel for="airportCode" value="Airport Code to Delete: " />
+                    <p:inputText style="width:100%;" id="airportCode" value="#{airportManagedBean.airportCode}" label="airportCode" required="true" requiredMessage="Please input airport code">
+                        <p:watermark for="airportCode" value="Please enter airport code" />
+                    </p:inputText>
+                    
+                    <p:commandButton id="deleteAirport" value="confirm" actionListener="#{airportManagedBean.deleteAirport()}"/>
+
+<!--                </h:panelGrid>-->
+            </p:panel>
+        </h:form>
+
+    </h:body>
+</html>

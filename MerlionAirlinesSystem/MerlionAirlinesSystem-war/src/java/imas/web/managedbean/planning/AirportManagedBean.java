@@ -9,6 +9,7 @@ import imas.planning.entity.AirportEntity;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.annotation.ManagedBean;
@@ -31,6 +32,12 @@ public class AirportManagedBean implements Serializable{
     private String airportName;
     private String airportCode;
     private Boolean hubOrSpoke;
+    private List<AirportEntity> airportList;
+    private AirportEntity airport;
+
+    public AirportEntity getAirport() {
+        return airport;
+    }
     
     /**
      * Creates a new instance of PlanningManagedBean
@@ -88,8 +95,24 @@ public class AirportManagedBean implements Serializable{
         }
     }
     
-    public void deleteAirport(String airportCode){
+    public void deleteAirport() throws IOException{
+        System.out.print(airportCode);
         airportSessionBean.deleteAirport(airportCode);
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningHomePage.xhtml");
     }
     
+    public void fetchAirport(){
+        this.airportList = airportSessionBean.fetchAirport();
+    }
+
+    public List<AirportEntity> getAirportList() {
+        return airportList;
+    }
+    
+//    public AirportConverter getAirportConverter(){
+//        return 
+//    }
+//    
 }

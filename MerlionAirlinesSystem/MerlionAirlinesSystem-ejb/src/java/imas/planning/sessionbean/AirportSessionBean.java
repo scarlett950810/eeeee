@@ -60,9 +60,19 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
 
     @Override
     public Boolean deleteAirport(String airportCode) {
+        System.out.print("1");
         Query query = em.createQuery("DELETE FROM AirportEntity a WHERE a.airportCode = :airportCode");
         query.setParameter("airportCode", airportCode);
+        query.executeUpdate();
+        System.out.print("2");
         return true;
+    }
+
+    @Override
+    public List<AirportEntity> fetchAirport() {
+        Query query = em.createQuery("SELECT a FROM AirportEntity a");
+        List<AirportEntity> airport = (List<AirportEntity>)query.getResultList();
+        return airport;
     }
     
 }
