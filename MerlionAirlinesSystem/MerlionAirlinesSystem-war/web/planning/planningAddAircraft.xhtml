@@ -50,7 +50,34 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        customize center panel here.
+        <h:form>
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+            <p:panel header="Add Airport">
+                <p:messages />
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="cityName" value="City Name" />
+                    <p:inputText style="width:100%;" id="cityName" value="#{aircraftManagedBean.}" label="cityName" required="true" requiredMessage="Please input city name">
+                        <p:watermark for="cityName" value="Please enter city name" />
+                    </p:inputText>                        
+
+                    <p:outputLabel for="airportName" value="Airport Name: " />
+                    <p:inputText style="width:100%;" id="airportName" value="#{aircraftManagedBean.}" label="Password" required="true" requiredMessage="Please input airport name">
+                        <p:watermark for="airportName" value="Please enter airport name" />
+                    </p:inputText>
+
+                    <p:outputLabel for="airportCode" value="Airport Code: " />
+                    <p:inputText style="width:100%;" id="airportCode" value="#{aircraftManagedBean.}" label="airportCode" required="true" requiredMessage="Please input airport code">
+                        <p:watermark for="airportCode" value="Please enter airport code" />
+                    </p:inputText>
+
+                    <h:outputText value="This airport is a hub: " />
+                    <h:selectBooleanCheckbox value="#{aircraftManagedBean.}" required="true" label="hubOrSpoke"/>
+
+                    <p:commandButton id="addAirport" value="confirm" actionListener="#{aircraftManagedBean.add}" update="growl"/>
+
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
     </ui:define>
 
 </ui:composition>
