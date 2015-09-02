@@ -6,7 +6,6 @@
 package imas.planning.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,26 +34,27 @@ public class FlightEntity implements Serializable {
 
     //private AircraftEntity aircraft;
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    private AircraftEntity aircraftFlight;
+    private AircraftEntity aircraft;
+    
     //route
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    private RouteEntity routeFlights;
+    private RouteEntity route;
 
     // private FlightRecordEntity flightRecord;
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "flightRecords")
-    private List<FlightRecordEntity> flightRes = new ArrayList<FlightRecordEntity>();
+    private List<FlightRecordEntity> flightRecords;
 
     public FlightEntity() {
 
     }
 
-    public FlightEntity(Long id, String flightNo, Double distance, Long duration, AircraftEntity aircraftFlight, RouteEntity routeFlights) {
+    public FlightEntity(Long id, String flightNo, Double distance, Long duration, AircraftEntity aircraft, RouteEntity route) {
         this.id = id;
         this.flightNo = flightNo;
         this.distance = distance;
         this.duration = duration;
-        this.aircraftFlight = aircraftFlight;
-        this.routeFlights = routeFlights;
+        this.aircraft = aircraft;
+        this.route = route;
     }
 
     public Long getId() {
@@ -73,12 +73,12 @@ public class FlightEntity implements Serializable {
         this.flightNo = flightNo;
     }
 
-    public RouteEntity getRouteFlights() {
-        return routeFlights;
+    public RouteEntity getRoute() {
+        return route;
     }
 
-    public void setRouteFlights(RouteEntity routeFlights) {
-        this.routeFlights = routeFlights;
+    public void setRoute(RouteEntity route) {
+        this.route = route;
     }
 
     public Double getDistance() {
@@ -97,20 +97,20 @@ public class FlightEntity implements Serializable {
         this.duration = duration;
     }
 
-    public List<FlightRecordEntity> getFlightRes() {
-        return flightRes;
+    public List<FlightRecordEntity> getFlightRecords() {
+        return flightRecords;
     }
 
-    public void setFlightRes(List<FlightRecordEntity> flightRes) {
-        this.flightRes = flightRes;
+    public void setFlightRecords(List<FlightRecordEntity> flightRecords) {
+        this.flightRecords = flightRecords;
     }
 
-    public AircraftEntity getAircraftFlight() {
-        return aircraftFlight;
+    public AircraftEntity getAircraft() {
+        return aircraft;
     }
 
-    public void setAircraftFlight(AircraftEntity aircraftFlight) {
-        this.aircraftFlight = aircraftFlight;
+    public void setAircraftFlight(AircraftEntity aircraft) {
+        this.aircraft = aircraft;
     }
 
     @Override

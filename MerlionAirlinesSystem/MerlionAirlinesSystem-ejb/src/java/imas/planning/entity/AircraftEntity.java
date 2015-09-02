@@ -40,27 +40,25 @@ public class AircraftEntity implements Serializable {
     private String aircraftCondition;
 
     //private FlightEntity flight;
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "aircraftFlight")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "aircraft")
     private List<FlightEntity> flights;
     //private SeatEntity Configuration;  
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "aircraftSeats")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "aircraft")
     private List<SeatEntity> seats;
-    // Hub
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    private AirportEntity airportHub = new AirportEntity();
-    // aircraft location
+    private AirportEntity airportHub;
 
+    // the current airport the aircraft is located or the destination if it is on the air
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    private AirportEntity airportLocation;
+    private AirportEntity currentAirport;
     //group
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private AircraftGroupEntity aircraftGroup;
-    private Integer aircraftRange;
 
     public AircraftEntity(){
     }
 
-    public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String aircraftCondition, AircraftGroupEntity aircraftGroup, Integer aircraftRange) {
+    public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String aircraftCondition, List<SeatEntity> seats, AirportEntity airportHub, AirportEntity currentAirport, AircraftGroupEntity aircraftGroup) {
         this.tailId = tailId;
         this.aircraftType = aircraftType;
         this.purchasePrice = purchasePrice;
@@ -69,8 +67,10 @@ public class AircraftEntity implements Serializable {
         this.aircraftLife = aircraftLife;
         this.operationYear = operationYear;
         this.aircraftCondition = aircraftCondition;
+        this.seats = seats;
+        this.airportHub = airportHub;
+        this.currentAirport = currentAirport;
         this.aircraftGroup = aircraftGroup;
-        this.aircraftRange = aircraftRange;
     }
 
     public AircraftGroupEntity getAircraftGroup() {
@@ -81,12 +81,12 @@ public class AircraftEntity implements Serializable {
         this.aircraftGroup = aircraftGroup;
     }
 
-    public AirportEntity getAirportLocation() {
-        return airportLocation;
+    public AirportEntity getCurrentAirport() {
+        return currentAirport;
     }
 
-    public void setAirportLocation(AirportEntity airportLocation) {
-        this.airportLocation = airportLocation;
+    public void setCurrentAirport(AirportEntity currentAirport) {
+        this.currentAirport = currentAirport;
     }
 
     public AirportEntity getAirportHub() {
@@ -111,14 +111,6 @@ public class AircraftEntity implements Serializable {
 
     public void setTailId(String tailId) {
         this.tailId = tailId;
-    }
-
-    public Integer getAircraftRange() {
-        return aircraftRange;
-    }
-
-    public void setAircraftRange(Integer aircraftRange) {
-        this.aircraftRange = aircraftRange;
     }
 
     public Double getPurchasePrice() {

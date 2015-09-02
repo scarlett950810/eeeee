@@ -5,6 +5,9 @@
  */
 package imas.planning.sessionbean;
 
+import imas.planning.entity.AircraftGroupEntity;
+import imas.planning.entity.AirportEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +16,10 @@ import javax.ejb.Local;
  */
 @Local
 public interface AircraftSessionBeanLocal {
+    public List<String> getSeatClasses();
+    
+    public List<AircraftGroupEntity> getAircraftGroups();
+
+    public List<AirportEntity> getAirports();
     
 }

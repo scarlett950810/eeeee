@@ -6,7 +6,6 @@
 package imas.planning.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -43,8 +42,8 @@ public class RouteEntity implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private RouteGroupEntity routeGroup;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "routeFlights")
-    private List<FlightEntity> routeFlight = new ArrayList<FlightEntity>();
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "route")
+    private List<FlightEntity> flights;
 
     public RouteEntity() {
 
@@ -125,12 +124,12 @@ public class RouteEntity implements Serializable {
         this.routeGroup = routeGroup;
     }
 
-    public List<FlightEntity> getRouteFlight() {
-        return routeFlight;
+    public List<FlightEntity> getFlights() {
+        return flights;
     }
 
-    public void setRouteFlight(List<FlightEntity> routeFlight) {
-        this.routeFlight = routeFlight;
+    public void setFlights(List<FlightEntity> flights) {
+        this.flights = flights;
     }
 
     @Override

@@ -3,81 +3,132 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../templates/DefaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="head">
- <!--insert customized import here-->
+        <!--insert customized import here-->
     </ui:define>
-    
+
     <ui:define name="title">Planning Add Aircraft</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-h1">
-                    <a href="planningAddAirport.xhtml">Fleet Planning</a>
-                </li>
-                <li>
-                    <a href="planningAddAirport.xhtml">Add Aircraft</a>
-                </li>
-                <li>
-                    <a href="planningDeleteAirport.xhtml">Delete Aircraft</a>
-                </li>
-                <li>
-                    <a href="planningManageAircraftGroup.xhtml">Manage Aircraft Group</a>
-                </li>
-                
-                <li class="sidebar-h1">
-                    <a href="planningAddRoute.xhtml">Route Planning</a>
-                </li>
-                <li>
-                    <a href="planningAddAirport.xhtml">Add Airport</a>
-                </li>
-                <li>
-                    <a href="planningDeleteAirport.xhtml">Delete Airport</a>
-                </li>
-                <li>
-                    <a href="planningAddRoute.xhtml">Add Route</a>
-                </li>
-                <li>
-                    <a href="planningDeleteRoute.xhtml">Delete Route</a>
-                </li>
-                <li>
-                    <a href="planningSetFrequencyAndTime.xhtml">Set Frequency and Time</a>
-                </li>
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
+                <li><a href="planningDeleteAircraft.xhtml">Delete Aircraft</a></li>
+                <li><a href="planningManageAircraftGroup.xhtml">Manage Aircraft Group</a></li>
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAddAirport.xhtml">Add Airport</a></li>
+                <li><a href="planningDeleteAirport.xhtml">Delete Airport</a></li>
+                <li><a href="planningAddRoute.xhtml">Add Route</a></li>
+                <li><a href="planningDeleteRoute.xhtml">Delete Route</a></li>
+                <li><a href="planningSetFrequencyAndTime.xhtml">Set Frequency and Time</a></li>
             </ul>
         </div>
-
     </ui:define>
 
     <ui:define name="centerPanel">
-        <h:form>
-            <p:growl id="growl" sticky="true" showDetail="true"/>
-            <p:panel header="Add Airport">
-                <p:messages />
-                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
-                    <p:outputLabel for="cityName" value="City Name" />
-                    <p:inputText style="width:100%;" id="cityName" value="#{aircraftManagedBean.}" label="cityName" required="true" requiredMessage="Please input city name">
-                        <p:watermark for="cityName" value="Please enter city name" />
-                    </p:inputText>                        
+        <p:growl id="growl" sticky="true" showDetail="true"/>
+        <p:panel header="Add Aircraft">
+            <p:messages />
+            <h:panelGrid columns="2" cellpadding="5" style="padding-bottom: 25px;">
+                <p:outputLabel for="tailId" value="Tail ID" />
+                <p:inputText style="width: 400px" id="tailId" value="#{aircraftManagedBean.tailId}" label="tailId" required="true" requiredMessage="Please input Tail ID">
+                    <p:watermark for="tailId" value="Please enter tail ID" />
+                </p:inputText>
 
-                    <p:outputLabel for="airportName" value="Airport Name: " />
-                    <p:inputText style="width:100%;" id="airportName" value="#{aircraftManagedBean.}" label="Password" required="true" requiredMessage="Please input airport name">
-                        <p:watermark for="airportName" value="Please enter airport name" />
-                    </p:inputText>
+                <p:outputLabel for="aircraftType" value="Aircraft Type" />
+                <p:selectOneMenu style="width: 400px" id="aircraftType" value="#{aircraftManagedBean.aircraftType}" required="true" requiredMessage="Please input aircraft type">
+                    <f:selectItems value="#{aircraftManagedBean.aircraftTypes}" />
+                </p:selectOneMenu>
 
-                    <p:outputLabel for="airportCode" value="Airport Code: " />
-                    <p:inputText style="width:100%;" id="airportCode" value="#{aircraftManagedBean.}" label="airportCode" required="true" requiredMessage="Please input airport code">
-                        <p:watermark for="airportCode" value="Please enter airport code" />
-                    </p:inputText>
+                <p:outputLabel for="purchasePrice" value="Purchase Price" />
+                <p:inputText style="width: 400px" id="purchasePrice" value="#{aircraftManagedBean.purchasePrice}" label="purchasePrice" required="true" requiredMessage="Please input Purchase Price">
+                    <p:watermark for="purchasePrice" value="Please enter purchase price" />
+                </p:inputText>
 
-                    <h:outputText value="This airport is a hub: " />
-                    <h:selectBooleanCheckbox value="#{aircraftManagedBean.}" required="true" label="hubOrSpoke"/>
+                <p:outputLabel for="deprecation" value="Deprecation" />
+                <p:inputText style="width: 400px" id="deprecation" value="#{aircraftManagedBean.deprecation}" label="deprecation" required="true" requiredMessage="Please input Deprecation">
+                    <p:watermark for="deprecation" value="Please enter deprecation" />
+                </p:inputText>
 
-                    <p:commandButton id="addAirport" value="confirm" actionListener="#{aircraftManagedBean.add}" update="growl"/>
+                <p:outputLabel for="netAssetValue" value="Net Asset Value" />
+                <p:inputText style="width: 400px" id="netAssetValue" value="#{aircraftManagedBean.netAssetValue}" label="netAssetValue" required="true" requiredMessage="Please input Net Asset Value">
+                    <p:watermark for="netAssetValue" value="Please enter Net Asset Value" />
+                </p:inputText>
 
-                </h:panelGrid>
-            </p:panel>
-        </h:form>
+                <p:outputLabel for="aircraftLife" value="Aircraft Life" />
+                <p:inputText style="width: 400px" id="aircraftLife" value="#{aircraftManagedBean.aircraftLife}" label="aircraftLife" required="true" requiredMessage="Please input Aircraft Life">
+                    <p:watermark for="aircraftLife" value="Please enter Aircraft Life" />
+                </p:inputText>
+
+                <p:outputLabel for="operationYear" value="Operation Year" />
+                <p:inputText style="width: 400px" id="operationYear" value="#{aircraftManagedBean.operationYear}" label="operationYear" required="true" requiredMessage="Please input Operation Year">
+                    <p:watermark for="operationYear" value="Please enter Operation Year" />
+                </p:inputText>
+
+                <h:outputText value="In Good Condition" />
+                <p:selectBooleanCheckbox value="#{aircraftManagedBean.goodCondition}" />
+
+                <p:outputLabel for="airportHub" value="Airport Hub" />
+                <p:selectOneMenu style="width: 400px" id="airportHub" value="#{aircraftManagedBean.airportHub}" required="true" requiredMessage="Please input aircraft type">
+                    <f:selectItem itemLabel="Please select airport hub" itemDisabled="true" />
+                    <f:selectItems value="#{aircraftManagedBean.airports}" var="airport" itemLabel="#{airport.airportCode}: #{airport.airportName}" itemValue="#{airport}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel for="currentAirport" value="Current Airport" />
+                <p:selectOneMenu style="width: 400px" id="currentAirport" value="#{aircraftManagedBean.currentAirport}" required="true" requiredMessage="Please input current airport">
+                    <f:selectItem itemLabel="Please select current airport" itemDisabled="true" />
+                    <f:selectItems value="#{aircraftManagedBean.airports}" var="airport" itemLabel="#{airport.airportCode}: #{airport.airportName}" itemValue="#{airport}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel for="aircraftGroup" value="Aircraft Group" />
+                <p:selectOneMenu style="width: 400px" id="aircraftGroup" value="#{aircraftManagedBean.aircraftGroup}" required="true" requiredMessage="Please input aircraft group">
+                    <f:selectItem itemLabel="Please select aircraft group" itemDisabled="true" />
+                    <f:selectItems value="#{aircraftManagedBean.aircraftGroups}"  var="aircraftGroup" itemLabel="#{aircraftGroup.type}" itemValue="#{aircraftGroup}"/>
+                </p:selectOneMenu>
+
+            </h:panelGrid>
+
+            <p:outputLabel for="seat" value="Seats" />
+            <h:form id="seat" style="width: 100%">
+                <p:dataTable id="cars1" var="car" value="#{aircraftManagedBean.seats}" editable="true"  scrollable="true" scrollHeight="150">
+                    <p:ajax event="rowEdit" listener="#{aircraftManagedBean.seats.add(seat)}"/>
+
+                    <p:column headerText="Seat No">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{seat.seatNo}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="seatNo" value="#{seat.seatNo}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Good Condition">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:selectBooleanCheckbox value="#{seat.goodCondition}" /></f:facet>
+                            <f:facet name="input"><p:selectBooleanCheckbox value="#{seat.goodCondition}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Seat Class">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{seat.class}" /></f:facet>
+                            <f:facet name="input">
+                                <h:selectOneMenu value="#{seat.class}" style="width:100%">
+                                    <f:selectItems value="#{aircraftManagedBean.seatClasses}" var="class" itemLabel="#{class}" itemValue="#{class}" />
+                                </h:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <p:commandButton value="Add" icon="ui-icon-check" update="output msgs" oncomplete="#{aircraftManagedBean.addAircraft(tailId.value, aircraftType.value, purchasePrice.value, deprecation.value, netAssetValue.value, aircraftLife.value, operationYear.value, aircraftCondition.value, airportHub.value, currentAirport.value, aircraftGroup.value)}" />
+        </p:panel>
+
     </ui:define>
 
 </ui:composition>
