@@ -23,5 +23,9 @@ public interface AirportSessionBeanLocal {
     Boolean deleteAirport(String airportCode);
 
     List<AirportEntity> fetchAirport();
+
+    void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode);
+
+    AirportEntity getAirport(String airportCode);
     
 }

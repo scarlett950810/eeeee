@@ -2,87 +2,64 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <title>Add Airport</title>
+        <title>Edit Airport</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
-    
+
     <h:body>
         <h:form>
-            <p:growl id="growl" sticky="true" showDetail="true"/>
-            <p:panel header="Add Airport">
-                <p:messages />
+<!--            <p:panel header="Choose Airport">
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="chooseAirport" value="Please choose the airport to edit:"  />
+                    <p:selectOneMenu id="editAirport" value="{selectOneMenuView.theme}" converter="themeConverter" panelStyle="width:180px"
+                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                        <f:selectItems value="{selectOneMenuView.themes}" var="theme" itemLabel="{theme.displayName}" itemValue="{theme}" />
+
+                        <p:column style="width:10%">
+                            <h:outputText styleClass="ui-theme ui-theme-{t.name}" />
+                        </p:column>
+
+                        <p:column>
+                            <h:outputText value="{t.displayName}" />
+                        </p:column>
+                    </p:selectOneMenu>
+
+                    <p:commandButton id="addAirport" value="confirm" actionListener="{airportManagedBean.save}" update="growl"/>
+
+                </h:panelGrid>
+            </p:panel>-->
+            
+            <p:panel header="Edit Airport Information">
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                     <p:outputLabel for="cityName" value="City Name" />
-                    <p:inputText style="width:100%;" id="cityName" value="#{airportManagedBean.cityName}" label="cityName" required="true" requiredMessage="Please input city name">
+                    <p:inputText style="width:100%;" id="cityName" value="#{airportManagedBean.cityName}" label="cityName">
                         <p:watermark for="cityName" value="Please enter city name" />
                     </p:inputText>                        
 
                     <p:outputLabel for="airportName" value="Airport Name: " />
-                    <p:inputText style="width:100%;" id="airportName" value="#{airportManagedBean.airportName}" label="Password" required="true" requiredMessage="Please input airport name">
+                    <p:inputText style="width:100%;" id="airportName" value="#{airportManagedBean.airportName}" label="airportName">
                         <p:watermark for="airportName" value="Please enter airport name" />
                     </p:inputText>
 
                     <p:outputLabel for="airportCode" value="Airport Code: " />
-                    <p:inputText style="width:100%;" id="airportCode" value="#{airportManagedBean.airportCode}" label="airportCode" required="true" requiredMessage="Please input airport code">
+                    <p:inputText style="width:100%;" id="airportCode" value="#{airportManagedBean.airportCode}" label="airportCode">
                         <p:watermark for="airportCode" value="Please enter airport code" />
                     </p:inputText>
 
                     <h:outputText value="This airport is a hub: " />
-                    <h:selectBooleanCheckbox value="#{airportManagedBean.hubOrSpoke}" required="true" label="hubOrSpoke"/>
+                    <h:selectBooleanCheckbox value="#{airportManagedBean.hubOrSpoke}" label="hubOrSpoke"/>
 
-                    <p:commandButton id="addAirport" value="confirm" actionListener="#{airportManagedBean.save}" update="growl"/>
+                    <p:commandButton id="editAirport" value="confirm" actionListener="#{airportManagedBean.updateAirport()}"/>
 
                 </h:panelGrid>
+                
             </p:panel>
-        </h:form>
-        
-        <!--<ui:composition template="./../templates/DefaultTemplate.xhtml">-->
-
-<!--            <ui:define name="menubar">
-                <div id='cssmenu'>
-                    <ul>
-                        <li><a href='#'><span>Home</span></a></li>
-                        <li class='active'><a href='planningAddAirport.xhtml'><span>Add Airport</span></a></li>
-                        <li><a href='#'><span>Company</span></a></li>
-                        <li class='last'><a href='#'><span>Contact</span></a></li>
-                    </ul>
-                </div>
-            </ui:define>-->
             
-            <!--<ui:insert name="mainPanel">-->
-<!--                <h:form>-->
-
-<!--                    <p:growl id="growl" sticky="true" showDetail="true"/>-->
-
-<!--                    <p:wizard>
-                        <p:panel header="Airport Information">
-                            <p:messages />
-                            <h:panelGrid columns="2" columnClasses="label, value">
-                                <h:outputText value="City Name: *" />
-                                <p:inputText value="{AirportManagedBean.airport.cityName}" required="true" label="cityName"/>
-
-                                <h:outputText value="Airport Name: *" />
-                                <p:inputText value="{AirportManagedBean.airport.airportName}" required="true" label="airportName"/>
-
-                                <h:outputText value="Airport Code: *" />
-                                <p:inputText value="{AirportManagedBean.airport.airportCode}" required="true" label="airportCode"/>
-
-                                <h:outputText value="This airport is a hub: * " />
-                                <h:selectBooleanCheckbox value="{AirportManagedBean.airport.hubOrSpoke}" required="true" label="hubOrSpoke"/>
-                            </h:panelGrid>
-                        </p:panel>
-                        
-                        <p:commandButton value="Confirm" actionListener="{AirportManagedBean.save}"/>
-                        
-                    </p:wizard>
-
-                </h:form>-->
-            <!--</ui:insert>-->
-
-        <!--</ui:composition>-->
+        </h:form>
 
     </h:body>
 </html>

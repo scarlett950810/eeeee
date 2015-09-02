@@ -13,7 +13,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -25,6 +27,7 @@ import javax.inject.Named;
 @Named(value = "airportManagedBean")
 @ManagedBean
 @RequestScoped
+
 public class AirportManagedBean implements Serializable{
     @EJB
     private AirportSessionBeanLocal airportSessionBean;
@@ -34,17 +37,21 @@ public class AirportManagedBean implements Serializable{
     private Boolean hubOrSpoke;
     private List<AirportEntity> airportList;
     private AirportEntity airport;
-
+    
+//    @ManagedProperty("#{airportService}")
+//    private AirportService service;
+    
+//
+//    @PostConstruct
+//    public void init() {
+//        this.airportList = airportSessionBean.fetchAirport();
+//        System.out.print(airportList.isEmpty());
+//    }
+    
     public AirportEntity getAirport() {
         return airport;
     }
     
-    /**
-     * Creates a new instance of PlanningManagedBean
-     */
-    public AirportManagedBean() {
-    }
-
     public String getCityName(){
         return cityName;
     }
@@ -96,19 +103,37 @@ public class AirportManagedBean implements Serializable{
     }
     
     public void deleteAirport() throws IOException{
-        System.out.print(airportCode);
-        airportSessionBean.deleteAirport(airportCode);
+        System.out.print(airport.getAirportCode());
+        airportSessionBean.deleteAirport(airport.getAirportCode());
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningHomePage.xhtml");
     }
     
-    public void fetchAirport(){
+    public void fetchAirports(){
         this.airportList = airportSessionBean.fetchAirport();
     }
+    
+//    public void fetchAirport(){
+//        airportList = service.getAirports();
+//    }
+
+
+//    public void setService(AirportService service) {
+//        this.service = service;
+//    }
 
     public List<AirportEntity> getAirportList() {
         return airportList;
+    }
+    
+    public void updateAirport() throws IOException{
+        System.out.println(hubOrSpoke + "," + cityName + "," + airportName + ","+ airportCode);
+        airport = airportSessionBean.getAirport(airportCode);
+        airportSessionBean.updateAirport(hubOrSpoke, cityName, airportName, airportCode);
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningHomePage.xhtml");
     }
     
 //    public AirportConverter getAirportConverter(){

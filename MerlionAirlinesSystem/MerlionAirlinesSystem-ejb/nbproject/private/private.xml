@@ -4,10 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/sessionbean/AirportSessionBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/FlightEntity.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/AirportEntity.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/RouteEntity.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/common/sessionbean/LoginSessionBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/nbproject/genfiles.properties</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/common/entity/InternalMessageEntity.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/common/entity/StaffEntity.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/sessionbean/AirportSessionBeanLocal.java</file>

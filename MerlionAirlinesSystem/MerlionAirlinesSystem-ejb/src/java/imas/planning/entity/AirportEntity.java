@@ -133,6 +133,7 @@ public class AirportEntity implements Serializable {
         this.hubOrSpoke = hubOrSpoke;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;
