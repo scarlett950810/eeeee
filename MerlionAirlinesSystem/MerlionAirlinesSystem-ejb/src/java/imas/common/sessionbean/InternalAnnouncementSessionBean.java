@@ -34,13 +34,10 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
         Query queryForAllAnnoucements = entityManager.createQuery("SELECT a FROM InternalAnnouncementEntity a WHERE a.receiver = :staffEntity");
         queryForAllAnnoucements.setParameter("staffEntity", (StaffEntity) staffEntity);
         
-        System.out.print("internalAnnouncementSessionBean.getAllAnnoucements called");
-        System.out.print(queryForAllAnnoucements.getResultList());
         List<InternalAnnouncementEntity> announcements = new ArrayList();
         queryForAllAnnoucements.getResultList().stream().forEach((o) -> {
             InternalAnnouncementEntity a = (InternalAnnouncementEntity) o;
             announcements.add(a);
-            System.out.print(a);
         });
 
         return (List<InternalAnnouncementEntity>) announcements;

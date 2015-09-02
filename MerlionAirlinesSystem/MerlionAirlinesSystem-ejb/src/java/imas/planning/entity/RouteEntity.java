@@ -6,11 +6,15 @@
 package imas.planning.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -18,83 +22,53 @@ import javax.persistence.OneToOne;
  * @author Lei
  */
 @Entity
-public class RouteEntity  implements Serializable {
+public class RouteEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @OneToOne(cascade={CascadeType.PERSIST})
-    private AirportEntity originAirport ;
-    
-    @OneToOne(cascade={CascadeType.PERSIST})
-    private AirportEntity destinationAirport;
     private Double revenue;
     private Double cost;
-    private Integer distance;    
+    private Integer distance;
     private Double flightHours;
 
+    //airport origin
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    private AirportEntity originAirport;
+    //airport destination
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    private AirportEntity destinationAirport;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private RouteGroupEntity routeGroup;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "routeFlights")
+    private List<FlightEntity> routeFlight = new ArrayList<FlightEntity>();
+
     public RouteEntity() {
+
     }
 
-    public RouteEntity(AirportEntity originAirport, AirportEntity destinationAirport, Double revenue, Double cost, Integer distance, Double flightHours) {
-        this.originAirport = originAirport;
-        this.destinationAirport = destinationAirport;
+    public RouteEntity(Long id, Double revenue, Double cost, Integer distance, Double flightHours, AirportEntity originAirport, AirportEntity destinationAirport, RouteGroupEntity routeGroup) {
+        this.id = id;
         this.revenue = revenue;
         this.cost = cost;
         this.distance = distance;
         this.flightHours = flightHours;
+        this.originAirport = originAirport;
+        this.destinationAirport = destinationAirport;
+        this.routeGroup = routeGroup;
     }
 
-    /**
-     * Get the value of flightHours
-     *
-     * @return the value of flightHours
-     */
-    public Double getFlightHours() {
-        return flightHours;
-    }
-
-    /**
-     * Set the value of flightHours
-     *
-     * @param flightHours new value of flightHours
-     */
-    public void setFlightHours(Double flightHours) {
-        this.flightHours = flightHours;
-    }
-
-    
-
-    /**
-     * Get the value of distance
-     *
-     * @return the value of distance
-     */
-    public Integer getDistance() {
-        return distance;
-    }
-
-    /**
-     * Set the value of distance
-     *
-     * @param distance new value of distance
-     */
-    public void setDistance(Integer distance) {
-        this.distance = distance;
-    }
-
-    
-//    @ManyToOne(cascade={CascadeType.ALL})
-    
-     public Long getId() {
+    public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public AirportEntity getOriginAirport() {
         return originAirport;
     }
@@ -126,13 +100,46 @@ public class RouteEntity  implements Serializable {
     public void setCost(Double cost) {
         this.cost = cost;
     }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
+    public Double getFlightHours() {
+        return flightHours;
+    }
+
+    public void setFlightHours(Double flightHours) {
+        this.flightHours = flightHours;
+    }
+
+    public RouteGroupEntity getRouteGroup() {
+        return routeGroup;
+    }
+
+    public void setRouteGroup(RouteGroupEntity routeGroup) {
+        this.routeGroup = routeGroup;
+    }
+
+    public List<FlightEntity> getRouteFlight() {
+        return routeFlight;
+    }
+
+    public void setRouteFlight(List<FlightEntity> routeFlight) {
+        this.routeFlight = routeFlight;
+    }
+
     @Override
-     public int hashCode() {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -144,10 +151,11 @@ public class RouteEntity  implements Serializable {
             return false;
         }
         return true;
-    }  
-       @Override
+    }
+
+    @Override
     public String toString() {
         return "imas.common.entity.RouteEntity[ id=" + id + " ]";
     }
-    
+
 }

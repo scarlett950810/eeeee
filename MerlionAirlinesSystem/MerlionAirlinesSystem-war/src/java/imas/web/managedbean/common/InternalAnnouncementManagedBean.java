@@ -28,8 +28,6 @@ public class InternalAnnouncementManagedBean {
     private List<InternalAnnouncementEntity> allAnnouncements;
 
     public List<InternalAnnouncementEntity> getAllAnnouncements() {
-        System.out.println("IAMB called.");
-        System.out.print(internalAnnouncementSessionBean.getAllAnnouncements());
         return (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements();
     }
 
