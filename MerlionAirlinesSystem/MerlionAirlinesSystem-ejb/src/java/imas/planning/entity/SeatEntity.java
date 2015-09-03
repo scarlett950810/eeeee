@@ -26,7 +26,7 @@ public class SeatEntity implements Serializable {
     private Long id;
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private AircraftEntity aircraft;
-    private String setNo;
+    private String seatNo;
     private boolean goodCondition;
     private String seatClass; //First, Business, Premium Economy
 
@@ -34,9 +34,9 @@ public class SeatEntity implements Serializable {
 
     }
 
-    public SeatEntity(AircraftEntity aircraft, String setNo, String seatClass) {
+    public SeatEntity(AircraftEntity aircraft, String seatNo, String seatClass) {
         this.aircraft = aircraft;
-        this.setNo = setNo;
+        this.seatNo = seatNo;
         this.goodCondition = true;
         this.seatClass = seatClass;
     }
@@ -49,12 +49,12 @@ public class SeatEntity implements Serializable {
         this.id = id;
     }
 
-    public String getSetNo() {
-        return setNo;
+    public String getSeatNo() {
+        return seatNo;
     }
 
-    public void setSetNo(String setNo) {
-        this.setNo = setNo;
+    public void setSeatNo(String seatNo) {
+        this.seatNo = seatNo;
     }
 
     public String getSeatClass() {
@@ -95,10 +95,7 @@ public class SeatEntity implements Serializable {
             return false;
         }
         SeatEntity other = (SeatEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

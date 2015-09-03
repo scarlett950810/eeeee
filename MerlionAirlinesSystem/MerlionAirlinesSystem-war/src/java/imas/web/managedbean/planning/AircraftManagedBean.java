@@ -10,11 +10,12 @@ import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.SeatEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.ejb.LocalBean;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 /**
@@ -22,9 +23,9 @@ import javax.inject.Named;
  * @author Scarlett
  */
 @Named(value = "aircraftManagedBean")
-@Stateless
-@LocalBean
-public class AircraftManagedBean {
+@ManagedBean
+@ViewScoped
+public class AircraftManagedBean implements Serializable{
 
     @EJB
     private AircraftSessionBeanLocal aircraftSessionBean;
@@ -45,13 +46,13 @@ public class AircraftManagedBean {
     private List<AircraftGroupEntity> aircraftGroups; // list of aircraftGroups to choose from
     private List<SeatEntity> seats;
     private List<String> seatClasses;
-
-    public AircraftManagedBean() {
-        List<SeatEntity> emptySeats = new ArrayList();
-        emptySeats.add(new SeatEntity());
-        this.seats = emptySeats;
-    }
+    private SeatEntity seatToAdd;
     
+    public AircraftManagedBean() {
+        this.seats = new ArrayList();
+        this.seatToAdd = new SeatEntity();
+    }
+
     public AircraftSessionBeanLocal getAircraftSessionBean() {
         return aircraftSessionBean;
     }
@@ -190,15 +191,24 @@ public class AircraftManagedBean {
         this.seatClasses = seatClasses;
     }
 
-    public boolean addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String aircraftCondition, AirportEntity airportHub, AirportEntity currentAirport, AircraftGroupEntity aircraftGroup) {
-        if (tailId == null | aircraftType == null | purchasePrice == null | deprecation == null | netAssetValue == null | aircraftLife == null | operationYear == null | aircraftCondition == null | airportHub == null | currentAirport == null | aircraftGroup == null) {
-            return false;
-        } else {
-            return true;
-        }
-
+    public void addSeat(SeatEntity seat) {
+        System.out.print("AircraftManagedBean.addSeat called.");
+        this.seats.add(seat);
     }
     
+    public void deleteSeat(SeatEntity seat) {
+        System.out.print("AircraftManagedBean.deleteSeat called.");
+        this.seats.remove(seat);
+    }
+
+    public SeatEntity getSeatToAdd() {
+        return seatToAdd;
+    }
+
+    public void setSeatToAdd(SeatEntity seatToAdd) {
+        this.seatToAdd = seatToAdd;
+    }
+
     public boolean addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String aircraftCondition, List<SeatEntity> seats, AirportEntity airportHub, AirportEntity currentAirport, AircraftGroupEntity aircraftGroup) {
         if (tailId == null | aircraftType == null | purchasePrice == null | deprecation == null | netAssetValue == null | aircraftLife == null | operationYear == null | aircraftCondition == null | seats == null | airportHub == null | currentAirport == null | aircraftGroup == null) {
             return false;

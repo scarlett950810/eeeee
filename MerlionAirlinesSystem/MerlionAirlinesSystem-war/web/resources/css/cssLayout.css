@@ -26,3 +26,7 @@
     position: absolute;
     top: 70px !important;
 }
+
+.ui-datatable-scrollable-header-box, .ui-datatable-scrollable-body {
+    margin-right: 0px !important;
+}
