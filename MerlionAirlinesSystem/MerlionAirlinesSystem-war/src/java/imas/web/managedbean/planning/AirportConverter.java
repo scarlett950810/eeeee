@@ -6,6 +6,7 @@
 package imas.web.managedbean.planning;
 
 import imas.planning.entity.AirportEntity;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -24,8 +25,20 @@ public class AirportConverter implements Converter {
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
-                AirportService service = (AirportService) fc.getExternalContext().getApplicationMap().get("airportService");
-                return service.getAirports().get(Integer.parseInt(value));
+                
+                List<AirportEntity> airportEntities = (List<AirportEntity>)fc.getExternalContext().getSessionMap().get("airportList");
+                
+                Long airportEntityId = Long.valueOf(Long.parseLong(value));
+                
+                for(AirportEntity airportEntity:airportEntities)
+                {
+                    if(airportEntity.getId().equals(airportEntityId))
+                    {
+                        return airportEntity;
+                    }
+                }
+                
+                return null;
             } catch (NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid airport."));
             }
@@ -36,7 +49,7 @@ public class AirportConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-        if (object != null) {
+        if (object != null) {    
             return String.valueOf(((AirportEntity) object).getId());
         } else {
             return null;

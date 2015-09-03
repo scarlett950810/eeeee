@@ -24,7 +24,7 @@ public interface AirportSessionBeanLocal {
 
     List<AirportEntity> fetchAirport();
 
-    void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode);
+    void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName);
 
     AirportEntity getAirport(String airportCode);
     

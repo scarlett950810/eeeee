@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>View Airports Information</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:dataTable id="airports" var="airport" value="#{airportManagedBean.airportList}" editable="true" style="margin-bottom:20px">
+                <f:facet name="header">
+                    Airports Information
+                </f:facet>
+
+                <p:ajax event="rowEdit" listener="#{dtEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}" update=":form:msgs" />
+
+                <p:column headerText="Country">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{airport.nationName}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{airport.nationName}" style="width:100%" label="Country"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="City">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{airport.cityName}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{airport.cityName}" style="width:100%" label="City"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Airport Name">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{airport.airportName}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{airport.airportName}" style="width:100%" label="Airport Name"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="Airport Code">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{airport.airportCode}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{airport.airportCode}" style="width:100%" label="Airport Code"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+    </h:body>
+</html>
+
+<!--        <h:form>
+            <p:panel header="Edit Airport Information">
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="cityName" value="City Name" />
+                    <p:inputText style="width:100%;" id="cityName" value="{airportManagedBean.cityName}" label="cityName">
+                        <p:watermark for="cityName" value="Please enter city name" />
+                    </p:inputText>                        
+
+                    <p:outputLabel for="airportName" value="Airport Name: " />
+                    <p:inputText style="width:100%;" id="airportName" value="{airportManagedBean.airportName}" label="airportName">
+                        <p:watermark for="airportName" value="Please enter airport name" />
+                    </p:inputText>
+
+                    <p:outputLabel for="airportCode" value="Airport Code: " />
+                    <p:inputText style="width:100%;" id="airportCode" value="{airportManagedBean.airportCode}" label="airportCode">
+                        <p:watermark for="airportCode" value="Please enter airport code" />
+                    </p:inputText>
+
+                    <h:outputText value="This airport is a hub: " />
+                    <h:selectBooleanCheckbox value="{airportManagedBean.hubOrSpoke}" label="hubOrSpoke"/>
+
+                    <p:commandButton id="editAirport" value="confirm" actionListener="{airportManagedBean.updateAirport()}"/>
+
+                </h:panelGrid>
+                
+            </p:panel>
+            
+        </h:form>-->

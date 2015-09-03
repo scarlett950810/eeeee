@@ -76,7 +76,7 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
     }
 
     @Override
-    public void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode) {
+    public void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName) {
         Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :airportCode");
         query.setParameter("airportCode", airportCode);
         
@@ -93,6 +93,9 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
             }
             if(airportCode != null){
                 airport.setAirportCode(airportCode);
+            }
+            if(nationName != null){
+                airport.setNationName(nationName);
             }
         }catch(NoResultException exception){
             System.out.println("No such airport");
