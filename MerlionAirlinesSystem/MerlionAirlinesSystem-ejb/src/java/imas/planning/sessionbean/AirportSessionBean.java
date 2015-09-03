@@ -5,11 +5,11 @@
  */
 package imas.planning.sessionbean;
 
-import imas.common.entity.StaffEntity;
 import imas.planning.entity.AirportEntity;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -60,9 +60,61 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
 
     @Override
     public Boolean deleteAirport(String airportCode) {
+        
         Query query = em.createQuery("DELETE FROM AirportEntity a WHERE a.airportCode = :airportCode");
         query.setParameter("airportCode", airportCode);
+        query.executeUpdate();
+        
         return true;
     }
+
+    @Override
+    public List<AirportEntity> fetchAirport() {
+        Query query = em.createQuery("SELECT a FROM AirportEntity a");
+        List<AirportEntity> airport = (List<AirportEntity>)query.getResultList();
+        return airport;
+    }
+
+    @Override
+    public void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName) {
+        Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :airportCode");
+        query.setParameter("airportCode", airportCode);
+        
+        try{
+            AirportEntity airport = (AirportEntity)query.getSingleResult();
+            if(hubOrSpoke != null){
+                airport.setHubOrSpoke(hubOrSpoke);
+            }
+            if(cityName != null){
+                airport.setCityName(cityName);
+            }
+            if(airportName != null){
+                airport.setAirportName(airportName);
+            }
+            if(airportCode != null){
+                airport.setAirportCode(airportCode);
+            }
+            if(nationName != null){
+                airport.setNationName(nationName);
+            }
+        }catch(NoResultException exception){
+            System.out.println("No such airport");
+        }
+    }
+
+    @Override
+    public AirportEntity getAirport(String airportCode) {
+        Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :airportCode");
+        query.setParameter("airportCode", airportCode);
+        
+        List<AirportEntity> airport = (List<AirportEntity>)query.getResultList();
+        if(!airport.isEmpty()){
+            return airport.get(0);
+        }else{
+            return null;
+        }
+    }
+    
+    
     
 }
