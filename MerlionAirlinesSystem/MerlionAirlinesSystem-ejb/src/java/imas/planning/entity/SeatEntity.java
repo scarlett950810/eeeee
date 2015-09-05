@@ -24,7 +24,7 @@ public class SeatEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     private AircraftEntity aircraft;
     private String seatNo;
     private boolean goodCondition;
