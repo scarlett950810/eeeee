@@ -5,6 +5,7 @@
  */
 package imas.web.managedbean.planning;
 
+import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
@@ -15,11 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.PostRemove;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -55,24 +58,19 @@ public class AircraftManagedBean implements Serializable {
     private int PremiumEconomyClassRowNo;
     private int EconomyClassRowNo;
     
-//    private List<SeatEntity> seats;
-//    private List<String> seatClasses;
-//    private SeatEntity seatToAdd;
-    
+    private List<AircraftEntity> aircrafts;
+  
     @PostConstruct
     public void init()
     {
-//        System.out.print("post construct");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftGroups", this.getAircraftGroups());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.getAirports());
-//        System.out.print(this.getAircraftTypes());
     }
     
     @PostRemove
     public void destroy()
     {
-//        System.out.print("destroy");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aircraftTypes");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aircraftGroups");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
@@ -107,7 +105,6 @@ public class AircraftManagedBean implements Serializable {
     }
 
     public List<AircraftTypeEntity> getAircraftTypes() {
-        System.out.print("aircraftManagedBean.getAircraftTypes");
         return aircraftSessionBean.getAircraftTypes();
     }
 
@@ -273,7 +270,7 @@ public class AircraftManagedBean implements Serializable {
         if (this.tailId == null || this.aircraftType == null || this.purchasePrice == null || 
                 this.deprecation == null || this.netAssetValue == null || this.aircraftLife == null || 
                 this.operationYear == null || this.conditionDescription == null || this.airportHub == null || 
-                this.currentAirport == null || this.aircraftGroup == null) {
+                this.currentAirport == null) {
             return false;
         } else if (this.FirstClassColumnNo == 0 && this.FirstClassRowNo == 0 && 
                 this.BusinessClassColumnNo == 0 && this.BusinessClassRowNo == 0 && 
@@ -302,13 +299,38 @@ public class AircraftManagedBean implements Serializable {
             System.out.print("To indicate No economy class seats, enter both 0 for column and row number.");
             return false;
         } else {
-            aircraftSessionBean.addAircraft(this.tailId, this.aircraftType, this.purchasePrice, this.deprecation, this.netAssetValue, 
+            return aircraftSessionBean.addAircraft(this.tailId, this.aircraftType, this.purchasePrice, this.deprecation, this.netAssetValue, 
                     this.aircraftLife, this.operationYear, this.conditionDescription, this.airportHub, this.currentAirport, this.aircraftGroup, 
                     this.FirstClassColumnNo, this.FirstClassRowNo, this.BusinessClassColumnNo, this.BusinessClassRowNo, 
                     this.PremiumEconomyClassColumnNo, this.PremiumEconomyClassRowNo, this.EconomyClassColumnNo, this.EconomyClassRowNo);
-            return true;
         }
 
+    }
+
+    public List<AircraftEntity> getAircrafts() {
+        return aircraftSessionBean.getAircrafts();
+    }
+
+    public void setAircrafts(List<AircraftEntity> aircrafts) {
+        this.aircrafts = aircrafts;
+    }
+    
+    public void onRowEdit(RowEditEvent event) {
+        
+        System.out.println("row:");
+        System.out.println(event.getSource().toString());
+        FacesMessage msg = new FacesMessage("Aircraft Edited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+    }
+     
+//    public void onRowCancel(RowEditEvent event) {
+//        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    }
+    
+    public void onAircraftDelete(AircraftEntity aircraft) {
+        aircraftSessionBean.deleteAircraft(aircraft);
     }
 
 }

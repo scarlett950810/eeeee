@@ -40,7 +40,7 @@ public class AircraftTypeConverter  implements Converter {
                 
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid aircraftType."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid aircraft Type."));
             }
         } else {
             return null;

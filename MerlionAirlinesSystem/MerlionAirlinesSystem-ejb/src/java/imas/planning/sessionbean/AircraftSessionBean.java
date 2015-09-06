@@ -60,22 +60,33 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
     }
 
     @Override
-    public void addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, 
-            Double aircraftLife, Double operationYear, String conditionDescription,AirportEntity airportHub, AirportEntity currentAirport, 
-            AircraftGroupEntity aircraftGroup, int FirstClassColumnNo, int FirstClassRowNo, int BusinessClassColumnNo, int BusinessClassRowNo, 
+    public boolean addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue,
+            Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport,
+            AircraftGroupEntity aircraftGroup, int FirstClassColumnNo, int FirstClassRowNo, int BusinessClassColumnNo, int BusinessClassRowNo,
             int PremiumEconomyClassColumnNo, int PremiumEconomyClassRowNo, int EconomyClassColumnNo, int EconomyClassRowNo) {
-        System.out.print("AircraftSessionBean.addAircraft called.");
-        
-        AircraftEntity newAircraft = new AircraftEntity(tailId, aircraftType, purchasePrice, deprecation, netAssetValue, aircraftLife, operationYear, conditionDescription, airportHub, currentAirport, aircraftGroup);
-        em.persist(newAircraft);
-        int startRow = 1;
-        createSeats(newAircraft, FirstClassColumnNo, startRow, FirstClassRowNo, "First Class");
-        startRow = startRow + FirstClassRowNo;
-        createSeats(newAircraft, BusinessClassColumnNo, startRow, BusinessClassRowNo, "Business Class");
-        startRow = startRow + BusinessClassRowNo;
-        createSeats(newAircraft, PremiumEconomyClassColumnNo, startRow, PremiumEconomyClassRowNo, "Premium Economy Class");
-        startRow = startRow + PremiumEconomyClassRowNo;
-        createSeats(newAircraft, EconomyClassColumnNo, startRow, EconomyClassRowNo, "Economy Class");
+//        System.out.print("AircraftSessionBean.addAircraft called.");
+        Query q = em.createQuery("SELECT a FROM AircraftEntity a WHERE a.tailId = :tailId");
+        q.setParameter("tailId", tailId);
+        if (q.getResultList().isEmpty()) {
+            return false;
+        } else {
+            AircraftEntity newAircraft = new AircraftEntity(tailId, aircraftType, purchasePrice, deprecation, netAssetValue, aircraftLife, operationYear, conditionDescription, airportHub, currentAirport);
+
+            if (aircraftGroup != null) {
+                newAircraft.setAircraftGroup(aircraftGroup);
+            }
+            em.persist(newAircraft);
+            int startRow = 1;
+            createSeats(newAircraft, FirstClassColumnNo, startRow, FirstClassRowNo, "First Class");
+            startRow = startRow + FirstClassRowNo;
+            createSeats(newAircraft, BusinessClassColumnNo, startRow, BusinessClassRowNo, "Business Class");
+            startRow = startRow + BusinessClassRowNo;
+            createSeats(newAircraft, PremiumEconomyClassColumnNo, startRow, PremiumEconomyClassRowNo, "Premium Economy Class");
+            startRow = startRow + PremiumEconomyClassRowNo;
+            createSeats(newAircraft, EconomyClassColumnNo, startRow, EconomyClassRowNo, "Economy Class");
+
+            return true;
+        }
     }
 
     private void createSeats(AircraftEntity aircraft, int column, int startRow, int row, String seatClass) {
@@ -100,4 +111,22 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
             }
         }
     }
+
+    @Override
+    public List<AircraftEntity> getAircrafts() {
+        Query query = em.createQuery("SELECT a FROM AircraftEntity a");
+        List<AircraftEntity> aircrafts = (List<AircraftEntity>) query.getResultList();
+        return aircrafts;
+    }
+
+    @Override
+    public void deleteAircraft(AircraftEntity aircraft) {
+        System.out.println("aircraft");
+        System.out.println(aircraft);
+        AircraftEntity aircraftToDelete = em.find(AircraftEntity.class, aircraft.getId());
+        System.out.println("aircraftToDelete");
+        System.out.println(aircraftToDelete);
+        em.remove(aircraftToDelete);
+    }
+
 }

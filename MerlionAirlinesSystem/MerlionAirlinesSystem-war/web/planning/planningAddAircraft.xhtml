@@ -89,7 +89,7 @@
                     </p:selectOneMenu>
 
                     <p:outputLabel for="aircraftGroup" value="Aircraft Group" />
-                    <p:selectOneMenu converter="aircraftGroupConverter" style="width: 400px" id="aircraftGroup" value="#{aircraftManagedBean.aircraftGroup}" required="true" requiredMessage="Please input aircraft group">
+                    <p:selectOneMenu converter="aircraftGroupConverter" style="width: 400px" id="aircraftGroup" value="#{aircraftManagedBean.aircraftGroup}" requiredMessage="Please input aircraft group">
                         <f:selectItem itemLabel="Please select aircraft group" itemDisabled="true" />
                         <f:selectItems value="#{aircraftManagedBean.aircraftGroups}"  var="aircraftGroup" itemLabel="#{aircraftGroup.type}" itemValue="#{aircraftGroup}"/>
                     </p:selectOneMenu>

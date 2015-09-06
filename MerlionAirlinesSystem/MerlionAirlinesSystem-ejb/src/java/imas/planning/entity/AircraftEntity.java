@@ -8,6 +8,7 @@ package imas.planning.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class AircraftEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String tailId;
-    
+
     @ManyToOne
     private AircraftTypeEntity aircraftType;//BOEING
 
@@ -43,7 +44,7 @@ public class AircraftEntity implements Serializable {
     @OneToMany(mappedBy = "aircraft")
     private List<FlightEntity> flights;
     //private SeatEntity Configuration;  
-    @OneToMany(mappedBy = "aircraft")
+    @OneToMany(mappedBy = "aircraft", cascade = {CascadeType.ALL})
     private List<SeatEntity> seats;
     @ManyToOne
     private AirportEntity airportHub;
@@ -51,14 +52,15 @@ public class AircraftEntity implements Serializable {
     // the current airport the aircraft is located or the destination if it is on the air
     @ManyToOne
     private AirportEntity currentAirport;
-    //group
+
+//group
     @ManyToOne
     private AircraftGroupEntity aircraftGroup;
 
-    public AircraftEntity(){
+    public AircraftEntity() {
     }
 
-    public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport, AircraftGroupEntity aircraftGroup) {
+    public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport) {
         this.tailId = tailId;
         this.aircraftType = aircraftType;
         this.purchasePrice = purchasePrice;
@@ -70,7 +72,6 @@ public class AircraftEntity implements Serializable {
         this.seats = new ArrayList();
         this.airportHub = airportHub;
         this.currentAirport = currentAirport;
-        this.aircraftGroup = aircraftGroup;
     }
 
     public AircraftGroupEntity getAircraftGroup() {
