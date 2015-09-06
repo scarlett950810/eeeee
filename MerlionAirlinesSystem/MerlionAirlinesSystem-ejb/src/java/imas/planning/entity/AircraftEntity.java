@@ -6,6 +6,7 @@
 package imas.planning.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,7 +28,7 @@ public class AircraftEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String tailId;
-    
+
     @ManyToOne
     private AircraftTypeEntity aircraftType;//BOEING
 
@@ -37,28 +38,29 @@ public class AircraftEntity implements Serializable {
 
     private Double aircraftLife;
     private Double operationYear;
-    private String aircraftCondition;
+    private String conditionDescription; // This is a string containing the description of the aircraft condition such as the left wing is abnormal
 
     //private FlightEntity flight;
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "aircraft")
+    @OneToMany(mappedBy = "aircraft")
     private List<FlightEntity> flights;
     //private SeatEntity Configuration;  
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "aircraft")
+    @OneToMany(mappedBy = "aircraft", cascade = {CascadeType.ALL})
     private List<SeatEntity> seats;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     private AirportEntity airportHub;
 
     // the current airport the aircraft is located or the destination if it is on the air
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     private AirportEntity currentAirport;
-    //group
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+
+//group
+    @ManyToOne
     private AircraftGroupEntity aircraftGroup;
 
-    public AircraftEntity(){
+    public AircraftEntity() {
     }
 
-    public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String aircraftCondition, List<SeatEntity> seats, AirportEntity airportHub, AirportEntity currentAirport, AircraftGroupEntity aircraftGroup) {
+    public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport) {
         this.tailId = tailId;
         this.aircraftType = aircraftType;
         this.purchasePrice = purchasePrice;
@@ -66,11 +68,10 @@ public class AircraftEntity implements Serializable {
         this.netAssetValue = netAssetValue;
         this.aircraftLife = aircraftLife;
         this.operationYear = operationYear;
-        this.aircraftCondition = aircraftCondition;
-        this.seats = seats;
+        this.conditionDescription = conditionDescription;
+        this.seats = new ArrayList();
         this.airportHub = airportHub;
         this.currentAirport = currentAirport;
-        this.aircraftGroup = aircraftGroup;
     }
 
     public AircraftGroupEntity getAircraftGroup() {
@@ -153,12 +154,12 @@ public class AircraftEntity implements Serializable {
         this.operationYear = operationYear;
     }
 
-    public String getAircraftCondition() {
-        return aircraftCondition;
+    public String getConditionDescription() {
+        return conditionDescription;
     }
 
-    public void setAircraftCondition(String aircraftCondition) {
-        this.aircraftCondition = aircraftCondition;
+    public void setConditionDescription(String conditionDescription) {
+        this.conditionDescription = conditionDescription;
     }
 
     public List<FlightEntity> getFlights() {

@@ -5,7 +5,9 @@
  */
 package imas.planning.sessionbean;
 
+import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
+import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -22,4 +24,14 @@ public interface AircraftSessionBeanLocal {
 
     public List<AirportEntity> getAirports();
     
+    public List<AircraftTypeEntity> getAircraftTypes();
+    
+    public boolean addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, 
+            Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport, 
+            AircraftGroupEntity aircraftGroup, int FirstClassColumnNo, int FirstClassRowNo, int BusinessClassColumnNo, int BusinessClassRowNo, 
+            int PremiumEconomyClassColumnNo, int PremiumEconomyClassRowNo, int EconomyClassColumnNo, int EconomyClassRowNo);
+
+    public List<AircraftEntity> getAircrafts();
+    
+    public void deleteAircraft(AircraftEntity aircraft);
 }

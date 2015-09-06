@@ -59,6 +59,7 @@ public class LoginManagedBean {
         ExternalContext ec = fc.getExternalContext();
 
         if (loginSessionBean.doLogin(staffNo, password)) {
+//            insertData();
             ec.redirect(ec.getRequestContextPath() + "/common/common_landing.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "Invalid credentials"));
@@ -107,4 +108,7 @@ public class LoginManagedBean {
         
     }
 
+    public void insertData() {
+        loginSessionBean.insertData();
+    }
 }

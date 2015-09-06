@@ -26,7 +26,7 @@ public class AircraftGroupEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String type;
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "aircraftGroup")
+    @OneToMany(mappedBy = "aircraftGroup")
     private List<AircraftEntity> AircraftsInGroup;
 
     public AircraftGroupEntity() {
