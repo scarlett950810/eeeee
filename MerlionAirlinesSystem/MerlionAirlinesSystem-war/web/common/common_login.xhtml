@@ -12,9 +12,11 @@ and open the template in the editor.
     <h:head>
         <title>Internal Log In</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+
     </h:head>
     <h:body>
-        
+
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
         <h:form id="internalLoginForm">
             <p:focus context="internalLoginForm"/>
@@ -29,6 +31,9 @@ and open the template in the editor.
                     <p:watermark for="password" value="Please enter password" />
                 </p:password>
 
+<!--                <div class="g-recaptcha" data-sitekey="6LdgaQwTAAAAANPeBIvREmpxSvPg8UrB8rdxJU4h"></div>-->
+                <p:captcha label="Captcha"/>
+                
                 <p:commandButton id="internalLogin" value="Log In" actionListener="#{loginManagedBean.doLogin(staffNo.value,password.value)}" />
 
             </h:panelGrid>
