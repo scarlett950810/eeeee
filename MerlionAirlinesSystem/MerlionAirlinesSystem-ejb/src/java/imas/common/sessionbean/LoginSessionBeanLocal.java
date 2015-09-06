@@ -16,4 +16,5 @@ public interface LoginSessionBeanLocal {
 
     public boolean doLogin(String staffNo, String password);
     
+    public void insertData();
 }

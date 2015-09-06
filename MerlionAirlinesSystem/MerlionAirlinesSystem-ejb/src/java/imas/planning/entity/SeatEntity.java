@@ -24,22 +24,21 @@ public class SeatEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String setNo;
-    private String availability;//reserved, booked,
-    private String seatClass;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
-    private AircraftEntity aircraftSeats;
+    @ManyToOne
+    private AircraftEntity aircraft;
+    private String seatNo;
+    private boolean goodCondition;
+    private String seatClass; //First, Business, Premium Economy
 
     public SeatEntity() {
 
     }
 
-    public SeatEntity(Long id, String setNo, String availability, String seatClass, AircraftEntity aircraftSeats) {
-        this.id = id;
-        this.setNo = setNo;
-        this.availability = availability;
+    public SeatEntity(AircraftEntity aircraft, String seatNo, String seatClass) {
+        this.aircraft = aircraft;
+        this.seatNo = seatNo;
+        this.goodCondition = true;
         this.seatClass = seatClass;
-        this.aircraftSeats = aircraftSeats;
     }
 
     public Long getId() {
@@ -50,20 +49,12 @@ public class SeatEntity implements Serializable {
         this.id = id;
     }
 
-    public String getSetNo() {
-        return setNo;
+    public String getSeatNo() {
+        return seatNo;
     }
 
-    public void setSetNo(String setNo) {
-        this.setNo = setNo;
-    }
-
-    public String getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(String availability) {
-        this.availability = availability;
+    public void setSeatNo(String seatNo) {
+        this.seatNo = seatNo;
     }
 
     public String getSeatClass() {
@@ -74,12 +65,20 @@ public class SeatEntity implements Serializable {
         this.seatClass = seatClass;
     }
 
-    public AircraftEntity getAircraftSeats() {
-        return aircraftSeats;
+    public AircraftEntity getAircraft() {
+        return aircraft;
     }
 
-    public void setAircraftSeats(AircraftEntity aircraftSeats) {
-        this.aircraftSeats = aircraftSeats;
+    public void setAircraft(AircraftEntity aircraft) {
+        this.aircraft = aircraft;
+    }
+
+    public boolean isGoodCondition() {
+        return goodCondition;
+    }
+
+    public void setGoodCondition(boolean goodCondition) {
+        this.goodCondition = goodCondition;
     }
 
     @Override
@@ -96,10 +95,7 @@ public class SeatEntity implements Serializable {
             return false;
         }
         SeatEntity other = (SeatEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

@@ -6,14 +6,10 @@
 package imas.planning.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 /**
  *
@@ -30,6 +26,9 @@ public class AirportEntity implements Serializable {
     private String cityName;
     private String airportName;  
     private String airportCode;
+    
+    private String nationName;
+
 
   /*@OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "airportHub")
     private List<AircraftEntity> AirportsH = new ArrayList<>();
@@ -39,11 +38,12 @@ public class AirportEntity implements Serializable {
     public AirportEntity(){   
     }
 
-    public AirportEntity(Boolean hubOrSpoke, String cityName, String airportName, String airportCode) {
+    public AirportEntity(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName) {
         this.hubOrSpoke = hubOrSpoke;
         this.cityName = cityName;
         this.airportName = airportName;
         this.airportCode = airportCode;
+        this.nationName = nationName;
     }
     
 //    public List<AircraftEntity> getAirportsH() {
@@ -63,6 +63,24 @@ public class AirportEntity implements Serializable {
 //        this.AirportsLct = AirportsLct;
 //    }
 
+        /**
+     * Get the value of nationName
+     *
+     * @return the value of nationName
+     */
+    public String getNationName() {
+        return nationName;
+    }
+
+    /**
+     * Set the value of nationName
+     *
+     * @param nationName new value of nationName
+     */
+    public void setNationName(String nationName) {
+        this.nationName = nationName;
+    }
+    
     public String getAirportCode() {
         return airportCode;
     }
@@ -133,6 +151,7 @@ public class AirportEntity implements Serializable {
         this.hubOrSpoke = hubOrSpoke;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;

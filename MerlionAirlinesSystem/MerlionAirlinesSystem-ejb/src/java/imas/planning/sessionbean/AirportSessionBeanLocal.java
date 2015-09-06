@@ -6,6 +6,7 @@
 package imas.planning.sessionbean;
 
 import imas.planning.entity.AirportEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -20,5 +21,11 @@ public interface AirportSessionBeanLocal {
     Boolean checkAirport(String airportCode);
 
     Boolean deleteAirport(String airportCode);
+
+    List<AirportEntity> fetchAirport();
+
+    void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName);
+
+    AirportEntity getAirport(String airportCode);
     
 }

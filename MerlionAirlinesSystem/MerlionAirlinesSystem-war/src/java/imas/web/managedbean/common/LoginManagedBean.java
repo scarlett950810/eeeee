@@ -5,11 +5,12 @@
  */
 package imas.web.managedbean.common;
 
+import imas.common.sessionbean.AccountManagementSessionBeanLocal;
 import imas.common.sessionbean.LoginSessionBeanLocal;
 import java.io.IOException;
-import javax.faces.bean.ManagedBean;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -23,9 +24,13 @@ import javax.inject.Named;
 @ManagedBean
 @SessionScoped
 public class LoginManagedBean {
+    @EJB
+    private AccountManagementSessionBeanLocal accountManagementSessionBean;
 
     @EJB
     private LoginSessionBeanLocal loginSessionBean;
+    
+    private String email;
 
     /**
      * Creates a new instance of LoginManagedBean
@@ -41,11 +46,20 @@ public class LoginManagedBean {
         this.loginSessionBean = loginSessionBean;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void doLogin(String staffNo, String password) throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
 
         if (loginSessionBean.doLogin(staffNo, password)) {
+//            insertData();
             ec.redirect(ec.getRequestContextPath() + "/common/common_landing.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "Invalid credentials"));
@@ -80,5 +94,21 @@ public class LoginManagedBean {
 //            Logger.getLogger(LoginManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 //        }
     }
+    
+    public void forgetPassword() throws IOException{
+        if(accountManagementSessionBean.checkEmailExistence(email)){
+            accountManagementSessionBean.resetStaffPassword(email);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            ec.redirect("common_login.xhtml");
+        }else{
+            FacesMessage msg = new FacesMessage("Sorry", "Please enter the correct email address associated with your account.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        
+    }
 
+    public void insertData() {
+        loginSessionBean.insertData();
+    }
 }

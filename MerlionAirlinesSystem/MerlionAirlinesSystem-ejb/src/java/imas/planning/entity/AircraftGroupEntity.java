@@ -6,7 +6,6 @@
 package imas.planning.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,21 +25,20 @@ public class AircraftGroupEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long groupId;
     private String type;
-    private int number;
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "aircraftGroup")
-    private List<AircraftEntity> group = new ArrayList<AircraftEntity>();
+    @OneToMany(mappedBy = "aircraftGroup")
+    private List<AircraftEntity> AircraftsInGroup;
 
     public AircraftGroupEntity() {
-
     }
 
-    public AircraftGroupEntity(Long id, Long groupId, String type, int number) {
-        this.id = id;
-        this.groupId = groupId;
+    public AircraftGroupEntity(String type) {
         this.type = type;
-        this.number = number;
+    }
+
+    public AircraftGroupEntity(String type, List<AircraftEntity> AircraftsInGroup) {
+        this.type = type;
+        this.AircraftsInGroup = AircraftsInGroup;
     }
 
     public Long getId() {
@@ -51,14 +49,6 @@ public class AircraftGroupEntity implements Serializable {
         this.id = id;
     }
 
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }
-
     public String getType() {
         return type;
     }
@@ -67,22 +57,14 @@ public class AircraftGroupEntity implements Serializable {
         this.type = type;
     }
 
-    public int getNumber() {
-        return number;
+    public List<AircraftEntity> getAircraftsInGroup() {
+        return AircraftsInGroup;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setAircraftsInGroup(List<AircraftEntity> AircraftsInGroup) {
+        this.AircraftsInGroup = AircraftsInGroup;
     }
-
-    public List<AircraftEntity> getGroup() {
-        return group;
-    }
-
-    public void setGroup(List<AircraftEntity> group) {
-        this.group = group;
-    }
-
+  
     @Override
     public int hashCode() {
         int hash = 0;
