@@ -32,9 +32,17 @@ public class StaffEntity implements Serializable {
     
     private String email;
 
-    private String handphone;
+    private String contactNumber;
     
     private String department;
+    
+    private String address;
+    
+    private String gender;
+    
+    private String base; //airportCode
+    
+    private Boolean activationStatus;
     
     @OneToMany(mappedBy = "receiver")
     private List<InternalAnnouncementEntity> announcements;
@@ -47,14 +55,18 @@ public class StaffEntity implements Serializable {
     
     public StaffEntity() {
     }
-    
-    public StaffEntity(String staffNo, String displayName, String password, String email, String handphone, String department) {
+
+    public StaffEntity(String staffNo, String displayName, String password, String email, String contactNumber, String department, String address, String gender, String base) {
         this.staffNo = staffNo;
         this.displayName = displayName;
         this.password = password;
         this.email = email;
-        this.handphone = handphone;
+        this.contactNumber = contactNumber;
         this.department = department;
+        this.address = address;
+        this.gender = gender;
+        this.base = base;
+        this.activationStatus = false;
     }
 
     public Long getId() {
@@ -63,6 +75,46 @@ public class StaffEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public Boolean getActivationStatus() {
+        return activationStatus;
+    }
+
+    public void setActivationStatus(Boolean activationStatus) {
+        this.activationStatus = activationStatus;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getBase() {
+        return base;
+    }
+
+    public void setBase(String base) {
+        this.base = base;
     }
     
     public String getEmail() {
@@ -73,12 +125,12 @@ public class StaffEntity implements Serializable {
         this.email = email;
     }
 
-    public String getHandphone() {
-        return handphone;
+    public String getContactNumber() {
+        return contactNumber;
     }
 
-    public void setHandphone(String handphone) {
-        this.handphone = handphone;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public String getDepartemnt() {

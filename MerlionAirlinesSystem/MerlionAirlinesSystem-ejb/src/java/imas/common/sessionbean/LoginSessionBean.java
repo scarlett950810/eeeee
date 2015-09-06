@@ -52,7 +52,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     }
 
     private void insertData() {
-        StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "admin");
+        StaffEntity s = new StaffEntity("1", "DY", "123", "scarlett.dongyan@gmail.com", "84316002", "abc", "male", "SIN", "marketing");
+        
         entityManager.persist(s);
         
         InternalAnnouncementEntity i1 = new InternalAnnouncementEntity(s, "read message", "hello. This message is read.", new Date());

@@ -5,9 +5,9 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+
     <ui:define name="title">Manage Airports</ui:define>
-    
+
     <ui:define name="head">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <style type="text/css">
@@ -16,7 +16,7 @@
             }
         </style>
     </ui:define>
-    
+
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -32,7 +32,7 @@
                 <li>
                     <a href="planningManageAircraftGroup.xhtml">Manage Aircraft Group</a>
                 </li>
-                
+
                 <li class="sidebar-h1">
                     <a href="planningAddRoute.xhtml">Route Planning</a>
                 </li>
@@ -55,7 +55,7 @@
     <ui:define name="centerPanel">
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" life="2000"/>
-            <p:dataTable id="airports" var="airport" value="#{airportManagedBean.airportList}" editable="true" style="margin-bottom:20px" sortBy="nationName" sortOrder="ascending"
+            <p:dataTable id="airports" var="airport" value="#{airportManagedBean.airportList}" editable="true" style="margin-bottom:20px"
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="15, 20, 25">
@@ -65,7 +65,7 @@
 
                 <p:ajax event="rowEdit" listener="#{airportManagedBean.onRowEdit}" update=":form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{airportManagedBean.onRowCancel}" update=":form:msgs" />
-                
+
 
                 <p:column headerText="Country" >
                     <p:cellEditor>
@@ -98,68 +98,16 @@
                 <p:column style="width:32px">
                     <p:rowEditor />
                 </p:column>
-                
             </p:dataTable>
+        </h:form>
+        
+        <h:form>
+            <p:commandButton value="Add Airport"  actionListener="#{airportManagedBean.addAirport()}" style="display: inline-block; float: right;" ajax="false"/>
+            <p:commandButton value="Delete Airport"  action="planningDeleteAirport.xhtml" style="display: inline-block; float: right;" ajax="false"/>
         </h:form>
 
         
-        <p:commandButton value="Add Airport" type="button" onclick="PF('addAirport').show();" style="display: inline-block; float: right;"/>
-        <p:commandButton value="Delete Airport" type="button" onclick="PF('deleteAirport').show();" style="display: inline-block; float: right"/>
-        
-                
-        <p:dialog header="Add Airport" widgetVar="addAirport" modal="true">
-            <h:form>
-                <p:growl id="growl" showDetail="true"/>
-                <p:panel>
-                    <p:messages />
-                    <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
-                        <p:outputLabel for="cityName" value="City Name" />
-                        <p:inputText style="width:100%;" id="cityName" value="#{airportManagedBean.cityName}" label="cityName" required="true" requiredMessage="Please input city name">
-                            <p:watermark for="cityName" value="Please enter city name" />
-                        </p:inputText> 
-
-                        <p:outputLabel for="nationName" value="Nation Name" />
-                        <p:inputText style="width:100%;" id="nationName" value="#{airportManagedBean.nationName}" label="nationName" required="true" requiredMessage="Please input nation name">
-                            <p:watermark for="nationName" value="Please enter nation name" />
-                        </p:inputText> 
-
-                        <p:outputLabel for="airportName" value="Airport Name: " />
-                        <p:inputText style="width:100%;" id="airportName" value="#{airportManagedBean.airportName}" label="Password" required="true" requiredMessage="Please input airport name">
-                            <p:watermark for="airportName" value="Please enter airport name" />
-                        </p:inputText>
-
-                        <p:outputLabel for="airportCode" value="Airport Code: " />
-                        <p:inputText style="width:100%;" id="airportCode" value="#{airportManagedBean.airportCode}" label="airportCode" required="true" requiredMessage="Please input airport code">
-                            <p:watermark for="airportCode" value="Please enter airport code" />
-                        </p:inputText>
-
-                        <h:outputText value="This airport is a hub: " />
-                        <h:selectBooleanCheckbox value="#{airportManagedBean.hubOrSpoke}" required="true" label="hubOrSpoke"/>
-
-                        <p:commandButton id="addAirport" value="confirm" actionListener="#{airportManagedBean.save}" update="growl"/>
-
-                    </h:panelGrid>
-                </p:panel>
-            </h:form>
-        </p:dialog>  
-        
-        <p:dialog header="Delete Airport" widgetVar="deleteAirport" modal="true">
-            <h:form>
-                <p:messages id="statusMessages" redisplay="false"/>
-                <p:panel>
-                    <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
-                        <p:outputLabel for="deleteAirport" value="Choose Airport to Delete:"  />
-                        <p:selectOneMenu id="deleteAirport" value="#{airportManagedBean.airport}" panelStyle="width:180px" required="true" requiredMessage="Please input airport to delete"
-                                         effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
-                                         converter="airportConverter">
-
-                            <f:selectItems value="#{airportManagedBean.airportList}" var="airport" itemLabel="#{airport.cityName}, #{airport.airportName}, #{airport.airportCode}" itemValue="#{airport}" />
-                        </p:selectOneMenu>
-                    </h:panelGrid>
-                    <p:commandButton value="confirm" actionListener="#{airportManagedBean.deleteAirport}" update="statusMessages"/>
-                </p:panel>  
-            </h:form>
-        </p:dialog>
+   
     </ui:define>
 
 </ui:composition>

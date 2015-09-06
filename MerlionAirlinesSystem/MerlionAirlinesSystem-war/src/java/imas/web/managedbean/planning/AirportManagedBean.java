@@ -123,6 +123,13 @@ public class AirportManagedBean implements Serializable{
         }
     }
     
+    public void addAirport() throws IOException{
+        System.out.print("Called");
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningAddAirport.xhtml");
+    }
+    
     public void deleteAirport(ActionEvent event) throws IOException{
         airportSessionBean.deleteAirport(airport.getAirportCode());
         FacesContext fc = FacesContext.getCurrentInstance();
