@@ -5,6 +5,7 @@
  */
 package imas.common.sessionbean;
 
+import imas.common.entity.StaffEntity;
 import javax.ejb.Local;
 
 /**
@@ -17,4 +18,6 @@ public interface LoginSessionBeanLocal {
     public boolean doLogin(String staffNo, String password);
     
     public void insertData();
+
+    public StaffEntity fetchStaff(String staffNo);
 }
