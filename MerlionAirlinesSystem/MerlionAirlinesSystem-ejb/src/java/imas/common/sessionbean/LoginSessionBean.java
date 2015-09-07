@@ -53,15 +53,15 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     }
 
     public void insertData() {
-//        StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "admin");
-//        entityManager.persist(s);
-//        
-//        InternalAnnouncementEntity i1 = new InternalAnnouncementEntity(s, "read message", "hello. This message is read.", new Date());
-//        i1.setIsRead(true);
-//        entityManager.persist(i1);
-//        
-//        InternalAnnouncementEntity i2 = new InternalAnnouncementEntity(s, "unread message", "An unread message.", new Date());
-//        entityManager.persist(i2);
+        StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "admin", "Thall", "F", "SIN");
+        entityManager.persist(s);
+        
+        InternalAnnouncementEntity i1 = new InternalAnnouncementEntity(s, "read message", "hello. This message is read.", new Date());
+        i1.setIsRead(true);
+        entityManager.persist(i1);
+        
+        InternalAnnouncementEntity i2 = new InternalAnnouncementEntity(s, "unread message", "An unread message.", new Date());
+        entityManager.persist(i2);
         AircraftGroupEntity group1 = new AircraftGroupEntity("A380");
         AircraftGroupEntity group2 = new AircraftGroupEntity("A880");
         

@@ -30,6 +30,8 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
     
     @Override
     public List<InternalAnnouncementEntity> getAllAnnouncements() {
+        System.out.println("InternalAnnouncementSessionBean.getAllAnnouncements called.");
+        
         StaffEntity staffEntity = (StaffEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffEntity");
         Query queryForAllAnnoucements = entityManager.createQuery("SELECT a FROM InternalAnnouncementEntity a WHERE a.receiver = :staffEntity");
         queryForAllAnnoucements.setParameter("staffEntity", (StaffEntity) staffEntity);
@@ -39,6 +41,9 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
             InternalAnnouncementEntity a = (InternalAnnouncementEntity) o;
             announcements.add(a);
         });
+        
+        System.out.println("announcements");
+        System.out.println(announcements);
 
         return (List<InternalAnnouncementEntity>) announcements;
     }

@@ -28,6 +28,7 @@ public class InternalAnnouncementManagedBean {
     private List<InternalAnnouncementEntity> allAnnouncements;
 
     public List<InternalAnnouncementEntity> getAllAnnouncements() {
+        System.out.println("internalAnnoucementManagedBean.getAllAnnoucement called.");
         return (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements();
     }
 

@@ -5,7 +5,6 @@
  */
 package imas.web.managedbean.planning;
 
-import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -26,6 +25,10 @@ public class AircraftGroupConverter  implements Converter {
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
+                
+                if (value == "") {
+                    return null;
+                }
                 
                 List<AircraftGroupEntity> aircraftGroupEntities = (List<AircraftGroupEntity>)fc.getExternalContext().getSessionMap().get("aircraftGroups");
                 
