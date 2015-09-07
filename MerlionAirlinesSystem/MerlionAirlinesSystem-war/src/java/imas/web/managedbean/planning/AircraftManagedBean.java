@@ -74,6 +74,8 @@ public class AircraftManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        aircrafts = aircraftSessionBean.getAircrafts();
+        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftGroups", this.getAircraftGroups());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.getAirports());
@@ -320,7 +322,7 @@ public class AircraftManagedBean implements Serializable {
     }
 
     public List<AircraftEntity> getAircrafts() {
-        return aircraftSessionBean.getAircrafts();
+        return aircrafts;
     }
 
     public void setAircrafts(List<AircraftEntity> aircrafts) {

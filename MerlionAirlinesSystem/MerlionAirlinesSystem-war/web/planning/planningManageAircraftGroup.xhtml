@@ -32,21 +32,21 @@
         <p:growl id="growl" sticky="true" showDetail="true"/>
         <p:panel header="Add Aircraft Group" style="margin-bottom: 15px">
             <h:form>
-                <p:messages />
+                <p:messages id="createAircraftGroup" />
                 <h:panelGrid columns="3" cellpadding="5">
                     <p:outputLabel for="type" value="Type" />
                     <p:inputText style="width: 400px" id="type" value="#{aircraftGroupManagedBean.type}" label="type" required="true" requiredMessage="Please input aircraft group type">
                         <p:watermark for="type" value="Please enter tail ID" />
                     </p:inputText>
 
-                    <p:commandButton ajax="false" value="Add" icon="ui-icon-check" actionListener="#{aircraftGroupManagedBean.addAircraftGroup}" />
+                    <p:commandButton update="createAircraftGroup" value="Add" icon="ui-icon-check" actionListener="#{aircraftGroupManagedBean.addAircraftGroup}" />
 
                 </h:panelGrid>
             </h:form>
         </p:panel>
 
         <p:panel header="Current Aircraft Groups" style="margin-bottom: 15px">
-            <h:form>
+            <h:form id="formChangeAircraftGroup">
                 <h:outputText value="Select a Group to see airports"/>
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="aircraftGroups" value="Aircraft Group:" />
@@ -56,7 +56,7 @@
                         <f:selectItems value="#{aircraftGroupManagedBean.aircraftGroups}" var="aircraftGroup" itemLabel="#{aircraftGroup.type}" itemValue="#{aircraftGroup}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
-                <p:messages id="onAircraftUpdate" />
+                <p:messages id="onAircraftGroupUpdate" />
                 <p:dataTable id="aircrafts" var="aircraft" value="#{aircraftGroupManagedBean.aircrafts}">
                     <f:facet name="header">
                         List of Aircrafts
@@ -99,15 +99,14 @@
                             <f:selectItem itemLabel="Select Group" itemDisabled="true" />
                             <f:selectItems value="#{aircraftGroupManagedBean.aircraftGroups}" var="aircraftGroup" itemLabel="#{aircraftGroup.type}" itemValue="#{aircraftGroup}" />
                         </p:selectOneMenu>
-                        <p:commandButton icon="ui-icon-arrowreturn-1-e" title="Change" action="#{aircraftGroupManagedBean.onAircraftUpdate(aircraft)}" ajax="false" />
+                        <p:commandButton icon="ui-icon-arrowreturn-1-e" title="Change" actionListener="#{aircraftGroupManagedBean.onAircraftUpdate(aircraft)}" update=":formChangeAircraftGroup:onAircraftGroupUpdate"/>
                     </p:column>
                     
                     <p:column headerText="Detach from Group">
-                        <p:commandButton icon="ui-icon-trash" title="Delete" action="#{aircraftGroupManagedBean.onAircraftDelete(aircraft)}" ajax="false" />
+                        <p:commandButton icon="ui-icon-trash" title="Delete" actionListener="#{aircraftGroupManagedBean.onAircraftDelete(aircraft)}" update=":formChangeAircraftGroup:onAircraftGroupUpdate"/>
                     </p:column>
 
                 </p:dataTable>
-
 
             </h:form>
         </p:panel>
