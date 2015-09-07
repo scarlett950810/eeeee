@@ -26,7 +26,7 @@ public interface AircraftSessionBeanLocal {
     
     public List<AircraftTypeEntity> getAircraftTypes();
     
-    public boolean addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, 
+    public void addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, 
             Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport, 
             AircraftGroupEntity aircraftGroup, int FirstClassColumnNo, int FirstClassRowNo, int BusinessClassColumnNo, int BusinessClassRowNo, 
             int PremiumEconomyClassColumnNo, int PremiumEconomyClassRowNo, int EconomyClassColumnNo, int EconomyClassRowNo);
@@ -34,4 +34,8 @@ public interface AircraftSessionBeanLocal {
     public List<AircraftEntity> getAircrafts();
     
     public void deleteAircraft(AircraftEntity aircraft);
+
+    public boolean checkAircraftExistense(String tailId);
+    
+    public void updateAircraft (AircraftEntity aircraftUpdated);
 }

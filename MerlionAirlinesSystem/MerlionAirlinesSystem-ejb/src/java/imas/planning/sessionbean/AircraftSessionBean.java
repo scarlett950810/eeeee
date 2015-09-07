@@ -60,33 +60,33 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
     }
 
     @Override
-    public boolean addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue,
+    public boolean checkAircraftExistense(String tailId) {
+        Query q = em.createQuery("SELECT a FROM AircraftEntity a WHERE a.tailId = :tailId");
+        q.setParameter("tailId", tailId);
+        return !q.getResultList().isEmpty();
+    }
+
+    @Override
+    public void addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue,
             Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport,
             AircraftGroupEntity aircraftGroup, int FirstClassColumnNo, int FirstClassRowNo, int BusinessClassColumnNo, int BusinessClassRowNo,
             int PremiumEconomyClassColumnNo, int PremiumEconomyClassRowNo, int EconomyClassColumnNo, int EconomyClassRowNo) {
-//        System.out.print("AircraftSessionBean.addAircraft called.");
-        Query q = em.createQuery("SELECT a FROM AircraftEntity a WHERE a.tailId = :tailId");
-        q.setParameter("tailId", tailId);
-        if (q.getResultList().isEmpty()) {
-            return false;
-        } else {
-            AircraftEntity newAircraft = new AircraftEntity(tailId, aircraftType, purchasePrice, deprecation, netAssetValue, aircraftLife, operationYear, conditionDescription, airportHub, currentAirport);
 
-            if (aircraftGroup != null) {
-                newAircraft.setAircraftGroup(aircraftGroup);
-            }
-            em.persist(newAircraft);
-            int startRow = 1;
-            createSeats(newAircraft, FirstClassColumnNo, startRow, FirstClassRowNo, "First Class");
-            startRow = startRow + FirstClassRowNo;
-            createSeats(newAircraft, BusinessClassColumnNo, startRow, BusinessClassRowNo, "Business Class");
-            startRow = startRow + BusinessClassRowNo;
-            createSeats(newAircraft, PremiumEconomyClassColumnNo, startRow, PremiumEconomyClassRowNo, "Premium Economy Class");
-            startRow = startRow + PremiumEconomyClassRowNo;
-            createSeats(newAircraft, EconomyClassColumnNo, startRow, EconomyClassRowNo, "Economy Class");
+        AircraftEntity newAircraft = new AircraftEntity(tailId, aircraftType, purchasePrice, deprecation, netAssetValue, aircraftLife, operationYear, conditionDescription, airportHub, currentAirport);
 
-            return true;
+        if (aircraftGroup != null) {
+            newAircraft.setAircraftGroup(aircraftGroup);
         }
+        em.persist(newAircraft);
+        int startRow = 1;
+        createSeats(newAircraft, FirstClassColumnNo, startRow, FirstClassRowNo, "First Class");
+        startRow = startRow + FirstClassRowNo;
+        createSeats(newAircraft, BusinessClassColumnNo, startRow, BusinessClassRowNo, "Business Class");
+        startRow = startRow + BusinessClassRowNo;
+        createSeats(newAircraft, PremiumEconomyClassColumnNo, startRow, PremiumEconomyClassRowNo, "Premium Economy Class");
+        startRow = startRow + PremiumEconomyClassRowNo;
+        createSeats(newAircraft, EconomyClassColumnNo, startRow, EconomyClassRowNo, "Economy Class");
+
     }
 
     private void createSeats(AircraftEntity aircraft, int column, int startRow, int row, String seatClass) {
@@ -121,12 +121,22 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
 
     @Override
     public void deleteAircraft(AircraftEntity aircraft) {
-        System.out.println("aircraft");
-        System.out.println(aircraft);
         AircraftEntity aircraftToDelete = em.find(AircraftEntity.class, aircraft.getId());
-        System.out.println("aircraftToDelete");
-        System.out.println(aircraftToDelete);
         em.remove(aircraftToDelete);
+    }
+
+    @Override
+    public void updateAircraft(AircraftEntity aircraftUpdated) {
+        System.out.println(aircraftUpdated.getConditionDescription());
+        AircraftEntity aircraftEntityToUpdate = em.find(AircraftEntity.class, aircraftUpdated.getId());
+        aircraftEntityToUpdate.setDeprecation(aircraftUpdated.getDeprecation());
+        aircraftEntityToUpdate.setNetAssetValue(aircraftUpdated.getNetAssetValue());
+        aircraftEntityToUpdate.setAircraftLife(aircraftUpdated.getAircraftLife());
+        aircraftEntityToUpdate.setOperationYear(aircraftUpdated.getOperationYear());
+        aircraftEntityToUpdate.setConditionDescription(aircraftUpdated.getConditionDescription());
+        aircraftEntityToUpdate.setAirportHub(aircraftUpdated.getAirportHub());
+        aircraftEntityToUpdate.setCurrentAirport(aircraftUpdated.getCurrentAirport());
+        aircraftEntityToUpdate.setAircraftGroup(aircraftUpdated.getAircraftGroup());
     }
 
 }
