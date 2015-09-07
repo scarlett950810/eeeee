@@ -14,7 +14,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        
+
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
         <h:form id="internalLoginForm">
             <p:focus context="internalLoginForm"/>
@@ -33,6 +33,12 @@ and open the template in the editor.
 
             </h:panelGrid>
 
+        </h:form>
+
+        <h:form>
+            <h:commandLink id="forgetPassword" action="forgetPassword.xhtml">
+                <h:outputText value="forget password" />
+            </h:commandLink>
         </h:form>
 
     </h:body>

@@ -70,7 +70,7 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
 
     @Override
     public List<AirportEntity> fetchAirport() {
-        Query query = em.createQuery("SELECT a FROM AirportEntity a");
+        Query query = em.createQuery("SELECT a FROM AirportEntity a ORDER BY a.nationName ASC, a.cityName ASC");
         List<AirportEntity> airport = (List<AirportEntity>)query.getResultList();
         return airport;
     }

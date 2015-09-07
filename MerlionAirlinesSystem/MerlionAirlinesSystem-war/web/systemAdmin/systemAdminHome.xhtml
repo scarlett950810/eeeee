@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/simple-sidebar.css"/>
+        <h:outputScript name="./js/bootstrap.min.js"/>
+
+        <title><ui:insert name="title">System Admin | Merlion Airlines Internal System</ui:insert></title>
+        <ui:insert name="head">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <style type="text/css">
+                .sidebar-h1{
+                    font-size: 20px;
+                }
+            </style>
+        </ui:insert>
+    </h:head>
+
+    <h:body>
+
+        <p:layout fullPage="true">
+
+            <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
+                <p:graphicImage name="img/merlionLogo.jpg" height="100%" style="float: left;"></p:graphicImage>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="20">
+                <p:layoutUnit position="center">Merlion Airline</p:layoutUnit>
+            </p:layoutUnit>
+
+            <p:layoutUnit id="layoutUnit_left" position="west" size="15%" resizable="false" collapsible="false">
+                <div id="sidebar-wrapper">
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-h1">
+                            <p>Account Management</p>
+                        </li>
+                        <li>
+                            <a href="systemAdminStaffManagement.xhtml">Company Staff</a>
+                        </li>
+                        <li>
+                            <a href="planningDeleteAircraft.xhtml">Membership Customers</a>
+                        </li>
+                        <li>
+                            <a href="planningManageAircraftGroup.xhtml">Travel Agencies</a>
+                        </li>
+
+                        <li class="sidebar-h1">
+                            <a href="#">#</a>
+                        </li>
+                        <li>
+                            <a href="#">#</a>
+                        </li>
+                        <li>
+                            <a href="#">#</a>
+                        </li>
+                    </ul>
+                </div>
+            </p:layoutUnit>
+
+            <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
+                <ui:insert name="centerPanel">
+
+                </ui:insert>
+            </p:layoutUnit>
+
+        </p:layout>
+
+    </h:body>
+</html>

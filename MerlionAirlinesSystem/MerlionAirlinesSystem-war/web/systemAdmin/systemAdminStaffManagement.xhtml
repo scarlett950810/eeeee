@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./systemAdminHome.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="centerPanel">
+        <p:tabView>
+            <p:tab title="Add Company Staff">
+                <h:form>
+                    <p:growl id="growl" showDetail="true"/>
+
+                    <p:messages />
+                    <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                        <p:outputLabel for="staffNo" value="Staff No" />
+                        <p:inputText style="width:100%;" id="staffNo" value="#{staffManagementManagedBean.staffNo}" label="staffNo" required="true" requiredMessage="Please input staff number">
+                            <p:watermark for="staffNo" value="Please enter staff Number" />
+                        </p:inputText> 
+
+                        <p:outputLabel for="staffName" value="Staff Name" />
+                        <p:inputText style="width:100%;" id="staffName" value="#{staffManagementManagedBean.name}" label="staffName" required="true" requiredMessage="Please input staff name">
+                            <p:watermark for="staffName" value="Please enter staff name" />
+                        </p:inputText> 
+
+                        <p:outputLabel for="email" value="Email Address: " />
+                        <p:inputText style="width:100%;" id="email" value="#{staffManagementManagedBean.email}" label="email" required="true" requiredMessage="Please input staff email address">
+                            <p:watermark for="email" value="Please enter email address" />
+                        </p:inputText>
+
+                        <p:outputLabel for="gender" value="Gender: " />
+                        <p:inputText style="width:100%;" id="gender" value="#{staffManagementManagedBean.gender}" label="gender" required="true" requiredMessage="Please input staff gender">
+                            <p:watermark for="gender" value="Please enter gender" />
+                        </p:inputText>
+
+                        <p:outputLabel for="contactNumber" value="Contact Number: " />
+                        <p:inputText style="width:100%;" id="contactNumber" value="#{staffManagementManagedBean.contactNumber}" label="contactNumber" required="true" requiredMessage="Please input contact number">
+                            <p:watermark for="contactNumber" value="Please enter contact number" />
+                        </p:inputText>
+
+                        <p:outputLabel for="department" value="Department: " />
+                        <p:inputText style="width:100%;" id="department" value="#{staffManagementManagedBean.department}" label="department" required="true" requiredMessage="Please input staff department">
+                            <p:watermark for="department" value="Please enter staff department" />
+                        </p:inputText>
+
+                        <p:outputLabel for="address" value="Staff Address: " />
+                        <p:inputText style="width:100%;" id="address" value="#{staffManagementManagedBean.address}" label="address" required="true" requiredMessage="Please input staff address">
+                            <p:watermark for="address" value="Please enter staff address" />
+                        </p:inputText>
+
+                        <p:outputLabel for="base" value="Base: " />
+                        <p:inputText style="width:100%;" id="base" value="#{staffManagementManagedBean.base}" label="base" required="true" requiredMessage="Please input staff base">
+                            <p:watermark for="base" value="Please enter staff base" />
+                        </p:inputText>
+
+                        <p:commandButton id="addStaff" value="confirm" actionListener="#{staffManagementManagedBean.addStaff()}" update="growl"/>
+
+                    </h:panelGrid>
+
+                </h:form>
+            </p:tab>
+            <p:tab title="Godfather Part II">
+                <h:panelGrid columns="2" cellpadding="10">
+                    <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
+                    <h:outputText value="Francis Ford Coppola's legendary..." />
+                </h:panelGrid>
+            </p:tab>
+            <p:tab title="Godfather Part III">
+                <h:panelGrid columns="2" cellpadding="10">
+                    <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                    <h:outputText value="After a break of more than 15 years..." />
+                </h:panelGrid>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+
+</ui:composition>

@@ -27,14 +27,9 @@
                                      converter="airportConverter">
 
                         <f:selectItems value="#{airportManagedBean.airportList}" var="airport" itemLabel="#{airport.cityName}, #{airport.airportName}, #{airport.airportCode}" itemValue="#{airport}" />
-
-                        <!--                        <p:column>
-                                                    <h:outputText value="{airport.cityName}, {airport.airportName}, {airport.airportCode}" />
-                                                </p:column>-->
-
                     </p:selectOneMenu>
                 </h:panelGrid>
-                <p:commandButton value="confirm" actionListener="#{airportManagedBean.deleteAirport}" update="statusMessages"/>
+                <p:commandButton value="confirm" actionListener="#{airportManagedBean.deleteAirport(event)}" update="statusMessages"/>
             </p:panel>
         </h:form>
 

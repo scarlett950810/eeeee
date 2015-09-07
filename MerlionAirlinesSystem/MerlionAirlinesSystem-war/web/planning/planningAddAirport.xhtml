@@ -11,14 +11,14 @@
     
     <h:body>
         <h:form>
-            <p:growl id="growl" sticky="true" showDetail="true"/>
+            <p:growl id="growl" showDetail="true"/>
             <p:panel header="Add Airport">
                 <p:messages />
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                     <p:outputLabel for="cityName" value="City Name" />
                     <p:inputText style="width:100%;" id="cityName" value="#{airportManagedBean.cityName}" label="cityName" required="true" requiredMessage="Please input city name">
                         <p:watermark for="cityName" value="Please enter city name" />
-                    </p:inputText> 
+                    </p:inputText>
                     
                     <p:outputLabel for="nationName" value="Nation Name" />
                     <p:inputText style="width:100%;" id="nationName" value="#{airportManagedBean.nationName}" label="nationName" required="true" requiredMessage="Please input nation name">
