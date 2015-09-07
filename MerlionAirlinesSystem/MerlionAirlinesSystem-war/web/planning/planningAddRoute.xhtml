@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="menubar">
+        <!--referring to http://www.primefaces.org/showcase/ui/menu/megaMenu.xhtml-->
+        <p:megaMenu>
+            <p:submenu label="Example 1" icon="ui-icon-document"></p:submenu>
+            <p:submenu label="Example 2" icon="ui-icon-check"></p:submenu>
+            <p:submenu label="Example 3" icon="ui-icon-pencil"></p:submenu>
+        </p:megaMenu>
+
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <h:form>
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:panel header="Connect hub and spoke to generate return routes" style="margin-bottom:10px;">
+                <h:outputText value="take note that the chosen two airports cannot be both spokes" />                
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="hub" value="Hub: " />
+                    <p:selectOneMenu id="hub" value="#{routeManagedBean.hub}" style="width:150px">
+                        <f:selectItem itemLabel="Select Hubs" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{routeManagedBean.hubs}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="spoke" value="Spoke: " />
+                    <p:selectOneMenu id="spoke" value="#{routeManagedBean.spoke}" style="width:150px">
+                        <f:selectItem itemLabel="Select Spoke" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{routeManagedBean.spokes}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:separator />
+
+                <p:commandButton value="Connect" update="msgs" actionListener="#{routeManagedBean.generateRoutes}" icon="ui-icon-check" />
+            </p:panel>
+        </h:form>
+       
+        
+    </ui:define>
+
+
+
+
+</ui:composition>
