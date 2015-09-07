@@ -6,6 +6,7 @@
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/FlightEntity.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/utility/sessionbean/GoogleMail.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/AirportEntity.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/common/sessionbean/UserProfileManagementSessionBean.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/common/entity/InternalMessageEntity.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/common/entity/StaffEntity.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/sessionbean/AirportSessionBean.java</file>
@@ -14,7 +15,6 @@
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/common/sessionbean/LoginSessionBean.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/utility/sessionbean/EmailManager.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/sessionbean/AircraftSessionBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/utility/sessionbean/GMailAuthenticator.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/common/sessionbean/AccountManagementSessionBean.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/sessionbean/AirportSessionBeanLocal.java</file>
         </group>

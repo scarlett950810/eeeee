@@ -5,6 +5,7 @@
  */
 package imas.web.managedbean.common;
 
+import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.AccountManagementSessionBeanLocal;
 import imas.common.sessionbean.LoginSessionBeanLocal;
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class LoginManagedBean {
     private LoginSessionBeanLocal loginSessionBean;
     
     private String email;
+    private StaffEntity staff;
 
     /**
      * Creates a new instance of LoginManagedBean
@@ -59,7 +61,8 @@ public class LoginManagedBean {
         ExternalContext ec = fc.getExternalContext();
 
         if (loginSessionBean.doLogin(staffNo, password)) {
-//            insertData();
+      
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffNo", staffNo);
             ec.redirect(ec.getRequestContextPath() + "/common/common_landing.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "Invalid credentials"));
