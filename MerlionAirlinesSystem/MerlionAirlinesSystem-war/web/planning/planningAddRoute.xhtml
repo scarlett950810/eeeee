@@ -5,16 +5,27 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
 
+    <ui:define name="title">Planning Add Route</ui:define>
 
     <ui:define name="menubar">
-        <!--referring to http://www.primefaces.org/showcase/ui/menu/megaMenu.xhtml-->
-        <p:megaMenu>
-            <p:submenu label="Example 1" icon="ui-icon-document"></p:submenu>
-            <p:submenu label="Example 2" icon="ui-icon-check"></p:submenu>
-            <p:submenu label="Example 3" icon="ui-icon-pencil"></p:submenu>
-        </p:megaMenu>
-
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Edit or Delete Aircraft</a></li>
+                <li><a href="planningManageAircraftGroup.xhtml">Manage Aircraft Group</a></li>
+                
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Airport Management</a></li>
+                <li><a href="planningAddRoute.xhtml">Add Route</a></li>
+                <li><a href="planningDeleteRoute.xhtml">Delete Route</a></li>
+                <li><a href="planningSetFrequencyAndTime.xhtml">Set Frequency and Time</a></li>
+            </ul>
+        </div>
     </ui:define>
 
     <ui:define name="centerPanel">
@@ -42,11 +53,7 @@
                 <p:commandButton value="Connect" update="msgs" actionListener="#{routeManagedBean.generateRoutes}" icon="ui-icon-check" />
             </p:panel>
         </h:form>
-       
-        
     </ui:define>
 
-
-
-
 </ui:composition>
+
