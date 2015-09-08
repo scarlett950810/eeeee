@@ -46,7 +46,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         
         List<StaffEntity> staff = (List<StaffEntity>)query.getResultList();
         if(!staff.isEmpty()){
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffEntity", (StaffEntity) staff.get(0));
             return true;
         }else{
             return false;
@@ -73,4 +72,19 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(aircraftType1);
         entityManager.persist(aircraftType2);
     }
+
+    @Override
+    public StaffEntity fetchStaff(String staffNo) {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        
+        if(staffs.isEmpty()){
+            return null;
+        }else{
+            return staffs.get(0);
+        }
+    }
+    
+    
 }

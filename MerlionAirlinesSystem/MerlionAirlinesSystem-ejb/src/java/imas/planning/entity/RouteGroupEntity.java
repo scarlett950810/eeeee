@@ -3,7 +3,6 @@ package imas.planning.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,35 +20,53 @@ public class RouteGroupEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long minRange;
-    private Long maxRange;
+    private String groupCode;
+    private Double minRange;
+    private Double maxRange;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "routeGroup")
+    @OneToMany(mappedBy = "routeGroup")
     private List<RouteEntity> group = new ArrayList<RouteEntity>();
 
     public RouteGroupEntity() {
-
+        
     }
 
-    public RouteGroupEntity(Long id, Long minRange, Long maxRange) {
+    
+    
+    
+    public RouteGroupEntity(String groupCode, Double minRange, Double maxRange ) {
+        this.groupCode = groupCode;
+        this.minRange = minRange;
+        this.maxRange = maxRange;
+    }
+
+    public RouteGroupEntity(Long id, Double minRange, Double maxRange) {
         this.id = id;
         this.minRange = minRange;
         this.maxRange = maxRange;
     }
 
-    public Long getMinRange() {
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    public Double getMinRange() {
         return minRange;
     }
 
-    public void setMinRange(Long minRange) {
+    public void setMinRange(Double minRange) {
         this.minRange = minRange;
     }
 
-    public Long getMaxRange() {
+    public Double getMaxRange() {
         return maxRange;
     }
 
-    public void setMaxRange(Long maxRange) {
+    public void setMaxRange(Double maxRange) {
         this.maxRange = maxRange;
     }
 
@@ -91,6 +108,7 @@ public class RouteGroupEntity implements Serializable {
 
     @Override
     public String toString() {
+        
         return "imas.planning.entity.RouteGroupEntity[ id=" + id + " ]";
     }
 

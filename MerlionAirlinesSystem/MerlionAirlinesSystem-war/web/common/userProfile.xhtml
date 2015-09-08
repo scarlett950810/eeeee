@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <p:panelGrid columns="2">
+            <f:facet name="header">
+                <h:outputText value="Account Information" />
+            </f:facet>
+
+            <h:outputText value="Name:" />
+            <h:outputText value="#{userProfileManagedBean.staff.displayName}" />
+
+            <h:outputText value="Staff Number:" />
+            <h:outputText value="#{userProfileManagedBean.staff.staffNo}" />
+
+            <h:outputText value="Department:" />
+            <h:outputText value="#{userProfileManagedBean.staff.departemnt}" />
+
+            <h:outputText value="Email Address:" />
+            <h:outputText value="#{userProfileManagedBean.staff.email}" />
+
+            <h:outputText value="Contact Number:" />
+            <h:outputText value="#{userProfileManagedBean.staff.contactNumber}" />
+
+            <h:outputText value="Address:" />
+            <h:outputText value="#{userProfileManagedBean.staff.address}" />
+
+            <h:outputText value="Base:" />
+            <h:outputText value="#{userProfileManagedBean.staff.base}" />
+
+            <h:outputText value="Gender:" />
+            <h:outputText value="#{userProfileManagedBean.staff.gender}" />
+        </p:panelGrid>
+
+        <h:panelGrid columns="3" cellpadding="5">
+            <p:commandButton value="Change Password" type="button" onclick="PF('changePassword').show();" />
+
+            <p:commandButton value="Change Email" type="button" onclick="PF('changeEmail').show();" />
+
+            <p:commandButton value="Change Contact" type="button" onclick="PF('changeContact').show();" />
+        </h:panelGrid>
+
+        <p:dialog header="Change Password" widgetVar="changePassword" height="200">
+            <h:form>
+                <p:growl id="growl" showDetail="true"/>
+
+                <p:messages />
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="originPassword" value="Please input your original password" />
+                    <p:password style="width:100%;" id="originPassword" value="#{userProfileManagedBean.originPassword}" label="originPassword" required="true" requiredMessage="Please input the original password">
+                    </p:password> 
+
+                    <p:outputLabel for="newPassword" value="Please input your new password" />
+                    <p:password style="width:100%;" id="newPassword" value="#{userProfileManagedBean.newPassword}" label="newPassword" required="true" requiredMessage="Please input the new password">
+                    </p:password> 
+
+                    <p:outputLabel for="newRepeatPassword" value="Please confirm your password: " />
+                    <p:password style="width:100%;" id="newRepeatPassword" value="#{userProfileManagedBean.newRepeatPassword}" label="newRepeatPassword" required="true" requiredMessage="Please repeat the new password">
+                    </p:password>
+
+                    <p:commandButton id="changePassword" value="Save" actionListener="#{userProfileManagedBean.changePassword}" update="growl"/>
+
+                </h:panelGrid>
+
+            </h:form>
+        </p:dialog>   
+
+        <p:dialog header="Change Email" widgetVar="changeEmail" height="200">
+            <h:form>
+                <p:outputLabel for="newEmail" value="Please input your new email address" />
+                <p:inputText id="newEmail" required="true" label="email" size="40"
+                             requiredMessage="Please enter your email address."
+                             validatorMessage="Invalid email format"
+                             value="#{userProfileManagedBean.newEmail}">
+
+                    <f:validateRegex
+                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+
+                </p:inputText>
+                <p:watermark for="newEmail" value="Email Address *" />
+                <p:message for="newEmail" />
+
+                <p:commandButton value="Save" style="margin:20px"
+                                 action="#{userProfileManagedBean.changeEmail}" ajax="false" />
+
+            </h:form>
+        </p:dialog>
+        
+        <p:dialog header="Change Contact" widgetVar="changeContact" height="200">
+            <h:form>
+                <p:outputLabel for="newContact" value="Please input your new contact number" />
+                <p:inputText id="newContact" required="true" label="new contact" size="40"
+                             requiredMessage="Please enter your contact number."
+                             value="#{userProfileManagedBean.contactNumber}">
+
+                </p:inputText>
+                <p:watermark for="newContact" value="New Contact Number" />
+                <p:message for="newContact" />
+
+                <p:commandButton value="Save" style="margin:20px"
+                                 action="#{userProfileManagedBean.changeContact}" ajax="false" />
+
+            </h:form>
+        </p:dialog>
+
+
+        <script type = "text/javascript" src = "http://jzaefferer.github.com/jquery-validation/jquery.validate.js" />
+        <script type = "text/javascript">
+                $(document).ready(function () {
+                    $("#myform").validate({
+                        rules: {
+                            'myform:emailAddr': {
+                                email: true
+                            }
+                        }
+                    });
+                });
+
+
+        </script>
+    </ui:define>
+
+</ui:composition>
