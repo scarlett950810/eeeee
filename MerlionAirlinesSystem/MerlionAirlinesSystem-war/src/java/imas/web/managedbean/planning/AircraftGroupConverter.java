@@ -26,10 +26,6 @@ public class AircraftGroupConverter  implements Converter {
         if (value != null && value.trim().length() > 0) {
             try {
                 
-                if (value == "") {
-                    return null;
-                }
-                
                 List<AircraftGroupEntity> aircraftGroupEntities = (List<AircraftGroupEntity>)fc.getExternalContext().getSessionMap().get("aircraftGroups");
                 
                 Long aircraftGroupEntityId = Long.valueOf(Long.parseLong(value));

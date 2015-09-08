@@ -87,21 +87,21 @@
                     </p:column>
 
                     <p:column headerText="Airport Hub">
-                        <h:outputText value="#{aircraft.airportHub.airportCode}: #{aircraft.airportHub.airportName}" />
+                        <h:outputText value="#{aircraft.airportHub.airportCode} #{aircraft.airportHub.airportName} @ #{aircraft.airportHub.cityName}, #{aircraft.airportHub.nationName}" />
                     </p:column>
 
                     <p:column headerText="Current Airport">
-                        <h:outputText value="#{aircraft.currentAirport.airportCode}: #{aircraft.currentAirport.airportName}" />
+                        <h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}, #{aircraft.currentAirport.nationName}" />
                     </p:column>
 
                     <p:column headerText="Change Group">
                         <p:selectOneMenu value="#{aircraftGroupManagedBean.aircraftGroupToUpdate}" style="width:150px" converter="aircraftGroupConverter">                            
-                            <f:selectItem itemLabel="Select Group" itemDisabled="true" />
+                            <f:selectItem itemLabel="Select Group" itemDisabled="true" />          
                             <f:selectItems value="#{aircraftGroupManagedBean.aircraftGroups}" var="aircraftGroup" itemLabel="#{aircraftGroup.type}" itemValue="#{aircraftGroup}" />
                         </p:selectOneMenu>
                         <p:commandButton icon="ui-icon-arrowreturn-1-e" title="Change" actionListener="#{aircraftGroupManagedBean.onAircraftUpdate(aircraft)}" update=":formChangeAircraftGroup:onAircraftGroupUpdate"/>
                     </p:column>
-                    
+
                     <p:column headerText="Detach from Group">
                         <p:commandButton icon="ui-icon-trash" title="Delete" actionListener="#{aircraftGroupManagedBean.onAircraftDelete(aircraft)}" update=":formChangeAircraftGroup:onAircraftGroupUpdate"/>
                     </p:column>

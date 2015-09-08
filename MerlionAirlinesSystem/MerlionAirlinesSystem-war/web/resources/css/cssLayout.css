@@ -1,12 +1,12 @@
-#menuBasket {
+#toolBox .menuBasket {
     z-index: 1000 !important;
 }
 
-#menuBasket img {
+#toolBox .menuBasket img {
     
 }
 
-#menuBasket #menuBasket_stack img {
+#toolBox ul li img {
 /*    top: -10px !important;
     left: 20px !important;
     padding-top: 0px !important;*/
@@ -15,7 +15,7 @@
 }
 
 
-.layout, .ui-layout-unit {
+.layout, .ui-layout-unit,  .ui-layout-unit-content {
     border: none !important;
     margin: 0px !important;
     padding: 0px !important;

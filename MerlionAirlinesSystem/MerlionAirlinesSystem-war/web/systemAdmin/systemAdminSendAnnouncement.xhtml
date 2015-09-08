@@ -3,7 +3,8 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../templates/DefaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="head">
         <!--insert customized import here-->
     </ui:define>
@@ -17,16 +18,44 @@
                 <li><a href="#">link 1</a></li>
                 <li><a href="#">link 2</a></li>
                 <li><a href="#">link 3</a></li>
-                
+
                 <li class="sidebar-h1"><a href="systemAdminSendAnnouncement.xhtml">Announcement</a></li>
-                <li><a href="systemAdminSendAnnoucement.xhtml">Send Announcement</a></li>
+                <li><a href="systemAdminSendAnnouncement.xhtml">Send Announcement</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
-        
-        
+        <h:form>
+            <p:growl id="growl" showDetail="true"/>
+            <p:panel header="New Announcement">
+                <p:messages for="sendAnnouncement" showDetail="true" autoUpdate="true" closable="true"/>
+                
+                <h:panelGrid title="Filter condition" columns="2" cellpadding="5">
+
+                    <p:outputLabel for="department" value="Department" />
+                    <p:selectManyMenu style="width: 100%; height: 120px;" id="department" value="#{internalAnnouncementManagedBean.departments}" showCheckbox="true">
+                        <f:selectItem itemLabel="Planning" itemValue="Planning" />
+                        <f:selectItem itemLabel="Inventory" itemValue="Inventory" />
+                        <f:selectItem itemLabel="Administration" itemValue="Administration" />
+                    </p:selectManyMenu>
+
+                    <p:outputLabel for="base" value="Base" />
+                    <p:selectManyMenu style="width: 100%; height: 120px;" id="base" value="#{internalAnnouncementManagedBean.airports}" filter="true" filterMatchMode="contains" showCheckbox="true" converter="airportConverter">
+                        <f:selectItems value="#{internalAnnouncementManagedBean.airportList}" var="airport" itemLabel="#{airport.airportCode} #{airport.airportName} @ #{airport.cityName}, #{airport.nationName}" itemValue="#{airport}" />
+                    </p:selectManyMenu>
+
+                    <p:outputLabel for="title" value="Title" />
+                    <p:inputText style="width: 100%;" id="title" value="#{internalAnnouncementManagedBean.title}"></p:inputText>
+
+                    <p:outputLabel for="content" value="Content" />
+                    <p:inputTextarea style="width: 100%;" id="content" value="#{internalAnnouncementManagedBean.content}"></p:inputTextarea>
+
+                    <p:commandButton id="sendAnnouncement" value="Send" actionListener="#{internalAnnouncementManagedBean.sendInternalAnnouncements}" update="growl"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
     </ui:define>
 
 </ui:composition>

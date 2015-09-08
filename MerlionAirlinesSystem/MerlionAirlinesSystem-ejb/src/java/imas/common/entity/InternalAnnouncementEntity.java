@@ -38,14 +38,15 @@ public class InternalAnnouncementEntity implements Serializable {
     private boolean isRead;
 
     public InternalAnnouncementEntity() {
+        
     }
 
-    public InternalAnnouncementEntity(StaffEntity receiver,String title, String content, Date sentTime) {
+    public InternalAnnouncementEntity(StaffEntity receiver, String title, String content) {
         this.receiver = receiver;
         this.title = title;
         this.content = content;
         this.isRead = false;
-        this.sentTime = sentTime;
+        this.sentTime = new Date();
     }
     
     public Long getId() {
