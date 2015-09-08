@@ -33,14 +33,16 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
-
-                <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" id="menuBasket">
-                    <p:menuitem value="Logout" icon="../resources/img/menuStack/signOut.png" url="#"/>
-                    <p:menuitem value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
-                    <p:menuitem value="Inbox" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('inbox').show();"/>
-                    <p:menuitem value="Home" icon="../resources/img/menuStack/home.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml"/>
-                </p:stack>
-
+                <h:form>
+                    <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" id="menuBasket">
+                        <p:menuitem value="Logout" icon="../resources/img/menuStack/signOut.png" url="#"/>
+                        <p:menuitem value="Logout" icon="../resources/img/menuStack/account.png" url="#"/>
+                        <p:menuitem value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
+                        <p:menuitem value="Inbox" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('inbox').show();"/>
+                        <p:menuitem value="Home" icon="../resources/img/menuStack/home.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml"/>
+                    </p:stack>
+                </h:form>
+                
                 <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
                     <h:form id="announcements">
                         <p:dataList value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
