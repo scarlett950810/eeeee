@@ -10,7 +10,6 @@ import imas.common.entity.StaffEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateful;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -26,7 +25,10 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
     private EntityManager entityManager;
     
     @Override
-    public List<InternalAnnouncementEntity> getAllAnnouncements(StaffEntity staff) {
+    public List<InternalAnnouncementEntity> getAllAnnouncements(String staffNo) {
+        Query queryForStaff = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNo");
+        queryForStaff.setParameter("staffNo", staffNo);
+        StaffEntity staff = (StaffEntity) queryForStaff.getResultList().get(0);
         Query queryForAllAnnoucements = entityManager.createQuery("SELECT a FROM InternalAnnouncementEntity a WHERE a.receiver = :staffEntity");
         queryForAllAnnoucements.setParameter("staffEntity", (StaffEntity) staff);
         
@@ -56,6 +58,5 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
             return "Selecting receiver not supported yet.";
         }
     }
-    
-    
+
 }

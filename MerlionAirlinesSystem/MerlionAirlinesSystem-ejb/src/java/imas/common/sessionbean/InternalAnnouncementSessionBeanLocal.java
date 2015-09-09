@@ -6,7 +6,6 @@
 package imas.common.sessionbean;
 
 import imas.common.entity.InternalAnnouncementEntity;
-import imas.common.entity.StaffEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -17,7 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface InternalAnnouncementSessionBeanLocal {
 
-    public List<InternalAnnouncementEntity> getAllAnnouncements(StaffEntity staff);
+    public List<InternalAnnouncementEntity> getAllAnnouncements(String staffNo);
     
     public String sendInternalAnnouncements(List<String> departments, List<String> bases, String title, String content);
 

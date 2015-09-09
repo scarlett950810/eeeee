@@ -10,7 +10,6 @@ import imas.common.entity.StaffEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import javax.ejb.Stateful;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -50,6 +49,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         }
     }
 
+    @Override
     public void insertData() {
         StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "admin", "Thall", "F", "SIN");
         entityManager.persist(s);

@@ -6,7 +6,6 @@
 package imas.web.managedbean.common;
 
 import imas.common.entity.InternalAnnouncementEntity;
-import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.InternalAnnouncementSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import imas.planning.entity.AirportEntity;
@@ -34,19 +33,19 @@ public class InternalAnnouncementManagedBean {
     private InternalAnnouncementSessionBeanLocal internalAnnouncementSessionBean;
     @EJB
     private AirportSessionBeanLocal airportSessionBean;
-    
+
     private List<String> departments;
-    
+
     private List<AirportEntity> airports;
-    
+
     private String title;
-    
+
     private String content;
-    
+
     private List<AirportEntity> airportList;
 
     private List<InternalAnnouncementEntity> allAnnouncements;
-    
+
     @PostConstruct
     public void init() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.airportList);
@@ -56,9 +55,9 @@ public class InternalAnnouncementManagedBean {
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
     }
-    
+
     public InternalAnnouncementManagedBean() {
-        
+
     }
 
     public List<String> getDepartments() {
@@ -84,7 +83,7 @@ public class InternalAnnouncementManagedBean {
     public void setTitle(String title) {
         this.title = title;
     }
-      
+
     public String getContent() {
         return content;
     }
@@ -94,40 +93,38 @@ public class InternalAnnouncementManagedBean {
     }
 
     public List<AirportEntity> getAirportList() {
-        System.out.println("InternalAnnouncementManagedBean.getAirportList called.");
-        System.out.println(airportSessionBean);
-        System.out.println(airportSessionBean.fetchAirport());
+//        System.out.println("InternalAnnouncementManagedBean.getAirportList called.");
+//        System.out.println(airportSessionBean);
+//        System.out.println(airportSessionBean.fetchAirport());
         return airportSessionBean.fetchAirport();
     }
 
     public void setAirportList(List<AirportEntity> airportList) {
         this.airportList = airportList;
     }
-    
+
     public void sendInternalAnnouncements() {
-        System.out.println("internalAccouncementManagedBean.send called.");
-        System.out.println(airports);
+//        System.out.println("internalAccouncementManagedBean.send called.");
+//        System.out.println(airports);
         List<String> airportCodes = new ArrayList();
         airports.stream().forEach((a) -> {
             airportCodes.add(a.getAirportCode());
         });
-        
+
         String message = internalAnnouncementSessionBean.sendInternalAnnouncements(this.departments, airportCodes, this.title, this.content);
-        
-        System.out.println(message);
+
+//        System.out.println(message);
         FacesMessage msg = new FacesMessage(message, "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-   
+
     public List<InternalAnnouncementEntity> getAllAnnouncements() {
-        StaffEntity staffEntity = (StaffEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffEntity");        
-        return (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(staffEntity);
+        String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
+        return (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(staffNo);
     }
 
     public void setAllAnnouncements(List<InternalAnnouncementEntity> allAnnouncements) {
         this.allAnnouncements = allAnnouncements;
     }
-    
-    
 
 }
