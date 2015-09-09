@@ -46,7 +46,7 @@
         <web-resource-collection>
             <web-resource-name>Default Secure Pages</web-resource-name>
             <description>Default Secure Pages</description>
-            <url-pattern>/common/LandingPage.xhtml</url-pattern>
+            <url-pattern>/common/common_landing.xhtml</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
             <description/>
