@@ -8,7 +8,6 @@ package imas.web.managedbean.common;
 import imas.common.entity.InternalMessageEntity;
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.InternalMessageSessionBeanLocal;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
