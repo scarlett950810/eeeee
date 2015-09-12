@@ -22,7 +22,7 @@ public class CostEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-        private double costPerSeatPerMile;
+    private double costPerSeatPerMile;
         private double fixedCostPerSeatPerMile;
             private double flightDistancePerSeatPerDay;
             private double fixedCostPerSeat;
@@ -191,8 +191,33 @@ public class CostEntity implements Serializable {
         this.delayCostPerPassenger = delayCostPerPassenger;
     }
 
-    public double getAverageCostPerPassenger() {
-        return checkinCostPerPassenger + mealCostPerPassenger + serviceCostPerPassenger + firstClassServiceCostPerPassenger + delayCostPerPassenger;
+    public double getAverageCostPerPassenger() {        
+        return salesCostPerPassenger + airportFeePerPassenger + checkinCostPerPassenger + mealCostPerPassenger 
+                + serviceCostPerPassenger + firstClassServiceCostPerPassenger + delayCostPerPassenger;
+    }
+
+    public double getPassengerCostPerSeatPerMile() {
+        return averageCostPerPassenger * averageFlightDistancePerPassenger * averageCostPerPassenger;
+    }
+
+    public double getShowRate() {
+        return showRate;
+    }
+
+    public void setShowRate(double showRate) {
+        this.showRate = showRate;
+    }
+
+    public double getAverageFlightDistancePerPassenger() {
+        return averageFlightDistancePerPassenger;
+    }
+
+    public void setAverageFlightDistancePerPassenger(double averageFlightDistancePerPassenger) {
+        this.averageFlightDistancePerPassenger = averageFlightDistancePerPassenger;
+    }
+
+    public double getCostPerSeatPerMile() {
+        return fixedCostPerSeatPerMile + flightCostPerSeatPerMile + passengerCostPerSeatPerMile;
     }
 
     
