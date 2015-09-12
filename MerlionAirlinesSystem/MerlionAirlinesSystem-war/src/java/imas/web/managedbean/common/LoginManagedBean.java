@@ -9,8 +9,6 @@ import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.AccountManagementSessionBeanLocal;
 import imas.common.sessionbean.LoginSessionBeanLocal;
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -49,12 +47,12 @@ public class LoginManagedBean {
 
     @PostConstruct
     public void init() {
-//        insertData();
+        insertData();
     }
 
     @PostRemove
     public void destroy() {
-        
+
     }
 
     public LoginSessionBeanLocal getLoginSessionBean() {
@@ -145,12 +143,12 @@ public class LoginManagedBean {
 
         ec.redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
 
-        //      FacesContext.getCurrentInstance().addMessage(
-//                null,
-//                new FacesMessage(FacesMessage.SEVERITY_WARN,
-//                        "You Have Logged Out!",
-//                        "Thank you for using Merlion Airline Internal Portal!"));
-//        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        FacesContext.getCurrentInstance().addMessage(
+                null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "You Have Logged Out!",
+                        "Thank you for using Merlion Airline Internal Portal!"));
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
 //        try {
 ////            return "http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml";

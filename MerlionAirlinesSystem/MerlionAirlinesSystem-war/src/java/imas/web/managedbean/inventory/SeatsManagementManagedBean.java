@@ -25,6 +25,8 @@ public class SeatsManagementManagedBean {
     @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
     
+    private FlightEntity flight;
+    
     private List<FlightEntity> pendingFlights;
     
     private int ecnomyClassComputedOverbookingLevel;
@@ -46,5 +48,47 @@ public class SeatsManagementManagedBean {
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("pendingFlights");
     }
+
+    public SeatsManagementSessionBeanLocal getSeatsManagementSessionBean() {
+        return seatsManagementSessionBean;
+    }
+
+    public void setSeatsManagementSessionBean(SeatsManagementSessionBeanLocal seatsManagementSessionBean) {
+        this.seatsManagementSessionBean = seatsManagementSessionBean;
+    }
+
+    public FlightEntity getFlight() {
+        return flight;
+    }
+
+    public void setFlight(FlightEntity flight) {
+        this.flight = flight;
+    }
+
+    public List<FlightEntity> getPendingFlights() {
+        return pendingFlights;
+    }
+
+    public void setPendingFlights(List<FlightEntity> pendingFlights) {
+        this.pendingFlights = pendingFlights;
+    }
+
+    public int getEcnomyClassComputedOverbookingLevel() {
+        return ecnomyClassComputedOverbookingLevel;
+    }
+
+    public void setEcnomyClassComputedOverbookingLevel(int ecnomyClassComputedOverbookingLevel) {
+        this.ecnomyClassComputedOverbookingLevel = ecnomyClassComputedOverbookingLevel;
+    }
+
+    public int getEcnomyClassOverbookingLevel() {
+        return ecnomyClassOverbookingLevel;
+    }
+
+    public void setEcnomyClassOverbookingLevel(int ecnomyClassOverbookingLevel) {
+        this.ecnomyClassOverbookingLevel = ecnomyClassOverbookingLevel;
+    }
+    
+    
     
 }

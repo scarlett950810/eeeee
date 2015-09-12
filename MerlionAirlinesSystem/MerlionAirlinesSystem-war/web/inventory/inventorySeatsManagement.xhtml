@@ -1,16 +1,52 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Inventory Home Page</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Seats Management</a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                
+                <li class="sidebar-h1"><a href="#">Price Management</a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li class="sidebar-h1"><a href="#">Revenue Management</a></li>
+                
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        
+        <p:panel header="Pending flights" style="padding-bottom: 15px;">
+            <p:growl id="growl" showDetail="true" autoUpdate="true" />
+            <h:panelGrid columns="3" cellpadding="5">
+
+                <p:outputLabel value="Select flight to manage seat and price" for="selectFlight" />
+                <p:selectOneMenu style="width: 100%" filter="true" id="selectFlight" value="#{seatsManagementManagedBean.flight}" effect="fold" editable="true" converter="flightConverter">                                    
+                    <f:selectItems  value="#{seatsManagementManagedBean.pendingFlights}" var="flight" itemValue="#{flight}" itemLabel="#{flight.flightNo}" />
+                </p:selectOneMenu>
+
+                <p:commandButton id="sendAnnouncement" value="Send" actionListener="#{internalMessageManagedBean.send}" update="growl"/>
+
+            </h:panelGrid>
+        </p:panel>
+        
+    </ui:define>
+
+</ui:composition>
+
