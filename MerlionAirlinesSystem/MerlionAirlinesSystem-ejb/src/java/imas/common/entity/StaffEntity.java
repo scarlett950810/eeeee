@@ -53,6 +53,13 @@ public class StaffEntity implements Serializable {
     @OneToMany(mappedBy = "receiver")
     private List<InternalMessageEntity> receivedMessages;
     
+    @OneToMany
+    private List<StaffRole> role;
+    
+    @OneToMany
+    private List<OrganizationUnit> organizationUnit;
+    
+    
     public StaffEntity() {
     }
 
@@ -133,14 +140,6 @@ public class StaffEntity implements Serializable {
         this.contactNumber = contactNumber;
     }
 
-    public String getDepartemnt() {
-        return department;
-    }
-
-    public void setDepartemnt(String department) {
-        this.department = department;
-    }
-
     public String getStaffNo() {
         return staffNo;
     }
@@ -188,6 +187,24 @@ public class StaffEntity implements Serializable {
     public void setReceivedMessages(List<InternalMessageEntity> receivedMessages) {
         this.receivedMessages = receivedMessages;
     }
+
+    public List<StaffRole> getRole() {
+        return role;
+    }
+
+    public void setRole(List<StaffRole> role) {
+        this.role = role;
+    }
+
+    public List<OrganizationUnit> getOrganizationUnit() {
+        return organizationUnit;
+    }
+
+    public void setOrganizationUnit(List<OrganizationUnit> organizationUnit) {
+        this.organizationUnit = organizationUnit;
+    }
+
+   
     
     @Override
     public int hashCode() {

@@ -8,7 +8,6 @@ package imas.web.managedbean.common;
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.LoginSessionBeanLocal;
 import imas.common.sessionbean.UserProfileManagementSessionBeanLocal;
-import imas.planning.entity.AirportEntity;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -18,6 +17,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -53,6 +53,8 @@ public class UserProfileManagedBean implements Serializable {
     public void init() {
         staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
         staff = loginSessionBean.fetchStaff(staffNo);
+        System.out.print(staffNo);
+        System.out.print(staff);
     }
 
     public UserProfileManagedBean() {
@@ -171,9 +173,15 @@ public class UserProfileManagedBean implements Serializable {
 
     public void changeContact() throws IOException{
         userProfileManagementSessionBean.updateContact(staffNo, contactNumber);
+        RequestContext context = RequestContext.getCurrentInstance();
+        FacesMessage msg = new FacesMessage("Successful", "You have changed your contact number");
         FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        ec.redirect("userProfile.xhtml");
+        fc.addMessage(null, msg);
+        fc.getExternalContext().redirect("userProfile.xhtml");
+        
+//        FacesContext fc = FacesContext.getCurrentInstance();
+//        ExternalContext ec = fc.getExternalContext();
+//        ec.redirect("userProfile.xhtml");
     }
     
     public void changePassword() throws IOException {
@@ -193,8 +201,8 @@ public class UserProfileManagedBean implements Serializable {
                 fc.addMessage(null, msg);
             }
         } else {
-            FacesMessage msg = new FacesMessage("Sorry", "You have entered an incorrect old password");
-            fc.addMessage(null, msg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect old password", "Contact admin."));
+            System.out.print("here");
         }
 
     }

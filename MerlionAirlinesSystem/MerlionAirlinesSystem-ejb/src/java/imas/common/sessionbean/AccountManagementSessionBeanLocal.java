@@ -5,6 +5,8 @@
  */
 package imas.common.sessionbean;
 
+import imas.common.entity.StaffEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,9 +17,20 @@ import javax.ejb.Local;
 public interface AccountManagementSessionBeanLocal {
 
     void resetStaffPassword(String email);
+    
     Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String base, String department);
 
     Boolean checkEmailExistence(String email);
+
+    List<StaffEntity> fetchStaff();
+
+    void deleteStaff(String staffNo);
+
+    void updateStaff(String staffNo, String email, String contactNumber, String address, String department, String base);
+
+    StaffEntity getStaff(String staffNo);
+
+    List<String> fetchBases();
 
 
 }

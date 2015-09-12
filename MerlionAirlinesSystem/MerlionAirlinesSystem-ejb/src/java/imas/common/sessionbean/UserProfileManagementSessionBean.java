@@ -33,8 +33,10 @@ public class UserProfileManagementSessionBean implements UserProfileManagementSe
             return null;
         }else{
             if(oldPassword.equals(staffs.get(0).getPassword())){
+                System.out.print("password correct");
                 return true;
             }else{
+                System.out.print("password incorrect");
                 return false;
             }
         }
