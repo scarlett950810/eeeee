@@ -78,7 +78,7 @@ public class LoginManagedBean {
 
     }
 
-    public String doLogout() {
+    public void doLogout() throws IOException {
         System.out.print("loginManagedBean.doLogout called.");
         FacesContext.getCurrentInstance().addMessage(
                 null,
@@ -90,8 +90,8 @@ public class LoginManagedBean {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
 //        try {
-        return "http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml";
-//            FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
+//        return "http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
 
 //        } catch (IOException ex) {
 //            Logger.getLogger(LoginManagedBean.class.getName()).log(Level.SEVERE, null, ex);

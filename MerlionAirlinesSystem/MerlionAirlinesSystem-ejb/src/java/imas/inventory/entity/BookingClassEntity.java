@@ -31,14 +31,14 @@ public class BookingClassEntity implements Serializable {
 
     private String name; // booking class Name. 
                          //Can only be one of: First Class, Business Class, Premium Economy Class, Economy Class 1, Economy Class 2, Economy Class 3
-    private Double price;
+    private double price;
     
     private int quota;
 
     public BookingClassEntity() {
     }
 
-    public BookingClassEntity(FlightEntity flight, String seatClass, String name, Double price, int quota) {
+    public BookingClassEntity(FlightEntity flight, String seatClass, String name, double price, int quota) {
         this.flight = flight;
         this.seatClass = seatClass;
         this.name = name;
@@ -79,11 +79,11 @@ public class BookingClassEntity implements Serializable {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

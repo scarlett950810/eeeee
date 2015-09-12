@@ -29,6 +29,7 @@ public class FlightEntity implements Serializable {
     private String flightNo;
     private Double distance;
     private Long duration;
+    private boolean departured;
     //booking
     //ticket
 
@@ -55,6 +56,7 @@ public class FlightEntity implements Serializable {
         this.duration = duration;
         this.aircraft = aircraft;
         this.route = route;
+        this.departured = false;
     }
 
     public Long getId() {
@@ -111,6 +113,14 @@ public class FlightEntity implements Serializable {
 
     public void setAircraftFlight(AircraftEntity aircraft) {
         this.aircraft = aircraft;
+    }
+
+    public boolean isDepartured() {
+        return departured;
+    }
+
+    public void setDepartured(boolean departured) {
+        this.departured = departured;
     }
 
     @Override

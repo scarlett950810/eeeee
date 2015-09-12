@@ -20,5 +20,7 @@ public interface SeatsManagementSessionBeanLocal {
     
     public void generateBookingClass(FlightEntity flight, String seatClass, String bookingClassName, double price, int quota);
 
+    public double computeHistoricalNSR();
+
     
 }

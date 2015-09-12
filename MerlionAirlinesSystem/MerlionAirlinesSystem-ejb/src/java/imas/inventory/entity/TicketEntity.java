@@ -5,6 +5,7 @@
  */
 package imas.inventory.entity;
 
+import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -24,16 +25,18 @@ public class TicketEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    
     @ManyToOne
     private SeatEntity seat;
 
     @ManyToOne
     private BookingClassEntity bookingClass;
     
-    private boolean isAvailable; // if the seat on that flight is chosen
+    @ManyToOne
+    private FlightEntity flight;
     
-    private boolean isIssued; // if the ticket is issued at the check in counter
+    private boolean available; // if the seat on that flight is chosen
+    
+    private boolean issued; // if the ticket is issued at the check in counter
 
     public TicketEntity() {
     }
@@ -41,8 +44,8 @@ public class TicketEntity implements Serializable {
     public TicketEntity(SeatEntity seat, BookingClassEntity bookingClass) {
         this.seat = seat;
         this.bookingClass = bookingClass;
-        this.isAvailable = true;
-        this.isIssued = false;
+        this.available = true;
+        this.issued = false;
     }
     
     public Long getId() {
@@ -69,20 +72,28 @@ public class TicketEntity implements Serializable {
         this.bookingClass = bookingClass;
     }
 
-    public boolean isIsAvailable() {
-        return isAvailable;
+    public FlightEntity getFlight() {
+        return flight;
     }
 
-    public void setIsAvailable(boolean isAvailable) {
-        this.isAvailable = isAvailable;
+    public void setFlight(FlightEntity flight) {
+        this.flight = flight;
+    }
+    
+    public boolean isAvailable() {
+        return available;
     }
 
-    public boolean isIsIssued() {
-        return isIssued;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
-    public void setIsIssued(boolean isIssued) {
-        this.isIssued = isIssued;
+    public boolean isIssued() {
+        return issued;
+    }
+
+    public void setIssued(boolean issued) {
+        this.issued = issued;
     }
 
     @Override

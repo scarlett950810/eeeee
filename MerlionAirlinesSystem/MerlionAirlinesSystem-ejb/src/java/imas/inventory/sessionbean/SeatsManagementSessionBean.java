@@ -6,6 +6,7 @@
 package imas.inventory.sessionbean;
 
 import imas.inventory.entity.BookingClassEntity;
+import imas.inventory.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,43 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         entityManager.persist(new BookingClassEntity(flight, seatClass, bookingClassName, price, quota));
     }
     
-    
-    
+    // to be optimized
+    // to add smoothing constant, date, etc. in to input
+    // to change output into normal distribution model (mean and variance)
+    @Override
+    public double computeHistoricalNSR() {
+        int totalEconomyClassTickets = 0;
+        int issuedEconomyClassTickets = 0;
+        
+        // get all flights that has been departured.
+        Query queryForAllDeparturedFlights = entityManager.createQuery("SELECT f FROM FlightEntity f WHERE f.hasDepartured = :hasDepartured");
+        queryForAllDeparturedFlights.setParameter("hasDepartured", true);
+        List<FlightEntity> allDeparturedFlights = (List<FlightEntity>) queryForAllDeparturedFlights.getResultList();
+        
+        // get all economy seats on each departured flights
+        for (FlightEntity f:allDeparturedFlights) {
+            Query queryForTickets = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight "
+                    + "AND t.seat.seatClass = :seatClass ");
+            queryForTickets.setParameter("flight", f);
+            queryForTickets.setParameter("seatClass", "Economy Class");
+            List <TicketEntity> tickets = (List <TicketEntity>) queryForTickets.getResultList();
+            
+            for (TicketEntity t:tickets) {
+                totalEconomyClassTickets = totalEconomyClassTickets + 1;
+                if (t.isIssued()) {
+                    issuedEconomyClassTickets = issuedEconomyClassTickets + 1;
+                }
+            }
+        };
+        
+        if (totalEconomyClassTickets > 0) {
+            double nsr = 1 - 1.0*issuedEconomyClassTickets/totalEconomyClassTickets;
+            return nsr;
+        } else {
+            // no historical records available
+            return 0;
+        }
+        
+    }
+  
 }
