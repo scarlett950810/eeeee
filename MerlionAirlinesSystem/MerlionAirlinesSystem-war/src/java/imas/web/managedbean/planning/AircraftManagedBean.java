@@ -57,20 +57,32 @@ public class AircraftManagedBean implements Serializable {
     private int BusinessClassRowNo;
     private int PremiumEconomyClassRowNo;
     private int EconomyClassRowNo;
-    
+
     private List<AircraftEntity> aircrafts;
-  
+    
+    private AircraftEntity aircraft;
+
+    public AircraftEntity getAircraft() {
+        return aircraft;
+    }
+
+    public void setAircraft(AircraftEntity aircraft) {
+        this.aircraft = aircraft;
+    }
+    
+    
+
     @PostConstruct
-    public void init()
-    {
+    public void init() {
+        aircrafts = aircraftSessionBean.getAircrafts();
+        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftGroups", this.getAircraftGroups());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.getAirports());
     }
-    
+
     @PostRemove
-    public void destroy()
-    {
+    public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aircraftTypes");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aircraftGroups");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
@@ -266,49 +278,51 @@ public class AircraftManagedBean implements Serializable {
         this.EconomyClassRowNo = EconomyClassRowNo;
     }
 
-    public boolean addAircraft(ActionEvent event) throws IOException {
-        if (this.tailId == null || this.aircraftType == null || this.purchasePrice == null || 
-                this.deprecation == null || this.netAssetValue == null || this.aircraftLife == null || 
-                this.operationYear == null || this.conditionDescription == null || this.airportHub == null || 
-                this.currentAirport == null) {
-            return false;
-        } else if (this.FirstClassColumnNo == 0 && this.FirstClassRowNo == 0 && 
-                this.BusinessClassColumnNo == 0 && this.BusinessClassRowNo == 0 && 
-                this.PremiumEconomyClassColumnNo == 0 && this.PremiumEconomyClassRowNo ==0 && 
-                this.EconomyClassColumnNo == 0 && this.EconomyClassRowNo == 0) {
-            // to change to glow or message
-            System.out.print("No seat added.");
-            return false;
+    public void addAircraft(ActionEvent event) throws IOException {
+        if (this.tailId == null || this.aircraftType == null || this.purchasePrice == null
+                || this.deprecation == null || this.netAssetValue == null || this.aircraftLife == null
+                || this.operationYear == null || this.conditionDescription == null || this.airportHub == null
+                || this.currentAirport == null) {
+        } else if (this.FirstClassColumnNo == 0 && this.FirstClassRowNo == 0
+                && this.BusinessClassColumnNo == 0 && this.BusinessClassRowNo == 0
+                && this.PremiumEconomyClassColumnNo == 0 && this.PremiumEconomyClassRowNo == 0
+                && this.EconomyClassColumnNo == 0 && this.EconomyClassRowNo == 0) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seat Information not provided. No seat added.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         } else if (this.FirstClassColumnNo == 0 && this.FirstClassRowNo != 0 || this.FirstClassColumnNo != 0 && this.FirstClassRowNo == 0) {
-            // to change to glow or message
-            System.out.print("To indicate No First class seats, enter both 0 for column and row number.");
-            return false;
-        } else if (this.BusinessClassColumnNo == 0 && this.BusinessClassRowNo != 0 || 
-                this.BusinessClassColumnNo != 0 && this.BusinessClassRowNo == 0) {
-            // to change to glow or message
-            System.out.print("To indicate No Business class seats, enter both 0 for column and row number.");
-            return false;
-        } else if (this.PremiumEconomyClassColumnNo == 0 && this.PremiumEconomyClassRowNo != 0 || 
-                this.PremiumEconomyClassColumnNo != 0 && this.PremiumEconomyClassRowNo == 0) {
-            // to change to glow or message
-            System.out.print("To indicate No Premium economy class seats, enter both 0 for column and row number.");
-            return false;
-        } else if (this.EconomyClassColumnNo == 0 && this.EconomyClassRowNo != 0 || 
-                this.EconomyClassColumnNo != 0 && this.EconomyClassRowNo == 0) {
-            // to change to glow or message
-            System.out.print("To indicate No economy class seats, enter both 0 for column and row number.");
-            return false;
+
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seat Information incomplete. To indicate No First class seats, enter both 0 for column and row number.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else if (this.BusinessClassColumnNo == 0 && this.BusinessClassRowNo != 0
+                || this.BusinessClassColumnNo != 0 && this.BusinessClassRowNo == 0) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seat Information incomplete. To indicate No Business class seats, enter both 0 for column and row number.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else if (this.PremiumEconomyClassColumnNo == 0 && this.PremiumEconomyClassRowNo != 0
+                || this.PremiumEconomyClassColumnNo != 0 && this.PremiumEconomyClassRowNo == 0) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seat Information incomplete. To indicate No Premium economy class seats, enter both 0 for column and row number.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else if (this.EconomyClassColumnNo == 0 && this.EconomyClassRowNo != 0
+                || this.EconomyClassColumnNo != 0 && this.EconomyClassRowNo == 0) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seat Information incomplete. To indicate No economy class seats, enter both 0 for column and row number.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            return aircraftSessionBean.addAircraft(this.tailId, this.aircraftType, this.purchasePrice, this.deprecation, this.netAssetValue, 
-                    this.aircraftLife, this.operationYear, this.conditionDescription, this.airportHub, this.currentAirport, this.aircraftGroup, 
-                    this.FirstClassColumnNo, this.FirstClassRowNo, this.BusinessClassColumnNo, this.BusinessClassRowNo, 
-                    this.PremiumEconomyClassColumnNo, this.PremiumEconomyClassRowNo, this.EconomyClassColumnNo, this.EconomyClassRowNo);
+            if (!aircraftSessionBean.checkAircraftExistense(tailId)) {
+                aircraftSessionBean.addAircraft(this.tailId, this.aircraftType, this.purchasePrice, this.deprecation, this.netAssetValue,
+                        this.aircraftLife, this.operationYear, this.conditionDescription, this.airportHub, this.currentAirport, this.aircraftGroup,
+                        this.FirstClassColumnNo, this.FirstClassRowNo, this.BusinessClassColumnNo, this.BusinessClassRowNo,
+                        this.PremiumEconomyClassColumnNo, this.PremiumEconomyClassRowNo, this.EconomyClassColumnNo, this.EconomyClassRowNo);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completed. New aircraft added.", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sorry. Aircraft with this tail ID already exist.", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
         }
 
     }
 
     public List<AircraftEntity> getAircrafts() {
-        return aircraftSessionBean.getAircrafts();
+        return aircrafts;
     }
 
     public void setAircrafts(List<AircraftEntity> aircrafts) {
@@ -316,19 +330,16 @@ public class AircraftManagedBean implements Serializable {
     }
     
     public void onRowEdit(RowEditEvent event) {
-        
-        System.out.println("row:");
-        System.out.println(event.getSource().toString());
+        AircraftEntity newAircraft = ((AircraftEntity) event.getObject());
+        System.out.println("onRowEdit - condition is : " + newAircraft.getConditionDescription());
+//        System.out.println("onRowEdit - group is : " + newAircraft.getAircraftGroup().getType());
+
+        aircraftSessionBean.updateAircraft(newAircraft);
+
         FacesMessage msg = new FacesMessage("Aircraft Edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        
     }
-     
-//    public void onRowCancel(RowEditEvent event) {
-//        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-//    }
-    
+
     public void onAircraftDelete(AircraftEntity aircraft) {
         aircraftSessionBean.deleteAircraft(aircraft);
     }

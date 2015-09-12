@@ -5,7 +5,6 @@
  */
 package imas.web.managedbean.planning;
 
-import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;

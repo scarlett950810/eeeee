@@ -16,6 +16,8 @@ import javax.ejb.Local;
 @Local
 public interface InternalAnnouncementSessionBeanLocal {
 
-    public List<InternalAnnouncementEntity> getAllAnnouncements();
+    public List<InternalAnnouncementEntity> getAllAnnouncements(String staffNo);
+    
+    public String sendInternalAnnouncements(List<String> departments, List<String> bases, String title, String content);
 
 }

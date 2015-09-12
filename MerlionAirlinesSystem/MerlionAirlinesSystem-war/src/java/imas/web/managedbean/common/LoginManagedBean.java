@@ -5,6 +5,7 @@
  */
 package imas.web.managedbean.common;
 
+import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.AccountManagementSessionBeanLocal;
 import imas.common.sessionbean.LoginSessionBeanLocal;
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class LoginManagedBean {
     CryptographicHelper cp = new CryptographicHelper();
     private String email;
     private Integer loginAttempts = 0;
+    private StaffEntity staff;
 
     /**
      * Creates a new instance of LoginManagedBean

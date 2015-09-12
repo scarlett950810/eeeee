@@ -6,7 +6,6 @@
 package imas.planning.entity;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +27,7 @@ public class SeatEntity implements Serializable {
     private AircraftEntity aircraft;
     private String seatNo;
     private boolean goodCondition;
-    private String seatClass; //First, Business, Premium Economy
+    private String seatClass; //First Class, Business Class, Premium Economy Class, Economy Class
 
     public SeatEntity() {
 
