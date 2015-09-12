@@ -25,14 +25,15 @@ public class StaffConverter  implements Converter {
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
+                System.out.println(fc);
+                System.out.println(uic);
                 System.out.println("getAsObject: " + value);
-                System.out.println("here");
                 
                 List<StaffEntity> staffEntities = (List<StaffEntity>)fc.getExternalContext().getSessionMap().get("staffList");
                 
                 System.out.println(staffEntities);
                 
-                Long staffEntityId = Long.parseLong(value);
+                Long staffEntityId = Long.valueOf(Long.parseLong(value));
                 
                 System.out.println(staffEntityId);
                 
