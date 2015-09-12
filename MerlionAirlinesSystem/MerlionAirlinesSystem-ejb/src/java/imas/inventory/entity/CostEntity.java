@@ -220,9 +220,29 @@ public class CostEntity implements Serializable {
         return fixedCostPerSeatPerMile + flightCostPerSeatPerMile + passengerCostPerSeatPerMile;
     }
 
-    
-    
-    
+    public void setCostPerSeatPerMile(double costPerSeatPerMile) {
+        this.costPerSeatPerMile = costPerSeatPerMile;
+    }
+
+    public void setFixedCostPerSeatPerMile(double fixedCostPerSeatPerMile) {
+        this.fixedCostPerSeatPerMile = fixedCostPerSeatPerMile;
+    }
+
+    public void setFixedCostPerSeat(double fixedCostPerSeat) {
+        this.fixedCostPerSeat = fixedCostPerSeat;
+    }
+
+    public void setFlightCostPerSeatPerMile(double flightCostPerSeatPerMile) {
+        this.flightCostPerSeatPerMile = flightCostPerSeatPerMile;
+    }
+
+    public void setPassengerCostPerSeatPerMile(double passengerCostPerSeatPerMile) {
+        this.passengerCostPerSeatPerMile = passengerCostPerSeatPerMile;
+    }
+
+    public void setAverageCostPerPassenger(double averageCostPerPassenger) {
+        this.averageCostPerPassenger = averageCostPerPassenger;
+    }
     
     @Override
     public int hashCode() {
