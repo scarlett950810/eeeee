@@ -11,6 +11,7 @@ import imas.common.sessionbean.LoginSessionBeanLocal;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Random;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +19,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.persistence.PostRemove;
 import util.security.CryptographicHelper;
 
 /**
@@ -43,6 +45,16 @@ public class LoginManagedBean {
      * Creates a new instance of LoginManagedBean
      */
     public LoginManagedBean() {
+    }
+
+    @PostConstruct
+    public void init() {
+//        insertData();
+    }
+
+    @PostRemove
+    public void destroy() {
+        
     }
 
     public LoginSessionBeanLocal getLoginSessionBean() {

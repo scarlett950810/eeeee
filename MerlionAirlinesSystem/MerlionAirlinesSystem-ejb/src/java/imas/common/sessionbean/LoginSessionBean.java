@@ -51,7 +51,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
             //check soft delete
             if (!tempStaff.getDeleteStatus()) {
                 Date currentDate = new Date();
-                ArrayList<Date> tempDate = tempStaff.getLoginAttempt();
+                ArrayList<Date> tempDate = (ArrayList<Date>) tempStaff.getLoginAttempt();
                 if (tempDate == null || tempDate.size() == 0) {
                     if (password.equals(tempStaff.getPassword())) {
                         tempStaff.setLoginAttempt(null);
@@ -132,7 +132,9 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     //        newStaff.setPassword(password);
     //    }
 
+    @Override
     public void insertData() {
+        System.out.println("Sessionbena called.");
         StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "admin", "Thall", "F", "SIN");
         entityManager.persist(s);
 
