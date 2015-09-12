@@ -19,6 +19,27 @@
 
     <h:body>
 
+        <h:form>
+            <p:idleMonitor timeout="3000" onidle="PF('idleDialog').show();"/>
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:dialog id="confirmDialog"
+                             header="Are you there?" widgetVar="idleDialog">
+                <h:outputText value="You have been idle for a while, 
+                             Please click ok to continue." />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{loginManagedBean.welcome()}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{loginManagedBean.doLogout()}" />
+
+            </p:dialog>
+
+        </h:form>
+
+
         <p:layout fullPage="true">
 
             <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
@@ -89,6 +110,7 @@
                 </p:dialog>
 
                 <ui:insert name="centerPanel"></ui:insert>
+
             </p:layoutUnit>
 
         </p:layout>
