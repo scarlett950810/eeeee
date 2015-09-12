@@ -40,6 +40,12 @@ public class TicketEntity implements Serializable {
 
     public TicketEntity() {
     }
+    
+    public TicketEntity(BookingClassEntity bookingClass) {
+        this.bookingClass = bookingClass;
+        this.available = true;
+        this.issued = false;
+    }
 
     public TicketEntity(SeatEntity seat, BookingClassEntity bookingClass) {
         this.seat = seat;
