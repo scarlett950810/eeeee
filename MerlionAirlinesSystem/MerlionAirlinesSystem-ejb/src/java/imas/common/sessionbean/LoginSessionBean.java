@@ -136,11 +136,11 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "admin", "Thall", "F", "SIN");
         entityManager.persist(s);
 
-        InternalAnnouncementEntity i1 = new InternalAnnouncementEntity(s, "read message", "hello. This message is read.", new Date());
+        InternalAnnouncementEntity i1 = new InternalAnnouncementEntity(s, "read message", "hello. This message is read.");
         i1.setIsRead(true);
         entityManager.persist(i1);
 
-        InternalAnnouncementEntity i2 = new InternalAnnouncementEntity(s, "unread message", "An unread message.", new Date());
+        InternalAnnouncementEntity i2 = new InternalAnnouncementEntity(s, "unread message", "An unread message.");
         entityManager.persist(i2);
         AircraftGroupEntity group1 = new AircraftGroupEntity("A380");
         AircraftGroupEntity group2 = new AircraftGroupEntity("A880");
@@ -151,5 +151,10 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A880", 20, 80, (double) 180000, (double) 200, (double) 3800, (double) 6400, (double) 28, "Gas");
         entityManager.persist(aircraftType1);
         entityManager.persist(aircraftType2);
+    }
+
+    @Override
+    public StaffEntity fetchStaff(String staffNo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
