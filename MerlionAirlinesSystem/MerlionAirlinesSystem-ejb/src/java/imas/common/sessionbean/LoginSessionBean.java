@@ -52,36 +52,38 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
             if (!tempStaff.getDeleteStatus()) {
                 Date currentDate = new Date();
                 ArrayList<Date> tempDate = tempStaff.getLoginAttempt();
-                if (tempDate == null||tempDate.size()==0) {
+                if (tempDate == null || tempDate.size() == 0) {
                     if (password.equals(tempStaff.getPassword())) {
                         tempStaff.setLoginAttempt(null);
-                        System.out.println("success");
+                        entityManager.persist(tempStaff);
+                        System.out.println("success1");
                         return "success";
                     } else {
                         tempDate = new ArrayList<Date>();
                         tempDate.add(currentDate);
                         tempStaff.setLoginAttempt(tempDate);
                         entityManager.persist(tempStaff);
-                        System.out.println("wrong password");
+                        System.out.println("wrong password1");
                         return "wrong password";
                     }
                 } else {
-                    
-                    Date pastDate=tempDate.get(0);
-                    pastDate = new Date(pastDate.getTime() + (1000 * 24 * 60 * 60));
+
+                    Date pastDate = tempDate.get(0);
+                    pastDate = new Date(pastDate.getTime() + (1000*60*60*24));
                     int checkOneDay = currentDate.compareTo(pastDate);
                     //more than one day
                     if (checkOneDay >= 0) {
-                        tempStaff.getLoginAttempt().clear();
+                        tempStaff.setLoginAttempt(null);
                         if (password.equals(tempStaff.getPassword())) {
                             tempStaff.setLoginAttempt(null);
-                            System.out.println("success");
+                            entityManager.persist(tempStaff);
+                            System.out.println("success2");
                             return "success";
                         } else {
                             tempDate.add(currentDate);
                             tempStaff.setLoginAttempt(tempDate);
                             entityManager.persist(tempStaff);
-                            System.out.println("wrong password");
+                            System.out.println("wrong password2");
                             return "wrong password";
                         }
                     } else {
@@ -89,23 +91,26 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                         if (tempStaff.getLoginAttempt().size() >= 10) {
                             System.out.println("lock");
                             return "lock";
-                        } else if (password.equals(tempStaff.getPassword())) {
-                            tempStaff.setLoginAttempt(null);
-                            System.out.println("success");
-                            return "success";
                         } else {
-                            if (tempStaff.getLoginAttempt().size() >= 3) {
-                                tempDate.add(currentDate);
-                                tempStaff.setLoginAttempt(tempDate);
+                            if (password.equals(tempStaff.getPassword())) {
+                                tempStaff.setLoginAttempt(null);
                                 entityManager.persist(tempStaff);
-                                System.out.println("captcha");
-                                return "captcha";
+                                System.out.println("success3");
+                                return "success";
                             } else {
-                                tempDate.add(currentDate);
-                                tempStaff.setLoginAttempt(tempDate);
-                                entityManager.persist(tempStaff);
-                                System.out.println("wrong password");
-                                return "wrong password";
+                                if (tempStaff.getLoginAttempt().size() >= 3) {
+                                    
+                                    tempStaff.setLoginAttempt(tempDate);
+                                    entityManager.persist(tempStaff);
+                                    System.out.println("captcha");
+                                    return "captcha";
+                                } else {
+                                    
+                                    tempStaff.setLoginAttempt(tempDate);
+                                    entityManager.persist(tempStaff);
+                                    System.out.println("wrong password3");
+                                    return "wrong password";
+                                }
                             }
                         }
 
