@@ -10,7 +10,6 @@ import imas.common.entity.StaffEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateful;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -21,20 +20,17 @@ import javax.persistence.Query;
  */
 @Stateful
 public class InternalAnnouncementSessionBean implements InternalAnnouncementSessionBeanLocal {
-
-    
-    
+        
     @PersistenceContext
     private EntityManager entityManager;
     
-    
     @Override
-    public List<InternalAnnouncementEntity> getAllAnnouncements() {
-        System.out.println("InternalAnnouncementSessionBean.getAllAnnouncements called.");
-        
-        StaffEntity staffEntity = (StaffEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffEntity");
+    public List<InternalAnnouncementEntity> getAllAnnouncements(String staffNo) {
+        Query queryForStaff = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNo");
+        queryForStaff.setParameter("staffNo", staffNo);
+        StaffEntity staff = (StaffEntity) queryForStaff.getResultList().get(0);
         Query queryForAllAnnoucements = entityManager.createQuery("SELECT a FROM InternalAnnouncementEntity a WHERE a.receiver = :staffEntity");
-        queryForAllAnnoucements.setParameter("staffEntity", (StaffEntity) staffEntity);
+        queryForAllAnnoucements.setParameter("staffEntity", (StaffEntity) staff);
         
         List<InternalAnnouncementEntity> announcements = new ArrayList();
         queryForAllAnnoucements.getResultList().stream().forEach((o) -> {
@@ -42,11 +38,25 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
             announcements.add(a);
         });
         
-        System.out.println("announcements");
-        System.out.println(announcements);
+//        System.out.println("announcements");
+//        System.out.println(announcements);
 
         return (List<InternalAnnouncementEntity>) announcements;
     }
-    
-    
+
+    @Override
+    public String sendInternalAnnouncements(List<String> departments, List<String> bases, String title, String content) {
+        if (departments.isEmpty() && bases.isEmpty()) {
+            Query queryForAllStaff = entityManager.createQuery("SELECT s FROM StaffEntity s");
+            List<StaffEntity> allStaff = queryForAllStaff.getResultList();
+            for (StaffEntity s:allStaff) {
+                InternalAnnouncementEntity newAnnouncement = new InternalAnnouncementEntity(s, title, content);
+                entityManager.persist(newAnnouncement);
+            }
+            return "Message has been sent to all staff.";
+        } else {
+            return "Selecting receiver not supported yet.";
+        }
+    }
+
 }

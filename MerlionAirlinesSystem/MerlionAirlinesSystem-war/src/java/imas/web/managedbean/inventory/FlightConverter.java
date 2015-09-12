@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.web.managedbean.planning;
+package imas.web.managedbean.inventory;
 
-import imas.planning.entity.AircraftGroupEntity;
+import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -16,44 +17,44 @@ import javax.faces.convert.FacesConverter;
 
 /**
  *
- * @author Scarlett
+ * @author ruicai
  */
-@FacesConverter(value = "aircraftGroupConverter")
-public class AircraftGroupConverter  implements Converter {
+@FacesConverter("flightConverter")
+public class FlightConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
                 
-                List<AircraftGroupEntity> aircraftGroupEntities = (List<AircraftGroupEntity>)fc.getExternalContext().getSessionMap().get("aircraftGroups");
+                List<FlightEntity> flightEntities = (List<FlightEntity>)fc.getExternalContext().getSessionMap().get("pendingFlights");
                 
-                Long aircraftGroupEntityId = Long.valueOf(Long.parseLong(value));
+                Long flightEntityId = Long.valueOf(Long.parseLong(value));
                 
-                for(AircraftGroupEntity aircraftGroupEntity:aircraftGroupEntities)
+                for(FlightEntity flightEntity:flightEntities)
                 {
-                    if(aircraftGroupEntity.getId().equals(aircraftGroupEntityId))
+                    if(flightEntity.getId().equals(flightEntityId))
                     {
-                        return aircraftGroupEntity;
+                        return flightEntity;
                     }
                 }
                 
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid aircraft group."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid flight."));
             }
         } else {
             return null;
-        }
-    }
-    
+        }}
+ 
+
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
         if (object != null) {    
-            return String.valueOf(((AircraftGroupEntity) object).getId());
+            return String.valueOf(((FlightEntity) object).getId());
         } else {
             return null;
         }
     }
     
-}
+} 

@@ -87,10 +87,10 @@
 
                 <p:column headerText="Airport Hub" style="width:10%">
                     <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{aircraft.airportHub.airportCode} #{aircraft.airportHub.airportName} @ #{aircraft.airportHub.cityName}" /></f:facet>
+                        <f:facet name="output"><h:outputText value="#{aircraft.airportHub.airportCode} #{aircraft.airportHub.airportName} @ #{aircraft.airportHub.cityName}, #{aircraft.airportHub.nationName}" /></f:facet>
                         <f:facet name="input">
                             <h:selectOneMenu value="#{aircraft.airportHub}" style="width:100%" converter="airportConverter">
-                                <f:selectItems value="#{aircraftManagedBean.airports}" var="airportHub" itemLabel="#{airportHub.airportCode} #{airportHub.airportName} @ #{airportHub.cityName}" itemValue="#{airportHub}" />
+                                <f:selectItems value="#{aircraftManagedBean.airports}" var="airportHub" itemLabel="#{airportHub.airportCode} #{airportHub.airportName} @ #{airportHub.cityName}, #{airportHub.nationName}" itemValue="#{airportHub}" />
                             </h:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
@@ -98,10 +98,10 @@
 
                 <p:column headerText="Current Airport" style="width:10%">
                     <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}" /></f:facet>
+                        <f:facet name="output"><h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}, #{aircraft.currentAirport.cityName}" /></f:facet>
                         <f:facet name="input">
                             <h:selectOneMenu value="#{aircraft.currentAirport}" converter="airportConverter">
-                                <f:selectItems value="#{aircraftManagedBean.airports}" var="currentAirport" itemLabel="#{currentAirport.airportCode} #{currentAirport.airportName} @ #{currentAirport.cityName}" itemValue="#{currentAirport}" />
+                                <f:selectItems value="#{aircraftManagedBean.airports}" var="currentAirport" itemLabel="#{currentAirport.airportCode} #{currentAirport.airportName} @ #{currentAirport.cityName}, #{currentAirport.nationName}" itemValue="#{currentAirport}" />
                             </h:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>

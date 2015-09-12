@@ -5,7 +5,7 @@
  */
 package imas.web.managedbean.planning;
 
-import imas.planning.entity.AircraftGroupEntity;
+import imas.planning.entity.RouteEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -16,44 +16,44 @@ import javax.faces.convert.FacesConverter;
 
 /**
  *
- * @author Scarlett
+ * @author ruicai
  */
-@FacesConverter(value = "aircraftGroupConverter")
-public class AircraftGroupConverter  implements Converter {
+@FacesConverter("routeConverter")
+public class RouteConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
                 
-                List<AircraftGroupEntity> aircraftGroupEntities = (List<AircraftGroupEntity>)fc.getExternalContext().getSessionMap().get("aircraftGroups");
+                List<RouteEntity> routeEntities = (List<RouteEntity>)fc.getExternalContext().getSessionMap().get("routesRangeList");
                 
-                Long aircraftGroupEntityId = Long.valueOf(Long.parseLong(value));
+                Long routeEntityId = Long.valueOf(Long.parseLong(value));
                 
-                for(AircraftGroupEntity aircraftGroupEntity:aircraftGroupEntities)
+                for(RouteEntity routeEntity:routeEntities)
                 {
-                    if(aircraftGroupEntity.getId().equals(aircraftGroupEntityId))
+                    if(routeEntity.getId().equals(routeEntityId))
                     {
-                        return aircraftGroupEntity;
+                        return routeEntity;
                     }
                 }
                 
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid aircraft group."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid airport."));
             }
         } else {
             return null;
-        }
-    }
-    
+        }}
+ 
+
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
         if (object != null) {    
-            return String.valueOf(((AircraftGroupEntity) object).getId());
+            return String.valueOf(((RouteEntity) object).getId());
         } else {
             return null;
         }
     }
     
-}
+} 

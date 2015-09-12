@@ -10,10 +10,7 @@ import imas.common.entity.StaffEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import javax.ejb.Stateful;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -52,15 +49,16 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         }
     }
 
+    @Override
     public void insertData() {
         StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "admin", "Thall", "F", "SIN");
         entityManager.persist(s);
         
-        InternalAnnouncementEntity i1 = new InternalAnnouncementEntity(s, "read message", "hello. This message is read.", new Date());
+        InternalAnnouncementEntity i1 = new InternalAnnouncementEntity(s, "read message", "hello. This message is read.");
         i1.setIsRead(true);
         entityManager.persist(i1);
         
-        InternalAnnouncementEntity i2 = new InternalAnnouncementEntity(s, "unread message", "An unread message.", new Date());
+        InternalAnnouncementEntity i2 = new InternalAnnouncementEntity(s, "unread message", "An unread message.");
         entityManager.persist(i2);
         AircraftGroupEntity group1 = new AircraftGroupEntity("A380");
         AircraftGroupEntity group2 = new AircraftGroupEntity("A880");

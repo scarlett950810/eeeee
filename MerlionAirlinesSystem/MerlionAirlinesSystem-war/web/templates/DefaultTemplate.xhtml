@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -33,32 +34,58 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
-                <h:form>
-                    <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" id="menuBasket">
-                        <p:menuitem value="Logout" icon="../resources/img/menuStack/signOut.png" action="#{loginManagedBean.doLogout()}"/>
-                        <p:menuitem value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
-                        <p:menuitem value="Inbox" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('inbox').show();"/>
-                        <p:menuitem value="Home" icon="../resources/img/menuStack/home.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml"/>
+                <h:form id="toolBox" style="margin: 0px !important;">
+                
+                    <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" class="menuBasket">
+
+                        <p:menuitem styleClass="icon-resize" value="Logout" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
+                        <p:menuitem styleClass="icon-resize" value="Account" icon="../resources/img/menuStack/account.png" url="#"/>
+                        <p:menuitem styleClass="icon-resize" value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
+                        <p:menuitem styleClass="icon-resize" value="Message" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('message').show();"/>
+                        <p:menuitem styleClass="icon-resize" value="Home" icon="../resources/img/menuStack/home.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml"/>
+
                     </p:stack>
                 </h:form>
-
                 <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
-                    <h:form id="announcements">
-                        <p:dataList value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                            <h:outputText value="#{announcement.sentTime} - #{announcement.title}: #{announcement.content}" style="display:inline-block"/>
-                        </p:dataList>
-                    </h:form>
+
+                    <p:dataList value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
+                        <h:outputText value="#{announcement.sentTime} - #{announcement.title}: #{announcement.content}" style="display:inline-block"/>
+                    </p:dataList>
+
+                </p:dialog>
+
+                <p:dialog header="Message" widgetVar="message" minHeight="40" showEffect="clip" hideEffect="clip">
                     <!--            uncomment and add back #.
                                     <h:form id="messages">
                                             <p:dataList value="{loginManagedBean.getAllMessages}" var="message" paginator="true" rows="10" styleClass="paginated">
                                             </p:dataList>
                                             <p:dataList value="{loginManagedBean.getUnreadMessagess}" var="message" paginator="true" rows="10" styleClass="paginated">
                                             </p:dataList>
-                                        </h:form>-->
-                </p:dialog>
+                                        </h:form>
+                    -->
+                    <h:form id="sendMessage">
+                        <p:panel header="Send New Message" style="padding-bottom: 15px;">
+                            <p:growl id="growl" showDetail="true" autoUpdate="true" />
+                            <h:panelGrid columns="2" cellpadding="5">
 
-                <p:dialog header="Inbox" widgetVar="inbox" minHeight="40" showEffect="clip" hideEffect="clip">
-                    <h:outputText value="Messages" />
+                                <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
+                                <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}" effect="fold" editable="true" converter="staffConverter">                                    
+                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff" itemValue="#{staff}" itemLabel="#{staff.displayName}(#{staff.staffNo}) @ #{staff.departemnt}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="content" value="Content" />
+                                <p:inputTextarea style="width: 100%;" id="content" value="#{internalMessageManagedBean.content}"></p:inputTextarea>
+
+                                <p:commandButton id="sendAnnouncement" value="Send" actionListener="#{internalMessageManagedBean.send}" update="growl"/>
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+                    <p:panel header="Messages">
+                        <p:dataList value="#{internalMessageManagedBean.allMessages}" var="message" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
+                            <h:outputText value="#{message.sentTime} from #{message.sender}: #{message.content}" style="display:inline-block"/>
+                        </p:dataList>
+                    </p:panel>
                 </p:dialog>
 
                 <ui:insert name="centerPanel"></ui:insert>

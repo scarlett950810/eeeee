@@ -51,6 +51,7 @@
 /* Sidebar Styles */
 
 .sidebar-nav {
+    font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
     position: absolute;
     top: 0;
     width: 250px;
@@ -84,7 +85,7 @@
 .sidebar-nav > .sidebar-h1 {
     font-weight: bold;
     height: 50px;
-    font-size: 1.5em;
+    font-size: 1.3em;
     line-height: 50px;
 }
 

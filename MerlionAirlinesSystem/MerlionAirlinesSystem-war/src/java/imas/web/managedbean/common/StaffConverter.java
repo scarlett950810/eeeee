@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.web.managedbean.planning;
+package imas.web.managedbean.common;
 
-import imas.planning.entity.AircraftGroupEntity;
+import imas.common.entity.StaffEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,29 +18,36 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Scarlett
  */
-@FacesConverter(value = "aircraftGroupConverter")
-public class AircraftGroupConverter  implements Converter {
+@FacesConverter(value = "staffConverter")
+public class StaffConverter  implements Converter {
     
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
+                System.out.println(fc);
+                System.out.println(uic);
+                System.out.println("getAsObject: " + value);
                 
-                List<AircraftGroupEntity> aircraftGroupEntities = (List<AircraftGroupEntity>)fc.getExternalContext().getSessionMap().get("aircraftGroups");
+                List<StaffEntity> staffEntities = (List<StaffEntity>)fc.getExternalContext().getSessionMap().get("staffList");
                 
-                Long aircraftGroupEntityId = Long.valueOf(Long.parseLong(value));
+                System.out.println(staffEntities);
                 
-                for(AircraftGroupEntity aircraftGroupEntity:aircraftGroupEntities)
+                Long staffEntityId = Long.valueOf(Long.parseLong(value));
+                
+                System.out.println(staffEntityId);
+                
+                for(StaffEntity staffEntity:staffEntities)
                 {
-                    if(aircraftGroupEntity.getId().equals(aircraftGroupEntityId))
+                    if(staffEntity.getId().equals(staffEntityId))
                     {
-                        return aircraftGroupEntity;
+                        return staffEntity;
                     }
                 }
                 
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid aircraft group."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid staff."));
             }
         } else {
             return null;
@@ -50,10 +57,14 @@ public class AircraftGroupConverter  implements Converter {
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
         if (object != null) {    
-            return String.valueOf(((AircraftGroupEntity) object).getId());
+            String str = String.valueOf(((StaffEntity) object).getId());
+            
+            System.err.println("getAsString: " + str);
+            
+            return str;
         } else {
             return null;
         }
     }
-    
+
 }

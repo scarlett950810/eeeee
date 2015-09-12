@@ -44,11 +44,11 @@ public class InternalMessageEntity implements Serializable {
     public InternalMessageEntity() {
     }
 
-    public InternalMessageEntity(StaffEntity sender, StaffEntity receiver, String content, Date sentTime) {
+    public InternalMessageEntity(StaffEntity sender, StaffEntity receiver, String content) {
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
-        this.sentTime = sentTime;
+        this.sentTime = new Date();
         this.isRead = false;
     }
     
