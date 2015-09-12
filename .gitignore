@@ -10,10 +10,7 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/EnterpriseApplication1/nbproject/private/
-/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/build/
-/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/dist/
-/MerlionAirlinesSystem/MerlionAirlinesSystem-war/build/
-/MerlionAirlinesSystem/build/
-/MerlionAirlinesSystem/dist/
-/MerlionAirlinesSystem/MerlionAirlinesSystem-war/dist/
+
+/MerlionAirlinesSystem/nbproject/
+/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/nbproject/
+/MerlionAirlinesSystem/MerlionAirlinesSystem-war/nbproject/
