@@ -9,7 +9,6 @@ import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.entity.TicketEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
-import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -80,7 +79,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     // current approach: for all departured flights, total departured tickets / total tickets
     @Override
     public double computeHistoricalShowRate() {
-        System.out.println("in session bean.compute historical show rate");
+//        System.out.println("in session bean.compute historical show rate");
         int totalEconomyClassTickets = 0;
         int issuedEconomyClassTickets = 0;
         
@@ -96,7 +95,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
             queryForTickets.setParameter("flight", f);
             queryForTickets.setParameter("seatClass", "Economy Class");
             List <TicketEntity> tickets = (List <TicketEntity>) queryForTickets.getResultList();
-            System.out.println("tickets size = " + tickets.size());
+//            System.out.println("tickets size = " + tickets.size());
             for (TicketEntity t:tickets) {
                 totalEconomyClassTickets = totalEconomyClassTickets + 1;
                 if (t.isIssued()) {
@@ -212,6 +211,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
 
     @Override
     public void getBaseFare() {
+        
     }
     
     
