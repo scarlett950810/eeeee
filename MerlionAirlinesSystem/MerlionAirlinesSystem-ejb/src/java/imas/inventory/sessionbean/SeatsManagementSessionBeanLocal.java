@@ -17,10 +17,32 @@ import javax.ejb.Local;
 public interface SeatsManagementSessionBeanLocal {
 
     public List<FlightEntity> getFlightsWithoutBookingClass();
-    
-    public void generateBookingClass(FlightEntity flight, String seatClass, String bookingClassName, double price, int quota);
 
-    public double computeHistoricalNSR();
+    public double computeHistoricalShowRate();
 
+    public void insertData();
+
+    public int getFirstClassCapacity(FlightEntity flight);
+
+    public int getBusinessClassCapacity(FlightEntity flight);
+                  
+    public int getPremiumEconomyClassCapacity(FlightEntity flight);
     
+    public int getEconomyClassCapacity(FlightEntity flight);
+
+    public void generateFirstClassBookingClassEntity(FlightEntity flight, double price, int quota);
+
+    public void generateBusinessClassBookingClassEntity(FlightEntity flight, double price, int quota);
+
+    public void generatePremiumEconomyClassBookingClassEntity(FlightEntity flight, double price, int quota);
+
+    public void generateEconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota);
+
+    public void generateEconomyClass2BookingClassEntity(FlightEntity flight, double price, int quota);
+
+    public void generateEconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota);
+
+    public void getBaseFare();
+
+   
 }

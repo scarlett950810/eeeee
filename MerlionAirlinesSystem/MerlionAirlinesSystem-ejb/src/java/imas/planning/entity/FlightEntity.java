@@ -32,17 +32,16 @@ public class FlightEntity implements Serializable {
     private boolean departured;
     //booking
     //ticket
-
-    //private AircraftEntity aircraft;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    
+    @ManyToOne
     private AircraftEntity aircraft;
     
     //route
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     private RouteEntity route;
 
     // private FlightRecordEntity flightRecord;
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "flightRecords")
+    @OneToMany
     private List<FlightRecordEntity> flightRecords;
 
     public FlightEntity() {

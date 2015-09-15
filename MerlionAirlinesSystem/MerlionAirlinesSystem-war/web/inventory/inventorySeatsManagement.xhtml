@@ -18,34 +18,49 @@
                 <li><a href="#"></a></li>
                 <li><a href="#"></a></li>
                 <li><a href="#"></a></li>
-                
+
                 <li class="sidebar-h1"><a href="#">Price Management</a></li>
                 <li><a href="#"></a></li>
                 <li><a href="#"></a></li>
                 <li><a href="#"></a></li>
                 <li><a href="#"></a></li>
                 <li class="sidebar-h1"><a href="#">Revenue Management</a></li>
-                
+
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
-        
+
         <p:panel header="Pending flights" style="padding-bottom: 15px;">
             <p:growl id="growl" showDetail="true" autoUpdate="true" />
-            <h:panelGrid columns="3" cellpadding="5">
+            <h:panelGrid columns="2" cellpadding="5">
 
-                <p:outputLabel value="Select flight to manage seat and price" for="selectFlight" />
-                <p:selectOneMenu style="width: 100%" filter="true" id="selectFlight" value="#{seatsManagementManagedBean.flight}" effect="fold" editable="true" converter="flightConverter">                                    
-                    <f:selectItems  value="#{seatsManagementManagedBean.pendingFlights}" var="flight" itemValue="#{flight}" itemLabel="#{flight.flightNo}" />
-                </p:selectOneMenu>
+                <!--<p:outputLabel value="Select flight to manage seat and price" for="selectFlight" />-->
+                <!--<p:selectOneMenu style="min-width: 240px; width: 100%" filter="true" id="selectFlight" value="{seatsManagementManagedBean.flight}"--> 
+                <!--effect="fold" converter="flightConverter">-->                                    
+                <!--<p:ajax listener="{seatsManagementManagedBean.onFlightChange}" update="bookingClasses" />-->
+                <!--<f:selectItems value="{seatsManagementManagedBean.pendingFlights}" var="flight" itemValue="{flight}" itemLabel="{flight.flightNo}" />-->
+                <!--</p:selectOneMenu>-->
+                <!--<p:outputPanel id="bookingClasses">{seatsManagementManagedBean.economyClassCapacity}</p:outputPanel>-->
+                <!--<h:outputText value="{seatsManagementManagedBean.economyClassCapacity}"></h:outputText>-->
 
-                <p:commandButton id="sendAnnouncement" value="Send" actionListener="#{internalMessageManagedBean.send}" update="growl"/>
+
+                <p:dataTable id="pendingFlights" value="#{seatsManagementManagedBean.pendingFlights}" var="flight">
+                    <p:column headerText="Flight">
+                        <h:outputText value="#{flight.flightNo}" />
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton value="Auto Set Price" action="#{seatsManagementManagedBean.automaticallySetPrice(flight)}" ></p:commandButton> 
+                    </p:column>
+
+                </p:dataTable>
+
 
             </h:panelGrid>
         </p:panel>
-        
+
     </ui:define>
 
 </ui:composition>

@@ -7,6 +7,7 @@ package imas.common.sessionbean;
 
 import imas.common.entity.InternalAnnouncementEntity;
 import imas.common.entity.StaffEntity;
+import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
@@ -152,7 +153,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     
     @Override
     public void insertData() {
-        System.out.println("Sessionbena called.");
+//        System.out.println("Sessionbena called.");
         StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "admin", "Thall", "F", "SIN");
         entityManager.persist(s);
 
@@ -212,11 +213,26 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         FlightEntity fe2 = new FlightEntity("FlightNo2", (double) 800000, 3.5, aircraft1, r2);
         entityManager.persist(fe1);
         entityManager.persist(fe2);
-
-    }
-
+        
+        BookingClassEntity bc1 = new BookingClassEntity(fe1, "First Class", "First Class", 3000, 20);
+        BookingClassEntity bc2 = new BookingClassEntity(fe1, "Business Class", "Business Class", 2000, 24);
+        BookingClassEntity bc3 = new BookingClassEntity(fe1, "Premium Economy Class", "Premium Economy Class", 1000, 60);
+        BookingClassEntity bc4 = new BookingClassEntity(fe1, "Economy Class", "Economy Class 1", 900, 200);
+        BookingClassEntity bc5 = new BookingClassEntity(fe1, "Economy Class", "Economy Class 2", 600, 200);
+        BookingClassEntity bc6 = new BookingClassEntity(fe1, "Economy Class", "Economy Class 3", 500, 200);
+        BookingClassEntity bc7 = new BookingClassEntity().BusinessClassBookingClassEntity(fe2, 2200, 24);
+        entityManager.persist(bc1);
+        entityManager.persist(bc2);
+        entityManager.persist(bc3);
+        entityManager.persist(bc4);
+        entityManager.persist(bc5);
+        entityManager.persist(bc6);
+        entityManager.persist(bc7);
+     }
+        
     @Override
     public StaffEntity fetchStaff(String staffNo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }
