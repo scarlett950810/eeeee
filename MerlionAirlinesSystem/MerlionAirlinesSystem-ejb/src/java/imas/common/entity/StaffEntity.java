@@ -6,6 +6,8 @@
 package imas.common.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,6 +46,12 @@ public class StaffEntity implements Serializable {
     
     private Boolean activationStatus;
     
+    private Boolean deleteStatus;
+
+    private List<Date> loginAttempt;
+    
+    private String salt;
+ 
     @OneToMany(mappedBy = "receiver")
     private List<InternalAnnouncementEntity> announcements;
     
@@ -74,6 +82,8 @@ public class StaffEntity implements Serializable {
         this.gender = gender;
         this.base = base;
         this.activationStatus = false;
+        this.deleteStatus = false;
+        this.loginAttempt = new ArrayList();
     }
 
     public Long getId() {
@@ -206,11 +216,34 @@ public class StaffEntity implements Serializable {
 
    
     
+    public List<Date> getLoginAttempt() {
+        return loginAttempt;
+    }
+
+    public void setLoginAttempt(List<Date> loginAttempt) {
+        this.loginAttempt = loginAttempt;
+    }    
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
+    }
+
+    public Boolean getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public void setDeleteStatus(Boolean deleteStatus) {
+        this.deleteStatus = deleteStatus;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     @Override

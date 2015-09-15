@@ -4,14 +4,19 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <head>
+    <h:head>
         <title>Inventory Revenue Management</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
+    </h:head>
+    <h:body>
         <h:form>
+            <p:contextMenu for="flightList">
+                <p:menuitem value="View Booking Class" update="flightList" icon="ui-icon-search" actionListener="#{inventoryRevenueManagementManagedBean.viewBookingClass()}"/>
+            </p:contextMenu>
+            
             <p:dataTable id="flightList" var="flight" value="#{inventoryRevenueManagementManagedBean.flightList}" rowKey="#{flight.flightNo}"
-                         widgetVar="flightTable" emptyMessage="No flight found with given criteria" filteredValue="#{inventoryRevenueManagementManagedBean.fliteredFlight}">
+                         widgetVar="flightTable" emptyMessage="No flight found with given criteria" filteredValue="#{inventoryRevenueManagementManagedBean.fliteredFlight}" 
+                         selection="#{inventoryRevenueManagementManagedBean.selectedFlight}" selectionMode="single">
                 <f:facet name="header">
                     Merlion Airline Flight List
                 </f:facet>
@@ -24,8 +29,8 @@
                 <p:column headerText="Destination" filterBy="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" filterMatchMode="contains">
                     <h:outputText value="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" />
                 </p:column>
-                
+
             </p:dataTable>
         </h:form>
-    </body>
+    </h:body>
 </html>

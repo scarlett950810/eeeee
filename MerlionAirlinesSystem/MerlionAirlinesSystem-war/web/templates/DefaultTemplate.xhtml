@@ -19,6 +19,27 @@
 
     <h:body>
 
+        <h:form>
+            <p:idleMonitor timeout="3600000" onidle="PF('idleDialog').show();"/>
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:dialog id="confirmDialog"
+                             header="Are you there?" widgetVar="idleDialog">
+                <h:outputText value="You have been idle for a while, 
+                             Please click ok to continue." />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{loginManagedBean.welcome()}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{loginManagedBean.doLogout()}" />
+
+            </p:dialog>
+
+        </h:form>
+
+
         <p:layout fullPage="true">
 
             <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
@@ -39,7 +60,7 @@
                     <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" class="menuBasket">
 
                         <p:menuitem styleClass="icon-resize" value="Logout" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
-                        <p:menuitem styleClass="icon-resize" value="Account" icon="../resources/img/menuStack/account.png" url="#"/>
+                        <p:menuitem styleClass="icon-resize" value="Account" icon="../resources/img/menuStack/account.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/userProfile.xhtml"/>
                         <p:menuitem styleClass="icon-resize" value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
                         <p:menuitem styleClass="icon-resize" value="Message" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('message').show();"/>
                         <p:menuitem styleClass="icon-resize" value="Home" icon="../resources/img/menuStack/home.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml"/>
@@ -70,7 +91,7 @@
 
                                 <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
                                 <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}" effect="fold" editable="true" converter="staffConverter">                                    
-                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff" itemValue="#{staff}" itemLabel="#{staff.displayName}(#{staff.staffNo}) @ #{staff.department}" />
+                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff" itemValue="#{staff}" itemLabel="#{staff.displayName}(#{staff.staffNo}) @ #{staff.departemnt}" />
                                 </p:selectOneMenu>
 
                                 <p:outputLabel for="content" value="Content" />
@@ -89,6 +110,7 @@
                 </p:dialog>
 
                 <ui:insert name="centerPanel"></ui:insert>
+
             </p:layoutUnit>
 
         </p:layout>

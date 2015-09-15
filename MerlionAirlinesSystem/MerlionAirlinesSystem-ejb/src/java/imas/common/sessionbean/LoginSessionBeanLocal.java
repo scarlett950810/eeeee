@@ -15,8 +15,8 @@ import javax.ejb.Local;
 @Local
 public interface LoginSessionBeanLocal {
 
-    public boolean doLogin(String staffNo, String password);
-    
+    public String doLogin(String staffNo, String password);
+//    public void setPass(String staffNo, String password);
     public void insertData();
 
     public StaffEntity fetchStaff(String staffNo);

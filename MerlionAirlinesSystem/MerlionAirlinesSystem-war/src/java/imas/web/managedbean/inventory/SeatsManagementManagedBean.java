@@ -11,7 +11,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+//import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
 import javax.persistence.PostRemove;
 
@@ -20,7 +20,7 @@ import javax.persistence.PostRemove;
  * @author Scarlett
  */
 @Named(value = "seatsManagementManagedBean")
-@Dependent
+//@Dependent
 public class SeatsManagementManagedBean {
     @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;

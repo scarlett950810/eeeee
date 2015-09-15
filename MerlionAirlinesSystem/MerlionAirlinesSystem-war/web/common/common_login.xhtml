@@ -12,6 +12,8 @@ and open the template in the editor.
     <h:head>
         <title>Internal Log In</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+
     </h:head>
     <h:body>
 
@@ -24,12 +26,14 @@ and open the template in the editor.
                     <p:watermark for="staffNo" value="Please enter staff ID" />
                 </p:inputText>                        
 
-                <p:outputLabel for="password" value="Password: " />
+                <p:outputLabel for="password" value="Password: "  />
                 <p:password style="width:100%;" id="password" binding="#{password}" label="Password" required="true" requiredMessage="Please input password">
                     <p:watermark for="password" value="Please enter password" />
                 </p:password>
+                
+                <p:captcha label="Captcha"  rendered="#{loginManagedBean.loginAttempts>=3}" required="#{loginManagedBean.loginAttempts>=3}" secure="true"/>
 
-                <p:commandButton id="internalLogin" value="Log In" actionListener="#{loginManagedBean.doLogin(staffNo.value,password.value)}" />
+                <p:commandButton id="internalLogin"  update="panel" ajax="false"  value="Log In" actionListener="#{loginManagedBean.doLogin(staffNo.value,password.value)}" oncomplete="Recaptcha.reload()" onerror="Recaptcha.rereload()"/>
 
             </h:panelGrid>
 

@@ -5,6 +5,7 @@
  */
 package imas.inventory.sessionbean;
 
+import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.FlightEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -17,5 +18,13 @@ import javax.ejb.Local;
 public interface inventoryRevenueManagementSessionBeanLocal {
 
     List<FlightEntity> fetchFlight();
+
+    List<BookingClassEntity> fetchBookingClass(Long flightID);
+
+    Integer computeSoldSeats(Long flightID, Long bookingClassID);
+
+    void updateBookingClassQuota(Long bookingClassID, Integer quota);
+
+    void updateBookingClassPricing(Long bookingClassID, Double newPrice);
     
 }
