@@ -120,9 +120,10 @@ public class SeatsManagementManagedBean implements Serializable {
         double latestShowRate = seatsManagementSessionBean.computeHistoricalShowRate();
         int economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
         
+        // to change to calling session bean.
+        double costPerSeatPerMile = 50;
         
-        
-        
+
         
         
     }

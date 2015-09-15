@@ -97,6 +97,7 @@ public class LoginManagedBean {
         String returnMsg = loginSessionBean.doLogin(staffNo, password);
 
         if (returnMsg.equals("success")) {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffNo", staffNo);
             ec.redirect(ec.getRequestContextPath() + "/common/common_landing.xhtml");//success
         } else if (returnMsg.equals("wrong password")) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "invalid user or wrong password"));//success

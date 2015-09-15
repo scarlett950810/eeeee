@@ -48,10 +48,12 @@ public class InternalMessageManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-//        System.out.println("staffNo" + staffNo);
+        System.out.println("staffNo" + staffNo);
         loggedInStaff = internalMessageSessionBean.getStaffEntityByStaffNo(staffNo);
 
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", internalMessageSessionBean.getAllStaff());
+        
+        staffList = internalMessageSessionBean.getAllStaff();        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", staffList);
         
 //        System.out.println(internalMessageSessionBean.getAllStaff());
 //        System.out.println(loggedInStaff);
@@ -63,7 +65,7 @@ public class InternalMessageManagedBean implements Serializable {
     }
 
     public List<StaffEntity> getStaffList() {
-        return internalMessageSessionBean.getAllStaff();
+        return staffList;
     }
 
     public void setStaffList(List<StaffEntity> staffList) {
