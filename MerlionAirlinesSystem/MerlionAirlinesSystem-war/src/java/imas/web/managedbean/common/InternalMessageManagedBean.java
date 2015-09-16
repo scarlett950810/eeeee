@@ -13,12 +13,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-//import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -111,12 +108,7 @@ public class InternalMessageManagedBean implements Serializable {
         internalMessageSessionBean.sendMessage(loggedInStaff, receiver, content);
     }
     
-//     public void onCellEdit(CellEditEvent event) {
-//        System.out.println("onCellEdit:");
-//        System.out.println(event.getOldValue());
-//        System.out.println(event.getNewValue());
-//    }
-    public void set(boolean b) {
-        System.out.println(b);
+    public void toggleRead(InternalMessageEntity internalMessageEntity) {
+        internalMessageSessionBean.toggleRead(internalMessageEntity);
     }
 }

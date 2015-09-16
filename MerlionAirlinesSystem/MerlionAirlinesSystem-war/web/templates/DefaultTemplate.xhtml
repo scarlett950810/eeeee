@@ -68,11 +68,30 @@
                     </p:stack>
                 </h:form>
                 <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
+                    <h:form>
+                        <p:dataTable value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" 
+                                     paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
+                                     editable="true" editMode="cell" sortMode="multiple"
+                                     resizableColumns="true" liveResize="true">
+                            <p:column headerText="Time"  sortBy="#{announcement.sentTime}">
+                                <h:outputText value="#{announcement.sentTime}"/>
+                            </p:column>
 
-                    <p:dataList value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                        <h:outputText value="#{announcement.sentTime} - #{announcement.title}: #{announcement.content}" style="display:inline-block"/>
-                    </p:dataList>
+                            <p:column headerText="Title" sortBy="#{announcement.title}">
+                                <h:outputText value="#{announcement.title}" />
+                            </p:column>
 
+                            <p:column headerText="Content">
+                                <h:outputText value="#{announcement.content}" />
+                            </p:column>
+
+                            <p:column headerText="Read" sortBy="#{announcement.isRead}">
+                                <p:selectBooleanCheckbox value="#{announcement.isRead}" >                                       
+                                    <p:ajax update="@form" listener="#{internalAnnouncementManagedBean.toggleRead(announcement)}" />
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
                 </p:dialog>
 
                 <p:dialog header="Message" widgetVar="message" minHeight="40" showEffect="clip" hideEffect="clip">
@@ -102,22 +121,15 @@
                     </h:form>
                     <p:panel header="Messages">
                         <h:form>
-                            <p:growl id="viewMessageMsg" showDetail="true" autoUpdate="true" />
-                            <p:dataList value="#{internalMessageManagedBean.allMessages}" var="message" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                                <h:outputText value="#{message.sentTime} from #{message.sender.displayName} (#{message.sender.department}): #{message.content}" style="display:inline-block"/>
-                            </p:dataList>
-
                             <p:dataTable value="#{internalMessageManagedBean.allMessages}" var="message" 
                                          paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
-                                         editable="true" editMode="cell">
-
-                                <!--<p:ajax event="cellEdit" listener="{internalMessageManagedBean.onCellEdit}" />-->
-
-                                <p:column headerText="Time">
-                                    <h:outputText value="#{message.sentTime}" />
+                                         editable="true" editMode="cell" sortMode="multiple"
+                                         resizableColumns="true" liveResize="true">
+                                <p:column headerText="Time"  sortBy="#{message.sentTime}">
+                                    <h:outputText value="#{message.sentTime}"/>
                                 </p:column>
 
-                                <p:column headerText="Sender Name">
+                                <p:column headerText="Sender Name" sortBy="#{message.sender.displayName}">
                                     <h:outputText value="#{message.sender.displayName}" />
                                 </p:column>
 
@@ -125,18 +137,10 @@
                                     <h:outputText value="#{message.content}" />
                                 </p:column>
 
-                                <p:column headerText="Read">
-                                    <p:selectBooleanCheckbox value="#{message.isRead}">
-                                        <p:ajax listener="#{internalMessageManagedBean.set(message.isRead)}" />
+                                <p:column headerText="Read" sortBy="#{message.isRead}">
+                                    <p:selectBooleanCheckbox value="#{message.isRead}" >                                       
+                                        <p:ajax update="@form" listener="#{internalMessageManagedBean.toggleRead(message)}" />
                                     </p:selectBooleanCheckbox>
-
-
-                                    <!--                                    <p:cellEditor>
-                                                                            <f:facet name="output"><p:selectBooleanCheckbox value="{message.isRead}" /></f:facet>
-                                                                            <f:facet name="input">
-                                                                                <p:selectBooleanCheckbox value="{message.isRead}"></p:selectBooleanCheckbox>
-                                                                            </f:facet>
-                                                                        </p:cellEditor>-->
                                 </p:column>
                             </p:dataTable>
                         </h:form>

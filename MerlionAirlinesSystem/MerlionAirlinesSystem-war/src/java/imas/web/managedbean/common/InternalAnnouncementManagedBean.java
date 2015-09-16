@@ -6,6 +6,7 @@
 package imas.web.managedbean.common;
 
 import imas.common.entity.InternalAnnouncementEntity;
+import imas.common.entity.InternalMessageEntity;
 import imas.common.sessionbean.InternalAnnouncementSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import imas.planning.entity.AirportEntity;
@@ -126,5 +127,8 @@ public class InternalAnnouncementManagedBean {
     public void setAllAnnouncements(List<InternalAnnouncementEntity> allAnnouncements) {
         this.allAnnouncements = allAnnouncements;
     }
-       
+    
+    public void toggleRead(InternalAnnouncementEntity announcementEntity) {
+        internalAnnouncementSessionBean.toggleRead(announcementEntity);
+    }
 }
