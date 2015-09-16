@@ -24,9 +24,9 @@
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
             <p:dialog id="confirmDialog"
-                             header="Are you there?" widgetVar="idleDialog">
+                      header="Are you there?" widgetVar="idleDialog">
                 <h:outputText value="You have been idle for a while, 
-                             Please click ok to continue." />
+                              Please click ok to continue." />
                 <p:commandButton id="confirm" value="Ok" update="messages"
                                  oncomplete="PF('idleDialog').hide()"
                                  actionListener="#{loginManagedBean.welcome()}" />
@@ -56,7 +56,7 @@
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
                 <h:form id="toolBox" style="margin: 0px !important;">
-                
+
                     <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" class="menuBasket">
 
                         <p:menuitem styleClass="icon-resize" value="Logout" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
@@ -76,17 +76,9 @@
                 </p:dialog>
 
                 <p:dialog header="Message" widgetVar="message" minHeight="40" showEffect="clip" hideEffect="clip">
-                    <!--            uncomment and add back #.
-                                    <h:form id="messages">
-                                            <p:dataList value="{loginManagedBean.getAllMessages}" var="message" paginator="true" rows="10" styleClass="paginated">
-                                            </p:dataList>
-                                            <p:dataList value="{loginManagedBean.getUnreadMessagess}" var="message" paginator="true" rows="10" styleClass="paginated">
-                                            </p:dataList>
-                                        </h:form>
-                    -->
                     <h:form id="sendMessage">
                         <p:panel header="Send New Message" style="padding-bottom: 15px;">
-                            <p:growl id="growl" showDetail="true" autoUpdate="true" />
+                            <p:growl id="sendMessageMsg" showDetail="true" autoUpdate="true" />
                             <h:panelGrid columns="2" cellpadding="5">
 
                                 <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
@@ -97,21 +89,57 @@
                                                     itemValue="#{staff}" itemLabel="#{staff.id}"  />
                                     <p:column>
                                         <h:outputText value="#{s.displayName}(#{s.staffNo}) at #{s.departemnt}" />
-                                   </p:column>
+                                    </p:column>
                                 </p:selectOneMenu>
 
                                 <p:outputLabel for="content" value="Content" />
                                 <p:inputTextarea style="width: 100%;" id="content" value="#{internalMessageManagedBean.content}"></p:inputTextarea>
 
-                                <p:commandButton id="sendAnnouncement" value="Send" actionListener="#{internalMessageManagedBean.send}" update="growl"/>
+                                <p:commandButton id="sendAnnouncement" value="Send" actionListener="#{internalMessageManagedBean.send}" update="sendMessageMsg"/>
 
                             </h:panelGrid>
                         </p:panel>
                     </h:form>
                     <p:panel header="Messages">
-                        <p:dataList value="#{internalMessageManagedBean.allMessages}" var="message" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                            <h:outputText value="#{message.sentTime} from #{message.sender.displayName} (#{message.sender.department}): #{message.content}" style="display:inline-block"/>
-                        </p:dataList>
+                        <h:form>
+                            <p:growl id="viewMessageMsg" showDetail="true" autoUpdate="true" />
+                            <p:dataList value="#{internalMessageManagedBean.allMessages}" var="message" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
+                                <h:outputText value="#{message.sentTime} from #{message.sender.displayName} (#{message.sender.department}): #{message.content}" style="display:inline-block"/>
+                            </p:dataList>
+
+                            <p:dataTable value="#{internalMessageManagedBean.allMessages}" var="message" 
+                                         paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
+                                         editable="true" editMode="cell">
+
+                                <!--<p:ajax event="cellEdit" listener="{internalMessageManagedBean.onCellEdit}" />-->
+
+                                <p:column headerText="Time">
+                                    <h:outputText value="#{message.sentTime}" />
+                                </p:column>
+
+                                <p:column headerText="Sender Name">
+                                    <h:outputText value="#{message.sender.displayName}" />
+                                </p:column>
+
+                                <p:column headerText="Content">
+                                    <h:outputText value="#{message.content}" />
+                                </p:column>
+
+                                <p:column headerText="Read">
+                                    <p:selectBooleanCheckbox value="#{message.isRead}">
+                                        <p:ajax listener="#{internalMessageManagedBean.set(message.isRead)}" />
+                                    </p:selectBooleanCheckbox>
+
+
+                                    <!--                                    <p:cellEditor>
+                                                                            <f:facet name="output"><p:selectBooleanCheckbox value="{message.isRead}" /></f:facet>
+                                                                            <f:facet name="input">
+                                                                                <p:selectBooleanCheckbox value="{message.isRead}"></p:selectBooleanCheckbox>
+                                                                            </f:facet>
+                                                                        </p:cellEditor>-->
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
                     </p:panel>
                 </p:dialog>
 

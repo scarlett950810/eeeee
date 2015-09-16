@@ -126,5 +126,5 @@ public class InternalAnnouncementManagedBean {
     public void setAllAnnouncements(List<InternalAnnouncementEntity> allAnnouncements) {
         this.allAnnouncements = allAnnouncements;
     }
-
+       
 }

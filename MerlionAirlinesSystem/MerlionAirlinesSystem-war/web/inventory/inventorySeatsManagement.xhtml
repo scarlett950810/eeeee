@@ -45,18 +45,18 @@
                 <!--<p:outputPanel id="bookingClasses">{seatsManagementManagedBean.economyClassCapacity}</p:outputPanel>-->
                 <!--<h:outputText value="{seatsManagementManagedBean.economyClassCapacity}"></h:outputText>-->
 
+                <h:form>
+                    <p:dataTable id="pendingFlights" value="#{seatsManagementManagedBean.pendingFlights}" var="flight">
+                        <p:column headerText="Flight">
+                            <h:outputText value="#{flight.flightNo}" />
+                        </p:column>
 
-                <p:dataTable id="pendingFlights" value="#{seatsManagementManagedBean.pendingFlights}" var="flight">
-                    <p:column headerText="Flight">
-                        <h:outputText value="#{flight.flightNo}" />
-                    </p:column>
+                        <p:column>
+                            <p:commandButton ajax="false" value="Auto Set Price" action="#{seatsManagementManagedBean.automaticallySetPrice(flight)}" ></p:commandButton> 
+                        </p:column>
 
-                    <p:column>
-                        <p:commandButton value="Auto Set Price" action="#{seatsManagementManagedBean.automaticallySetPrice(flight)}" ></p:commandButton> 
-                    </p:column>
-
-                </p:dataTable>
-
+                    </p:dataTable>
+                </h:form>
 
             </h:panelGrid>
         </p:panel>

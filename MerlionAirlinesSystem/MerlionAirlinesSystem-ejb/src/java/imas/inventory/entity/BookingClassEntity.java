@@ -58,16 +58,20 @@ public class BookingClassEntity implements Serializable {
         return new BookingClassEntity(flight, "Premium Economy Class", "Premium Economy Class", price, quota);       
     }
     
-    public BookingClassEntity EconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class 1", price, quota);       
+    public BookingClassEntity EconomyClassXBookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Class X", price, quota);       
     }
     
-    public BookingClassEntity EconomyClass2BookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class 2", price, quota);       
+    public BookingClassEntity EconomyClassYBookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Class Y", price, quota);       
     }
     
-    public BookingClassEntity EconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class 3", price, quota);       
+    public BookingClassEntity EconomyClassZBookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Class Z", price, quota);       
+    }
+    
+    public BookingClassEntity EconomyClassTBookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Class T", price, quota);       
     }
     
     public Long getId() {
