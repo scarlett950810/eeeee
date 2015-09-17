@@ -34,17 +34,19 @@ public class TicketEntity implements Serializable {
     @ManyToOne
     private FlightEntity flight;
     
-    private boolean available; // if the seat on that flight is chosen
-    
     private boolean issued; // if the ticket is issued at the check in counter
 
     public TicketEntity() {
+    }
+    
+    public TicketEntity(BookingClassEntity bookingClass) {
+        this.bookingClass = bookingClass;
+        this.issued = false;
     }
 
     public TicketEntity(SeatEntity seat, BookingClassEntity bookingClass) {
         this.seat = seat;
         this.bookingClass = bookingClass;
-        this.available = true;
         this.issued = false;
     }
     
@@ -80,14 +82,6 @@ public class TicketEntity implements Serializable {
         this.flight = flight;
     }
     
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
     public boolean isIssued() {
         return issued;
     }

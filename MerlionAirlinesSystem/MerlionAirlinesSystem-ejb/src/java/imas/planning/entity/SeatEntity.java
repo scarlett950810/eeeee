@@ -63,6 +63,22 @@ public class SeatEntity implements Serializable {
     public void setSeatClass(String seatClass) {
         this.seatClass = seatClass;
     }
+    
+    public void setSeatClassToFirstClass() {
+        this.seatClass = "First Class";
+    }
+    
+    public void setSeatClassToBusinessClass() {
+        this.seatClass = "Business Class";
+    }
+    
+    public void setSeatClassToPremiumEconomyClass() {
+        this.seatClass = "Premium Economy Class";
+    }
+    
+    public void setSeatClassToEconomyClass() {
+        this.seatClass = "Economy Class";
+    }
 
     public AircraftEntity getAircraft() {
         return aircraft;

@@ -8,12 +8,14 @@ package imas.web.managedbean.common;
 import imas.common.entity.InternalMessageEntity;
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.InternalMessageSessionBeanLocal;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 //import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
 
 /**
@@ -21,8 +23,8 @@ import javax.persistence.PostRemove;
  * @author Scarlett
  */
 @Named(value = "internalMessageManagedBean")
-//@Dependent
-public class InternalMessageManagedBean {
+@ViewScoped
+public class InternalMessageManagedBean implements Serializable {
 
     @EJB
     private InternalMessageSessionBeanLocal internalMessageSessionBean;
@@ -46,10 +48,12 @@ public class InternalMessageManagedBean {
     @PostConstruct
     public void init() {
         String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-//        System.out.println("staffNo" + staffNo);
+        System.out.println("staffNo" + staffNo);
         loggedInStaff = internalMessageSessionBean.getStaffEntityByStaffNo(staffNo);
 
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", internalMessageSessionBean.getAllStaff());
+        
+        staffList = internalMessageSessionBean.getAllStaff();        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", staffList);
         
 //        System.out.println(internalMessageSessionBean.getAllStaff());
 //        System.out.println(loggedInStaff);
@@ -61,7 +65,7 @@ public class InternalMessageManagedBean {
     }
 
     public List<StaffEntity> getStaffList() {
-        return internalMessageSessionBean.getAllStaff();
+        return staffList;
     }
 
     public void setStaffList(List<StaffEntity> staffList) {

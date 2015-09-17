@@ -48,7 +48,7 @@ public class StaffEntity implements Serializable {
     
     private Boolean deleteStatus;
 
-    private ArrayList<Date> loginAttempt;
+    private List<Date> loginAttempt;
     
     private String salt;
  
@@ -75,8 +75,8 @@ public class StaffEntity implements Serializable {
         this.gender = gender;
         this.base = base;
         this.activationStatus = false;
-        this.deleteStatus=false;
-        this.loginAttempt.clear();
+        this.deleteStatus = false;
+        this.loginAttempt = new ArrayList();
     }
 
     public Long getId() {
@@ -199,11 +199,11 @@ public class StaffEntity implements Serializable {
         this.receivedMessages = receivedMessages;
     }
     
-    public ArrayList<Date> getLoginAttempt() {
+    public List<Date> getLoginAttempt() {
         return loginAttempt;
     }
 
-    public void setLoginAttempt(ArrayList<Date> loginAttempt) {
+    public void setLoginAttempt(List<Date> loginAttempt) {
         this.loginAttempt = loginAttempt;
     }    
     @Override

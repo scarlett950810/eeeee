@@ -9,8 +9,7 @@ import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.AccountManagementSessionBeanLocal;
 import imas.common.sessionbean.LoginSessionBeanLocal;
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.Random;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +17,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.persistence.PostRemove;
 import util.security.CryptographicHelper;
 
 /**
@@ -43,6 +43,16 @@ public class LoginManagedBean {
      * Creates a new instance of LoginManagedBean
      */
     public LoginManagedBean() {
+    }
+
+    @PostConstruct
+    public void init() {
+//        insertData();
+    }
+
+    @PostRemove
+    public void destroy() {
+
     }
 
     public LoginSessionBeanLocal getLoginSessionBean() {
@@ -87,6 +97,7 @@ public class LoginManagedBean {
         String returnMsg = loginSessionBean.doLogin(staffNo, password);
 
         if (returnMsg.equals("success")) {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffNo", staffNo);
             ec.redirect(ec.getRequestContextPath() + "/common/common_landing.xhtml");//success
         } else if (returnMsg.equals("wrong password")) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "invalid user or wrong password"));//success
@@ -133,12 +144,12 @@ public class LoginManagedBean {
 
         ec.redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
 
-        //      FacesContext.getCurrentInstance().addMessage(
-//                null,
-//                new FacesMessage(FacesMessage.SEVERITY_WARN,
-//                        "You Have Logged Out!",
-//                        "Thank you for using Merlion Airline Internal Portal!"));
-//        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        FacesContext.getCurrentInstance().addMessage(
+                null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "You Have Logged Out!",
+                        "Thank you for using Merlion Airline Internal Portal!"));
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
 //        try {
 ////            return "http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml";

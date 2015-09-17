@@ -20,7 +20,7 @@
     <h:body>
 
         <h:form>
-            <p:idleMonitor timeout="3000000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="3600000" onidle="PF('idleDialog').show();"/>
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
             <p:dialog id="confirmDialog"
@@ -90,8 +90,14 @@
                             <h:panelGrid columns="2" cellpadding="5">
 
                                 <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
-                                <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}" effect="fold" editable="true" converter="staffConverter">                                    
-                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff" itemValue="#{staff}" itemLabel="#{staff.displayName}(#{staff.staffNo}) @ #{staff.departemnt}" />
+                                <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}"
+                                                 effect="fold" editable="true" converter="staffConverter"
+                                                 var="s" >
+                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff"
+                                                    itemValue="#{staff}" itemLabel="#{staff.id}"  />
+                                    <p:column>
+                                        <h:outputText value="#{s.displayName}(#{s.staffNo}) at #{s.departemnt}" />
+                                   </p:column>
                                 </p:selectOneMenu>
 
                                 <p:outputLabel for="content" value="Content" />
@@ -104,7 +110,7 @@
                     </h:form>
                     <p:panel header="Messages">
                         <p:dataList value="#{internalMessageManagedBean.allMessages}" var="message" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                            <h:outputText value="#{message.sentTime} from #{message.sender}: #{message.content}" style="display:inline-block"/>
+                            <h:outputText value="#{message.sentTime} from #{message.sender.displayName} (#{message.sender.department}): #{message.content}" style="display:inline-block"/>
                         </p:dataList>
                     </p:panel>
                 </p:dialog>
