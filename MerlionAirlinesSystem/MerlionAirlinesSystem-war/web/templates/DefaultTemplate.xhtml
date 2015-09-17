@@ -20,7 +20,7 @@
     <h:body>
 
         <h:form>
-            <p:idleMonitor timeout="3000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="3000000" onidle="PF('idleDialog').show();"/>
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
             <p:dialog id="confirmDialog"
