@@ -58,8 +58,9 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         list.add(new CostPairEntity("Service cost per passenger", 0.163));//20
         list.add(new CostPairEntity("First class service cost per passenger", 0.308));//21
         list.add(new CostPairEntity("Delay cost per passenger", 0.0389));//22
-        writeList(list);
         list = correctList(list);
+        writeList(list);
+        
         return list;
     }
 
