@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -21,7 +22,7 @@ public class UserProfileManagementSessionBean implements UserProfileManagementSe
 
     @PersistenceContext
     private EntityManager entityManager;
-    
+    CryptographicHelper cp = new CryptographicHelper();
     @Override
     public Boolean getOldPassword(String staffNo, String oldPassword) {
        
@@ -32,7 +33,9 @@ public class UserProfileManagementSessionBean implements UserProfileManagementSe
         if(staffs.isEmpty()){
             return null;
         }else{
-            if(oldPassword.equals(staffs.get(0).getPassword())){
+            String salt=staffs.get(0).getSalt();
+            String newPassword=cp.doMD5Hashing(oldPassword+salt);
+            if(newPassword.equals(staffs.get(0).getPassword())){
                 System.out.print("password correct");
                 return true;
             }else{
@@ -53,7 +56,9 @@ public class UserProfileManagementSessionBean implements UserProfileManagementSe
             System.out.println("The staff does not exist");
         }else{
             StaffEntity staff = staffs.get(0);
-            staff.setPassword(newPassword);
+            String salt=staff.getSalt();
+            String actualPassword=cp.doMD5Hashing(newPassword+salt);
+            staff.setPassword(actualPassword);
         }
     }
 

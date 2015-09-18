@@ -6,9 +6,11 @@
 package imas.common.sessionbean;
 
 import imas.common.entity.StaffEntity;
-import imas.planning.entity.AirportEntity;
+import imas.common.entity.StaffRole;
 import imas.utility.sessionbean.EmailManager;
+import static java.lang.Boolean.TRUE;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -71,7 +73,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     }
     
     @Override
-    public Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String base, String department) {
+    public Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String businessUnit, String division, String position, String location) {
         String password = generatePassword();
         System.out.println(password);
         String tempPassword;
@@ -89,9 +91,17 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
         if (staffs.isEmpty()) {
-            StaffEntity staff = new StaffEntity(staffNo, name, tempPassword, email, contactNumber, department, address, gender, base);
-            staff.setSalt(salt);
+            StaffEntity staff = new StaffEntity(staffNo, name, tempPassword, email, contactNumber, address, gender);
+            StaffRole role = new StaffRole(businessUnit, position, division, location, null);
+            List<StaffRole> roles = new ArrayList<>();
+            roles.add(role);
+            entityManager.persist(role);
+
+            
+            staff.setRole(roles);
             entityManager.persist(staff);
+            staff.setSalt(salt);
+            
             try {
                 sendNewStaffEmail(staff.getEmail(),password, staff.getDisplayName());
             } catch (MessagingException ex) {
@@ -141,7 +151,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     }
 
     @Override
-    public void updateStaff(String staffNo, String email, String contactNumber, String address, String department, String base) {
+    public void updateStaff(String staffNo, String email, String contactNumber, String address) {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNo");
         query.setParameter("staffNo", staffNo);
 
@@ -153,8 +163,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
             staff.setEmail(email);
             staff.setContactNumber(contactNumber);
             staff.setAddress(address);
-            staff.setDepartment(department);
-            staff.setBase(base);
+            
         }
         
     }
@@ -184,6 +193,19 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         } else {
             return bases;
         }
+    }
+
+    @Override
+    public void activateAccount(String staffNo) {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNo");
+        query.setParameter("staffNo", staffNo);
+
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        if (staffs.isEmpty()) {
+            staffs.get(0).setActivationStatus(TRUE);
+        } else {
+            System.out.print("The staff does not exist");
+        } 
     }
     
     

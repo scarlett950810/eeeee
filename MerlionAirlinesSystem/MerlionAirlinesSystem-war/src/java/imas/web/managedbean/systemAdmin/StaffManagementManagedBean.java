@@ -38,8 +38,11 @@ public class StaffManagementManagedBean implements Serializable {
     private String contactNumber;
     private String address;
     private String gender;
-    private String base;
-    private String department;
+    
+    private String businessUnit;
+    private String division;
+    private String position;
+    private String location;
     private Integer tabIndex = 0;
     private Boolean view = FALSE;
     private Boolean table = TRUE;
@@ -65,7 +68,7 @@ public class StaffManagementManagedBean implements Serializable {
     }
 
     public void addStaff() throws IOException {
-        if (accountManagementSessionBean.addStaff(staffNo, name, email, contactNumber, address, gender, base, department)) {
+        if (accountManagementSessionBean.addStaff(staffNo, name, email, contactNumber, address, gender, businessUnit , division, position, location)) {
             FacesMessage msg = new FacesMessage("Successful", name + " has already been added!");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -81,8 +84,6 @@ public class StaffManagementManagedBean implements Serializable {
         contactNumber = null;
         address = null;
         gender = null;
-        base = null;
-        department = null;
         System.out.print("oh yea");
     }
 
@@ -134,21 +135,13 @@ public class StaffManagementManagedBean implements Serializable {
         this.gender = gender;
     }
 
-    public String getBase() {
-        return base;
-    }
-
-    public void setBase(String base) {
-        this.base = base;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+//    public String getBase() {
+//        return base;
+//    }
+//
+//    public void setBase(String base) {
+//        this.base = base;
+//    }
 
     public List<StaffEntity> getStaffList() {
         return staffList;
@@ -174,10 +167,10 @@ public class StaffManagementManagedBean implements Serializable {
         this.staff = staff;
     }
 
-    public List<String> getDepartments() {
-        
-        return departments;
-    }
+//    public List<String> getDepartments() {
+//        
+//        return departments;
+//    }
 
     public void viewStaffAccount() throws IOException {
         System.out.print(staff.getDisplayName() + "is viewed.");
@@ -245,8 +238,9 @@ public class StaffManagementManagedBean implements Serializable {
     }
     
     public void updateStaff() throws IOException{
-        System.out.print(staff.getStaffNo() + ", " + staff.getEmail() + ", " + staff.getContactNumber() + ", " + staff.getAddress() + ", " + staff.getDepartment() + ", " + staff.getBase());
-        accountManagementSessionBean.updateStaff(staff.getStaffNo(), staff.getEmail(), staff.getContactNumber(), staff.getAddress(), staff.getDepartment(), staff.getBase());
+//        System.out.print(staff.getStaffNo() + ", " + staff.getEmail() + ", " + staff.getContactNumber() + ", " + staff.getAddress() + ", " + staff.getDepartment() + ", " + staff.getBase());
+        accountManagementSessionBean.updateStaff(staff.getStaffNo(), staff.getEmail(), staff.getContactNumber(), staff.getAddress());
+                            
         staff = accountManagementSessionBean.getStaff(staff.getStaffNo());
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
@@ -256,6 +250,38 @@ public class StaffManagementManagedBean implements Serializable {
     public List<String> getBases() {
         
         return bases;
+    }
+
+    public String getbusinessUnit() {
+        return businessUnit;
+    }
+
+    public void setBusinessUnit(String businessUnit) {
+        this.businessUnit = businessUnit;
+    }
+
+    public String getDivision() {
+        return division;
+    }
+
+    public void setDivision(String division) {
+        this.division = division;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
     
     

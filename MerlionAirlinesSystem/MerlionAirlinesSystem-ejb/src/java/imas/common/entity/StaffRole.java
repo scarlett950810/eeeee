@@ -28,8 +28,25 @@ public class StaffRole implements Serializable {
     private String Position;
     
     private String division;
+    
+    private String location;
+    
+    private String base;
 
     private ArrayList<String> accessRight;
+
+    public StaffRole(String businessUnit, String Position, String division, String location, ArrayList<String> accessRight) {
+        this.businessUnit = businessUnit;
+        this.Position = Position;
+        this.division = division;
+        this.location = location;
+        this.accessRight = accessRight;
+    }
+
+    public StaffRole() {
+    }
+
+    
     /**
      * Get the value of division
      *
@@ -102,6 +119,24 @@ public class StaffRole implements Serializable {
         this.id = id;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getBase() {
+        return base;
+    }
+
+    public void setBase(String base) {
+        this.base = base;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -8,6 +8,7 @@ package imas.inventory.sessionbean;
 import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.FlightEntity;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,6 +20,8 @@ import javax.persistence.Query;
  */
 @Stateless
 public class inventoryRevenueManagementSessionBean implements inventoryRevenueManagementSessionBeanLocal {
+    @EJB
+    private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
 
     @PersistenceContext
     private EntityManager em;
@@ -30,10 +33,8 @@ public class inventoryRevenueManagementSessionBean implements inventoryRevenueMa
         
         List<FlightEntity> flights = (List<FlightEntity>)query.getResultList();
         if(flights.isEmpty()){
-            System.out.print("true");
             return null;
         }else{
-            System.out.print("false");
             return flights;
             
         }
@@ -83,6 +84,11 @@ public class inventoryRevenueManagementSessionBean implements inventoryRevenueMa
         BookingClassEntity bookingClass = (BookingClassEntity) query.getSingleResult();
         bookingClass.setPrice(newPrice);
         System.out.print("pricing changed");
+    }
+
+    @Override
+    public int checkSeatsCapacity(FlightEntity selectedFlight) {
+        return seatsManagementSessionBean.getEconomyClassCapacity(selectedFlight);
     }
 
     

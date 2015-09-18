@@ -18,7 +18,7 @@ public interface AccountManagementSessionBeanLocal {
 
     void resetStaffPassword(String email);
     
-    Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String base, String department);
+    Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String businessUnit, String division, String position, String location);
 
     Boolean checkEmailExistence(String email);
 
@@ -26,11 +26,13 @@ public interface AccountManagementSessionBeanLocal {
 
     void deleteStaff(String staffNo);
 
-    void updateStaff(String staffNo, String email, String contactNumber, String address, String department, String base);
+    void updateStaff(String staffNo, String email, String contactNumber, String address);
 
     StaffEntity getStaff(String staffNo);
 
     List<String> fetchBases();
+
+    void activateAccount(String staffNo);
 
 
 }

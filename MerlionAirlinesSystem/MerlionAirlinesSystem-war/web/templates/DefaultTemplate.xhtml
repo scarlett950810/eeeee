@@ -96,7 +96,7 @@
                                     <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff"
                                                     itemValue="#{staff}" itemLabel="#{staff.id}"  />
                                     <p:column>
-                                        <h:outputText value="#{s.displayName}(#{s.staffNo}) at #{s.departemnt}" />
+                                        <h:outputText value="#{s.displayName}(#{s.staffNo}) at" />
                                    </p:column>
                                 </p:selectOneMenu>
 
@@ -110,7 +110,7 @@
                     </h:form>
                     <p:panel header="Messages">
                         <p:dataList value="#{internalMessageManagedBean.allMessages}" var="message" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                            <h:outputText value="#{message.sentTime} from #{message.sender.displayName} (#{message.sender.department}): #{message.content}" style="display:inline-block"/>
+                            <h:outputText value="#{message.sentTime} from #{message.sender.displayName}: #{message.content}" style="display:inline-block"/>
                         </p:dataList>
                     </p:panel>
                 </p:dialog>

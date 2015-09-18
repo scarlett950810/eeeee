@@ -36,13 +36,13 @@ public class StaffEntity implements Serializable {
 
     private String contactNumber;
     
-    private String department;
+//    private String department;
     
     private String address;
     
     private String gender;
     
-    private String base; //airportCode
+//    private String base; //airportCode
     
     private Boolean activationStatus;
     
@@ -64,23 +64,21 @@ public class StaffEntity implements Serializable {
     @OneToMany
     private List<StaffRole> role;
     
-    @OneToMany
-    private List<OrganizationUnit> organizationUnit;
+//    @OneToMany
+//    private List<OrganizationUnit> organizationUnit;
     
     
     public StaffEntity() {
     }
 
-    public StaffEntity(String staffNo, String displayName, String password, String email, String contactNumber, String department, String address, String gender, String base) {
+    public StaffEntity(String staffNo, String displayName, String password, String email, String contactNumber, String address, String gender) {
         this.staffNo = staffNo;
         this.displayName = displayName;
         this.password = password;
         this.email = email;
         this.contactNumber = contactNumber;
-        this.department = department;
         this.address = address;
         this.gender = gender;
-        this.base = base;
         this.activationStatus = false;
         this.deleteStatus = false;
         this.loginAttempt = new ArrayList();
@@ -94,13 +92,13 @@ public class StaffEntity implements Serializable {
         this.id = id;
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+//    public String getDepartment() {
+//        return department;
+//    }
+//
+//    public void setDepartment(String department) {
+//        this.department = department;
+//    }
 
     public Boolean getActivationStatus() {
         return activationStatus;
@@ -126,13 +124,13 @@ public class StaffEntity implements Serializable {
         this.gender = gender;
     }
 
-    public String getBase() {
-        return base;
-    }
-
-    public void setBase(String base) {
-        this.base = base;
-    }
+//    public String getBase() {
+//        return base;
+//    }
+//
+//    public void setBase(String base) {
+//        this.base = base;
+//    }
     
     public String getEmail() {
         return email;
@@ -206,13 +204,13 @@ public class StaffEntity implements Serializable {
         this.role = role;
     }
 
-    public List<OrganizationUnit> getOrganizationUnit() {
-        return organizationUnit;
-    }
-
-    public void setOrganizationUnit(List<OrganizationUnit> organizationUnit) {
-        this.organizationUnit = organizationUnit;
-    }
+//    public List<OrganizationUnit> getOrganizationUnit() {
+//        return organizationUnit;
+//    }
+//
+//    public void setOrganizationUnit(List<OrganizationUnit> organizationUnit) {
+//        this.organizationUnit = organizationUnit;
+//    }
 
    
     

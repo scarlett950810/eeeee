@@ -23,14 +23,14 @@
                             <p:watermark for="staffName" value="Please enter staff name" />
                         </p:inputText> 
 
-                        <p:outputLabel for="email" value="Email Address: " />
-                        <p:inputText style="width:100%;" id="email" value="#{staffManagementManagedBean.email}" label="email" required="true" requiredMessage="Please input staff email address">
-                            <p:watermark for="email" value="Please enter email address" />
-                        </p:inputText>
-
                         <p:outputLabel for="gender" value="Gender: " />
                         <p:inputText style="width:100%;" id="gender" value="#{staffManagementManagedBean.gender}" label="gender" required="true" requiredMessage="Please input staff gender">
                             <p:watermark for="gender" value="Please enter gender" />
+                        </p:inputText>
+                        
+                        <p:outputLabel for="email" value="Email Address: " />
+                        <p:inputText style="width:100%;" id="email" value="#{staffManagementManagedBean.email}" label="email" required="true" requiredMessage="Please input staff email address">
+                            <p:watermark for="email" value="Please enter email address" />
                         </p:inputText>
 
                         <p:outputLabel for="contactNumber" value="Contact Number: " />
@@ -38,20 +38,35 @@
                             <p:watermark for="contactNumber" value="Please enter contact number" />
                         </p:inputText>
 
-                        <p:outputLabel for="department" value="Department: " />
-                        <p:inputText style="width:100%;" id="department" value="#{staffManagementManagedBean.department}" label="department" required="true" requiredMessage="Please input staff department">
-                            <p:watermark for="department" value="Please enter staff department" />
-                        </p:inputText>
-
                         <p:outputLabel for="address" value="Staff Address: " />
                         <p:inputText style="width:100%;" id="address" value="#{staffManagementManagedBean.address}" label="address" required="true" requiredMessage="Please input staff address">
                             <p:watermark for="address" value="Please enter staff address" />
                         </p:inputText>
-
-                        <p:outputLabel for="base" value="Base: " />
-                        <p:inputText style="width:100%;" id="base" value="#{staffManagementManagedBean.base}" label="base" required="true" requiredMessage="Please input staff base">
-                            <p:watermark for="base" value="Please enter staff base" />
+                        
+                        <p:outputLabel for="businessUnit" value="Business Unit: " />
+                        <p:inputText style="width:100%;" id="businessUnit" value="#{staffManagementManagedBean.businessUnit}" label="businessUnit" required="true" requiredMessage="Please input staff business unit">
+                            <p:watermark for="businessUnit" value="Please enter business unit" />
                         </p:inputText>
+
+                        <p:outputLabel for="division" value="Division: " />
+                        <p:inputText style="width:100%;" id="division" value="#{staffManagementManagedBean.division}" label="division" required="true" requiredMessage="Please input staff division">
+                            <p:watermark for="division" value="Please enter staff division" />
+                        </p:inputText>
+                        
+                        <p:outputLabel for="position" value="Position: " />
+                        <p:inputText style="width:100%;" id="position" value="#{staffManagementManagedBean.position}" label="position" required="true" requiredMessage="Please input staff position">
+                            <p:watermark for="position" value="Please enter staff position" />
+                        </p:inputText>
+                        
+                        <p:outputLabel for="location" value="Location: " />
+                        <p:inputText style="width:100%;" id="location" value="#{staffManagementManagedBean.location}" label="location" required="true" requiredMessage="Please input staff location">
+                            <p:watermark for="location" value="Please enter staff location" />
+                        </p:inputText>
+                        
+<!--                        <p:outputLabel for="base" value="Base: " />
+                        <p:inputText style="width:100%;" id="base" value="{staffManagementManagedBean.base}" label="base" required="true" requiredMessage="Please input staff base">
+                            <p:watermark for="base" value="Please enter staff base" />
+                        </p:inputText>-->
 
                         <p:commandButton id="addStaff" value="confirm" actionListener="#{staffManagementManagedBean.addStaff()}" update="growl"/>
 

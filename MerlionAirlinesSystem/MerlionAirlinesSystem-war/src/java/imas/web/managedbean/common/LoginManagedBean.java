@@ -170,7 +170,7 @@ public class LoginManagedBean {
 
     }
 
-    public void insertData() {
-        loginSessionBean.insertData();
-    }
+//    public void insertData() {
+//        loginSessionBean.insertData();
+//    }
 }

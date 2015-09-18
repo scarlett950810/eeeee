@@ -26,5 +26,7 @@ public interface inventoryRevenueManagementSessionBeanLocal {
     void updateBookingClassQuota(Long bookingClassID, Integer quota);
 
     void updateBookingClassPricing(Long bookingClassID, Double newPrice);
+
+    int checkSeatsCapacity(FlightEntity selectedFlight);
     
 }
