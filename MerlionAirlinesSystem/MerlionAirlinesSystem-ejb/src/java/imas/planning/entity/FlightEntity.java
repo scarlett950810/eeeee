@@ -27,30 +27,28 @@ public class FlightEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String flightNo;
-    private Double distance;
-    private Long duration;
+    private double distance;
+    private double duration; // in hours
     private boolean departured;
     //booking
     //ticket
-
-    //private AircraftEntity aircraft;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    
+    @ManyToOne
     private AircraftEntity aircraft;
     
     //route
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     private RouteEntity route;
 
     // private FlightRecordEntity flightRecord;
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "flightRecords")
+    @OneToMany
     private List<FlightRecordEntity> flightRecords;
 
     public FlightEntity() {
 
     }
 
-    public FlightEntity(Long id, String flightNo, Double distance, Long duration, AircraftEntity aircraft, RouteEntity route) {
-        this.id = id;
+    public FlightEntity(String flightNo, double distance, double duration, AircraftEntity aircraft, RouteEntity route) {
         this.flightNo = flightNo;
         this.distance = distance;
         this.duration = duration;
@@ -83,19 +81,19 @@ public class FlightEntity implements Serializable {
         this.route = route;
     }
 
-    public Double getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(Double distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
-    public Long getDuration() {
+    public double getDuration() {
         return duration;
     }
 
-    public void setDuration(Long duration) {
+    public void setDuration(double duration) {
         this.duration = duration;
     }
 

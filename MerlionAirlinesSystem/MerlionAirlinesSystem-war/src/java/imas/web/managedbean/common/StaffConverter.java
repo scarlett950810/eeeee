@@ -19,32 +19,30 @@ import javax.faces.convert.FacesConverter;
  * @author Scarlett
  */
 @FacesConverter(value = "staffConverter")
-public class StaffConverter  implements Converter {
-    
+public class StaffConverter implements Converter {
+
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
+//        System.out.println(fc);
+//        System.out.println(uic);
+//        System.out.println("getAsObject: " + value);
         if (value != null && value.trim().length() > 0) {
             try {
-                System.out.println(fc);
-                System.out.println(uic);
-                System.out.println("getAsObject: " + value);
-                
-                List<StaffEntity> staffEntities = (List<StaffEntity>)fc.getExternalContext().getSessionMap().get("staffList");
-                
-                System.out.println(staffEntities);
-                
+
+                List<StaffEntity> staffEntities = (List<StaffEntity>) fc.getExternalContext().getSessionMap().get("staffList");
+
+//                System.out.println(staffEntities);
+
                 Long staffEntityId = Long.valueOf(Long.parseLong(value));
-                
-                System.out.println(staffEntityId);
-                
-                for(StaffEntity staffEntity:staffEntities)
-                {
-                    if(staffEntity.getId().equals(staffEntityId))
-                    {
+
+//                System.out.println(staffEntityId);
+
+                for (StaffEntity staffEntity : staffEntities) {
+                    if (staffEntity.getId().equals(staffEntityId)) {
                         return staffEntity;
                     }
                 }
-                
+
                 return null;
             } catch (NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid staff."));
@@ -53,14 +51,15 @@ public class StaffConverter  implements Converter {
             return null;
         }
     }
-    
+
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-        if (object != null) {    
+//        System.out.println("staffConverter getAsString" + object);
+        if (object != null) {
             String str = String.valueOf(((StaffEntity) object).getId());
-            
-            System.err.println("getAsString: " + str);
-            
+
+//            System.out.println("getAsString: " + str);
+
             return str;
         } else {
             return null;

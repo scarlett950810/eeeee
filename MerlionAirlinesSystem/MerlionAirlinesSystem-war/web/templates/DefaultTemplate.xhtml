@@ -60,7 +60,7 @@
                     <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" class="menuBasket">
 
                         <p:menuitem styleClass="icon-resize" value="Logout" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
-                        <p:menuitem styleClass="icon-resize" value="Account" icon="../resources/img/menuStack/account.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/userProfile.xhtml"/>
+                        <p:menuitem styleClass="icon-resize" value="Account" icon="../resources/img/menuStack/account.png" url="#"/>
                         <p:menuitem styleClass="icon-resize" value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
                         <p:menuitem styleClass="icon-resize" value="Message" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('message').show();"/>
                         <p:menuitem styleClass="icon-resize" value="Home" icon="../resources/img/menuStack/home.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml"/>
@@ -90,8 +90,14 @@
                             <h:panelGrid columns="2" cellpadding="5">
 
                                 <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
-                                <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}" effect="fold" editable="true" converter="staffConverter">                                    
-                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff" itemValue="#{staff}" itemLabel="#{staff.displayName}(#{staff.staffNo}) @ #{staff.departemnt}" />
+                                <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}"
+                                                 effect="fold" editable="true" converter="staffConverter"
+                                                 var="s" >
+                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff"
+                                                    itemValue="#{staff}" itemLabel="#{staff.id}"  />
+                                    <p:column>
+                                        <h:outputText value="#{s.displayName}(#{s.staffNo}) at #{s.departemnt}" />
+                                   </p:column>
                                 </p:selectOneMenu>
 
                                 <p:outputLabel for="content" value="Content" />
@@ -104,7 +110,7 @@
                     </h:form>
                     <p:panel header="Messages">
                         <p:dataList value="#{internalMessageManagedBean.allMessages}" var="message" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                            <h:outputText value="#{message.sentTime} from #{message.sender}: #{message.content}" style="display:inline-block"/>
+                            <h:outputText value="#{message.sentTime} from #{message.sender.displayName} (#{message.sender.department}): #{message.content}" style="display:inline-block"/>
                         </p:dataList>
                     </p:panel>
                 </p:dialog>
