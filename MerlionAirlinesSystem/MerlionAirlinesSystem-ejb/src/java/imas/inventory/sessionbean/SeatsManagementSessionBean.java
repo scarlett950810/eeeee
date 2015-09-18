@@ -62,22 +62,22 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     
     @Override
     public void generateEconomyClassXBookingClassEntity(FlightEntity flight, double price, int quota) {
-        entityManager.persist(new BookingClassEntity().EconomyClassXBookingClassEntity(flight, price, quota));
+        entityManager.persist(new BookingClassEntity().EconomyClass2BookingClassEntity(flight, price, quota));
     }
     
     @Override
     public void generateEconomyClassYBookingClassEntity(FlightEntity flight, double price, int quota) {
-        entityManager.persist(new BookingClassEntity().EconomyClassYBookingClassEntity(flight, price, quota));
+        entityManager.persist(new BookingClassEntity().EconomyClass3BookingClassEntity(flight, price, quota));
     }
     
     @Override
     public void generateEconomyClassZBookingClassEntity(FlightEntity flight, double price, int quota) {
-        entityManager.persist(new BookingClassEntity().EconomyClassZBookingClassEntity(flight, price, quota));
+        entityManager.persist(new BookingClassEntity().EconomyClass4BookingClassEntity(flight, price, quota));
     }
     
     @Override
     public void generateEconomyClassTBookingClassEntity(FlightEntity flight, double price, int quota) {
-        entityManager.persist(new BookingClassEntity().EconomyClassTBookingClassEntity(flight, price, quota));
+        entityManager.persist(new BookingClassEntity().EconomyClassAgencyBookingClassEntity(flight, price, quota));
     }
     
     // to be optimized

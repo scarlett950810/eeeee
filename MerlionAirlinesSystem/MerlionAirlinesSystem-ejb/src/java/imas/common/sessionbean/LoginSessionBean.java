@@ -200,7 +200,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         routeSessionBean.addRoute(a1, a3);
         routeSessionBean.addRoute(a2, a3);
-        routeSessionBean.addRoute(a3, a2);
 
         System.out.println("safe 6");
 

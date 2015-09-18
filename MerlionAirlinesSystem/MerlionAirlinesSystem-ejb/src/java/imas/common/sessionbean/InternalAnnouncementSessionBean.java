@@ -6,7 +6,6 @@
 package imas.common.sessionbean;
 
 import imas.common.entity.InternalAnnouncementEntity;
-import imas.common.entity.InternalMessageEntity;
 import imas.common.entity.StaffEntity;
 import java.util.ArrayList;
 import java.util.List;

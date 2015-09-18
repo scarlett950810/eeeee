@@ -47,15 +47,10 @@ public class InternalMessageManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-        System.out.println("staffNo" + staffNo);
         loggedInStaff = internalMessageSessionBean.getStaffEntityByStaffNo(staffNo);
-
-        
+       
         staffList = internalMessageSessionBean.getAllStaff();        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", staffList);
-        
-//        System.out.println(internalMessageSessionBean.getAllStaff());
-//        System.out.println(loggedInStaff);
     }
 
     @PostRemove

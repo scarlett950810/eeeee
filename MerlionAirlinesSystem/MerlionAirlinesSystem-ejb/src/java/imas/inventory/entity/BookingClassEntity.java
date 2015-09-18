@@ -58,20 +58,31 @@ public class BookingClassEntity implements Serializable {
         return new BookingClassEntity(flight, "Premium Economy Class", "Premium Economy Class", price, quota);       
     }
     
-    public BookingClassEntity EconomyClassXBookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class X", price, quota);       
+//    in total 5 economy booking classes with price 1 > 2 > 3 > 4 > 5.
+//    1 and 2 are higher willingness to pay (WTP) classes while 3, 4, 5 are lower WTP classes
+    
+    public BookingClassEntity EconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Full Service Economy", price, quota);       
     }
     
-    public BookingClassEntity EconomyClassYBookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class Y", price, quota);       
+    public BookingClassEntity EconomyClass2BookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Plus ", price, quota);       
     }
     
-    public BookingClassEntity EconomyClassZBookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class Z", price, quota);       
+    public BookingClassEntity EconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Standard Economy", price, quota);       
     }
     
-    public BookingClassEntity EconomyClassTBookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class T", price, quota);       
+    public BookingClassEntity EconomyClass4BookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Save", price, quota);       
+    }
+    
+    public BookingClassEntity EconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Super Save", price, quota);       
+    }
+    
+    public BookingClassEntity EconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Class Agency", price, quota);       
     }
     
     public Long getId() {
