@@ -135,11 +135,6 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
             costList=correctList(getList());
             writeList(costList);
             
-            System.out.println(costName);
-            System.out.println(costFigure);
-           
-            
-            
         }
     }
 
@@ -171,16 +166,10 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         return list;
     }
 
-}
+    @Override
+    public Double getCostPerSeatPerMile() {
+        return getList().get(0).getCostFigure();
+    }
 
-//    @Override
-//    public CostEntity getFisrtCostEntity() {
-//        Query query = em.createQuery("SELECT a FROM CostEntity a");
-//        List<CostEntity> costs = (List<CostEntity>) query.getResultList();
-//        if (!costs.isEmpty()) {
-//            return costs.get(0);
-//        } else {
-//            return null;
-//        }
-//    }
+}
 

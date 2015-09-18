@@ -19,5 +19,11 @@ public interface YieldManagementSessionBeanLocal {
     public Double getRoutePopularity(RouteEntity route);
 
     public void runYieldManagementRule1(FlightEntity flight, Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter, Integer changeEconomyClass1Parameter, Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter, Integer changeEconomyClass4Parameter);
+
+    public double getEconomyClassTotalCost(FlightEntity flight);
+
+    public double getTotalEconomyClassRevenue(FlightEntity flight);
+
+    public int getFromNowToDepartureInDay(FlightEntity flight);
     
 }

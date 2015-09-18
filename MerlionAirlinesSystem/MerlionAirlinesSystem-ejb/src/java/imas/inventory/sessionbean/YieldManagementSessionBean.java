@@ -11,6 +11,7 @@ import imas.planning.entity.RouteEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,6 +26,12 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @EJB
+    private CostManagementSessionBeanLocal costManagementSessionBean;
+
+    @EJB
+    private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
 
     @Override
     public Double getRoutePopularity(RouteEntity route) {
@@ -56,11 +63,29 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
             Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter,
             Integer changeEconomyClass1Parameter, Integer changeEconomyClass2Parameter,
             Integer changeEconomyClass3Parameter, Integer changeEconomyClass4Parameter) {
-//        TODO: change to the commented line.
-//        int nowToDeparture = new Date().compareTo(flight.getEstimatedDepartureTime());
-        int nowToDeparture = 100;
         
-        double totalCost = 0.0;
+        int nowToDeparture = getFromNowToDepartureInDay(flight);
+
+        double totalCost = getEconomyClassTotalCost(flight);
+        double totalRevenueTillNow = getTotalEconomyClassRevenue(flight);
+        double totalRevenueToTotalCostRatio = totalRevenueTillNow / totalCost;
+
+        if (nowToDeparture > timeToDepartureInDaysParameter && totalRevenueToTotalCostRatio > totalRevenueToTotalCostParameter) {
+            // TODO: change quota here
+            // 
+        }
+    }
+
+    @Override
+    public double getEconomyClassTotalCost(FlightEntity flight) {
+        double costPerSeat = costManagementSessionBean.getCostPerSeatPerMile() * flight.getDistance();
+        int economyCapacity = seatsManagementSessionBean.getEconomyClassCapacity(flight);
+
+        return costPerSeat * economyCapacity;
+    }
+
+    @Override
+    public double getTotalEconomyClassRevenue(FlightEntity flight) {
         double totalRevenueTillNow = 0.0;
 
         Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight");
@@ -70,6 +95,15 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         for (TicketEntity t : tickets) {
             totalRevenueTillNow = totalRevenueTillNow + t.getBookingClass().getPrice();
         }
+        return totalRevenueTillNow;
+    }
+
+    @Override
+    public int getFromNowToDepartureInDay(FlightEntity flight) {
+        //        TODO: change to the commented line.
+        //        int nowToDeparture = new Date().compareTo(flight.getEstimatedDepartureTime());
+
+        return 0;
     }
 
 }

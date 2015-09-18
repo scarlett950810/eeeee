@@ -32,5 +32,7 @@ public interface CostManagementSessionBeanLocal {
 
     public void updateCost(String costName, Double costFigure);
 
+    public Double getCostPerSeatPerMile();
+
     
 }

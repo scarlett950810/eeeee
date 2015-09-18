@@ -6,13 +6,12 @@
 package imas.inventory.entity;
 
 import imas.planning.entity.FlightEntity;
-import imas.planning.entity.RouteEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -20,11 +19,12 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class YieldManagementRuleEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
+    @OneToOne
     private FlightEntity flight;
     private Integer number;
 //    private Integer timeToDepartureInDaysMoreThanParameter;
@@ -55,15 +55,17 @@ public class YieldManagementRuleEntity implements Serializable {
     private Integer EconomyClass4RemainingQuotaParameter;
     private Integer EconomyClass5RemainingQuotaParameter;
 
+    private boolean enabled;
+
     public YieldManagementRuleEntity() {
     }
 
-    public YieldManagementRuleEntity YieldManagementRule1Entity(FlightEntity flight, 
-            Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter, 
+    public YieldManagementRuleEntity YieldManagementRule1Entity(FlightEntity flight,
+            Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter,
             Integer changeEconomyClass1Parameter, Integer changeEconomyClass2Parameter,
             Integer changeEconomyClass3Parameter, Integer changeEconomyClass4Parameter) {
-        
-        YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();        
+
+        YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();
         yieldManagementRuleEntity.flight = flight;
         yieldManagementRuleEntity.number = 1;
         yieldManagementRuleEntity.timeToDepartureInDaysParameter = timeToDepartureInDaysParameter;
@@ -72,16 +74,17 @@ public class YieldManagementRuleEntity implements Serializable {
         yieldManagementRuleEntity.changeEconomyClass2Parameter = changeEconomyClass2Parameter;
         yieldManagementRuleEntity.changeEconomyClass3Parameter = changeEconomyClass3Parameter;
         yieldManagementRuleEntity.changeEconomyClass4Parameter = changeEconomyClass4Parameter;
-        
+        yieldManagementRuleEntity.enabled = true;
+
         return yieldManagementRuleEntity;
     }
-    
-    public YieldManagementRuleEntity YieldManagementRule2Entity(FlightEntity flight, 
-            Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter, 
-            Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter, 
+
+    public YieldManagementRuleEntity YieldManagementRule2Entity(FlightEntity flight,
+            Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter,
+            Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter,
             Integer changeEconomyClass4Parameter, Integer changeEconomyClass5Parameter) {
-        
-        YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();        
+
+        YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();
         yieldManagementRuleEntity.flight = flight;
         yieldManagementRuleEntity.number = 2;
         yieldManagementRuleEntity.timeToDepartureInDaysParameter = timeToDepartureInDaysParameter;
@@ -90,16 +93,17 @@ public class YieldManagementRuleEntity implements Serializable {
         yieldManagementRuleEntity.changeEconomyClass3Parameter = changeEconomyClass3Parameter;
         yieldManagementRuleEntity.changeEconomyClass4Parameter = changeEconomyClass4Parameter;
         yieldManagementRuleEntity.changeEconomyClass5Parameter = changeEconomyClass5Parameter;
-        
+        yieldManagementRuleEntity.enabled = true;
+
         return yieldManagementRuleEntity;
     }
 
-    public YieldManagementRuleEntity YieldManagementRule3Entity(FlightEntity flight, 
-            Integer timeToDepartureInDaysParameter, Integer changeEconomyClass1Parameter, 
-            Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter, 
+    public YieldManagementRuleEntity YieldManagementRule3Entity(FlightEntity flight,
+            Integer timeToDepartureInDaysParameter, Integer changeEconomyClass1Parameter,
+            Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter,
             Integer changeEconomyClass4Parameter, Integer changeEconomyClass5Parameter, Integer percentageSoldParameter) {
-        
-        YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();        
+
+        YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();
         yieldManagementRuleEntity.flight = flight;
         yieldManagementRuleEntity.number = 3;
         yieldManagementRuleEntity.timeToDepartureInDaysParameter = timeToDepartureInDaysParameter;
@@ -109,17 +113,18 @@ public class YieldManagementRuleEntity implements Serializable {
         yieldManagementRuleEntity.changeEconomyClass4Parameter = changeEconomyClass4Parameter;
         yieldManagementRuleEntity.changeEconomyClass5Parameter = changeEconomyClass5Parameter;
         yieldManagementRuleEntity.percentageSoldParameter = percentageSoldParameter;
-        
+        yieldManagementRuleEntity.enabled = true;
+
         return yieldManagementRuleEntity;
     }
 
-    public YieldManagementRuleEntity YieldManagementRule4Entity(FlightEntity flight, Integer timeToDepartureInDaysParameter, 
-            Integer changeEconomyClass1Parameter, Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter, 
-            Integer changeEconomyClass4Parameter, Integer changeEconomyClass5Parameter, Integer EconomyClass1RemainingQuotaParameter, 
-            Integer EconomyClass2RemainingQuotaParameter, Integer EconomyClass3RemainingQuotaParameter, 
+    public YieldManagementRuleEntity YieldManagementRule4Entity(FlightEntity flight, Integer timeToDepartureInDaysParameter,
+            Integer changeEconomyClass1Parameter, Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter,
+            Integer changeEconomyClass4Parameter, Integer changeEconomyClass5Parameter, Integer EconomyClass1RemainingQuotaParameter,
+            Integer EconomyClass2RemainingQuotaParameter, Integer EconomyClass3RemainingQuotaParameter,
             Integer EconomyClass4RemainingQuotaParameter, Integer EconomyClass5RemainingQuotaParameter) {
-        
-        YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();        
+
+        YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();
         yieldManagementRuleEntity.flight = flight;
         yieldManagementRuleEntity.number = 4;
         yieldManagementRuleEntity.timeToDepartureInDaysParameter = timeToDepartureInDaysParameter;
@@ -133,10 +138,11 @@ public class YieldManagementRuleEntity implements Serializable {
         yieldManagementRuleEntity.EconomyClass3RemainingQuotaParameter = EconomyClass3RemainingQuotaParameter;
         yieldManagementRuleEntity.EconomyClass4RemainingQuotaParameter = EconomyClass4RemainingQuotaParameter;
         yieldManagementRuleEntity.EconomyClass5RemainingQuotaParameter = EconomyClass5RemainingQuotaParameter;
-        
+        yieldManagementRuleEntity.enabled = true;
+
         return yieldManagementRuleEntity;
     }
-   
+
     public Long getId() {
         return id;
     }
@@ -264,7 +270,15 @@ public class YieldManagementRuleEntity implements Serializable {
     public void setEconomyClass5RemainingQuotaParameter(Integer EconomyClass5RemainingQuotaParameter) {
         this.EconomyClass5RemainingQuotaParameter = EconomyClass5RemainingQuotaParameter;
     }
-    
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -289,5 +303,5 @@ public class YieldManagementRuleEntity implements Serializable {
     public String toString() {
         return "imas.inventory.entity.YieldManagementRuleEntity[ id=" + id + " ]";
     }
-    
+
 }
