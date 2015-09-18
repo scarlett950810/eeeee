@@ -17,35 +17,35 @@ import javax.persistence.Id;
  */
 @Entity
 public class CostEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    private double costPerSeatPerMile;
-        private double fixedCostPerSeatPerMile;
-            private double flightDistancePerSeatPerDay;
-            private double fixedCostPerSeat;
-                private double operatingCostPerSeat;
-                private double otherCostPerSeat;
-        private double flightCostPerSeatPerMile;
-            private double fuelCostPerSeatPerMile;
-            private double crewCostPerSeatPerMile;
-            private double maintainenceCostPerSeatPerMile;
-            private double tollsPerSeatPerMileForTakeoffAndlanding;
-            private double otherVariableCostPerSeatPerMile;
-        private double passengerCostPerSeatPerMile;
-            private double showRate;
-            private double averageFlightDistancePerPassenger;
-            private double averageCostPerPassenger;
-                private double salesCostPerPassenger;
-                private double airportFeePerPassenger;
-                private double checkinCostPerPassenger;
-                private double mealCostPerPassenger;
-                private double serviceCostPerPassenger;
-                private double firstClassServiceCostPerPassenger;
-                private double delayCostPerPassenger;
 
+    private double costPerSeatPerMile;
+    private double fixedCostPerSeatPerMile;
+    private double flightDistancePerSeatPerDay;
+    private double fixedCostPerSeat;
+    private double operatingCostPerSeat;
+    private double otherCostPerSeat;
+    private double flightCostPerSeatPerMile;
+    private double fuelCostPerSeatPerMile;
+    private double crewCostPerSeatPerMile;
+    private double maintainenceCostPerSeatPerMile;
+    private double tollsPerSeatPerMileForTakeoffAndlanding;
+    private double otherVariableCostPerSeatPerMile;
+    private double passengerCostPerSeatPerMile;
+    private double showRate;
+    private double averageFlightDistancePerPassenger;
+    private double averageCostPerPassenger;
+    private double salesCostPerPassenger;
+    private double airportFeePerPassenger;
+    private double checkinCostPerPassenger;
+    private double mealCostPerPassenger;
+    private double serviceCostPerPassenger;
+    private double firstClassServiceCostPerPassenger;
+    private double delayCostPerPassenger;
 
     public Long getId() {
         return id;
@@ -81,7 +81,7 @@ public class CostEntity implements Serializable {
     public void setFlightDistancePerSeatPerDay(double flightDistancePerSeatPerDay) {
         this.flightDistancePerSeatPerDay = flightDistancePerSeatPerDay;
     }
-    
+
     public double getFixedCostPerSeat() {
         return operatingCostPerSeat + otherCostPerSeat;
     }
@@ -131,7 +131,7 @@ public class CostEntity implements Serializable {
     }
 
     public double getFlightCostPerSeatPerMile() {
-        return fuelCostPerSeatPerMile + crewCostPerSeatPerMile + maintainenceCostPerSeatPerMile 
+        return fuelCostPerSeatPerMile + crewCostPerSeatPerMile + maintainenceCostPerSeatPerMile
                 + tollsPerSeatPerMileForTakeoffAndlanding + otherVariableCostPerSeatPerMile;
     }
 
@@ -191,8 +191,8 @@ public class CostEntity implements Serializable {
         this.delayCostPerPassenger = delayCostPerPassenger;
     }
 
-    public double getAverageCostPerPassenger() {        
-        return salesCostPerPassenger + airportFeePerPassenger + checkinCostPerPassenger + mealCostPerPassenger 
+    public double getAverageCostPerPassenger() {
+        return salesCostPerPassenger + airportFeePerPassenger + checkinCostPerPassenger + mealCostPerPassenger
                 + serviceCostPerPassenger + firstClassServiceCostPerPassenger + delayCostPerPassenger;
     }
 
@@ -243,7 +243,7 @@ public class CostEntity implements Serializable {
     public void setAverageCostPerPassenger(double averageCostPerPassenger) {
         this.averageCostPerPassenger = averageCostPerPassenger;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -268,5 +268,5 @@ public class CostEntity implements Serializable {
     public String toString() {
         return "imas.inventory.entity.CostEntity[ id=" + id + " ]";
     }
-    
+
 }
