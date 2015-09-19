@@ -8,16 +8,15 @@ package imas.web.managedbean.common;
 import imas.common.entity.StaffEntity;
 import imas.common.entity.StaffRole;
 import imas.common.sessionbean.AccountManagementSessionBeanLocal;
-import imas.common.sessionbean.LoginSessionBeanLocal;
 import imas.common.sessionbean.UserProfileManagementSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.event.FlowEvent;
@@ -28,45 +27,40 @@ import org.primefaces.event.FlowEvent;
  */
 @Named(value = "accountActivationManagedBean")
 @ViewScoped
-public class AccountActivationManagedBean implements Serializable{
+public class AccountActivationManagedBean implements Serializable {
+
     @EJB
     private AccountManagementSessionBeanLocal accountManagementSessionBean;
     @EJB
     private UserProfileManagementSessionBeanLocal userProfileManagementSessionBean;
-    
+
     private StaffEntity staff;
     private boolean skip;
     private String staffNo;
-    private String role = ""; 
-    private List<StaffRole> roles;
+    private String role;
+    private StaffRole staffRole;
     private String originPassword;
     private String newPassword;
     private String newRepeatPassword;
-    
+
     public AccountActivationManagedBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
         staff = accountManagementSessionBean.getStaff(staffNo);
-        roles = staff.getRole();
-        for(int i=0; i< roles.size(); i++){
-            role = role + roles.get(i).getPosition() + ", " + roles.get(i).getBusinessUnit() + ", " + roles.get(i).getDivision() ;
-            if(roles.get(i).getBase() != null){
-                role = role + ", " + roles.get(i).getBase();
-            }
-            if(roles.get(i).getLocation() != null){
-                role = role + ", " + roles.get(i).getLocation();
-            }
-            
-            role = role + "\n";
+        staffRole = staff.getRole();
+        role = staffRole.getPosition() + ", " + staffRole.getBusinessUnit() + " " + staffRole.getDivision() + "\n";
+        if(staffRole.getBase() != null){
+            role = role + staffRole.getBase();
         }
+        role = role + staffRole.getLocation();
     }
-    
+
     public String onFlowProcess(FlowEvent event) {
         return event.getNewStep();
-        
+
     }
 
     public StaffEntity getStaff() {
@@ -101,12 +95,12 @@ public class AccountActivationManagedBean implements Serializable{
         this.role = role;
     }
 
-    public List<StaffRole> getRoles() {
-        return roles;
+    public StaffRole getStaffRole() {
+        return staffRole;
     }
 
-    public void setRoles(List<StaffRole> roles) {
-        this.roles = roles;
+    public void setStaffRole(StaffRole staffRole) {
+        this.staffRole = staffRole;
     }
 
     public String getOriginPassword() {
@@ -132,8 +126,8 @@ public class AccountActivationManagedBean implements Serializable{
     public void setNewRepeatPassword(String newRepeatPassword) {
         this.newRepeatPassword = newRepeatPassword;
     }
-    
-    public void changePassword() throws IOException {
+
+    public void changePassword(ActionEvent event) throws IOException {
         System.out.print("123");
         FacesContext fc = FacesContext.getCurrentInstance();
         if (userProfileManagementSessionBean.getOldPassword(staffNo, originPassword)) {
@@ -153,8 +147,13 @@ public class AccountActivationManagedBean implements Serializable{
             System.out.print("here");
         }
     }
-    
-    public void activateAccount(){
+
+    public void activateAccount() throws IOException {
+
         accountManagementSessionBean.activateAccount(staff.getStaffNo());
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("common_landing.xhtml");
     }
+
 }

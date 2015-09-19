@@ -61,8 +61,8 @@ public class StaffEntity implements Serializable {
     @OneToMany(mappedBy = "receiver")
     private List<InternalMessageEntity> receivedMessages;
     
-    @OneToMany
-    private List<StaffRole> role;
+    
+    private StaffRole role;
     
 //    @OneToMany
 //    private List<OrganizationUnit> organizationUnit;
@@ -196,11 +196,11 @@ public class StaffEntity implements Serializable {
         this.receivedMessages = receivedMessages;
     }
 
-    public List<StaffRole> getRole() {
+    public StaffRole getRole() {
         return role;
     }
 
-    public void setRole(List<StaffRole> role) {
+    public void setRole(StaffRole role) {
         this.role = role;
     }
 

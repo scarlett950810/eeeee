@@ -28,7 +28,7 @@ import util.security.CryptographicHelper;
 @ManagedBean
 @SessionScoped
 public class LoginManagedBean {
-
+   
     @EJB
     private AccountManagementSessionBeanLocal accountManagementSessionBean;
 
@@ -94,6 +94,8 @@ public class LoginManagedBean {
 
 //        password = cp.doMD5Hashing(password+);
 //        loginSessionBean.setPass(staffNo,password);
+//        staff = accountManagementSessionBean.getStaff(staffNo);
+        
         String returnMsg = loginSessionBean.doLogin(staffNo, password);
 
         if (returnMsg.equals("success")) {

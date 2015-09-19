@@ -93,12 +93,10 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         if (staffs.isEmpty()) {
             StaffEntity staff = new StaffEntity(staffNo, name, tempPassword, email, contactNumber, address, gender);
             StaffRole role = new StaffRole(businessUnit, position, division, location, null);
-            List<StaffRole> roles = new ArrayList<>();
-            roles.add(role);
+            
             entityManager.persist(role);
 
-            
-            staff.setRole(roles);
+            staff.setRole(role);
             entityManager.persist(staff);
             staff.setSalt(salt);
             
@@ -201,8 +199,11 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         query.setParameter("staffNo", staffNo);
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
-        if (staffs.isEmpty()) {
-            staffs.get(0).setActivationStatus(TRUE);
+        
+        if (!staffs.isEmpty()) {
+            StaffEntity staff = staffs.get(0);
+            staff.setActivationStatus(TRUE);
+            System.out.print(staff.getActivationStatus());
         } else {
             System.out.print("The staff does not exist");
         } 
