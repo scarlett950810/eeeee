@@ -39,7 +39,8 @@ public class CabinCrewEntity extends StaffEntity implements Serializable {
     public CabinCrewEntity(String staffNo, String displayName, String password,
             String email, String contactNumber, String department, String address,
             String gender, String base, String workingStatus, List<FlightEntity> cabinCrewFlights) {
-        super(staffNo, displayName, password, email, contactNumber, department, address, gender, base);
+        super(staffNo, displayName, password, email, contactNumber, address, gender);
+        
 //        this.setStaffNo(staffNo);
 //        this.setDisplayName(displayName);
 //        this.setPassword(password);
