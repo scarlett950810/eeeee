@@ -35,10 +35,8 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("destination", destination);
         List<RouteEntity> route = (List<RouteEntity>) query.getResultList();
         if (route.isEmpty()) {
-            System.out.print("empty");
             return true;
         } else {
-            System.out.print("full1");
             return false;
 
         }
@@ -102,16 +100,16 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     @Override
     public List<RouteEntity> retrieveAllRoutes() {
         Query query = em.createQuery("SELECT a FROM RouteEntity a");
-        System.out.println("Debug into retrieveAllRoute function");
+ //       System.out.println("Debug into retrieveAllRoute function");
 
         return (List<RouteEntity>) query.getResultList();
     }
 
     @Override
     public List<String> retrieveAllConnectionName() {
-        System.out.println("Debug into retrieveAllConnectionName function");
+       //System.out.println("Debug into retrieveAllConnectionName function");
         List<RouteEntity> routes = retrieveAllRoutes();
-        System.out.println("Debug after retrieveAllRoutes function");
+        //System.out.println("Debug after retrieveAllRoutes function");
 
         List<String> routesName = new ArrayList<String>();
         for (Object o : routes) {
@@ -150,9 +148,9 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
 
             RouteEntity routeOri = (RouteEntity) query.getSingleResult();
             routeOri.setDistance(routeNew.getDistance());
-            System.out.println("Distance" + routeNew.getDistance());
+           // System.out.println("Distance" + routeNew.getDistance());
             routeOri.setFlightHours(routeNew.getFlightHours());
-            System.out.println("before persist");
+         //   System.out.println("before persist");
             em.persist(routeOri);
         }
     }
@@ -163,9 +161,9 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("id", route.getId());
         RouteEntity routeOri = (RouteEntity) query.getSingleResult();
         routeOri.setDistance(route.getDistance());
-        System.out.println("Distance" + route.getDistance());
+  //      System.out.println("Distance" + route.getDistance());
         routeOri.setFlightHours(route.getFlightHours());
-        System.out.println("before persist");
+   //     System.out.println("before persist");
 
     }
     @Override
@@ -182,63 +180,63 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
 
     @Override
     public List<RouteEntity> filterRoutesToConnections(List<RouteEntity> routes) {
-        System.out.println("Enter filterRoutesToConneci"+routes.size());
+//        System.out.println("Enter filterRoutesToConneci"+routes.size());
         List<RouteEntity> routesFiltered = new ArrayList<RouteEntity>();
         if(!routes.isEmpty()){
         for(Object o: routes){
             RouteEntity route = (RouteEntity)o;
             for(Object obj: routes){
                 RouteEntity routeIfReverse = (RouteEntity)obj;
-                System.out.println("before if");
+ //               System.out.println("before if");
                 if(route.getReverseRoute()!=null){
                 if(route.getReverseRoute().getId().equals(routeIfReverse.getId())){
-                    System.out.println("Enter if statement for comparing the ID");
+ //                   System.out.println("Enter if statement for comparing the ID");
 
                     routesFiltered.add(route);
                     routes.set(routes.indexOf(routeIfReverse), new RouteEntity());
-                    System.out.println("After remove");
+ //                   System.out.println("After remove");
                    
                 } }
-                System.out.println("After if");
+//                System.out.println("After if");
                     
             }
-        System.out.println("After for");    
+ //       System.out.println("After for");    
         }
         }
-        System.out.println("Leave filterRoutesToConneci and routes");
+ //       System.out.println("Leave filterRoutesToConneci and routes");
         return routesFiltered;
     }
 
     @Override
     public void createRouteGroup(String groupCode, Double maxRange, Double minRange, ArrayList<RouteEntity> routesGrped) {
         RouteGroupEntity routeGrp = new RouteGroupEntity(groupCode, minRange, maxRange);
-        System.out.println("routesGrped: "+routesGrped.get(0).getOriginAirport().getAirportName());
+  //      System.out.println("routesGrped: "+routesGrped.get(0).getOriginAirport().getAirportName());
         routeGrp.setGroup(routesGrped);
         if(!routesGrped.isEmpty()){
             for(RouteEntity rt: routesGrped){
-                System.out.println("before find em ");
+ //               System.out.println("before find em ");
 
                 RouteEntity route = em.find(RouteEntity.class, rt.getId());
-                System.out.println("after find em0 ");
+ //               System.out.println("after find em0 ");
                 route.setRouteGroup(routeGrp);
-                System.out.println("after find em ");
+ //               System.out.println("after find em ");
 
             }
         }
-        System.out.println("before persist ");
+ //       System.out.println("before persist ");
 
         em.persist(routeGrp);
-                        System.out.println("after persist em ");
+ //                       System.out.println("after persist em ");
 
     }
 
     @Override
     public void saveReturnFlights(FlightEntity f) {
         em.persist(f);
-        System.err.println("saveReturnflighs1");
-        System.err.println("saveReturnflighs2");
+//        System.err.println("saveReturnflighs1");
+//        System.err.println("saveReturnflighs2");
  
-       System.err.println("saveReturnflighs3");
+ //      System.err.println("saveReturnflighs3");
     }
 
     @Override
