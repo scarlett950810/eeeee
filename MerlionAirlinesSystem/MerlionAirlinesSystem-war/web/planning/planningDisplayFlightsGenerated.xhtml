@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Planning Home Page</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Edit or Delete Aircraft</a></li>
+                <li><a href="planningManageAircraftGroup.xhtml">Manage Aircraft Group</a></li>
+                
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Airport Management</a></li>
+                <li><a href="planningAddRoute.xhtml">Add Route</a></li>
+                <li><a href="planningDeleteRoute.xhtml">Delete Route</a></li>
+                <li><a href="planningSetFrequencyAndTime.xhtml">Set Frequency and Time</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+       
+        <h:form>
+        <p:dataTable var="flight" value="#{flightsDisplayManagedBean.flightsGenerated}" widgetVar="flightsTable"
+                         emptyMessage="No cars found with given criteria" filteredValue="#{flightsDisplayManagedBean.flightsFiltered}">
+ 
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Search all fields:" />
+                <p:inputText id="globalFilter" onkeyup="PF('flightsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+            </p:outputPanel>
+        </f:facet>
+ 
+                <p:column filterBy="#{flight.flightNo}" headerText="Id" footerText="contains" filterMatchMode="contains">
+                    <h:outputText value="#{flight.flightNo}" />
+        </p:column>
+ 
+ 
+                <p:column filterBy="#{flight.route.routeName}" headerText="Brand" footerText="exact" filterMatchMode="exact">
+            <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('flightsTable').filter()" >
+                    <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{flightsDisplayManagedBean.routesName}" />
+                </p:selectOneMenu>
+            </f:facet>
+                    <h:outputText value="#{flight.route.routeName}" />
+        </p:column>
+             <p:column headerText="Departure Time" sortBy="#{flight.departureDate.date}">
+            <h:outputText value="#{flight.departureDate}" />
+        </p:column>
+<!--        <p:column filterBy="{car.color}" headerText="Color" footerText="in" filterMatchMode="in">
+            <f:facet name="filter">
+                <p:selectCheckboxMenu label="Colors" onchange="PF('carsTable').filter()" panelStyle="width:125px" scrollHeight="150">
+                    <f:selectItems value="(dtFilterView.colors}" />
+                </p:selectCheckboxMenu>
+            </f:facet>
+            <h:outputText value="{car.color}" />
+        </p:column>-->
+ 
+        
+    </p:dataTable>
+</h:form>
+   
+    </ui:define>
+
+</ui:composition>
+

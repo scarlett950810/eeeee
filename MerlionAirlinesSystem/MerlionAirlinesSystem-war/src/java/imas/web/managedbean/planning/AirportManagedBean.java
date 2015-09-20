@@ -55,6 +55,7 @@ public class AirportManagedBean implements Serializable{
     
     public String getNationName() {
         return nationName;
+        
     }
 
     public void setNationName(String nationName) {    

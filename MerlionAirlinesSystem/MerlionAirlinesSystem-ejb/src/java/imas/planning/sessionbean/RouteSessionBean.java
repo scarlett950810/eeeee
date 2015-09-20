@@ -6,6 +6,7 @@
 package imas.planning.sessionbean;
 
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
 import imas.planning.entity.RouteGroupEntity;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
 
         }
     }
+    
 
     @Override
     public void addRoute(AirportEntity origin, AirportEntity destination) {
@@ -228,6 +230,25 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         em.persist(routeGrp);
                         System.out.println("after persist em ");
 
+    }
+
+    @Override
+    public void saveReturnFlights(FlightEntity f) {
+        em.persist(f);
+        System.err.println("saveReturnflighs1");
+        System.err.println("saveReturnflighs2");
+ 
+       System.err.println("saveReturnflighs3");
+    }
+
+    @Override
+    public List<FlightEntity> retrieveAllFlightsGenerated(Integer yearSelected, RouteEntity routeSelected) {
+        Query query = em.createQuery("SELECT a FROM FlightEntity a WHERE a.operatingYear = :year AND (a.route = :route OR a.route = :reverseRoute )");
+        query.setParameter("year", yearSelected);
+        query.setParameter("route", routeSelected);
+        query.setParameter("reverseRoute", routeSelected.getReverseRoute());
+        
+        return (List<FlightEntity>)query.getResultList();
     }
     
     
