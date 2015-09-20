@@ -51,6 +51,7 @@ public class InternalMessageSessionBean implements InternalMessageSessionBeanLoc
         entityManager.persist(newMessage);
     }
     
+    @Override
     public List<InternalMessageEntity> getAllMessages(StaffEntity staff) {
         Query queryForAllMessages = entityManager.createQuery("SELECT m FROM InternalMessageEntity m WHERE m.receiver = :receiver");
         queryForAllMessages.setParameter("receiver", staff);

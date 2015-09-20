@@ -4,6 +4,20 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Production</param-value>
     </context-param>
+    
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>6LdgaQwTAAAAANPeBIvREmpxSvPg8UrB8rdxJU4h</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>6LdgaQwTAAAAALE-upTMXd80IWffdt7hzKrbdCqK</param-value>
+    </context-param>
+    <!--    <context-param>
+        <param-name>org.primefaces.ui.component.captcha.PRIVATE_KEY</param-name>
+        <param-value>6LdgaQwTAAAAALE-upTMXd80IWffdt7hzKrbdCqK</param-value>
+    </context-param>-->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -32,7 +46,7 @@
         <web-resource-collection>
             <web-resource-name>Default Secure Pages</web-resource-name>
             <description>Default Secure Pages</description>
-            <url-pattern>/common/LandingPage.xhtml</url-pattern>
+            <url-pattern>/common/common_landing.xhtml</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
             <description/>

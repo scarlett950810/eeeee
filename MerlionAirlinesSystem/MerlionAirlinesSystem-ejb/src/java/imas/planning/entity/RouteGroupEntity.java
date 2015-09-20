@@ -25,15 +25,12 @@ public class RouteGroupEntity implements Serializable {
     private Double maxRange;
 
     @OneToMany(mappedBy = "routeGroup")
-    private List<RouteEntity> group = new ArrayList<RouteEntity>();
+    private List<RouteEntity> group = new ArrayList<>();
 
     public RouteGroupEntity() {
         
     }
 
-    
-    
-    
     public RouteGroupEntity(String groupCode, Double minRange, Double maxRange ) {
         this.groupCode = groupCode;
         this.minRange = minRange;

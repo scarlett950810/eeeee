@@ -19,6 +19,27 @@
 
     <h:body>
 
+        <h:form>
+            <p:idleMonitor timeout="3600000" onidle="PF('idleDialog').show();"/>
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <p:dialog id="confirmDialog"
+                             header="Are you there?" widgetVar="idleDialog">
+                <h:outputText value="You have been idle for a while, 
+                             Please click ok to continue." />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{loginManagedBean.welcome()}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{loginManagedBean.doLogout()}" />
+
+            </p:dialog>
+
+        </h:form>
+
+
         <p:layout fullPage="true">
 
             <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
@@ -34,17 +55,18 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
-                <form id="toolBox" style="margin: 0px !important;">
+                <h:form id="toolBox" style="margin: 0px !important;">
+                
                     <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" class="menuBasket">
 
-                        <p:menuitem styleClass="icon-resize" value="Logout" icon="../resources/img/menuStack/signOut.png" url="#"/>
+                        <p:menuitem styleClass="icon-resize" value="Logout" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
                         <p:menuitem styleClass="icon-resize" value="Account" icon="../resources/img/menuStack/account.png" url="#"/>
                         <p:menuitem styleClass="icon-resize" value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
                         <p:menuitem styleClass="icon-resize" value="Message" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('message').show();"/>
                         <p:menuitem styleClass="icon-resize" value="Home" icon="../resources/img/menuStack/home.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml"/>
 
                     </p:stack>
-                </form>
+                </h:form>
                 <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
 
                     <p:dataList value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
@@ -68,8 +90,14 @@
                             <h:panelGrid columns="2" cellpadding="5">
 
                                 <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
-                                <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}" effect="fold" editable="true" converter="staffConverter">                                    
-                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff" itemLabel="#{staff.displayName}(#{staff.staffNo}) @ #{staff.departemnt}"  itemValue="#{staff}"/>
+                                <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}"
+                                                 effect="fold" editable="true" converter="staffConverter"
+                                                 var="s" >
+                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff"
+                                                    itemValue="#{staff}" itemLabel="#{staff.id}"  />
+                                    <p:column>
+                                        <h:outputText value="#{s.displayName}(#{s.staffNo}) at" />
+                                   </p:column>
                                 </p:selectOneMenu>
 
                                 <p:outputLabel for="content" value="Content" />
@@ -82,12 +110,13 @@
                     </h:form>
                     <p:panel header="Messages">
                         <p:dataList value="#{internalMessageManagedBean.allMessages}" var="message" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                            <h:outputText value="#{message.sentTime} from #{message.sender}: #{message.content}" style="display:inline-block"/>
+                            <h:outputText value="#{message.sentTime} from #{message.sender.displayName}: #{message.content}" style="display:inline-block"/>
                         </p:dataList>
                     </p:panel>
                 </p:dialog>
 
                 <ui:insert name="centerPanel"></ui:insert>
+
             </p:layoutUnit>
 
         </p:layout>

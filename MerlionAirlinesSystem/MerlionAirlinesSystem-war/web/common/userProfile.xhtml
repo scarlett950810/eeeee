@@ -21,7 +21,7 @@
             <h:outputText value="#{userProfileManagedBean.staff.staffNo}" />
 
             <h:outputText value="Department:" />
-            <h:outputText value="#{userProfileManagedBean.staff.departemnt}" />
+            <h:outputText value="#{userProfileManagedBean.staff.department}" />
 
             <h:outputText value="Email Address:" />
             <h:outputText value="#{userProfileManagedBean.staff.email}" />
@@ -49,9 +49,7 @@
 
         <p:dialog header="Change Password" widgetVar="changePassword" height="200">
             <h:form>
-                <p:growl id="growl" showDetail="true"/>
-
-                <p:messages />
+                <p:messages id="errorMsg" />
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                     <p:outputLabel for="originPassword" value="Please input your original password" />
                     <p:password style="width:100%;" id="originPassword" value="#{userProfileManagedBean.originPassword}" label="originPassword" required="true" requiredMessage="Please input the original password">
@@ -64,10 +62,8 @@
                     <p:outputLabel for="newRepeatPassword" value="Please confirm your password: " />
                     <p:password style="width:100%;" id="newRepeatPassword" value="#{userProfileManagedBean.newRepeatPassword}" label="newRepeatPassword" required="true" requiredMessage="Please repeat the new password">
                     </p:password>
-
-                    <p:commandButton id="changePassword" value="Save" actionListener="#{userProfileManagedBean.changePassword}" update="growl"/>
-
                 </h:panelGrid>
+                <p:commandButton id="changePassword" value="Save" actionListener="#{userProfileManagedBean.changePassword}" update="errorMsg"/>
 
             </h:form>
         </p:dialog>   
