@@ -13,13 +13,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+
 
 /**
  *
  * @author Scarlett
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class StaffEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -82,6 +86,7 @@ public class StaffEntity implements Serializable {
         this.activationStatus = false;
         this.deleteStatus = false;
         this.loginAttempt = new ArrayList();
+        this.salt=null;
     }
 
     public Long getId() {
