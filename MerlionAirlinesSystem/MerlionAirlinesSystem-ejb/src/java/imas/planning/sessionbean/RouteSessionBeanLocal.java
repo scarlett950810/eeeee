@@ -22,7 +22,7 @@ public interface RouteSessionBeanLocal {
 
     void addRoute(AirportEntity origin, AirportEntity destination);
 
-    void connectHubSpoke(String hub, String spoke);
+    Boolean connectHubSpoke(String hub, String spoke);
 
     List<AirportEntity> retrieveHubs();
 
@@ -45,5 +45,10 @@ public interface RouteSessionBeanLocal {
     List<RouteEntity> filterRoutesToConnections(List<RouteEntity> routes);
 
     void createRouteGroup(String groupCode, Double maxRange, Double minRange, ArrayList<RouteEntity> routesGrouped);
+
+    Boolean availabilityCheck(Double range);
+
+    void AddDistToRoute(String hub, String spoke, Double distance);
+
     
 }

@@ -164,5 +164,6 @@ public class AirportManagedBean implements Serializable{
         FacesMessage msg = new FacesMessage("Edit Cancelled", ((AirportEntity) event.getObject()).getAirportCode());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-     
+    
+    
 }

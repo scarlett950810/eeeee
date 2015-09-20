@@ -54,20 +54,26 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         em.persist(reverseRoute);
 
     }
+    
 
     @Override
-    public void connectHubSpoke(String hub, String spoke) {
+    public Boolean connectHubSpoke(String hub, String spoke) {
         Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :hubN");
         query.setParameter("hubN", hub);
         AirportEntity hubEntity = (AirportEntity) query.getSingleResult();
         query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :spokeN");
         query.setParameter("spokeN", spoke);
         AirportEntity spokeEntity = (AirportEntity) query.getSingleResult();
-        checkRoute(hubEntity, spokeEntity);
         if (checkRoute(hubEntity, spokeEntity)) {
             addRoute(hubEntity, spokeEntity);
+            return true;
         }
+        else
+            return false;
     }
+    
+    
+    
     @Override
     public List<AirportEntity> retrieveHubs() {
         Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.hubOrSpoke = :true");
@@ -229,6 +235,34 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
                         System.out.println("after persist em ");
 
     }
+
+    @Override
+    public Boolean availabilityCheck(Double range) {
+        Query query = em.createQuery("SELECT a FROM AircraftTypeEntity a WHERE a.aircraftRange >= :range");
+        query.setParameter("range", range);
+        if(!query.getResultList().isEmpty()){
+            return true;
+        }
+        else
+            return false;
+        
+    }
+
+    @Override
+    public void AddDistToRoute(String hub, String spoke, Double distance) {
+        Query query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.originAirport.airportName =:hub AND a.destinationAirport.airportName = :spoke ");
+        query.setParameter("hub", hub);
+        query.setParameter("spoke", spoke);
+        RouteEntity route1 = (RouteEntity)query.getSingleResult();
+        route1.setDistance(distance);
+        query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.destinationAirport.airportName =:hub AND a.originAirport.airportName = :spoke ");
+        query.setParameter("hub", hub);
+        query.setParameter("spoke", spoke);
+        RouteEntity route2 = (RouteEntity)query.getSingleResult();
+        route2.setDistance(distance);
+    }
+
+    
     
     
     

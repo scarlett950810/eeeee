@@ -42,6 +42,7 @@ public class RouteManagedBean implements Serializable{
     private RouteSessionBeanLocal routeSession;
     private String hub;
     private String spoke;
+    private Double distance;
     private AirportEntity airport;
     private Map<String, String> hubs;
     private Map<String, String> spokes;
@@ -90,6 +91,14 @@ public class RouteManagedBean implements Serializable{
 
     public void setRoutes(List<RouteEntity> routes) {
         this.routes = routes;
+    }
+
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
    
@@ -152,6 +161,16 @@ public class RouteManagedBean implements Serializable{
     }
 
     public Map<String, String> getSpokes() {
+        ArrayList spokesTemp = new ArrayList<String>();
+        for(Object o: routeSession.retrieveHubs()){
+            AirportEntity hub = (AirportEntity)o;
+            String hName = hub.getAirportName();
+            spokesTemp.add(hName);
+        }
+        for(Object hubName: spokesTemp){
+            String hub1 = (String)hubName;
+            spokes.put(hub1, hub1);
+        }
         return spokes;
     }
 
@@ -159,7 +178,27 @@ public class RouteManagedBean implements Serializable{
         this.spokes = spokes;
     }
     public void generateRoutes(){
-        routeSession.connectHubSpoke(hub, spoke);
+        FacesMessage msg;
+        if(hub.equals(spoke))
+            msg = new FacesMessage("Unsuccessful", "Connecting two same airports not allowed");
+        else if(routeSession.availabilityCheck(distance)){//add availability check function 在session bean里implement
+            if(!routeSession.connectHubSpoke(hub, spoke))
+                msg = new FacesMessage("Unsuccessful", "This route has been added");
+            else {
+                routeSession.AddDistToRoute(hub, spoke, distance);
+                msg = new FacesMessage("Successful", "Added the route " + hub + "-->" + spoke +" successfully");
+                //System.err.println("hehe");
+            }
+        }
+        else{
+            if(!routeSession.connectHubSpoke(hub, spoke))
+                msg = new FacesMessage("Unsuccessful", "This route has been added");
+            else{
+                msg = new FacesMessage("", "Route added has exceed the maximum range of current fleet");
+                //System.err.println("haha");
+                }
+            }
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
     }
     public void deleteRoute(){
         String[] airportsName = routeDelete.split(" ");
