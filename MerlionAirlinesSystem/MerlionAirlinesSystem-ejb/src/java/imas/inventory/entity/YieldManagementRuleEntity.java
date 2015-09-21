@@ -27,33 +27,12 @@ public class YieldManagementRuleEntity implements Serializable {
     @OneToOne
     private FlightEntity flight;
     private Integer number;
-//    private Integer timeToDepartureInDaysMoreThanParameter;
-//    private Integer timeToDepartureInDaysLessThanParameter;
-//    private Double totalRevenueMoreThanTotalCostParameter;
-//    private Double totalRevenueLessThanTotalCostParameter;
-//    private Integer increaseEconomyClass1Parameter;
-//    private Integer decreaseEconomyClass1Parameter;
-//    private Integer increaseEconomyClass2Parameter;
-//    private Integer decreaseEconomyClass2Parameter;
-//    private Integer increaseEconomyClass3Parameter;
-//    private Integer decreaseEconomyClass3Parameter;
-//    private Integer increaseEconomyClass4Parameter;
-//    private Integer decreaseEconomyClass4Parameter;
-//    private Integer increaseEconomyClass5Parameter;
-//    private Integer decreaseEconomyClass5Parameter;
     private Integer timeToDepartureInDaysParameter;
     private Double totalRevenueToTotalCostParameter;
-    private Integer changeEconomyClass1Parameter;
-    private Integer changeEconomyClass2Parameter;
-    private Integer changeEconomyClass3Parameter;
-    private Integer changeEconomyClass4Parameter;
-    private Integer changeEconomyClass5Parameter;
-    private Integer percentageSoldParameter;
-    private Integer EconomyClass1RemainingQuotaParameter;
-    private Integer EconomyClass2RemainingQuotaParameter;
-    private Integer EconomyClass3RemainingQuotaParameter;
-    private Integer EconomyClass4RemainingQuotaParameter;
-    private Integer EconomyClass5RemainingQuotaParameter;
+    private Double percentageSoldParameter;
+    private Integer economyClass1RemainingQuotaParameter;
+    private Integer economyClass2RemainingQuotaParameter;
+    private Double changeEconomyClass3and4and5To1Or2PercentageParameter;
 
     private boolean enabled;
 
@@ -61,83 +40,55 @@ public class YieldManagementRuleEntity implements Serializable {
     }
 
     public YieldManagementRuleEntity YieldManagementRule1Entity(FlightEntity flight,
-            Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter,
-            Integer changeEconomyClass1Parameter, Integer changeEconomyClass2Parameter,
-            Integer changeEconomyClass3Parameter, Integer changeEconomyClass4Parameter) {
+            Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter) {
 
         YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();
         yieldManagementRuleEntity.flight = flight;
         yieldManagementRuleEntity.number = 1;
         yieldManagementRuleEntity.timeToDepartureInDaysParameter = timeToDepartureInDaysParameter;
         yieldManagementRuleEntity.totalRevenueToTotalCostParameter = totalRevenueToTotalCostParameter;
-        yieldManagementRuleEntity.changeEconomyClass1Parameter = changeEconomyClass1Parameter;
-        yieldManagementRuleEntity.changeEconomyClass2Parameter = changeEconomyClass2Parameter;
-        yieldManagementRuleEntity.changeEconomyClass3Parameter = changeEconomyClass3Parameter;
-        yieldManagementRuleEntity.changeEconomyClass4Parameter = changeEconomyClass4Parameter;
         yieldManagementRuleEntity.enabled = true;
-
+      
         return yieldManagementRuleEntity;
     }
 
     public YieldManagementRuleEntity YieldManagementRule2Entity(FlightEntity flight,
-            Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter,
-            Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter,
-            Integer changeEconomyClass4Parameter, Integer changeEconomyClass5Parameter) {
+            Integer timeToDepartureInDaysParameter, Double totalRevenueToTotalCostParameter) {
 
         YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();
         yieldManagementRuleEntity.flight = flight;
         yieldManagementRuleEntity.number = 2;
         yieldManagementRuleEntity.timeToDepartureInDaysParameter = timeToDepartureInDaysParameter;
         yieldManagementRuleEntity.totalRevenueToTotalCostParameter = totalRevenueToTotalCostParameter;
-        yieldManagementRuleEntity.changeEconomyClass2Parameter = changeEconomyClass2Parameter;
-        yieldManagementRuleEntity.changeEconomyClass3Parameter = changeEconomyClass3Parameter;
-        yieldManagementRuleEntity.changeEconomyClass4Parameter = changeEconomyClass4Parameter;
-        yieldManagementRuleEntity.changeEconomyClass5Parameter = changeEconomyClass5Parameter;
         yieldManagementRuleEntity.enabled = true;
-
+        
         return yieldManagementRuleEntity;
     }
 
     public YieldManagementRuleEntity YieldManagementRule3Entity(FlightEntity flight,
-            Integer timeToDepartureInDaysParameter, Integer changeEconomyClass1Parameter,
-            Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter,
-            Integer changeEconomyClass4Parameter, Integer changeEconomyClass5Parameter, Integer percentageSoldParameter) {
+            Integer timeToDepartureInDaysParameter, Double percentageSoldParameter) {
 
         YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();
         yieldManagementRuleEntity.flight = flight;
         yieldManagementRuleEntity.number = 3;
         yieldManagementRuleEntity.timeToDepartureInDaysParameter = timeToDepartureInDaysParameter;
-        yieldManagementRuleEntity.changeEconomyClass1Parameter = changeEconomyClass1Parameter;
-        yieldManagementRuleEntity.changeEconomyClass2Parameter = changeEconomyClass2Parameter;
-        yieldManagementRuleEntity.changeEconomyClass3Parameter = changeEconomyClass3Parameter;
-        yieldManagementRuleEntity.changeEconomyClass4Parameter = changeEconomyClass4Parameter;
-        yieldManagementRuleEntity.changeEconomyClass5Parameter = changeEconomyClass5Parameter;
         yieldManagementRuleEntity.percentageSoldParameter = percentageSoldParameter;
         yieldManagementRuleEntity.enabled = true;
-
+        
         return yieldManagementRuleEntity;
     }
 
-    public YieldManagementRuleEntity YieldManagementRule4Entity(FlightEntity flight, Integer timeToDepartureInDaysParameter,
-            Integer changeEconomyClass1Parameter, Integer changeEconomyClass2Parameter, Integer changeEconomyClass3Parameter,
-            Integer changeEconomyClass4Parameter, Integer changeEconomyClass5Parameter, Integer EconomyClass1RemainingQuotaParameter,
-            Integer EconomyClass2RemainingQuotaParameter, Integer EconomyClass3RemainingQuotaParameter,
-            Integer EconomyClass4RemainingQuotaParameter, Integer EconomyClass5RemainingQuotaParameter) {
+    public YieldManagementRuleEntity YieldManagementRule4Entity(FlightEntity flight, 
+            Integer timeToDepartureInDaysParameter, Double changeEconomyClass3and4and5To1Or2PercentageParameter,
+            Integer economyClass1RemainingQuotaParameter, Integer economyClass2RemainingQuotaParameter) {
 
         YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();
         yieldManagementRuleEntity.flight = flight;
         yieldManagementRuleEntity.number = 4;
         yieldManagementRuleEntity.timeToDepartureInDaysParameter = timeToDepartureInDaysParameter;
-        yieldManagementRuleEntity.changeEconomyClass1Parameter = changeEconomyClass1Parameter;
-        yieldManagementRuleEntity.changeEconomyClass2Parameter = changeEconomyClass2Parameter;
-        yieldManagementRuleEntity.changeEconomyClass3Parameter = changeEconomyClass3Parameter;
-        yieldManagementRuleEntity.changeEconomyClass4Parameter = changeEconomyClass4Parameter;
-        yieldManagementRuleEntity.changeEconomyClass5Parameter = changeEconomyClass5Parameter;
-        yieldManagementRuleEntity.EconomyClass1RemainingQuotaParameter = EconomyClass1RemainingQuotaParameter;
-        yieldManagementRuleEntity.EconomyClass2RemainingQuotaParameter = EconomyClass2RemainingQuotaParameter;
-        yieldManagementRuleEntity.EconomyClass3RemainingQuotaParameter = EconomyClass3RemainingQuotaParameter;
-        yieldManagementRuleEntity.EconomyClass4RemainingQuotaParameter = EconomyClass4RemainingQuotaParameter;
-        yieldManagementRuleEntity.EconomyClass5RemainingQuotaParameter = EconomyClass5RemainingQuotaParameter;
+        yieldManagementRuleEntity.economyClass1RemainingQuotaParameter = economyClass1RemainingQuotaParameter;
+        yieldManagementRuleEntity.economyClass2RemainingQuotaParameter = economyClass2RemainingQuotaParameter;
+        yieldManagementRuleEntity.changeEconomyClass3and4and5To1Or2PercentageParameter = changeEconomyClass3and4and5To1Or2PercentageParameter;
         yieldManagementRuleEntity.enabled = true;
 
         return yieldManagementRuleEntity;
@@ -183,92 +134,36 @@ public class YieldManagementRuleEntity implements Serializable {
         this.totalRevenueToTotalCostParameter = totalRevenueToTotalCostParameter;
     }
 
-    public Integer getChangeEconomyClass1Parameter() {
-        return changeEconomyClass1Parameter;
+    public Double getChangeEconomyClass3and4and5To1Or2PercentageParameter() {
+        return changeEconomyClass3and4and5To1Or2PercentageParameter;
     }
 
-    public void setChangeEconomyClass1Parameter(Integer changeEconomyClass1Parameter) {
-        this.changeEconomyClass1Parameter = changeEconomyClass1Parameter;
+    public void setChangeEconomyClass3and4and5To1Or2PercentageParameter(Double changeEconomyClass3and4and5To1Or2PercentageParameter) {
+        this.changeEconomyClass3and4and5To1Or2PercentageParameter = changeEconomyClass3and4and5To1Or2PercentageParameter;
     }
 
-    public Integer getChangeEconomyClass2Parameter() {
-        return changeEconomyClass2Parameter;
-    }
-
-    public void setChangeEconomyClass2Parameter(Integer changeEconomyClass2Parameter) {
-        this.changeEconomyClass2Parameter = changeEconomyClass2Parameter;
-    }
-
-    public Integer getChangeEconomyClass3Parameter() {
-        return changeEconomyClass3Parameter;
-    }
-
-    public void setChangeEconomyClass3Parameter(Integer changeEconomyClass3Parameter) {
-        this.changeEconomyClass3Parameter = changeEconomyClass3Parameter;
-    }
-
-    public Integer getChangeEconomyClass4Parameter() {
-        return changeEconomyClass4Parameter;
-    }
-
-    public void setChangeEconomyClass4Parameter(Integer changeEconomyClass4Parameter) {
-        this.changeEconomyClass4Parameter = changeEconomyClass4Parameter;
-    }
-
-    public Integer getChangeEconomyClass5Parameter() {
-        return changeEconomyClass5Parameter;
-    }
-
-    public void setChangeEconomyClass5Parameter(Integer changeEconomyClass5Parameter) {
-        this.changeEconomyClass5Parameter = changeEconomyClass5Parameter;
-    }
-
-    public Integer getPercentageSoldParameter() {
+    public Double getPercentageSoldParameter() {
         return percentageSoldParameter;
     }
 
-    public void setPercentageSoldParameter(Integer percentageSoldParameter) {
+    public void setPercentageSoldParameter(Double percentageSoldParameter) {
         this.percentageSoldParameter = percentageSoldParameter;
     }
 
     public Integer getEconomyClass1RemainingQuotaParameter() {
-        return EconomyClass1RemainingQuotaParameter;
+        return economyClass1RemainingQuotaParameter;
     }
 
-    public void setEconomyClass1RemainingQuotaParameter(Integer EconomyClass1RemainingQuotaParameter) {
-        this.EconomyClass1RemainingQuotaParameter = EconomyClass1RemainingQuotaParameter;
+    public void setEconomyClass1RemainingQuotaParameter(Integer economyClass1RemainingQuotaParameter) {
+        this.economyClass1RemainingQuotaParameter = economyClass1RemainingQuotaParameter;
     }
 
     public Integer getEconomyClass2RemainingQuotaParameter() {
-        return EconomyClass2RemainingQuotaParameter;
+        return economyClass2RemainingQuotaParameter;
     }
 
-    public void setEconomyClass2RemainingQuotaParameter(Integer EconomyClass2RemainingQuotaParameter) {
-        this.EconomyClass2RemainingQuotaParameter = EconomyClass2RemainingQuotaParameter;
-    }
-
-    public Integer getEconomyClass3RemainingQuotaParameter() {
-        return EconomyClass3RemainingQuotaParameter;
-    }
-
-    public void setEconomyClass3RemainingQuotaParameter(Integer EconomyClass3RemainingQuotaParameter) {
-        this.EconomyClass3RemainingQuotaParameter = EconomyClass3RemainingQuotaParameter;
-    }
-
-    public Integer getEconomyClass4RemainingQuotaParameter() {
-        return EconomyClass4RemainingQuotaParameter;
-    }
-
-    public void setEconomyClass4RemainingQuotaParameter(Integer EconomyClass4RemainingQuotaParameter) {
-        this.EconomyClass4RemainingQuotaParameter = EconomyClass4RemainingQuotaParameter;
-    }
-
-    public Integer getEconomyClass5RemainingQuotaParameter() {
-        return EconomyClass5RemainingQuotaParameter;
-    }
-
-    public void setEconomyClass5RemainingQuotaParameter(Integer EconomyClass5RemainingQuotaParameter) {
-        this.EconomyClass5RemainingQuotaParameter = EconomyClass5RemainingQuotaParameter;
+    public void setEconomyClass2RemainingQuotaParameter(Integer economyClass2RemainingQuotaParameter) {
+        this.economyClass2RemainingQuotaParameter = economyClass2RemainingQuotaParameter;
     }
 
     public boolean isEnabled() {

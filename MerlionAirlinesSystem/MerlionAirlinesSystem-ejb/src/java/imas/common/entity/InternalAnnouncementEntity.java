@@ -32,7 +32,7 @@ public class InternalAnnouncementEntity implements Serializable {
     
     private String content;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date sentTime;
     
     private boolean isRead;
@@ -81,10 +81,10 @@ public class InternalAnnouncementEntity implements Serializable {
         this.title = title;
     }
 
-    public Date getSentTime() {
+    public Date getSentTime() {       
         return sentTime;
     }
-
+    
     public void setSentTime(Date sentTime) {
         this.sentTime = sentTime;
     }

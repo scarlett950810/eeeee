@@ -114,14 +114,15 @@
                                 <p:outputLabel for="content" value="Content" />
                                 <p:inputTextarea style="width: 100%;" id="content" value="#{internalMessageManagedBean.content}"></p:inputTextarea>
 
-                                <p:commandButton id="sendAnnouncement" value="Send" actionListener="#{internalMessageManagedBean.send}" update="sendMessageMsg"/>
+                                <p:commandButton id="sendAnnouncement" value="Send"
+                                                 actionListener="#{internalMessageManagedBean.send}" update="sendMessage:sendMessageMsg viewMessages:messageTable"/>
 
                             </h:panelGrid>
                         </p:panel>
                     </h:form>
                     <p:panel header="Messages">
-                        <h:form>
-                            <p:dataTable value="#{internalMessageManagedBean.allMessages}" var="message" 
+                        <h:form id="viewMessages">
+                            <p:dataTable id="messageTable" value="#{internalMessageManagedBean.allMessages}" var="message" 
                                          paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
                                          editable="true" editMode="cell" sortMode="multiple"
                                          resizableColumns="true" liveResize="true">

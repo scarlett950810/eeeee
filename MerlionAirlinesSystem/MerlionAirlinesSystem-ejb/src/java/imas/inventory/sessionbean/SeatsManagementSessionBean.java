@@ -12,6 +12,7 @@ import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,7 +27,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     
     @PersistenceContext
     private EntityManager entityManager;
-   
+    
     @Override
     public List<FlightEntity> getFlightsWithoutBookingClass() {
         List<FlightEntity> flightsWithoutBookingClass = new ArrayList();
@@ -61,22 +62,32 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     }
     
     @Override
-    public void generateEconomyClassXBookingClassEntity(FlightEntity flight, double price, int quota) {
+    public void generateEconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota) {
         entityManager.persist(new BookingClassEntity().EconomyClass2BookingClassEntity(flight, price, quota));
     }
     
     @Override
-    public void generateEconomyClassYBookingClassEntity(FlightEntity flight, double price, int quota) {
+    public void generateEconomyClass2BookingClassEntity(FlightEntity flight, double price, int quota) {
+        entityManager.persist(new BookingClassEntity().EconomyClass2BookingClassEntity(flight, price, quota));
+    }
+    
+    @Override
+    public void generateEconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota) {
         entityManager.persist(new BookingClassEntity().EconomyClass3BookingClassEntity(flight, price, quota));
     }
     
     @Override
-    public void generateEconomyClassZBookingClassEntity(FlightEntity flight, double price, int quota) {
+    public void generateEconomyClass4BookingClassEntity(FlightEntity flight, double price, int quota) {
         entityManager.persist(new BookingClassEntity().EconomyClass4BookingClassEntity(flight, price, quota));
     }
     
     @Override
-    public void generateEconomyClassTBookingClassEntity(FlightEntity flight, double price, int quota) {
+    public void generateEconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota) {
+        entityManager.persist(new BookingClassEntity().EconomyClass4BookingClassEntity(flight, price, quota));
+    }
+    
+    @Override
+    public void generateEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
         entityManager.persist(new BookingClassEntity().EconomyClassAgencyBookingClassEntity(flight, price, quota));
     }
     
@@ -214,12 +225,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
             i = i + 1;
         }
     }
-
-    @Override
-    public void getBaseFare() {
-        
-    }
     
-    
-
 }
+

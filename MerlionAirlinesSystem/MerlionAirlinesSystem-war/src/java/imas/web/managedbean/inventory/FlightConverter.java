@@ -23,12 +23,11 @@ public class FlightConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
-        System.out.println("converter value:" + value);
 
         if (value != null && value.trim().length() > 0) {
             try {
 
-                List<FlightEntity> flightEntities = (List<FlightEntity>) fc.getExternalContext().getSessionMap().get("pendingFlights");
+                List<FlightEntity> flightEntities = (List<FlightEntity>) fc.getExternalContext().getSessionMap().get("allFlights");
 
                 Long flightEntityId = Long.valueOf(Long.parseLong(value));
 
@@ -49,7 +48,7 @@ public class FlightConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-        System.out.println("converter object:" + object);
+
         if (object != null) {
             return String.valueOf(((FlightEntity) object).getId());
         } else {

@@ -25,9 +25,9 @@ public interface SeatsManagementSessionBeanLocal {
     public int getFirstClassCapacity(FlightEntity flight);
 
     public int getBusinessClassCapacity(FlightEntity flight);
-                  
+
     public int getPremiumEconomyClassCapacity(FlightEntity flight);
-    
+
     public int getEconomyClassCapacity(FlightEntity flight);
 
     public void generateFirstClassBookingClassEntity(FlightEntity flight, double price, int quota);
@@ -36,15 +36,16 @@ public interface SeatsManagementSessionBeanLocal {
 
     public void generatePremiumEconomyClassBookingClassEntity(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClassXBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateEconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClassYBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateEconomyClass2BookingClassEntity(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClassZBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateEconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClassTBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateEconomyClass4BookingClassEntity(FlightEntity flight, double price, int quota);
 
-    public void getBaseFare();
+    public void generateEconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota);
 
-   
+    public void generateEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
+
 }

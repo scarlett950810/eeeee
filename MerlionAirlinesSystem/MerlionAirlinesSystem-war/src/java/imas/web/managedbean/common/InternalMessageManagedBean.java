@@ -9,6 +9,8 @@ import imas.common.entity.InternalMessageEntity;
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.InternalMessageSessionBeanLocal;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -51,6 +53,7 @@ public class InternalMessageManagedBean implements Serializable {
        
         staffList = internalMessageSessionBean.getAllStaff();        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", staffList);
+        allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
     }
 
     @PostRemove
@@ -91,7 +94,7 @@ public class InternalMessageManagedBean implements Serializable {
     }
 
     public List<InternalMessageEntity> getAllMessages() {
-        return internalMessageSessionBean.getAllMessages(loggedInStaff);
+        return this.allMessages;
     }
 
     public void setAllMessages(List<InternalMessageEntity> allMessages) {
@@ -106,4 +109,5 @@ public class InternalMessageManagedBean implements Serializable {
     public void toggleRead(InternalMessageEntity internalMessageEntity) {
         internalMessageSessionBean.toggleRead(internalMessageEntity);
     }
+    
 }

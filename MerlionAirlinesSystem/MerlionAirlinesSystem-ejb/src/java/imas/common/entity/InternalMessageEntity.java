@@ -36,7 +36,7 @@ public class InternalMessageEntity implements Serializable {
     
     private String content;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date sentTime;
     
     private boolean isRead;

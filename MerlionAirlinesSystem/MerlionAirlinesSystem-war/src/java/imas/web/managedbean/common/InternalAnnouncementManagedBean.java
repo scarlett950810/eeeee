@@ -6,11 +6,12 @@
 package imas.web.managedbean.common;
 
 import imas.common.entity.InternalAnnouncementEntity;
-import imas.common.entity.InternalMessageEntity;
 import imas.common.sessionbean.InternalAnnouncementSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import imas.planning.entity.AirportEntity;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -50,6 +51,9 @@ public class InternalAnnouncementManagedBean {
     @PostConstruct
     public void init() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.airportList);
+        String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
+        allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(staffNo);
+    
     }
 
     @PostRemove
@@ -120,8 +124,7 @@ public class InternalAnnouncementManagedBean {
     }
 
     public List<InternalAnnouncementEntity> getAllAnnouncements() {
-        String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-        return (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(staffNo);
+        return this.allAnnouncements;
     }
 
     public void setAllAnnouncements(List<InternalAnnouncementEntity> allAnnouncements) {
@@ -131,4 +134,10 @@ public class InternalAnnouncementManagedBean {
     public void toggleRead(InternalAnnouncementEntity announcementEntity) {
         internalAnnouncementSessionBean.toggleRead(announcementEntity);
     }
+
+//    public String getFormatTime(Date d){
+//        SimpleDateFormat dateF = new SimpleDateFormat("yyyy/MM/dd 'at' HH:mm:ss z\"");
+//        return dateF.format(d);
+//    }
+
 }
