@@ -38,11 +38,14 @@ public class AircraftEntity implements Serializable {
 
     private Double aircraftLife;
     private Double operationYear;
+    private Double turnAroundTime; //minutes
     private String conditionDescription; // This is a string containing the description of the aircraft condition such as the left wing is abnormal
 
     //private FlightEntity flight;
     @OneToMany(mappedBy = "aircraft")
     private List<FlightEntity> flights;
+    @OneToMany(mappedBy = "aircraft")
+    private List<MaintenanceScheduleEntity> maintenances;
     //private SeatEntity Configuration;  
     @OneToMany(mappedBy = "aircraft", cascade = {CascadeType.ALL})
     private List<SeatEntity> seats;
@@ -80,6 +83,22 @@ public class AircraftEntity implements Serializable {
 
     public void setAircraftGroup(AircraftGroupEntity aircraftGroup) {
         this.aircraftGroup = aircraftGroup;
+    }
+
+    public Double getTurnAroundTime() {
+        return turnAroundTime;
+    }
+
+    public List<MaintenanceScheduleEntity> getMaintenances() {
+        return maintenances;
+    }
+
+    public void setMaintenances(List<MaintenanceScheduleEntity> maintenances) {
+        this.maintenances = maintenances;
+    }
+
+    public void setTurnAroundTime(Double turnAroundTime) {
+        this.turnAroundTime = turnAroundTime;
     }
 
     public AirportEntity getCurrentAirport() {

@@ -103,7 +103,9 @@ public class AircraftManagedBean implements Serializable {
     public String getTailId() {
         return tailId;
     }
-
+    public void abc(){
+        System.err.println("abc");
+    }
     public void setTailId(String tailId) {
         this.tailId = tailId;
     }

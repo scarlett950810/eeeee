@@ -56,7 +56,7 @@
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="planningPeriod" value="Planning Period: " />
                     <p:selectOneMenu id="planningPeriod" value="#{scheduleDevelopmentManagedBean.planningPeiord}" style="width:400px">
-                        <p:ajax event="change" update="endDate"/>
+                        <p:ajax event="change" update="endDate" process="@this popup endDate"/>
                         <f:selectItem itemLabel="Select Planning Period" itemDisabled="true" />
                         <f:selectItems value="#{scheduleDevelopmentManagedBean.years}" var="year" itemLabel="#{year} year" itemValue="#{year}" />
                     </p:selectOneMenu>

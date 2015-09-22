@@ -78,6 +78,7 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
     }
 
     public void setFrequencyFinished() throws IOException {
+        System.err.println("print date"+date);
         System.out.println("enter setFrequency");
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
@@ -209,7 +210,8 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
 
     public String getEndingDate() {
         System.err.println("changechange");
-        if(date!=null){
+        if(date!=null)
+        {
          Calendar cal = Calendar.getInstance();
          cal.setTime(date);
          cal.add(Calendar.YEAR, planningPeiord);
@@ -217,6 +219,10 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
           endingDate = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());            
          
          }
+        else
+        {
+            System.err.println("date is NULL");
+        }
         return endingDate;
     }
 
