@@ -191,7 +191,7 @@ public class RouteManagedBean implements Serializable{
             }
         }
         else{
-            if(!routeSession.connectHubSpoke(hub, spoke))
+            if(!routeSession.checkRouteByStringName(hub, spoke))
                 msg = new FacesMessage("Unsuccessful", "This route has been added");
             else{
                 msg = new FacesMessage("", "Route added has exceed the maximum range of current fleet");

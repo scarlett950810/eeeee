@@ -20,6 +20,7 @@ import javax.ejb.Local;
 public interface RouteSessionBeanLocal {
 
     Boolean checkRoute(AirportEntity origin, AirportEntity destination);
+    Boolean checkRouteByStringName(String hub, String spoke);
 
     void addRoute(AirportEntity origin, AirportEntity destination);
 

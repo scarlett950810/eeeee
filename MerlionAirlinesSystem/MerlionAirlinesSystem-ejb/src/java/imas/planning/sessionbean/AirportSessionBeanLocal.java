@@ -27,5 +27,9 @@ public interface AirportSessionBeanLocal {
     void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName);
 
     AirportEntity getAirport(String airportCode);
+
+    Boolean checkRelatedRoute(AirportEntity a);
+
+    Boolean checkRelatedAircraft(AirportEntity a);
     
 }

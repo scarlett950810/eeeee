@@ -39,6 +39,7 @@
                 <li>
                     <a href="planningAirport.xhtml">Airport Management</a>
                 </li>
+                <li><a href="planningRoute.xhtml">Route Management</a></li>
                 <li>
                     <a href="planningAddRoute.xhtml">Add Route</a>
                 </li>
@@ -94,7 +95,14 @@
                         <f:facet name="input"><p:inputText value="#{airport.airportCode}" style="width:100%" label="Airport Code"/></f:facet>
                     </p:cellEditor>
                 </p:column>
-
+                
+                 
+                <p:column headerText="Hub or Spoke">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{airportManagedBean.getHubOrSpoke(airport)}" /></f:facet>
+                        <f:facet name="input"><p:inputText style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
 
                 
                 <p:column style="width:32px">
@@ -104,8 +112,9 @@
         </h:form>
         
         <h:form>
+            <p:commandButton value="Delete Airport"  actionListener="#{airportManagedBean.goDeleteAirport()}" style="display: inline-block; float: right;" ajax="false"/>
             <p:commandButton value="Add Airport"  actionListener="#{airportManagedBean.addAirport()}" style="display: inline-block; float: right;" ajax="false"/>
-            <p:commandButton value="Delete Airport"  action="planningDeleteAirport.xhtml" style="display: inline-block; float: right;" ajax="false"/>
+            
         </h:form>
 
         

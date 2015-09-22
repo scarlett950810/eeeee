@@ -30,7 +30,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     // "Insert Code > Add Business Method")
     @Override
     public Boolean checkRoute(AirportEntity origin, AirportEntity destination) {
-        Query query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.originAirport = :origin AND a.destinationAirport = :destination");
+        Query query = em.createQuery("SELECT a FROM RouteEntity a WHERE (a.originAirport = :origin AND a.destinationAirport = :destination)OR(a.originAirport = :destination AND a.destinationAirport = :origin)");
         query.setParameter("origin", origin);
         query.setParameter("destination", destination);
         List<RouteEntity> route = (List<RouteEntity>) query.getResultList();
@@ -41,7 +41,27 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
 
         }
     }
-    
+    @Override
+    public Boolean checkRouteByStringName(String hub, String spoke) {
+        Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :hubN");
+        query.setParameter("hubN", hub);
+        AirportEntity hubEntity = (AirportEntity) query.getSingleResult();
+        query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :spokeN");
+        query.setParameter("spokeN", spoke);
+        AirportEntity spokeEntity = (AirportEntity) query.getSingleResult();  
+        
+        query = em.createQuery("SELECT a FROM RouteEntity a WHERE (a.originAirport = :origin AND a.destinationAirport = :destination)OR(a.originAirport = :destination AND a.destinationAirport = :origin)");
+              
+        query.setParameter("origin", hubEntity);
+        query.setParameter("destination", spokeEntity);
+        List<RouteEntity> route = (List<RouteEntity>) query.getResultList();
+        if (route.isEmpty()) {
+            return true;
+        } else {
+            return false;
+
+        }
+    }
 
     @Override
     public void addRoute(AirportEntity origin, AirportEntity destination) {
@@ -64,7 +84,8 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :spokeN");
         query.setParameter("spokeN", spoke);
         AirportEntity spokeEntity = (AirportEntity) query.getSingleResult();
-        if (checkRoute(hubEntity, spokeEntity)) {
+        if (checkRouteByStringName(hub,spoke)) {
+            System.err.println("added");
             addRoute(hubEntity, spokeEntity);
             return true;
         }
@@ -241,6 +262,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         Query query = em.createQuery("SELECT a FROM AircraftTypeEntity a WHERE a.aircraftRange >= :range");
         query.setParameter("range", range);
         if(!query.getResultList().isEmpty()){
+            System.err.println("true");                 
             return true;
         }
         else
@@ -253,6 +275,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         Query query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.originAirport.airportName =:hub AND a.destinationAirport.airportName = :spoke ");
         query.setParameter("hub", hub);
         query.setParameter("spoke", spoke);
+
         RouteEntity route1 = (RouteEntity)query.getSingleResult();
         route1.setDistance(distance);
         query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.destinationAirport.airportName =:hub AND a.originAirport.airportName = :spoke ");
@@ -260,6 +283,10 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("spoke", spoke);
         RouteEntity route2 = (RouteEntity)query.getSingleResult();
         route2.setDistance(distance);
+        Double speed = 900.0; //800km/hour
+        Double hours = distance/speed;
+        route1.setFlightHours(hours);
+        route2.setFlightHours(hours);
     }
 
     
