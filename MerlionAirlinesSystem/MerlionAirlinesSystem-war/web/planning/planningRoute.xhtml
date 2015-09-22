@@ -68,8 +68,8 @@
 
                 <p:column headerText="Estimated Flight Hours">
                     <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{route.flightHours}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{route.flightHours}" style="width:100%" label="Flight Hours"/></f:facet>
+                        <f:facet name="output"><h:outputText value="#{routeManagedBean.calculateDist(route.distance)}" /></f:facet>
+                        <f:facet name="input"><p:inputText style="width:100%" label="Flight Hours"/></f:facet>
                     </p:cellEditor>
                 </p:column>
                 

@@ -81,11 +81,11 @@
                     </p:inputText>
                     
                     <p:outputLabel for="MaintenanceHoursRequiredACheck" value="Maintainence Hours" />
-                    <p:inputText style="width:100%;" id="MaintenanceHoursRequiredACheck" value="#{aircraftTypeManagedBean.MaintenanceHoursRequiredACheck}" label="MaintenanceHoursRequiredACheck" required="true" requiredMessage="Please input maintainence hours">
+                    <p:inputText style="width:100%;" id="MaintenanceHoursRequiredACheck" value="#{aircraftTypeManagedBean.maintenanceHoursRequiredACheck}" label="MaintenanceHoursRequiredACheck" required="true" requiredMessage="Please input maintainence hours">
                         <p:watermark for="MaintenanceHoursRequiredACheck" value="Please enter maintainence hours" />
                     </p:inputText>
                     
-                    <p:commandButton id="addAircraftType" value="Confirm" actionListener="#{airportManagedBean.save}" update="growl"/>
+                    <p:commandButton id="addAircraftType" value="Confirm" actionListener="#{aircraftTypeManagedBean.save}" update="growl"/>
 
                 </h:panelGrid>
             </p:panel>
