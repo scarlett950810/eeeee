@@ -3,12 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/RouteEntity.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/FlightEntity.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/sessionbean/FleetAssignmentLocal.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/AircraftGroupEntity.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/AircraftEntity.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/sessionbean/FleetAssignment.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/MaintenanceScheduleEntity.java</file>
+            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/common/entity/InternalAnnouncementEntity.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/AircraftTypeEntity.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/src/java/imas/planning/entity/FlightRecordEntity.java</file>
         </group>
