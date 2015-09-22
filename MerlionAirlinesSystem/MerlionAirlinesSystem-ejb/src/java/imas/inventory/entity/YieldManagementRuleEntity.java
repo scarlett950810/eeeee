@@ -79,8 +79,9 @@ public class YieldManagementRuleEntity implements Serializable {
     }
 
     public YieldManagementRuleEntity YieldManagementRule4Entity(FlightEntity flight, 
-            Integer timeToDepartureInDaysParameter, Double changeEconomyClass3and4and5To1Or2PercentageParameter,
-            Integer economyClass1RemainingQuotaParameter, Integer economyClass2RemainingQuotaParameter) {
+            Integer timeToDepartureInDaysParameter,
+            Integer economyClass1RemainingQuotaParameter, Integer economyClass2RemainingQuotaParameter, 
+            Double changeEconomyClass3and4and5To1Or2PercentageParameter) {
 
         YieldManagementRuleEntity yieldManagementRuleEntity = new YieldManagementRuleEntity();
         yieldManagementRuleEntity.flight = flight;

@@ -5,7 +5,6 @@
  */
 package imas.inventory.entity;
 
-import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;

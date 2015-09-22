@@ -35,17 +35,20 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
 
+    // TODO: after a new flight is set to departured, re-compute the route popularity
     @Override
     public Double getRoutePopularity(RouteEntity route) {
         Double totalRevenue = 0.0;
         Integer totalSeatNo = 0;
-
+        Double routeDistance = route.getDistance();
+        
         Query queryForFlightsUnderRoute = entityManager.createQuery("SELECT f FROM FlightEntity f WHERE f.route = :route");
         queryForFlightsUnderRoute.setParameter("route", route);
         List<FlightEntity> flightsUnderRoute = (List<FlightEntity>) queryForFlightsUnderRoute.getResultList();
 //        System.out.println(flightsUnderRoute);
         for (FlightEntity f : flightsUnderRoute) {
-            Query queryForAllTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight");
+            Query queryForAllTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
+                    + "WHERE t.bookingClass.flight = :flight");
             queryForAllTicketsUnderFlight.setParameter("flight", f);
             List<TicketEntity> tickets = queryForAllTicketsUnderFlight.getResultList();
 
@@ -54,7 +57,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
                 totalRevenue = totalRevenue + t.getBookingClass().getPrice();
             }
 
-            return totalRevenue / totalSeatNo;
+            return totalRevenue / (totalSeatNo * routeDistance);
 
         }
         return 0.0;
@@ -72,7 +75,8 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     public double getTotalEconomyClassRevenue(FlightEntity flight) {
         double totalRevenueTillNow = 0.0;
 
-        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight");
+        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
+                + "WHERE t.bookingClass.flight = :flight");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         List<TicketEntity> tickets = queryForAllCurrentTicketsUnderFlight.getResultList();
 
@@ -95,7 +99,8 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     // Full Service Economy
     @Override
     public int getTotalNumberOfSoldEconomyClass1Ticket(FlightEntity flight) {
-        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight AND t.bookingClass.name = :bookingClassName");
+        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
+                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Full Service Economy");
 
@@ -106,7 +111,8 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     // Economy Plus
     @Override
     public int getTotalNumberOfSoldEconomyClass2Ticket(FlightEntity flight) {
-        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight AND t.bookingClass.name = :bookingClassName");
+        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
+                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Economy Plus");
 
@@ -117,7 +123,8 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     // Standard Economy
     @Override
     public int getTotalNumberOfSoldEconomyClass3Ticket(FlightEntity flight) {
-        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight AND t.bookingClass.name = :bookingClassName");
+        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
+                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Standard Economy");
 
@@ -128,7 +135,8 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     // Economy Save
     @Override
     public int getTotalNumberOfSoldEconomyClass4Ticket(FlightEntity flight) {
-        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight AND t.bookingClass.name = :bookingClassName");
+        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
+                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Economy Save");
 
@@ -140,7 +148,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     @Override
     public int getTotalNumberOfSoldEconomyClass5Ticket(FlightEntity flight) {
         Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.flight = :flight AND t.bookingClass.name = :bookingClassName");
+                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Economy Super Save");
 
@@ -150,7 +158,8 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     @Override
     public int getTotalNumberOfSoldEconomyClassesTicket(FlightEntity flight) {
-        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight AND t.bookingClass.seatClass = :seatClass");
+        Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
+                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.seatClass = :seatClass");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("seatClass", "Economy Class");
 
@@ -446,7 +455,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         YieldManagementRuleEntity yieldManagementRuleEntity3 = 
                 new YieldManagementRuleEntity().YieldManagementRule3Entity(flight1, 10, 0.8);
         YieldManagementRuleEntity yieldManagementRuleEntity4 = 
-                new YieldManagementRuleEntity().YieldManagementRule4Entity(flight1, 15, 0.3, 3, 5);
+                new YieldManagementRuleEntity().YieldManagementRule4Entity(flight1, 15, 3, 5, 0.3);
         YieldManagementRuleEntity yieldManagementRuleEntity11 = 
                 new YieldManagementRuleEntity().YieldManagementRule1Entity(flight2, 60, 1.5);
         YieldManagementRuleEntity yieldManagementRuleEntity12 = 
@@ -454,7 +463,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         YieldManagementRuleEntity yieldManagementRuleEntity13 = 
                 new YieldManagementRuleEntity().YieldManagementRule3Entity(flight2, 10, 0.8);
         YieldManagementRuleEntity yieldManagementRuleEntity14 = 
-                new YieldManagementRuleEntity().YieldManagementRule4Entity(flight2, 15, 0.3, 3, 5);
+                new YieldManagementRuleEntity().YieldManagementRule4Entity(flight2, 15, 3, 8, 0.5);
         
         entityManager.persist(yieldManagementRuleEntity1);
         entityManager.persist(yieldManagementRuleEntity2);
@@ -467,4 +476,62 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         
     }
 
+    @Override
+    public void autoCreateRulesForFlight(FlightEntity flight) {
+        Double popularity = flight.getRoute().getPopularity();
+        Query queryForMinMax = entityManager.createQuery("SELECT r.popularity FROM RouteEntity r ORDER BY r.popularity ASC");
+        int size = queryForMinMax.getResultList().size();
+        Double maxPopularity = (Double) queryForMinMax.getResultList().get(size - 1);
+        Double minPopularity = (Double) queryForMinMax.getResultList().get(0);
+        
+        Double normalizedPopularity = normalizePopularity(popularity, maxPopularity, minPopularity);
+        
+        createRule1(flight, normalizedPopularity);
+        createRule2(flight, normalizedPopularity);
+        createRule3(flight, normalizedPopularity);
+        createRule4(flight, normalizedPopularity);
+    }
+    
+    private Double normalizePopularity(Double popularity, Double max, Double min) {
+        return (popularity - min) / (max - min); 
+    }
+    
+    private void createRule1(FlightEntity flight, Double normalizedPopularity) {
+//        A = 40 + np* (80-40)
+        Integer a = (int) (40 + normalizedPopularity * (80 - 40));
+//        B = 1 + np* (2-1)
+        Double b = 1 + normalizedPopularity * (2 - 1);
+        YieldManagementRuleEntity rule1 = new YieldManagementRuleEntity().YieldManagementRule1Entity(flight, a, b);
+        entityManager.persist(rule1);
+    }
+    
+    private void createRule2(FlightEntity flight, Double normalizedPopularity) {
+//        A = 40 + np* (80-40)
+        Integer a = (int) (40 + normalizedPopularity * (80 - 40));
+//        B = 0.5+ np* (1.2-0.5)
+        Double b = 0.5 + normalizedPopularity * (1.2 - 0.5);
+        YieldManagementRuleEntity rule2 = new YieldManagementRuleEntity().YieldManagementRule2Entity(flight, a, b);
+        entityManager.persist(rule2);
+    }
+    
+    private void createRule3(FlightEntity flight, Double normalizedPopularity) {
+//        A = 10 + np* (20-10)
+        Integer a = (int) (10 + normalizedPopularity * (20 - 10));
+//        B = 0.6+ np* (0.8-0.6)
+        Double b = 0.6 + normalizedPopularity * (0.8 - 0.6);
+        YieldManagementRuleEntity rule3 = new YieldManagementRuleEntity().YieldManagementRule3Entity(flight, a, b);
+        entityManager.persist(rule3);
+    }
+    
+    private void createRule4(FlightEntity flight, Double normalizedPopularity) {
+//        A = 10 + np* (20-10)
+        Integer a = (int) (10 + normalizedPopularity * (20 - 10));
+//        B1 = 3+ np* (10-3), B2 = 5 + np* (12-5)
+        Integer b1 = (int) (3 + normalizedPopularity * (10 - 3));
+        Integer b2 = (int) (5 + normalizedPopularity * (12 - 5));
+//        C = 0.1 + np* (0.5-0.1)
+        Double c = 0.1 + normalizedPopularity * (0.5 - 0.1);
+        YieldManagementRuleEntity rule4 = new YieldManagementRuleEntity().YieldManagementRule4Entity(flight, a, b1, b2, c);
+        entityManager.persist(rule4);
+    }
 }

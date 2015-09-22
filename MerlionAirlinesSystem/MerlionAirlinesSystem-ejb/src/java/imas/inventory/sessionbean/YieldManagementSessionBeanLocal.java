@@ -57,5 +57,7 @@ public interface YieldManagementSessionBeanLocal {
     public void runYieldManagementRule4(YieldManagementRuleEntity yieldManagementRuleEntity);
 
     public void insertRules();
+
+    public void autoCreateRulesForFlight(FlightEntity flight);
    
 }
