@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Set Frequency for Route</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Edit or Delete Aircraft</a></li>
+                <li><a href="planningManageAircraftGroup.xhtml">Manage Aircraft Group</a></li>
+
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Airport Management</a></li>
+                <li><a href="planningAddRoute.xhtml">Add Route</a></li>
+                <li><a href="planningDeleteRoute.xhtml">Delete Route</a></li>
+                <li><a href="planningSetFrequencyAndTime.xhtml">Set Frequency and Time</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <h:form id="f1">
+            <p:panel header="Choose Route for Frequency Setting" style="margin-bottom: 15px">
+
+                <h:outputText value="Select a route and its return route for frequency setting"/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel value="Routes seleted: " />
+                    <p:selectOneMenu id="routesSelected" value="#{scheduleDevelopmentManagedBean.routeSelected}" style="width:400px" converter="routeConverter">
+                        <f:selectItem itemLabel="Select Route" itemDisabled="true" />
+                        <f:selectItems value="#{scheduleDevelopmentManagedBean.connectionsAll}" var="connections" itemLabel="#{connections.returnRoutesName}" itemValue="#{connections}" />
+
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                
+               <h:outputText value="Choose a planning period"/>
+
+                <p:growl id="msgs" showDetail="true" />
+                   <h:outputText value="You are only allowed to choose the period after one year according to regulations"/>
+                
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="popup" value="Starting Date: " />
+                    <p:calendar id="popup" value="#{scheduleDevelopmentManagedBean.date}" mindate="#{scheduleDevelopmentManagedBean.minDate}"/>
+                       
+                </h:panelGrid>
+                
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="planningPeriod" value="Planning Period: " />
+                    <p:selectOneMenu id="planningPeriod" value="#{scheduleDevelopmentManagedBean.planningPeiord}" style="width:400px">
+                        <p:ajax event="change" update="endDate"/>
+                        <f:selectItem itemLabel="Select Planning Period" itemDisabled="true" />
+                        <f:selectItems value="#{scheduleDevelopmentManagedBean.years}" var="year" itemLabel="#{year} year" itemValue="#{year}" />
+                    </p:selectOneMenu>
+                    
+                    <h:outputText id="endDate" value="Ending Date: #{scheduleDevelopmentManagedBean.endingDate}"/>
+             
+                </h:panelGrid>
+                   
+                             
+            </p:panel>
+
+            <p:panel header="Set Frequency for route" style="margin-bottom: 15px">
+                <h:panelGrid columns="1"  cellpadding="7">            
+                    <p:outputLabel for="iteration" value="Choose Iteration Period: " />
+                    <p:selectOneRadio id="iteration" value="#{scheduleDevelopmentManagedBean.iterationPeriod}">
+                        <f:selectItem itemLabel="Day" itemValue="Day" />
+                        <f:selectItem itemLabel="Week" itemValue="Week" />
+                    </p:selectOneRadio>
+                    <p:outputLabel for="time" value="Input flight times per period: " style="font-weight:bold" />
+                    <p:inputText id="time" value="#{scheduleDevelopmentManagedBean.flightTimes}" />
+                </h:panelGrid>
+            </p:panel>
+            <p:commandButton value="Submit" actionListener="#{scheduleDevelopmentManagedBean.setFrequencyFinished}" icon="ui-icon-check" />
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

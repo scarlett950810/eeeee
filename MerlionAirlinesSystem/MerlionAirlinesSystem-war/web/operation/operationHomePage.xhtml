@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../templates/DefaultTemplate.xhtml"
@@ -8,22 +8,21 @@
         <!--insert customized import here-->
     </ui:define>
 
-    <ui:define name="title">Inventory Home Page</ui:define>
+    <ui:define name="title">Flight Operation Home Page</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Seats Management</a></li>                     
-                <li class="sidebar-h1"><a href="#">Price Management</a></li>         
-                <li class="sidebar-h1"><a href="#">Revenue Management</a></li>  
-                <li class="sidebar-h1"><a href="inventoryCost.xhtml">Inventory Cost </a></li>
-              
+                <li class="sidebar-h1"><a href="#">Crew Check-in </a></li> 
+                <li class="sidebar-h1"><a href="#">Crew Boarding </a></li>                     
+                <li class="sidebar-h1"><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>         
+                
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
-        Please use this template for every page under inventory.
+        Please use this template for every page under operation.
         <br/> 
         Only customize page title, and your customized imports, if any (put in ui define name="head" in head).
         <br/>
@@ -33,4 +32,3 @@
     </ui:define>
 
 </ui:composition>
-

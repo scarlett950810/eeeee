@@ -6,6 +6,7 @@
 package imas.planning.sessionbean;
 
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,5 +51,8 @@ public interface RouteSessionBeanLocal {
 
     void AddDistToRoute(String hub, String spoke, Double distance);
 
+    void saveReturnFlights(FlightEntity f);
+
+    List<FlightEntity> retrieveAllFlightsGenerated(Integer year, RouteEntity route);
     
 }
