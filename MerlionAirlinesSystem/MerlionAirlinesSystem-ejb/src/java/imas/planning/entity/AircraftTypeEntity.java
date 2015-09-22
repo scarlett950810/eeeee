@@ -38,7 +38,9 @@ public class AircraftTypeEntity implements Serializable {
     public AircraftTypeEntity() {
     }
 
-    public AircraftTypeEntity(String IATACode, Double aircraftRange, Integer aircraftSpace, Double cruisingSpeed, Double wingSpan, Double aircraftWeight, Double aircraftLength, Double aircraftHeight, String powerPlant, Double MaintenanceHoursRequiredACheck) {
+    public AircraftTypeEntity(String IATACode, Double aircraftRange, Integer aircraftSpace, 
+            Double cruisingSpeed, Double wingSpan, Double aircraftWeight, Double aircraftLength, 
+            Double aircraftHeight, String powerPlant, Double MaintenanceHoursRequiredACheck) {
         this.IATACode = IATACode;
         this.aircraftRange = aircraftRange;
         this.aircraftSpace = aircraftSpace;

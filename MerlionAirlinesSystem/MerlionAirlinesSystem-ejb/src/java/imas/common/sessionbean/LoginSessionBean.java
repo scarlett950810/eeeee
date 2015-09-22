@@ -155,19 +155,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     @Override
     public void insertData() {
-//        System.out.println("Sessionbena called.");
-        StaffEntity s = new StaffEntity("1", "DY", "1", "scarlett.dongyan@gmail.com", "84316002", "Thall", "F");
-        entityManager.persist(s);
-
-        InternalAnnouncementEntity i1 = new InternalAnnouncementEntity(s, "read message", "hello. This message is read.");
-        i1.setIsRead(true);
-        entityManager.persist(i1);
-
-        InternalAnnouncementEntity i2 = new InternalAnnouncementEntity(s, "unread message", "An unread message.");
-        entityManager.persist(i2);
-        
-        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", 10, 50, (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas");
-        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A880", 20, 80, (double) 180000, (double) 200, (double) 3800, (double) 6400, (double) 28, "Gas");
+        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double)10, 50, (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 20);
+        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A880", (double)20, 80, (double) 180000, (double) 200, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 20);
         entityManager.persist(aircraftType1);
         entityManager.persist(aircraftType2);
         
@@ -202,7 +191,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         routeSessionBean.addRoute(a1, a3);
         routeSessionBean.addRoute(a2, a3);
-        routeSessionBean.addRoute(a3, a2);
 
         System.out.println("safe 6");
 
