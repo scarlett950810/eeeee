@@ -16,12 +16,12 @@
                 Fixed cost per seat per mile
             </f:facet>
             <p:column headerText="Cost Type">
-                <h:outputText value="#{costPair.costType}" style="width: 300px" />
+                <h:outputText value="#{costPair.costType}" style="width: 500px" />
             </p:column>
             <p:column headerText="Cost" >
                 <h:outputText value="#{costPair.costFigure}"  style="width: 100px" />
             </p:column>
-            <p:column style="width:24px"  headerText="Update Cost">
+            <p:column style="width:100px"  headerText="Update Cost">
                 <p:commandLink update=":updateCostForm:costPanel" actionListener="#{inventoryCostManagedBean.updateCostActionListener}" title="Edit Cost" styleClass="ui-icon ui-icon-script" >
                     <f:attribute value="#{costPair}" name="costPair" />
                 </p:commandLink>

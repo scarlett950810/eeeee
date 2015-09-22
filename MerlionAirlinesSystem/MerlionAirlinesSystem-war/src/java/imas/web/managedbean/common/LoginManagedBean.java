@@ -47,7 +47,7 @@ public class LoginManagedBean {
 
     @PostConstruct
     public void init() {
-//        insertData();
+  //    insertData();
     }
 
     @PostRemove
@@ -94,11 +94,18 @@ public class LoginManagedBean {
 
 //        password = cp.doMD5Hashing(password+);
 //        loginSessionBean.setPass(staffNo,password);
+        staff = accountManagementSessionBean.getStaff(staffNo);
+
         String returnMsg = loginSessionBean.doLogin(staffNo, password);
 
         if (returnMsg.equals("success")) {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffNo", staffNo);
-            ec.redirect(ec.getRequestContextPath() + "/common/common_landing.xhtml");//success
+            if (staff.getActivationStatus() == false) {
+                ec.redirect(ec.getRequestContextPath() + "/common/accountActivation.xhtml");
+            } else {
+
+                ec.redirect(ec.getRequestContextPath() + "/common/common_landing.xhtml");//success
+            }
         } else if (returnMsg.equals("wrong password")) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loggin Error", "invalid user or wrong password"));//success
         } else if (returnMsg.equals("empty")) {
@@ -170,7 +177,7 @@ public class LoginManagedBean {
 
     }
 
-    public void insertData() {
-        loginSessionBean.insertData();
-    }
+//    public void insertData() {
+//        loginSessionBean.insertData();
+//    }
 }

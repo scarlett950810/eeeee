@@ -13,13 +13,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+
 
 /**
  *
  * @author Scarlett
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class StaffEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,13 +40,13 @@ public class StaffEntity implements Serializable {
 
     private String contactNumber;
     
-    private String department;
+//    private String department;
     
     private String address;
     
     private String gender;
     
-    private String base; //airportCode
+//    private String base; //airportCode
     
     private Boolean activationStatus;
     
@@ -61,22 +65,28 @@ public class StaffEntity implements Serializable {
     @OneToMany(mappedBy = "receiver")
     private List<InternalMessageEntity> receivedMessages;
     
+    
+    private StaffRole role;
+    
+//    @OneToMany
+//    private List<OrganizationUnit> organizationUnit;
+    
+    
     public StaffEntity() {
     }
 
-    public StaffEntity(String staffNo, String displayName, String password, String email, String contactNumber, String department, String address, String gender, String base) {
+    public StaffEntity(String staffNo, String displayName, String password, String email, String contactNumber, String address, String gender) {
         this.staffNo = staffNo;
         this.displayName = displayName;
         this.password = password;
         this.email = email;
         this.contactNumber = contactNumber;
-        this.department = department;
         this.address = address;
         this.gender = gender;
-        this.base = base;
         this.activationStatus = false;
         this.deleteStatus = false;
         this.loginAttempt = new ArrayList();
+        this.salt=null;
     }
 
     public Long getId() {
@@ -87,13 +97,13 @@ public class StaffEntity implements Serializable {
         this.id = id;
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+//    public String getDepartment() {
+//        return department;
+//    }
+//
+//    public void setDepartment(String department) {
+//        this.department = department;
+//    }
 
     public Boolean getActivationStatus() {
         return activationStatus;
@@ -119,13 +129,13 @@ public class StaffEntity implements Serializable {
         this.gender = gender;
     }
 
-    public String getBase() {
-        return base;
-    }
-
-    public void setBase(String base) {
-        this.base = base;
-    }
+//    public String getBase() {
+//        return base;
+//    }
+//
+//    public void setBase(String base) {
+//        this.base = base;
+//    }
     
     public String getEmail() {
         return email;
@@ -141,14 +151,6 @@ public class StaffEntity implements Serializable {
 
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
-    }
-
-    public String getDepartemnt() {
-        return department;
-    }
-
-    public void setDepartemnt(String department) {
-        this.department = department;
     }
 
     public String getStaffNo() {
@@ -198,6 +200,24 @@ public class StaffEntity implements Serializable {
     public void setReceivedMessages(List<InternalMessageEntity> receivedMessages) {
         this.receivedMessages = receivedMessages;
     }
+
+    public StaffRole getRole() {
+        return role;
+    }
+
+    public void setRole(StaffRole role) {
+        this.role = role;
+    }
+
+//    public List<OrganizationUnit> getOrganizationUnit() {
+//        return organizationUnit;
+//    }
+//
+//    public void setOrganizationUnit(List<OrganizationUnit> organizationUnit) {
+//        this.organizationUnit = organizationUnit;
+//    }
+
+   
     
     public List<Date> getLoginAttempt() {
         return loginAttempt;

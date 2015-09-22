@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.web.managedbean.planning;
+package imas.web.managedbean.inventory;
 
-import imas.planning.entity.RouteEntity;
+import imas.inventory.entity.BookingClassEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,30 +18,29 @@ import javax.faces.convert.FacesConverter;
  *
  * @author ruicai
  */
-@FacesConverter("routeConverter")
-public class RouteConverter implements Converter {
+@FacesConverter("bookingClassConverter")
+public class BookingClassConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
-                System.out.println("dadadadtry");
-                List<RouteEntity> routeEntities = (List<RouteEntity>)fc.getExternalContext().getSessionMap().get("routesRangeList");
-                System.out.println("dadadaaadaf"+routeEntities);
                 
-                Long routeEntityId = Long.valueOf(Long.parseLong(value));
+                List<BookingClassEntity> bookingClassEntities = (List<BookingClassEntity>)fc.getExternalContext().getSessionMap().get("bookingClassList");
                 
-                for(RouteEntity routeEntity:routeEntities)
+                Long bookingClassEntityId = Long.valueOf(Long.parseLong(value));
+                
+                for(BookingClassEntity bookingClassEntity:bookingClassEntities)
                 {
-                    if(routeEntity.getId().equals(routeEntityId))
+                    if(bookingClassEntity.getId().equals(bookingClassEntityId))
                     {
-                        return routeEntity;
+                        return bookingClassEntity;
                     }
                 }
                 
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid airport."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid booking class."));
             }
         } else {
             return null;
@@ -50,12 +49,8 @@ public class RouteConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-        System.out.println("dadadadagetasstring");
-        System.out.println("object"+object);
         if (object != null) {    
-            System.out.println("object!=null");
-            System.out.println(String.valueOf(((RouteEntity) object).getId()));
-            return String.valueOf(((RouteEntity) object).getId());
+            return String.valueOf(((BookingClassEntity) object).getId());
         } else {
             return null;
         }
