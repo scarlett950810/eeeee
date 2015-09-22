@@ -24,7 +24,7 @@ public class AircraftTypeEntity implements Serializable {
     private Long id;
 
     private String IATACode;
-    private Integer aircraftRange;//km
+    private Double aircraftRange;//km
     private Integer aircraftSpace;//
     private Double cruisingSpeed;//miles/
     private Double wingSpan;//ft
@@ -32,11 +32,12 @@ public class AircraftTypeEntity implements Serializable {
     private Double aircraftLength;//ft
     private Double aircraftHeight;//ft
     private String powerPlant;
+    private Double MaintenanceHoursRequiredACheck;
 
     public AircraftTypeEntity() {
     }
 
-    public AircraftTypeEntity(String IATACode, Integer aircraftRange, Integer aircraftSpace, Double cruisingSpeed, Double wingSpan, Double aircraftWeight, Double aircraftLength, Double aircraftHeight, String powerPlant) {
+    public AircraftTypeEntity(String IATACode, Double aircraftRange, Integer aircraftSpace, Double cruisingSpeed, Double wingSpan, Double aircraftWeight, Double aircraftLength, Double aircraftHeight, String powerPlant) {
         this.IATACode = IATACode;
         this.aircraftRange = aircraftRange;
         this.aircraftSpace = aircraftSpace;
@@ -56,6 +57,14 @@ public class AircraftTypeEntity implements Serializable {
         this.id = id;
     }
 
+    public Double getMaintenanceHoursRequiredACheck() {
+        return MaintenanceHoursRequiredACheck;
+    }
+
+    public void setMaintenanceHoursRequiredACheck(Double MaintenanceHoursRequiredACheck) {
+        this.MaintenanceHoursRequiredACheck = MaintenanceHoursRequiredACheck;
+    }
+
     public String getIATACode() {
         return IATACode;
     }
@@ -64,11 +73,11 @@ public class AircraftTypeEntity implements Serializable {
         this.IATACode = IATACode;
     }
 
-    public Integer getAircraftRange() {
+    public Double getAircraftRange() {
         return aircraftRange;
     }
 
-    public void setAircraftRange(Integer aircraftRange) {
+    public void setAircraftRange(Double aircraftRange) {
         this.aircraftRange = aircraftRange;
     }
 
