@@ -138,5 +138,6 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
         aircraftEntityToUpdate.setCurrentAirport(aircraftUpdated.getCurrentAirport());
         aircraftEntityToUpdate.setAircraftGroup(aircraftUpdated.getAircraftGroup());
     }
+    
 
 }

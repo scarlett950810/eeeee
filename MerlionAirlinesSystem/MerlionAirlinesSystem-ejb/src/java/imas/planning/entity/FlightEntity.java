@@ -34,20 +34,20 @@ public class FlightEntity implements Serializable {
     private Long id;
     private String flightNo;
     private Double distance;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date departureDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date arrivalDate;
-    private Double duration;
+    private Double duration; //per hour
     @OneToOne(cascade = CascadeType.PERSIST)
     private FlightEntity reverseFlight;
     private Integer operatingYear;
     private String weekDay;
     //booking
     //ticket
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date actualDepartureDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date actualArrivalDate;
     private String emergencyOfAtcViolation;//9
     private String mechanicalFailures;//10

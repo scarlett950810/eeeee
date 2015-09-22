@@ -9,7 +9,7 @@
         <!--insert customized import here-->
     </ui:define>
 
-    <ui:define name="title">Planning Add Route</ui:define>
+    <ui:define name="title">Planning Home Page</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
@@ -29,33 +29,23 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        <h:form>
-            <p:growl id="msgs" showDetail="true" />
+        <h:form id="f1">
+            <p:panel header="Choose a planning period for fleet assignment" style="margin-bottom: 15px">
 
-            <p:panel header="Connect hub and spoke to generate return routes" style="margin-bottom:10px;">
-                <h:outputText value="take note that the chosen two airports cannot be both spokes" />                
+                <h:outputText value="Select an aircraft for fleet assignment"/>
                 <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel for="hub" value="Hub: " />
-                    <p:selectOneMenu id="hub" value="#{routeManagedBean.hub}" style="width:150px">
-                        <f:selectItem itemLabel="Select Hub" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{routeManagedBean.hubs}" />
-                    </p:selectOneMenu>
+                    <p:outputLabel value="Aircraft seleted: " />
+                    <p:selectOneMenu id="aircraftSelected" value="#{fASetFrequency.planningPeriodStartingDate}" style="width:400px">
+                        <f:selectItem itemLabel="Select Aircraft" itemDisabled="true" />
+                        <f:selectItems value="#{fASetFrequency.allPlanningPeirod}" var="planningPeriod" itemLabel="#{fASetFrequency.getPlanningPeriodName(planningPeriod)}" itemValue="#{planningPeriod}" />
 
-                    <p:outputLabel for="spoke" value="City: " />
-                    <p:selectOneMenu id="spoke" value="#{routeManagedBean.spoke}" style="width:150px">
-                        <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{routeManagedBean.spokes}" />
                     </p:selectOneMenu>
-                    
-                    <p:outputLabel for="distance" value="Distance: " />
-                    <p:inputText id="distance" value="#{routeManagedBean.distance}" />
-               
                 </h:panelGrid>
-
-                <p:separator />
-
-                <p:commandButton value="Connect" update="msgs" actionListener="#{routeManagedBean.generateRoutes}" icon="ui-icon-check" />
-            </p:panel>
+            </p:panel>     
+            
+            <h:outputText value="You are only allowed to choose the period after one year according to regulations"/>`
+            <p:commandButton value="Fleet Assignment" actionListener="{}" icon="ui-icon-check" />
+  
         </h:form>
     </ui:define>
 
