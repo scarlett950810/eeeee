@@ -4,13 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/planning/ScheduleManagedBean.java</file>
-            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningSetSchedulePerWeek.xhtml</file>
+            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/planning/FASetFrequency.java</file>
+            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningFleetAssignment.xhtml</file>
+            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/planning/FleetAssignmentManagedBean.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/planning/ScheduleByWeekManagedBean.java</file>
-            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningDisplayFlightsGenerated.xhtml</file>
+            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningFleetAssignmentDisplay.xhtml</file>
+            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningHomePage.xhtml</file>
+            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/planning/AircraftManagedBean.java</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningSetFrequency.xhtml</file>
-            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningSetSchedulePerDay.xhtml</file>
-            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningManageAircraftGroup.xhtml</file>
-            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/planning/FlightsDisplayManagedBean.java</file>
+            <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningAddAirport.xhtml</file>
             <file>file:/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/planning/ScheduleDevelopmentManagedBean.java</file>
         </group>
     </open-files>
