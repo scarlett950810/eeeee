@@ -88,10 +88,8 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     @Override
     public int getFromNowToDepartureInDay(FlightEntity flight) {
-        //        TODO: change to the commented line.
-        //        int nowToDeparture = new Date().compareTo(flight.getEstimatedDepartureTime());
-
-        return 0;
+        int nowToDeparture = flight.getDepartureDate().compareTo(new Date());
+        return nowToDeparture;
     }
 
     // Name for economy class booking classes:
