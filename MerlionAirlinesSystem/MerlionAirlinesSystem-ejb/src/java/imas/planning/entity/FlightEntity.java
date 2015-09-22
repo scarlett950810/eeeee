@@ -61,7 +61,7 @@ public class FlightEntity implements Serializable {
     private String lightningStrikers;//18
     private String nearAirCollisions;//19
     private String others;//20
-
+    private boolean departured;
 
     @ManyToOne
     private AircraftEntity aircraft;
@@ -320,6 +320,14 @@ public class FlightEntity implements Serializable {
 
     public void setAircraftFlight(AircraftEntity aircraft) {
         this.aircraft = aircraft;
+    }
+
+    public boolean isDepartured() {
+        return departured;
+    }
+
+    public void setDepartured(boolean departured) {
+        this.departured = departured;
     }
 
     @Override

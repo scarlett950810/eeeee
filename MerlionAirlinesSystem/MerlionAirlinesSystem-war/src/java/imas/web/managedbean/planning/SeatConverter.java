@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.web.managedbean.inventory;
+package imas.web.managedbean.planning;
 
-import imas.planning.entity.FlightEntity;
+import imas.planning.entity.SeatEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -16,41 +16,41 @@ import javax.faces.convert.FacesConverter;
 
 /**
  *
- * @author ruicai
+ * @author Scarlett
  */
-@FacesConverter("flightConverter")
-public class FlightConverter implements Converter {
-
+@FacesConverter(value = "seatConverter")
+public class SeatConverter  implements Converter {
+    
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
-
         if (value != null && value.trim().length() > 0) {
             try {
-
-                List<FlightEntity> flightEntities = (List<FlightEntity>) fc.getExternalContext().getSessionMap().get("allFlights");
-
-                Long flightEntityId = Long.valueOf(Long.parseLong(value));
-
-                for (FlightEntity flightEntity : flightEntities) {
-                    if (flightEntity.getId().equals(flightEntityId)) {
-                        return flightEntity;
+                
+                List<SeatEntity> seatEntities = (List<SeatEntity>)fc.getExternalContext().getSessionMap().get("seatList");
+                
+                Long seatEntityId = Long.valueOf(Long.parseLong(value));
+                
+                for(SeatEntity seatEntity:seatEntities)
+                {
+                    if(seatEntity.getId().equals(seatEntityId))
+                    {
+                        return seatEntity;
                     }
                 }
-
+                
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid flight."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid seat."));
             }
         } else {
             return null;
         }
     }
-
+    
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-
-        if (object != null) {
-            return String.valueOf(((FlightEntity) object).getId());
+        if (object != null) {    
+            return String.valueOf(((SeatEntity) object).getId());
         } else {
             return null;
         }

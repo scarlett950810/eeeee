@@ -21,7 +21,7 @@ public interface inventoryRevenueManagementSessionBeanLocal {
 
     List<BookingClassEntity> fetchBookingClass(Long flightID);
 
-    Integer computeSoldSeats(Long flightID, Long bookingClassID);
+    Integer computeSoldSeats(Long bookingClassID);
 
     void updateBookingClassQuota(Long bookingClassID, Integer quota);
 

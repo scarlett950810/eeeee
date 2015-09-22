@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.inventory.entity;
+package imas.distribution.entity;
 
-import imas.planning.entity.FlightEntity;
+import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.SeatEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -30,10 +30,7 @@ public class TicketEntity implements Serializable {
 
     @ManyToOne
     private BookingClassEntity bookingClass;
-    
-    @ManyToOne
-    private FlightEntity flight;
-    
+   
     private boolean issued; // if the ticket is issued at the check in counter
 
     public TicketEntity() {
@@ -73,15 +70,7 @@ public class TicketEntity implements Serializable {
     public void setBookingClass(BookingClassEntity bookingClass) {
         this.bookingClass = bookingClass;
     }
-
-    public FlightEntity getFlight() {
-        return flight;
-    }
-
-    public void setFlight(FlightEntity flight) {
-        this.flight = flight;
-    }
-    
+   
     public boolean isIssued() {
         return issued;
     }

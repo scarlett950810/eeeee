@@ -17,7 +17,7 @@ public interface LoginSessionBeanLocal {
 
     public String doLogin(String staffNo, String password);
 //    public void setPass(String staffNo, String password);
-//    public void insertData();
+    public void insertData();
 
     public StaffEntity fetchStaff(String staffNo);
 }
