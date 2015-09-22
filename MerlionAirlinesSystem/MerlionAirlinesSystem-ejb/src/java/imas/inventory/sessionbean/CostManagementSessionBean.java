@@ -6,7 +6,6 @@
 package imas.inventory.sessionbean;
 
 import imas.inventory.entity.CostPairEntity;
-import static java.lang.Math.round;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -15,11 +14,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-//import javax.swing.tree.TreeNode;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
-
-
  
 /**
  *
