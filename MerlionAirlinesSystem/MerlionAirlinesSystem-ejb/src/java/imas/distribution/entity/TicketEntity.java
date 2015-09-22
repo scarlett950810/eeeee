@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.inventory.entity;
+package imas.distribution.entity;
 
+import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.SeatEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;

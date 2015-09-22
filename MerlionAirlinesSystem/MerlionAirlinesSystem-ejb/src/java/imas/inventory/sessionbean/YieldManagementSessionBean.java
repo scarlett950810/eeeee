@@ -6,7 +6,7 @@
 package imas.inventory.sessionbean;
 
 import imas.inventory.entity.BookingClassEntity;
-import imas.inventory.entity.TicketEntity;
+import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.YieldManagementRuleEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;

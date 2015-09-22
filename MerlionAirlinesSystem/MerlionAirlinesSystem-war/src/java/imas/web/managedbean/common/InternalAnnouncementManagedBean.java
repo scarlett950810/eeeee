@@ -9,6 +9,7 @@ import imas.common.entity.InternalAnnouncementEntity;
 import imas.common.sessionbean.InternalAnnouncementSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import imas.planning.entity.AirportEntity;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +30,7 @@ import javax.persistence.PostRemove;
 @Named(value = "internalAnnouncementManagedBean")
 @ManagedBean
 @SessionScoped
-public class InternalAnnouncementManagedBean {
+public class InternalAnnouncementManagedBean implements Serializable {
 
     @EJB
     private InternalAnnouncementSessionBeanLocal internalAnnouncementSessionBean;
