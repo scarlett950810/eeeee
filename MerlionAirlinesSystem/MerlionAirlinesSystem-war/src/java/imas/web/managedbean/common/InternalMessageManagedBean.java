@@ -9,11 +9,12 @@ import imas.common.entity.InternalMessageEntity;
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.InternalMessageSessionBeanLocal;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-//import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
@@ -48,15 +49,11 @@ public class InternalMessageManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-        System.out.println("staffNo" + staffNo);
         loggedInStaff = internalMessageSessionBean.getStaffEntityByStaffNo(staffNo);
-
-        
+       
         staffList = internalMessageSessionBean.getAllStaff();        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", staffList);
-        
-//        System.out.println(internalMessageSessionBean.getAllStaff());
-//        System.out.println(loggedInStaff);
+        allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
     }
 
     @PostRemove
@@ -97,7 +94,7 @@ public class InternalMessageManagedBean implements Serializable {
     }
 
     public List<InternalMessageEntity> getAllMessages() {
-        return internalMessageSessionBean.getAllMessages(loggedInStaff);
+        return this.allMessages;
     }
 
     public void setAllMessages(List<InternalMessageEntity> allMessages) {
@@ -109,5 +106,8 @@ public class InternalMessageManagedBean implements Serializable {
         internalMessageSessionBean.sendMessage(loggedInStaff, receiver, content);
     }
     
-
+    public void toggleRead(InternalMessageEntity internalMessageEntity) {
+        internalMessageSessionBean.toggleRead(internalMessageEntity);
+    }
+    
 }

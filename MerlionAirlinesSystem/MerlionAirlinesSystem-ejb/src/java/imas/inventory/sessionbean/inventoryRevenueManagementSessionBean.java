@@ -56,9 +56,8 @@ public class inventoryRevenueManagementSessionBean implements inventoryRevenueMa
     }
 
     @Override
-    public Integer computeSoldSeats(Long flightID, Long bookingClassID) {
-        Query query = em.createQuery("SELECT COUNT(t) FROM TicketEntity t WHERE t.flight.id = :flightID AND t.bookingClass.id = :bookingClassID");
-        query.setParameter("flightID", flightID);
+    public Integer computeSoldSeats(Long bookingClassID) {
+        Query query = em.createQuery("SELECT COUNT(t) FROM TicketEntity t WHERE t.bookingClass.id = :bookingClassID");
         query.setParameter("bookingClassID", bookingClassID);
         
         Integer soldSeats = ((Long) query.getSingleResult()).intValue();

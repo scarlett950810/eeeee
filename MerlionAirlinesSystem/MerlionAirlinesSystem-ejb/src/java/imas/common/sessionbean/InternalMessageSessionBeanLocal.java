@@ -24,5 +24,7 @@ public interface InternalMessageSessionBeanLocal {
     public void sendMessage(StaffEntity loggedInStaff, StaffEntity receiver, String content);
 
     public List<InternalMessageEntity> getAllMessages(StaffEntity staff);
+
+    public void toggleRead(InternalMessageEntity message);
     
 }

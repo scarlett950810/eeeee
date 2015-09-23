@@ -39,9 +39,7 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
                 InternalAnnouncementEntity a = (InternalAnnouncementEntity) o;
                 announcements.add(a);
             });
-
-//        System.out.println("announcements");
-//        System.out.println(announcements);
+            
             return (List<InternalAnnouncementEntity>) announcements;
         }
      return null;
@@ -59,6 +57,16 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
             return "Message has been sent to all staff.";
         } else {
             return "Selecting receiver not supported yet.";
+        }
+    }
+
+    @Override
+    public void toggleRead(InternalAnnouncementEntity internalAnnouncementEntity) {
+        InternalAnnouncementEntity internalAnnouncementEntityToUpdate = entityManager.find(InternalAnnouncementEntity.class, internalAnnouncementEntity.getId());
+        if (internalAnnouncementEntityToUpdate.isIsRead()) {
+            internalAnnouncementEntityToUpdate.setIsRead(false);
+        } else {
+            internalAnnouncementEntityToUpdate.setIsRead(true);
         }
     }
 

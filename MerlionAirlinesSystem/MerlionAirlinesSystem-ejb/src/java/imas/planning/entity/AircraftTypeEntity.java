@@ -33,11 +33,14 @@ public class AircraftTypeEntity implements Serializable {
     private Double aircraftHeight;//ft
     private String powerPlant;
     private Double MaintenanceHoursRequiredACheck;
+    //typical cruising speed
 
     public AircraftTypeEntity() {
     }
 
-    public AircraftTypeEntity(String IATACode, Double aircraftRange, Integer aircraftSpace, Double cruisingSpeed, Double wingSpan, Double aircraftWeight, Double aircraftLength, Double aircraftHeight, String powerPlant) {
+    public AircraftTypeEntity(String IATACode, Double aircraftRange, Integer aircraftSpace, 
+            Double cruisingSpeed, Double wingSpan, Double aircraftWeight, Double aircraftLength, 
+            Double aircraftHeight, String powerPlant, Double MaintenanceHoursRequiredACheck) {
         this.IATACode = IATACode;
         this.aircraftRange = aircraftRange;
         this.aircraftSpace = aircraftSpace;
@@ -47,6 +50,7 @@ public class AircraftTypeEntity implements Serializable {
         this.aircraftLength = aircraftLength;
         this.aircraftHeight = aircraftHeight;
         this.powerPlant = powerPlant;
+        this.MaintenanceHoursRequiredACheck = MaintenanceHoursRequiredACheck;
     }
 
     public Long getId() {
