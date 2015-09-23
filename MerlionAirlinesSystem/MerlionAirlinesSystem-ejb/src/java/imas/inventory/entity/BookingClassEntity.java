@@ -30,7 +30,11 @@ public class BookingClassEntity implements Serializable {
     private String seatClass; // can only be one of: First Class, Business Class, Premium Economy Class, Economy Class
 
     private String name; // booking class Name. 
-                         //Can only be one of: First Class, Business Class, Premium Economy Class, Economy Class 1, Economy Class 2, Economy Class 3
+                         // Can only be one of: 
+                         // First Class, Business Class, Premium Economy Class,
+                         // Full Service Economy, Economy Plus, Standard Economy, Economy Save, Economy Super Save
+                         // Economy Class Agency
+                         
     private double price;
     
     private int quota;
@@ -58,18 +62,56 @@ public class BookingClassEntity implements Serializable {
         return new BookingClassEntity(flight, "Premium Economy Class", "Premium Economy Class", price, quota);       
     }
     
+//    in total 5 economy booking classes with price 1 > 2 > 3 > 4 > 5.
+//    1 and 2 are higher willingness to pay (WTP) classes while 3, 4, 5 are lower WTP classes
+    
     public BookingClassEntity EconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class 1", price, quota);       
+        return new BookingClassEntity(flight, "Economy Class", "Full Service Economy", price, quota);       
     }
     
     public BookingClassEntity EconomyClass2BookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class 2", price, quota);       
+        return new BookingClassEntity(flight, "Economy Class", "Economy Plus", price, quota);       
     }
     
     public BookingClassEntity EconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota) {
-        return new BookingClassEntity(flight, "Economy Class", "Economy Class 3", price, quota);       
+        return new BookingClassEntity(flight, "Economy Class", "Standard Economy", price, quota);       
     }
     
+    public BookingClassEntity EconomyClass4BookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Save", price, quota);       
+    }
+    
+    public BookingClassEntity EconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Super Save", price, quota);       
+    }
+    
+    public BookingClassEntity EconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
+        return new BookingClassEntity(flight, "Economy Class", "Economy Class Agency", price, quota);       
+    }
+    
+    public boolean isEconomyClass1BookingClassEntity() {
+        return "Full Service Economy".equals(this.name);
+    }
+    
+    public boolean isEconomyClass2BookingClassEntity() {
+        return "Economy Plus".equals(this.name);
+    }
+    
+    public boolean isEconomyClass3BookingClassEntity() {
+        return "Standard Economy".equals(this.name);
+    }
+    
+    public boolean isEconomyClass4BookingClassEntity() {
+        return "Economy Save".equals(this.name);
+    }
+    
+    public boolean isEconomyClass5BookingClassEntity() {
+        return "Economy Super Save".equals(this.name);
+    }
+    
+    public boolean isEconomyClassAgencyBookingClassEntity() {
+        return "Economy Class Agency".equals(this.name);
+    }
     public Long getId() {
         return id;
     }

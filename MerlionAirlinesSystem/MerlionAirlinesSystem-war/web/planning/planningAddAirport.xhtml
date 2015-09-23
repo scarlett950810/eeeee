@@ -1,15 +1,33 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
 
-    <h:head>
-        <title>Add Airport</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-    
-    <h:body>
+    <ui:define name="title">Planning Home Page</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Edit or Delete Aircraft</a></li>
+                <li><a href="planningManageAircraftGroup.xhtml">Manage Aircraft Group</a></li>
+                
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Airport Management</a></li>
+                <li><a href="planningAddRoute.xhtml">Add Route</a></li>
+                <li><a href="planningDeleteRoute.xhtml">Delete Route</a></li>
+                <li><a href="planningSetFrequencyAndTime.xhtml">Set Frequency and Time</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
         <h:form>
             <p:growl id="growl" showDetail="true"/>
             <p:panel header="Add Airport">
@@ -25,12 +43,12 @@
                         <p:watermark for="nationName" value="Please enter nation name" />
                     </p:inputText> 
 
-                    <p:outputLabel for="airportName" value="Airport Name: " />
-                    <p:inputText style="width:100%;" id="airportName" value="#{airportManagedBean.airportName}" label="Password" required="true" requiredMessage="Please input airport name">
+                    <p:outputLabel for="airportName" value="Airport Name" />
+                    <p:inputText style="width:100%;" id="airportName" value="#{airportManagedBean.airportName}" label="airportName" required="true" requiredMessage="Please input airport name">
                         <p:watermark for="airportName" value="Please enter airport name" />
                     </p:inputText>
 
-                    <p:outputLabel for="airportCode" value="Airport Code: " />
+                    <p:outputLabel for="airportCode" value="Airport Code" />
                     <p:inputText style="width:100%;" id="airportCode" value="#{airportManagedBean.airportCode}" label="airportCode" required="true" requiredMessage="Please input airport code">
                         <p:watermark for="airportCode" value="Please enter airport code" />
                     </p:inputText>
@@ -43,51 +61,7 @@
                 </h:panelGrid>
             </p:panel>
         </h:form>
-        
-        <!--<ui:composition template="./../templates/DefaultTemplate.xhtml">-->
+    </ui:define>
 
-<!--            <ui:define name="menubar">
-                <div id='cssmenu'>
-                    <ul>
-                        <li><a href='#'><span>Home</span></a></li>
-                        <li class='active'><a href='planningAddAirport.xhtml'><span>Add Airport</span></a></li>
-                        <li><a href='#'><span>Company</span></a></li>
-                        <li class='last'><a href='#'><span>Contact</span></a></li>
-                    </ul>
-                </div>
-            </ui:define>-->
-            
-            <!--<ui:insert name="mainPanel">-->
-<!--                <h:form>-->
+</ui:composition>
 
-<!--                    <p:growl id="growl" sticky="true" showDetail="true"/>-->
-
-<!--                    <p:wizard>
-                        <p:panel header="Airport Information">
-                            <p:messages />
-                            <h:panelGrid columns="2" columnClasses="label, value">
-                                <h:outputText value="City Name: *" />
-                                <p:inputText value="{AirportManagedBean.airport.cityName}" required="true" label="cityName"/>
-
-                                <h:outputText value="Airport Name: *" />
-                                <p:inputText value="{AirportManagedBean.airport.airportName}" required="true" label="airportName"/>
-
-                                <h:outputText value="Airport Code: *" />
-                                <p:inputText value="{AirportManagedBean.airport.airportCode}" required="true" label="airportCode"/>
-
-                                <h:outputText value="This airport is a hub: * " />
-                                <h:selectBooleanCheckbox value="{AirportManagedBean.airport.hubOrSpoke}" required="true" label="hubOrSpoke"/>
-                            </h:panelGrid>
-                        </p:panel>
-                        
-                        <p:commandButton value="Confirm" actionListener="{AirportManagedBean.save}"/>
-                        
-                    </p:wizard>
-
-                </h:form>-->
-            <!--</ui:insert>-->
-
-        <!--</ui:composition>-->
-
-    </h:body>
-</html>

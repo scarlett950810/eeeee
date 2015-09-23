@@ -1,3 +1,4 @@
+.DS_Store
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -18,3 +19,7 @@ hs_err_pid*
 /MerlionAirlinesSystem/dist/
 /MerlionAirlinesSystem/MerlionAirlinesSystem-war/dist/
 /MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/setup/
+.DS_Store
+/MerlionAirlinesSystem/MerlionAirlinesSystem-war/nbproject/
+/MerlionAirlinesSystem/nbproject/
+/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/nbproject/

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.ejb.Local;
 import org.primefaces.model.TreeNode;
 
+
 /**
  *
  * @author Lei
@@ -31,6 +32,8 @@ public interface CostManagementSessionBeanLocal {
     public List<CostPairEntity> correctList(List<CostPairEntity> list);
 
     public void updateCost(String costName, Double costFigure);
+
+    public Double getCostPerSeatPerMile();
 
     
 }

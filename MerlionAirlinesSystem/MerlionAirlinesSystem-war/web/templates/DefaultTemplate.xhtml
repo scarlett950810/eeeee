@@ -24,9 +24,9 @@
             <p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
             <p:dialog id="confirmDialog"
-                             header="Are you there?" widgetVar="idleDialog">
+                      header="Are you there?" widgetVar="idleDialog">
                 <h:outputText value="You have been idle for a while, 
-                             Please click ok to continue." />
+                              Please click ok to continue." />
                 <p:commandButton id="confirm" value="Ok" update="messages"
                                  oncomplete="PF('idleDialog').hide()"
                                  actionListener="#{loginManagedBean.welcome()}" />
@@ -56,7 +56,7 @@
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
                 <h:form id="toolBox" style="margin: 0px !important;">
-                
+
                     <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" class="menuBasket">
 
                         <p:menuitem styleClass="icon-resize" value="Logout" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
@@ -68,25 +68,36 @@
                     </p:stack>
                 </h:form>
                 <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
+                    <h:form>
+                        <p:dataTable value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" 
+                                     paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
+                                     editable="true" editMode="cell" sortMode="multiple"
+                                     resizableColumns="true" liveResize="true">
+                            <p:column headerText="Time"  sortBy="#{announcement.sentTime}">
+                                <h:outputText value="#{announcement.sentTime}"/>
+                            </p:column>
 
-                    <p:dataList value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                        <h:outputText value="#{announcement.sentTime} - #{announcement.title}: #{announcement.content}" style="display:inline-block"/>
-                    </p:dataList>
+                            <p:column headerText="Title" sortBy="#{announcement.title}">
+                                <h:outputText value="#{announcement.title}" />
+                            </p:column>
 
+                            <p:column headerText="Content">
+                                <h:outputText value="#{announcement.content}" />
+                            </p:column>
+
+                            <p:column headerText="Read" sortBy="#{announcement.isRead}">
+                                <p:selectBooleanCheckbox value="#{announcement.isRead}" >                                       
+                                    <p:ajax update="@form" listener="#{internalAnnouncementManagedBean.toggleRead(announcement)}" />
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
                 </p:dialog>
 
                 <p:dialog header="Message" widgetVar="message" minHeight="40" showEffect="clip" hideEffect="clip">
-                    <!--            uncomment and add back #.
-                                    <h:form id="messages">
-                                            <p:dataList value="{loginManagedBean.getAllMessages}" var="message" paginator="true" rows="10" styleClass="paginated">
-                                            </p:dataList>
-                                            <p:dataList value="{loginManagedBean.getUnreadMessagess}" var="message" paginator="true" rows="10" styleClass="paginated">
-                                            </p:dataList>
-                                        </h:form>
-                    -->
                     <h:form id="sendMessage">
                         <p:panel header="Send New Message" style="padding-bottom: 15px;">
-                            <p:growl id="growl" showDetail="true" autoUpdate="true" />
+                            <p:growl id="sendMessageMsg" showDetail="true" autoUpdate="true" />
                             <h:panelGrid columns="2" cellpadding="5">
 
                                 <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
@@ -96,22 +107,44 @@
                                     <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff"
                                                     itemValue="#{staff}" itemLabel="#{staff.id}"  />
                                     <p:column>
-                                        <h:outputText value="#{s.displayName}(#{s.staffNo}) at" />
-                                   </p:column>
+                                        <h:outputText value="#{s.displayName}(#{s.staffNo})" />
+                                    </p:column>
                                 </p:selectOneMenu>
 
                                 <p:outputLabel for="content" value="Content" />
                                 <p:inputTextarea style="width: 100%;" id="content" value="#{internalMessageManagedBean.content}"></p:inputTextarea>
 
-                                <p:commandButton id="sendAnnouncement" value="Send" actionListener="#{internalMessageManagedBean.send}" update="growl"/>
+                                <p:commandButton id="sendAnnouncement" value="Send"
+                                                 actionListener="#{internalMessageManagedBean.send}" update="sendMessage:sendMessageMsg viewMessages:messageTable"/>
 
                             </h:panelGrid>
                         </p:panel>
                     </h:form>
                     <p:panel header="Messages">
-                        <p:dataList value="#{internalMessageManagedBean.allMessages}" var="message" paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false">
-                            <h:outputText value="#{message.sentTime} from #{message.sender.displayName}: #{message.content}" style="display:inline-block"/>
-                        </p:dataList>
+                        <h:form id="viewMessages">
+                            <p:dataTable id="messageTable" value="#{internalMessageManagedBean.allMessages}" var="message" 
+                                         paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
+                                         editable="true" editMode="cell" sortMode="multiple"
+                                         resizableColumns="true" liveResize="true">
+                                <p:column headerText="Time"  sortBy="#{message.sentTime}">
+                                    <h:outputText value="#{message.sentTime}"/>
+                                </p:column>
+
+                                <p:column headerText="Sender Name" sortBy="#{message.sender.displayName}">
+                                    <h:outputText value="#{message.sender.displayName}" />
+                                </p:column>
+
+                                <p:column headerText="Content">
+                                    <h:outputText value="#{message.content}" />
+                                </p:column>
+
+                                <p:column headerText="Read" sortBy="#{message.isRead}">
+                                    <p:selectBooleanCheckbox value="#{message.isRead}" >                                       
+                                        <p:ajax update="@form" listener="#{internalMessageManagedBean.toggleRead(message)}" />
+                                    </p:selectBooleanCheckbox>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
                     </p:panel>
                 </p:dialog>
 

@@ -10,6 +10,7 @@ import imas.common.entity.PilotEntity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,15 +34,21 @@ public class FlightEntity implements Serializable {
     private Long id;
     private String flightNo;
     private Double distance;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date departureDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date arrivalDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    private Double duration; //per hour
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private FlightEntity reverseFlight;
+    private Integer operatingYear;
+    private String weekDay;
+    //booking
+    //ticket
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date actualDepartureDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date actualArrivalDate;
-    private Double duration;
     private String emergencyOfAtcViolation;//9
     private String mechanicalFailures;//10
     private String fuelDumping;//11
@@ -54,8 +61,8 @@ public class FlightEntity implements Serializable {
     private String lightningStrikers;//18
     private String nearAirCollisions;//19
     private String others;//20
+    private boolean departured;
 
-    //ticket
     @ManyToOne
     private AircraftEntity aircraft;
 
@@ -64,7 +71,7 @@ public class FlightEntity implements Serializable {
     private RouteEntity route;
 
     // private FlightRecordEntity flightRecord;
-    @OneToMany
+    @OneToMany(mappedBy = "flightRecords")
     private List<FlightRecordEntity> flightRecords;
 
     @ManyToMany(mappedBy = "cabinCrewFligths")
@@ -75,6 +82,17 @@ public class FlightEntity implements Serializable {
 
     public FlightEntity() {
 
+    }
+    public FlightEntity(Integer yearSelected) {
+        this.operatingYear = yearSelected;
+        
+    }
+    public Integer getOperatingYear() {
+        return operatingYear;
+    }
+
+    public void setOperatingYear(Integer operatingYear) {
+        this.operatingYear = operatingYear;
     }
 
     public FlightEntity(String flightNo, Double distance, Double duration, AircraftEntity aircraft, RouteEntity route) {
@@ -88,6 +106,22 @@ public class FlightEntity implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public String getWeekDay() {
+        return weekDay;
+    }
+
+    public void setWeekDay(String weekDay) {
+        this.weekDay = weekDay;
+    }
+
+    public FlightEntity getReverseFlight() {
+        return reverseFlight;
+    }
+
+    public void setReverseFlight(FlightEntity reverseFlight) {
+        this.reverseFlight = reverseFlight;
     }
 
     public void setId(Long id) {
@@ -117,6 +151,8 @@ public class FlightEntity implements Serializable {
     public void setArrivalDate(Date arrivalDate) {
         this.arrivalDate = arrivalDate;
     }
+
+
 
     public Date getActualDepartureDate() {
         return actualDepartureDate;
@@ -286,6 +322,14 @@ public class FlightEntity implements Serializable {
         this.aircraft = aircraft;
     }
 
+    public boolean isDepartured() {
+        return departured;
+    }
+
+    public void setDepartured(boolean departured) {
+        this.departured = departured;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -303,6 +347,7 @@ public class FlightEntity implements Serializable {
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
+        
         return true;
     }
 

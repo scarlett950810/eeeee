@@ -58,4 +58,14 @@ public class InternalMessageSessionBean implements InternalMessageSessionBeanLoc
         return (List<InternalMessageEntity>) queryForAllMessages.getResultList();
     }
 
+    @Override
+    public void toggleRead(InternalMessageEntity message) {
+        InternalMessageEntity internalMessageEntityToUpdate = entityManager.find(InternalMessageEntity.class, message.getId());
+        if (internalMessageEntityToUpdate.isIsRead()) {
+            internalMessageEntityToUpdate.setIsRead(false);
+        } else {
+            internalMessageEntityToUpdate.setIsRead(true);
+        }
+    }
+    
 }

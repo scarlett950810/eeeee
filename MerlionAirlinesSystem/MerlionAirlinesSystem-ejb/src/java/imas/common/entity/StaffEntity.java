@@ -75,7 +75,8 @@ public class StaffEntity implements Serializable {
     public StaffEntity() {
     }
 
-    public StaffEntity(String staffNo, String displayName, String password, String email, String contactNumber, String address, String gender) {
+    public StaffEntity(String staffNo, String displayName, String password, 
+            String email, String contactNumber, String address, String gender) {
         this.staffNo = staffNo;
         this.displayName = displayName;
         this.password = password;

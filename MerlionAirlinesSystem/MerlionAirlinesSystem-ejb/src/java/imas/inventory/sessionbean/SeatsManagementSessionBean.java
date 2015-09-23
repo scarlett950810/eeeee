@@ -6,11 +6,13 @@
 package imas.inventory.sessionbean;
 
 import imas.inventory.entity.BookingClassEntity;
-import imas.inventory.entity.TicketEntity;
+import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,7 +27,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     
     @PersistenceContext
     private EntityManager entityManager;
-   
+    
     @Override
     public List<FlightEntity> getFlightsWithoutBookingClass() {
         List<FlightEntity> flightsWithoutBookingClass = new ArrayList();
@@ -36,6 +38,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         allFlights.stream().forEach((f) -> {
             Query queryForBookingClass = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
             queryForBookingClass.setParameter("flight", f);
+            System.out.println("queryForBookingClass.getResultList() = " + queryForBookingClass.getResultList());
             if (queryForBookingClass.getResultList().isEmpty()) {
                 flightsWithoutBookingClass.add(f);
             }
@@ -60,7 +63,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     
     @Override
     public void generateEconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota) {
-        entityManager.persist(new BookingClassEntity().EconomyClass1BookingClassEntity(flight, price, quota));
+        entityManager.persist(new BookingClassEntity().EconomyClass2BookingClassEntity(flight, price, quota));
     }
     
     @Override
@@ -71,6 +74,21 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     @Override
     public void generateEconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota) {
         entityManager.persist(new BookingClassEntity().EconomyClass3BookingClassEntity(flight, price, quota));
+    }
+    
+    @Override
+    public void generateEconomyClass4BookingClassEntity(FlightEntity flight, double price, int quota) {
+        entityManager.persist(new BookingClassEntity().EconomyClass4BookingClassEntity(flight, price, quota));
+    }
+    
+    @Override
+    public void generateEconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota) {
+        entityManager.persist(new BookingClassEntity().EconomyClass4BookingClassEntity(flight, price, quota));
+    }
+    
+    @Override
+    public void generateEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
+        entityManager.persist(new BookingClassEntity().EconomyClassAgencyBookingClassEntity(flight, price, quota));
     }
     
     // to be optimized
@@ -153,67 +171,60 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
 
     @Override
     public void insertData() {
-//        System.out.println("insert data");
-//        Query q = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc");
-//        BookingClassEntity bc1 = (BookingClassEntity) q.getResultList().get(0);
-//        BookingClassEntity bc2 = (BookingClassEntity) q.getResultList().get(1);
-//        BookingClassEntity bc3 = (BookingClassEntity) q.getResultList().get(0);
-//        
-//        for (int i = 0; i < 10; i++) {
-//            TicketEntity t = new TicketEntity(bc1);
-//            t.setIssued(true);
-//            entityManager.persist(t);
-//        }
-//        for (int i = 0; i < 4; i++) {
-//            TicketEntity t = new TicketEntity(bc1);
-//            t.setIssued(false);
-//            entityManager.persist(t);
-//        }
-//        
-//        for (int i = 0; i < 10; i++) {
-//            TicketEntity t = new TicketEntity(bc2);
-//            t.setIssued(true);
-//            entityManager.persist(t);
-//        }
-//        for (int i = 0; i < 6; i++) {
-//            TicketEntity t = new TicketEntity(bc2);
-//            t.setIssued(true);
-//            entityManager.persist(t);
-//        }
-//        
-//        for (int i = 0; i < 40; i++) {
-//            TicketEntity t = new TicketEntity(bc2);
-//            t.setIssued(true);
-//            entityManager.persist(t);
-//        }
-//        for (int i = 0; i < 15; i++) {
-//            TicketEntity t = new TicketEntity(bc2);
-//            t.setIssued(false);
-//            entityManager.persist(t);
-//        }
-
-//        Query q = entityManager.createQuery("SELECT q FROM FlightEntity q");
-//        FlightEntity f = (FlightEntity) q.getResultList().get(0);
-//        f.setDepartured(true);
+        System.out.println("insert data");
+        Query q = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc");
+        BookingClassEntity bc1 = (BookingClassEntity) q.getResultList().get(0);
+        BookingClassEntity bc2 = (BookingClassEntity) q.getResultList().get(1);
+        BookingClassEntity bc3 = (BookingClassEntity) q.getResultList().get(0);
         
-//        Query q = entityManager.createQuery("SELECT t FROM TicketEntity t");
-//        List<TicketEntity> tickets = q.getResultList();
-//        int i = 0;
-//        for (TicketEntity t:tickets) {
-//            AircraftEntity aircraft = t.getBookingClass().getFlight().getAircraft();
-//            Query q1 = entityManager.createQuery("SELECT s FROM SeatEntity s where s.seatClass = :seatClass");
-//            q1.setParameter("seatClass" ,"Economy Class");
-//            SeatEntity seat = (SeatEntity) q1.getResultList().get(i);
-//            t.setSeat(seat);
-//            i = i + 1;
-//        }
-    }
-
-    @Override
-    public void getBaseFare() {
+        for (int i = 0; i < 10; i++) {
+            TicketEntity t = new TicketEntity(bc1);
+            t.setIssued(true);
+            entityManager.persist(t);
+        }
+        for (int i = 0; i < 4; i++) {
+            TicketEntity t = new TicketEntity(bc1);
+            t.setIssued(false);
+            entityManager.persist(t);
+        }
         
+        for (int i = 0; i < 10; i++) {
+            TicketEntity t = new TicketEntity(bc2);
+            t.setIssued(true);
+            entityManager.persist(t);
+        }
+        for (int i = 0; i < 6; i++) {
+            TicketEntity t = new TicketEntity(bc2);
+            t.setIssued(true);
+            entityManager.persist(t);
+        }
+        
+        for (int i = 0; i < 40; i++) {
+            TicketEntity t = new TicketEntity(bc2);
+            t.setIssued(true);
+            entityManager.persist(t);
+        }
+        for (int i = 0; i < 15; i++) {
+            TicketEntity t = new TicketEntity(bc2);
+            t.setIssued(false);
+            entityManager.persist(t);
+        }
+
+        Query q2 = entityManager.createQuery("SELECT q FROM FlightEntity q");
+        FlightEntity f = (FlightEntity) q2.getResultList().get(0);
+        f.setDepartured(true);
+        Query q3 = entityManager.createQuery("SELECT t FROM TicketEntity t");
+        List<TicketEntity> tickets = q3.getResultList();
+        int i = 0;
+        for (TicketEntity t:tickets) {
+            AircraftEntity aircraft = t.getBookingClass().getFlight().getAircraft();
+            Query q1 = entityManager.createQuery("SELECT s FROM SeatEntity s where s.seatClass = :seatClass");
+            q1.setParameter("seatClass" ,"Economy Class");
+            SeatEntity seat = (SeatEntity) q1.getResultList().get(i);
+            t.setSeat(seat);
+            i = i + 1;
+        }
     }
     
-    
-
 }
+

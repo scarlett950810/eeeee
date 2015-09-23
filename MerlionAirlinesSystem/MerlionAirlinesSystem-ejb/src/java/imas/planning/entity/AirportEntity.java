@@ -26,7 +26,6 @@ public class AirportEntity implements Serializable {
     private String cityName;
     private String airportName;  
     private String airportCode;
-    
     private String nationName;
 
 
@@ -38,12 +37,17 @@ public class AirportEntity implements Serializable {
     public AirportEntity(){   
     }
 
+    public Boolean getHubOrSpoke() {
+        return hubOrSpoke;
+    }
+
     public AirportEntity(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName) {
         this.hubOrSpoke = hubOrSpoke;
         this.cityName = cityName;
         this.airportName = airportName;
         this.airportCode = airportCode;
         this.nationName = nationName;
+        
     }
     
 //    public List<AircraftEntity> getAirportsH() {
@@ -88,7 +92,7 @@ public class AirportEntity implements Serializable {
     public void setAirportCode(String airportCode) {
         this.airportCode = airportCode;
     }
-
+    
     public Long getId() {
         return id;
     }

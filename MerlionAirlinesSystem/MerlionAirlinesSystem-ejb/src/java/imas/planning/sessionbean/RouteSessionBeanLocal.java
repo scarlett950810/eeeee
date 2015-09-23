@@ -6,6 +6,7 @@
 package imas.planning.sessionbean;
 
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,11 @@ import javax.ejb.Local;
 public interface RouteSessionBeanLocal {
 
     Boolean checkRoute(AirportEntity origin, AirportEntity destination);
+    Boolean checkRouteByStringName(String hub, String spoke);
 
     void addRoute(AirportEntity origin, AirportEntity destination);
 
-    void connectHubSpoke(String hub, String spoke);
+    Boolean connectHubSpoke(String hub, String spoke);
 
     List<AirportEntity> retrieveHubs();
 
@@ -45,5 +47,13 @@ public interface RouteSessionBeanLocal {
     List<RouteEntity> filterRoutesToConnections(List<RouteEntity> routes);
 
     void createRouteGroup(String groupCode, Double maxRange, Double minRange, ArrayList<RouteEntity> routesGrouped);
+
+    Boolean availabilityCheck(Double range);
+
+    void AddDistToRoute(String hub, String spoke, Double distance);
+
+    void saveReturnFlights(FlightEntity f);
+
+    List<FlightEntity> retrieveAllFlightsGenerated(Integer year, RouteEntity route);
     
 }
