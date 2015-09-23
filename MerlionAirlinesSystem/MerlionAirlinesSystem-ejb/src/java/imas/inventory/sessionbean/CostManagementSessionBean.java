@@ -98,14 +98,14 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         TreeNode L1CL2CL3E = new DefaultTreeNode(new CostPairEntity(list.get(20).getCostType(), list.get(20).getCostFigure()), L1CL2C);
         TreeNode L1CL2CL3F = new DefaultTreeNode(new CostPairEntity(list.get(21).getCostType(), list.get(21).getCostFigure()), L1CL2C);
         TreeNode L1CL2CL3G = new DefaultTreeNode(new CostPairEntity(list.get(22).getCostType(), list.get(22).getCostFigure()), L1CL2C);
-
+//L1CL2CL3G.isExpanded()
         return root;
     }
 
     @Override
     public void writeList(List<CostPairEntity> list) {
         for (int i = 0; i < list.size(); i++) {
-            em.persist(list.get(i));
+            em.merge(list.get(i));
         }
     }
 
