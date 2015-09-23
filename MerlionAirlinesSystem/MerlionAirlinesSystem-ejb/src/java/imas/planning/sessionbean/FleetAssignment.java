@@ -96,7 +96,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
         cal.setTime(earliestDep);
         cal.add(Calendar.YEAR, 1);
         earliestDep = cal.getTime();
-        System.err.println("2");
+        System.err.println("2 earliest Dep"+earliestDep);
 
         //Adjust the date one year later 
         boolean hasHubOrNot = false;
@@ -106,12 +106,13 @@ public class FleetAssignment implements FleetAssignmentLocal {
             if (depTemp.compareTo(earliestDep) < 0 && aircraft.getAirportHub().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                 //Find the earliest flight which departs at the aircraft's hub
                 earliestFlight = em.find(FlightEntity.class, f.getId());
+                earliestDep = f.getDepartureDate();
                 hasHubOrNot = true;
                 
             }
 
         }
-        System.err.println("3");
+        System.err.println("3 + earliest flight"+earliestFlight.getDepartureDate());
 
         if (!hasHubOrNot) {
             System.err.println("all flights do not departure at the aircraft's hub");
@@ -128,6 +129,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
             aircraft.getFlights().add(earliestFlight);
         }
         earliestFlight.setAircraftFlight(aircraft);
+        earliestDep = earliestFlight.getArrivalDate();
         System.err.println("4");
             
         flightsAvai.remove(earliestFlight);
@@ -136,7 +138,8 @@ public class FleetAssignment implements FleetAssignmentLocal {
         boolean findNextFlight = true;
         AirportEntity currentLoc = flightAssigned.getRoute().getDestinationAirport();
         System.err.println("5");
-        Date mtAcc = flightAssigned.getArrivalDate();
+        Date mtAcc = flightAssigned.getDepartureDate();
+        System.err.println("mtacc before while"+mtAcc);
         while (findNextFlight) {
         System.err.println("5.1");
 
@@ -145,26 +148,51 @@ public class FleetAssignment implements FleetAssignmentLocal {
 
             earliestDep = cal.getTime();
         System.err.println("6");
-
+            System.err.println("earliestDep"+earliestDep);
             findNextFlight = false;
-            for (FlightEntity f : flightsAvai) {
+           Date findSoonest = null;   
+           for (FlightEntity f : flightsAvai) {
+                
                 if (currentLoc.equals(aircraft.getAirportHub())) {
-                    if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
+                    if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 ) {
+                        findSoonest = f.getDepartureDate();
                         flightAssigned = em.find(FlightEntity.class, f.getId());
-                        findNextFlight = true;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
+                    findSoonest = f.getDepartureDate();
                     flightAssigned = em.find(FlightEntity.class, f.getId());
+                }
+
+            }
+           //find a suitable flight
+           if(findSoonest == null){
+               findNextFlight = false;
+           }else{
+              
+            for (FlightEntity f : flightsAvai) {
+                
+                if (currentLoc.equals(aircraft.getAirportHub())) {
+                    if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0 ) {
+                        flightAssigned = em.find(FlightEntity.class, f.getId());
+                        findSoonest = f.getDepartureDate();
+                        findNextFlight = true;
+                    }
+                } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0&& f.getDepartureDate().compareTo(findSoonest) < 0 ) {
+                    flightAssigned = em.find(FlightEntity.class, f.getId());
+                    findSoonest = f.getDepartureDate();
                     findNextFlight = true;
                 }
 
             }
+           }
+            //find the nearest flight
          System.err.println("7");
            
             Double flyingHoursAC = calculateMaintenanceHours(aircraft, mtAcc);
           System.err.println("7.1 flyingHours"+flyingHoursAC);
 
             if(findNextFlight){
+                System.err.println("findNextFlight is true");
             if (flyingHoursAC + flightAssigned.getRoute().getFlightHours() >= 125.0) {
                 System.err.println("flightAssigned FLIGHT hours"+flightAssigned.getRoute().getFlightHours());
                 MaintenanceScheduleEntity maintenanceSchedule = new MaintenanceScheduleEntity();
@@ -182,8 +210,8 @@ public class FleetAssignment implements FleetAssignmentLocal {
                     aircraft.getMaintenances().add(maintenanceSchedule);
                 }
                 maintenanceSchedule.setAircraft(aircraft);
-                em.persist(maintenanceSchedule);
-                em.persist(aircraft);
+                em.merge(maintenanceSchedule);
+                em.merge(aircraft);
 
                 currentLoc = aircraft.getAirportHub();
                 mtAcc = earliestDep;
@@ -193,7 +221,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
                 aircraft.getFlights().add(flightAssigned);
                 flightAssigned.setAircraftFlight(aircraft);
                 flightsAvai.remove(flightAssigned);
-                em.persist(aircraft);
+                em.merge(aircraft);
 
                 earliestDep = flightAssigned.getArrivalDate(); // later can change to calculate 
                 currentLoc = flightAssigned.getRoute().getDestinationAirport();
@@ -205,7 +233,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
       
         }
 
-        em.persist(aircraft);
+        em.merge(aircraft);
         return flightsAvai;
         //route with higher demand operate with larger aircraft
         //longer distance larger aircraft
