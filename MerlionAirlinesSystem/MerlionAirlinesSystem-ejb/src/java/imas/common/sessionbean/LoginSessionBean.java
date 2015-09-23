@@ -63,18 +63,18 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                 Date currentDate = new Date();
                 ArrayList<Date> tempDate = (ArrayList<Date>) tempStaff.getLoginAttempt();
                 String salt = tempStaff.getSalt();
-                String password =cp.doMD5Hashing(oldpassword+salt);
-                if (tempDate == null || tempDate.size() == 0) {
+                String password = cp.doMD5Hashing(oldpassword + salt);
+                if (tempDate == null || tempDate.isEmpty()) {
                     if (password.equals(tempStaff.getPassword())) {
                         tempStaff.setLoginAttempt(null);
-                        entityManager.persist(tempStaff);
+                        entityManager.merge(tempStaff);
                         System.out.println("success1");
                         return "success";
                     } else {
                         tempDate = new ArrayList<Date>();
                         tempDate.add(currentDate);
                         tempStaff.setLoginAttempt(tempDate);
-                        entityManager.persist(tempStaff);
+                        entityManager.merge(tempStaff);
                         System.out.println("wrong password1");
                         return "wrong password";
                     }
@@ -88,13 +88,13 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                         tempStaff.setLoginAttempt(null);
                         if (password.equals(tempStaff.getPassword())) {
                             tempStaff.setLoginAttempt(null);
-                            entityManager.persist(tempStaff);
+                            entityManager.merge(tempStaff);
                             System.out.println("success2");
                             return "success";
                         } else {
                             tempDate.add(currentDate);
                             tempStaff.setLoginAttempt(tempDate);
-                            entityManager.persist(tempStaff);
+                            entityManager.merge(tempStaff);
                             System.out.println("wrong password2");
                             return "wrong password";
                         }
@@ -106,20 +106,20 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                         } else {
                             if (password.equals(tempStaff.getPassword())) {
                                 tempStaff.setLoginAttempt(null);
-                                entityManager.persist(tempStaff);
+                                entityManager.merge(tempStaff);
                                 System.out.println("success3");
                                 return "success";
                             } else {
                                 if (tempStaff.getLoginAttempt().size() >= 3) {
 
                                     tempStaff.setLoginAttempt(tempDate);
-                                    entityManager.persist(tempStaff);
+                                    entityManager.merge(tempStaff);
                                     System.out.println("captcha");
                                     return "captcha";
                                 } else {
 
                                     tempStaff.setLoginAttempt(tempDate);
-                                    entityManager.persist(tempStaff);
+                                    entityManager.merge(tempStaff);
                                     System.out.println("wrong password3");
                                     return "wrong password";
                                 }
@@ -155,11 +155,11 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     @Override
     public void insertData() {
-        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double)10, 50, (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 20);
-        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A880", (double)20, 80, (double) 180000, (double) 200, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 20);
+        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double) 10, 50, (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 20);
+        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A880", (double) 20, 80, (double) 180000, (double) 200, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 20);
         entityManager.persist(aircraftType1);
         entityManager.persist(aircraftType2);
-        
+
         System.out.println("safe 1");
 
         AirportEntity a1 = new AirportEntity(false, "Shijiazhuang", "ZD Airport", "SJZ", "China");
@@ -203,7 +203,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         FlightEntity fe2 = new FlightEntity("FlightNo2", (double) 800000, 3.5, aircraft1, r2);
         entityManager.persist(fe1);
         entityManager.persist(fe2);
-        
+
         BookingClassEntity bc1 = new BookingClassEntity(fe1, "First Class", "First Class", 3000, 20);
         BookingClassEntity bc2 = new BookingClassEntity(fe1, "Business Class", "Business Class", 2000, 24);
         BookingClassEntity bc3 = new BookingClassEntity(fe1, "Premium Economy Class", "Premium Economy Class", 1000, 60);
@@ -218,7 +218,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(bc5);
         entityManager.persist(bc6);
         entityManager.persist(bc7);
-     }
+    }
+
     @Override
     public StaffEntity fetchStaff(String staffNo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

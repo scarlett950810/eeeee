@@ -33,7 +33,7 @@ public class PilotEntity extends StaffEntity implements Serializable {
     }
 
     public PilotEntity(String staffNo, String displayName, String password, String email,
-            String contactNumber, String department, String address, String gender, String base,
+            String contactNumber, String department, String address, String gender, 
             String workingStatus, String aircraftType, List<FlightEntity> pilotFlights, Boolean mileageLimit) {
         super(staffNo, displayName, password, email, contactNumber, address, gender);
 
