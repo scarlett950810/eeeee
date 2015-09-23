@@ -54,6 +54,7 @@ public class FASetFrequency implements Serializable{
     }
 
     public Date getPlanningPeriodStartingDate() {
+        System.err.println("enter getplanningStartDate");
         return planningPeriodStartingDate;
     }
 

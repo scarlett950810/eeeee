@@ -49,14 +49,19 @@ public class FleetAssignmentManagedBean implements Serializable{
     public void init()
     {     
 //         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftList", aircraftsAll);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("dateList", getAllPlanningPeirod());
 
     }
     public void fleetAssignment() throws IOException{
+        System.err.println("hehehhee");
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         aircraftsAll = aircraftSessionBean.getAircrafts();  
+        System.err.println("planningPeriodStartingDate"+planningPeriodStartingDate.toString());
         flightsAll = fleetAssignment.getAllFlightsWithinPlanningPeriod(planningPeriodStartingDate);
+        System.err.println("finishflightsAll");
         flightsLeft = fleetAssignment.fleetAssignment(flightsAll, aircraftsAll);
+        System.err.println("outof the optimization");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsLeft", flightsLeft);
         ec.redirect("planningFleetAssignmentDisplay.xhtml");
 
@@ -67,6 +72,7 @@ public class FleetAssignmentManagedBean implements Serializable{
     }
 
     public Date getPlanningPeriodStartingDate() {
+        System.err.println("enter...."+planningPeriodStartingDate);
         return planningPeriodStartingDate;
     }
 

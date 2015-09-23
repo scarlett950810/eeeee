@@ -61,13 +61,16 @@ public class FleetAssignment implements FleetAssignmentLocal {
 
     @Override
     public List<FlightEntity> fleetAssignment(List<FlightEntity> flights, List<AircraftEntity> aircrafts) {
+        System.err.println("enter fleetAssignment");
         for (AircraftEntity a : aircrafts) {
             if (!flights.isEmpty()) {
                 flights = oneAircraftAssignment(a, flights);
+                System.err.println("finsh one fleetassignment");
             } else {
                 break;
             }
         }
+        System.err.println("finish fleetA"+flights.size());
         return flights;
         
 
@@ -76,7 +79,8 @@ public class FleetAssignment implements FleetAssignmentLocal {
     @Override
     public List<FlightEntity> oneAircraftAssignment(AircraftEntity aircraft, List<FlightEntity> flightsAll) {
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
-
+         System.err.println("enter one aircraftAssignment");
+         
         for (FlightEntity f : flightsAll) {
             if (aircraft.getAircraftType().getAircraftRange() > f.getRoute().getDistance()) {
                 flightsAvai.add(f);
@@ -86,12 +90,14 @@ public class FleetAssignment implements FleetAssignmentLocal {
         if (flightsAvai.isEmpty()) {
             return flightsAll;
         }
-
+        System.err.println("1");
         Date earliestDep = flightsAvai.get(0).getDepartureDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(earliestDep);
         cal.add(Calendar.YEAR, 1);
         earliestDep = cal.getTime();
+        System.err.println("2");
+
         //Adjust the date one year later 
         boolean hasHubOrNot = false;
         FlightEntity earliestFlight = new FlightEntity();
@@ -105,6 +111,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
             }
 
         }
+        System.err.println("3");
 
         if (!hasHubOrNot) {
             System.err.println("all flights do not departure at the aircraft's hub");
@@ -121,18 +128,23 @@ public class FleetAssignment implements FleetAssignmentLocal {
             aircraft.getFlights().add(earliestFlight);
         }
         earliestFlight.setAircraftFlight(aircraft);
+        System.err.println("4");
             
         flightsAvai.remove(earliestFlight);
         //assign the first flight
         FlightEntity flightAssigned = earliestFlight;
         boolean findNextFlight = true;
         AirportEntity currentLoc = flightAssigned.getRoute().getDestinationAirport();
+        System.err.println("5");
+        Date mtAcc = flightAssigned.getArrivalDate();
         while (findNextFlight) {
+        System.err.println("5.1");
 
             cal.setTime(earliestDep);
             cal.add(Calendar.MINUTE, (int) (aircraft.getTurnAroundTime() + 0.5d));
 
             earliestDep = cal.getTime();
+        System.err.println("6");
 
             findNextFlight = false;
             for (FlightEntity f : flightsAvai) {
@@ -147,14 +159,20 @@ public class FleetAssignment implements FleetAssignmentLocal {
                 }
 
             }
-            Double flyingHoursAC = calculateMaintenanceHours(aircraft);
+         System.err.println("7");
+           
+            Double flyingHoursAC = calculateMaintenanceHours(aircraft, mtAcc);
+          System.err.println("7.1 flyingHours"+flyingHoursAC);
+
             if(findNextFlight){
-            if (flyingHoursAC + flightAssigned.getDuration() >= 125.0) {
+            if (flyingHoursAC + flightAssigned.getRoute().getFlightHours() >= 125.0) {
+                System.err.println("flightAssigned FLIGHT hours"+flightAssigned.getRoute().getFlightHours());
                 MaintenanceScheduleEntity maintenanceSchedule = new MaintenanceScheduleEntity();
                 maintenanceSchedule.setMaintenanceType("A");
                 maintenanceSchedule.setStartingTime(earliestDep);
                 cal.setTime(earliestDep);
                 cal.add(Calendar.HOUR, (int) (aircraft.getAircraftType().getMaintenanceHoursRequiredACheck() + 0.5d));
+                System.err.println("maintenance hours requireed:"+aircraft.getAircraftType().getMaintenanceHoursRequiredACheck()+" sishewuru"+(int) (aircraft.getAircraftType().getMaintenanceHoursRequiredACheck() + 0.5d));
                 earliestDep = cal.getTime();
                 maintenanceSchedule.setEndingTime(earliestDep);
                 if (aircraft.getMaintenances() != null) {
@@ -163,17 +181,28 @@ public class FleetAssignment implements FleetAssignmentLocal {
                     aircraft.setMaintenances(new ArrayList<MaintenanceScheduleEntity>());
                     aircraft.getMaintenances().add(maintenanceSchedule);
                 }
+                maintenanceSchedule.setAircraft(aircraft);
                 em.persist(maintenanceSchedule);
+                em.persist(aircraft);
+
                 currentLoc = aircraft.getAirportHub();
+                mtAcc = earliestDep;
+                        System.err.println("7.2");
 
             } else {
                 aircraft.getFlights().add(flightAssigned);
                 flightAssigned.setAircraftFlight(aircraft);
                 flightsAvai.remove(flightAssigned);
+                em.persist(aircraft);
+
                 earliestDep = flightAssigned.getArrivalDate(); // later can change to calculate 
                 currentLoc = flightAssigned.getRoute().getDestinationAirport();
+                        System.err.println("7.2.1");
+
             }
             }
+             System.err.println("8");
+      
         }
 
         em.persist(aircraft);
@@ -187,11 +216,14 @@ public class FleetAssignment implements FleetAssignmentLocal {
     }
 
     @Override
-    public Double calculateMaintenanceHours(AircraftEntity aircraft) {
+    public Double calculateMaintenanceHours(AircraftEntity aircraft, Date mtAcc) {
+        System.err.println("date mtacc"+ mtAcc);
         Double flyingHours = 0.0;
         List<FlightEntity> fL = aircraft.getFlights();
         for (FlightEntity f : fL) {
-            flyingHours = flyingHours + f.getDuration();
+            if(f.getDepartureDate().compareTo(mtAcc)>0){
+            flyingHours = flyingHours + f.getRoute().getFlightHours();
+            }
         }
         return flyingHours;
     }

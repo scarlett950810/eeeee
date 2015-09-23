@@ -6,6 +6,7 @@
 package imas.web.managedbean.planning;
 
 import imas.planning.entity.AirportEntity;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,29 +19,29 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Howard
  */
-@FacesConverter(value = "airportConverter")
-public class AirportConverter implements Converter {
+@FacesConverter(value = "dateConverter")
+public class DateConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
+                System.err.println("enter getAsObject");
+                List<Date> dates = (List<Date>)fc.getExternalContext().getSessionMap().get("dateList");
                 
-                List<AirportEntity> airportEntities = (List<AirportEntity>)fc.getExternalContext().getSessionMap().get("airportList");
+                String dateStr = value;
                 
-                Long airportEntityId = Long.valueOf(Long.parseLong(value));
-                
-                for(AirportEntity airportEntity:airportEntities)
+                for(Date date :dates)
                 {
-                    if(airportEntity.getId().equals(airportEntityId))
+                    if(date.toString().equals(dateStr))
                     {
-                        return airportEntity;
+                        return date;
                     }
                 }
                 
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid airport."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid date."));
             }
         } else {
             return null;
@@ -49,8 +50,9 @@ public class AirportConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
+        System.err.println("enter getasstring");
         if (object != null) {    
-            return String.valueOf(((AirportEntity) object).getId());
+            return String.valueOf(((Date) object).toString());
         } else {
             return null;
         }

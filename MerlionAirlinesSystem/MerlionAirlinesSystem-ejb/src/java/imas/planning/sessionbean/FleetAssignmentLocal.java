@@ -26,7 +26,7 @@ public interface FleetAssignmentLocal {
 
     List<FlightEntity> oneAircraftAssignment(AircraftEntity aircraft, List<FlightEntity> flightsAvai);
 
-    Double calculateMaintenanceHours(AircraftEntity aircraft);
+    Double calculateMaintenanceHours(AircraftEntity aircraft, Date mtAcc);
 
     
 }

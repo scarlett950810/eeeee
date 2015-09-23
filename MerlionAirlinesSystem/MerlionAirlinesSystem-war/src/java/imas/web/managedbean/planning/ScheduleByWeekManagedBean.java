@@ -30,7 +30,8 @@ import org.primefaces.event.SelectEvent;
  */
 @Named(value = "scheduleByWeekManagedBean")
 @ViewScoped
-public class ScheduleByWeekManagedBean implements Serializable{
+public class ScheduleByWeekManagedBean implements Serializable {
+
     private Integer flightTimes;
     private String iterationPeriod;
     @EJB
@@ -44,11 +45,13 @@ public class ScheduleByWeekManagedBean implements Serializable{
     private List<Date> departureDates;
     private List<FlightEntity> flightsGenerated;
     private Integer planningPeriod;
+
     /**
      * Creates a new instance of ScheduleByWeekManagedBean
      */
     public ScheduleByWeekManagedBean() {
     }
+
     @PostConstruct
     public void init() {
         System.out.println("init()");
@@ -68,9 +71,6 @@ public class ScheduleByWeekManagedBean implements Serializable{
         System.out.println("test" + (RouteEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("routeSelected"));
 
     }
-
-
-    
 
     public void generateFlightsByWeek() throws IOException {
         flightsGenerated = new ArrayList<FlightEntity>();
@@ -98,13 +98,22 @@ public class ScheduleByWeekManagedBean implements Serializable{
                 FlightEntity f1 = new FlightEntity(yearSelected);
 
                 //set the departure time of flight in the flights 
-                f1.setDepartureDate(combineThreeDate(departureDateTemp,f.getWeekDay(),f.getDepartureDate()));
-                f1.setArrivalDate(null);
+                Date departureT = combineThreeDate(departureDateTemp, f.getWeekDay(), f.getDepartureDate());
+                f1.setDepartureDate(departureT);
+                cal.setTime(departureT);
+                cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
+                
+                f1.setArrivalDate(cal.getTime());
                 f1.setReverseFlight(new FlightEntity(yearSelected));
                 f1.getReverseFlight().setRoute(routeSelected.getReverseRoute());
                 f1.setRoute(f.getRoute());
-                f1.getReverseFlight().setDepartureDate(combineThreeDate(departureDateTemp,f.getReverseFlight().getWeekDay(), f.getReverseFlight().getDepartureDate()));
-                f1.getReverseFlight().setArrivalDate(null);
+                 departureT = combineThreeDate(departureDateTemp, f.getReverseFlight().getWeekDay(), f.getReverseFlight().getDepartureDate());
+               
+                f1.getReverseFlight().setDepartureDate(departureT);
+                cal.setTime(departureT);
+                cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
+                
+                f1.getReverseFlight().setArrivalDate(cal.getTime());
                 f1.getReverseFlight().setReverseFlight(f1);
                 routeSession.saveReturnFlights(f1);
                 System.err.println("generatebyday" + f1);
@@ -174,8 +183,6 @@ public class ScheduleByWeekManagedBean implements Serializable{
 
     }
 
-   
-
     public List<String> getWeekDays() {
         List<String> weekD = new ArrayList<String>();
         weekD.add("Monday");
@@ -209,7 +216,7 @@ public class ScheduleByWeekManagedBean implements Serializable{
         System.err.println("flightEntity: " + flightEntity.getDepartureDate());
         Calendar cal = Calendar.getInstance();
         cal.setTime(flightEntity.getDepartureDate());
-        cal.add(Calendar.MINUTE, 30);
+        cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
         Date halfHourBack = cal.getTime();
         flightEntity.setArrivalDate(halfHourBack);
     }
