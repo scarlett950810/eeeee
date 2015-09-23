@@ -7,14 +7,14 @@ package imas.web.managedbean.distribution;
 
 import java.io.Serializable;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+
 
 /**
  *
  * @author Scarlett
  */
 @Named(value = "distributionBuyTicketsManagedBean")
-@Dependent
+
 public class distributionBuyTicketsManagedBean implements Serializable {
 
     /**

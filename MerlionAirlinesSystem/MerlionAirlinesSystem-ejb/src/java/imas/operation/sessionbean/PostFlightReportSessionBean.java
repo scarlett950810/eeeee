@@ -45,8 +45,8 @@ public class PostFlightReportSessionBean implements PostFlightReportSessionBeanL
     @Override
     public void init() {
 
-        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", 10, 50, (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas");
-        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A880", 20, 80, (double) 180000, (double) 200, (double) 3800, (double) 6400, (double) 28, "Gas");
+        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double) 10, 50, (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 20);
+        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A880", (double) 20, 80, (double) 180000, (double) 200, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 20);
         em.persist(aircraftType1);
         em.persist(aircraftType2);
 
@@ -112,11 +112,11 @@ public class PostFlightReportSessionBean implements PostFlightReportSessionBeanL
     }
 
     @Override
-    public void updateReport(FlightEntity selectedFlight,Integer num) {
-        if(num!=0){
-        em.merge(selectedFlight);
+    public void updateReport(FlightEntity selectedFlight, Integer num) {
+        if (num != 0) {
+            em.merge(selectedFlight);
         }
-  
+
     }
 
     @Override
