@@ -143,13 +143,22 @@ public class ScheduleManagedBean implements Serializable {
                 FlightEntity f1 = new FlightEntity(yearSelected);
 
                 //set the departure time of flight in the flights 
-                f1.setDepartureDate(combineTwoDate(f.getDepartureDate(), departureDateTemp));
-                f1.setArrivalDate(f.getArrivalDate());
+                Date departureT = combineTwoDate(f.getDepartureDate(), departureDateTemp);
+                f1.setDepartureDate(departureT);
+                cal.setTime(departureT);
+                cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
+                
+                f1.setArrivalDate(cal.getTime());
                 f1.setReverseFlight(new FlightEntity(yearSelected));
                 f1.getReverseFlight().setRoute(routeSelected.getReverseRoute());
                 f1.setRoute(f.getRoute());
-                f1.getReverseFlight().setDepartureDate(combineTwoDate(f.getReverseFlight().getDepartureDate(), departureDateTemp));
-                f1.getReverseFlight().setArrivalDate(f.getReverseFlight().getArrivalDate());
+                departureT = combineTwoDate(f.getReverseFlight().getDepartureDate(), departureDateTemp);
+                f1.getReverseFlight().setDepartureDate(departureT);
+                cal.setTime(departureT);
+                cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
+                
+                f1.getReverseFlight().setArrivalDate(cal.getTime());
+                
                 f1.getReverseFlight().setReverseFlight(f1);
                 routeSession.saveReturnFlights(f1);
                 System.err.println("generatebyday" + f1);
@@ -168,57 +177,57 @@ public class ScheduleManagedBean implements Serializable {
         ec.redirect("planningDisplayFlightsGenerated.xhtml");
     }
 
-    public void generateFlightsByWeek() throws IOException {
-        flightsGenerated = new ArrayList<FlightEntity>();
-        Date departureDateTemp = dateOperate;
-        Date startingDate = dateOperate;
-//        SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
-//        String inputString1 = "31 12 " + yearSelected;
-
-//        Date date1 = myFormat.parse(inputString1);
-//        long diff = date1.getTime() - dateOperate.getTime();
-//        System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-//        long diffDays = diff / (24 * 60 * 60 * 1000);
-//        System.err.println("diffdays:" + diffDays);
+//    public void generateFlightsByWeek() throws IOException {
+//        flightsGenerated = new ArrayList<FlightEntity>();
+//        Date departureDateTemp = dateOperate;
+//        Date startingDate = dateOperate;
+////        SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
+////        String inputString1 = "31 12 " + yearSelected;
+//
+////        Date date1 = myFormat.parse(inputString1);
+////        long diff = date1.getTime() - dateOperate.getTime();
+////        System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+////        long diffDays = diff / (24 * 60 * 60 * 1000);
+////        System.err.println("diffdays:" + diffDays);
+////        Calendar cal = Calendar.getInstance();
+////        int days = (int) diffDays;
 //        Calendar cal = Calendar.getInstance();
-//        int days = (int) diffDays;
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(startingDate);
-        yearSelected = cal.get(Calendar.YEAR);
-        System.err.println("yearselected" + yearSelected);
-        cal.add(Calendar.YEAR, planningPeriod);
-        Date EndingDate = cal.getTime();
-
-        while (departureDateTemp.compareTo(EndingDate) <= 0) {
-            for (FlightEntity f : flights) {
-                FlightEntity f1 = new FlightEntity(yearSelected);
-
-                //set the departure time of flight in the flights 
-                f1.setDepartureDate(combineThreeDate(departureDateTemp,f.getWeekDay(),f.getDepartureDate()));
-                f1.setArrivalDate(null);
-                f1.setReverseFlight(new FlightEntity(yearSelected));
-                f1.getReverseFlight().setRoute(routeSelected.getReverseRoute());
-                f1.setRoute(f.getRoute());
-                f1.getReverseFlight().setDepartureDate(combineThreeDate(departureDateTemp,f.getReverseFlight().getWeekDay(), f.getReverseFlight().getDepartureDate()));
-                f1.getReverseFlight().setArrivalDate(null);
-                f1.getReverseFlight().setReverseFlight(f1);
-                routeSession.saveReturnFlights(f1);
-                System.err.println("generatebyday" + f1);
-            }
-            System.err.println("before add one day");
-            cal.setTime(departureDateTemp);
-            cal.add(Calendar.DATE, 7);
-            departureDateTemp = cal.getTime();
-            System.err.println("departuredayafter add one day" + departureDateTemp);
-        }
-
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("yearSelected", yearSelected);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routeSelected", routeSelected);
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        ec.redirect("planningDisplayFlightsGenerated.xhtml");
-        //since operating Date
-    }
+//        cal.setTime(startingDate);
+//        yearSelected = cal.get(Calendar.YEAR);
+//        System.err.println("yearselected" + yearSelected);
+//        cal.add(Calendar.YEAR, planningPeriod);
+//        Date EndingDate = cal.getTime();
+//
+//        while (departureDateTemp.compareTo(EndingDate) <= 0) {
+//            for (FlightEntity f : flights) {
+//                FlightEntity f1 = new FlightEntity(yearSelected);
+//
+//                //set the departure time of flight in the flights 
+//                f1.setDepartureDate(combineThreeDate(departureDateTemp,f.getWeekDay(),f.getDepartureDate()));
+//                f1.setArrivalDate(f.getArrivalDate());
+//                f1.setReverseFlight(new FlightEntity(yearSelected));
+//                f1.getReverseFlight().setRoute(routeSelected.getReverseRoute());
+//                f1.setRoute(f.getRoute());
+//                f1.getReverseFlight().setDepartureDate(combineThreeDate(departureDateTemp,f.getReverseFlight().getWeekDay(), f.getReverseFlight().getDepartureDate()));
+//                f1.getReverseFlight().setArrivalDate(f.getReverseFlight().getArrivalDate());
+//                f1.getReverseFlight().setReverseFlight(f1);
+//                routeSession.saveReturnFlights(f1);
+//                System.err.println("generatebyday" + f1);
+//            }
+//            System.err.println("before add one day");
+//            cal.setTime(departureDateTemp);
+//            cal.add(Calendar.DATE, 7);
+//            departureDateTemp = cal.getTime();
+//            System.err.println("departuredayafter add one day" + departureDateTemp);
+//        }
+//
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("yearSelected", yearSelected);
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routeSelected", routeSelected);
+//        FacesContext fc = FacesContext.getCurrentInstance();
+//        ExternalContext ec = fc.getExternalContext();
+//        ec.redirect("planningDisplayFlightsGenerated.xhtml");
+//        //since operating Date
+//    }
 
     //ai got mininue and hour ...
     public Date combineThreeDate(Date a, String weekday, Date time) {
@@ -315,7 +324,8 @@ public class ScheduleManagedBean implements Serializable {
         System.err.println("flightEntity: " + flightEntity.getDepartureDate());
         Calendar cal = Calendar.getInstance();
         cal.setTime(flightEntity.getDepartureDate());
-        cal.add(Calendar.MINUTE, 30);
+        
+        cal.add(Calendar.MINUTE, (int)(routeSelected.getFlightHours()*60+0.5d));
         Date halfHourBack = cal.getTime();
         flightEntity.setArrivalDate(halfHourBack);
     }

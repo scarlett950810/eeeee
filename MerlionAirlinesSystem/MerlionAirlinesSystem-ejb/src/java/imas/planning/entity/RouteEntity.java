@@ -127,7 +127,7 @@ public class RouteEntity  implements Serializable {
     }
     
     public AirportEntity getOriginAirport() {
-        System.out.println("Lalala");
+    //    System.out.println("Lalala");
 
         return originAirport;
     }
@@ -138,7 +138,7 @@ public class RouteEntity  implements Serializable {
     }
 
     public AirportEntity getDestinationAirport() {
-        System.out.println("Lalala1");
+      //  System.out.println("Lalala1");
 
         return destinationAirport;
     }

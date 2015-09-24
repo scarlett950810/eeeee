@@ -344,6 +344,8 @@ public class AircraftManagedBean implements Serializable {
 
     public void onAircraftDelete(AircraftEntity aircraft) {
         aircraftSessionBean.deleteAircraft(aircraft);
+        aircrafts = aircraftSessionBean.getAircrafts();
+        
     }
 
 }
