@@ -29,11 +29,6 @@ public class SeatEntity implements Serializable {
     private boolean goodCondition;
     private String seatClass; //First Class, Business Class, Premium Economy Class, Economy Class
     
-    private boolean firstClass;
-    private boolean businessClass;
-    private boolean premiumEconomyClass;
-    private boolean economyClass;
-    
 
     public SeatEntity() {
 
@@ -69,26 +64,6 @@ public class SeatEntity implements Serializable {
     public void setSeatClass(String seatClass) {
         this.seatClass = seatClass;
     }
-    
-    public void setSeatClassToFirstClass() {
-        this.seatClass = "First Class";
-        this.firstClass = true;
-    }
-    
-    public void setSeatClassToBusinessClass() {
-        this.seatClass = "Business Class";
-        this.businessClass = true;
-    }
-    
-    public void setSeatClassToPremiumEconomyClass() {
-        this.seatClass = "Premium Economy Class";
-        this.premiumEconomyClass = true;
-    }
-    
-    public void setSeatClassToEconomyClass() {
-        this.seatClass = "Economy Class";
-        this.economyClass = true;
-    }
 
     public AircraftEntity getAircraft() {
         return aircraft;
@@ -104,22 +79,6 @@ public class SeatEntity implements Serializable {
 
     public void setGoodCondition(boolean goodCondition) {
         this.goodCondition = goodCondition;
-    }
-
-    public void setFirstClass(boolean FirstClass) {
-        this.firstClass = FirstClass;
-    }
-
-    public void setBusinessClass(boolean BusinessClass) {
-        this.businessClass = BusinessClass;
-    }
-
-    public void setPremiumEconomyClass(boolean PremiumEconomyClass) {
-        this.premiumEconomyClass = PremiumEconomyClass;
-    }
-
-    public void setEconomyClass(boolean EconomyClass) {
-        this.economyClass = EconomyClass;
     }
     
     public boolean isFirstClass() {

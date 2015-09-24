@@ -65,13 +65,12 @@
                 <p:outputLabel for="bookingClass" value="Booking Class: " />
                 <p:selectOneMenu id="bookingClass" value="#{distributionBuyTicketsManagedBean.bookingClass}" 
                                  converter="bookingClassConverter2">
-                    <f:selectItems value="#{distributionBuyTicketsManagedBean.availableBookingClasses}" 
+                    <f:selectItems value="#{distributionBuyTicketsManagedBean.availableBookingClasses}"
                                    var="class" itemLabel="#{class.name}" itemValue="#{class}"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel for="PurchaseAmount"/>
                 <p:inputText id="PurchaseAmount" value="#{distributionBuyTicketsManagedBean.purchaseAmount}"/>
-
 
                 <p:commandButton icon="ui-icon-check" value="Buy" 
                                  actionListener="#{distributionBuyTicketsManagedBean.purchase()}"
