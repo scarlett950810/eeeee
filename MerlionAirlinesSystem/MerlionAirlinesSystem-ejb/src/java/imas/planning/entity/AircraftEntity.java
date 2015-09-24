@@ -76,8 +76,8 @@ public class AircraftEntity implements Serializable {
         this.airportHub = airportHub;
         this.currentAirport = currentAirport;
     }
-public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport, Double turnAroundTime
-) {
+    
+    public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport, Double turnAroundTime) {
         this.tailId = tailId;
         this.aircraftType = aircraftType;
         this.purchasePrice = purchasePrice;
@@ -91,6 +91,7 @@ public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double pur
         this.currentAirport = currentAirport;
         this.turnAroundTime = turnAroundTime;
     }
+    
     public AircraftGroupEntity getAircraftGroup() {
         return aircraftGroup;
     }
