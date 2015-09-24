@@ -14,10 +14,12 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -104,10 +106,17 @@ public class InternalMessageManagedBean implements Serializable {
     
     public void send() {
         internalMessageSessionBean.sendMessage(loggedInStaff, receiver, content);
+        allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
+        
     }
     
     public void toggleRead(InternalMessageEntity internalMessageEntity) {
         internalMessageSessionBean.toggleRead(internalMessageEntity);
+    }
+    
+    public void showMessage(String sender, String content) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, sender, content);         
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
     
 }
