@@ -26,8 +26,6 @@ import javax.persistence.PostRemove;
 @Named(value = "yieldManagementManagedBean")
 @ViewScoped
 public class YieldManagementManagedBean implements Serializable  {
-    @EJB
-    private YieldManagementSessionBeanLocal yieldManagementSessionBean;
     
     @EJB
     private RulesManagementSessionBeanLocal rulesManagementSessionBean;

@@ -13,6 +13,7 @@ import imas.planning.entity.RouteEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -41,7 +42,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         Double totalRevenue = 0.0;
         Integer totalSeatNo = 0;
         Double routeDistance = route.getDistance();
-        
+
         Query queryForFlightsUnderRoute = entityManager.createQuery("SELECT f FROM FlightEntity f WHERE f.route = :route");
         queryForFlightsUnderRoute.setParameter("route", route);
         List<FlightEntity> flightsUnderRoute = (List<FlightEntity>) queryForFlightsUnderRoute.getResultList();
@@ -52,6 +53,12 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
             queryForAllTicketsUnderFlight.setParameter("flight", f);
             List<TicketEntity> tickets = queryForAllTicketsUnderFlight.getResultList();
 
+            System.out.println(tickets.size());
+
+            if (tickets.isEmpty()) {
+                return 0.5;
+            }
+
             for (TicketEntity t : tickets) {
                 totalSeatNo = totalSeatNo + 1;
                 totalRevenue = totalRevenue + t.getBookingClass().getPrice();
@@ -60,14 +67,19 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
             return totalRevenue / (totalSeatNo * routeDistance);
 
         }
-        return 0.0;
+        return 0.5;
     }
 
     @Override
     public double getEconomyClassTotalCost(FlightEntity flight) {
-        double costPerSeat = costManagementSessionBean.getCostPerSeatPerMile() * flight.getDistance();
+//        System.out.println("getEconomyClassTotalCost");
+
+        double costPerSeat = costManagementSessionBean.getCostPerSeatPerMile() * flight.getRoute().getDistance();
+
+//        System.out.println("costPerSeat = " + costPerSeat);
         int economyCapacity = seatsManagementSessionBean.getEconomyClassCapacity(flight);
 
+//        System.out.println("economyCapacity = " + economyCapacity);
         return costPerSeat * economyCapacity;
     }
 
@@ -88,7 +100,10 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     @Override
     public int getFromNowToDepartureInDay(FlightEntity flight) {
-        int nowToDeparture = flight.getDepartureDate().compareTo(new Date());
+
+        long diff = flight.getDepartureDate().getTime() - new Date().getTime();
+        int nowToDeparture = (int) (diff / (24 * 60 * 60 * 1000));
+
         return nowToDeparture;
     }
 
@@ -167,9 +182,9 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     @Override
     public BookingClassEntity getEconomyClass1(FlightEntity flight) {
-        Query queryForEconomyClass1CurrentQuota = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc");
-        queryForEconomyClass1CurrentQuota.setParameter("flight", flight);
-        List<BookingClassEntity> bookingClasses = queryForEconomyClass1CurrentQuota.getResultList();
+        Query queryForEconomyClass1 = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
+        queryForEconomyClass1.setParameter("flight", flight);
+        List<BookingClassEntity> bookingClasses = queryForEconomyClass1.getResultList();
         for (BookingClassEntity bce : bookingClasses) {
             if (bce.isEconomyClass1BookingClassEntity()) {
                 return bce;
@@ -180,9 +195,9 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     @Override
     public BookingClassEntity getEconomyClass2(FlightEntity flight) {
-        Query queryForEconomyClass2CurrentQuota = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc");
-        queryForEconomyClass2CurrentQuota.setParameter("flight", flight);
-        List<BookingClassEntity> bookingClasses = queryForEconomyClass2CurrentQuota.getResultList();
+        Query queryForEconomyClass2 = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
+        queryForEconomyClass2.setParameter("flight", flight);
+        List<BookingClassEntity> bookingClasses = queryForEconomyClass2.getResultList();
         for (BookingClassEntity bce : bookingClasses) {
             if (bce.isEconomyClass2BookingClassEntity()) {
                 return bce;
@@ -193,9 +208,9 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     @Override
     public BookingClassEntity getEconomyClass3(FlightEntity flight) {
-        Query queryForEconomyClass3CurrentQuota = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc");
-        queryForEconomyClass3CurrentQuota.setParameter("flight", flight);
-        List<BookingClassEntity> bookingClasses = queryForEconomyClass3CurrentQuota.getResultList();
+        Query queryForEconomyClass3 = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
+        queryForEconomyClass3.setParameter("flight", flight);
+        List<BookingClassEntity> bookingClasses = queryForEconomyClass3.getResultList();
         for (BookingClassEntity bce : bookingClasses) {
             if (bce.isEconomyClass3BookingClassEntity()) {
                 return bce;
@@ -206,9 +221,9 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     @Override
     public BookingClassEntity getEconomyClass4(FlightEntity flight) {
-        Query queryForEconomyClass4CurrentQuota = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc");
-        queryForEconomyClass4CurrentQuota.setParameter("flight", flight);
-        List<BookingClassEntity> bookingClasses = queryForEconomyClass4CurrentQuota.getResultList();
+        Query queryForEconomyClass4 = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
+        queryForEconomyClass4.setParameter("flight", flight);
+        List<BookingClassEntity> bookingClasses = queryForEconomyClass4.getResultList();
         for (BookingClassEntity bce : bookingClasses) {
             if (bce.isEconomyClass4BookingClassEntity()) {
                 return bce;
@@ -219,9 +234,9 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     @Override
     public BookingClassEntity getEconomyClass5(FlightEntity flight) {
-        Query queryForEconomyClass5CurrentQuota = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc");
-        queryForEconomyClass5CurrentQuota.setParameter("flight", flight);
-        List<BookingClassEntity> bookingClasses = queryForEconomyClass5CurrentQuota.getResultList();
+        Query queryForEconomyClass5 = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
+        queryForEconomyClass5.setParameter("flight", flight);
+        List<BookingClassEntity> bookingClasses = queryForEconomyClass5.getResultList();
         for (BookingClassEntity bce : bookingClasses) {
             if (bce.isEconomyClass5BookingClassEntity()) {
                 return bce;
@@ -236,11 +251,13 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
      reallocate quota from lower WTP class to high WTP class.
     
      When time to departure > 60 days && totalRevenue > (parameter) * totalCost, 
-     reallocate EconomyClass3 and EconomyClass4 quotas to EconomyClass1 and EconomyClass2 quotas uniformly, 
-     amount = half of left quota from 2 or (3&4) which ever is lower.
+     reallocate EconomyClass3 and EconomyClass4 and EconomyClass5 quotas to EconomyClass1 and EconomyClass2 quotas uniformly, 
+     amount = half of left quota from 3&4&5.
      */
     @Override
     public void runYieldManagementRule1(YieldManagementRuleEntity yieldManagementRuleEntity) {
+//        System.out.println("rule 1");
+
         FlightEntity flight = yieldManagementRuleEntity.getFlight();
 
         Integer nowToDeparture = getFromNowToDepartureInDay(flight);
@@ -249,42 +266,44 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         Double totalRevenueTillNow = getTotalEconomyClassRevenue(flight);
         Double totalRevenueToTotalCostRatio = totalRevenueTillNow / totalCost;
 
+//        System.out.println("totalRevenueTillNow = " + totalRevenueTillNow);
+//        System.out.println("totalCost = " + totalCost);
+//        System.out.println("yieldManagementRuleEntity.getTotalRevenueToTotalCostParameter() = " + yieldManagementRuleEntity.getTotalRevenueToTotalCostParameter());
+
         if (nowToDeparture > yieldManagementRuleEntity.getTimeToDepartureInDaysParameter()
                 && totalRevenueToTotalCostRatio > yieldManagementRuleEntity.getTotalRevenueToTotalCostParameter()) {
+            
+//            System.out.println("rule 1 run.");
+
             BookingClassEntity economyClass1 = getEconomyClass1(flight);
             BookingClassEntity economyClass2 = getEconomyClass2(flight);
             BookingClassEntity economyClass3 = getEconomyClass3(flight);
             BookingClassEntity economyClass4 = getEconomyClass4(flight);
+            BookingClassEntity economyClass5 = getEconomyClass5(flight);
 
-            Integer class2QuotaLeft
-                    = economyClass2.getQuota() - getTotalNumberOfSoldEconomyClass2Ticket(flight);
             Integer class3QuotaLeft
                     = economyClass3.getQuota() - getTotalNumberOfSoldEconomyClass3Ticket(flight);
+            Integer quotaToMoveFrom3 = class3QuotaLeft / 2;
             Integer class4QuotaLeft
                     = economyClass4.getQuota() - getTotalNumberOfSoldEconomyClass4Ticket(flight);
-            Integer class3and4QuotaLeft
-                    = class3QuotaLeft + class4QuotaLeft;
-
-            Integer quotaToMove;
-            if (class2QuotaLeft > class3and4QuotaLeft) {
-                quotaToMove = class3and4QuotaLeft / 2;
-            } else {
-                quotaToMove = class2QuotaLeft / 2;
-            }
-
-            Integer quotaToMoveTo1 = quotaToMove / 2;
-            Integer quotaToMoveTo2 = quotaToMove - quotaToMoveTo1;
-            Integer quotaToMoveFrom3 = (int) (((double) class3QuotaLeft) / (class3QuotaLeft + class4QuotaLeft));
-            Integer quotaToMoveFrom4 = quotaToMove - quotaToMoveFrom3;
+            Integer quotaToMoveFrom4 = class4QuotaLeft / 2;
+            Integer class5QuotaLeft
+                    = economyClass5.getQuota() - getTotalNumberOfSoldEconomyClass5Ticket(flight);
+            Integer quotaToMoveFrom5 = class5QuotaLeft / 2;
+            
+            Integer totalQuotaToMove
+                    = quotaToMoveFrom3 + quotaToMoveFrom4 + quotaToMoveFrom5;
+            
+            Integer quotaToMoveTo1 = totalQuotaToMove / 2;
+            Integer quotaToMoveTo2 = totalQuotaToMove - quotaToMoveTo1;
 
             economyClass1.setQuota(economyClass1.getQuota() + quotaToMoveTo1);
             economyClass2.setQuota(economyClass2.getQuota() + quotaToMoveTo2);
             economyClass3.setQuota(economyClass3.getQuota() - quotaToMoveFrom3);
             economyClass4.setQuota(economyClass4.getQuota() - quotaToMoveFrom4);
+            economyClass5.setQuota(economyClass5.getQuota() - quotaToMoveFrom5);
 
-            YieldManagementRuleEntity yieldManagementRuleEntityToUpdate
-                    = entityManager.find(YieldManagementRuleEntity.class, yieldManagementRuleEntity.getId());
-            yieldManagementRuleEntityToUpdate.setEnabled(false);
+            disableYieldManagementRule(yieldManagementRuleEntity);
 
         }
 
@@ -292,11 +311,13 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
     /*
      When time to departure < 60 days && totalRevenue < (parameter) * totalCost, 
-     reallocate EconomyClass2 quotas to EconomyClass3 and EconomyClass4 quotas and EconomyClass5 quotas uniformly,
-     amount = half of left quota from 2 or (3&4) which ever is lower.
+     reallocate EconomyClass1 and EconomyClass2 quotas to EconomyClass3 and EconomyClass4 quotas and EconomyClass5 quotas uniformly,
+     amount = half of left quota from 1 and 2.
      */
     @Override
     public void runYieldManagementRule2(YieldManagementRuleEntity yieldManagementRuleEntity) {
+//        System.out.println("in rule 2");
+
         FlightEntity flight = yieldManagementRuleEntity.getFlight();
 
         Integer nowToDeparture = getFromNowToDepartureInDay(flight);
@@ -307,36 +328,39 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
         if (nowToDeparture < yieldManagementRuleEntity.getTimeToDepartureInDaysParameter()
                 && totalRevenueToTotalCostRatio < yieldManagementRuleEntity.getTotalRevenueToTotalCostParameter()) {
+
+//            System.out.println("rule2 runed.");
+
+            BookingClassEntity economyClass1 = getEconomyClass1(flight);
             BookingClassEntity economyClass2 = getEconomyClass2(flight);
             BookingClassEntity economyClass3 = getEconomyClass3(flight);
             BookingClassEntity economyClass4 = getEconomyClass4(flight);
             BookingClassEntity economyClass5 = getEconomyClass5(flight);
 
+            Integer class1QuotaLeft = economyClass1.getQuota() - getTotalNumberOfSoldEconomyClass1Ticket(flight);
             Integer class2QuotaLeft = economyClass2.getQuota() - getTotalNumberOfSoldEconomyClass2Ticket(flight);
-            Integer class3QuotaLeft = economyClass3.getQuota() - getTotalNumberOfSoldEconomyClass3Ticket(flight);
-            Integer class4QuotaLeft = economyClass4.getQuota() - getTotalNumberOfSoldEconomyClass4Ticket(flight);
-            Integer class3and4QuotaLeft = class3QuotaLeft + class4QuotaLeft;
 
-            // total quota moved from class 2.
-            Integer quotaToMoveFrom2;
-            if (class2QuotaLeft > class3and4QuotaLeft) {
-                quotaToMoveFrom2 = class3and4QuotaLeft / 2;
-            } else {
-                quotaToMoveFrom2 = class2QuotaLeft / 2;
-            }
+            Integer quotaToMoveFrom1 = class1QuotaLeft / 2;
+            Integer quotaToMoveFrom2 = class2QuotaLeft / 2;
+            Integer quotaToMove = class1QuotaLeft + class2QuotaLeft;
+            Integer quotaToMoveTo3 = quotaToMove / 3;
+            Integer quotaToMoveTo4 = quotaToMove / 3;
+            Integer quotaToMoveTo5 = quotaToMove - quotaToMoveTo3 - quotaToMoveTo4;
 
-            Integer quotaToMoveTo3 = quotaToMoveFrom2 / 3;
-            Integer quotaToMoveTo4 = quotaToMoveFrom2 / 3;
-            Integer quotaToMoveTo5 = quotaToMoveFrom2 - quotaToMoveTo3 - quotaToMoveTo4;
+//            System.out.println("quotaToMoveFrom1 = " + quotaToMoveFrom1);
+//
+//            System.out.println("quotaToMoveFrom2 = " + quotaToMoveFrom2);
+//            System.out.println("quotaToMoveTo3 = " + quotaToMoveTo3);
+//            System.out.println("quotaToMoveTo4 = " + quotaToMoveTo4);
+//            System.out.println("quotaToMoveTo5 = " + quotaToMoveTo5);
 
+            economyClass1.setQuota(economyClass1.getQuota() - quotaToMoveFrom1);
             economyClass2.setQuota(economyClass2.getQuota() - quotaToMoveFrom2);
             economyClass3.setQuota(economyClass3.getQuota() + quotaToMoveTo3);
             economyClass4.setQuota(economyClass4.getQuota() + quotaToMoveTo4);
             economyClass5.setQuota(economyClass5.getQuota() + quotaToMoveTo5);
 
-            YieldManagementRuleEntity yieldManagementRuleEntityToUpdate
-                    = entityManager.find(YieldManagementRuleEntity.class, yieldManagementRuleEntity.getId());
-            yieldManagementRuleEntityToUpdate.setEnabled(false);
+            disableYieldManagementRule(yieldManagementRuleEntity);
 
         }
 
@@ -357,30 +381,38 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
         if (nowToDeparture < yieldManagementRuleEntity.getTimeToDepartureInDaysParameter()
                 && percentageSold < yieldManagementRuleEntity.getPercentageSoldParameter()) {
+
+//            System.out.println("rule3 called.");
+
             BookingClassEntity economyClass1 = getEconomyClass1(flight);
             BookingClassEntity economyClass2 = getEconomyClass2(flight);
             BookingClassEntity economyClass3 = getEconomyClass3(flight);
             BookingClassEntity economyClass4 = getEconomyClass4(flight);
             BookingClassEntity economyClass5 = getEconomyClass5(flight);
 
-            Integer totalQuotaLeft = economyClass1.getQuota() + economyClass2.getQuota()
-                    + economyClass3.getQuota() + economyClass4.getQuota() + economyClass5.getQuota()
-                    - getTotalNumberOfSoldEconomyClass1Ticket(flight) - getTotalNumberOfSoldEconomyClass2Ticket(flight)
-                    - getTotalNumberOfSoldEconomyClass3Ticket(flight) - getTotalNumberOfSoldEconomyClass4Ticket(flight)
-                    - getTotalNumberOfSoldEconomyClass5Ticket(flight);
+            Integer totalClass1Sold = getTotalNumberOfSoldEconomyClass1Ticket(flight);
+            Integer totalClass2Sold = getTotalNumberOfSoldEconomyClass2Ticket(flight);
+            Integer totalClass3Sold = getTotalNumberOfSoldEconomyClass3Ticket(flight);
+            Integer totalClass4Sold = getTotalNumberOfSoldEconomyClass4Ticket(flight);
+            Integer totalClass5Sold = getTotalNumberOfSoldEconomyClass5Ticket(flight);
 
-            Integer quotaToClass1 = totalQuotaLeft / 2;
-            Integer quotaToClass5 = totalQuotaLeft - quotaToClass1;
+            Integer Class2and3and4totalQuotaLeft = economyClass2.getQuota() + economyClass3.getQuota()
+                    + economyClass4.getQuota() - totalClass2Sold - totalClass3Sold - totalClass4Sold;
 
-            economyClass1.setQuota(quotaToClass1);
-            economyClass2.setQuota(0);
-            economyClass3.setQuota(0);
-            economyClass4.setQuota(0);
-            economyClass5.setQuota(quotaToClass5);
+//            System.out.println("Class2and3and4totalQuotaLeft = " + Class2and3and4totalQuotaLeft);
 
-            YieldManagementRuleEntity yieldManagementRuleEntityToUpdate
-                    = entityManager.find(YieldManagementRuleEntity.class, yieldManagementRuleEntity.getId());
-            yieldManagementRuleEntityToUpdate.setEnabled(false);
+            Integer quotaToClass1 = Class2and3and4totalQuotaLeft / 2;
+            Integer quotaToClass5 = Class2and3and4totalQuotaLeft - quotaToClass1;
+
+//            System.out.println("quotaToClass1 = " + quotaToClass1 + "; quotaToClass5 = " + quotaToClass5);
+
+            economyClass1.setQuota(economyClass1.getQuota() + quotaToClass1);
+            economyClass2.setQuota(totalClass2Sold);
+            economyClass3.setQuota(totalClass3Sold);
+            economyClass4.setQuota(totalClass4Sold);
+            economyClass5.setQuota(economyClass5.getQuota() + quotaToClass5);
+
+            disableYieldManagementRule(yieldManagementRuleEntity);
 
         }
 
@@ -396,47 +428,56 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         FlightEntity flight = yieldManagementRuleEntity.getFlight();
 
         Integer nowToDeparture = getFromNowToDepartureInDay(flight);
-        BookingClassEntity economyClass1 = getEconomyClass1(flight);
-        BookingClassEntity economyClass2 = getEconomyClass2(flight);
-        BookingClassEntity economyClass3 = getEconomyClass3(flight);
-        BookingClassEntity economyClass4 = getEconomyClass4(flight);
-        BookingClassEntity economyClass5 = getEconomyClass5(flight);
 
-        Integer economyClass1LeftQuota = economyClass1.getQuota() - getTotalNumberOfSoldEconomyClass1Ticket(flight);
-        Integer economyClass2LeftQuota = economyClass2.getQuota() - getTotalNumberOfSoldEconomyClass2Ticket(flight);
-        Integer economyClass3LeftQuota = economyClass3.getQuota() - getTotalNumberOfSoldEconomyClass3Ticket(flight);
-        Integer economyClass4LeftQuota = economyClass4.getQuota() - getTotalNumberOfSoldEconomyClass4Ticket(flight);
-        Integer economyClass5LeftQuota = economyClass5.getQuota() - getTotalNumberOfSoldEconomyClass5Ticket(flight);
+        if (nowToDeparture > yieldManagementRuleEntity.getTimeToDepartureInDaysParameter()) {
 
-        Double changeEconomyClass3and4and5To1Or2Percentage = yieldManagementRuleEntity.getChangeEconomyClass3and4and5To1Or2PercentageParameter();
-        int quotaForChangeEconomyClass2and3and4To1Or2 = (int) ((economyClass3LeftQuota + economyClass4LeftQuota + economyClass5LeftQuota) * changeEconomyClass3and4and5To1Or2Percentage);
+            BookingClassEntity economyClass1 = getEconomyClass1(flight);
+            BookingClassEntity economyClass2 = getEconomyClass2(flight);
+            BookingClassEntity economyClass3 = getEconomyClass3(flight);
+            BookingClassEntity economyClass4 = getEconomyClass4(flight);
+            BookingClassEntity economyClass5 = getEconomyClass5(flight);
 
-        if (quotaForChangeEconomyClass2and3and4To1Or2 == 0) {
-            yieldManagementRuleEntity.setEnabled(false);
-        } else {
-            int quotaForChangeFromClass3 = (int) (quotaForChangeEconomyClass2and3and4To1Or2 * ((double) economyClass3LeftQuota / (economyClass3LeftQuota + economyClass4LeftQuota + economyClass5LeftQuota)));
-            int quotaForChangeFromClass4 = (int) (quotaForChangeEconomyClass2and3and4To1Or2 * ((double) economyClass4LeftQuota / (economyClass3LeftQuota + economyClass4LeftQuota + economyClass5LeftQuota)));
-            int quotaForChangeFromClass5 = quotaForChangeEconomyClass2and3and4To1Or2 - quotaForChangeFromClass3 - quotaForChangeFromClass4;
-            
-            if (economyClass1.getQuota() != 0
-                    && economyClass1LeftQuota < yieldManagementRuleEntity.getEconomyClass1RemainingQuotaParameter()) {
-                
-                economyClass1.setQuota(economyClass1.getQuota() + quotaForChangeEconomyClass2and3and4To1Or2);
-                economyClass3.setQuota(economyClass3.getQuota() - quotaForChangeFromClass3);
-                economyClass4.setQuota(economyClass4.getQuota() - quotaForChangeFromClass4);
-                economyClass5.setQuota(economyClass5.getQuota() - quotaForChangeFromClass5);
-                
-            } else if (economyClass2LeftQuota < yieldManagementRuleEntity.getEconomyClass2RemainingQuotaParameter()) {
-                
-                economyClass2.setQuota(economyClass2.getQuota() + quotaForChangeEconomyClass2and3and4To1Or2);
-                economyClass3.setQuota(economyClass3.getQuota() - quotaForChangeFromClass3);
-                economyClass4.setQuota(economyClass4.getQuota() - quotaForChangeFromClass4);
-                economyClass5.setQuota(economyClass5.getQuota() - quotaForChangeFromClass5);
-                
+            Integer economyClass1LeftQuota = economyClass1.getQuota() - getTotalNumberOfSoldEconomyClass1Ticket(flight);
+            Integer economyClass2LeftQuota = economyClass2.getQuota() - getTotalNumberOfSoldEconomyClass2Ticket(flight);
+            Integer economyClass3LeftQuota = economyClass3.getQuota() - getTotalNumberOfSoldEconomyClass3Ticket(flight);
+            Integer economyClass4LeftQuota = economyClass4.getQuota() - getTotalNumberOfSoldEconomyClass4Ticket(flight);
+            Integer economyClass5LeftQuota = economyClass5.getQuota() - getTotalNumberOfSoldEconomyClass5Ticket(flight);
+
+            Double changeEconomyClass3and4and5To1Or2Percentage = yieldManagementRuleEntity.getChangeEconomyClass3and4and5To1Or2PercentageParameter();
+            int quotaForChangeFromClass3 = (int) (changeEconomyClass3and4and5To1Or2Percentage * economyClass3LeftQuota);
+            int quotaForChangeFromClass4 = (int) (changeEconomyClass3and4and5To1Or2Percentage * economyClass4LeftQuota);
+            int quotaForChangeFromClass5 = (int) (changeEconomyClass3and4and5To1Or2Percentage * economyClass5LeftQuota);
+            int quotaForChangeEconomyClass2and3and4To1Or2 = quotaForChangeFromClass3 + quotaForChangeFromClass4 + quotaForChangeFromClass5;
+
+            if (quotaForChangeEconomyClass2and3and4To1Or2 == 0) {
+                disableYieldManagementRule(yieldManagementRuleEntity);
+            } else {
+
+                if (economyClass1.getQuota() != 0
+                        && economyClass1LeftQuota < yieldManagementRuleEntity.getEconomyClass1RemainingQuotaParameter()) {
+
+//                    System.out.println("rule4 runed. economyClass 1 sold out");
+
+                    economyClass1.setQuota(economyClass1.getQuota() + quotaForChangeEconomyClass2and3and4To1Or2);
+                    economyClass3.setQuota(economyClass3.getQuota() - quotaForChangeFromClass3);
+                    economyClass4.setQuota(economyClass4.getQuota() - quotaForChangeFromClass4);
+                    economyClass5.setQuota(economyClass5.getQuota() - quotaForChangeFromClass5);
+
+                } else if (economyClass2LeftQuota < yieldManagementRuleEntity.getEconomyClass2RemainingQuotaParameter()) {
+
+//                    System.out.println("rule4 runed. economyClass 2 sold out");
+
+                    economyClass2.setQuota(economyClass2.getQuota() + quotaForChangeEconomyClass2and3and4To1Or2);
+                    economyClass3.setQuota(economyClass3.getQuota() - quotaForChangeFromClass3);
+                    economyClass4.setQuota(economyClass4.getQuota() - quotaForChangeFromClass4);
+                    economyClass5.setQuota(economyClass5.getQuota() - quotaForChangeFromClass5);
+
+                }
+
             }
-
+        } else {
+            disableYieldManagementRule(yieldManagementRuleEntity);
         }
-
     }
 
     @Override
@@ -445,24 +486,24 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         List<FlightEntity> flights = queryForFlights.getResultList();
         FlightEntity flight1 = flights.get(0);
         FlightEntity flight2 = flights.get(1);
-        
-        YieldManagementRuleEntity yieldManagementRuleEntity1 = 
-                new YieldManagementRuleEntity().YieldManagementRule1Entity(flight1, 60, 1.5);
-        YieldManagementRuleEntity yieldManagementRuleEntity2 = 
-                new YieldManagementRuleEntity().YieldManagementRule2Entity(flight1, 60, 1.0);
-        YieldManagementRuleEntity yieldManagementRuleEntity3 = 
-                new YieldManagementRuleEntity().YieldManagementRule3Entity(flight1, 10, 0.8);
-        YieldManagementRuleEntity yieldManagementRuleEntity4 = 
-                new YieldManagementRuleEntity().YieldManagementRule4Entity(flight1, 15, 3, 5, 0.3);
-        YieldManagementRuleEntity yieldManagementRuleEntity11 = 
-                new YieldManagementRuleEntity().YieldManagementRule1Entity(flight2, 60, 1.5);
-        YieldManagementRuleEntity yieldManagementRuleEntity12 = 
-                new YieldManagementRuleEntity().YieldManagementRule2Entity(flight2, 60, 1.0);
-        YieldManagementRuleEntity yieldManagementRuleEntity13 = 
-                new YieldManagementRuleEntity().YieldManagementRule3Entity(flight2, 10, 0.8);
-        YieldManagementRuleEntity yieldManagementRuleEntity14 = 
-                new YieldManagementRuleEntity().YieldManagementRule4Entity(flight2, 15, 3, 8, 0.5);
-        
+
+        YieldManagementRuleEntity yieldManagementRuleEntity1
+                = new YieldManagementRuleEntity().YieldManagementRule1Entity(flight1, 60, 1.5);
+        YieldManagementRuleEntity yieldManagementRuleEntity2
+                = new YieldManagementRuleEntity().YieldManagementRule2Entity(flight1, 60, 1.0);
+        YieldManagementRuleEntity yieldManagementRuleEntity3
+                = new YieldManagementRuleEntity().YieldManagementRule3Entity(flight1, 10, 0.8);
+        YieldManagementRuleEntity yieldManagementRuleEntity4
+                = new YieldManagementRuleEntity().YieldManagementRule4Entity(flight1, 15, 3, 5, 0.3);
+        YieldManagementRuleEntity yieldManagementRuleEntity11
+                = new YieldManagementRuleEntity().YieldManagementRule1Entity(flight2, 60, 1.5);
+        YieldManagementRuleEntity yieldManagementRuleEntity12
+                = new YieldManagementRuleEntity().YieldManagementRule2Entity(flight2, 60, 1.0);
+        YieldManagementRuleEntity yieldManagementRuleEntity13
+                = new YieldManagementRuleEntity().YieldManagementRule3Entity(flight2, 10, 0.8);
+        YieldManagementRuleEntity yieldManagementRuleEntity14
+                = new YieldManagementRuleEntity().YieldManagementRule4Entity(flight2, 15, 3, 8, 0.5);
+
         entityManager.persist(yieldManagementRuleEntity1);
         entityManager.persist(yieldManagementRuleEntity2);
         entityManager.persist(yieldManagementRuleEntity3);
@@ -471,29 +512,50 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         entityManager.persist(yieldManagementRuleEntity12);
         entityManager.persist(yieldManagementRuleEntity13);
         entityManager.persist(yieldManagementRuleEntity14);
-        
+
+    }
+
+    @Override
+    public void updateAllRoutePopularity() {
+        Query queryAllRoutes = entityManager.createQuery("SELECT r FROM RouteEntity r");
+        List<RouteEntity> routes = queryAllRoutes.getResultList();
+        for (RouteEntity route : routes) {
+            route.setPopularity(getRoutePopularity(route));
+        }
     }
 
     @Override
     public void autoCreateRulesForFlight(FlightEntity flight) {
+//        System.out.println("autoCreateRulesForFlight");
+        updateAllRoutePopularity();
+
         Double popularity = flight.getRoute().getPopularity();
         Query queryForMinMax = entityManager.createQuery("SELECT r.popularity FROM RouteEntity r ORDER BY r.popularity ASC");
         int size = queryForMinMax.getResultList().size();
-        Double maxPopularity = (Double) queryForMinMax.getResultList().get(size - 1);
-        Double minPopularity = (Double) queryForMinMax.getResultList().get(0);
-        
-        Double normalizedPopularity = normalizePopularity(popularity, maxPopularity, minPopularity);
-        
+
+//        System.out.println("size = " + size);
+        Double normalizedPopularity = 0.5;
+
+        if (size != 0) {
+            Double maxPopularity = (Double) queryForMinMax.getResultList().get(size - 1);
+            Double minPopularity = (Double) queryForMinMax.getResultList().get(0);
+            if (!Objects.equals(maxPopularity, minPopularity)) {
+                normalizedPopularity = normalizePopularity(popularity, maxPopularity, minPopularity);
+            }
+
+        }
+
+//        System.out.println("np = " + normalizedPopularity);
         createRule1(flight, normalizedPopularity);
         createRule2(flight, normalizedPopularity);
         createRule3(flight, normalizedPopularity);
         createRule4(flight, normalizedPopularity);
     }
-    
+
     private Double normalizePopularity(Double popularity, Double max, Double min) {
-        return (popularity - min) / (max - min); 
+        return (popularity - min) / (max - min);
     }
-    
+
     private void createRule1(FlightEntity flight, Double normalizedPopularity) {
 //        A = 40 + np* (80-40)
         Integer a = (int) (40 + normalizedPopularity * (80 - 40));
@@ -502,7 +564,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         YieldManagementRuleEntity rule1 = new YieldManagementRuleEntity().YieldManagementRule1Entity(flight, a, b);
         entityManager.persist(rule1);
     }
-    
+
     private void createRule2(FlightEntity flight, Double normalizedPopularity) {
 //        A = 40 + np* (80-40)
         Integer a = (int) (40 + normalizedPopularity * (80 - 40));
@@ -511,7 +573,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         YieldManagementRuleEntity rule2 = new YieldManagementRuleEntity().YieldManagementRule2Entity(flight, a, b);
         entityManager.persist(rule2);
     }
-    
+
     private void createRule3(FlightEntity flight, Double normalizedPopularity) {
 //        A = 10 + np* (20-10)
         Integer a = (int) (10 + normalizedPopularity * (20 - 10));
@@ -520,7 +582,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         YieldManagementRuleEntity rule3 = new YieldManagementRuleEntity().YieldManagementRule3Entity(flight, a, b);
         entityManager.persist(rule3);
     }
-    
+
     private void createRule4(FlightEntity flight, Double normalizedPopularity) {
 //        A = 10 + np* (20-10)
         Integer a = (int) (10 + normalizedPopularity * (20 - 10));
@@ -532,4 +594,12 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         YieldManagementRuleEntity rule4 = new YieldManagementRuleEntity().YieldManagementRule4Entity(flight, a, b1, b2, c);
         entityManager.persist(rule4);
     }
+
+    @Override
+    public void disableYieldManagementRule(YieldManagementRuleEntity yieldManagementRuleEntity) {
+        YieldManagementRuleEntity yieldManagementRuleEntityToUpdate
+                = entityManager.find(YieldManagementRuleEntity.class, yieldManagementRuleEntity.getId());
+        yieldManagementRuleEntityToUpdate.setEnabled(false);
+    }
+
 }

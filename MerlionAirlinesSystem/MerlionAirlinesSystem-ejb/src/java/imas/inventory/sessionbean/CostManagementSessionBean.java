@@ -167,6 +167,8 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @Override
     public Double getCostPerSeatPerMile() {
+//        System.out.println("costManagementSessionBean.getCostPerSeatPerMile");
+//        System.out.println(".getCostFigure() = " + getList().get(0).getCostFigure());
         return getList().get(0).getCostFigure();
     }
 
