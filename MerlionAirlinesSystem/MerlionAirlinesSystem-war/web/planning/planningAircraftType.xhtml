@@ -75,8 +75,8 @@
                 
                 <p:column headerText="Maintainence Hours">
                     <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{aircraftType.MaintenanceHoursRequiredACheck}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{aircraftType.MaintenanceHoursRequiredACheck}" style="width:100%" label="Flight Hours"/></f:facet>
+                        <f:facet name="output"><h:outputText value="#{aircraftType.maintenanceHoursRequiredACheck}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{aircraftType.maintenanceHoursRequiredACheck}" style="width:100%" label="Flight Hours"/></f:facet>
                     </p:cellEditor>
                 </p:column>
                 
@@ -87,8 +87,8 @@
         </h:form>
         
         <h:form>
-            <p:commandButton value="Delete Aircraft Type"  action="planningDeleteRoute.xhtml" style="display: inline-block; float: right;" ajax="false"/>
-            <p:commandButton value="Add Aircraft Type"  action="planningAddRoute.xhtml" style="display: inline-block; float: right;" ajax="false"/>
+            <p:commandButton value="Delete Aircraft Type"  actionListener ="#{aircraftTypeManagedBean.deleteAircraftType()}" style="display: inline-block; float: right;" ajax="false"/>
+            <p:commandButton value="Add Aircraft Type" actionListener ="#{aircraftTypeManagedBean.addAircraftType()}" style="display: inline-block; float: right;" ajax="false"/>
             
         </h:form>
         

@@ -22,5 +22,7 @@ public interface AircraftTypeSessionBeanLocal {
     Boolean checkAircraftType(String IATACode);
 
     void addAircraftType(AircraftTypeEntity aircraftType);
+
+    Boolean deleteAircraftType(String IATACode);
     
 }

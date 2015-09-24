@@ -204,6 +204,16 @@ public class RouteManagedBean implements Serializable{
         String[] airportsName = routeDelete.split(" ");
         routeSession.deleteRoutesByName(airportsName[0], airportsName[2]);
     }
+    
+    public String calculateDist (Double distance){
+        Double time = distance / 497.097;
+        Integer hours = time.intValue();
+        Double i = 60*(time - time.intValue());
+        Integer minutes = i.intValue();
+        String s = hours.toString()+"hours"+minutes.toString()+" minutes";
+        return s;
+        
+    }
 
    
 

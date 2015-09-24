@@ -65,6 +65,22 @@ public class AircraftTypeSessionBean implements AircraftTypeSessionBeanLocal {
     public void addAircraftType(AircraftTypeEntity aircraftType) {
         em.persist(aircraftType);
     }
+
+    @Override
+    public Boolean deleteAircraftType(String IATACode) {
+        System.err.println("进入了"+IATACode);
+        Query query = em.createQuery("SELECT a FROM AircraftTypeEntity a WHERE a.IATACode = :IATACode");
+        query.setParameter("IATACode",IATACode);
+        AircraftTypeEntity a = (AircraftTypeEntity) query.getSingleResult();
+        Query q = em.createQuery("SELECT b FROM AircraftEntity b WHERE b.aircraftType = :a");
+        q.setParameter("a", a);
+        if(q.getResultList().isEmpty()){
+            em.remove(a);
+            return true;
+        }
+        else
+            return false;
+    }
     
     
 }

@@ -283,7 +283,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("spoke", spoke);
         RouteEntity route2 = (RouteEntity)query.getSingleResult();
         route2.setDistance(distance);
-        Double speed = 900.0; //800km/hour
+        Double speed = 497.097; // 497.097miles/hr
         Double hours = distance/speed;
         route1.setFlightHours(hours);
         route2.setFlightHours(hours);

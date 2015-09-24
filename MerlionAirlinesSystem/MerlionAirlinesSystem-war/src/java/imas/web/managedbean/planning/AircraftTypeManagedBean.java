@@ -9,14 +9,15 @@ import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.sessionbean.AircraftTypeSessionBeanLocal;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -24,8 +25,8 @@ import org.primefaces.event.RowEditEvent;
  * @author wutong
  */
 @Named(value = "aircraftTypeManagedBean")
-@Dependent
-public class AircraftTypeManagedBean {
+@ViewScoped
+public class AircraftTypeManagedBean implements Serializable{
     
     @EJB
     private AircraftTypeSessionBeanLocal aircraftTypeSession;
@@ -41,8 +42,26 @@ public class AircraftTypeManagedBean {
     private Double aircraftLength;//ft
     private Double aircraftHeight;//ft
     private String powerPlant;
-    private Double MaintenanceHoursRequiredACheck;
+    private Double maintenanceHoursRequiredACheck;
+    private AircraftTypeEntity aircraftType;
 
+
+    
+    @PostConstruct
+    public void init() {
+        aircraftTypes = aircraftTypeSession.getAllAircraftTypes();
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportTypes", aircraftTypes);
+    }
+    
+    public AircraftTypeEntity getAircraftType() {
+        return aircraftType;
+    }
+
+    public void setAircraftType(AircraftTypeEntity aircraftType) {
+        this.aircraftType = aircraftType;
+    }
+    
+    
     public String getIATACode() {
         return IATACode;
     }
@@ -58,7 +77,33 @@ public class AircraftTypeManagedBean {
     public void setAircraftRange(Double aircraftRange) {
         this.aircraftRange = aircraftRange;
     }
-
+    
+    public void addAircraftType() throws IOException{
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningAddAircraftType.xhtml");
+    }
+    
+    public void deleteAircraftType() throws IOException{
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningDeleteAircraftType.xhtml");
+    }
+    
+    public void actualDeleteAircraftType() throws IOException{
+        FacesMessage msg;
+        if(aircraftTypeSession.deleteAircraftType(IATACode)){
+            System.err.println("enter delete type"+IATACode);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            ec.redirect("planningAircraftType.xhtml");            
+        }else {
+            System.err.println("enter delete type"+IATACode);
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed","Please delete associated aircrafts first"); 
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    
     public Integer getAircraftSpace() {
         return aircraftSpace;
     }
@@ -116,11 +161,11 @@ public class AircraftTypeManagedBean {
     }
 
     public Double getMaintenanceHoursRequiredACheck() {
-        return MaintenanceHoursRequiredACheck;
+        return maintenanceHoursRequiredACheck;
     }
 
     public void setMaintenanceHoursRequiredACheck(Double MaintenanceHoursRequiredACheck) {
-        this.MaintenanceHoursRequiredACheck = MaintenanceHoursRequiredACheck;
+        this.maintenanceHoursRequiredACheck = MaintenanceHoursRequiredACheck;
     }
 
     public List<AircraftTypeEntity> getAircraftTypes() {
@@ -138,22 +183,30 @@ public class AircraftTypeManagedBean {
     public AircraftTypeManagedBean() {
     }
 
-    @PostConstruct
-    public void init() {
-        aircraftTypes = aircraftTypeSession.getAllAircraftTypes();
-    }
-
     public void save() throws IOException {
-        if (IATACode == null || aircraftRange == null || aircraftSpace == null || cruisingSpeed == null || wingSpan == null || aircraftWeight == null || aircraftLength == null || aircraftHeight == null || powerPlant == null || MaintenanceHoursRequiredACheck == null) {
+        if (IATACode == null || aircraftRange == null || aircraftSpace == null || cruisingSpeed == null || wingSpan == null || aircraftWeight == null || aircraftLength == null || aircraftHeight == null || powerPlant == null || maintenanceHoursRequiredACheck == null) {
+//            System.err.println("aircraftRange"+ IATACode);
+//            System.err.println(IATACode);
+//            System.err.println(aircraftRange);
+//            System.err.println(aircraftSpace);
+//            System.err.println(cruisingSpeed);
+//            System.err.println(wingSpan);
+//            System.err.println(aircraftWeight);
+//            System.err.println(aircraftLength);
+//            System.err.println(aircraftHeight);
+//            System.err.println(powerPlant);
+//            System.err.println(maintenanceHoursRequiredACheck);
+            
+            
             FacesMessage msg = new FacesMessage("Sorry", "Please finished the required information");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
             if (aircraftTypeSession.checkAircraftType(IATACode)) {
-                AircraftTypeEntity aircraftType = new AircraftTypeEntity(IATACode, aircraftRange, aircraftSpace, cruisingSpeed, wingSpan, aircraftWeight, aircraftLength, aircraftHeight, powerPlant, MaintenanceHoursRequiredACheck);
+                AircraftTypeEntity aircraftType = new AircraftTypeEntity(IATACode, aircraftRange, aircraftSpace, cruisingSpeed, wingSpan, aircraftWeight, aircraftLength, aircraftHeight, powerPlant, maintenanceHoursRequiredACheck);
                 aircraftTypeSession.addAircraftType(aircraftType);
                 FacesContext fc = FacesContext.getCurrentInstance();
                 ExternalContext ec = fc.getExternalContext();
-                ec.redirect("planningAirport.xhtml");
+                ec.redirect("planningAircraftType.xhtml");
             } else {
                 FacesMessage msg = new FacesMessage("Sorry", "this aircraft type has already been added!");
                 FacesContext.getCurrentInstance().addMessage(null, msg);

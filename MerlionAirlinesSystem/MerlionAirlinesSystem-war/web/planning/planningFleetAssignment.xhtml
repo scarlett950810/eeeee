@@ -35,7 +35,7 @@
                 <h:outputText value="Select an aircraft for fleet assignment"/>
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Aircraft seleted: " />
-                    <p:selectOneMenu id="aircraftSelected" value="#{fleetAssignmentManagedBean.planningPeriodStartingDate}" style="width:400px">
+                    <p:selectOneMenu id="aircraftSelected" value="#{fleetAssignmentManagedBean.planningPeriodStartingDate}" converter="dateConverter" style="width:400px">
                         <f:selectItem itemLabel="Select Aircraft" itemDisabled="true" />
                         <f:selectItems value="#{fleetAssignmentManagedBean.allPlanningPeirod}" var="planningPeriod" itemLabel="#{fleetAssignmentManagedBean.getPlanningPeriodName(planningPeriod)}" itemValue="#{planningPeriod}" />
 
@@ -44,7 +44,7 @@
             </p:panel>     
             
             <h:outputText value="The fleet assignment would take consideration of maximizing the uitilization rate, aircraft capability, maintenance requirement "/>`
-            <p:commandButton value="Fleet Assignment" actionListener="#{fleetAssignmentManagedBean}" icon="ui-icon-check" />
+            <p:commandButton value="Fleet Assignment" actionListener="#{fleetAssignmentManagedBean.fleetAssignment}" icon="ui-icon-check" />
   
         </h:form>
     </ui:define>

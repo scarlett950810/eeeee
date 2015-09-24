@@ -124,7 +124,7 @@
                 </p:column>
                 
                 <p:column style="width:4%">
-                    <p:commandButton ajax="false" icon="ui-icon-trash" title="Delete" action="#{aircraftManagedBean.onAircraftDelete(aircraft)}" />
+                    <p:commandButton icon="ui-icon-trash" title="Delete" actionListener="#{aircraftManagedBean.onAircraftDelete(aircraft)}" update="@form"/>
                 </p:column>
             </p:dataTable>
         </h:form>

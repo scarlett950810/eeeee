@@ -35,9 +35,9 @@
                 <h:outputText value="Select an aircraft for fleet assignment"/>
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Aircraft seleted: " />
-                    <p:selectOneMenu id="aircraftSelected" value="#{fASetFrequency.planningPeriodStartingDate}" style="width:400px">
+                    <p:selectOneMenu id="aircraftSelected" value="#{fASetFrequency.planningPeriodStartingDate}" style="width:400px" converter="dateConverter">
                         <f:selectItem itemLabel="Select Aircraft" itemDisabled="true" />
-                        <f:selectItems value="#{fASetFrequency.allPlanningPeirod}" var="planningPeriod" itemLabel="#{fASetFrequency.getPlanningPeriodName(planningPeriod)}" itemValue="#{planningPeriod}" />
+                        <f:selectItems value="#{fASetFrequency.allPlanningPeirod}" var="planningPeriod" itemLabel="#{planningPeriod}" itemValue="#{planningPeriod}" />
 
                     </p:selectOneMenu>
                 </h:panelGrid>
