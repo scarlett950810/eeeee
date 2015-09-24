@@ -40,7 +40,7 @@ public class AircraftEntity implements Serializable {
     private Double operationYear;
     private Double turnAroundTime; //minutes
     private String conditionDescription; // This is a string containing the description of the aircraft condition such as the left wing is abnormal
-
+    
     //private FlightEntity flight;
     @OneToMany(mappedBy = "aircraft")
     private List<FlightEntity> flights;
