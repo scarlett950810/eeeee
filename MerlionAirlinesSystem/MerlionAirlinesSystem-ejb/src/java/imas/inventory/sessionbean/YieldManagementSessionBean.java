@@ -10,7 +10,6 @@ import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.YieldManagementRuleEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
