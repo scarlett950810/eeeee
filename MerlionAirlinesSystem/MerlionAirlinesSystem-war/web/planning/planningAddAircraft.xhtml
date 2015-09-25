@@ -62,7 +62,7 @@
                     </p:inputText>
 
                     <p:outputLabel for="aircraftLife" value="Aircraft Life" />
-                    <p:inputText style="width: 400px" id="aircraftLife" value="#{aircraftManagedBean.aircraftLife}" label="aircraftLife" required="true" requiredMessage="Please input Aircraft Life">
+                    <p:inputText style="width: 400px" id="aircraftLife" value="#{aircraftManagedBean.aircraftLife}" label="aircraftLife" required="true" requiredMessage="Please input aircraft life">
                         <p:watermark for="aircraftLife" value="Please enter Aircraft Life" />
                     </p:inputText>
 
@@ -87,12 +87,13 @@
                         <f:selectItem itemLabel="Please select current airport" itemDisabled="true" />
                         <f:selectItems value="#{aircraftManagedBean.airports}" var="airport" itemLabel="#{airport.airportCode} #{airport.airportName} @ #{airport.cityName}, #{airport.nationName}" itemValue="#{airport}"/>
                     </p:selectOneMenu>
+                    
+                    <p:outputLabel for="turnaroundTime" value="Turnaround Time" />
+                    <p:inputText style="width: 400px" id="turnaroundTime" value="#{aircraftManagedBean.turnaroundTime}" label="turnaroundTime" required="true" requiredMessage="Please input turnaround time">
+                        <p:watermark for="turnaroundTime" value="Please enter turnaround time" />
+                    </p:inputText>
 
-                    <p:outputLabel for="aircraftGroup" value="Aircraft Group" />
-                    <p:selectOneMenu converter="aircraftGroupConverter" style="width: 400px" id="aircraftGroup" value="#{aircraftManagedBean.aircraftGroup}" requiredMessage="Please input aircraft group">                        
-                        <f:selectItem itemLabel="Please select aircraft group" itemDisabled="true" />
-                        <f:selectItems value="#{aircraftManagedBean.aircraftGroups}"  var="aircraftGroup" itemLabel="#{aircraftGroup.type}" itemValue="#{aircraftGroup}"/>
-                    </p:selectOneMenu>
+     
 
                 </h:panelGrid>
 

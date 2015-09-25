@@ -39,7 +39,8 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
                 InternalAnnouncementEntity a = (InternalAnnouncementEntity) o;
                 announcements.add(a);
             });
-            
+//            System.out.println("session bean");
+//            System.out.println(announcements);
             return (List<InternalAnnouncementEntity>) announcements;
         }
      return null;

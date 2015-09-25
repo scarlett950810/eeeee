@@ -10,9 +10,7 @@ import imas.common.sessionbean.InternalAnnouncementSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import imas.planning.entity.AirportEntity;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,6 +20,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.PostRemove;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -36,6 +35,8 @@ public class InternalAnnouncementManagedBean implements Serializable {
     private InternalAnnouncementSessionBeanLocal internalAnnouncementSessionBean;
     @EJB
     private AirportSessionBeanLocal airportSessionBean;
+    
+    private String loggedInStaffNo;
 
     private List<String> departments;
 
@@ -52,9 +53,10 @@ public class InternalAnnouncementManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.airportList);
-        String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-        allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(staffNo);
-    
+        loggedInStaffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
+        allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(loggedInStaffNo);
+//        System.out.println("manageBean:");
+//        System.out.println(allAnnouncements);
     }
 
     @PostRemove
@@ -131,6 +133,14 @@ public class InternalAnnouncementManagedBean implements Serializable {
     public void setAllAnnouncements(List<InternalAnnouncementEntity> allAnnouncements) {
         this.allAnnouncements = allAnnouncements;
     }
+
+    public String getLoggedInStaffNo() {
+        return loggedInStaffNo;
+    }
+
+    public void setLoggedInStaffNo(String loggedInStaffNo) {
+        this.loggedInStaffNo = loggedInStaffNo;
+    }
     
     public void toggleRead(InternalAnnouncementEntity announcementEntity) {
         internalAnnouncementSessionBean.toggleRead(announcementEntity);
@@ -140,5 +150,14 @@ public class InternalAnnouncementManagedBean implements Serializable {
 //        SimpleDateFormat dateF = new SimpleDateFormat("yyyy/MM/dd 'at' HH:mm:ss z\"");
 //        return dateF.format(d);
 //    }
+    
+    public void refreshAnnouncements() {
+        allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(loggedInStaffNo);        
+    }
+    
+    public void showAnnouncement(String title, String content) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, title, content);         
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
 
 }

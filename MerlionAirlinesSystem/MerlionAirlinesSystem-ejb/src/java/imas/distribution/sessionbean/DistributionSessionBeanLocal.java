@@ -5,6 +5,9 @@
  */
 package imas.distribution.sessionbean;
 
+import imas.inventory.entity.BookingClassEntity;
+import imas.planning.entity.FlightEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +16,11 @@ import javax.ejb.Local;
  */
 @Local
 public interface DistributionSessionBeanLocal {
+
+    public void makeBooking(BookingClassEntity bookingClass, int number);
+
+    public int getQuotaLeft(BookingClassEntity bookingClassEntity);
+
+    public List<FlightEntity> getAllAvailableFlights();
     
 }
