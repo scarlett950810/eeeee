@@ -18,7 +18,7 @@
     <ui:define name="centerPanel">
 
         <p:messages/>
-        <p:tabView>
+        <p:tabView dynamic="true">
 
             <p:tab title="Display Flights by Routes">
                 <pe:timeline id="flightsByRoutes" value="#{displayFlightsManagedBean.modelByRoute}" var="flight" varGroup="route"
