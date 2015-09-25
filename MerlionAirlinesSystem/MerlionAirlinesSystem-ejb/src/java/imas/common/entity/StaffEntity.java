@@ -5,6 +5,7 @@
  */
 package imas.common.entity;
 
+import imas.planning.entity.AirportEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +42,8 @@ public class StaffEntity implements Serializable {
     private String contactNumber;
     
 //    private String department;
-    
+    private AirportEntity base;
+
     private String address;
     
     private String gender;
@@ -96,6 +98,14 @@ public class StaffEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public AirportEntity getBase() {
+        return base;
+    }
+
+    public void setBase(AirportEntity base) {
+        this.base = base;
     }
 
 //    public String getDepartment() {
