@@ -45,3 +45,19 @@
 .ui-datatable-scrollable-header-box, .ui-datatable-scrollable-body {
     margin-right: 0px !important;
 }
+
+div.timeline-event {
+    border: none;
+}
+
+div.timeline-event-content {
+    margin: 1px;
+    border: 1px solid;
+    padding: 4px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+}
+
+div.timeline-event.timeline-event-range {
+    border-width: 0;
+}
