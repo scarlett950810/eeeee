@@ -231,6 +231,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         System.out.println("aircrafts added");
 
+        
+        
         //下面都不是我写的，不太知道删与否，你们如果不用了就自己删一下哈：）
 
         Query queryForRoute = entityManager.createQuery("select at from RouteEntity at");

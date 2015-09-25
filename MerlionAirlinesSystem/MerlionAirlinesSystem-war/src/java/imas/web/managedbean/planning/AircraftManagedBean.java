@@ -12,11 +12,14 @@ import imas.planning.entity.AirportEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
@@ -58,9 +61,11 @@ public class AircraftManagedBean implements Serializable {
     private int PremiumEconomyClassRowNo;
     private int EconomyClassRowNo;
     private Double turnaroundTime;
+    private Boolean view = FALSE;
+    private Boolean table = TRUE;
+    private Integer tabIndex = 0;
 
     private List<AircraftEntity> aircrafts;
-    
     private AircraftEntity aircraft;
 
     public AircraftEntity getAircraft() {
@@ -70,13 +75,11 @@ public class AircraftManagedBean implements Serializable {
     public void setAircraft(AircraftEntity aircraft) {
         this.aircraft = aircraft;
     }
-    
-    
 
     @PostConstruct
     public void init() {
         aircrafts = aircraftSessionBean.getAircrafts();
-        
+
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.getAirports());
     }
@@ -103,9 +106,11 @@ public class AircraftManagedBean implements Serializable {
     public String getTailId() {
         return tailId;
     }
-    public void abc(){
+
+    public void abc() {
         System.err.println("abc");
     }
+
     public void setTailId(String tailId) {
         this.tailId = tailId;
     }
@@ -271,6 +276,30 @@ public class AircraftManagedBean implements Serializable {
         this.turnaroundTime = turnaroundTime;
     }
 
+    public Boolean getView() {
+        return view;
+    }
+
+    public void setView(Boolean view) {
+        this.view = view;
+    }
+
+    public Boolean getTable() {
+        return table;
+    }
+
+    public void setTable(Boolean table) {
+        this.table = table;
+    }
+
+    public Integer getTabIndex() {
+        return tabIndex;
+    }
+
+    public void setTabIndex(Integer tabIndex) {
+        this.tabIndex = tabIndex;
+    }
+
     public void addAircraft(ActionEvent event) throws IOException {
         if (this.tailId == null || this.aircraftType == null || this.purchasePrice == null
                 || this.deprecation == null || this.netAssetValue == null || this.aircraftLife == null
@@ -321,7 +350,7 @@ public class AircraftManagedBean implements Serializable {
     public void setAircrafts(List<AircraftEntity> aircrafts) {
         this.aircrafts = aircrafts;
     }
-    
+
     public void onRowEdit(RowEditEvent event) {
         AircraftEntity newAircraft = ((AircraftEntity) event.getObject());
         System.out.println("onRowEdit - condition is : " + newAircraft.getConditionDescription());
@@ -336,7 +365,17 @@ public class AircraftManagedBean implements Serializable {
     public void onAircraftDelete(AircraftEntity aircraft) {
         aircraftSessionBean.deleteAircraft(aircraft);
         aircrafts = aircraftSessionBean.getAircrafts();
-        
+
+    }
+
+    public void returnBack() throws IOException {
+        System.out.print("returnBack Called");
+        view = FALSE;
+        table = TRUE;
+        tabIndex = 1;
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningEditDeleteAircraft.html");
     }
 
 }
