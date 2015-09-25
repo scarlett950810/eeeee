@@ -18,6 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.persistence.PostRemove;
 import org.primefaces.context.RequestContext;
@@ -151,8 +152,9 @@ public class InternalAnnouncementManagedBean implements Serializable {
 //        return dateF.format(d);
 //    }
     
-    public void refreshAnnouncements() {
-        allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(loggedInStaffNo);        
+    public void refreshAnnouncements(ActionEvent event) {
+        allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(loggedInStaffNo);
+        RequestContext.getCurrentInstance().execute("PF('announcement').show();");
     }
     
     public void showAnnouncement(String title, String content) {

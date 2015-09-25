@@ -5,6 +5,7 @@
  */
 package imas.web.managedbean.common;
 
+import imas.common.entity.InternalAnnouncementEntity;
 import imas.common.entity.InternalMessageEntity;
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.InternalMessageSessionBeanLocal;
@@ -17,6 +18,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
 import org.primefaces.context.RequestContext;
@@ -113,7 +115,11 @@ public class InternalMessageManagedBean implements Serializable {
     public void toggleRead(InternalMessageEntity internalMessageEntity) {
         internalMessageSessionBean.toggleRead(internalMessageEntity);
     }
-    
+    public void refreshMessages(ActionEvent event) {
+//        System.out.println("message refreshed!");
+        allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
+        RequestContext.getCurrentInstance().execute("PF('message').show();");
+    }
     public void showMessage(String sender, String content) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, sender, content);         
         RequestContext.getCurrentInstance().showMessageInDialog(message);
