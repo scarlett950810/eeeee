@@ -17,25 +17,30 @@
 
     <ui:define name="centerPanel">
 
-        <p:tabView dynamic="true" cache="true">
+        <p:messages/>
+        <p:tabView>
 
             <p:tab title="Display Flights by Routes">
-                <pe:timeline id="flightsByRoutes" value="#{displayFlightsManagedBean.modelByRoute}" var="flight" varGroup="route" eventMargin="5">
+                <pe:timeline id="flightsByRoutes" value="#{displayFlightsManagedBean.modelByRoute}" var="flight" varGroup="route"
+                             eventMargin="5">
 
                     <f:facet name="group">
                         <h:graphicImage value="../resources/img/displayFlights/route.png" alt="Aircraft"/>
-                        <h:outputText value="From #{route.originAirport.airportName}(#{route.originAirport.cityName}) to #{route.destinationAirport.airportName}(#{route.destinationAirport.cityName})" style="font-weight:bold;"/>
+                        <h:outputText value="#{route.originAirport.airportName} (#{route.originAirport.cityName})" style="font-weight:bold;"/>
+                        <br/>
+                        <h:outputText value="to #{route.destinationAirport.airportName} (#{route.destinationAirport.cityName})" style="font-weight:bold;"/>
                     </f:facet>
 
                     <h:graphicImage value="../resources/img/displayFlights/airplane.png" style="display:inline; vertical-align:middle;" alt="Flight"/>  
                     <h:outputText value="Flight #{flight.flightNo}"/>
+                    <!--<p:ajax event="select"  onstart="{displayFlightsManagedBean.showFlight()}" />-->
                 </pe:timeline>
             </p:tab>
 
             <p:tab title="Display Flights by Aircraft">
                 <pe:timeline id="flightsByAircraft" value="#{displayFlightsManagedBean.modelByAircraft}" var="flight" varGroup="aircraft" eventMargin="5">
 
-                    <f:facet name="aircraft">
+                    <f:facet name="group">
                         <h:graphicImage value="../resources/img/displayFlights/airplane_left.png" alt="Aircraft"/>
                         <h:outputText value="Aircraft #{aircraft.tailId}" style="font-weight:bold;"/>
                     </f:facet>

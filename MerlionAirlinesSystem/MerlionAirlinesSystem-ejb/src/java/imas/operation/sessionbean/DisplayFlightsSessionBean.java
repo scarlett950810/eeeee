@@ -48,5 +48,5 @@ public class DisplayFlightsSessionBean implements DisplayFlightsSessionBeanLocal
         q.setParameter("aircraft", aircraft);
         return q.getResultList();
     }
-    
+        
 }

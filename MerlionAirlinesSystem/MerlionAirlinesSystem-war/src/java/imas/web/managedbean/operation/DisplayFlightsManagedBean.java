@@ -13,8 +13,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineGroup;
 import org.primefaces.extensions.model.timeline.TimelineModel;
@@ -67,7 +70,7 @@ public class DisplayFlightsManagedBean implements Serializable {
             List<FlightEntity> flights = displayFlightsSessionBean.getFlightsUnderAircraft(aircraft);
             
             for (FlightEntity flight: flights) {
-                modelByRoute.add(new TimelineEvent(flight, flight.getDepartureDate(), flight.getArrivalDate(), false, group.getId()));
+                modelByAircraft.add(new TimelineEvent(flight, flight.getDepartureDate(), flight.getArrivalDate(), false, group.getId()));
             }
             
         }
@@ -96,4 +99,9 @@ public class DisplayFlightsManagedBean implements Serializable {
     public DisplayFlightsManagedBean() {
     }
     
+//    public void showFlight() {
+//        System.out.println("show flight");
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "1", "2");         
+//        RequestContext.getCurrentInstance().showMessageInDialog(message);
+//    }
 }
