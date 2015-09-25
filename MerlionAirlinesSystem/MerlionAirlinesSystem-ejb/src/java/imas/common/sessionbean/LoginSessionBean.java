@@ -5,11 +5,10 @@
  */
 package imas.common.sessionbean;
 
-import imas.common.entity.InternalAnnouncementEntity;
+import imas.common.entity.PilotEntity;
 import imas.common.entity.StaffEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AircraftEntity;
-import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
@@ -22,6 +21,7 @@ import java.util.ArrayList;
 import javax.ejb.Stateful;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,6 +48,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
      * @param password
      * @return staffId
      */
+    
     @Override
     public String doLogin(String staffNo, String oldpassword) {
 
@@ -155,16 +156,20 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     @Override
     public void insertData() {
+         System.err.println("dd");
+       
         AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double)10000, 50, (double) 100000, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 1000);
         AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A880", (double)5000, 80, (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 800);
         AircraftTypeEntity aircraftType3 = new AircraftTypeEntity("B777", (double)10000, 80, (double) 180000, (double) 550, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 1000);
         AircraftTypeEntity aircraftType4 = new AircraftTypeEntity("B787", (double)12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
         AircraftTypeEntity aircraftType5 = new AircraftTypeEntity("B700", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
+        System.err.println("dd");
         entityManager.persist(aircraftType1);
         entityManager.persist(aircraftType2);
         entityManager.persist(aircraftType3);
         entityManager.persist(aircraftType4);
         entityManager.persist(aircraftType5);
+
         
         System.out.println("aircraftTypes added");
 
@@ -215,23 +220,110 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         aircraftSessionBean.addAircraft("001", aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 10, 7, 50, (double) 30);
         aircraftSessionBean.addAircraft("002", aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 35);
         aircraftSessionBean.addAircraft("003", aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a5, a5, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
-        aircraftSessionBean.addAircraft("001", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a5, a5, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("002", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a7, a7, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("003", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a7, a7, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
-        aircraftSessionBean.addAircraft("001", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("002", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a15, a15, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("003", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a5, a5, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
-        aircraftSessionBean.addAircraft("001", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a15, a15, 4, 5, 4, 6, 6, 30, 7, 30, (double) 65);
-        aircraftSessionBean.addAircraft("002", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a7, a7, 4, 5, 4, 6, 6, 30, 7, 30, (double) 37);
-        aircraftSessionBean.addAircraft("003", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a7, a7, 0, 0, 4, 6, 6, 30, 7, 50, (double) 51);
-        aircraftSessionBean.addAircraft("001", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a5, a5, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("002", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("003", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a7, a7, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
+        aircraftSessionBean.addAircraft("004", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a5, a5, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
+        aircraftSessionBean.addAircraft("005", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a7, a7, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
+        aircraftSessionBean.addAircraft("006", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a7, a7, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
+        aircraftSessionBean.addAircraft("007", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
+        aircraftSessionBean.addAircraft("008", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a15, a15, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
+        aircraftSessionBean.addAircraft("009", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a5, a5, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
+        aircraftSessionBean.addAircraft("010", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a15, a15, 4, 5, 4, 6, 6, 30, 7, 30, (double) 65);
+        aircraftSessionBean.addAircraft("011", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a7, a7, 4, 5, 4, 6, 6, 30, 7, 30, (double) 37);
+        aircraftSessionBean.addAircraft("012", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a7, a7, 0, 0, 4, 6, 6, 30, 7, 50, (double) 51);
+        aircraftSessionBean.addAircraft("013", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a5, a5, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
+        aircraftSessionBean.addAircraft("014", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
+        aircraftSessionBean.addAircraft("015", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a7, a7, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
 
         System.out.println("aircrafts added");
+        List<String> l1 = new ArrayList<String>();
+        l1.add("A380");
+        l1.add("A880");
+        l1.add("B777");
 
+        List<String> l2 = new ArrayList<String>();
+        l2.add("A880");
+        l2.add("B700");
+        l2.add("B787");
+
+        List<String> l3 = new ArrayList<String>();
+        l3.add("A380");
+        l3.add("A880");
+        l3.add("B777");
+        l3.add("B787");
+        l3.add("B700");
+
+        List<String> l4 = new ArrayList<String>();
+        l4.add("A880");
+        l4.add("B777");
+
+        List<String> l5 = new ArrayList<String>();
+        l5.add("A380");
+        l5.add("B787");
+
+        List<String> l6 = new ArrayList<String>();
+        l6.add("A380");
+        l6.add("A880");
+        l6.add("B777");
+        l6.add("B787");
+
+        List<String> l7 = new ArrayList<String>();
+        l7.add("B777");
+        l7.add("B787");
+        l7.add("B700");
+
+        List<String> l8 = new ArrayList<String>();
+        l8.add("A380");
+
+        List<String> l9 = new ArrayList<String>();
+        l9.add("A880");
+        l9.add("B700");
+
+        List<String> l10 = new ArrayList<String>();
+        l10.add("B787");
+        l10.add("B700");
+
+        
+
+        System.out.println("List of aircraft types created for pilot scheduling testing");
+
+        PilotEntity p1 = new PilotEntity ("p001", "Tom", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l1, null, false);
+        PilotEntity p2 = new PilotEntity ("p002", "Tommy", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l2, null, true);
+        PilotEntity p3 = new PilotEntity ("p003", "Kurt", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p4 = new PilotEntity ("p004", "Yin Lei", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l4, null, true);
+        PilotEntity p5 = new PilotEntity ("p005", "Hao", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l5, null, false);
+        PilotEntity p6 = new PilotEntity ("p006", "Jerry", "123456", "abc@163.com", "123", "Operation", "Street No 1", "female", "available", l6, null, true);
+        PilotEntity p7 = new PilotEntity ("p007", "Dog", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l7, null, false);
+        PilotEntity p8 = new PilotEntity ("p008", "Cat", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l8, null, true);
+        PilotEntity p9 = new PilotEntity ("p009", "Pig", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l9, null, false);
+        PilotEntity p10 = new PilotEntity ("p010", "Zebra", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l10, null, true);
+        PilotEntity p11 = new PilotEntity ("p011", "Ant", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l1, null, false);
+        PilotEntity p12 = new PilotEntity ("p012", "Flower", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l2, null, true);
+        PilotEntity p13 = new PilotEntity ("p013", "Bird", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p14 = new PilotEntity ("p014", "Butterfly", "123456", "abc@163.com", "123", "Operation", "Street No 1", "female", "available", l4, null, true);
+        PilotEntity p15 = new PilotEntity ("p015", "Kimberly", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l5, null, false);
+        PilotEntity p16 = new PilotEntity ("p016", "One", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l6, null, false);
+        PilotEntity p17 = new PilotEntity ("p017", "Two", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l7, null, true);
+        PilotEntity p18 = new PilotEntity ("p018", "Three", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l8, null, false);
+        PilotEntity p19 = new PilotEntity ("p019", "Four", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l9, null, true);
+        PilotEntity p20 = new PilotEntity ("p020", "Five", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l10, null, false);
+        PilotEntity p21 = new PilotEntity ("p021", "Six", "123456", "abc@163.com", "123", "Operation", "Street No 1", "female", "available", l1, null, true);
+        PilotEntity p22 = new PilotEntity ("p022", "Seven", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l2, null, false);
+        PilotEntity p23 = new PilotEntity ("p023", "Eight", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l3, null, true);
+        PilotEntity p24 = new PilotEntity ("p024", "Nine", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l4, null, false);
+        PilotEntity p25 = new PilotEntity ("p025", "Ten", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l5, null, true);
+        PilotEntity p26 = new PilotEntity ("p026", "Elevan", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l6, null, false);
+        PilotEntity p27 = new PilotEntity ("p027", "Twlve", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l7, null, true);
+        PilotEntity p28 = new PilotEntity ("p028", "Thirteen", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l8, null, false);
+        PilotEntity p29 = new PilotEntity ("p029", "Fourteen", "123456", "abc@163.com", "123", "Operation", "Street No 1", "female", "available", l9, null, true);
+        PilotEntity p30 = new PilotEntity ("p030", "Fifteen", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l10, null, false);
+
+        System.out.println("Pilots are created");
+
+        //下面都不是我写的，不太知道删与否，你们如果不用了就自己删一下哈：）
+
+       
 
     }
+   
     
     @Override
     public StaffEntity fetchStaff(String staffNo) {

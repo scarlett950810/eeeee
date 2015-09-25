@@ -6,6 +6,7 @@
 package imas.planning.sessionbean;
 
 import imas.planning.entity.AircraftEntity;
+import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.MaintenanceScheduleEntity;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,7 +29,8 @@ public class FleetAssignment implements FleetAssignmentLocal {
 
     @PersistenceContext
     private EntityManager em;
-
+    
+    
     @Override
     public List<Date> getAllPlanningPeriodStartDateByYear() {
         Query q = em.createQuery("SELECT DISTINCT a.operatingYear FROM FlightEntity a");
@@ -80,9 +83,9 @@ public class FleetAssignment implements FleetAssignmentLocal {
     public List<FlightEntity> oneAircraftAssignment(AircraftEntity aircraft, List<FlightEntity> flightsAll) {
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
  //        System.err.println("enter one aircraftAssignment");
-         
+        
         for (FlightEntity f : flightsAll) {
-            if (aircraft.getAircraftType().getAircraftRange() > f.getRoute().getDistance()) {
+            if (aircraft.getAircraftType().getAircraftRange() > f.getRoute().getDistance() && f.getAircraft()==null) {
                 flightsAvai.add(f);
             }
         }
@@ -112,6 +115,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
             }
 
         }
+        
 //        System.err.println("3 + earliest flight"+earliestFlight.getDepartureDate());
 
         if (!hasHubOrNot) {
@@ -193,7 +197,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
 
             if(findNextFlight){
  //               System.err.println("findNextFlight is true");
-            if (flyingHoursAC + flightAssigned.getRoute().getFlightHours() >= 125.0) {
+            if (flyingHoursAC + flightAssigned.getRoute().getFlightHours() >= 125.0 && currentLoc.getAirportCode().equals(aircraft.getAirportHub().getAirportCode())) {
  //               System.err.println("flightAssigned FLIGHT hours"+flightAssigned.getRoute().getFlightHours());
                 MaintenanceScheduleEntity maintenanceSchedule = new MaintenanceScheduleEntity();
                 maintenanceSchedule.setMaintenanceType("A");
