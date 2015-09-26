@@ -5,6 +5,7 @@
  */
 package imas.web.managedbean.planning;
 
+import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.sessionbean.AircraftTypeSessionBeanLocal;
@@ -26,12 +27,11 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "aircraftTypeManagedBean")
 @ViewScoped
-public class AircraftTypeManagedBean implements Serializable{
-    
+public class AircraftTypeManagedBean implements Serializable {
+
     @EJB
     private AircraftTypeSessionBeanLocal aircraftTypeSession;
-    
-    
+
     private List<AircraftTypeEntity> aircraftTypes;
     private String IATACode;
     private Double aircraftRange;//km
@@ -44,15 +44,15 @@ public class AircraftTypeManagedBean implements Serializable{
     private String powerPlant;
     private Double maintenanceHoursRequiredACheck;
     private AircraftTypeEntity aircraftType;
+    private List<AircraftEntity> aircrafts;
 
-
-    
     @PostConstruct
     public void init() {
+        System.err.println("!!!enter the init");
         aircraftTypes = aircraftTypeSession.getAllAircraftTypes();
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportTypes", aircraftTypes);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", aircraftTypes);
     }
-    
+
     public AircraftTypeEntity getAircraftType() {
         return aircraftType;
     }
@@ -60,8 +60,7 @@ public class AircraftTypeManagedBean implements Serializable{
     public void setAircraftType(AircraftTypeEntity aircraftType) {
         this.aircraftType = aircraftType;
     }
-    
-    
+
     public String getIATACode() {
         return IATACode;
     }
@@ -77,33 +76,33 @@ public class AircraftTypeManagedBean implements Serializable{
     public void setAircraftRange(Double aircraftRange) {
         this.aircraftRange = aircraftRange;
     }
-    
-    public void addAircraftType() throws IOException{
+
+    public void addAircraftType() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningAddAircraftType.xhtml");
     }
-    
-    public void deleteAircraftType() throws IOException{
+
+    public void deleteAircraftType() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningDeleteAircraftType.xhtml");
     }
-    
-    public void actualDeleteAircraftType() throws IOException{
+
+    public void actualDeleteAircraftType() throws IOException {
         FacesMessage msg;
-        if(aircraftTypeSession.deleteAircraftType(IATACode)){
-            System.err.println("enter delete type"+IATACode);
+        if (aircraftTypeSession.deleteAircraftType(IATACode)) {
+            System.err.println("enter delete type" + IATACode);
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
-            ec.redirect("planningAircraftType.xhtml");            
-        }else {
-            System.err.println("enter delete type"+IATACode);
-            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed","Please delete associated aircrafts first"); 
+            ec.redirect("planningAircraftType.xhtml");
+        } else {
+            System.err.println("enter delete type" + IATACode);
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "Please delete associated aircrafts first");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    
+
     public Integer getAircraftSpace() {
         return aircraftSpace;
     }
@@ -176,6 +175,13 @@ public class AircraftTypeManagedBean implements Serializable{
         this.aircraftTypes = aircraftTypes;
     }
 
+    public List<AircraftEntity> getAircrafts() {
+        return aircrafts;
+    }
+
+    public void setAircrafts(List<AircraftEntity> aircrafts) {
+        this.aircrafts = aircrafts;
+    }
 
     /**
      * Creates a new instance of AircraftTypeManagedBean
@@ -196,8 +202,7 @@ public class AircraftTypeManagedBean implements Serializable{
 //            System.err.println(aircraftHeight);
 //            System.err.println(powerPlant);
 //            System.err.println(maintenanceHoursRequiredACheck);
-            
-            
+
             FacesMessage msg = new FacesMessage("Sorry", "Please finished the required information");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
@@ -211,6 +216,12 @@ public class AircraftTypeManagedBean implements Serializable{
                 FacesMessage msg = new FacesMessage("Sorry", "this aircraft type has already been added!");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
+        }
+    }
+
+    public void onAircraftTypeChange() {
+        if (aircraftType != null) {
+            aircrafts = aircraftTypeSession.getAircraftsFromAircraftType(aircraftType);
         }
     }
 

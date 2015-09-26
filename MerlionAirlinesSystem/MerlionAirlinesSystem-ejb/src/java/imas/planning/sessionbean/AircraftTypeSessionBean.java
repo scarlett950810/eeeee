@@ -5,6 +5,7 @@
  */
 package imas.planning.sessionbean;
 
+import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -81,6 +82,17 @@ public class AircraftTypeSessionBean implements AircraftTypeSessionBeanLocal {
         else
             return false;
     }
+
+    @Override
+    public List<AircraftEntity> getAircraftsFromAircraftType(AircraftTypeEntity aircraftType) {
+        Query query = em.createQuery("SELECT a FROM AircraftEntity a WHERE a.aircraftType = :aircraftType");
+        query.setParameter("aircraftType", aircraftType);
+        List<AircraftEntity> aircraftGroups = (List<AircraftEntity>) query.getResultList();
+        
+        return aircraftGroups;
+    }
+    
+    
     
     
 }

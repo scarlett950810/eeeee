@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Manage Aircraft Groups</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
+                <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Modify Aircraft</a></li>
+                <li><a href="planningManageAircraftTypes.xhtml">View Aircraft</a></li>
+                
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Manage Airport</a></li>
+                <li><a href="planningRoute.xhtml">Manage Route</a></li>
+                
+                <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <p:growl id="growl" sticky="true" showDetail="true" class="alert-warning"/>
+        
+
+        <p:panel header="Current Aircraft Types" class="panel panel-primary">
+            <h:form id="formChangeAircraftType">
+                <h:outputText value="Select a type to see aircrafts"/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="aircraftTypes" value="Aircraft Type:" />
+                    <p:selectOneMenu id="aircraftTypes" value="#{aircraftTypeManagedBean.aircraftType}" style="width:150px" converter="aircraftTypeConverter">
+                        <p:ajax listener="#{aircraftTypeManagedBean.onAircraftTypeChange()}" update="aircrafts" />
+                        <f:selectItem itemLabel="Select Aircraft Type" itemDisabled="true" />
+                        <f:selectItems value="#{aircraftTypeManagedBean.aircraftTypes}" var="aircraftType" itemLabel="#{aircraftType.IATACode}" itemValue="#{aircraftType}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:dataTable id="aircrafts" var="aircraft" value="#{aircraftTypeManagedBean.aircrafts}">
+                    <f:facet name="header">
+                        List of Aircrafts
+                    </f:facet>
+
+                    <p:column headerText="Tail ID">
+                        <h:outputText value="#{aircraft.tailId}" />
+                    </p:column>
+
+                    <p:column headerText="Aircraft Type">
+                        <h:outputText value="#{aircraft.aircraftType.IATACode}" />
+                    </p:column>
+
+                    <p:column headerText="Net Asset Value ($)">
+                        <h:outputText value="#{aircraft.netAssetValue}" />
+                    </p:column>
+
+                    <p:column headerText="Aircraft Life">
+                        <h:outputText value="#{aircraft.aircraftLife}" />
+                    </p:column>
+
+                    <p:column headerText="Operation Year">
+                        <h:outputText value="#{aircraft.operationYear}" />
+                    </p:column>
+
+                    <p:column headerText="Condition Description">
+                        <h:outputText value="#{aircraft.conditionDescription}" />
+                    </p:column>
+
+                    <p:column headerText="Airport Hub">
+                        <h:outputText value="#{aircraft.airportHub.airportCode} #{aircraft.airportHub.airportName} @ #{aircraft.airportHub.cityName}, #{aircraft.airportHub.nationName}" />
+                    </p:column>
+
+                    <p:column headerText="Current Airport">
+                        <h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}, #{aircraft.currentAirport.nationName}" />
+                    </p:column>
+
+                    <p:column headerText="Turnaround Time (minutes)">
+                        <h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}, #{aircraft.currentAirport.nationName}" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:form>
+        </p:panel>
+
+    </ui:define>
+
+</ui:composition>
+

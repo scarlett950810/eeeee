@@ -1,3 +1,7 @@
+body, .ui-widget, .ui-widget-content, ui-datatable-header, ui-widget-header, ui-corner-top{
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
 #toolBox {
     z-index: 1000 !important;
 }
@@ -17,6 +21,9 @@
 }
 
 .ui-stack .openStack li span {
+    display: none !important;
+    top: 10px !important;
+    right: 45px !important;
     z-index: 1000 !important;
 }
 
@@ -28,7 +35,7 @@
 
 #layoutUnit_top .ui-widget-content {
     background-color:#001F5F !important;
- }
+}
 
 .ui-layout-resizer, .ui-layout-resizer-north, .ui-layout-resizer-open, .ui-layout-resizer-north-open{
     height:0px !important;
@@ -59,3 +66,44 @@ div.timeline-event-content {
 div.timeline-event.timeline-event-range {
     border-width: 0;
 }
+
+span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
+    display: none !important;
+    width: 0px !important;
+    height: 0px!important;
+}
+
+.ui-button.ui-widget.ui-button-icon-only.icon-only {
+    background: none;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    width: 25px;
+}
+
+.ui-state-default {
+    -webkit-box-shadow:none;
+    box-shadow: none;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: none;
+}
+
+.ui-paginator .ui-paginator-page,
+.ui-paginator .ui-paginator-first, 
+.ui-paginator .ui-paginator-prev,
+.ui-paginator .ui-paginator-next,
+.ui-paginator .ui-paginator-last,
+.ui-paginator select.ui-paginator-rpp-options {
+    line-height: 1 !important;
+    background: #ffffff;
+}
+
+.btn-sm, span.ui-button-text {
+    text-shadow:none !important;
+}
+

@@ -151,7 +151,8 @@ public class AirportManagedBean implements Serializable{
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             ec.redirect("planningAirport.xhtml");            
-        }else {
+        }
+        else {
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed","Please delete associated routes or aircrafts first"); 
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
