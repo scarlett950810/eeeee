@@ -7,6 +7,7 @@ package imas.web.managedbean.inventory;
 
 import imas.inventory.sessionbean.CostManagementSessionBeanLocal;
 import imas.inventory.sessionbean.SeatsManagementSessionBeanLocal;
+import imas.inventory.sessionbean.YieldManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
 import java.util.List;
@@ -26,22 +27,16 @@ import javax.persistence.PostRemove;
 public class SeatsManagementManagedBean implements Serializable {
     
     @EJB
+    private YieldManagementSessionBeanLocal yieldManagementSessionBean;
+    
+    @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
     
-        @EJB
+    @EJB
     private CostManagementSessionBeanLocal costSessionBean;
-  
-    
-//    private FlightEntity flight;
-    
-    private List<FlightEntity> pendingFlights;
-    
-//    private int economyClassComputedOverbookingLevel;
-    
-//    private int economyClassOverbookingLevel;
-    
-//    private int economyClassCapacity;
 
+    private List<FlightEntity> pendingFlights;
+ 
     /**
      * Creates a new instance of SeatsManagementManagedBean
      */
@@ -68,14 +63,6 @@ public class SeatsManagementManagedBean implements Serializable {
         this.seatsManagementSessionBean = seatsManagementSessionBean;
     }
 
-//    public FlightEntity getFlight() {
-//        return flight;
-//    }
-//
-//    public void setFlight(FlightEntity flight) {
-//        this.flight = flight;
-//    }
-
     public List<FlightEntity> getPendingFlights() {
         return pendingFlights;
     }
@@ -84,40 +71,12 @@ public class SeatsManagementManagedBean implements Serializable {
         this.pendingFlights = pendingFlights;
     }
 
-//    public int getEconomyClassComputedOverbookingLevel() {
-//        return economyClassComputedOverbookingLevel;
-//    }
-//
-//    public void setEconomyClassComputedOverbookingLevel(int economyClassComputedOverbookingLevel) {
-//        this.economyClassComputedOverbookingLevel = economyClassComputedOverbookingLevel;
-//    }
-//
-//    public int getEconomyClassOverbookingLevel() {
-//        return economyClassOverbookingLevel;
-//    }
-//
-//    public void setEconomyClassOverbookingLevel(int economyClassOverbookingLevel) {
-//        this.economyClassOverbookingLevel = economyClassOverbookingLevel;
-//    }
-//
-//    public int getEconomyClassCapacity() {
-//        return economyClassCapacity;
-//    }
-
-//    public void setEconomyClassCapacity(int economyClassCapacity) {
-//        this.economyClassCapacity = economyClassCapacity;
-//    }
-       
-//    public void onFlightChange() {
-//        System.out.println("onFlightChange");
-//        System.out.println(this.flight);
-//        if (this.flight != null) {
-//            System.out.println("getEconomyClassCapacity");
-//            System.out.println(seatsManagementSessionBean.getEconomyClassCapacity(this.flight));
-//            economyClassCapacity = seatsManagementSessionBean.getEconomyClassCapacity(this.flight);
-//        }
-//    }
-    public void automaticallySetPrice(FlightEntity flight) {
+    public void automaticallyCreateBookingClassAndRules(FlightEntity flight) {
+        automaticallyCreateBookingClass(flight);
+        yieldManagementSessionBean.autoCreateRulesForFlight(flight);
+    }
+    
+    public void automaticallyCreateBookingClass(FlightEntity flight) {
         Integer firstClassCapacity = seatsManagementSessionBean.getFirstClassCapacity(flight);
         Integer businessClassCapacity = seatsManagementSessionBean.getBusinessClassCapacity(flight);
         Integer premiumeEonomyClassCapacity = seatsManagementSessionBean.getPremiumEconomyClassCapacity(flight);
@@ -125,11 +84,15 @@ public class SeatsManagementManagedBean implements Serializable {
         Double latestShowRate = seatsManagementSessionBean.computeHistoricalShowRate();
         Integer economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
         
+        System.out.println("capacity:");
+        System.out.println(firstClassCapacity);
+        System.out.println(businessClassCapacity);
+        
         // to change to calling session bean.
         Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile();
-        Double distance = flight.getDistance();
+        Double distance = flight.getRoute().getDistance();
         Double baseFare = costPerSeatPerMile * distance;
-        System.out.println("baseFare = " + baseFare);
+//        System.out.println("baseFare = " + baseFare);
         seatsManagementSessionBean.generateFirstClassBookingClassEntity(flight, 15 * baseFare, firstClassCapacity);
         seatsManagementSessionBean.generateBusinessClassBookingClassEntity(flight, 6 * baseFare, businessClassCapacity);
         seatsManagementSessionBean.generatePremiumEconomyClassBookingClassEntity(flight, 4 * baseFare, premiumeEonomyClassCapacity);        

@@ -38,7 +38,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         allFlights.stream().forEach((f) -> {
             Query queryForBookingClass = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
             queryForBookingClass.setParameter("flight", f);
-            System.out.println("queryForBookingClass.getResultList() = " + queryForBookingClass.getResultList());
             if (queryForBookingClass.getResultList().isEmpty()) {
                 flightsWithoutBookingClass.add(f);
             }
@@ -63,7 +62,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     
     @Override
     public void generateEconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota) {
-        entityManager.persist(new BookingClassEntity().EconomyClass2BookingClassEntity(flight, price, quota));
+        entityManager.persist(new BookingClassEntity().EconomyClass1BookingClassEntity(flight, price, quota));
     }
     
     @Override
@@ -83,7 +82,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     
     @Override
     public void generateEconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota) {
-        entityManager.persist(new BookingClassEntity().EconomyClass4BookingClassEntity(flight, price, quota));
+        entityManager.persist(new BookingClassEntity().EconomyClass5BookingClassEntity(flight, price, quota));
     }
     
     @Override
@@ -127,7 +126,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
             return showRate;
         } else {
             // no historical records available
-            return (double) 0;
+            return (double) 1;
         }
         
     }
@@ -135,10 +134,17 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     
     @Override
     public int getFirstClassCapacity(FlightEntity flight) {
+//        System.out.println("getFirstClassCapacity");
+//        System.out.println("flight = " + flight);
+        
         AircraftEntity a  = flight.getAircraft();
+        
+//        System.out.println("a = " + a);
+        
         Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
         q.setParameter("aircraft", a);
         q.setParameter("seatClass", "First Class");
+//        System.out.println(q.getResultList());
         return q.getResultList().size();
     }
     

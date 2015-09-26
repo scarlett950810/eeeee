@@ -57,6 +57,7 @@ public class AircraftManagedBean implements Serializable {
     private int BusinessClassRowNo;
     private int PremiumEconomyClassRowNo;
     private int EconomyClassRowNo;
+    private Double turnaroundTime;
 
     private List<AircraftEntity> aircrafts;
     
@@ -77,7 +78,6 @@ public class AircraftManagedBean implements Serializable {
         aircrafts = aircraftSessionBean.getAircrafts();
         
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftGroups", this.getAircraftGroups());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.getAirports());
     }
 
@@ -199,23 +199,6 @@ public class AircraftManagedBean implements Serializable {
         this.currentAirport = currentAirport;
     }
 
-    public AircraftGroupEntity getAircraftGroup() {
-        return aircraftGroup;
-    }
-
-    public void setAircraftGroup(AircraftGroupEntity aircraftGroup) {
-        this.aircraftGroup = aircraftGroup;
-    }
-
-    public List<AircraftGroupEntity> getAircraftGroups() {
-//        System.out.print("AircraftManagedBean.getAircraftGroups called.");
-        return aircraftSessionBean.getAircraftGroups();
-    }
-
-    public void setAircraftGroups(List<AircraftGroupEntity> aircraftGroups) {
-        this.aircraftGroups = aircraftGroups;
-    }
-
     public int getFirstClassColumnNo() {
         return FirstClassColumnNo;
     }
@@ -280,11 +263,19 @@ public class AircraftManagedBean implements Serializable {
         this.EconomyClassRowNo = EconomyClassRowNo;
     }
 
+    public Double getTurnaroundTime() {
+        return turnaroundTime;
+    }
+
+    public void setTurnaroundTime(Double turnaroundTime) {
+        this.turnaroundTime = turnaroundTime;
+    }
+
     public void addAircraft(ActionEvent event) throws IOException {
         if (this.tailId == null || this.aircraftType == null || this.purchasePrice == null
                 || this.deprecation == null || this.netAssetValue == null || this.aircraftLife == null
                 || this.operationYear == null || this.conditionDescription == null || this.airportHub == null
-                || this.currentAirport == null) {
+                || this.currentAirport == null || this.turnaroundTime == null) {
         } else if (this.FirstClassColumnNo == 0 && this.FirstClassRowNo == 0
                 && this.BusinessClassColumnNo == 0 && this.BusinessClassRowNo == 0
                 && this.PremiumEconomyClassColumnNo == 0 && this.PremiumEconomyClassRowNo == 0
@@ -310,9 +301,9 @@ public class AircraftManagedBean implements Serializable {
         } else {
             if (!aircraftSessionBean.checkAircraftExistense(tailId)) {
                 aircraftSessionBean.addAircraft(this.tailId, this.aircraftType, this.purchasePrice, this.deprecation, this.netAssetValue,
-                        this.aircraftLife, this.operationYear, this.conditionDescription, this.airportHub, this.currentAirport, this.aircraftGroup,
+                        this.aircraftLife, this.operationYear, this.conditionDescription, this.airportHub, this.currentAirport,
                         this.FirstClassColumnNo, this.FirstClassRowNo, this.BusinessClassColumnNo, this.BusinessClassRowNo,
-                        this.PremiumEconomyClassColumnNo, this.PremiumEconomyClassRowNo, this.EconomyClassColumnNo, this.EconomyClassRowNo);
+                        this.PremiumEconomyClassColumnNo, this.PremiumEconomyClassRowNo, this.EconomyClassColumnNo, this.EconomyClassRowNo, this.turnaroundTime);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completed. New aircraft added.", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } else {
@@ -344,6 +335,8 @@ public class AircraftManagedBean implements Serializable {
 
     public void onAircraftDelete(AircraftEntity aircraft) {
         aircraftSessionBean.deleteAircraft(aircraft);
+        aircrafts = aircraftSessionBean.getAircrafts();
+        
     }
 
 }

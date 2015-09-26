@@ -28,7 +28,8 @@
             <h:form id="formChangeRouteGroup">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="selectFlight" value="Flight:" />
-                    <p:selectOneMenu id="selectFlight" value="#{yieldManagementManagedBean.flight}" style="width:150px" converter="flightConverter">
+                    <p:selectOneMenu id="selectFlight" value="#{yieldManagementManagedBean.flight}"
+                                     style="width:150px" converter="flightConverter">
                         <p:ajax listener="#{yieldManagementManagedBean.onFlightChange()}"
                                 update="formChangeRule1:rule1-1 formChangeRule1:rule1-2
                                 formChangeRule2:rule2-1 formChangeRule2:rule2-2
@@ -58,9 +59,9 @@
                     <h:outputText value="time(s) of costs,"/>
                 </h:panelGrid>
                 <h:panelGrid columns="1" cellpadding="5" id="rule1-2">
-                    <h:outputText value="reallocate EconomyClass3 and EconomyClass4 quotas 
-                                  to EconomyClass1 and EconomyClass2 quotas uniformly, 
-                                  amount = half of left quota from 2 or (3 and 4) whichever is lower."/>
+                    <h:outputText value="reallocate low WTP economy classes quotas 
+                                  to high WTP quotas uniformly, 
+                                  amount = half of left quota low WTP economy classes"/>
                     <p:selectBooleanCheckbox value="#{yieldManagementManagedBean.rule1.enabled}"/>
 
                     <p:commandButton value="Update Rule 1" icon="ui-icon-pencil"
@@ -73,7 +74,7 @@
                     <h:outputText value="Rule 2:"/>                    
                     <h:outputText value="If a flight is not selling well
                                   (justified by near to departure but earned little revenue), 
-                                  reallocate quota from high WTP class to low WTP class."/>                    
+                                  reallocate quota from high WTP economy class to low WTP economy classes."/>                    
                 </h:panelGrid>
                 <h:panelGrid columns="3" cellpadding="5" id="rule2-1">
                     <h:outputText value="When time to departure is less than"/>
@@ -85,9 +86,9 @@
                     <h:outputText value="time(s) of costs,"/>
                 </h:panelGrid>
                 <h:panelGrid columns="1" cellpadding="5" id="rule2-2">
-                    <h:outputText value="reallocate EconomyClass3 and EconomyClass4 quotas 
-                                  to EconomyClass1 and EconomyClass2 quotas uniformly,
-                                  amount = half of left quota from 2 or (3 and 4) whichever is lower."/>
+                    <h:outputText value="reallocate high WTP economy classes quotas 
+                                  to low WTP economy class quotas uniformly,
+                                  amount = half of left quota from low WTP economy classes."/>
 
                     <p:selectBooleanCheckbox value="#{yieldManagementManagedBean.rule2.enabled}"/>
 
@@ -108,7 +109,7 @@
                     <p:inputText value="#{yieldManagementManagedBean.rule3.timeToDepartureInDaysParameter}"/>
                     <h:outputText value="days,"/>
 
-                    <h:outputText value="and seats sold are only"/>
+                    <h:outputText value="and seats sold are less than"/>
                     <p:inputText value="#{yieldManagementManagedBean.rule3.percentageSoldParameter}"/>
                     <h:outputText value="% of the capacity,"/>
                 </h:panelGrid>
@@ -148,7 +149,7 @@
                     
                     <h:outputText value="fulfill it(them) using"/>
                     <p:inputText value="#{yieldManagementManagedBean.rule4.changeEconomyClass3and4and5To1Or2PercentageParameter}"/>
-                    <h:outputText value="% of the quota from Economy Class 3 or 4 or 5. "/>
+                    <h:outputText value="% of the quota from low WTP economy classes. "/>
                     
                 </h:panelGrid>
 

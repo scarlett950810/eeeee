@@ -107,24 +107,12 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Aircraft Group">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{aircraft.aircraftGroup.type}" /></f:facet>
-                        <f:facet name="input">
-                            <h:selectOneMenu value="#{aircraft.aircraftGroup}" converter="aircraftGroupConverter">
-                                <f:selectItem itemLabel="No group"/>
-                                <f:selectItems value="#{aircraftManagedBean.aircraftGroups}" var="aircraftGroup" itemLabel="#{aircraftGroup.type}" itemValue="#{aircraftGroup}" />
-                            </h:selectOneMenu>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-
                 <p:column style="width:3%">
                     <p:rowEditor />
                 </p:column>
                 
                 <p:column style="width:4%">
-                    <p:commandButton ajax="false" icon="ui-icon-trash" title="Delete" action="#{aircraftManagedBean.onAircraftDelete(aircraft)}" />
+                    <p:commandButton icon="ui-icon-trash" title="Delete" actionListener="#{aircraftManagedBean.onAircraftDelete(aircraft)}" update="@form"/>
                 </p:column>
             </p:dataTable>
         </h:form>
