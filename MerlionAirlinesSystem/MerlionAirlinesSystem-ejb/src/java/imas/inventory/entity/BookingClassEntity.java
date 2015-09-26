@@ -112,6 +112,7 @@ public class BookingClassEntity implements Serializable {
     public boolean isEconomyClassAgencyBookingClassEntity() {
         return "Economy Class Agency".equals(this.name);
     }
+    
     public Long getId() {
         return id;
     }

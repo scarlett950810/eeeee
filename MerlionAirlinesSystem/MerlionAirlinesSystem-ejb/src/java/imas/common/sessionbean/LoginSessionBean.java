@@ -139,11 +139,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         }
 
     }
-    //    public void setPass(String staffNo, String password) {
-    //        long id=111;
-    //        StaffEntity newStaff = entityManager.find(StaffEntity.class,id);
-    //        newStaff.setPassword(password);
-    //    }
+    
 
     @EJB
     private AirportSessionBeanLocal airportSessionBean;
@@ -159,16 +155,21 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
          System.err.println("dd");
        
         AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double)10000, 50, (double) 100000, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 1000);
-        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A880", (double)5000, 80, (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 800);
+        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double)5000, 80, (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 800);
         AircraftTypeEntity aircraftType3 = new AircraftTypeEntity("B777", (double)10000, 80, (double) 180000, (double) 550, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 1000);
         AircraftTypeEntity aircraftType4 = new AircraftTypeEntity("B787", (double)12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
-        AircraftTypeEntity aircraftType5 = new AircraftTypeEntity("B700", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
+        AircraftTypeEntity aircraftType5 = new AircraftTypeEntity("B747", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
+        AircraftTypeEntity aircraftType6 = new AircraftTypeEntity("B737", (double)12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
+        AircraftTypeEntity aircraftType7 = new AircraftTypeEntity("A320", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
+        
         System.err.println("dd");
         entityManager.persist(aircraftType1);
         entityManager.persist(aircraftType2);
         entityManager.persist(aircraftType3);
         entityManager.persist(aircraftType4);
         entityManager.persist(aircraftType5);
+        entityManager.persist(aircraftType6);
+        entityManager.persist(aircraftType7);
 
         
         System.out.println("aircraftTypes added");
@@ -236,23 +237,23 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         System.out.println("aircrafts added");
         List<String> l1 = new ArrayList<String>();
         l1.add("A380");
-        l1.add("A880");
+        l1.add("A330");
         l1.add("B777");
 
         List<String> l2 = new ArrayList<String>();
-        l2.add("A880");
-        l2.add("B700");
+        l2.add("A380");
+        l2.add("B747");
         l2.add("B787");
 
         List<String> l3 = new ArrayList<String>();
         l3.add("A380");
-        l3.add("A880");
+        l3.add("A320");
         l3.add("B777");
         l3.add("B787");
-        l3.add("B700");
+        l3.add("B737");
 
         List<String> l4 = new ArrayList<String>();
-        l4.add("A880");
+        l4.add("A380");
         l4.add("B777");
 
         List<String> l5 = new ArrayList<String>();
@@ -261,60 +262,61 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         List<String> l6 = new ArrayList<String>();
         l6.add("A380");
-        l6.add("A880");
+        l6.add("A320");
         l6.add("B777");
         l6.add("B787");
 
         List<String> l7 = new ArrayList<String>();
         l7.add("B777");
         l7.add("B787");
-        l7.add("B700");
+        l7.add("B747");
 
         List<String> l8 = new ArrayList<String>();
         l8.add("A380");
 
         List<String> l9 = new ArrayList<String>();
-        l9.add("A880");
-        l9.add("B700");
+        l9.add("A380");
+        l9.add("B737");
 
         List<String> l10 = new ArrayList<String>();
         l10.add("B787");
-        l10.add("B700");
+        l10.add("B747");
 
         
 
         System.out.println("List of aircraft types created for pilot scheduling testing");
 
-        PilotEntity p1 = new PilotEntity ("p001", "Tom", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l1, null, false);
-        PilotEntity p2 = new PilotEntity ("p002", "Tommy", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l2, null, true);
-        PilotEntity p3 = new PilotEntity ("p003", "Kurt", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l3, null, false);
-        PilotEntity p4 = new PilotEntity ("p004", "Yin Lei", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l4, null, true);
-        PilotEntity p5 = new PilotEntity ("p005", "Hao", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l5, null, false);
-        PilotEntity p6 = new PilotEntity ("p006", "Jerry", "123456", "abc@163.com", "123", "Operation", "Street No 1", "female", "available", l6, null, true);
-        PilotEntity p7 = new PilotEntity ("p007", "Dog", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l7, null, false);
-        PilotEntity p8 = new PilotEntity ("p008", "Cat", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l8, null, true);
-        PilotEntity p9 = new PilotEntity ("p009", "Pig", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l9, null, false);
-        PilotEntity p10 = new PilotEntity ("p010", "Zebra", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l10, null, true);
-        PilotEntity p11 = new PilotEntity ("p011", "Ant", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l1, null, false);
-        PilotEntity p12 = new PilotEntity ("p012", "Flower", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l2, null, true);
-        PilotEntity p13 = new PilotEntity ("p013", "Bird", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l3, null, false);
-        PilotEntity p14 = new PilotEntity ("p014", "Butterfly", "123456", "abc@163.com", "123", "Operation", "Street No 1", "female", "available", l4, null, true);
-        PilotEntity p15 = new PilotEntity ("p015", "Kimberly", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l5, null, false);
-        PilotEntity p16 = new PilotEntity ("p016", "One", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l6, null, false);
-        PilotEntity p17 = new PilotEntity ("p017", "Two", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l7, null, true);
-        PilotEntity p18 = new PilotEntity ("p018", "Three", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l8, null, false);
-        PilotEntity p19 = new PilotEntity ("p019", "Four", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l9, null, true);
-        PilotEntity p20 = new PilotEntity ("p020", "Five", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l10, null, false);
-        PilotEntity p21 = new PilotEntity ("p021", "Six", "123456", "abc@163.com", "123", "Operation", "Street No 1", "female", "available", l1, null, true);
-        PilotEntity p22 = new PilotEntity ("p022", "Seven", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l2, null, false);
-        PilotEntity p23 = new PilotEntity ("p023", "Eight", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l3, null, true);
-        PilotEntity p24 = new PilotEntity ("p024", "Nine", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l4, null, false);
-        PilotEntity p25 = new PilotEntity ("p025", "Ten", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l5, null, true);
-        PilotEntity p26 = new PilotEntity ("p026", "Elevan", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l6, null, false);
-        PilotEntity p27 = new PilotEntity ("p027", "Twlve", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l7, null, true);
-        PilotEntity p28 = new PilotEntity ("p028", "Thirteen", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l8, null, false);
-        PilotEntity p29 = new PilotEntity ("p029", "Fourteen", "123456", "abc@163.com", "123", "Operation", "Street No 1", "female", "available", l9, null, true);
-        PilotEntity p30 = new PilotEntity ("p030", "Fifteen", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l10, null, false);
+        
+        PilotEntity p1 = new PilotEntity ("p001", "Tom", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l1, null, false);
+        PilotEntity p2 = new PilotEntity ("p002", "Tommy", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, true);
+        PilotEntity p3 = new PilotEntity ("p003", "Kurt", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p4 = new PilotEntity ("p004", "Yin Lei", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, true);
+        PilotEntity p5 = new PilotEntity ("p005", "Hao", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, false);
+        PilotEntity p6 = new PilotEntity ("p006", "Jerry", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l6, null, true);
+        PilotEntity p7 = new PilotEntity ("p007", "Dog", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, false);
+        PilotEntity p8 = new PilotEntity ("p008", "Cat", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, true);
+        PilotEntity p9 = new PilotEntity ("p009", "Pig", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, false);
+        PilotEntity p10 = new PilotEntity ("p010", "Zebra", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, true);
+        PilotEntity p11 = new PilotEntity ("p011", "Ant", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l1, null, false);
+        PilotEntity p12 = new PilotEntity ("p012", "Flower", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, true);
+        PilotEntity p13 = new PilotEntity ("p013", "Bird", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p14 = new PilotEntity ("p014", "Butterfly", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l4, null, true);
+        PilotEntity p15 = new PilotEntity ("p015", "Kimberly", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, false);
+        PilotEntity p16 = new PilotEntity ("p016", "One", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
+        PilotEntity p17 = new PilotEntity ("p017", "Two", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
+        PilotEntity p18 = new PilotEntity ("p018", "Three", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
+        PilotEntity p19 = new PilotEntity ("p019", "Four", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, true);
+        PilotEntity p20 = new PilotEntity ("p020", "Five", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
+        PilotEntity p21 = new PilotEntity ("p021", "Six", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l1, null, true);
+        PilotEntity p22 = new PilotEntity ("p022", "Seven", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, false);
+        PilotEntity p23 = new PilotEntity ("p023", "Eight", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
+        PilotEntity p24 = new PilotEntity ("p024", "Nine", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, false);
+        PilotEntity p25 = new PilotEntity ("p025", "Ten", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, true);
+        PilotEntity p26 = new PilotEntity ("p026", "Elevan", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
+        PilotEntity p27 = new PilotEntity ("p027", "Twlve", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
+        PilotEntity p28 = new PilotEntity ("p028", "Thirteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
+        PilotEntity p29 = new PilotEntity ("p029", "Fourteen", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l9, null, true);
+        PilotEntity p30 = new PilotEntity ("p030", "Fifteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
 
         System.out.println("Pilots are created");
         

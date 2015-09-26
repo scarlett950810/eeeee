@@ -134,14 +134,6 @@ public class StaffEntity implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
-    public AirportEntity getBase() {
-        return base;
-    }
-
-    public void setBase(AirportEntity base) {
-        this.base = base;
-    }
     
     public String getEmail() {
         return email;

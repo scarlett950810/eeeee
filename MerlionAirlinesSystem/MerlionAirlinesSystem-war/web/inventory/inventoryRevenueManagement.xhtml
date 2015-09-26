@@ -10,18 +10,24 @@
     </h:head>
     <h:body>
         <h:form>
-            <p:contextMenu for="flightList">
-                <p:menuitem value="View Booking Class" update="flightList" icon="ui-icon-search" actionListener="#{inventoryRevenueManagementManagedBean.viewBookingClass()}"/>
-            </p:contextMenu>
-            
-            <p:dataTable id="flightList" var="flight" value="#{inventoryRevenueManagementManagedBean.flightList}" rowKey="#{flight.flightNo}"
+            <p:dataTable id="flightList" var="flight" value="#{inventoryRevenueManagementManagedBean.flightList}" rowKey="#{flight.id}"
                          widgetVar="flightTable" emptyMessage="No flight found with given criteria" filteredValue="#{inventoryRevenueManagementManagedBean.fliteredFlight}" 
                          selection="#{inventoryRevenueManagementManagedBean.selectedFlight}" selectionMode="single">
                 <f:facet name="header">
                     Merlion Airline Flight List
                 </f:facet>
+
+                <p:column headerText="Departure Time" filterBy="#{flight.departureDate}" filterMatchMode="contains">
+                    <h:outputText value="#{flight.departureDate}" />
+                </p:column>
+                <p:column headerText="Arrival Time" filterBy="#{flight.arrivalDate}" filterMatchMode="contains">
+                    <h:outputText value="#{flight.arrivalDate}" />
+                </p:column>
                 <p:column headerText="Flight Number" filterBy="#{flight.flightNo}" filterMatchMode="contains">
                     <h:outputText value="#{flight.flightNo}" />
+                </p:column>
+                <p:column headerText="Aircraft Type" filterBy="#{flight.aircraft.aircraftType.IATACode}" filterMatchMode="contains">
+                    <h:outputText value="#{flight.aircraft.aircraftType.IATACode}" />
                 </p:column>
                 <p:column headerText="Origin" filterBy="#{flight.route.originAirport.cityName}" filterMatchMode="contains">
                     <h:outputText value="#{flight.route.originAirport.cityName} (#{flight.route.originAirport.airportCode})" />
@@ -29,6 +35,10 @@
                 <p:column headerText="Destination" filterBy="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" filterMatchMode="contains">
                     <h:outputText value="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" />
                 </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton process="flightList" value="View Booking Class" update="flightList" icon="ui-icon-search" actionListener="#{inventoryRevenueManagementManagedBean.viewBookingClass()}"/>
+                </f:facet>
 
             </p:dataTable>
         </h:form>
