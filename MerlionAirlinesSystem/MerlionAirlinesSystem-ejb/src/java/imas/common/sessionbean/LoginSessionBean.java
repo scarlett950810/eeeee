@@ -168,6 +168,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         airportSessionBean.addAirport(a1);
         airportSessionBean.addAirport(a2);
         airportSessionBean.addAirport(a3);
+        
+        
 
         System.out.println("safe 2");
 
@@ -187,6 +189,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         aircraftSessionBean.addAircraft("AAB", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a3, a2, ag1, 4, 5, 4, 6, 6, 30, 7, 30);
         aircraftSessionBean.addAircraft("AAC", at1, (double) 40000000, (double) 1000000, (double) 39000000, (double) 30, (double) 0, "All is well", a3, a2, ag1, 0, 0, 4, 6, 6, 30, 7, 50);
 
+        
+        
         System.out.println("safe 5");
 
         routeSessionBean.addRoute(a1, a3);
@@ -218,6 +222,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(bc5);
         entityManager.persist(bc6);
         entityManager.persist(bc7);
+        
+        
     }
 
     @Override

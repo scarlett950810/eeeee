@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Retrieve Duty</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="#">Aircraft Management </a></li> 
+                <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
+                <li class="sidebar-h1"><a href="#">Staff Management</a></li> 
+                <li><a href="retrieveDuty.xhtml"> Retrieve Duty </a></li> 
+                <li class="sidebar-h1"><a href="#">Flight Management </a></li>                     
+                <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <h:form>
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:panel header="Select a staff" style="margin-bottom:10px;">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="position" value="Position: " />
+                    <p:selectOneMenu id="position" value="#{retrieveDutyManagedBean.position}" style="width:150px">
+                        <p:ajax listener="#{retrieveDutyManagedBean.onPositionChange}" update="name" />
+                        <f:selectItem itemLabel="Select Position" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{retrieveDutyManagedBean.positions}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="name" value="Name:" />
+                    <p:selectOneMenu id="name" value="#{retrieveDutyManagedBean.name}" style="width:150px">
+                        <f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{retrieveDutyManagedBean.names}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <p:separator />
+                <p:commandButton value="Submit" update="msgs :dialog" actionListener="#{retrieveDutyManagedBean.submit}" icon="ui-icon-check" />
+
+            </p:panel>
+        </h:form>
+
+        <p:dialog id="dialog" header="Schedule" showEffect="fade" widgetVar="scheduleDialog"  resizable="false">
+            <h:form id="scheduleForm">
+                <p:growl id="messages" showDetail="true" />
+
+                <h:panelGrid columnClasses="value">
+                    <h3>Schedule</h3>
+                    <p:schedule value="#{retrieveDutyManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+
+
+    </ui:define>
+</ui:composition>
