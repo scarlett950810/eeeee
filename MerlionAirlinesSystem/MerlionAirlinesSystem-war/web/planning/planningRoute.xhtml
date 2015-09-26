@@ -45,17 +45,19 @@
 
 
                 <p:column headerText="Origin" >
-                    <p:cellEditor>
+                    <h:outputText value="#{route.originAirport.airportName}" />
+<!--                    <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{route.originAirport.airportName}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{route.originAirport.airportName}" style="width:100%" label="origin"/></f:facet>
-                    </p:cellEditor>
+                    </p:cellEditor>-->
                 </p:column>
 
                 <p:column headerText="Destination">
-                    <p:cellEditor>
+                    <h:outputText value="#{route.destinationAirport.airportName}" />
+<!--                    <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{route.destinationAirport.airportName}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{route.destinationAirport.airportName}" style="width:100%" label="destination"/></f:facet>
-                    </p:cellEditor>
+                    </p:cellEditor>-->
                 </p:column>
 
                 <p:column headerText="Distance">
@@ -66,10 +68,11 @@
                 </p:column>
 
                 <p:column headerText="Estimated Flight Hours">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{routeManagedBean.calculateDist(route.distance)}" /></f:facet>
+                    <h:outputText value="#{routeManagedBean.calculateDist(route.distance)}" />
+<!--                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="{routeManagedBean.calculateDist(route.distance)}" /></f:facet>
                         <f:facet name="input"><p:inputText style="width:100%" label="Flight Hours"/></f:facet>
-                    </p:cellEditor>
+                    </p:cellEditor>-->
                 </p:column>
                 
                 
@@ -81,8 +84,8 @@
         </h:form>
         
         <h:form>
-            <p:commandButton value="Delete Route"  action="planningDeleteRoute.xhtml" style="display: inline-block; float: right;" ajax="false"/>
-            <p:commandButton value="Add Route"  action="planningAddRoute.xhtml" style="display: inline-block; float: right;" ajax="false"/>
+            <p:commandButton value="Delete Route"  actionListener="#{routeManagedBean.goDeleteRoute()}" style="display: inline-block; float: right;" ajax="false"/>
+            <p:commandButton value="Add Route"  actionListener="#{routeManagedBean.goAddRoute()}" style="display: inline-block; float: right;" ajax="false"/>
             
         </h:form>
         

@@ -30,11 +30,11 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        <p:growl id="growl" sticky="true" showDetail="true"/>
+<!--        <p:growl id="growl" sticky="false" showDetail="false"/>-->
 
         <p:panel header="Add Aircraft">
             <h:form>
-                <p:messages />
+                <!--<p:messages />-->
                 <h:panelGrid columns="2" cellpadding="5" style="padding-bottom: 25px;">
                     <p:outputLabel for="tailId" value="Tail ID" />
                     <p:inputText style="width: 400px" id="tailId" value="#{aircraftManagedBean.tailId}" label="tailId" required="true" requiredMessage="Please input Tail ID">

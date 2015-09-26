@@ -45,7 +45,7 @@
                                      effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
                                      converter="aircraftTypeConverter">
 
-                        <f:selectItems value="#{aircraftTypeManagedBean.aircraftTypes}" var="aircraftType" itemLabel="#{aircraftType.IATACode}" itemValue="#{aircraftType.IATACode}" />
+                        <f:selectItems value="#{aircraftTypeManagedBean.aircraftTypes}" var="aircraftType" itemLabel="#{aircraftType.IATACode}" itemValue="#{aircraftType}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
                 <p:commandButton value="Confirm" actionListener="#{aircraftTypeManagedBean.actualDeleteAircraftType}" update="statusMessages"/>

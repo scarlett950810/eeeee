@@ -118,7 +118,7 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
     @Override
     public void deleteAircraft(AircraftEntity aircraft) {
         System.out.println("debug");
-        System.out.println(aircraft);
+        System.out.println(aircraft.getId());
         AircraftEntity aircraftToDelete = em.find(AircraftEntity.class, aircraft.getId());
         System.out.println(aircraftToDelete);
         em.remove(aircraftToDelete);

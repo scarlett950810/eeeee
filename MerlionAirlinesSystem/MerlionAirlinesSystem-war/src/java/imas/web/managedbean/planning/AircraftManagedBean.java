@@ -67,6 +67,7 @@ public class AircraftManagedBean implements Serializable {
 
     private List<AircraftEntity> aircrafts;
     private AircraftEntity aircraft;
+    private AircraftEntity selectedAircraft;
 
     public AircraftEntity getAircraft() {
         return aircraft;
@@ -74,6 +75,15 @@ public class AircraftManagedBean implements Serializable {
 
     public void setAircraft(AircraftEntity aircraft) {
         this.aircraft = aircraft;
+    }
+
+    public AircraftEntity getSelectedAircraft() {
+        return selectedAircraft;
+    }
+
+    public void setSelectedAircraft(AircraftEntity selectedAircraft) {
+        System.err.println("selected aircraft put" + selectedAircraft.getTailId());
+        this.selectedAircraft = selectedAircraft;
     }
 
     @PostConstruct
@@ -362,8 +372,10 @@ public class AircraftManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void onAircraftDelete(AircraftEntity aircraft) {
-        aircraftSessionBean.deleteAircraft(aircraft);
+    public void onAircraftDelete() {
+        System.err.println("enter on aircraft delete");
+        System.err.println(selectedAircraft.getTailId());
+        aircraftSessionBean.deleteAircraft(selectedAircraft);
         aircrafts = aircraftSessionBean.getAircrafts();
 
     }
@@ -375,7 +387,7 @@ public class AircraftManagedBean implements Serializable {
         tabIndex = 1;
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        ec.redirect("planningEditDeleteAircraft.html");
+        ec.redirect("planningEditDeleteAircraft.xhtml");
     }
 
 }

@@ -34,7 +34,7 @@
         <h:form>
             <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleManagedBean.flights}" style="margin-right: 200px">
                 <f:facet name="header">
-                    List of Cars
+                    List of Flights
                 </f:facet>
 
                 <p:column headerText="No.">
@@ -56,6 +56,11 @@
 
                     </p:calendar>
                 </p:column>
+                
+                <p:column headerText="Reverse Flight Number">
+<!--                    <h:inputText value="{flight.flightNo}" />-->
+                </p:column>
+                
                 <p:column headerText="#{scheduleManagedBean.routeSelected.reverseRoute.routeName} Departure Time">
                     <p:calendar id="departureTime2" value="#{flight.reverseFlight.departureDate}" pattern="HH:mm" timeOnly="true" >
                         <p:ajax event="dateSelect" listener="#{scheduleManagedBean.dateSelectListener}" update="arrivalTime2" />

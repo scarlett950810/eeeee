@@ -120,20 +120,23 @@
                 </p:column>
 
                 <p:column style="width:4%">
-                    <p:commandButton icon="ui-icon-trash" title="Delete" onclick ="PF('deleteAircraft').show();"/>
-                    <!--                    <p:commandButton icon="ui-icon-trash" title="Delete" actionListener="{aircraftManagedBean.onAircraftDelete(aircraft)}" update="@form"/>-->
+                    <p:commandButton icon="ui-icon-trash" type="button" title="Delete" onclick ="PF('deleteAircraft').show();">
+                        <f:setPropertyActionListener value="#{aircraft}" target="#{aircraftManagedBean.selectedAircraft}" />
+                    </p:commandButton>
+                    <!--<p:commandButton value="Delete" type="button" onclick="PF('deleteAircraft').show();" />-->                   
                 </p:column>
 
-                <!--                <p:dialog header="Confirmation" widgetVar="deleteAircraft" minHeight="40">
-                                    <h:outputText value="Resistance to PrimeFaces is futile!" />
-                                    <p:commandButton value="Return" actionListener="{aircraftManagedBean.returnBack()}" style="margin-top: 20px"/>
-                                    <p:commandButton icon="ui-icon-trash" title="Delete" actionListener="{aircraftManagedBean.onAircraftDelete(aircraft)}" update="@form" style="margin-top: 20px"/>
-                                </p:dialog>-->
-                <p:dialog header="Confirmation" widgetVar="deleteAircraft" minHeight="40">
-                    <h:outputText value="Resistance to PrimeFaces is futile!" />
-                </p:dialog>
             </p:dataTable>
         </h:form>
+
+        <p:dialog header="Confirmation" widgetVar="deleteAircraft" minHeight="40">
+            <h:form>
+            <p:commandButton value="Return" actionListener="#{aircraftManagedBean.returnBack()}" style="margin-top: 20px"/>
+            <p:commandButton value="Delete" actionListener="#{aircraftManagedBean.onAircraftDelete()}" update="@form" style="margin-top: 20px"/>
+            </h:form>
+        </p:dialog>
+
+
     </ui:define>
 
 </ui:composition>
