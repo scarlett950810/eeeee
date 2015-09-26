@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.web.managedbean.planning;
+package imas.web.managedbean.distribution;
 
-import imas.planning.entity.AirportEntity;
-import java.util.Date;
+import imas.inventory.entity.BookingClassEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -17,44 +16,44 @@ import javax.faces.convert.FacesConverter;
 
 /**
  *
- * @author Howard
+ * @author ruicai
  */
-@FacesConverter(value = "dateConverter")
-public class DateConverter implements Converter {
-
+@FacesConverter("bookingClassConverter")
+public class BookingClassConverter implements Converter {
+    
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
-                System.err.println("enter getAsObject");
-                List<Date> dates = (List<Date>)fc.getExternalContext().getSessionMap().get("dateList");
                 
-                String dateStr = value;
+                List<BookingClassEntity> bookingClassEntities = (List<BookingClassEntity>)fc.getExternalContext().getSessionMap().get("bookingClassList");
                 
-                for(Date date :dates)
+                Long bookingClassEntityId = Long.valueOf(Long.parseLong(value));
+                
+                for(BookingClassEntity bookingClassEntity:bookingClassEntities)
                 {
-                    if(date.toString().equals(dateStr))
+                    if(bookingClassEntity.getId().equals(bookingClassEntityId))
                     {
-                        return date;
+                        return bookingClassEntity;
                     }
                 }
                 
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid date."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid booking class."));
             }
         } else {
             return null;
-        }
-    }
+        }}
+ 
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-        System.err.println("enter getasstring");
         if (object != null) {    
-            return String.valueOf(((Date) object).toString());
+            return String.valueOf(((BookingClassEntity) object).getId());
         } else {
             return null;
         }
     }
-}
+    
+} 

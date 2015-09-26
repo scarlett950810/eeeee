@@ -57,18 +57,20 @@
             <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
                 <h:form id="toolBox" style="margin: 0px !important;">
 
-                    <p:stack icon="../resources/img/menuStack/menu.png" expanded="true" class="menuBasket">
+                    <p:stack icon="../resources/img/menuStack/menu.png" expanded="false" class="menuBasket">
 
                         <p:menuitem styleClass="icon-resize" value="Logout" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
                         <p:menuitem styleClass="icon-resize" value="Account" icon="../resources/img/menuStack/account.png" url="#"/>
-                        <p:menuitem styleClass="icon-resize" value="Announcement" icon="../resources/img/menuStack/announcement.png" url="#" onclick="PF('announcement').show();"/>
-                        <p:menuitem styleClass="icon-resize" value="Message" icon="../resources/img/menuStack/inbox.png" url="#" onclick="PF('message').show();"/>
+                        <p:menuitem styleClass="icon-resize" value="Announcement" icon="../resources/img/menuStack/announcement.png"
+                                    actionListener="#{internalAnnouncementManagedBean.refreshAnnouncements}" update="viewAnnouncement"/>
+                        <p:menuitem styleClass="icon-resize" value="Message" icon="../resources/img/menuStack/inbox.png"
+                                    actionListener="#{internalMessageManagedBean.refreshMessages}" update="viewMessages"/>
                         <p:menuitem styleClass="icon-resize" value="Home" icon="../resources/img/menuStack/home.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml"/>
 
                     </p:stack>
                 </h:form>
                 <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
-                    <h:form>
+                    <h:form id="viewAnnouncement">
                         <p:dataTable value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" 
                                      paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
                                      editable="true" editMode="cell" sortMode="multiple"
@@ -82,7 +84,8 @@
                             </p:column>
 
                             <p:column headerText="Content">
-                                <h:outputText value="#{announcement.content}" />
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{internalAnnouncementManagedBean.showAnnouncement(announcement.title, announcement.content)}"/>
                             </p:column>
 
                             <p:column headerText="Read" sortBy="#{announcement.isRead}">
@@ -115,7 +118,7 @@
                                 <p:inputTextarea style="width: 100%;" id="content" value="#{internalMessageManagedBean.content}"></p:inputTextarea>
 
                                 <p:commandButton id="sendAnnouncement" value="Send"
-                                                 actionListener="#{internalMessageManagedBean.send}" />
+                                                 actionListener="#{internalMessageManagedBean.send}" update="@form viewMessages"/>
 
                             </h:panelGrid>
                         </p:panel>
@@ -135,7 +138,8 @@
                                 </p:column>
 
                                 <p:column headerText="Content">
-                                    <h:outputText value="#{message.content}" />
+                                    <p:commandButton icon="ui-icon-comment" 
+                                                     actionListener="#{internalMessageManagedBean.showMessage(message.sender.displayName, message.content)}"/>
                                 </p:column>
 
                                 <p:column headerText="Read" sortBy="#{message.isRead}">

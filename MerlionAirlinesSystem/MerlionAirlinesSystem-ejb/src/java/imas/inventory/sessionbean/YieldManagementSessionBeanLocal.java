@@ -59,5 +59,9 @@ public interface YieldManagementSessionBeanLocal {
     public void insertRules();
 
     public void autoCreateRulesForFlight(FlightEntity flight);
+
+    public void updateAllRoutePopularity();
+
+    public void disableYieldManagementRule(YieldManagementRuleEntity yieldManagementRuleEntity);
    
 }

@@ -14,6 +14,13 @@
     height: 32px !important;
 }
 
+#toolBox ul {
+    display: none !important;
+}
+
+#toolBox .openStack {
+    display: block !important;
+}
 
 .layout, .ui-layout-unit,  .ui-layout-unit-content {
     border: none !important;

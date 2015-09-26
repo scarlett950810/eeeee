@@ -174,7 +174,23 @@ public class YieldManagementRuleEntity implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-
+    
+    public boolean isRule1() {
+        return number == 1;
+    }
+    
+    public boolean isRule2() {
+        return number == 2;
+    }
+    
+    public boolean isRule3() {
+        return number == 3;
+    }
+    
+    public boolean isRule4() {
+        return number == 4;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

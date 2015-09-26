@@ -8,6 +8,7 @@ package imas.inventory.sessionbean;
 import imas.inventory.entity.YieldManagementRuleEntity;
 import imas.planning.entity.FlightEntity;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,6 +20,9 @@ import javax.persistence.Query;
  */
 @Stateless
 public class RulesManagementSessionBean implements RulesManagementSessionBeanLocal {
+    
+    @EJB
+    private YieldManagementSessionBeanLocal yieldManagementSessionBean;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -48,6 +52,11 @@ public class RulesManagementSessionBean implements RulesManagementSessionBeanLoc
         ruleToUpdate.setTimeToDepartureInDaysParameter(yieldManagementRule1.getTimeToDepartureInDaysParameter());
         ruleToUpdate.setTotalRevenueToTotalCostParameter(yieldManagementRule1.getTotalRevenueToTotalCostParameter());
         ruleToUpdate.setEnabled(yieldManagementRule1.isEnabled());
+        
+        if (yieldManagementRule1.isEnabled()) {
+            yieldManagementSessionBean.runYieldManagementRule1(ruleToUpdate);
+        }
+        
     }
     
     @Override
@@ -60,6 +69,10 @@ public class RulesManagementSessionBean implements RulesManagementSessionBeanLoc
         ruleToUpdate.setTimeToDepartureInDaysParameter(yieldManagementRule2.getTimeToDepartureInDaysParameter());
         ruleToUpdate.setTotalRevenueToTotalCostParameter(yieldManagementRule2.getTotalRevenueToTotalCostParameter());
         ruleToUpdate.setEnabled(yieldManagementRule2.isEnabled());
+        
+        if (yieldManagementRule2.isEnabled()) {
+            yieldManagementSessionBean.runYieldManagementRule2(ruleToUpdate);
+        }
     }
     
     @Override
@@ -72,6 +85,10 @@ public class RulesManagementSessionBean implements RulesManagementSessionBeanLoc
         ruleToUpdate.setTimeToDepartureInDaysParameter(yieldManagementRule3.getTimeToDepartureInDaysParameter());
         ruleToUpdate.setPercentageSoldParameter(yieldManagementRule3.getPercentageSoldParameter());
         ruleToUpdate.setEnabled(yieldManagementRule3.isEnabled());
+        
+        if (yieldManagementRule3.isEnabled()) {
+            yieldManagementSessionBean.runYieldManagementRule3(ruleToUpdate);
+        }
     }
     
     @Override
@@ -87,6 +104,10 @@ public class RulesManagementSessionBean implements RulesManagementSessionBeanLoc
         ruleToUpdate.setEconomyClass2RemainingQuotaParameter(yieldManagementRule4.getEconomyClass2RemainingQuotaParameter());
         ruleToUpdate.setChangeEconomyClass3and4and5To1Or2PercentageParameter(yieldManagementRule4.getChangeEconomyClass3and4and5To1Or2PercentageParameter());
         ruleToUpdate.setEnabled(yieldManagementRule4.isEnabled());
+        
+        if (yieldManagementRule4.isEnabled()) {
+            yieldManagementSessionBean.runYieldManagementRule4(ruleToUpdate);
+        }
         
     }
     
