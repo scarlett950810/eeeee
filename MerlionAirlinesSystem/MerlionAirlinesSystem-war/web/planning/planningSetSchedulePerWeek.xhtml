@@ -15,24 +15,26 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
                 <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
-                <li><a href="planningEditDeleteAircraft.xhtml">Edit or Delete Aircraft</a></li>
-                <li><a href="planningManageAircraftGroup.xhtml">Manage Aircraft Group</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Modify Aircraft</a></li>
+                <li><a href="planningManageAircraftTypes.xhtml">View Aircraft</a></li>
 
                 <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
-                <li><a href="planningAirport.xhtml">Airport Management</a></li>
-                <li><a href="planningAddRoute.xhtml">Add Route</a></li>
-                <li><a href="planningDeleteRoute.xhtml">Delete Route</a></li>
-                <li><a href="planningSetFrequencyAndTime.xhtml">Set Frequency and Time</a></li>
+                <li><a href="planningAirport.xhtml">Manage Airport</a></li>
+                <li><a href="planningRoute.xhtml">Manage Route</a></li>
+
+                <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
             </ul>
         </div>
     </ui:define>
+
     <ui:define name="centerPanel">
 
         <h:form>
             <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleByWeekManagedBean.flights}" style="margin-right: 200px">
                 <f:facet name="header">
-                    List of Cars
+                    List of Flights
                 </f:facet>
 
                 <p:column headerText="No.">
@@ -44,16 +46,16 @@
                 </p:column>
 
                 <p:column headerText="#{scheduleByWeekManagedBean.routeSelected.routeName} Departure Time">
-                     <p:selectOneMenu id="weekday" value="#{flight.weekDay}">
+                    <p:selectOneMenu id="weekday" value="#{flight.weekDay}">
                         <f:selectItem itemLabel="Select the weekday"/>
                         <f:selectItems value="#{scheduleByWeekManagedBean.weekDays}" var="weekDays" itemValue="#{weekDays}" itemLabel="#{weekDays}"/>
                     </p:selectOneMenu>
-                    
+
                     <p:calendar id="departureTime" value="#{flight.departureDate}" pattern="HH:mm" timeOnly="true" >
                         <p:ajax event="dateSelect" listener="#{scheduleByWeekManagedBean.dateSelectListener}" update="arrivalTime" />
                         <f:attribute name="flight" value="#{flight}" />
                     </p:calendar>
-                   
+
                 </p:column>
                 <p:column headerText="#{scheduleByWeekManagedBean.routeSelected.routeName} Arrival Time">
                     <p:calendar id="arrivalTime" value="#{flight.arrivalDate}" pattern="HH:mm" timeOnly="true">

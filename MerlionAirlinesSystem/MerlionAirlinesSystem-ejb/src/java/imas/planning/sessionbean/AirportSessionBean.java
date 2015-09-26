@@ -69,10 +69,9 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
 //    }
     @Override
     public Boolean deleteAirport(String airportCode) {
-        System.err.println("enter sessionbean delete");
         Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :airportCode");
         query.setParameter("airportCode", airportCode);
-        AirportEntity a = (AirportEntity)query.getSingleResult();
+        AirportEntity a = (AirportEntity) query.getSingleResult();
         
         if(checkRelatedRoute(a) && checkRelatedAircraft(a)){ //加一个查associated aircrafts
             System.err.println("enter checkrelated true");

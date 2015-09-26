@@ -33,7 +33,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
 
     @Override
     public List<FlightEntity> pilotScheduling(List<FlightEntity> flights, List<PilotEntity> pilots) {
-
+        System.err.println("enter pilotScheduling");
         List<FlightEntity> shortFlights = new ArrayList<FlightEntity>();
         List<FlightEntity> longFlights = new ArrayList<FlightEntity>();
         for (FlightEntity f : flights) {
@@ -50,16 +50,19 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
                 pilotsLongDis.add(p);
             }
         }
+        System.err.println("enter for loop for shortFlights");
         for (FlightEntity f : shortFlights) {
             longFlights.add(f);
         }
-
+        System.err.println("enter long Flights");
         longFlights = pilotSchedulingForLongDistance(longFlights, pilotsLongDis);
+        System.err.println("finish pilotshceduling");
         return longFlights;
     }
 
     @Override
     public List<FlightEntity> pilotSchedulingForShortDistance(List<FlightEntity> shortFlights, List<PilotEntity> pilots) {
+        System.err.println("enter for short");
         List<FlightEntity> flights = shortFlights;
         for (PilotEntity p : pilots) {
             if (!flights.isEmpty()) {
@@ -71,23 +74,32 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
 
     @Override
     public List<FlightEntity> onePilotSchedulingForShort(List<FlightEntity> flights, PilotEntity pilot) {
+        System.err.println("enter one for short");
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
-
         for (FlightEntity f : flights) {
             boolean b = true;
             for (String type : pilot.getAircraftTypeCapabilities()) {
-                if (type.equals(f.getAircraft().getAircraftType().getIATACode()) && b == true && f.getPilots().size() < 2) {
-                    b = false;
-                    flightsAvai.add(f);
+                if (f.getPilots() == null) {
+                    f.setPilots(new ArrayList<PilotEntity>());
+                }
+                if (f.getAircraft() != null) {
+                    if (type.equals(f.getAircraft().getAircraftType().getIATACode()) && b == true && f.getPilots().size() < 2) {
+                        b = false;
+                        flightsAvai.add(f);
+                    }
                 }
             }
         }
-
+        System.err.println("after filter available flights according to pilot");
+        if (flightsAvai.isEmpty()) {
+            return flights;
+        }
         Date earliestDep = flightsAvai.get(0).getDepartureDate();
         boolean hasHubOrNot = false;
         FlightEntity earliestFlight = new FlightEntity();
 
         if (pilot.getPilotFlights() == null || pilot.getPilotFlights().isEmpty()) {
+            System.err.println("1st assign job start");
             Calendar cal = Calendar.getInstance();
             cal.setTime(earliestDep);
             cal.add(Calendar.YEAR, 1);
@@ -104,6 +116,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
                 }
 
             }
+            System.err.println("1st assign job");
         } else {
             earliestDep = pilot.getPilotFlights().get(0).getArrivalDate();
             Date latestDate = null;
@@ -138,7 +151,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
 
                 }
             }
-
+            System.err.println("2nd assigned");
         }
         //      System.err.println("2 earliest Dep"+earliestDep);
 
@@ -200,6 +213,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
                 }
 
             }
+            System.err.println("find a suitable flight");
             //find a suitable flight
             if (findSoonest == null) {
                 findNextFlight = false;
@@ -221,6 +235,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
 
                 }
             }
+            System.err.println("find nearest flight");
             //find the nearest flight
 //         System.err.println("7");
 
@@ -272,28 +287,51 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
     @Override
     public List<FlightEntity> pilotSchedulingForLongDistance(List<FlightEntity> shortFlights, List<PilotEntity> pilots) {
         List<FlightEntity> flights = shortFlights;
+        System.err.println("number of pilots :" + pilots.size());
         for (PilotEntity p : pilots) {
             if (!flights.isEmpty()) {
+                System.err.println("starting one for long" + p + "flightsnum" + flights.size());
                 flights = onePilotSchedulingForLong(flights, p);
+                System.err.println("finish one fo long" + p);
             }
         }
+        System.err.println("sucess return for long");
         return flights;
     }
 
     @Override
     public List<FlightEntity> onePilotSchedulingForLong(List<FlightEntity> flights, PilotEntity pilot) {
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
-
+        System.err.println("enter one for long");
         for (FlightEntity f : flights) {
+            System.err.println("got things in flights");
             boolean b = true;
+           
+            System.err.println("flight"+f);
+            System.err.println("flight distance"+f.getRoute().getDistance());
+            System.err.println("list" + pilot.getAircraftTypeCapabilities());
             for (String type : pilot.getAircraftTypeCapabilities()) {
-                if (type.equals(f.getAircraft().getAircraftType().getIATACode()) && b == true && ((f.getPilots().size() < 3 && f.getRoute().getDistance() > 5000) || (f.getPilots().size() < 2 && f.getRoute().getDistance() < 5000))) {
-                    b = false;
-                    flightsAvai.add(f);
+                System.err.println("enter gettype");
+                System.err.println("type" + type);
+                if (f.getPilots() == null) {
+                    f.setPilots(new ArrayList<>());
+                }
+                System.err.println("size excepton");
+                System.err.println("size exception" + f.getPilots().size());
+                if (f.getAircraft() != null) {
+                    if (type.equals(f.getAircraft().getAircraftType().getIATACode()) && b == true && ((f.getPilots().size() < 3 && f.getRoute().getDistance() >= 5000) || (f.getPilots().size() < 2 && f.getRoute().getDistance() < 5000))) {
+                        b = false;
+                        flightsAvai.add(f);
+                    }
                 }
             }
         }
-
+        System.err.println("before ttest empty");
+        if (flightsAvai.isEmpty()) {
+            System.err.println("empty");
+            return flights;
+        }
+        System.err.println("after enter one for long");
         Date earliestDep = flightsAvai.get(0).getDepartureDate();
         boolean hasHubOrNot = false;
         FlightEntity earliestFlight = new FlightEntity();
@@ -303,7 +341,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
             cal.setTime(earliestDep);
             cal.add(Calendar.YEAR, 1);
             earliestDep = cal.getTime();
-       
+            System.err.println("before getBase");
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
                 if (depTemp.compareTo(earliestDep) < 0 && pilot.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
@@ -315,7 +353,9 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
                 }
 
             }
+            System.err.println("after getBase");
         } else {
+            System.err.println("already go some flights before getbase");
             earliestDep = pilot.getPilotFlights().get(0).getArrivalDate();
             Date latestDate = null;
             for (FlightEntity f : pilot.getPilotFlights()) {
@@ -324,11 +364,14 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
                     latestDate = f.getArrivalDate();
                 }
             }
-
+            System.err.println("test problem");
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
+                System.err.println("test1 problem" + pilot.getBase().getAirportCode());
+                System.err.println("..." + f.getRoute().getOriginAirport().getAirportCode());
                 if (depTemp.compareTo(latestDate) > 0 && pilot.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
+                    System.err.println("test2 problem");
                     earliestFlight = em.find(FlightEntity.class, f.getId());
                     earliestDep = f.getDepartureDate();
                     hasHubOrNot = true;
@@ -336,6 +379,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
                 }
 
             }
+            System.err.println("already go some flights after getbase");
 
             if (hasHubOrNot) {
                 for (FlightEntity f : flightsAvai) {
@@ -349,6 +393,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
 
                 }
             }
+            System.err.println("already got some flights ");
 
         }
         //      System.err.println("2 earliest Dep"+earliestDep);
@@ -386,6 +431,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
         //      System.err.println("5");
         Date mtAcc = flightAssigned.getDepartureDate();
         //      System.err.println("mtacc before while"+mtAcc);
+        System.err.println("before while");
         while (findNextFlight) {
 //        System.err.println("5.1");
             Calendar cal = Calendar.getInstance();

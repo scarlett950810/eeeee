@@ -51,7 +51,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     
     @Override
     public String doLogin(String staffNo, String oldpassword) {
-
+        
+        //insertData();
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
@@ -317,6 +318,67 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         PilotEntity p30 = new PilotEntity ("p030", "Fifteen", "123456", "abc@163.com", "123", "Operation", "Street No 1", "male", "available", l10, null, false);
 
         System.out.println("Pilots are created");
+        
+        entityManager.persist(p1);
+        entityManager.persist(p2);
+        entityManager.persist(p3);
+        entityManager.persist(p4);
+        entityManager.persist(p5);
+        entityManager.persist(p6);
+        entityManager.persist(p7);
+        entityManager.persist(p8);
+        entityManager.persist(p9);
+        entityManager.persist(p10);
+        entityManager.persist(p11);
+        entityManager.persist(p12);
+        entityManager.persist(p13);
+        entityManager.persist(p14);
+        entityManager.persist(p15);
+        entityManager.persist(p16);
+        entityManager.persist(p17);
+        entityManager.persist(p18);
+        entityManager.persist(p19);
+        entityManager.persist(p20);
+        entityManager.persist(p21);
+        entityManager.persist(p22);
+        entityManager.persist(p23);
+        entityManager.persist(p24);
+        entityManager.persist(p25);
+        entityManager.persist(p26);
+        entityManager.persist(p27);
+        entityManager.persist(p28);
+        entityManager.persist(p29);
+        entityManager.persist(p30);
+        p1.setBase(a4);
+        p2.setBase(a4);
+        p3.setBase(a4);
+        p4.setBase(a4);
+        p5.setBase(a4);
+        p6.setBase(a4);
+        p7.setBase(a4);
+        p8.setBase(a4);
+        p9.setBase(a4);
+        p10.setBase(a4);
+        p11.setBase(a8);
+        p12.setBase(a8);
+        p13.setBase(a8);
+        p14.setBase(a8);
+        p15.setBase(a8);
+        p16.setBase(a8);
+        p17.setBase(a8);
+        p18.setBase(a8);
+        p19.setBase(a8);
+        p20.setBase(a8);
+        p21.setBase(a8);
+        p22.setBase(a8);
+        p23.setBase(a8);
+        p24.setBase(a8);
+        p25.setBase(a8);
+        p26.setBase(a4);
+        p27.setBase(a4);
+        p28.setBase(a4);
+        p29.setBase(a4);
+        p30.setBase(a4);
 
         //下面都不是我写的，不太知道删与否，你们如果不用了就自己删一下哈：）
 
