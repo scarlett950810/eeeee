@@ -130,8 +130,7 @@ public class YieldManagementManagedBean implements Serializable  {
                         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         System.out.println("YieldManagementManageBean.onFlightChange got rules numbered not 1 - 4!!!!");
                         break;
-                }
-            
+                }            
             }
         }
     }

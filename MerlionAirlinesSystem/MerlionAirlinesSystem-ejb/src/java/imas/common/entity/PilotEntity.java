@@ -38,7 +38,8 @@ public class PilotEntity extends StaffEntity implements Serializable {
         this.workingStatus = workingStatus;
         this.aircraftTypeCapabilities = aircraftTypeCapabilities;
         this.pilotFlights = pilotFlights;
-        this.mileageLimit = false;
+        this.mileageLimit = mileageLimit;
+        
     }
 
     // the MountainBike subclass adds one method

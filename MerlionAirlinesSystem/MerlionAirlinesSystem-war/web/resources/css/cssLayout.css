@@ -1,17 +1,11 @@
-#toolBox .menuBasket {
+#toolBox {
     z-index: 1000 !important;
 }
 
-#toolBox .menuBasket img {
-    
-}
-
 #toolBox ul li img {
-/*    top: -10px !important;
-    left: 20px !important;
-    padding-top: 0px !important;*/
     width: 32px !important;
     height: 32px !important;
+    z-index: 1000 !important;
 }
 
 #toolBox ul {
@@ -20,6 +14,10 @@
 
 #toolBox .openStack {
     display: block !important;
+}
+
+.ui-stack .openStack li span {
+    z-index: 1000 !important;
 }
 
 .layout, .ui-layout-unit,  .ui-layout-unit-content {
@@ -44,4 +42,20 @@
 
 .ui-datatable-scrollable-header-box, .ui-datatable-scrollable-body {
     margin-right: 0px !important;
+}
+
+div.timeline-event {
+    border: none;
+}
+
+div.timeline-event-content {
+    margin: 1px;
+    border: 1px solid;
+    padding: 4px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+}
+
+div.timeline-event.timeline-event-range {
+    border-width: 0;
 }
