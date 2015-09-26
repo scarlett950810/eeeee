@@ -54,6 +54,10 @@
 
                     </p:calendar>
                 </p:column>
+                 <p:column headerText="Flight Number">
+                     <h:inputText value="#{flight.reverseFlight.flightNo}" />
+                </p:column>
+                
                 <p:column headerText="#{scheduleManagedBean.routeSelected.reverseRoute.routeName} Departure Time">
                     <p:calendar id="departureTime2" value="#{flight.reverseFlight.departureDate}" pattern="HH:mm" timeOnly="true" >
                         <p:ajax event="dateSelect" listener="#{scheduleManagedBean.dateSelectListener}" update="arrivalTime2" />
