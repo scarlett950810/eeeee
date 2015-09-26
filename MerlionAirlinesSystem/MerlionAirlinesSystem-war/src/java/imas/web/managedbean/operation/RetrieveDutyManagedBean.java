@@ -54,7 +54,7 @@ public class RetrieveDutyManagedBean implements Serializable {
 //        map.put("WT", "WT");
 //        map.put("DY", "DY");
 //        map.put("LH", "LH");
-        
+
         map = retrieveDutySessionBean.getCabinCrew();
         data.put("Cabin Crew", map);
 
@@ -78,7 +78,7 @@ public class RetrieveDutyManagedBean implements Serializable {
                 lazyEventModel = retrieveDutySessionBean.createCabinEvent(name);
             }
             RequestContext requestContext = RequestContext.getCurrentInstance();
-            requestContext.execute("PF('scheduleDialog').show()");
+            requestContext.execute("PF('dlg').show()");
         } else {
 
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid", "Staff is not selected.");

@@ -16,6 +16,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-h1"><a href="#">Aircraft Management </a></li> 
                 <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
+                <li><a href="viewFlightSchedule.xhtml">Flight Maintenance </a></li> 
                 <li class="sidebar-h1"><a href="#">Staff Management</a></li> 
                 <li><a href="retrieveDuty.xhtml"> Retrieve Duty </a></li> 
                 <li class="sidebar-h1"><a href="#">Flight Management </a></li>                     
@@ -43,24 +44,14 @@
                         <f:selectItems value="#{retrieveDutyManagedBean.names}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
-                <p:separator />
-                <p:commandButton value="Submit" update="msgs :dialog" actionListener="#{retrieveDutyManagedBean.submit}" icon="ui-icon-check" />
-
+                <p:commandButton value="Submit" update="msgs" actionListener="#{retrieveDutyManagedBean.submit()}" icon="ui-icon-check" />
             </p:panel>
+            <p:dialog id="dialog" header="Staff Schedule" widgetVar="dlg" dynamic="true">           
+                <p:schedule value="#{retrieveDutyManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />
+            </p:dialog>
+          
         </h:form>
 
-        <p:dialog id="dialog" header="Schedule" showEffect="fade" widgetVar="scheduleDialog"  resizable="false">
-            <h:form id="scheduleForm">
-                <p:growl id="messages" showDetail="true" />
-
-                <h:panelGrid columnClasses="value">
-                    <h3>Schedule</h3>
-                    <p:schedule value="#{retrieveDutyManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />
-                </h:panelGrid>
-            </h:form>
-        </p:dialog>
-
-
-
     </ui:define>
+
 </ui:composition>

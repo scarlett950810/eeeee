@@ -5,10 +5,8 @@
  */
 package imas.web.managedbean.operation;
 
-import imas.operation.sessionbean.ViewMaintenanceScheduleSessionBeanLocal;
+import imas.operation.sessionbean.ViewFlightScheduleSessionBeanLocal;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -28,11 +26,8 @@ import org.primefaces.model.ScheduleModel;
  */
 @ManagedBean
 @ViewScoped
-public class ViewMaintenanceScheduleManagedBean implements Serializable {
+public class ViewFlightScheduleManagedBean implements Serializable {
 
-    /**
-     * Creates a new instance of ViewMaintenanceScheduleManagedBean
-     */
     private ScheduleModel lazyEventModel;
     private ScheduleEvent event = new DefaultScheduleEvent();
     private Map<String, String> aircrafts;
@@ -40,16 +35,11 @@ public class ViewMaintenanceScheduleManagedBean implements Serializable {
     private Map<String, String> data = new HashMap<String, String>();
 
     @EJB
-    private ViewMaintenanceScheduleSessionBeanLocal viewMaintenanceScheduleSessionBean;
+    private ViewFlightScheduleSessionBeanLocal viewFlightScheduleSessionBean;
 
     @PostConstruct
     public void init() {
-        if (viewMaintenanceScheduleSessionBean.getAircrafts() == null || viewMaintenanceScheduleSessionBean.getAircrafts().isEmpty()) {
-            viewMaintenanceScheduleSessionBean.create();
-            System.out.print("we");
-        }
-        aircrafts = viewMaintenanceScheduleSessionBean.getAircrafts();
-
+        aircrafts = viewFlightScheduleSessionBean.getAircrafts();
     }
 
     public void submit() {
@@ -58,35 +48,19 @@ public class ViewMaintenanceScheduleManagedBean implements Serializable {
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid", "aircraft is not selected.");
 
         } else {
-            lazyEventModel = viewMaintenanceScheduleSessionBean.createEvent(aircraft);
-            if (lazyEventModel != null&&lazyEventModel.getEventCount()!=0) {
+            lazyEventModel = viewFlightScheduleSessionBean.createEvent(aircraft);
+            if (lazyEventModel != null && lazyEventModel.getEventCount() != 0) {
                 msg = new FacesMessage("Selected", "Tail No:" + aircraft);
                 RequestContext requestContext = RequestContext.getCurrentInstance();
                 requestContext.execute("PF('dlg').show()");
             } else {
-                msg = new FacesMessage("Warning", "Tail No:" + aircraft + "  has no maintenance schedule");
+                msg = new FacesMessage("Warning", "Tail No:" + aircraft + "  has no flight schedule");
             }
 
         }
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
-    }
-
-    public Map<String, String> getAircrafts() {
-        return aircrafts;
-    }
-
-    public void setAircrafts(Map<String, String> aircrafts) {
-        this.aircrafts = aircrafts;
-    }
-
-    public String getAircraft() {
-        return aircraft;
-    }
-
-    public void setAircraft(String aircraft) {
-        this.aircraft = aircraft;
     }
 
     public ScheduleModel getLazyEventModel() {
@@ -103,6 +77,22 @@ public class ViewMaintenanceScheduleManagedBean implements Serializable {
 
     public void setEvent(ScheduleEvent event) {
         this.event = event;
+    }
+
+    public Map<String, String> getAircrafts() {
+        return aircrafts;
+    }
+
+    public void setAircrafts(Map<String, String> aircrafts) {
+        this.aircrafts = aircrafts;
+    }
+
+    public String getAircraft() {
+        return aircraft;
+    }
+
+    public void setAircraft(String aircraft) {
+        this.aircraft = aircraft;
     }
 
     public Map<String, String> getData() {

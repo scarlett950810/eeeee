@@ -50,7 +50,7 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
         List<PilotEntity> list = query.getResultList();
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                name = list.get(i).getDisplayName() + "( ID:" + list.get(i).getStaffNo() + " )";
+                name = list.get(i).getDisplayName() + "-" + list.get(i).getStaffNo();
                 map.put(name, name);
             }
         }
@@ -75,9 +75,9 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
     @Override
     public ScheduleModel createPilotEvent(String name) {
         String[] parts = name.split("-");
-        Long staffNo = Long.parseLong(parts[1]);
+        String staffNo = parts[1];
         Query query;
-        query = em.createQuery("SELECT f FROM PilotEntity f WHERE f.staffNo:staffNo");
+        query = em.createQuery("SELECT f FROM PilotEntity f WHERE f.staffNo =:staffNo");
         query.setParameter("staffNo", staffNo);
         List<PilotEntity> list = query.getResultList();
         lazyEventModel = new DefaultScheduleModel();
@@ -105,9 +105,9 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
     @Override
     public ScheduleModel createCabinEvent(String name) {
         String[] parts = name.split("-");
-        Long staffNo = Long.parseLong(parts[1]);
+        String staffNo = parts[1];
         Query query;
-        query = em.createQuery("SELECT f FROM CabinCrewEntity f WHERE f.staffNo:staffNo");
+        query = em.createQuery("SELECT f FROM CabinCrewEntity f WHERE f.staffNo =:staffNo");
         query.setParameter("staffNo", staffNo);
         List<CabinCrewEntity> list = query.getResultList();
         lazyEventModel = new DefaultScheduleModel();

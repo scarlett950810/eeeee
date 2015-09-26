@@ -66,10 +66,10 @@ public class ViewMaintenanceScheduleSessionBean implements ViewMaintenanceSchedu
 
         AircraftGroupEntity ag1 = new AircraftGroupEntity("A980");
         em.persist(ag1);
+         aircraftSessionBean.addAircraft("001", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a2, a1, 4, 5, 4, 6, 6, 10, 7, 50, (double) 30);
+        aircraftSessionBean.addAircraft("002", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a3, a2, 4, 5, 4, 6, 6, 30, 7, 30, (double) 35);
+        aircraftSessionBean.addAircraft("003", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a3, a2, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
 
-        aircraftSessionBean.addAircraft("AAA", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a2, a1, ag1, 4, 5, 4, 6, 6, 10, 7, 50);
-        aircraftSessionBean.addAircraft("AAB", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a3, a2, ag1, 4, 5, 4, 6, 6, 30, 7, 30);
-        aircraftSessionBean.addAircraft("AAC", at1, (double) 40000000, (double) 1000000, (double) 39000000, (double) 30, (double) 0, "All is well", a3, a2, ag1, 0, 0, 4, 6, 6, 30, 7, 50);
         Query queryForAircraft = em.createQuery("select at from AircraftEntity at");
         AircraftEntity ac1 = (AircraftEntity) queryForAircraft.getResultList().get(0);
         AircraftEntity ac2 = (AircraftEntity) queryForAircraft.getResultList().get(1);
@@ -90,21 +90,35 @@ public class ViewMaintenanceScheduleSessionBean implements ViewMaintenanceSchedu
     @Override
     public Map<String, String> getAircrafts() {
         Query query;
-        query = em.createQuery("SELECT f FROM MaintenanceScheduleEntity f ");
-        List<MaintenanceScheduleEntity> list = query.getResultList();
+        query = em.createQuery("SELECT f FROM AircraftEntity f ");
+        List<AircraftEntity> list = query.getResultList();
         aircrafts = new HashMap<String, String>();
         if (!list.isEmpty()) {
             List<Long> aircraft = new ArrayList<Long>();
             Long tailId;
             for (int i = 0; i < list.size(); i++) {
-                tailId = list.get(i).getAircraft().getId();
+                tailId = list.get(i).getId();
                 if (!aircraft.contains(tailId)) {
                     aircraft.add(tailId);
-                    aircrafts.put(list.get(i).getAircraft().getTailId(), list.get(i).getAircraft().getTailId());
+                     aircrafts.put(list.get(i).getTailId(), list.get(i).getTailId());
                 }
             }
-
         }
+//        query = em.createQuery("SELECT f FROM MaintenanceScheduleEntity f ");
+//        List<MaintenanceScheduleEntity> list = query.getResultList();
+//        aircrafts = new HashMap<String, String>();
+//        if (!list.isEmpty()) {
+//            List<Long> aircraft = new ArrayList<Long>();
+//            Long tailId;
+//            for (int i = 0; i < list.size(); i++) {
+//                tailId = list.get(i).getAircraft().getId();
+//                if (!aircraft.contains(tailId)) {
+//                    aircraft.add(tailId);
+//                    aircrafts.put(list.get(i).getAircraft().getTailId(), list.get(i).getAircraft().getTailId());
+//                }
+//            }
+//
+//        }
         return aircrafts;
     }
 
@@ -136,20 +150,6 @@ public class ViewMaintenanceScheduleSessionBean implements ViewMaintenanceSchedu
         }
     }
 
-//            lazyEventModel = new LazyScheduleModel() {
-    //                @Override
-    //                public void loadEvents(Date start, Date end) {
-    //                    System.out.print("22222");
-    //                    for (int i = 0; i < list.size(); i++) {
-    //                        System.out.print("33333");
-    //                        maintenanceName = list.get(i).getMaintenanceType();
-    //                        startDate = list.get(i).getStartingTime();
-    //                        endDate = list.get(i).getEndingTime();
-    //                        addEvent(new DefaultScheduleEvent(maintenanceName, startDate, endDate));
-    //                    }
-    //                }
-    //
-    //            };
     public List<AircraftEntity> getAircraftList() {
         return aircraftList;
     }
@@ -188,6 +188,14 @@ public class ViewMaintenanceScheduleSessionBean implements ViewMaintenanceSchedu
 
     public void setEvent(ScheduleEvent event) {
         this.event = event;
+    }
+
+    public ScheduleModel getLazyEventModel() {
+        return lazyEventModel;
+    }
+
+    public void setLazyEventModel(ScheduleModel lazyEventModel) {
+        this.lazyEventModel = lazyEventModel;
     }
 
 }
