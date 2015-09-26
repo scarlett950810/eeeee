@@ -30,7 +30,7 @@ public class CrewCheckInManagedBean implements Serializable{
     private CrewCheckInSessionBeanLocal crewCheckInSessionBean;
 
     
-    private String base = "SIN";
+    private String base = "SGC";
     private List<FlightEntity> flights;
     private FlightEntity flight;
     private List<PilotEntity> pilotList;
@@ -47,14 +47,14 @@ public class CrewCheckInManagedBean implements Serializable{
     
     @PostConstruct
     public void init(){
-        System.out.print("123");
+        
         fetchFlights();
         System.out.print(flights);
     }
     
     public void fetchFlights(){
         flights = crewCheckInSessionBean.fetchFlights(base);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightList", flights);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", flights);
     }
 
     public String getBase() {

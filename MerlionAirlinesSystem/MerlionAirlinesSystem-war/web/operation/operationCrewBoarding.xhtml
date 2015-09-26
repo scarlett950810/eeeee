@@ -34,12 +34,12 @@
             <p:focus context="selectFlight"/>
             <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                 <p:outputLabel for="selectFlight" value="Flight No: " />
-                <p:selectOneMenu id="selectFlight" value="#{crewBoardingManagedBean.flight}" panelStyle="width:180px" required="true" requiredMessage="Please input flight No."
+                <p:selectOneMenu id="selectFlight" value="#{crewBoardingManagedBean.flight}" panelStyle="width:500px" required="true" requiredMessage="Please input flight No."
                                  effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
                                  converter="flightConverter">
                     <p:ajax update="selectFlight:crew" listener="#{crewBoardingManagedBean.onFlightChange()}" />
                     <f:selectItem itemLabel="Please select" itemDisabled="true"/>
-                    <f:selectItems value="#{crewBoardingManagedBean.flights}" var="flight" itemLabel="#{flight.flightNo} #{flight.route.originAirport.cityName}-#{flight.route.destinationAirport.cityName}" itemValue="#{flight}" />
+                    <f:selectItems value="#{crewBoardingManagedBean.flights}" var="flight" itemLabel="#{flight.flightNo} #{flight.route.originAirport.cityName}-#{flight.route.destinationAirport.cityName},#{flight.departureDate.toLocaleString()}" itemValue="#{flight}" />
                 </p:selectOneMenu> 
             </h:panelGrid>
 

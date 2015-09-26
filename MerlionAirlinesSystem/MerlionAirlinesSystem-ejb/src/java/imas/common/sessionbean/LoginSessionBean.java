@@ -152,7 +152,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     @Override
     public void insertData() {
-         System.err.println("dd");
+        System.err.println("dd");
        
         AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double)10000, 50, (double) 100000, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 1000);
         AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double)5000, 80, (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 800);
@@ -390,7 +390,11 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     
     @Override
     public StaffEntity fetchStaff(String staffNo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        System.out.print(staffs);
+        return staffs.get(0);
     }
 
 }

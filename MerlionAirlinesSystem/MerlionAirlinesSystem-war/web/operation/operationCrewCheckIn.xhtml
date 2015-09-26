@@ -42,7 +42,7 @@
                                  converter="flightConverter">
                     <p:ajax update="selectFlight:crew" listener="#{crewCheckInManagedBean.onFlightChange()}" />
                     <f:selectItem itemLabel="Please select" itemDisabled="true"/>
-                    <f:selectItems value="#{crewCheckInManagedBean.flights}" var="flight" itemLabel="#{flight.flightNo} #{flight.route.originAirport.cityName}-#{flight.route.destinationAirport.cityName}" itemValue="#{flight}" />
+                    <f:selectItems value="#{crewCheckInManagedBean.flights}" var="flight" itemLabel="#{flight.flightNo} #{flight.route.originAirport.cityName}-#{flight.route.destinationAirport.cityName},#{flight.departureDate.toLocaleString()}" itemValue="#{flight}" />
                 </p:selectOneMenu> 
             </h:panelGrid>
 

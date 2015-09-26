@@ -17,8 +17,8 @@
                     Merlion Airline Flight List
                 </f:facet>
 
-                <p:column headerText="Departure Time" filterBy="#{flight.departureDate}" filterMatchMode="contains">
-                    <h:outputText value="#{flight.departureDate}" />
+                <p:column headerText="Departure Time" filterBy="#{flight.departureDate.toLocaleString}" filterMatchMode="contains">
+                    <h:outputText value="#{flight.departureDate.toLocaleString}" />
                 </p:column>
                 <p:column headerText="Arrival Time" filterBy="#{flight.arrivalDate}" filterMatchMode="contains">
                     <h:outputText value="#{flight.arrivalDate}" />
