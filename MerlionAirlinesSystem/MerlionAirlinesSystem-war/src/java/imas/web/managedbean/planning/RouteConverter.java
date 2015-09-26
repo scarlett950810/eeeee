@@ -25,8 +25,9 @@ public class RouteConverter implements Converter {
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
-                
+                System.out.println("dadadadtry");
                 List<RouteEntity> routeEntities = (List<RouteEntity>)fc.getExternalContext().getSessionMap().get("routesRangeList");
+                System.out.println("dadadaaadaf"+routeEntities);
                 
                 Long routeEntityId = Long.valueOf(Long.parseLong(value));
                 
@@ -49,7 +50,11 @@ public class RouteConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
+        System.out.println("dadadadagetasstring");
+        System.out.println("object"+object);
         if (object != null) {    
+            System.out.println("object!=null");
+            System.out.println(String.valueOf(((RouteEntity) object).getId()));
             return String.valueOf(((RouteEntity) object).getId());
         } else {
             return null;

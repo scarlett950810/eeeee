@@ -5,18 +5,23 @@
  */
 package imas.web.managedbean.common;
 
+import imas.common.entity.InternalAnnouncementEntity;
 import imas.common.entity.InternalMessageEntity;
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.InternalMessageSessionBeanLocal;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
-//import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -48,15 +53,11 @@ public class InternalMessageManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-        System.out.println("staffNo" + staffNo);
         loggedInStaff = internalMessageSessionBean.getStaffEntityByStaffNo(staffNo);
-
-        
+       
         staffList = internalMessageSessionBean.getAllStaff();        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", staffList);
-        
-//        System.out.println(internalMessageSessionBean.getAllStaff());
-//        System.out.println(loggedInStaff);
+        allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
     }
 
     @PostRemove
@@ -97,7 +98,7 @@ public class InternalMessageManagedBean implements Serializable {
     }
 
     public List<InternalMessageEntity> getAllMessages() {
-        return internalMessageSessionBean.getAllMessages(loggedInStaff);
+        return this.allMessages;
     }
 
     public void setAllMessages(List<InternalMessageEntity> allMessages) {
@@ -107,7 +108,21 @@ public class InternalMessageManagedBean implements Serializable {
     
     public void send() {
         internalMessageSessionBean.sendMessage(loggedInStaff, receiver, content);
+        allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
+        
     }
     
-
+    public void toggleRead(InternalMessageEntity internalMessageEntity) {
+        internalMessageSessionBean.toggleRead(internalMessageEntity);
+    }
+    public void refreshMessages(ActionEvent event) {
+//        System.out.println("message refreshed!");
+        allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
+        RequestContext.getCurrentInstance().execute("PF('message').show();");
+    }
+    public void showMessage(String sender, String content) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, sender, content);         
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
+    
 }

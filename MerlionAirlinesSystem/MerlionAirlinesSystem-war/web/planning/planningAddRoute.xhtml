@@ -37,15 +37,19 @@
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="hub" value="Hub: " />
                     <p:selectOneMenu id="hub" value="#{routeManagedBean.hub}" style="width:150px">
-                        <f:selectItem itemLabel="Select Hubs" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Select Hub" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{routeManagedBean.hubs}" />
                     </p:selectOneMenu>
 
-                    <p:outputLabel for="spoke" value="Spoke: " />
+                    <p:outputLabel for="spoke" value="City: " />
                     <p:selectOneMenu id="spoke" value="#{routeManagedBean.spoke}" style="width:150px">
-                        <f:selectItem itemLabel="Select Spoke" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{routeManagedBean.spokes}" />
                     </p:selectOneMenu>
+                    
+                    <p:outputLabel for="distance" value="Distance: " />
+                    <p:inputText id="distance" value="#{routeManagedBean.distance}" />
+               
                 </h:panelGrid>
 
                 <p:separator />

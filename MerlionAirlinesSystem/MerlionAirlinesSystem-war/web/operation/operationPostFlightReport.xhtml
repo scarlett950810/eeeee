@@ -16,39 +16,143 @@
         <ui:define name="centerPanel">
             <h:form id="form">
                 <p:growl id="msgs" showDetail="true"/>
-                <p:dataTable id="editAircraft" var="" value=""  style="width: 550px">
-                    <f:facet name="header">
+                <p:dataTable id="editAircraft" var="flight" value="#{postFlightReportManagedBean.list}" style="width: 800px" >
+                    <f:facet name="header" >
                         Operation Post Flight Report 
                     </f:facet>
-
-                    <p:column headerText="Flight No" style="width: 50px" >
-                        <h:outputText value="" />
+                    <p:column headerText="Flight No" style="width: 100px">
+                        <h:outputText value="#{flight.flightNo}" />
+                    </p:column>
+                    <p:column headerText="Departure Date" style="width: 100px">
+                        <h:outputText value="#{flight.departureDate}" />
+                    </p:column>
+                    <p:column headerText="Arrival Date" style="width: 100px">
+                        <h:outputText value="#{flight.arrivalDate}" />
+                    </p:column>
+                    <p:column headerText="Origin" style="width: 100px" >
+                        <h:outputText value="#{flight.route.originAirport.airportName}" />
+                    </p:column>
+                    <p:column headerText="Destination" style="width: 100px" >
+                        <h:outputText value="#{flight.route.destinationAirport.airportName}" />
+                    </p:column>
+                    <p:column style="width:50px;text-align: center" headerText="Basic Info">
+                        <p:commandLink update=":viewFlightForm:flightDetail" actionListener="#{postFlightReportManagedBean.updateFlightReportActionListener}" title="View Details" styleClass="ui-icon ui-icon-search" >
+                            <f:attribute value="#{flight}" name="flight" />
+                        </p:commandLink>
                     </p:column>
 
-                    <p:column headerText="Year" style="width: 50px" >
-                        <h:outputText value="" />
+                    <p:column style="width:50px;text-align: center" headerText="Special Records">
+                        <p:commandLink update=":updateFlightForm:flightSpecialDetail" actionListener="#{postFlightReportManagedBean.updateFlightSpecialReportActionListener}" title="View or Edit " styleClass="ui-icon ui-icon-search" >
+                            <f:attribute value="#{flight}" name="flight" />
+                        </p:commandLink>
                     </p:column>
-
-                    <p:column headerText="Month" style="width: 50px" >
-                        <h:outputText value="" />
-                    </p:column>
-                    <p:column headerText="Day" style="width: 50px" >
-                        <h:outputText value="" />
-                    </p:column>
-                    <p:column headerText="Departure" style="width: 50px" >
-                        <h:outputText value="" />
-                    </p:column>
-                    <p:column headerText="Arrival" style="width: 50px" >
-                        <h:outputText value="" />
-                    </p:column>
-
-                    <p:column headerText="Report" style="width: 50px" >
-                        <h:outputText value="" />
-                    </p:column>
-
                 </p:dataTable>
             </h:form>
-        </ui:define>
 
+            <p:dialog id="SecDialog" header="Special Info" widgetVar="flightSpecialDialog"  showEffect="fade"  resizable="false">
+                <h:form id="updateFlightForm">
+                    <p:outputPanel id="flightSpecialDetail" >
+                        <p:panelGrid  columns="4"   rendered="#{not empty postFlightReportManagedBean.selectedFlight}">
+
+                            <h:outputLabel for="emergency" value="1. Emergency of ATC violation:" style="font-weight:bold"/>
+                            <h:outputText id="emergencyNew" value="#{postFlightReportManagedBean.selectedFlight.emergencyOfAtcViolation}" />
+                            <h:inputText id="emergency"   value="#{postFlightReportManagedBean.newEmergencyOfAtcViolation}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="emergencyNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateEmergencyOfAtcViolation}"/>
+
+                            <h:outputLabel  for="mechanicalFailures" value="2. Mechanical failures: " style="font-weight:bold"/>
+                            <h:outputText id="mechanicalFailuresNew" value="#{postFlightReportManagedBean.selectedFlight.mechanicalFailures}" /> 
+                            <h:inputText id="mechanicalFailures" value="#{postFlightReportManagedBean.newMechanicalFailures}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="mechanicalFailuresNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateMechanicalFailures}"/>
+
+                            <h:outputLabel  for="fuelDumping" value="3. Fuel dumping: " style="font-weight:bold"/>
+                            <h:outputText id="fuelDumpingNew" value="#{postFlightReportManagedBean.selectedFlight.fuelDumping}" /> 
+                            <h:inputText id="fuelDumping" value="#{postFlightReportManagedBean.newFuelDumping}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="fuelDumpingNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateFuelDumping}"/>
+
+                            <h:outputLabel  for="passengerSpecialStatus" value="4. Illness/injury/death of a passenger: " style="font-weight:bold"/>
+                            <h:outputText id="passengerSpecialStatusNew" value="#{postFlightReportManagedBean.selectedFlight.passengerSpecialStatus}" /> 
+                            <h:inputText id="passengerSpecialStatus" value="#{postFlightReportManagedBean.newPassengerSpecialStatus}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="passengerSpecialStatusNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updatePassengerSpecialStatus}"/>
+                            
+                            <h:outputLabel  for="crewSpecialStatus" value="5. Illness/injury/death of a crew member: " style="font-weight:bold"/>
+                            <h:outputText id="crewSpecialStatusNew" value="#{postFlightReportManagedBean.selectedFlight.crewSpecialStatus}" /> 
+                            <h:inputText id="crewSpecialStatus" value="#{postFlightReportManagedBean.newCrewSpecialStatus}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="crewSpecialStatusNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateCrewSpecialStatus}"/>
+
+                            <h:outputLabel  for="passengerMisconduct" value="6. Passenger misconduct (e.g. smoking): " style="font-weight:bold"/>
+                            <h:outputText id="passengerMisconductNew" value="#{postFlightReportManagedBean.selectedFlight.passengerMisconduct}" /> 
+                            <h:inputText id="passengerMisconduct" value="#{postFlightReportManagedBean.newPassengerMisconduct}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="passengerMisconductNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updatePassengerMisconduct}"/>
+
+                            <h:outputLabel  for="hazmatIssue" value="7. HAZMAT issue: " style="font-weight:bold"/>
+                            <h:outputText id="hazmatIssueNew" value="#{postFlightReportManagedBean.selectedFlight.hazmatIssue}" /> 
+                            <h:inputText id="hazmatIssue" value="#{postFlightReportManagedBean.newHazmatIssue}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="hazmatIssueNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateHazmatIssue}"/>
+
+                            <h:outputLabel  for="diversions" value="8. Diversions: " style="font-weight:bold"/>
+                            <h:outputText id="diversionsNew" value="#{postFlightReportManagedBean.selectedFlight.diversions}" /> 
+                            <h:inputText id="diversions" value="#{postFlightReportManagedBean.newDiversions}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="diversionsNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateDiversions}"/>
+
+                            <h:outputLabel  for="highSpeedAborts" value="9. High-speed aborts:" style="font-weight:bold"/>
+                            <h:outputText id="highSpeedAbortsNew" value="#{postFlightReportManagedBean.selectedFlight.highSpeedAborts}" /> 
+                            <h:inputText id="highSpeedAborts" value="#{postFlightReportManagedBean.newHighSpeedAbort}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="highSpeedAbortsNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateHighSpeedAbort}"/>
+
+                            <h:outputLabel  for="lightningStrikers" value="10. Lightning strikes: " style="font-weight:bold"/>
+                            <h:outputText id="lightningStrikersNew" value="#{postFlightReportManagedBean.selectedFlight.lightningStrikers}" /> 
+                            <h:inputText id="lightningStrikers" value="#{postFlightReportManagedBean.newLightningStrikers}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="lightningStrikersNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateLightningStrikers}"/>
+
+
+                            <h:outputLabel  for="nearAirCollisions" value="11. Near-air collisions:" style="font-weight:bold"/>
+                            <h:outputText id="nearAirCollisionsNew" value="#{postFlightReportManagedBean.selectedFlight.nearAirCollisions}" /> 
+                            <h:inputText id="nearAirCollisions" value="#{postFlightReportManagedBean.newNearAirCollisions}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="nearAirCollisionsNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateNearAirCollisions}"/>
+
+                            <h:outputLabel  for="others" value="12. Others: " style="font-weight:bold"/>
+                            <h:outputText id="othersNew" value="#{postFlightReportManagedBean.selectedFlight.others}" /> 
+                            <h:inputText id="others" value="#{postFlightReportManagedBean.newOthers}" style="width:100px"/>
+                            <p:commandButton value="Submit" update="othersNew" icon="ui-icon-check" actionListener="#{postFlightReportManagedBean.updateOthers}"/>
+
+                        </p:panelGrid>
+                    </p:outputPanel>
+
+
+                </h:form>
+            </p:dialog>
+
+
+            <p:dialog id="Dialog" header="Flight Info" widgetVar="flightDialog"  showEffect="fade"  resizable="false">
+                <h:form id="viewFlightForm">
+                    <p:outputPanel id="flightDetail" >
+                        <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty postFlightReportManagedBean.selectedFlight}" >
+                            <h:outputLabel for="flightId" value="Flight ID: " style="font-weight:bold"/>
+                            <h:outputText id="flightId" value="#{postFlightReportManagedBean.selectedFlight.flightNo}" />
+                            <h:outputLabel for="origin" value="Origin City" style="font-weight:bold"/>
+                            <h:outputText id="origin" value="#{postFlightReportManagedBean.selectedFlight.route.originAirport.cityName}" />
+                            <h:outputLabel for="originAirport" value="Origin Airport" style="font-weight:bold"/>
+                            <h:outputText id="originAirport" value="#{postFlightReportManagedBean.selectedFlight.route.originAirport.airportName}"  />
+                            <h:outputLabel for="destination" value="Destination City" style="font-weight:bold" />
+                            <h:outputText id="destination" value="#{postFlightReportManagedBean.selectedFlight.route.destinationAirport.cityName}" />
+                            <h:outputLabel for="destinationAirport" value="Destination Airport" style="font-weight:bold" />
+                            <h:outputText id="destinationAirport" value="#{postFlightReportManagedBean.selectedFlight.route.destinationAirport.airportName}"  />
+
+                            <h:outputText id="estimatedDepartureTime" value="Estimated Departure Timing" style="font-weight:bold" />
+                            <h:outputLabel for="estimatedDepartureTime" value="#{postFlightReportManagedBean.selectedFlight.departureDate}" />
+                            <h:outputText id="actualDepartureTime" value="Actual departure timing" style="font-weight:bold" />
+                            <h:outputLabel for="actualDepartureTime" value="#{postFlightReportManagedBean.selectedFlight.actualDepartureDate}" />
+                            <h:outputText id="estimatedArrivalTime" value="Estimated arrival timing" style="font-weight:bold" />
+                            <h:outputLabel for="estimatedArrivalTime" value="#{postFlightReportManagedBean.selectedFlight.arrivalDate}" />
+                            <h:outputText id="actualArrivalTime" value="Actual arrival timing" style="font-weight:bold" />
+                            <h:outputLabel for="actualArrivalTime" value="#{postFlightReportManagedBean.selectedFlight.actualArrivalDate}"/>
+
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>
+
+
+        </ui:define>
     </ui:composition>
 </html>

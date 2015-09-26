@@ -20,3 +20,6 @@ hs_err_pid*
 /MerlionAirlinesSystem/MerlionAirlinesSystem-war/dist/
 /MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/setup/
 .DS_Store
+/MerlionAirlinesSystem/MerlionAirlinesSystem-war/nbproject/
+/MerlionAirlinesSystem/nbproject/
+/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/nbproject/

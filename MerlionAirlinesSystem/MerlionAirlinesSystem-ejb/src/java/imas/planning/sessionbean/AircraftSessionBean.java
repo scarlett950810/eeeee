@@ -1,4 +1,4 @@
-/*
+                                                                                                              /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -68,15 +68,11 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
 
     @Override
     public void addAircraft(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue,
-            Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport,
-            AircraftGroupEntity aircraftGroup, int FirstClassColumnNo, int FirstClassRowNo, int BusinessClassColumnNo, int BusinessClassRowNo,
-            int PremiumEconomyClassColumnNo, int PremiumEconomyClassRowNo, int EconomyClassColumnNo, int EconomyClassRowNo) {
+            Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport, int FirstClassColumnNo, int FirstClassRowNo, int BusinessClassColumnNo, int BusinessClassRowNo,
+            int PremiumEconomyClassColumnNo, int PremiumEconomyClassRowNo, int EconomyClassColumnNo, int EconomyClassRowNo, Double turnaroundtime) {
 
-        AircraftEntity newAircraft = new AircraftEntity(tailId, aircraftType, purchasePrice, deprecation, netAssetValue, aircraftLife, operationYear, conditionDescription, airportHub, currentAirport);
+        AircraftEntity newAircraft = new AircraftEntity(tailId, aircraftType, purchasePrice, deprecation, netAssetValue, aircraftLife, operationYear, conditionDescription, airportHub, currentAirport, turnaroundtime);
 
-        if (aircraftGroup != null) {
-            newAircraft.setAircraftGroup(aircraftGroup);
-        }
         em.persist(newAircraft);
         int startRow = 1;
         createSeats(newAircraft, FirstClassColumnNo, startRow, FirstClassRowNo, "First Class");
@@ -121,7 +117,10 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
 
     @Override
     public void deleteAircraft(AircraftEntity aircraft) {
+        System.out.println("debug");
+        System.out.println(aircraft);
         AircraftEntity aircraftToDelete = em.find(AircraftEntity.class, aircraft.getId());
+        System.out.println(aircraftToDelete);
         em.remove(aircraftToDelete);
     }
 
@@ -138,5 +137,6 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
         aircraftEntityToUpdate.setCurrentAirport(aircraftUpdated.getCurrentAirport());
         aircraftEntityToUpdate.setAircraftGroup(aircraftUpdated.getAircraftGroup());
     }
+    
 
 }

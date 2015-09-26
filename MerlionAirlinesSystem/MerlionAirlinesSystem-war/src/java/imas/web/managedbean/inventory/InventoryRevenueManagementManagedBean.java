@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -127,7 +127,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     }
 
     public Integer getSoldSeats(Long bookingClassID) {
-        return inventoryRevenueManagementSessionBean.computeSoldSeats(selectedFlight.getId(), bookingClassID);
+        return inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClassID);
     }
 
     public void returnBack() throws IOException {
@@ -279,7 +279,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         sold.setLabel("Sold");
         unSold.setLabel("Unsold");
         for(int i=0; i< bookingClassList.size(); i++){
-            int temp = inventoryRevenueManagementSessionBean.computeSoldSeats(selectedFlight.getId(), bookingClassList.get(i).getId());
+            int temp = inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClassList.get(i).getId());
             int quota = bookingClassList.get(i).getQuota();
             sold.set(bookingClassList.get(i).getName(), 20);
             unSold.set(bookingClassList.get(i).getName(), quota - temp);

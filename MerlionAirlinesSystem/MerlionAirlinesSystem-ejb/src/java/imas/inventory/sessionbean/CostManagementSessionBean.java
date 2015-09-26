@@ -6,7 +6,6 @@
 package imas.inventory.sessionbean;
 
 import imas.inventory.entity.CostPairEntity;
-import static java.lang.Math.round;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -98,14 +97,14 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         TreeNode L1CL2CL3E = new DefaultTreeNode(new CostPairEntity(list.get(20).getCostType(), list.get(20).getCostFigure()), L1CL2C);
         TreeNode L1CL2CL3F = new DefaultTreeNode(new CostPairEntity(list.get(21).getCostType(), list.get(21).getCostFigure()), L1CL2C);
         TreeNode L1CL2CL3G = new DefaultTreeNode(new CostPairEntity(list.get(22).getCostType(), list.get(22).getCostFigure()), L1CL2C);
-
+//L1CL2CL3G.isExpanded()
         return root;
     }
 
     @Override
     public void writeList(List<CostPairEntity> list) {
         for (int i = 0; i < list.size(); i++) {
-            em.persist(list.get(i));
+            em.merge(list.get(i));
         }
     }
 
@@ -134,11 +133,6 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
             tempCost.setCostFigure(costFigure);
             costList=correctList(getList());
             writeList(costList);
-            
-            System.out.println(costName);
-            System.out.println(costFigure);
-           
-            
             
         }
     }
@@ -171,16 +165,12 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         return list;
     }
 
-}
+    @Override
+    public Double getCostPerSeatPerMile() {
+//        System.out.println("costManagementSessionBean.getCostPerSeatPerMile");
+//        System.out.println(".getCostFigure() = " + getList().get(0).getCostFigure());
+        return getList().get(0).getCostFigure();
+    }
 
-//    @Override
-//    public CostEntity getFisrtCostEntity() {
-//        Query query = em.createQuery("SELECT a FROM CostEntity a");
-//        List<CostEntity> costs = (List<CostEntity>) query.getResultList();
-//        if (!costs.isEmpty()) {
-//            return costs.get(0);
-//        } else {
-//            return null;
-//        }
-//    }
+}
 

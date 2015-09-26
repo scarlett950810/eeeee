@@ -58,16 +58,35 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
         
     }
 
+//    @Override
+//    public Boolean deleteAirport(String airportCode) {
+//        
+//        Query query = em.createQuery("DELETE FROM AirportEntity a WHERE a.airportCode = :airportCode");
+//        query.setParameter("airportCode", airportCode);
+//        query.executeUpdate();
+//        
+//        return true;
+//    }
     @Override
     public Boolean deleteAirport(String airportCode) {
-        
-        Query query = em.createQuery("DELETE FROM AirportEntity a WHERE a.airportCode = :airportCode");
+        System.err.println("enter sessionbean delete");
+        Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :airportCode");
         query.setParameter("airportCode", airportCode);
-        query.executeUpdate();
+        AirportEntity a = (AirportEntity)query.getSingleResult();
         
-        return true;
+        if(checkRelatedRoute(a) && checkRelatedAircraft(a)){ //加一个查associated aircrafts
+            System.err.println("enter checkrelated true");
+            em.remove(a);
+            return true;
+        }
+        else{
+            System.err.println("enter checkrelated flase");
+            return false;
+        }
+      
     }
-
+    
+    
     @Override
     public List<AirportEntity> fetchAirport() {
         Query query = em.createQuery("SELECT a FROM AirportEntity a ORDER BY a.nationName ASC, a.cityName ASC");
@@ -113,6 +132,28 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
         }else{
             return null;
         }
+    }
+
+    @Override
+    public Boolean checkRelatedRoute(AirportEntity a) {
+        Query q = em.createQuery("SELECT r FROM RouteEntity r WHERE r.destinationAirport = :a1 OR r.originAirport = :a2");
+        q.setParameter("a1", a);
+        q.setParameter("a2", a);
+        if(q.getResultList().isEmpty())
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public Boolean checkRelatedAircraft(AirportEntity a) {
+        Query q = em.createQuery("SELECT r FROM AircraftEntity r WHERE r.currentAirport = :a1 OR r.airportHub = :a2");
+        q.setParameter("a1", a);
+        q.setParameter("a2", a);
+        if(q.getResultList().isEmpty())
+            return true;
+        else
+            return false;
     }
     
     

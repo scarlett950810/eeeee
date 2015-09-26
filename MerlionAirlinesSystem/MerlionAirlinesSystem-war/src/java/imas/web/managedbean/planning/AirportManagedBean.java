@@ -55,6 +55,7 @@ public class AirportManagedBean implements Serializable{
     
     public String getNationName() {
         return nationName;
+        
     }
 
     public void setNationName(String nationName) {    
@@ -129,12 +130,35 @@ public class AirportManagedBean implements Serializable{
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningAddAirport.xhtml");
     }
-    
-    public void deleteAirport(ActionEvent event) throws IOException{
-        airportSessionBean.deleteAirport(airport.getAirportCode());
+    public void goDeleteAirport() throws IOException{
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        ec.redirect("planningAirport.xhtml");
+        ec.redirect("planningDeleteAirport.xhtml");
+    }
+    public String getHubOrSpoke(AirportEntity a){
+        System.err.println("lallalala");
+        if(a.getHubOrSpoke()){
+        
+        return "hub";}
+        else
+            return "spoke";
+    }
+    
+    public void deleteAirport() throws IOException{
+        FacesMessage msg;
+        System.err.println("enter deleteAirport()");
+        if(airportSessionBean.deleteAirport(airport.getAirportCode())){            
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            ec.redirect("planningAirport.xhtml");            
+        }else {
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed","Please delete associated routes or aircrafts first"); 
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        
+        
+        
+
     }
     
     public void fetchAirports(){
@@ -164,5 +188,6 @@ public class AirportManagedBean implements Serializable{
         FacesMessage msg = new FacesMessage("Edit Cancelled", ((AirportEntity) event.getObject()).getAirportCode());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-     
+    
+    
 }

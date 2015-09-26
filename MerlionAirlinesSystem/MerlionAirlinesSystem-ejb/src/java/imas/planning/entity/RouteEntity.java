@@ -41,6 +41,7 @@ public class RouteEntity  implements Serializable {
     private List<FlightEntity> flights;
     @OneToOne
     private RouteEntity reverseRoute;
+    private Double popularity;
 
     public RouteEntity getReverseRoute() {
         return reverseRoute;
@@ -53,11 +54,14 @@ public class RouteEntity  implements Serializable {
     public RouteEntity() {
     }
     public RouteEntity(AirportEntity originAirport, AirportEntity destinationAirport) {
+        this.popularity = 0.5;
         this.originAirport = originAirport;
         this.destinationAirport = destinationAirport;
     }
 
-    public RouteEntity(AirportEntity originAirport, AirportEntity destinationAirport, Double revenue, Double cost, Double distance, Double flightHours) {
+    public RouteEntity(AirportEntity originAirport, AirportEntity destinationAirport,
+            Double revenue, Double cost, Double distance, Double flightHours) {        
+        this.popularity = 0.5;
         this.originAirport = originAirport;
         this.destinationAirport = destinationAirport;
         this.revenue = revenue;
@@ -123,7 +127,7 @@ public class RouteEntity  implements Serializable {
     }
     
     public AirportEntity getOriginAirport() {
-        System.out.println("Lalala");
+    //    System.out.println("Lalala");
 
         return originAirport;
     }
@@ -134,7 +138,7 @@ public class RouteEntity  implements Serializable {
     }
 
     public AirportEntity getDestinationAirport() {
-        System.out.println("Lalala1");
+      //  System.out.println("Lalala1");
 
         return destinationAirport;
     }
@@ -158,6 +162,7 @@ public class RouteEntity  implements Serializable {
     public void setCost(Double cost) {
         this.cost = cost;
     }
+    
     public List<FlightEntity> getFlights() {
         return flights;
     }
@@ -165,6 +170,7 @@ public class RouteEntity  implements Serializable {
     public void setFlights(List<FlightEntity> flights) {
         this.flights = flights;
     }
+    
     @Override
      public int hashCode() {
         int hash = 0;
@@ -178,6 +184,15 @@ public class RouteEntity  implements Serializable {
     public void setRouteGroup(RouteGroupEntity routeGroup) {
         this.routeGroup = routeGroup;
     }
+
+    public Double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Double popularity) {
+        this.popularity = popularity;
+    }
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

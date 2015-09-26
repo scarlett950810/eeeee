@@ -5,8 +5,9 @@
  */
 package imas.web.managedbean.inventory;
 
-import imas.inventory.entity.BookingClassEntity;
+import imas.inventory.sessionbean.CostManagementSessionBeanLocal;
 import imas.inventory.sessionbean.SeatsManagementSessionBeanLocal;
+import imas.inventory.sessionbean.YieldManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
 import java.util.List;
@@ -24,19 +25,18 @@ import javax.persistence.PostRemove;
 @Named(value = "seatsManagementManagedBean")
 @ViewScoped
 public class SeatsManagementManagedBean implements Serializable {
+    
+    @EJB
+    private YieldManagementSessionBeanLocal yieldManagementSessionBean;
+    
     @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
     
-//    private FlightEntity flight;
-    
-    private List<FlightEntity> pendingFlights;
-    
-//    private int economyClassComputedOverbookingLevel;
-    
-//    private int economyClassOverbookingLevel;
-    
-//    private int economyClassCapacity;
+    @EJB
+    private CostManagementSessionBeanLocal costSessionBean;
 
+    private List<FlightEntity> pendingFlights;
+ 
     /**
      * Creates a new instance of SeatsManagementManagedBean
      */
@@ -63,14 +63,6 @@ public class SeatsManagementManagedBean implements Serializable {
         this.seatsManagementSessionBean = seatsManagementSessionBean;
     }
 
-//    public FlightEntity getFlight() {
-//        return flight;
-//    }
-//
-//    public void setFlight(FlightEntity flight) {
-//        this.flight = flight;
-//    }
-
     public List<FlightEntity> getPendingFlights() {
         return pendingFlights;
     }
@@ -79,53 +71,43 @@ public class SeatsManagementManagedBean implements Serializable {
         this.pendingFlights = pendingFlights;
     }
 
-//    public int getEconomyClassComputedOverbookingLevel() {
-//        return economyClassComputedOverbookingLevel;
-//    }
-//
-//    public void setEconomyClassComputedOverbookingLevel(int economyClassComputedOverbookingLevel) {
-//        this.economyClassComputedOverbookingLevel = economyClassComputedOverbookingLevel;
-//    }
-//
-//    public int getEconomyClassOverbookingLevel() {
-//        return economyClassOverbookingLevel;
-//    }
-//
-//    public void setEconomyClassOverbookingLevel(int economyClassOverbookingLevel) {
-//        this.economyClassOverbookingLevel = economyClassOverbookingLevel;
-//    }
-//
-//    public int getEconomyClassCapacity() {
-//        return economyClassCapacity;
-//    }
-
-//    public void setEconomyClassCapacity(int economyClassCapacity) {
-//        this.economyClassCapacity = economyClassCapacity;
-//    }
-       
-//    public void onFlightChange() {
-//        System.out.println("onFlightChange");
-//        System.out.println(this.flight);
-//        if (this.flight != null) {
-//            System.out.println("getEconomyClassCapacity");
-//            System.out.println(seatsManagementSessionBean.getEconomyClassCapacity(this.flight));
-//            economyClassCapacity = seatsManagementSessionBean.getEconomyClassCapacity(this.flight);
-//        }
-//    }
-    public void automaticallySetPrice(FlightEntity flight) {
-        int firstClassCapacity = seatsManagementSessionBean.getFirstClassCapacity(flight);
-        int businessClassCapacity = seatsManagementSessionBean.getBusinessClassCapacity(flight);
-        int premiumeEonomyClassCapacity = seatsManagementSessionBean.getPremiumEconomyClassCapacity(flight);
-        int economyClassCapacity = seatsManagementSessionBean.getEconomyClassCapacity(flight);
-        double latestShowRate = seatsManagementSessionBean.computeHistoricalShowRate();
-        int economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
+    public void automaticallyCreateBookingClassAndRules(FlightEntity flight) {
+        automaticallyCreateBookingClass(flight);
+        yieldManagementSessionBean.autoCreateRulesForFlight(flight);
+    }
+    
+    public void automaticallyCreateBookingClass(FlightEntity flight) {
+        Integer firstClassCapacity = seatsManagementSessionBean.getFirstClassCapacity(flight);
+        Integer businessClassCapacity = seatsManagementSessionBean.getBusinessClassCapacity(flight);
+        Integer premiumeEonomyClassCapacity = seatsManagementSessionBean.getPremiumEconomyClassCapacity(flight);
+        Integer economyClassCapacity = seatsManagementSessionBean.getEconomyClassCapacity(flight);
+        Double latestShowRate = seatsManagementSessionBean.computeHistoricalShowRate();
+        Integer economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
+        
+        System.out.println("capacity:");
+        System.out.println(firstClassCapacity);
+        System.out.println(businessClassCapacity);
         
         // to change to calling session bean.
-        double costPerSeatPerMile = 50;
+        Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile();
+        Double distance = flight.getRoute().getDistance();
+        Double baseFare = costPerSeatPerMile * distance;
+//        System.out.println("baseFare = " + baseFare);
+        seatsManagementSessionBean.generateFirstClassBookingClassEntity(flight, 15 * baseFare, firstClassCapacity);
+        seatsManagementSessionBean.generateBusinessClassBookingClassEntity(flight, 6 * baseFare, businessClassCapacity);
+        seatsManagementSessionBean.generatePremiumEconomyClassBookingClassEntity(flight, 4 * baseFare, premiumeEonomyClassCapacity);        
         
+        // TODO: optimization of yield management.
+        seatsManagementSessionBean.generateEconomyClass1BookingClassEntity(flight, 3 * baseFare, 0);
+        seatsManagementSessionBean.generateEconomyClass2BookingClassEntity(flight, 2.5 * baseFare, (int) (0.3 * economyClassComputedOverbookingLevel));
+        seatsManagementSessionBean.generateEconomyClass3BookingClassEntity(flight, 2 * baseFare, (int) (0.4 * economyClassComputedOverbookingLevel));
+        seatsManagementSessionBean.generateEconomyClassAgencyBookingClassEntity(flight, 1.5 * baseFare, (int) (0.1 * economyClassComputedOverbookingLevel));
+        seatsManagementSessionBean.generateEconomyClass4BookingClassEntity(flight, 1.1 * baseFare, (int) (0.2 * economyClassComputedOverbookingLevel));
+        seatsManagementSessionBean.generateEconomyClass5BookingClassEntity(flight, 0.8 * baseFare, 0);
+        
+        pendingFlights.remove(flight);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("pendingFlights", this.pendingFlights);
 
-        
-        
     }
 
 }
