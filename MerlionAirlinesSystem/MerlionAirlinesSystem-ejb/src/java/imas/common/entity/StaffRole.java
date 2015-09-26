@@ -30,8 +30,6 @@ public class StaffRole implements Serializable {
     private String division;
     
     private String location;
-    
-    private String base;
 
     private ArrayList<String> accessRight;
 
@@ -125,14 +123,6 @@ public class StaffRole implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getBase() {
-        return base;
-    }
-
-    public void setBase(String base) {
-        this.base = base;
     }
 
     

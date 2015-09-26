@@ -30,7 +30,7 @@
     display: none !important;
 }
 
-#layoutUnit_left, #layoutUnit_center {
+#layoutUnit_left, #layoutUnit_center{
     position: absolute;
     top: 70px !important;
 }

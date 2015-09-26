@@ -48,6 +48,7 @@ public class LoginManagedBean {
     @PostConstruct
     public void init() {
   //    insertData();
+        createRootUser();
     }
 
     @PostRemove
@@ -177,6 +178,9 @@ public class LoginManagedBean {
 
     }
 
+    public void createRootUser(){
+        accountManagementSessionBean.createRootUser();
+    }
 //    public void insertData() {
 //        loginSessionBean.insertData();
 //    }

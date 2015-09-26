@@ -5,11 +5,10 @@
  */
 package imas.common.sessionbean;
 
-import imas.common.entity.InternalAnnouncementEntity;
+import imas.common.entity.CabinCrewEntity;
+import imas.common.entity.PilotEntity;
 import imas.common.entity.StaffEntity;
-import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AircraftEntity;
-import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
@@ -45,7 +44,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     /**
      *
      * @param staffNo
-     * @param password
+     * @param oldpassword
      * @return staffId
      */
     @Override
@@ -55,6 +54,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         query.setParameter("staffNumber", staffNo);
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
 
+//        insertData();
+        
         if (!staffs.isEmpty()) {
             //get same staffNo 
             StaffEntity tempStaff = staffs.get(0);
@@ -63,7 +64,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                 Date currentDate = new Date();
                 ArrayList<Date> tempDate = (ArrayList<Date>) tempStaff.getLoginAttempt();
                 String salt = tempStaff.getSalt();
-                String password =cp.doMD5Hashing(oldpassword+salt);
+                String password = cp.doMD5Hashing(oldpassword + salt);
                 if (tempDate == null || tempDate.size() == 0) {
                     if (password.equals(tempStaff.getPassword())) {
                         tempStaff.setLoginAttempt(null);
@@ -233,7 +234,11 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 //     }
     @Override
     public StaffEntity fetchStaff(String staffNo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        System.out.print(staffs);
+        return staffs.get(0);
     }
 
 }
