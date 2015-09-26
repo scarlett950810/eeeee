@@ -80,44 +80,30 @@ span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
     box-shadow: none;
 }
 
-/*
-button.ui-button, button.ui-state-default, button.ui-widget-content, .ui-widget-content button.ui-state-default,
-button.ui-widget, button.ui-corner-all, button.ui-button-icon-only {
-    background-color: #8c9cbf;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #8c9cbf), color-stop(50%, #546a9e), color-stop(50%, #36518f), color-stop(100%, #3d5691));
-    background-image: -webkit-linear-gradient(top, #8c9cbf 0%, #546a9e 50%, #36518f 50%, #3d5691 100%);
-    background-image: -moz-linear-gradient(top, #8c9cbf 0%, #546a9e 50%, #36518f 50%, #3d5691 100%);
-    background-image: -ms-linear-gradient(top, #8c9cbf 0%, #546a9e 50%, #36518f 50%, #3d5691 100%);
-    background-image: -o-linear-gradient(top, #8c9cbf 0%, #546a9e 50%, #36518f 50%, #3d5691 100%);
-    background-image: linear-gradient(top, #8c9cbf 0%, #546a9e 50%, #36518f 50%, #3d5691 100%);
-    border: 1px solid #172d6e;
-    border-bottom: 1px solid #0e1d45;
-    border-radius: 5px;
-    -webkit-box-shadow: inset 0 1px 0 0 #b1b9cb;
-    box-shadow: inset 0 1px 0 0 #b1b9cb;
-    color: #fff;
-    padding: 7px 0 8px 0;
-    text-decoration: none;
-    text-align: center;
-    text-shadow: 0 -1px 1px #000f4d;
-    width: 150px; 
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    width: 25px;
 }
 
-button.ui-button:hover, button.ui-state-default:hover, button.ui-widget-content:hover,  .ui-widget-content button.ui-state-default:hover,
-button.ui-widget:hover, button.ui-corner-all:hover, button.ui-button-icon-only:hover {
-    background-color: #7f8dad;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7f8dad), color-stop(50%, #4a5e8c), color-stop(50%, #2f477d), color-stop(100%, #364c80));
-    background-image: -webkit-linear-gradient(top, #7f8dad 0%, #4a5e8c 50%, #2f477d 50%, #364c80 100%);
-    background-image: -moz-linear-gradient(top, #7f8dad 0%, #4a5e8c 50%, #2f477d 50%, #364c80 100%);
-    background-image: -ms-linear-gradient(top, #7f8dad 0%, #4a5e8c 50%, #2f477d 50%, #364c80 100%);
-    background-image: -o-linear-gradient(top, #7f8dad 0%, #4a5e8c 50%, #2f477d 50%, #364c80 100%);
-    background-image: linear-gradient(top, #7f8dad 0%, #4a5e8c 50%, #2f477d 50%, #364c80 100%);
-    cursor: pointer; 
+.ui-state-default {
+    -webkit-box-shadow:none;
+    box-shadow: none;
 }
 
-button.ui-button:active, button.ui-state-default:active, button.ui-widget-content:active, .ui-widget-content button.ui-state-default:active,
-button.ui-widget:active, button.ui-corner-all:active, button.ui-button-icon-only:active {
-    -webkit-box-shadow: inset 0 0 20px 0 #1d2845, 0 1px 0 white;
-    box-shadow: inset 0 0 20px 0 #1d2845, 0 1px 0 white;
-}*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: none;
+}
+
+.ui-paginator .ui-paginator-page,
+.ui-paginator .ui-paginator-first, 
+.ui-paginator .ui-paginator-prev,
+.ui-paginator .ui-paginator-next,
+.ui-paginator .ui-paginator-last,
+.ui-paginator select.ui-paginator-rpp-options {
+    line-height: 1 !important;
+    background: #ffffff;
+}
+
+.btn-sm, span.ui-button-text {
+    text-shadow:none !important;
+}
 
