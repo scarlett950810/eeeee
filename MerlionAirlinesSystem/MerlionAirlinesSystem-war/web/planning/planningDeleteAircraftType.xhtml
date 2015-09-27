@@ -36,7 +36,7 @@
     </ui:define>
     
     <ui:define name="centerPanel">
-    <h:body>
+    
         <h:form>
             <p:messages id="statusMessages" redisplay="false"/>
             <p:panel header="Delete Aircraft type" class="panel panel-danger">
@@ -53,8 +53,8 @@
                                  update="statusMessages" class="btn-sm btn-danger"/>
             </p:panel>
         </h:form>
-
-    </h:body>
+        <p:link outcome="planningAircraftType.xhtml" value="Back"/>
+    
     </ui:define>
     
 </ui:composition>
