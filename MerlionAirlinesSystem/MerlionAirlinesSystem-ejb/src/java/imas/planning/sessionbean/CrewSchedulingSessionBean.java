@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -540,4 +541,11 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
         return earliestT;
     }
 
+    @Override
+    public List<PilotEntity> retriveAllPilots() {
+        Query q = em.createQuery("SELECT a FROM PilotEntity a");
+        
+        return (List<PilotEntity>)q.getResultList();
+    }
+    
 }

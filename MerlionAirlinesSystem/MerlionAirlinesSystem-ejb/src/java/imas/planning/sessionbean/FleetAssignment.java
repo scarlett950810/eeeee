@@ -92,16 +92,15 @@ public class FleetAssignment implements FleetAssignmentLocal {
         //find the available flights based on aircraf capability  
         if (flightsAvai.isEmpty()) {
             return flightsAll;
-        }
- //       System.err.println("1");
-        Date earliestDep = flightsAvai.get(0).getDepartureDate();
+        } 
+        System.err.println("1");
+         Date earliestDep = flightsAvai.get(0).getDepartureDate();
         Calendar cal = Calendar.getInstance();
-        cal.setTime(earliestDep);
+         cal.setTime(earliestDep);
         cal.add(Calendar.YEAR, 1);
-        earliestDep = cal.getTime();
-  //      System.err.println("2 earliest Dep"+earliestDep);
-
-        //Adjust the date one year later 
+          earliestDep = cal.getTime();
+       
+//Adjust the date one year later 
         boolean hasHubOrNot = false;
         FlightEntity earliestFlight = new FlightEntity();
         for (FlightEntity f : flightsAvai) {
