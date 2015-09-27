@@ -52,7 +52,7 @@
             <p:dataTable id="airports" var="airport" value="#{airportManagedBean.airportList}" editable="true" style="margin-bottom:20px"
                          widgetVar="airportsTable" paginator="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="15, 30, 50"
+                         rowsPerPageTemplate="15, 30, 50" rows="15"
                          filteredValue="#{airportManagedBean.filteredAirports}">
                 <f:facet name="header">
                     Airports Information
