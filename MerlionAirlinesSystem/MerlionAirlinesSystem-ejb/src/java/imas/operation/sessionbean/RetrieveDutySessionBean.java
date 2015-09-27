@@ -46,8 +46,9 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
     public Map<String, String> getPilot() {
         Map<String, String> map = new HashMap<String, String>();
         Query query;
-        query = em.createQuery("SELECT f FROM PilotEntity f ");
+        query = em.createQuery("SELECT f FROM PilotEntity f");     
         List<PilotEntity> list = query.getResultList();
+        
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 name = list.get(i).getDisplayName() + "-" + list.get(i).getStaffNo();
@@ -61,7 +62,7 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
     public Map<String, String> getCabinCrew() {
         Map<String, String> map = new HashMap<String, String>();
         Query query;
-        query = em.createQuery("SELECT f FROM CabinCrewEntity f ");
+        query = em.createQuery("SELECT f FROM CabinCrewEntity f");
         List<CabinCrewEntity> list = query.getResultList();
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
