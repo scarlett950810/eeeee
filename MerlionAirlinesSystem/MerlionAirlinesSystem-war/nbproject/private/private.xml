@@ -3,15 +3,40 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/systemAdmin/ViewStaffManagedBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/systemAdmin/systemAdminAddStaff.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningAddAirport.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/operation/CrewCheckInManagedBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/operation/DisplayFlightsManagedBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/operation/operationCrewCheckIn.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/systemAdmin/systemAdminViewStaff.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/common/userProfile.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningDisplayFlightsGenerated.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningEditDeleteAircraft.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningFASetFrequency.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningManageAircraftGroup.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningFleetAssignmentDisplay.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningDeleteRoute.xhtml</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/systemAdmin/AddStaffManagedBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningAddAircraft.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningAirport.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/inventory/InventoryRevenueManagementManagedBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningDeleteAirport.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningSetSchedulePerDay.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningDeleteAircraftType.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/operation/CrewCheckInManagedBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningSetFrequency.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningViewUpdateRoute.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningAddRoute.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningSetSchedulePerWeek.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/common/common_landing.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/distribution/FlightConverter.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningAircraftType.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/operation/CrewBoardingManagedBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningAddRouteGroup.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/inventory/inventoryBookingClassManagement.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningAddAirport.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/common/LoginManagedBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/inventory/inventoryRevenueManagement.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/operation/operationCrewCheckIn.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/operation/operationCrewBoarding.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningFleetAssignment.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/systemAdmin/ViewStaffManagedBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningAddAircraftType.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningHomePage.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningRoute.xhtml</file>
         </group>
     </open-files>
 </project-private>
