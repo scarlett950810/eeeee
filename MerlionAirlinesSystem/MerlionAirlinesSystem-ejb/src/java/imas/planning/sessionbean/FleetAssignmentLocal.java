@@ -28,5 +28,7 @@ public interface FleetAssignmentLocal {
 
     Double calculateMaintenanceHours(AircraftEntity aircraft, Date mtAcc);
 
+    List<FlightEntity> retreiveDBrecords(String route);
+
     
 }

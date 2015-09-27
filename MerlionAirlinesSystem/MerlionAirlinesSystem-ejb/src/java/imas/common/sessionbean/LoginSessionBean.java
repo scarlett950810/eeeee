@@ -154,14 +154,13 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     public void insertData() {
         System.err.println("dd");
        
-        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double)10000, 50, (double) 100000, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 1000);
-        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double)5000, 80, (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 800);
-        AircraftTypeEntity aircraftType3 = new AircraftTypeEntity("B777", (double)10000, 80, (double) 180000, (double) 550, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 1000);
-        AircraftTypeEntity aircraftType4 = new AircraftTypeEntity("B787", (double)12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
-        AircraftTypeEntity aircraftType5 = new AircraftTypeEntity("B747", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
-        AircraftTypeEntity aircraftType6 = new AircraftTypeEntity("B737", (double)12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
-        AircraftTypeEntity aircraftType7 = new AircraftTypeEntity("A320", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 900);
-        
+        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double)10000, 50, (double) 100000, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 60);
+        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double)5000, 80, (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
+        AircraftTypeEntity aircraftType3 = new AircraftTypeEntity("B777", (double)10000, 80, (double) 180000, (double) 550, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
+        AircraftTypeEntity aircraftType4 = new AircraftTypeEntity("B787", (double)12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 60);
+        AircraftTypeEntity aircraftType5 = new AircraftTypeEntity("B747", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
+        AircraftTypeEntity aircraftType6 = new AircraftTypeEntity("B737", (double)12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
+        AircraftTypeEntity aircraftType7 = new AircraftTypeEntity("A320", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 70);
         System.err.println("dd");
         entityManager.persist(aircraftType1);
         entityManager.persist(aircraftType2);
