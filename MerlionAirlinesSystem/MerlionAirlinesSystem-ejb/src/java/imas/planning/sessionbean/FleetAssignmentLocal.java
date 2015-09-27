@@ -30,6 +30,7 @@ public interface FleetAssignmentLocal {
     Double calculateMaintenanceHours(AircraftEntity aircraft, Date mtAcc);
 
     List<FlightEntity> retreiveDBrecords(RouteEntity route);
+    void deleteUnassginedFlights(List<FlightEntity> flightsUnassigned);
 
     
 }
