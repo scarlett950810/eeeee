@@ -10,6 +10,7 @@ import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.MaintenanceScheduleEntity;
+import imas.planning.entity.RouteEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,8 +48,25 @@ public class FleetAssignment implements FleetAssignmentLocal {
         return result;
     }
 
+    @Override
+    public void deleteUnassginedFlights(List<FlightEntity> flightsUnassigned) {
+        for (FlightEntity f : flightsUnassigned) {
+            FlightEntity fD = em.find(FlightEntity.class, f.getId());
+            if (fD != null) {
+                FlightEntity fRD = em.find(FlightEntity.class, fD.getReverseFlight().getId());
+                fD.setReverseFlight(null);
+                fRD.setReverseFlight(null);
+                em.remove(fD);
+                em.remove(fRD);
+            }
+
+        }
+
+    }
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
     @Override
     public List<FlightEntity> getAllFlightsWithinPlanningPeriod(Date startingDate) {
         Calendar cal = Calendar.getInstance();
@@ -60,8 +78,6 @@ public class FleetAssignment implements FleetAssignmentLocal {
         q.setParameter("endingDate", endingDate);
         return (List<FlightEntity>) q.getResultList();
     }
-    
-    
 
     @Override
     public List<FlightEntity> fleetAssignment(List<FlightEntity> flights, List<AircraftEntity> aircrafts) {
@@ -82,7 +98,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
     @Override
     public List<FlightEntity> oneAircraftAssignment(AircraftEntity aircraft, List<FlightEntity> flightsAll) {
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
- //        System.err.println("enter one aircraftAssignment");
+        //        System.err.println("enter one aircraftAssignment");
 
         for (FlightEntity f : flightsAll) {
             if (aircraft.getAircraftType().getAircraftRange() > f.getRoute().getDistance() && f.getAircraft() == null) {
@@ -169,7 +185,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
         }
         earliestFlight.setAircraftFlight(aircraft);
         earliestDep = earliestFlight.getArrivalDate();
- //       System.err.println("4");
+        //       System.err.println("4");
 
         flightsAvai.remove(earliestFlight);
         //assign the first flight
@@ -181,8 +197,8 @@ public class FleetAssignment implements FleetAssignmentLocal {
         //      System.err.println("mtacc before while"+mtAcc);
         while (findNextFlight) {
 //        System.err.println("5.1");
-          
-          cal.setTime(earliestDep);
+
+            cal.setTime(earliestDep);
             cal.add(Calendar.MINUTE, (int) (aircraft.getTurnAroundTime() + 0.5d));
 
             earliestDep = cal.getTime();
@@ -268,7 +284,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
 
                 }
             }
- //            System.err.println("8");
+            //            System.err.println("8");
 
         }
 
@@ -296,8 +312,10 @@ public class FleetAssignment implements FleetAssignmentLocal {
     }
 
     @Override
-    public List<FlightEntity> retreiveDBrecords(String route) {
-        return null;
+    public List<FlightEntity> retreiveDBrecords(RouteEntity route) {
+        RouteEntity r = em.find(RouteEntity.class, route.getId());
+
+        return r.getFlights();
     }
 
 }

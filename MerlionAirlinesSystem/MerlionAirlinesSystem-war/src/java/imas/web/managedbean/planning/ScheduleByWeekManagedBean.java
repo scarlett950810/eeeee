@@ -11,6 +11,7 @@ import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -221,8 +222,16 @@ public class ScheduleByWeekManagedBean implements Serializable {
         cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
         Date halfHourBack = cal.getTime();
         flightEntity.setArrivalDate(halfHourBack);
+        cal.add(Calendar.MINUTE, 30);
+        flightEntity.getReverseFlight().setDepartureDate(cal.getTime());
     }
-
+    public String getTimeName(Date date){
+        if(date ==null)
+            return "";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        return dateFormat.format(date);
+        
+    }
     public Integer countPlusOne() {
         count = count + 1;
         return count;

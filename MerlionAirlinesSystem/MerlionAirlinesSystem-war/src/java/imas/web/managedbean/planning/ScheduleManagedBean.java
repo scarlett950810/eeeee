@@ -10,6 +10,7 @@ import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -282,6 +283,13 @@ public class ScheduleManagedBean implements Serializable {
         return cal.getTime();
 
     }
+    public String getTimeName(Date date){
+        if(date ==null)
+            return "";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        return dateFormat.format(date);
+        
+    }
 
     public Date combineTwoDate(Date a1, Date a2) {
         Calendar cal = Calendar.getInstance();
@@ -316,6 +324,17 @@ public class ScheduleManagedBean implements Serializable {
     public List<FlightEntity> getFlightsGenerated() {
         return flightsGenerated;
     }
+    public String getMindate(Date d){
+        if(d!=null){
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.MINUTE, 30);
+        return dateFormat.format(cal.getTime());
+        }
+        else
+            return "";
+    }
 
     public void setFlightsGenerated(List<FlightEntity> flightsGenerated) {
         this.flightsGenerated = flightsGenerated;
@@ -332,6 +351,8 @@ public class ScheduleManagedBean implements Serializable {
         cal.add(Calendar.MINUTE, (int)(routeSelected.getFlightHours()*60+0.5d));
         Date halfHourBack = cal.getTime();
         flightEntity.setArrivalDate(halfHourBack);
+        cal.add(Calendar.MINUTE, 30);
+        flightEntity.getReverseFlight().setDepartureDate(cal.getTime());
     }
 
     public Integer countPlusOne() {

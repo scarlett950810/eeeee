@@ -7,6 +7,7 @@ package imas.web.managedbean.planning;
 
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
+import imas.planning.sessionbean.FleetAssignmentLocal;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
@@ -44,6 +45,8 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
     private List<Integer> serialNo;
     private Integer planningPeiord;
     private String endingDate;
+    @EJB
+    private FleetAssignmentLocal fl;
 
     /**
      * Creates a new instance of ScheduleDevelopmentManagedBean
@@ -234,9 +237,9 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
     public String getMinDate() {
         if(routeSelected!=null){
             
-        if(!routeSelected.getFlights().isEmpty()){
+        if(!fl.retreiveDBrecords(routeSelected).isEmpty()){
             
-            List<FlightEntity> flights = routeSelected.getFlights();
+            List<FlightEntity> flights = fl.retreiveDBrecords(routeSelected);
             Date temp = flights.get(0).getDepartureDate();
             Date max = temp;
             for(FlightEntity f: flights){
