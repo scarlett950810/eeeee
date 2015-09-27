@@ -56,10 +56,8 @@
 
                     </p:calendar>
                 </p:column>
-                
-                <p:column headerText="Reverse Flight Number">
-                    <h:inputText value="#{flight.reverseFlight.flightNo}" />
-<!--                    <h:inputText value="{flight.flightNo}" />-->
+                 <p:column headerText="Flight Number">
+                     <h:inputText value="#{flight.reverseFlight.flightNo}" />
                 </p:column>
                 
                 <p:column headerText="#{scheduleManagedBean.routeSelected.reverseRoute.routeName} Departure Time">

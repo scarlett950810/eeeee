@@ -145,6 +145,7 @@ public class ScheduleManagedBean implements Serializable {
                 //set the departure time of flight in the flights 
                 Date departureT = combineTwoDate(f.getDepartureDate(), departureDateTemp);
                 f1.setDepartureDate(departureT);
+                f1.setFlightNo(f.getFlightNo());
                 cal.setTime(departureT);
                 cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
                 
@@ -156,6 +157,7 @@ public class ScheduleManagedBean implements Serializable {
                 f1.getReverseFlight().setFlightNo(f.getReverseFlight().getFlightNo());
                 departureT = combineTwoDate(f.getReverseFlight().getDepartureDate(), departureDateTemp);
                 f1.getReverseFlight().setDepartureDate(departureT);
+                f1.setFlightNo(f.getReverseFlight().getFlightNo());
                 cal.setTime(departureT);
                 cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
                 
