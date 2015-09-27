@@ -30,13 +30,13 @@ public interface RouteSessionBeanLocal {
 
     List<AirportEntity> retrieveSpokes();
 
-    void deleteRoute(AirportEntity hub, AirportEntity spoke);
+    Boolean deleteRoute(AirportEntity hub, AirportEntity spoke);
 
     List<RouteEntity> retrieveAllRoutes();
 
     List<String> retrieveAllConnectionName();
 
-    void deleteRoutesByName(String origin, String destination);
+    Boolean deleteRoutesByName(String origin, String destination);
 
     void updateRoutesInfo(List<RouteEntity> routes);
 

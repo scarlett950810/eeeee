@@ -96,13 +96,14 @@ public class ScheduleByWeekManagedBean implements Serializable {
         while (departureDateTemp.compareTo(EndingDate) <= 0) {
             for (FlightEntity f : flights) {
                 FlightEntity f1 = new FlightEntity(yearSelected);
+                
 
                 //set the departure time of flight in the flights 
                 Date departureT = combineThreeDate(departureDateTemp, f.getWeekDay(), f.getDepartureDate());
                 f1.setDepartureDate(departureT);
                 cal.setTime(departureT);
                 cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
-                
+                f1.setFlightNo(f.getFlightNo());
                 f1.setArrivalDate(cal.getTime());
                 f1.setReverseFlight(new FlightEntity(yearSelected));
                 f1.getReverseFlight().setRoute(routeSelected.getReverseRoute());

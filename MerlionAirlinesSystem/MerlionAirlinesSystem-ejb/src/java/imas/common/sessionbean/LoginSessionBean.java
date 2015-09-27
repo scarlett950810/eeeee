@@ -51,7 +51,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     
     @Override
     public String doLogin(String staffNo, String oldpassword) {
-
+        
+        //insertData();
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();

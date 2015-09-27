@@ -21,7 +21,7 @@
 
         <h:form>
             <p:idleMonitor timeout="3600000" onidle="PF('idleDialog').show();"/>
-            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+            <p:growl id="messages" showDetail="false" autoUpdate="false"/>
 
             <p:dialog id="confirmDialog"
                       header="Are you there?" widgetVar="idleDialog">
@@ -100,7 +100,7 @@
                 <p:dialog header="Message" widgetVar="message" minHeight="40" showEffect="clip" hideEffect="clip">
                     <h:form id="sendMessage">
                         <p:panel header="Send New Message" style="padding-bottom: 15px;">
-                            <p:growl id="sendMessageMsg" showDetail="true" autoUpdate="true" />
+                            <p:growl id="sendMessageMsg" showDetail="false" autoUpdate="false" />
                             <h:panelGrid columns="2" cellpadding="5">
 
                                 <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
