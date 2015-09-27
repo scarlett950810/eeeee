@@ -1,14 +1,30 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
 
-    <h:head>
-        <title>Inventory Revenue Management</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-    <h:body>
+    <ui:define name="title">Inventory Revenue Management</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><a href="inventorySeatsManagement.xhtml">Manu create booking class</a></li>                     
+                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>
+                <!--<li><a href="inventoryBookingClassManagement.xhtml">Manage Booking Classes</a></li>-->         
+                <li><a href="inventoryRulesManagement.xhtml">Manage Rules</a></li>
+                <li><a href="inventoryRevenueManagement.xhtml">Manage Revenue</a></li>
+
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
         <h:form>
             <p:dataTable id="flightList" var="flight" value="#{inventoryRevenueManagementManagedBean.flightList}" rowKey="#{flight.id}"
                          widgetVar="flightTable" emptyMessage="No flight found with given criteria" filteredValue="#{inventoryRevenueManagementManagedBean.fliteredFlight}" 
@@ -17,8 +33,8 @@
                     Merlion Airline Flight List
                 </f:facet>
 
-                <p:column headerText="Departure Time" filterBy="#{flight.departureDate.toLocaleString}" filterMatchMode="contains">
-                    <h:outputText value="#{flight.departureDate.toLocaleString}" />
+                <p:column headerText="Departure Time" filterBy="#{flight.departureDate.date}" filterMatchMode="contains">
+                    <h:outputText value="#{flight.departureDate.date}" />
                 </p:column>
                 <p:column headerText="Arrival Time" filterBy="#{flight.arrivalDate}" filterMatchMode="contains">
                     <h:outputText value="#{flight.arrivalDate}" />
@@ -42,5 +58,6 @@
 
             </p:dataTable>
         </h:form>
-    </h:body>
-</html>
+    </ui:define>
+
+</ui:composition>

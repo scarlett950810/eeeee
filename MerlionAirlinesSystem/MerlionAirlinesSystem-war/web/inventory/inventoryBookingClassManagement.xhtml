@@ -1,18 +1,33 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
 
-    <h:head>
-        <title>Inventory Revenue Management</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
+    <ui:define name="title">Inventory Revenue Management</ui:define>
 
-    <h:body>
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><a href="inventorySeatsManagement.xhtml">Manu create booking class</a></li>                     
+                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>
+                <!--<li><a href="inventoryBookingClassManagement.xhtml">Manage Booking Classes</a></li>-->         
+                <li><a href="inventoryRulesManagement.xhtml">Manage Rules</a></li>
+                <li><a href="inventoryRevenueManagement.xhtml">Manage Revenue</a></li>
+
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
         <p:chart type="bar" model="#{inventoryRevenueManagementManagedBean.horizontalBarModel}" style="height:300px"/>
 
-        <p:dataTable var="bookingClasses" value="#{inventoryRevenueManagementManagedBean.bookingClassList}" style="margin-top: 20px;">
+        <p:dataTable var="bookingClasses" value="#{inventoryRevenueManagementManagedBean.bookingClassList}" style="margin-top: 50px;">
             <p:column headerText="Seat Classes">
                 <h:outputText value="#{bookingClasses.seatClass}" />
             </p:column>
@@ -41,8 +56,8 @@
         </p:dataTable>
         <h:form>
             <p:commandButton value="Return" actionListener="#{inventoryRevenueManagementManagedBean.returnBack}" style="margin-top: 20px"/>
-            <p:commandButton value="Edit Economy Booking Class Ratio" onclick="PF('editBox').show();" style="margin-top: 20px"/>
-            <p:commandButton value="Edit Booking Class Pricing" onclick="PF('changePrice').show();" style="margin-top: 20px"/>
+            <p:commandButton value="Edit Economy Booking Class Ratio" onclick="PF('editBox').show();" style="margin-top: 20px; float: right"/>
+            <p:commandButton value="Edit Booking Class Pricing" onclick="PF('changePrice').show();" style="margin-top: 20px; float: right"/>
         </h:form>
 
 
@@ -148,5 +163,6 @@
                 </p:dialog>
             </h:form>
         </p:dialog>
-    </h:body>
-</html>
+    </ui:define>
+
+</ui:composition>

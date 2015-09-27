@@ -314,4 +314,25 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
 
     }
 
+    @Override
+    public void assignAccessRight(String staffNo, String businessUnit, String division, String position) {
+        ArrayList<String> accessRight = new ArrayList<>();
+        
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        StaffEntity staff = staffs.get(0);
+        
+        accessRight.add("/common/userProfile.xhtml");
+        
+//        if(businessUnit.equals("Operation")){
+//            if(division.equals("Crew Management")){
+//                accessRight.add("");
+//            }
+//        }
+    }
+
+    
+    
 }
