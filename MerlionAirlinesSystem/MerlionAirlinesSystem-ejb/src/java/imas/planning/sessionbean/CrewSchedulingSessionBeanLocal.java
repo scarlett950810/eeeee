@@ -30,4 +30,6 @@ public interface CrewSchedulingSessionBeanLocal {
     
     Date calculateMaintenanceHours(PilotEntity pilot, Date mtAcc);
 
+    List<PilotEntity> retriveAllPilots();
+
 }

@@ -181,6 +181,7 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
     }
 
     public List<RouteEntity> getConnectionsAll() {
+        System.err.println("testfreq");
         List<RouteEntity> routesAll = routeSession.retrieveAllRoutes();
         connectionsAll = routeSession.filterRoutesToConnections(routesAll);
         System.out.println("enter getconnectionsall");
@@ -231,11 +232,38 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
     }
     
     public String getMinDate() {
+        if(routeSelected!=null){
+            
+        if(!routeSelected.getFlights().isEmpty()){
+            
+            List<FlightEntity> flights = routeSelected.getFlights();
+            Date temp = flights.get(0).getDepartureDate();
+            Date max = temp;
+            for(FlightEntity f: flights){
+                if(max.compareTo(f.getDepartureDate())<0)
+                    max = f.getDepartureDate();
+            }
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(max);
+        System.err.println("getMinDate(): printout one year after current date:"+dateFormat.format(cal.getTime()));        
+        return dateFormat.format(cal.getTime());
+        }
+        else{
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, 1);
+        System.err.println("getMinDate(): printout one year after current date:"+dateFormat.format(cal.getTime()));        
+        return dateFormat.format(cal.getTime());
+        }
+        }
+        else{
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 1);
         System.err.println("getMinDate(): printout one year after current date:"+dateFormat.format(cal.getTime()));        
         return dateFormat.format(cal.getTime());
+        }
                 //        if (yearSelected != null) {
                 //            System.out.println("year:" + yearSelected.toString());
                 //            String year1 = String.valueOf(yearSelected);

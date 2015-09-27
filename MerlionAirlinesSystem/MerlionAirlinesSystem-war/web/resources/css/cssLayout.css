@@ -42,7 +42,7 @@ body, .ui-widget, .ui-widget-content, ui-datatable-header, ui-widget-header, ui-
     display: none !important;
 }
 
-#layoutUnit_left, #layoutUnit_center {
+#layoutUnit_left, #layoutUnit_center{
     position: absolute;
     top: 70px !important;
 }

@@ -112,10 +112,10 @@ public class PostFlightReportSessionBean implements PostFlightReportSessionBeanL
     }
 
     @Override
-    public void updateReport(FlightEntity selectedFlight, Integer num) {
-        if (num != 0) {
+    public void updateReport(FlightEntity selectedFlight) {
+       
             em.merge(selectedFlight);
-        }
+       
 
     }
 

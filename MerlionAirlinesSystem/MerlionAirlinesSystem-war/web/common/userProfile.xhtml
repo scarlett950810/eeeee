@@ -20,8 +20,18 @@
             <h:outputText value="Staff Number:" />
             <h:outputText value="#{userProfileManagedBean.staff.staffNo}" />
 
-            <h:outputText value="Department:" />
-            <h:outputText value="#{userProfileManagedBean.staff.department}" />
+            <h:outputText value="Business Unit:" />
+            <h:outputText value="#{userProfileManagedBean.staff.role.businessUnit}" />
+            
+            <h:outputText value="Division:" />
+            <h:outputText value="#{userProfileManagedBean.staff.role.division}" />
+            
+            <h:outputText value="Position:" />
+            <h:outputText value="#{userProfileManagedBean.staff.role.position}" />
+            
+            <h:outputText value="Location:" />
+            <h:outputText value="#{userProfileManagedBean.staff.role.location}" />
+            
 
             <h:outputText value="Email Address:" />
             <h:outputText value="#{userProfileManagedBean.staff.email}" />
@@ -32,11 +42,9 @@
             <h:outputText value="Address:" />
             <h:outputText value="#{userProfileManagedBean.staff.address}" />
 
-            <h:outputText value="Base:" />
-            <h:outputText value="#{userProfileManagedBean.staff.base}" />
+            <h:outputText value="Base:" rendered="#{userProfileManagedBean.staff.base!=null}"/>
+            <h:outputText value="#{userProfileManagedBean.staff.base.airportName}" rendered="#{userProfileManagedBean.staff.base!=null}"/>
 
-            <h:outputText value="Gender:" />
-            <h:outputText value="#{userProfileManagedBean.staff.gender}" />
         </p:panelGrid>
 
         <h:panelGrid columns="3" cellpadding="5">

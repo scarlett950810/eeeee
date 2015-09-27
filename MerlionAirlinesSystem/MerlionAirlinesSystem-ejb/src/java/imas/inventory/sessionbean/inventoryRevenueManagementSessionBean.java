@@ -28,7 +28,7 @@ public class inventoryRevenueManagementSessionBean implements inventoryRevenueMa
     
     @Override
     public List<FlightEntity> fetchFlight() {
-        System.out.println("normal");
+        
         Query query = em.createQuery("SELECT f FROM FlightEntity f");
         
         List<FlightEntity> flights = (List<FlightEntity>)query.getResultList();

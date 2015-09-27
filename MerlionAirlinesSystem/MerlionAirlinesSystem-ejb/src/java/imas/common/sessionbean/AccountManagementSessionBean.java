@@ -5,8 +5,12 @@
  */
 package imas.common.sessionbean;
 
+import imas.common.entity.CabinCrewEntity;
+import imas.common.entity.PilotEntity;
 import imas.common.entity.StaffEntity;
 import imas.common.entity.StaffRole;
+import imas.planning.entity.AirportEntity;
+import imas.planning.entity.FlightEntity;
 import imas.utility.sessionbean.EmailManager;
 import static java.lang.Boolean.TRUE;
 import java.security.SecureRandom;
@@ -41,12 +45,12 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     public void resetStaffPassword(String email) {
         String password = generatePassword();
         String tempPassword;
-        
+
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.email = :email");
         query.setParameter("email", email);
         try {
             StaffEntity staff = (StaffEntity) query.getSingleResult();
-            tempPassword=cp.doMD5Hashing(password+staff.getSalt());
+            tempPassword = cp.doMD5Hashing(password + staff.getSalt());
             staff.setPassword(tempPassword);
         } catch (NoResultException exception) {
             System.out.println("No such staff");
@@ -66,16 +70,28 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         EmailManager.run(email, subject, content);
     }
 
-    private void sendNewStaffEmail(String email, String password, String staffName) throws MessagingException {
+    private void sendNewStaffEmail(String email, String password, String staffName, String staffNo) throws MessagingException {
         String subject = "Welcome to Merlion Airlines";
-        String content = "Hi " + staffName + ", " + "<br>Welcome to Merlion Airlines and start your dream career here.<br>Please refer below for your initial password to access the internal system: <br>" + password + "<br><br>Thank you.<br><br>Merlion Airline HR Manager";
+        String content = "Hi " + staffName + ", " + "<br><br>Welcome to Merlion Airlines and start your dream career here.<br><br>Please refer below for the details to access the internal system: <br><br><br>Staff Number: " + staffNo + "<br><br>Password: " + password + "<br><br>Thank you.<br><br>Merlion Airline HR Manager";
         EmailManager.run(email, subject, content);
     }
-    
+
     @Override
-    public Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String businessUnit, String division, String position, String location) {
+    public Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String businessUnit, String division, String position, String location, String base, String workingStatus, List<String> aircraftTypeCapabilities, Boolean mileageLimit, Boolean isPilot, Boolean isCabinCrew) {
         String password = generatePassword();
-        System.out.println(password);
+        System.out.print(staffNo);
+        System.out.print(name);
+        System.out.print(email);
+        System.out.print(contactNumber);
+        System.out.print(address);
+        System.out.print(gender);
+        System.out.print(businessUnit);
+        System.out.print(division);
+        System.out.print(position);
+        System.out.print(location);
+        System.out.print(base);
+        System.out.print(isPilot);
+        System.out.print(isCabinCrew);
         String tempPassword;
         String salt = "";
         String letters = "0123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
@@ -91,21 +107,67 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
         if (staffs.isEmpty()) {
-            StaffEntity staff = new StaffEntity(staffNo, name, tempPassword, email, contactNumber, address, gender);
-            StaffRole role = new StaffRole(businessUnit, position, division, location, null);
-            
-            entityManager.persist(role);
 
-            staff.setRole(role);
-            entityManager.persist(staff);
-            staff.setSalt(salt);
-            
+            if (isPilot == false && isCabinCrew == false) {
+                System.out.print("1");
+                StaffEntity staff = new StaffEntity(staffNo, name, tempPassword, email, contactNumber, address, gender);
+                StaffRole role = new StaffRole(businessUnit, position, division, location, null);
+
+                entityManager.persist(role);
+
+                staff.setRole(role);
+                entityManager.persist(staff);
+                staff.setSalt(salt);
+
+                if (base != null) {
+                    query = entityManager.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :base");
+                    query.setParameter("base", base);
+                    AirportEntity airport = (AirportEntity) query.getSingleResult();
+
+                    staff.setBase(airport);
+                }
+
+            } else if (isPilot == true) {
+                System.out.print("2");
+                PilotEntity pilot = new PilotEntity(staffNo, name, tempPassword, email,
+                        contactNumber, address, gender, workingStatus, aircraftTypeCapabilities, null, mileageLimit);
+                StaffRole role = new StaffRole(businessUnit, position, division, location, null);
+
+                query = entityManager.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :base");
+                query.setParameter("base", base);
+                AirportEntity airport = (AirportEntity) query.getSingleResult();
+
+                entityManager.persist(role);
+
+                pilot.setRole(role);
+                entityManager.persist(pilot);
+                pilot.setSalt(salt);
+                pilot.setBase(airport);
+            } else if (isCabinCrew == true) {
+                System.out.print("3");
+                CabinCrewEntity cabinCrew = new CabinCrewEntity(staffNo, name, tempPassword, email, contactNumber,
+                        address, gender, "available", null);
+                StaffRole role = new StaffRole(businessUnit, position, division, location, null);
+
+                query = entityManager.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :base");
+                query.setParameter("base", base);
+                AirportEntity airport = (AirportEntity) query.getSingleResult();
+
+                entityManager.persist(role);
+
+                cabinCrew.setRole(role);
+                entityManager.persist(cabinCrew);
+                cabinCrew.setSalt(salt);
+                cabinCrew.setBase(airport);
+            }
+
             try {
-                sendNewStaffEmail(staff.getEmail(),password, staff.getDisplayName());
+                sendNewStaffEmail(email, password, name, staffNo);
             } catch (MessagingException ex) {
                 Logger.getLogger(AccountManagementSessionBean.class.getName()).log(Level.SEVERE, null, ex);
             }
             return true;
+
         } else {
             return false;
         }
@@ -149,21 +211,23 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     }
 
     @Override
-    public void updateStaff(String staffNo, String email, String contactNumber, String address) {
-        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNo");
-        query.setParameter("staffNo", staffNo);
+    public void updateStaff(StaffEntity staffEntity) {
+//        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNo");
+//        query.setParameter("staffNo", staffNo);
 
-        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
-        if (staffs.isEmpty()) {
-            System.out.print("no such user");
-        } else {
-            StaffEntity staff = staffs.get(0);
-            staff.setEmail(email);
-            staff.setContactNumber(contactNumber);
-            staff.setAddress(address);
-            
-        }
-        
+        entityManager.merge(staffEntity);
+        System.out.println(staffEntity);
+//        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+//        if (staffs.isEmpty()) {
+//            System.out.print("no such user");
+//        } else {
+//            StaffEntity staff = staffs.get(0);
+//            staff.setEmail(email);
+//            staff.setContactNumber(contactNumber);
+//            staff.setAddress(address);
+//
+//        }
+
     }
 
     @Override
@@ -177,7 +241,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
             return null;
         } else {
             return staffs.get(0);
-        } 
+        }
     }
 
     @Override
@@ -199,16 +263,55 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         query.setParameter("staffNo", staffNo);
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
-        
+
         if (!staffs.isEmpty()) {
             StaffEntity staff = staffs.get(0);
             staff.setActivationStatus(TRUE);
             System.out.print(staff.getActivationStatus());
         } else {
             System.out.print("The staff does not exist");
-        } 
+        }
     }
-    
-    
+
+    @Override
+    public void createRootUser() {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s");
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        if (staffs.isEmpty()) {
+            String password = "123";
+            String tempPassword;
+            String salt = "";
+            String letters = "0123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
+            for (int i = 0; i < SALT_LENGTH; i++) {
+                int index = (int) (RANDOM.nextDouble() * letters.length());
+                salt += letters.substring(index, index + 1);
+            }
+
+            tempPassword = cp.doMD5Hashing(password + salt);
+
+            StaffEntity staff = new StaffEntity("admin", "System Administrator", tempPassword, "systemadmin@merlionairline.sg", "12345678", "ABC Street", "male");
+            entityManager.persist(staff);
+            StaffRole role = new StaffRole("Administration", "Manager", "Human Resources", "Singapore", null);
+            entityManager.persist(role);
+            staff.setSalt(salt);
+            staff.setRole(role);
+        }
+    }
+
+    @Override
+    public AirportEntity fetchBase(String base) {
+        Query query = entityManager.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :base");
+        query.setParameter("base", base);
+
+        List<AirportEntity> airports = (List<AirportEntity>) query.getResultList();
+
+        if (airports.isEmpty()) {
+            System.out.print("This is an invalid airport code");
+            return null;
+        } else {
+            return airports.get(0);
+        }
+
+    }
 
 }
