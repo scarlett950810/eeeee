@@ -10,6 +10,7 @@ import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.MaintenanceScheduleEntity;
+import imas.planning.entity.RouteEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -296,8 +297,10 @@ public class FleetAssignment implements FleetAssignmentLocal {
     }
 
     @Override
-    public List<FlightEntity> retreiveDBrecords(String route) {
-        return null;
+    public List<FlightEntity> retreiveDBrecords(RouteEntity route) {
+        RouteEntity r = em.find(RouteEntity.class, route.getId());
+        
+        return r.getFlights();
     }
 
 }

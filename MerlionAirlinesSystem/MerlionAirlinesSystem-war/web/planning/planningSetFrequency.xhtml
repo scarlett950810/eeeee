@@ -19,11 +19,11 @@
                 <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
                 <li><a href="planningEditDeleteAircraft.xhtml">Modify Aircraft</a></li>
                 <li><a href="planningManageAircraftTypes.xhtml">View Aircraft</a></li>
-                
+
                 <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
                 <li><a href="planningAirport.xhtml">Manage Airport</a></li>
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
-                
+
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
             </ul>
         </div>
@@ -37,23 +37,25 @@
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Routes seleted: " />
                     <p:selectOneMenu id="routesSelected" value="#{scheduleDevelopmentManagedBean.routeSelected}" style="width:400px" converter="routeConverter">
+                        <p:ajax event="change" update="popup"/>
+
                         <f:selectItem itemLabel="Select Route" itemDisabled="true" />
                         <f:selectItems value="#{scheduleDevelopmentManagedBean.connectionsAll}" var="connections" itemLabel="#{connections.returnRoutesName}" itemValue="#{connections}" />
 
                     </p:selectOneMenu>
                 </h:panelGrid>
-                
-               <h:outputText value="Choose a planning period"/>
+
+                <h:outputText value="Choose a planning period"/>
 
                 <p:growl id="msgs" showDetail="true" />
-                   <h:outputText value="You are only allowed to choose the period after one year according to regulations"/>
-                
+                <h:outputText value="You are only allowed to choose the period after one year according to regulations"/>
+
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="popup" value="Starting Date: " />
                     <p:calendar id="popup" value="#{scheduleDevelopmentManagedBean.date}" mindate="#{scheduleDevelopmentManagedBean.minDate}"/>
-                       
+
                 </h:panelGrid>
-                
+
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="planningPeriod" value="Planning Period: " />
                     <p:selectOneMenu id="planningPeriod" value="#{scheduleDevelopmentManagedBean.planningPeiord}" style="width:400px">
@@ -61,12 +63,12 @@
                         <f:selectItem itemLabel="Select Planning Period" itemDisabled="true" />
                         <f:selectItems value="#{scheduleDevelopmentManagedBean.years}" var="year" itemLabel="#{year} year" itemValue="#{year}" />
                     </p:selectOneMenu>
-                    
+
                     <h:outputText id="endDate" value="Ending Date: #{scheduleDevelopmentManagedBean.endingDate}"/>
-             
+
                 </h:panelGrid>
-                   
-                             
+
+
             </p:panel>
 
             <p:panel header="Set Frequency for route" style="margin-bottom: 15px">
