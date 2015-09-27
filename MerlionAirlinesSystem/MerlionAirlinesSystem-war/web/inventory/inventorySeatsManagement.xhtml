@@ -47,7 +47,7 @@
                     <h:outputText value="#{seatsManagementManagedBean.getDaysToDeparture(flight)}" />
                 </p:column>
                 
-                <p:column headerText="Auto Create Booking Class (Booking Class, Price, Quota)">
+                <p:column headerText="Auto Create Booking Class (Booking Class, Price, Quota)"  style="width: 15%">
                     <p:commandButton ajax="false" value="Create" class="btn-sm btn-primary" 
                                      action="#{seatsManagementManagedBean.automaticallyCreateBookingClassAndRules(flight)}" /> 
                 </p:column>
