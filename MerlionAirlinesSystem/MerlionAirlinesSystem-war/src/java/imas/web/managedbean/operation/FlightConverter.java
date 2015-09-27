@@ -27,7 +27,7 @@ public class FlightConverter  implements Converter {
         if (value != null && value.trim().length() > 0) {
             try {
                 
-                List<FlightEntity> flightEntities = (List<FlightEntity>)fc.getExternalContext().getSessionMap().get("flightList");
+                List<FlightEntity> flightEntities = (List<FlightEntity>)fc.getExternalContext().getSessionMap().get("allFlights");
                 
                 Long flightEntityId = Long.valueOf(Long.parseLong(value));
                 

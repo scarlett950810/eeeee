@@ -7,6 +7,8 @@
     <ui:define name="head">
     </ui:define>
     
+    <ui:define name="title">Inventory | Cost Management</ui:define>
+
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -14,26 +16,24 @@
                 <li><a href="inventoryCost.xhtml">Manage Cost</a></li>
                 <li><a href="inventoryRulesManagement.xhtml">Manage Rules</a></li>
                 <li><a href="inventoryRevenueManagement.xhtml">Manage Revenue</a></li>
-
             </ul>
         </div>
     </ui:define>
-    
+
     <ui:define name="centerPanel">
         <p:growl id="growl" sticky="true" showDetail="true"/>
 
-
-        <p:treeTable value="#{inventoryCostManagedBean.root}" var="costPair" style="width:424px">
+        <p:treeTable value="#{inventoryCostManagedBean.root}" var="costPair" style=" padding-left: 10%; width: 60%">
             <f:facet name="header">
                 Fixed cost per seat per mile
             </f:facet>
-            <p:column headerText="Cost Type">
-                <h:outputText value="#{costPair.costType}" style="width: 500px" />
+            <p:column headerText="Cost Type" style="width: 50%">
+                <h:outputText value="#{costPair.costType}"/>
             </p:column>
-            <p:column headerText="Cost" >
-                <h:outputText value="#{costPair.costFigure}"  style="width: 100px" />
+            <p:column headerText="Cost" style="width: 30%">
+                <h:outputText value="#{costPair.costFigure}"/>
             </p:column>
-            <p:column style="width:100px"  headerText="Update Cost">
+            <p:column headerText="Update Cost" style="width: 20%">
                 <p:commandLink update=":updateCostForm:costPanel" actionListener="#{inventoryCostManagedBean.updateCostActionListener}" title="Edit Cost" styleClass="ui-icon ui-icon-script" >
                     <f:attribute value="#{costPair}" name="costPair" />
                 </p:commandLink>
@@ -41,7 +41,7 @@
         </p:treeTable>
 
         <p:dialog id="dialog" header="Edit Cost" showEffect="fade" widgetVar="costDialog"  resizable="false">
-            <h:form id="updateCostForm">
+            <h:form id="updateCostForm" class="panel panel-primary">
                 <p:outputPanel id="costPanel">
                     <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty inventoryCostManagedBean.selectedCost}">
                         <h:outputLabel for="name" value="Name: " />
@@ -56,8 +56,8 @@
                         </p:inputText>   
                     </p:panelGrid>
                 </p:outputPanel>
-                <p:commandButton id="updateCost"  value="Update Cost" ajax="false" actionListener="#{inventoryCostManagedBean.updateCost}"  >
-                </p:commandButton>
+                <p:commandButton id="updateCost"  value="Update Cost" ajax="false" actionListener="#{inventoryCostManagedBean.updateCost}"
+                                 class="btn-sm btn-primary" />
 
             </h:form>
         </p:dialog>

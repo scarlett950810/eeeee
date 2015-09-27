@@ -42,11 +42,12 @@
                         <h:graphicImage value="../resources/img/displayFlights/route.png" alt="Aircraft"/>
                         <h:outputText value="#{route.originAirport.airportName} (#{route.originAirport.cityName})" style="font-weight:bold;"/>
                         <br/>
-                        <h:outputText value="to #{route.destinationAirport.airportName} (#{route.destinationAirport.cityName})" style="font-weight:bold;"/>
+                        <h:outputText value="to #{route.destinationAirport.airportName} (#{route.destinationAirport.cityName})"
+                                      style="font-weight:bold;"/>
                     </f:facet>
 
                     <h:graphicImage value="../resources/img/displayFlights/airplane.png" style="display:inline; vertical-align:middle;" alt="Flight"/>  
-                    <h:outputText value="Flight #{flight.flightNo}"/>
+                    <h:outputText value=" Aircraft #{flight.aircraft.tailId}"/>
 
                 </pe:timeline>
             </p:tab>
@@ -60,7 +61,7 @@
                     </f:facet>
 
                     <h:graphicImage value="../resources/img/displayFlights/airplane.png" style="display:inline; vertical-align:middle;" alt="Flight"/>  
-                    <h:outputText value="Flight #{flight.flightNo}"/>
+                    <h:outputText value=" Flight #{flight.flightNo}"/>
                 </pe:timeline>
             </p:tab>
 

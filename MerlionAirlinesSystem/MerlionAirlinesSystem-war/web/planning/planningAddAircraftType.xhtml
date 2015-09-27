@@ -32,60 +32,71 @@
     <ui:define name="centerPanel">
         <h:form>
             <p:growl id="growl" showDetail="true"/>
-            <p:panel header="Add Aircraft Type">
+            <p:panel header="Add Aircraft Type" class="panel panel-success">
                 <p:messages />
-                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px; min-width: 500px;">
                     <p:outputLabel for="IATACode" value="IATA Code" />
-                    <p:inputText style="width:100%;" id="IATACode" value="#{aircraftTypeManagedBean.IATACode}" label="IATACode" required="true" requiredMessage="Please input IATA Code">
+                    <p:inputText id="IATACode" value="#{aircraftTypeManagedBean.IATACode}" label="IATACode"
+                                 required="true" requiredMessage="Please input IATA Code">
                         <p:watermark for="IATACode" value="Please enter IATA Code" />
                     </p:inputText>
                     
                     <p:outputLabel for="aircraftRange" value="Aircraft Range" />
-                    <p:inputText style="width:100%;" id="aircraftRange" value="#{aircraftTypeManagedBean.aircraftRange}" label="aircraftRange" required="true" requiredMessage="Please input aircraft range">
+                    <p:inputText id="aircraftRange" value="#{aircraftTypeManagedBean.aircraftRange}"
+                                 label="aircraftRange" required="true" requiredMessage="Please input aircraft range">
                         <p:watermark for="aircraftRange" value="Please enter aircraft range" />
                     </p:inputText> 
 
                     <p:outputLabel for="aircraftSpace" value="Aircraft Space" />
-                    <p:inputText style="width:100%;" id="aircraftSpace" value="#{aircraftTypeManagedBean.aircraftSpace}" label="aircraftSpace" required="true" requiredMessage="Please input aircraft space">
+                    <p:inputText id="aircraftSpace" value="#{aircraftTypeManagedBean.aircraftSpace}"
+                                 label="aircraftSpace" required="true" requiredMessage="Please input aircraft space">
                         <p:watermark for="aircraftSpace" value="Please enter aircraft space" />
                     </p:inputText>
 
                     <p:outputLabel for="cruisingSpeed" value="Cruising Speed" />
-                    <p:inputText style="width:100%;" id="cruisingSpeed" value="#{aircraftTypeManagedBean.cruisingSpeed}" label="cruisingSpeed" required="true" requiredMessage="Please input cruising speed">
+                    <p:inputText id="cruisingSpeed" value="#{aircraftTypeManagedBean.cruisingSpeed}"
+                                 label="cruisingSpeed" required="true" requiredMessage="Please input cruising speed">
                         <p:watermark for="cruisingSpeed" value="Please enter cruising speed" />
                     </p:inputText>
 
                     <p:outputLabel for="wingSpan" value="Wing Span" />
-                    <p:inputText style="width:100%;" id="wingSpan" value="#{aircraftTypeManagedBean.wingSpan}" label="wingSpan" required="true" requiredMessage="Please input wing span">
+                    <p:inputText id="wingSpan" value="#{aircraftTypeManagedBean.wingSpan}" label="wingSpan"
+                                 required="true" requiredMessage="Please input wing span">
                         <p:watermark for="wingSpan" value="Please enter wing span" />
                     </p:inputText>
                     
                     <p:outputLabel for="aircraftWeight" value="Aircraft Weight" />
-                    <p:inputText style="width:100%;" id="aircraftWeight" value="#{aircraftTypeManagedBean.aircraftWeight}" label="aircraftWeight" required="true" requiredMessage="Please input aircraft weight">
+                    <p:inputText id="aircraftWeight" value="#{aircraftTypeManagedBean.aircraftWeight}"
+                                 label="aircraftWeight" required="true" requiredMessage="Please input aircraft weight">
                         <p:watermark for="aircraftWeight" value="Please enter aircraft weight" />
                     </p:inputText>
                     
                     <p:outputLabel for="aircraftLength" value="Aircraft Length" />
-                    <p:inputText style="width:100%;" id="aircraftLength" value="#{aircraftTypeManagedBean.aircraftLength}" label="aircraftLength" required="true" requiredMessage="Please input aircraft length">
+                    <p:inputText id="aircraftLength" value="#{aircraftTypeManagedBean.aircraftLength}"
+                                 label="aircraftLength" required="true" requiredMessage="Please input aircraft length">
                         <p:watermark for="aircraftLength" value="Please enter aircraft length" />
                     </p:inputText>
                     
                     <p:outputLabel for="aircraftHeight" value="Aircraft Height" />
-                    <p:inputText style="width:100%;" id="aircraftHeight" value="#{aircraftTypeManagedBean.aircraftHeight}" label="aircraftHeight" required="true" requiredMessage="Please input aircraft height">
+                    <p:inputText id="aircraftHeight" value="#{aircraftTypeManagedBean.aircraftHeight}"
+                                 label="aircraftHeight" required="true" requiredMessage="Please input aircraft height">
                         <p:watermark for="aircraftHeight" value="Please enter aircraft height" />
                     </p:inputText>
                     
                     <p:outputLabel for="powerPlant" value="Power Plant" />
-                    <p:inputText style="width:100%;" id="powerPlant" value="#{aircraftTypeManagedBean.powerPlant}" label="powerPlant" required="true" requiredMessage="Please input power plant">
+                    <p:inputText id="powerPlant" value="#{aircraftTypeManagedBean.powerPlant}" label="powerPlant" 
+                                 required="true" requiredMessage="Please input power plant">
                         <p:watermark for="powerPlant" value="Please enter power plant" />
                     </p:inputText>
                     
                     <p:outputLabel for="MaintenanceHoursRequiredACheck" value="Maintainence Hours" />
-                    <p:inputText style="width:100%;" id="MaintenanceHoursRequiredACheck" value="#{aircraftTypeManagedBean.maintenanceHoursRequiredACheck}" label="MaintenanceHoursRequiredACheck" required="true" requiredMessage="Please input maintainence hours">
+                    <p:inputText id="MaintenanceHoursRequiredACheck" value="#{aircraftTypeManagedBean.maintenanceHoursRequiredACheck}"
+                                 label="MaintenanceHoursRequiredACheck" required="true" requiredMessage="Please input maintainence hours">
                         <p:watermark for="MaintenanceHoursRequiredACheck" value="Please enter maintainence hours" />
                     </p:inputText>
                     
-                    <p:commandButton id="addAircraftType" value="Confirm" actionListener="#{aircraftTypeManagedBean.save}" update="growl"/>
+                    <p:commandButton id="addAircraftType" value="Confirm" actionListener="#{aircraftTypeManagedBean.save}" update="growl"
+                                     class="btn-sm btn-success" />
 
                 </h:panelGrid>
             </p:panel>

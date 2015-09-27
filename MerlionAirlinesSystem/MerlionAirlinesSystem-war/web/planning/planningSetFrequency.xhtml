@@ -32,7 +32,7 @@
 
     <ui:define name="centerPanel">
         <h:form id="f1">
-            <p:panel header="Choose Route for Frequency Setting" style="margin-bottom: 15px" class="panel panel-primary">
+            <p:panel header="Choose Route for Frequency Setting" style="margin-bottom: 15px" class="panel panel-success">
 
                 <h:outputText value="Select a route and its return route for frequency setting"/>
                 <h:panelGrid columns="2" cellpadding="5">
@@ -72,7 +72,7 @@
 
             </p:panel>
 
-            <p:panel header="Set Frequency for route" style="margin-bottom: 15px"  class="panel panel-primary">
+            <p:panel header="Set Frequency for route" style="margin-bottom: 15px"  class="panel panel-success">
                 <h:panelGrid columns="2"  cellpadding="7">            
                     <p:outputLabel for="iteration" value="Choose Iteration Period: " />
                     <p:selectOneRadio id="iteration" value="#{scheduleDevelopmentManagedBean.iterationPeriod}">
@@ -83,9 +83,7 @@
                     <p:inputText id="time" value="#{scheduleDevelopmentManagedBean.flightTimes}" />
                 </h:panelGrid>
             </p:panel>
-            <p:commandButton value="Submit" actionListener="#{scheduleDevelopmentManagedBean.setFrequencyFinished}" icon="ui-icon-check" 
-                             class="btn-sm btn-primary" />
-
+            <p:commandButton value="Submit" actionListener="#{scheduleDevelopmentManagedBean.setFrequencyFinished}" icon="ui-icon-check" class="btn-sm btn-success" />
         </h:form>
     </ui:define>
 
