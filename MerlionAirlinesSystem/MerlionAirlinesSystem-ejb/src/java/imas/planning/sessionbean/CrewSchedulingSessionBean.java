@@ -240,12 +240,22 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
             //find the nearest flight
 //         System.err.println("7");
 
-            Date earliestT = calculateMaintenanceHours(pilot, mtAcc);
             //         System.err.println("7.1 flyingHours"+flyingHoursAC);
             if (findNextFlight) {
-                long diffInHours = TimeUnit.MILLISECONDS.toHours(flightAssigned.getDepartureDate().getTime() - earliestT.getTime());
-                //               System.err.println("findNextFlight is true");
-                if (diffInHours > 96 && currentLoc.getAirportCode().equals(pilot.getBase())) {
+
+                pilot.getPilotFlights().add(flightAssigned);
+                flightAssigned.getPilots().add(pilot);
+                if (flightAssigned.getPilots().size() >= 2) {
+                    flightsAvai.remove(flightAssigned);
+                }
+                em.merge(pilot);
+
+                earliestDep = flightAssigned.getArrivalDate(); // later can change to calculate 
+                currentLoc = flightAssigned.getRoute().getDestinationAirport();
+                //                      System.err.println("7.2.1");
+                long diffInHours = TimeUnit.MILLISECONDS.toHours(flightAssigned.getDepartureDate().getTime() - mtAcc.getTime());
+                System.err.println("findNextFlight is tru and diffHours = " + diffInHours);
+                if (diffInHours > 96 && currentLoc.getAirportCode().equals(pilot.getBase().getAirportCode())) {
                     //               System.err.println("flightAssigned FLIGHT hours"+flightAssigned.getRoute().getFlightHours());
 
                     cal.setTime(earliestDep);
@@ -255,24 +265,13 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
 
                     currentLoc = pilot.getBase();
                     mtAcc = earliestDep;
+                    System.err.println("mtAcc = " + mtAcc);
 //                       System.err.println("7.2");
 
-                } else {
-                    pilot.getPilotFlights().add(flightAssigned);
-                    flightAssigned.getPilots().add(pilot);
-                    if (flightAssigned.getPilots().size() >= 2) {
-                        flightsAvai.remove(flightAssigned);
-                    }
-                    em.merge(pilot);
-
-                    earliestDep = flightAssigned.getArrivalDate(); // later can change to calculate 
-                    currentLoc = flightAssigned.getRoute().getDestinationAirport();
-                    //                      System.err.println("7.2.1");
-
                 }
-            }
-            //            System.err.println("8");
+                //            System.err.println("8");
 
+            }
         }
 
         em.merge(pilot);
@@ -286,7 +285,8 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
     }
 
     @Override
-    public List<FlightEntity> pilotSchedulingForLongDistance(List<FlightEntity> shortFlights, List<PilotEntity> pilots) {
+    public List<FlightEntity> pilotSchedulingForLongDistance(List<FlightEntity> shortFlights, List<PilotEntity> pilots
+    ) {
         List<FlightEntity> flights = shortFlights;
         System.err.println("number of pilots :" + pilots.size());
         for (PilotEntity p : pilots) {
@@ -301,15 +301,16 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
     }
 
     @Override
-    public List<FlightEntity> onePilotSchedulingForLong(List<FlightEntity> flights, PilotEntity pilot) {
+    public List<FlightEntity> onePilotSchedulingForLong(List<FlightEntity> flights, PilotEntity pilot
+    ) {
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
         System.err.println("enter one for long");
         for (FlightEntity f : flights) {
             System.err.println("got things in flights");
             boolean b = true;
-           
-            System.err.println("flight"+f);
-            System.err.println("flight distance"+f.getRoute().getDistance());
+
+            System.err.println("flight" + f);
+            System.err.println("flight distance" + f.getRoute().getDistance());
             System.err.println("list" + pilot.getAircraftTypeCapabilities());
             for (String type : pilot.getAircraftTypeCapabilities()) {
                 System.err.println("enter gettype");
@@ -482,12 +483,25 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
             //find the nearest flight
 //         System.err.println("7");
 
-            Date earliestT = calculateMaintenanceHours(pilot, mtAcc);
+            //           Date earliestT = calculateMaintenanceHours(pilot, mtAcc);
             //         System.err.println("7.1 flyingHours"+flyingHoursAC);
             if (findNextFlight) {
-                long diffInHours = TimeUnit.MILLISECONDS.toHours(flightAssigned.getDepartureDate().getTime() - earliestT.getTime());
-                //               System.err.println("findNextFlight is true");
-                if (diffInHours > 96 && currentLoc.getAirportCode().equals(pilot.getBase())) {
+
+//                       System.err.println("7.2");
+                pilot.getPilotFlights().add(flightAssigned);
+                flightAssigned.getPilots().add(pilot);
+                if ((flightAssigned.getPilots().size() >= 2 && flightAssigned.getRoute().getDistance() < 5000) || (flightAssigned.getPilots().size() >= 3 && flightAssigned.getRoute().getDistance() > 5000)) {
+                    flightsAvai.remove(flightAssigned);
+                }
+                em.merge(pilot);
+
+                earliestDep = flightAssigned.getArrivalDate(); // later can change to calculate 
+                currentLoc = flightAssigned.getRoute().getDestinationAirport();
+                //                      System.err.println("7.2.1");
+
+                long diffInHours = TimeUnit.MILLISECONDS.toHours(flightAssigned.getDepartureDate().getTime() - mtAcc.getTime());
+                System.err.println("findNextFlight is tru and diffHours = " + diffInHours);
+                if (diffInHours > 96 && currentLoc.getAirportCode().equals(pilot.getBase().getAirportCode())) {
                     //               System.err.println("flightAssigned FLIGHT hours"+flightAssigned.getRoute().getFlightHours());
 
                     cal.setTime(earliestDep);
@@ -497,20 +511,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
 
                     currentLoc = pilot.getBase();
                     mtAcc = earliestDep;
-//                       System.err.println("7.2");
-
-                } else {
-                    pilot.getPilotFlights().add(flightAssigned);
-                    flightAssigned.getPilots().add(pilot);
-                    if ((flightAssigned.getPilots().size() >= 2 && flightAssigned.getRoute().getDistance() < 5000) || (flightAssigned.getPilots().size() >= 3 && flightAssigned.getRoute().getDistance() > 5000)) {
-                        flightsAvai.remove(flightAssigned);
-                    }
-                    em.merge(pilot);
-
-                    earliestDep = flightAssigned.getArrivalDate(); // later can change to calculate 
-                    currentLoc = flightAssigned.getRoute().getDestinationAirport();
-                    //                      System.err.println("7.2.1");
-
+                    System.err.println("mtAcc" + mtAcc);
                 }
             }
             //            System.err.println("8");
@@ -528,24 +529,31 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
     }
 
     @Override
-    public Date calculateMaintenanceHours(PilotEntity pilot, Date mtAcc) {
+    public Date calculateMaintenanceHours(PilotEntity pilot, Date mtAcc
+    ) {
         //       System.err.println("date mtacc"+ mtAcc);
         Double flyingHours = 0.0;
+        if (pilot.getPilotFlights().isEmpty()) {
+            return mtAcc;
+        }
+
         List<FlightEntity> fL = pilot.getPilotFlights();
         Date earliestT = fL.get(0).getDepartureDate();
         for (FlightEntity f : fL) {
-            if (f.getDepartureDate().compareTo(mtAcc) > 0 && f.getDepartureDate().compareTo(earliestT) < 0) {
+            if (f.getDepartureDate().compareTo(mtAcc) >= 0 && f.getDepartureDate().compareTo(earliestT) < 0) {
                 earliestT = f.getDepartureDate();
             }
         }
+        System.err.println("Caluate Hours mtAcc" + mtAcc);
+        System.err.println("calcuate hours earliestT" + earliestT);
         return earliestT;
     }
 
     @Override
     public List<PilotEntity> retriveAllPilots() {
         Query q = em.createQuery("SELECT a FROM PilotEntity a");
-        
-        return (List<PilotEntity>)q.getResultList();
+
+        return (List<PilotEntity>) q.getResultList();
     }
-    
+
 }
