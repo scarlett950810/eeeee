@@ -7,6 +7,7 @@ package imas.common.entity;
 
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -19,7 +20,6 @@ public class PilotEntity extends StaffEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String workingStatus;//available, checked-in, in flight, unavailable, temp rest
-    
     private List<String> aircraftTypeCapabilities;
     @ManyToMany
     private List<FlightEntity> pilotFlights;
@@ -31,15 +31,14 @@ public class PilotEntity extends StaffEntity implements Serializable {
     }
 
     public PilotEntity(String staffNo, String displayName, String password, String email,
-            String contactNumber, String department, String address, String gender, 
-            String workingStatus, List<String> aircraftTypeCapabilities, List<FlightEntity> pilotFlights, Boolean mileageLimit) {
+            String contactNumber, String address, String gender, String workingStatus, 
+            List<String> aircraftTypeCapabilities, List<FlightEntity> pilotFlights, Boolean mileageLimit) {
         super(staffNo, displayName, password, email, contactNumber, address, gender);
 
         this.workingStatus = workingStatus;
         this.aircraftTypeCapabilities = aircraftTypeCapabilities;
-        this.pilotFlights = pilotFlights;
-        this.mileageLimit = mileageLimit;
-        
+        this.pilotFlights = new ArrayList<>();
+        this.mileageLimit = false;
     }
 
     // the MountainBike subclass adds one method
@@ -58,6 +57,7 @@ public class PilotEntity extends StaffEntity implements Serializable {
     public void setAircraftTypeCapabilities(List<String> aircraftTypeCapabilities) {
         this.aircraftTypeCapabilities = aircraftTypeCapabilities;
     }
+ 
 
 
    
@@ -79,3 +79,4 @@ public class PilotEntity extends StaffEntity implements Serializable {
     }
 
 }
+

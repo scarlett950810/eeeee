@@ -30,10 +30,10 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        <p:growl id="growl" sticky="true" showDetail="true"/>
+        <p:growl id="growl" sticky="true" showDetail="true" class="alert-warning"/>
         
 
-        <p:panel header="Current Aircraft Types" style="margin-bottom: 15px">
+        <p:panel header="Current Aircraft Types" class="panel panel-primary">
             <h:form id="formChangeAircraftType">
                 <h:outputText value="Select a type to see aircrafts"/>
                 <h:panelGrid columns="2" cellpadding="5">

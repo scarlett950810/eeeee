@@ -6,6 +6,7 @@
 package imas.common.sessionbean;
 
 import imas.common.entity.StaffEntity;
+import imas.planning.entity.AirportEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -18,7 +19,10 @@ public interface AccountManagementSessionBeanLocal {
 
     void resetStaffPassword(String email);
     
-    Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String businessUnit, String division, String position, String location);
+    Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, 
+            String gender, String businessUnit, String division, String position, String location, 
+            String base, String workingStatus, List<String> aircraftTypeCapabilities, Boolean mileageLimit, 
+            Boolean isPilot, Boolean isCabinCrew);
 
     Boolean checkEmailExistence(String email);
 
@@ -26,7 +30,7 @@ public interface AccountManagementSessionBeanLocal {
 
     void deleteStaff(String staffNo);
 
-    void updateStaff(String staffNo, String email, String contactNumber, String address);
+    void updateStaff(StaffEntity staffEntity);
 
     StaffEntity getStaff(String staffNo);
 
@@ -34,5 +38,8 @@ public interface AccountManagementSessionBeanLocal {
 
     void activateAccount(String staffNo);
 
+    void createRootUser();
+
+    AirportEntity fetchBase(String base);
 
 }

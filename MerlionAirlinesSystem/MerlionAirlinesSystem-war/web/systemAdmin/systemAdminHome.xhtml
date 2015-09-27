@@ -21,9 +21,9 @@ and open the template in the editor.
         <ui:insert name="head">
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <style type="text/css">
-/*                .sidebar-h1{
-                    font-size: 20px;
-                }*/
+                /*                .sidebar-h1{
+                                    font-size: 20px;
+                                }*/
             </style>
         </ui:insert>
     </h:head>
@@ -47,7 +47,10 @@ and open the template in the editor.
                             <p>Account Management</p>
                         </li>
                         <li>
-                            <a href="systemAdminStaffManagement.xhtml">Company Staff</a>
+                            <a href="systemAdminAddStaff.xhtml">Add Airline Staff</a>
+                        </li>
+                        <li>
+                            <a href="systemAdminViewStaff.xhtml">View Airline Staff</a>
                         </li>
                         <li>
                             <a href="planningDeleteAircraft.xhtml">Membership Customers</a>
@@ -76,6 +79,16 @@ and open the template in the editor.
             </p:layoutUnit>
 
         </p:layout>
+
+        <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+            
+        </p:ajaxStatus>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage name="./img/ajax-loader.gif" />
+        </p:dialog>
 
     </h:body>
 </html>

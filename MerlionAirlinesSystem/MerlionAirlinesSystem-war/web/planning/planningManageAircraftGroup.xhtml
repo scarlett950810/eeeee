@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Manage Aircraft Groups</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Edit or Delete Aircraft</a></li>
+                <li><a href="planningManageAircraftGroup.xhtml">Manage Aircraft Group</a></li>
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAddAirport.xhtml">Add Airport</a></li>
+                <li><a href="planningDeleteAirport.xhtml">Delete Airport</a></li>
+                <li><a href="planningAddRoute.xhtml">Add Route</a></li>
+                <li><a href="planningDeleteRoute.xhtml">Delete Route</a></li>
+                <li><a href="planningSetFrequency.xhtml">Set Frequency and Time</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <p:growl id="growl" sticky="true" showDetail="true"/>
+        <p:panel header="Add Aircraft Group" style="margin-bottom: 15px">
+            <h:form>
+                <p:messages id="createAircraftGroup" />
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:outputLabel for="type" value="Type" />
+                    <p:inputText style="width: 400px" id="type" value="#{aircraftGroupManagedBean.type}" label="type" required="true" requiredMessage="Please input aircraft group type">
+                        <p:watermark for="type" value="Please enter tail ID" />
+                    </p:inputText>
+
+                    <p:commandButton update="createAircraftGroup" value="Add" icon="ui-icon-check" actionListener="#{aircraftGroupManagedBean.addAircraftGroup}" />
+
+                </h:panelGrid>
+            </h:form>
+        </p:panel>
+
+        <p:panel header="Current Aircraft Groups" style="margin-bottom: 15px">
+            <h:form id="formChangeAircraftGroup">
+                <h:outputText value="Select a Group to see airports"/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="aircraftGroups" value="Aircraft Group:" />
+                    <p:selectOneMenu id="aircraftGroups" value="#{aircraftGroupManagedBean.aircraftGroup}" style="width:150px" converter="aircraftGroupConverter">
+                        <p:ajax listener="#{aircraftGroupManagedBean.onAircraftGroupChange}" update="aircrafts" />
+                        <f:selectItem itemLabel="Select Group" itemDisabled="true" />
+                        <f:selectItems value="#{aircraftGroupManagedBean.aircraftGroups}" var="aircraftGroup" itemLabel="#{aircraftGroup.type}" itemValue="#{aircraftGroup}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <p:messages id="onAircraftGroupUpdate" />
+                <p:dataTable id="aircrafts" var="aircraft" value="#{aircraftGroupManagedBean.aircrafts}">
+                    <f:facet name="header">
+                        List of Aircrafts
+                    </f:facet>
+
+                    <p:column headerText="Tail ID">
+                        <h:outputText value="#{aircraft.tailId}" />
+                    </p:column>
+
+                    <p:column headerText="Aircraft Type">
+                        <h:outputText value="#{aircraft.aircraftType.IATACode}" />
+                    </p:column>
+
+                    <p:column headerText="Net Asset Value">
+                        <h:outputText value="#{aircraft.netAssetValue}" />
+                    </p:column>
+
+                    <p:column headerText="Aircraft Life">
+                        <h:outputText value="#{aircraft.aircraftLife}" />
+                    </p:column>
+
+                    <p:column headerText="Operation Year">
+                        <h:outputText value="#{aircraft.operationYear}" />
+                    </p:column>
+
+                    <p:column headerText="Condition Description">
+                        <h:outputText value="#{aircraft.conditionDescription}" />
+                    </p:column>
+
+                    <p:column headerText="Airport Hub">
+                        <h:outputText value="#{aircraft.airportHub.airportCode} #{aircraft.airportHub.airportName} @ #{aircraft.airportHub.cityName}, #{aircraft.airportHub.nationName}" />
+                    </p:column>
+
+                    <p:column headerText="Current Airport">
+                        <h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}, #{aircraft.currentAirport.nationName}" />
+                    </p:column>
+
+                    <p:column headerText="Change Group">
+                        <p:selectOneMenu value="#{aircraftGroupManagedBean.aircraftGroupToUpdate}" style="width:150px" converter="aircraftGroupConverter">                            
+                            <f:selectItem itemLabel="Select Group" itemDisabled="true" />          
+                            <f:selectItems value="#{aircraftGroupManagedBean.aircraftGroups}" var="aircraftGroup" itemLabel="#{aircraftGroup.type}" itemValue="#{aircraftGroup}" />
+                        </p:selectOneMenu>
+                        <p:commandButton icon="ui-icon-arrowreturn-1-e" title="Change" actionListener="#{aircraftGroupManagedBean.onAircraftUpdate(aircraft)}" update=":formChangeAircraftGroup:onAircraftGroupUpdate"/>
+                    </p:column>
+
+                    <p:column headerText="Detach from Group">
+                        <p:commandButton icon="ui-icon-trash" title="Delete" actionListener="#{aircraftGroupManagedBean.onAircraftDelete(aircraft)}" update=":formChangeAircraftGroup:onAircraftGroupUpdate"/>
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:form>
+        </p:panel>
+
+    </ui:define>
+
+</ui:composition>
+
