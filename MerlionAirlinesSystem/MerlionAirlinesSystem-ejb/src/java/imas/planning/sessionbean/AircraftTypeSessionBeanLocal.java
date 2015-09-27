@@ -5,6 +5,7 @@
  */
 package imas.planning.sessionbean;
 
+import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -24,5 +25,7 @@ public interface AircraftTypeSessionBeanLocal {
     void addAircraftType(AircraftTypeEntity aircraftType);
 
     Boolean deleteAircraftType(String IATACode);
+
+    List<AircraftEntity> getAircraftsFromAircraftType(AircraftTypeEntity aircraftType);
     
 }

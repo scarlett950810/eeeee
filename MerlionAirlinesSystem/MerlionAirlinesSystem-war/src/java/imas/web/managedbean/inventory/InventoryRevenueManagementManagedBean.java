@@ -5,6 +5,7 @@
  */
 package imas.web.managedbean.inventory;
 
+import imas.distribution.sessionbean.DistributionSessionBeanLocal;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.sessionbean.inventoryRevenueManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
@@ -13,10 +14,10 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import org.primefaces.event.SlideEndEvent;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -27,13 +28,16 @@ import org.primefaces.model.chart.HorizontalBarChartModel;
  *
  * @author Howard
  */
-@Named(value = "inventoryRevenueManagementManagedBean")
+@ManagedBean
 @SessionScoped
 public class InventoryRevenueManagementManagedBean implements Serializable {
+    @EJB
+    private DistributionSessionBeanLocal distributionSessionBean;
 
     @EJB
     private inventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
-
+    
+    
     private List<FlightEntity> flightList;
     private List<FlightEntity> fliteredFlight;
     private FlightEntity selectedFlight;
@@ -41,6 +45,9 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     private BookingClassEntity economyOne;
     private BookingClassEntity economyTwo;
     private BookingClassEntity economyThree;
+    private BookingClassEntity economyFour;
+    private BookingClassEntity economyFive;
+    private BookingClassEntity economyAgency;
     private BookingClassEntity bookingClass;
     private double newPricing;
     private boolean close = true; // This attribute is to identify whether the quota dialog box is closed by the cross or not
@@ -49,6 +56,10 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     private int economyOneQuota;
     private int economyTwoQuota;
     private int economyThreeQuota;
+    private int economyFourQuota;
+    private int economyFiveQuota;
+    private int economyAgencyQuota;
+    
     private HorizontalBarChartModel horizontalBarModel;
 
     public InventoryRevenueManagementManagedBean() {
@@ -57,11 +68,12 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         fetchFlights();
-        
+        System.out.print("managed bean called");
     }
 
     public void fetchFlights() {
-        flightList = inventoryRevenueManagementSessionBean.fetchFlight();
+        flightList = distributionSessionBean.getAllAvailableFlights();
+        System.out.print(flightList);
     }
 
     public List<FlightEntity> getFlightList() {
@@ -103,24 +115,30 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         economyClassSeats = inventoryRevenueManagementSessionBean.checkSeatsCapacity(selectedFlight);
         close = true;
         createHorizontalBarModel();
+        
         for (BookingClassEntity bookingClassList1 : bookingClassList) {
-            switch (bookingClassList1.getName()) {
-                case "Economy Class 1":
-                    economyOne = bookingClassList1;
-                    break;
-                case "Economy Class 2":
-                    economyTwo = bookingClassList1;
-                    break;
-                case "Economy Class 3":
-                    economyThree = bookingClassList1;
-                    break;
+            if(bookingClassList1.isEconomyClass1BookingClassEntity()){
+                economyOne = bookingClassList1;
+            }else if(bookingClassList1.isEconomyClass2BookingClassEntity()){
+                economyTwo = bookingClassList1;
+            }else if(bookingClassList1.isEconomyClass3BookingClassEntity()){
+                economyThree = bookingClassList1;
+            }else if(bookingClassList1.isEconomyClass4BookingClassEntity()){
+                economyFour = bookingClassList1;
+            }else if(bookingClassList1.isEconomyClass5BookingClassEntity()){
+                economyFive = bookingClassList1;
+            }else if(bookingClassList1.isEconomyClassAgencyBookingClassEntity()){
+                economyAgency = bookingClassList1;
             }
         }
 
         economyOneQuota = economyOne.getQuota();
         economyTwoQuota = economyTwo.getQuota();
         economyThreeQuota = economyThree.getQuota();
-
+        economyFourQuota = economyFour.getQuota();
+        economyFiveQuota = economyFive.getQuota();
+        economyAgencyQuota = economyAgency.getQuota();
+        
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("inventoryBookingClassManagement.xhtml");
@@ -236,6 +254,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     public void onSlideEndOne(SlideEndEvent event) {
         economyOneQuota = event.getValue();
+        System.out.print(economyOneQuota);
     }
 
     public void onSlideEndTwo(SlideEndEvent event) {
@@ -244,6 +263,18 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     public void onSlideEndThree(SlideEndEvent event) {
         economyThreeQuota = event.getValue();
+    }
+    
+    public void onSlideEndFour(SlideEndEvent event) {
+        economyFourQuota = event.getValue();
+    }
+    
+    public void onSlideEndFive(SlideEndEvent event) {
+        economyFiveQuota = event.getValue();
+    }
+    
+    public void onSlideEndAgency(SlideEndEvent event) {
+        economyAgencyQuota = event.getValue();
     }
 
     public int getEconomyOneQuota() {
@@ -270,6 +301,55 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         this.economyThreeQuota = economyThreeQuota;
     }
 
+    public BookingClassEntity getEconomyFour() {
+        return economyFour;
+    }
+
+    public void setEconomyFour(BookingClassEntity economyFour) {
+        this.economyFour = economyFour;
+    }
+
+    public BookingClassEntity getEconomyFive() {
+        return economyFive;
+    }
+
+    public void setEconomyFive(BookingClassEntity economyFive) {
+        this.economyFive = economyFive;
+    }
+
+    public BookingClassEntity getEconomyAgency() {
+        return economyAgency;
+    }
+
+    public void setEconomyAgency(BookingClassEntity economyAgency) {
+        this.economyAgency = economyAgency;
+    }
+
+    public int getEconomyFourQuota() {
+        return economyFourQuota;
+    }
+
+    public void setEconomyFourQuota(int economyFourQuota) {
+        this.economyFourQuota = economyFourQuota;
+    }
+
+    public int getEconomyFiveQuota() {
+        return economyFiveQuota;
+    }
+
+    public void setEconomyFiveQuota(int economyFiveQuota) {
+        this.economyFiveQuota = economyFiveQuota;
+    }
+
+    public int getEconomyAgencyQuota() {
+        return economyAgencyQuota;
+    }
+
+    public void setEconomyAgencyQuota(int economyAgencyQuota) {
+        this.economyAgencyQuota = economyAgencyQuota;
+    }
+
+    
     private void createHorizontalBarModel() {
         horizontalBarModel = new HorizontalBarChartModel();
  
@@ -278,10 +358,10 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         ChartSeries unSold = new ChartSeries();
         sold.setLabel("Sold");
         unSold.setLabel("Unsold");
-        for(int i=0; i< bookingClassList.size(); i++){
+        for(int i=bookingClassList.size()-1; i>=0 ; i--){
             int temp = inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClassList.get(i).getId());
             int quota = bookingClassList.get(i).getQuota();
-            sold.set(bookingClassList.get(i).getName(), 20);
+            sold.set(bookingClassList.get(i).getName(), temp);
             unSold.set(bookingClassList.get(i).getName(), quota - temp);
         }
  

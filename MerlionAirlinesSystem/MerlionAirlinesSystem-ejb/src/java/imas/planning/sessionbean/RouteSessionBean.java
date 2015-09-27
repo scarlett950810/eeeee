@@ -22,10 +22,10 @@ import javax.persistence.Query;
  */
 @Stateless
 public class RouteSessionBean implements RouteSessionBeanLocal {
+
     @PersistenceContext
     private EntityManager em;
-    
-    
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
@@ -41,6 +41,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
 
         }
     }
+
     @Override
     public Boolean checkRouteByStringName(String hub, String spoke) {
         Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :hubN");
@@ -48,10 +49,10 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         AirportEntity hubEntity = (AirportEntity) query.getSingleResult();
         query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :spokeN");
         query.setParameter("spokeN", spoke);
-        AirportEntity spokeEntity = (AirportEntity) query.getSingleResult();  
-        
+        AirportEntity spokeEntity = (AirportEntity) query.getSingleResult();
+
         query = em.createQuery("SELECT a FROM RouteEntity a WHERE (a.originAirport = :origin AND a.destinationAirport = :destination)OR(a.originAirport = :destination AND a.destinationAirport = :origin)");
-              
+
         query.setParameter("origin", hubEntity);
         query.setParameter("destination", spokeEntity);
         List<RouteEntity> route = (List<RouteEntity>) query.getResultList();
@@ -74,7 +75,6 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         em.persist(reverseRoute);
 
     }
-    
 
     @Override
     public Boolean connectHubSpoke(String hub, String spoke) {
@@ -84,17 +84,15 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :spokeN");
         query.setParameter("spokeN", spoke);
         AirportEntity spokeEntity = (AirportEntity) query.getSingleResult();
-        if (checkRouteByStringName(hub,spoke)) {
+        if (checkRouteByStringName(hub, spoke)) {
             System.err.println("added");
             addRoute(hubEntity, spokeEntity);
             return true;
-        }
-        else
+        } else {
             return false;
+        }
     }
-    
-    
-    
+
     @Override
     public List<AirportEntity> retrieveHubs() {
         Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.hubOrSpoke = :true");
@@ -112,29 +110,36 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     }
 
     @Override
-    public void deleteRoute(AirportEntity hub, AirportEntity spoke) {
+    public Boolean deleteRoute(AirportEntity hub, AirportEntity spoke) {
         Query query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.originAirport = :hub AND a.destinationAirport = :spoke");
         query.setParameter("hub", hub);
         query.setParameter("spoke", spoke);
-        if (!query.getResultList().isEmpty()) {
-            RouteEntity route = (RouteEntity) query.getSingleResult();
-            RouteEntity reverseRoute = route.getReverseRoute();
+        RouteEntity route = (RouteEntity) query.getSingleResult();
+        RouteEntity reverseRoute = route.getReverseRoute();
+        
+        Query q = em.createQuery("SELECT a FROM FlightEntity a WHERE a.route = :route OR a.route = :reverseRoute");
+        q.setParameter("route", route);
+        q.setParameter("reverseRoute", reverseRoute);
+        if (q.getResultList().isEmpty()) {
+            System.err.println("No flight attached");
             em.remove(route);
             em.remove(reverseRoute);
+            return true;
         }
+        return false;
     }
 
     @Override
     public List<RouteEntity> retrieveAllRoutes() {
         Query query = em.createQuery("SELECT a FROM RouteEntity a");
- //       System.out.println("Debug into retrieveAllRoute function");
 
+ //       System.out.println("Debug into retrieveAllRoute function");
         return (List<RouteEntity>) query.getResultList();
     }
 
     @Override
     public List<String> retrieveAllConnectionName() {
-       //System.out.println("Debug into retrieveAllConnectionName function");
+        //System.out.println("Debug into retrieveAllConnectionName function");
         List<RouteEntity> routes = retrieveAllRoutes();
         //System.out.println("Debug after retrieveAllRoutes function");
 
@@ -153,7 +158,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     }
 
     @Override
-    public void deleteRoutesByName(String origin, String destination) {
+    public Boolean deleteRoutesByName(String origin, String destination) {
         Query q = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :name");
         q.setParameter("name", origin);
         AirportEntity originAirportEntity = (AirportEntity) q.getSingleResult();
@@ -161,7 +166,10 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         q.setParameter("name", destination);
         AirportEntity destinationAirportEntity = (AirportEntity) q.getSingleResult();
 
-        deleteRoute(originAirportEntity, destinationAirportEntity);
+        if(deleteRoute(originAirportEntity, destinationAirportEntity))
+            return true;
+        else
+            return false;
 
     }
 
@@ -175,9 +183,9 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
 
             RouteEntity routeOri = (RouteEntity) query.getSingleResult();
             routeOri.setDistance(routeNew.getDistance());
-           // System.out.println("Distance" + routeNew.getDistance());
+            // System.out.println("Distance" + routeNew.getDistance());
             routeOri.setFlightHours(routeNew.getFlightHours());
-         //   System.out.println("before persist");
+            //   System.out.println("before persist");
             em.persist(routeOri);
         }
     }
@@ -187,73 +195,77 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         Query query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.id = :id");
         query.setParameter("id", route.getId());
         RouteEntity routeOri = (RouteEntity) query.getSingleResult();
+        RouteEntity reverse = (RouteEntity) routeOri.getReverseRoute();
         routeOri.setDistance(route.getDistance());
-  //      System.out.println("Distance" + route.getDistance());
-        routeOri.setFlightHours(route.getFlightHours());
-   //     System.out.println("before persist");
+        //      System.out.println("Distance" + route.getDistance());
+        //     System.out.println("before persist");
+        reverse.setDistance(route.getDistance());
+        em.persist(reverse);
 
     }
+
     @Override
     public List<RouteEntity> retrieveRoutesWithinRange(Double max, Double min) {
         Query q = em.createQuery("SELECT a FROM RouteEntity a WHERE a.distance >= :min AND a.distance <= :max");
         q.setParameter("min", min);
         q.setParameter("max", max);
-        if(!q.getResultList().isEmpty()){
-            return (List<RouteEntity>)q.getResultList();
+        if (!q.getResultList().isEmpty()) {
+            return (List<RouteEntity>) q.getResultList();
         }
         return new ArrayList<RouteEntity>();
-                
+
     }
 
     @Override
     public List<RouteEntity> filterRoutesToConnections(List<RouteEntity> routes) {
 //        System.out.println("Enter filterRoutesToConneci"+routes.size());
         List<RouteEntity> routesFiltered = new ArrayList<RouteEntity>();
-        if(!routes.isEmpty()){
-        for(Object o: routes){
-            RouteEntity route = (RouteEntity)o;
-            for(Object obj: routes){
-                RouteEntity routeIfReverse = (RouteEntity)obj;
- //               System.out.println("before if");
-                if(route.getReverseRoute()!=null){
-                if(route.getReverseRoute().getId().equals(routeIfReverse.getId())){
- //                   System.out.println("Enter if statement for comparing the ID");
+        if (!routes.isEmpty()) {
+            for (Object o : routes) {
+                RouteEntity route = (RouteEntity) o;
+                for (Object obj : routes) {
+                    RouteEntity routeIfReverse = (RouteEntity) obj;
+                    //               System.out.println("before if");
+                    if (route.getReverseRoute() != null) {
+                        if (route.getReverseRoute().getId().equals(routeIfReverse.getId())) {
+                            //                   System.out.println("Enter if statement for comparing the ID");
 
-                    routesFiltered.add(route);
-                    routes.set(routes.indexOf(routeIfReverse), new RouteEntity());
+                            routesFiltered.add(route);
+                            routes.set(routes.indexOf(routeIfReverse), new RouteEntity());
  //                   System.out.println("After remove");
-                   
-                } }
+
+                        }
+                    }
 //                System.out.println("After if");
-                    
+
+                }
+                //       System.out.println("After for");    
             }
- //       System.out.println("After for");    
         }
-        }
- //       System.out.println("Leave filterRoutesToConneci and routes");
+        //       System.out.println("Leave filterRoutesToConneci and routes");
         return routesFiltered;
     }
 
     @Override
     public void createRouteGroup(String groupCode, Double maxRange, Double minRange, ArrayList<RouteEntity> routesGrped) {
         RouteGroupEntity routeGrp = new RouteGroupEntity(groupCode, minRange, maxRange);
-  //      System.out.println("routesGrped: "+routesGrped.get(0).getOriginAirport().getAirportName());
+        //      System.out.println("routesGrped: "+routesGrped.get(0).getOriginAirport().getAirportName());
         routeGrp.setGroup(routesGrped);
-        if(!routesGrped.isEmpty()){
-            for(RouteEntity rt: routesGrped){
- //               System.out.println("before find em ");
+        if (!routesGrped.isEmpty()) {
+            for (RouteEntity rt : routesGrped) {
+                //               System.out.println("before find em ");
 
                 RouteEntity route = em.find(RouteEntity.class, rt.getId());
- //               System.out.println("after find em0 ");
+                //               System.out.println("after find em0 ");
                 route.setRouteGroup(routeGrp);
- //               System.out.println("after find em ");
+                //               System.out.println("after find em ");
 
             }
         }
- //       System.out.println("before persist ");
+        //       System.out.println("before persist ");
 
         em.persist(routeGrp);
- //                       System.out.println("after persist em ");
+        //                       System.out.println("after persist em ");
 
     }
 
@@ -261,13 +273,13 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     public Boolean availabilityCheck(Double range) {
         Query query = em.createQuery("SELECT a FROM AircraftTypeEntity a WHERE a.aircraftRange >= :range");
         query.setParameter("range", range);
-        if(!query.getResultList().isEmpty()){
-            System.err.println("true");                 
+        if (!query.getResultList().isEmpty()) {
+            System.err.println("true");
             return true;
-        }
-        else
+        } else {
             return false;
-        
+        }
+
     }
 
     @Override
@@ -276,26 +288,25 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("hub", hub);
         query.setParameter("spoke", spoke);
 
-        RouteEntity route1 = (RouteEntity)query.getSingleResult();
+        RouteEntity route1 = (RouteEntity) query.getSingleResult();
         route1.setDistance(distance);
         query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.destinationAirport.airportName =:hub AND a.originAirport.airportName = :spoke ");
         query.setParameter("hub", hub);
         query.setParameter("spoke", spoke);
-        RouteEntity route2 = (RouteEntity)query.getSingleResult();
+        RouteEntity route2 = (RouteEntity) query.getSingleResult();
         route2.setDistance(distance);
         Double speed = 497.097; // 497.097miles/hr
-        Double hours = distance/speed;
+        Double hours = distance / speed;
         route1.setFlightHours(hours);
         route2.setFlightHours(hours);
     }
 
-    
     public void saveReturnFlights(FlightEntity f) {
         em.persist(f);
 //        System.err.println("saveReturnflighs1");
 //        System.err.println("saveReturnflighs2");
- 
- //      System.err.println("saveReturnflighs3");
+
+        //      System.err.println("saveReturnflighs3");
     }
 
     @Override
@@ -304,11 +315,8 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("year", yearSelected);
         query.setParameter("route", routeSelected);
         query.setParameter("reverseRoute", routeSelected.getReverseRoute());
-        
-        return (List<FlightEntity>)query.getResultList();
+
+        return (List<FlightEntity>) query.getResultList();
     }
-    
-    
-    
-    
+
 }
