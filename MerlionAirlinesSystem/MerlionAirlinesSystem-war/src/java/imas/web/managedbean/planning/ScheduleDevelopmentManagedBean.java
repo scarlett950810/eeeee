@@ -231,6 +231,15 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
     }
     
     public String getMinDate() {
+        if(!routeSelected.getFlights().isEmpty()){
+            List<FlightEntity> flights = routeSelected.getFlights();
+            Date temp = flights.get(0).getDepartureDate();
+            Date max = temp;
+            for(FlightEntity f: flights){
+                if(max.compareTo(f.getDepartureDate())<0)
+                    max = f.getDepartureDate();
+            }
+        }
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 1);

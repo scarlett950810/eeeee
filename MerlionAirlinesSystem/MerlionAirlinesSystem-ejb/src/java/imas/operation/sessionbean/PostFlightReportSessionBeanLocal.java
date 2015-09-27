@@ -20,6 +20,6 @@ public interface PostFlightReportSessionBeanLocal {
 
     public void init();
 
-    public void updateReport(FlightEntity selectedFlight, Integer num);
+    public void updateReport(FlightEntity selectedFlight);
 
 }

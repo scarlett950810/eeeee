@@ -11,8 +11,8 @@
 
     <h:body>
         <p:chart type="bar" model="#{inventoryRevenueManagementManagedBean.horizontalBarModel}" style="height:300px"/>
-        
-        <p:dataTable var="bookingClasses" value="#{inventoryRevenueManagementManagedBean.bookingClassList}">
+
+        <p:dataTable var="bookingClasses" value="#{inventoryRevenueManagementManagedBean.bookingClassList}" style="margin-top: 20px;">
             <p:column headerText="Seat Classes">
                 <h:outputText value="#{bookingClasses.seatClass}" />
             </p:column>
@@ -53,26 +53,46 @@
             <h:form id="quotaForm">
 
                 <h:panelGrid columns="1" style="margin-bottom: 10px">
-                    <h:outputText id="output1" value="Set Economy One Booking Class Quota to #{inventoryRevenueManagementManagedBean.economyOneQuota}" />
+                    <h:outputText id="output1" value="Set #{inventoryRevenueManagementManagedBean.economyOne.name} Booking Class Quota to #{inventoryRevenueManagementManagedBean.economyOneQuota}" />
                     <h:inputHidden id="economyOne" value="#{inventoryRevenueManagementManagedBean.economyOneQuota}" />
-                    <p:slider for="economyOne" display="output1" style="width: 200px" displayTemplate="Set Economy One Booking Class Quota to {value}" maxValue="#{2*inventoryRevenueManagementManagedBean.economyClassSeats}">
+                    <p:slider for="economyOne" display="output1" style="width: 200px" displayTemplate="Set #{inventoryRevenueManagementManagedBean.economyOne.name} Booking Class Quota to {value}" maxValue="#{2*inventoryRevenueManagementManagedBean.economyClassSeats}">
                         <p:ajax event="slideEnd" listener="#{inventoryRevenueManagementManagedBean.onSlideEndOne}" update="outputTextTotalQuota" />
                     </p:slider>
 
-                    <h:outputText id="output2" value="Set Economy Two Booking Class Quota to #{inventoryRevenueManagementManagedBean.economyTwoQuota}" />
+                    <h:outputText id="output2" value="Set #{inventoryRevenueManagementManagedBean.economyTwo.name} Booking Class Quota to #{inventoryRevenueManagementManagedBean.economyTwoQuota}" />
                     <h:inputHidden id="economyTwo" value="#{inventoryRevenueManagementManagedBean.economyTwoQuota}" />
-                    <p:slider for="economyTwo" display="output2" style="width: 200px" displayTemplate="Set Economy Two Booking Class Quota to {value}" maxValue="#{2*inventoryRevenueManagementManagedBean.economyClassSeats}">
-                        <p:ajax event="slideEnd" listener="#{inventoryRevenueManagementManagedBean.onSlideEndTwo}" />
+                    <p:slider for="economyTwo" display="output2" style="width: 200px" displayTemplate="Set #{inventoryRevenueManagementManagedBean.economyTwo.name} Booking Class Quota to {value}" maxValue="#{2*inventoryRevenueManagementManagedBean.economyClassSeats}">
+                        <p:ajax event="slideEnd" listener="#{inventoryRevenueManagementManagedBean.onSlideEndTwo}" update="outputTextTotalQuota"/>
                     </p:slider>
 
-                    <h:outputText id="output3" value="Set Economy Three Booking Class Quota to #{inventoryRevenueManagementManagedBean.economyThreeQuota}" />
+                    <h:outputText id="output3" value="Set #{inventoryRevenueManagementManagedBean.economyThree.name} Booking Class Quota to #{inventoryRevenueManagementManagedBean.economyThreeQuota}" />
                     <h:inputHidden id="economyThree" value="#{inventoryRevenueManagementManagedBean.economyThreeQuota}" />
-                    <p:slider for="economyThree" display="output3" style="width: 200px" displayTemplate="Set Economy Three Booking Class Quota to {value}" maxValue="#{2*inventoryRevenueManagementManagedBean.economyClassSeats}">
-                        <p:ajax event="slideEnd" listener="#{inventoryRevenueManagementManagedBean.onSlideEndThree}" />
+                    <p:slider for="economyThree" display="output3" style="width: 200px" displayTemplate="Set #{inventoryRevenueManagementManagedBean.economyThree.name} Booking Class Quota to {value}" maxValue="#{2*inventoryRevenueManagementManagedBean.economyClassSeats}">
+                        <p:ajax event="slideEnd" listener="#{inventoryRevenueManagementManagedBean.onSlideEndThree}" update="outputTextTotalQuota"/>
                     </p:slider>
+
+                    <h:outputText id="output4" value="Set #{inventoryRevenueManagementManagedBean.economyFour.name} Booking Class Quota to #{inventoryRevenueManagementManagedBean.economyFourQuota}" />
+                    <h:inputHidden id="economyFour" value="#{inventoryRevenueManagementManagedBean.economyFourQuota}" />
+                    <p:slider for="economyFour" display="output4" style="width: 200px" displayTemplate="Set #{inventoryRevenueManagementManagedBean.economyFour.name} Booking Class Quota to {value}" maxValue="#{2*inventoryRevenueManagementManagedBean.economyClassSeats}">
+                        <p:ajax event="slideEnd" listener="#{inventoryRevenueManagementManagedBean.onSlideEndFour}" update="outputTextTotalQuota"/>
+                    </p:slider>
+
+                    <h:outputText id="output5" value="Set #{inventoryRevenueManagementManagedBean.economyFive.name} Booking Class Quota to #{inventoryRevenueManagementManagedBean.economyFiveQuota}" />
+                    <h:inputHidden id="economyFive" value="#{inventoryRevenueManagementManagedBean.economyFiveQuota}" />
+                    <p:slider for="economyFive" display="output5" style="width: 200px" displayTemplate="Set #{inventoryRevenueManagementManagedBean.economyFive.name} Booking Class Quota to {value}" maxValue="#{2*inventoryRevenueManagementManagedBean.economyClassSeats}">
+                        <p:ajax event="slideEnd" listener="#{inventoryRevenueManagementManagedBean.onSlideEndFive}" update="outputTextTotalQuota"/>
+                    </p:slider>
+
+                    <h:outputText id="output6" value="Set #{inventoryRevenueManagementManagedBean.economyAgency.name} Booking Class Quota to #{inventoryRevenueManagementManagedBean.economyAgencyQuota}" />
+                    <h:inputHidden id="economyAgency" value="#{inventoryRevenueManagementManagedBean.economyAgencyQuota}" />
+                    <p:slider for="economyAgency" display="output6" style="width: 200px" displayTemplate="Set #{inventoryRevenueManagementManagedBean.economyAgency.name} Booking Class Quota to {value}" maxValue="#{2*inventoryRevenueManagementManagedBean.economyClassSeats}">
+                        <p:ajax event="slideEnd" listener="#{inventoryRevenueManagementManagedBean.onSlideEndAgency}" update="outputTextTotalQuota"/>
+                    </p:slider>
+
 
                     <br/><br/>
-                    <h:outputText id="outputTextTotalQuota" value="Total number of opening quota for Economy Class: #{inventoryRevenueManagementManagedBean.economyOneQuota + inventoryRevenueManagementManagedBean.economyTwoQuota + inventoryRevenueManagementManagedBean.economyThreeQuota}" style="color:red"/>
+                    <h:outputText id="outputTextTotalQuota" value="Total number of opening quota for Economy Class: #{inventoryRevenueManagementManagedBean.economyOneQuota + inventoryRevenueManagementManagedBean.economyTwoQuota + inventoryRevenueManagementManagedBean.economyThreeQuota + 
+                                                                                                                      inventoryRevenueManagementManagedBean.economyFourQuota + inventoryRevenueManagementManagedBean.economyFiveQuota + inventoryRevenueManagementManagedBean.economyAgencyQuota}" style="color:red"/>
                     <h:outputText value="Capacity of Economy Class: #{inventoryRevenueManagementManagedBean.economyClassSeats}" style="color:red" />
                 </h:panelGrid>
 
@@ -81,11 +101,21 @@
 
                 <p:dialog showEffect="fade" hideEffect="fade" widgetVar="confirmation">
                     <h:panelGrid id="display" columns="1" cellpadding="5">
-                        <h:outputText value="Economy One Booking Class: #{inventoryRevenueManagementManagedBean.economyOneQuota}" />
+                        <h:outputText value="#{inventoryRevenueManagementManagedBean.economyOne.name} Booking Class: #{inventoryRevenueManagementManagedBean.economyOneQuota}" />
 
-                        <h:outputText value="Economy Two Booking Class: #{inventoryRevenueManagementManagedBean.economyTwoQuota}" />
+                        <h:outputText value="#{inventoryRevenueManagementManagedBean.economyTwo.name} Booking Class: #{inventoryRevenueManagementManagedBean.economyTwoQuota}" />
 
-                        <h:outputText value="Economy Three Booking Class: #{inventoryRevenueManagementManagedBean.economyThreeQuota}" />
+                        <h:outputText value="#{inventoryRevenueManagementManagedBean.economyThree.name} Booking Class: #{inventoryRevenueManagementManagedBean.economyThreeQuota}" />
+
+                        <h:outputText value="#{inventoryRevenueManagementManagedBean.economyFour.name} Booking Class: #{inventoryRevenueManagementManagedBean.economyFourQuota}" />
+
+                        <h:outputText value="#{inventoryRevenueManagementManagedBean.economyFive.name} Booking Class: #{inventoryRevenueManagementManagedBean.economyFiveQuota}" />
+
+                        <h:outputText value="#{inventoryRevenueManagementManagedBean.economyAgency.name} Booking Class: #{inventoryRevenueManagementManagedBean.economyAgencyQuota}" />
+
+                        <h:outputText value="Total number of opening quota for Economy Class: #{inventoryRevenueManagementManagedBean.economyOneQuota + inventoryRevenueManagementManagedBean.economyTwoQuota + inventoryRevenueManagementManagedBean.economyThreeQuota + 
+                                                                                                                          inventoryRevenueManagementManagedBean.economyFourQuota + inventoryRevenueManagementManagedBean.economyFiveQuota + inventoryRevenueManagementManagedBean.economyAgencyQuota}" style="color:red"/>
+                        <h:outputText value="Capacity of Economy Class: #{inventoryRevenueManagementManagedBean.economyClassSeats}" style="color:red" />
 
                     </h:panelGrid>
 

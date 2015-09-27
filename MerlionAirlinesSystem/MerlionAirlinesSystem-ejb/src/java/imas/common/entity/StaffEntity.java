@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 /**
@@ -41,14 +42,12 @@ public class StaffEntity implements Serializable {
 
     private String contactNumber;
     
-//    private String department;
-    private AirportEntity base;
-
     private String address;
     
     private String gender;
     
-//    private String base; //airportCode
+    @OneToOne
+    private AirportEntity base;
     
     private Boolean activationStatus;
     
@@ -67,12 +66,8 @@ public class StaffEntity implements Serializable {
     @OneToMany(mappedBy = "receiver")
     private List<InternalMessageEntity> receivedMessages;
     
-    
+    @OneToOne
     private StaffRole role;
-    
-//    @OneToMany
-//    private List<OrganizationUnit> organizationUnit;
-    
     
     public StaffEntity() {
     }
@@ -139,14 +134,6 @@ public class StaffEntity implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
-//    public String getBase() {
-//        return base;
-//    }
-//
-//    public void setBase(String base) {
-//        this.base = base;
-//    }
     
     public String getEmail() {
         return email;
@@ -260,6 +247,8 @@ public class StaffEntity implements Serializable {
         this.salt = salt;
     }
 
+    
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

@@ -51,11 +51,9 @@ public class AccountActivationManagedBean implements Serializable {
         staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
         staff = accountManagementSessionBean.getStaff(staffNo);
         staffRole = staff.getRole();
-        role = staffRole.getPosition() + ", " + staffRole.getBusinessUnit() + " " + staffRole.getDivision() + "\n";
-        if(staffRole.getBase() != null){
-            role = role + staffRole.getBase();
-        }
-        role = role + staffRole.getLocation();
+        role = staffRole.getPosition() + ", " + staffRole.getBusinessUnit() + ", " + staffRole.getDivision() + ", " + staffRole.getLocation() + "\n";
+
+//        staff.getClass().getSimpleName();
     }
 
     public String onFlowProcess(FlowEvent event) {

@@ -7,6 +7,7 @@ package imas.common.entity;
 
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,8 +38,8 @@ public class CabinCrewEntity extends StaffEntity implements Serializable {
     }
 
     public CabinCrewEntity(String staffNo, String displayName, String password,
-            String email, String contactNumber, String department, String address,
-            String gender,  String workingStatus, List<FlightEntity> cabinCrewFlights) {
+            String email, String contactNumber, String address,
+            String gender, String workingStatus, List<FlightEntity> cabinCrewFlights) {
         super(staffNo, displayName, password, email, contactNumber, address, gender);
       
 //        this.setStaffNo(staffNo);
@@ -51,7 +52,7 @@ public class CabinCrewEntity extends StaffEntity implements Serializable {
 //        this.setGender(gender);
 //        this.setBase(base);
         this.workingStatus = workingStatus;
-        this.cabinCrewFligths = cabinCrewFlights;
+        this.cabinCrewFligths = new ArrayList<>();
     }
 
     // the MountainBike subclass adds one method
