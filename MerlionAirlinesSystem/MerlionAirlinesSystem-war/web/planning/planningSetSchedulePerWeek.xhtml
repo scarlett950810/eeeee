@@ -34,7 +34,7 @@
 
         <h:form>
             <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleByWeekManagedBean.flights}" style="margin-right: 200px"
-                         class="panel-primary">
+                         class="panel-success">
                 <f:facet name="header">
                     List of Flights to Generate
                 </f:facet>
@@ -85,7 +85,8 @@
 
             </p:dataTable>
             
-            <p:commandButton value="Submit" actionListener="#{scheduleByWeekManagedBean.generateFlightsByWeek}" icon="ui-icon-check" class="btn-sm btn-primary"/>
+            <p:commandButton value="Submit" actionListener="#{scheduleByWeekManagedBean.generateFlightsByWeek}"
+                             icon="ui-icon-check" class="btn-sm btn-success"/>
 
         </h:form>
 

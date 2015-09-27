@@ -33,7 +33,8 @@
     <ui:define name="centerPanel">
 
         <h:form>
-            <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleManagedBean.flights}" style="margin-right: 200px"  class="panel-primary">
+            <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleManagedBean.flights}"
+                         class="panel-success">
                 <f:facet name="header">
                     List of Flights to Generate
                 </f:facet>
@@ -74,7 +75,8 @@
                 </p:column>
 
             </p:dataTable>
-            <p:commandButton value="Submit" actionListener="#{scheduleManagedBean.generateFlightsByDay}" icon="ui-icon-check" class="btn-sm btn-primary"/>
+            <p:commandButton value="Submit" actionListener="#{scheduleManagedBean.generateFlightsByDay}" icon="ui-icon-check"
+                             class="btn-sm btn-success"/>
 
         </h:form>
 

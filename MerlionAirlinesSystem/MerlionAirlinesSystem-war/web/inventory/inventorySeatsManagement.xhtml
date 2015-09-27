@@ -35,11 +35,19 @@
                     Pending Flights to be priced
                 </f:facet>
 
-                <p:column headerText="Flight">
+                <p:column headerText="Flight" style="width: 10%">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
-
-                <p:column headerText="Auto Create Booking Class (Booking Class, Price, Quota)">
+                
+                <p:column headerText="Route"  style="width: 60%">
+                    <h:outputText value="#{flight.route.originAirport.airportName} (#{flight.route.originAirport.cityName}) to #{flight.route.destinationAirport.airportName} (#{flight.route.destinationAirport.cityName})" />
+                </p:column>
+                
+                <p:column headerText="Time to Departure (day)"  style="width: 15%">
+                    <h:outputText value="#{seatsManagementManagedBean.getDaysToDeparture(flight)}" />
+                </p:column>
+                
+                <p:column headerText="Auto Create Booking Class (Booking Class, Price, Quota)"  style="width: 15%">
                     <p:commandButton ajax="false" value="Create" class="btn-sm btn-primary" 
                                      action="#{seatsManagementManagedBean.automaticallyCreateBookingClassAndRules(flight)}" /> 
                 </p:column>
