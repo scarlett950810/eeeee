@@ -25,6 +25,7 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
@@ -33,7 +34,7 @@
         <h:form>
             <p:growl id="msgs" showDetail="false" />
 
-            <p:panel header="Connect hub and spoke to generate return routes" style="margin-bottom:10px;">
+            <p:panel header="Connect hub and spoke to generate return routes" style="margin-bottom:10px;" class="panel panel-success">
                 <h:outputText value="take note that the chosen two airports cannot be both spokes" />                
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="hub" value="Hub: " />
@@ -55,7 +56,8 @@
 
                 <p:separator />
 
-                <p:commandButton value="Connect" update="msgs" actionListener="#{routeManagedBean.generateRoutes}" icon="ui-icon-check" />
+                <p:commandButton value="Connect" update="msgs" actionListener="#{routeManagedBean.generateRoutes}"
+                                 icon="ui-icon-check" class="btn-sm btn-success"/>
             </p:panel>
         </h:form>
     </ui:define>

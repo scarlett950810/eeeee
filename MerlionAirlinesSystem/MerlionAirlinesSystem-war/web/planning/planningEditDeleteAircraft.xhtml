@@ -25,6 +25,7 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
@@ -32,68 +33,70 @@
     <ui:define name="centerPanel">
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
-            <p:dataTable id="editAircraft" var="aircraft" value="#{aircraftManagedBean.aircrafts}" editable="true">
+            <p:dataTable id="editAircraft" var="aircraft" value="#{aircraftManagedBean.aircrafts}" editable="true" paginator="true"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="15, 30, 50" rows="15" class="table-responsive">
                 <f:facet name="header">
-                    Editing Aircraft Information (Except Seat Information)
+                    Editing Aircraft Information
                 </f:facet>
 
                 <p:ajax event="rowEdit" listener="#{aircraftManagedBean.onRowEdit}" update=":form:msgs" />
 
-                <p:column headerText="Tail ID">
+                <p:column headerText="Tail ID" style="width:4%">
                     <h:outputText value="#{aircraft.tailId}" />
                 </p:column>
 
-                <p:column headerText="Aircraft Type">
+                <p:column headerText="Aircraft Type" style="width:7%">
                     <h:outputText value="#{aircraft.aircraftType.IATACode}" />
                 </p:column>
 
-                <p:column headerText="Purchase Price ($)">
-                    <h:outputText value="#{aircraft.purchasePrice}" />
+                <p:column headerText="Purchase Price ($)" style="width:9%">
+                    <h:outputText value="#{aircraft.purchasePrice / 1000000} M" />
                 </p:column>
 
-                <p:column headerText="Deprecation ($)">
+                <p:column headerText="Deprecation ($)" style="width:9%">
                     <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{aircraft.deprecation}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{aircraft.deprecation}" style="width:96%" label="Deprecation"/></f:facet>
+                        <f:facet name="output"><h:outputText value="#{aircraft.deprecation / 1000000} M" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{aircraft.deprecation / 1000000} M" style="width:96%" label="Deprecation"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Net Asset Value ($)">
+<!--                <p:column headerText="Net Asset Value ($)">
                     <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{aircraft.purchasePrice}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{aircraft.purchasePrice}" style="width:96%" label="Purchase Price"/></f:facet>
+                        <f:facet name="output"><h:outputText value="{aircraft.purchasePrice}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="{aircraft.purchasePrice}" style="width:96%" label="Purchase Price"/></f:facet>
                     </p:cellEditor>
-                </p:column>
+                </p:column>-->
 
-                <p:column headerText="Aircraft Life (Years)">
+                <p:column headerText="Aircraft Life (Years)" style="width:7%">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{aircraft.aircraftLife}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{aircraft.aircraftLife}" style="width:96%" label="Aircraft Life"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Operation Year">
+                <p:column headerText="Operation Year" style="width:7%">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{aircraft.operationYear}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{aircraft.operationYear}" style="width:96%" label="Operation Year"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Turnaround Time (Minutes)">
+                <p:column headerText="Turnaround Time (Minutes)" style="width:8%">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{aircraft.turnAroundTime}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{aircraft.turnAroundTime}" style="width:96%" label="Turnaround Time"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Condition Description" style="width:10%">
+                <p:column headerText="Condition Description" style="width:8%">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{aircraft.conditionDescription}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{aircraft.conditionDescription}" style="width:96%" label="Condition Description"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Airport Hub" style="width:10%">
+                <p:column headerText="Airport Hub">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{aircraft.airportHub.airportCode} #{aircraft.airportHub.airportName} @ #{aircraft.airportHub.cityName}, #{aircraft.airportHub.nationName}" /></f:facet>
                         <f:facet name="input">
@@ -104,7 +107,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Current Airport" style="width:10%">
+                <p:column headerText="Current Airport">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}, #{aircraft.currentAirport.cityName}" /></f:facet>
                         <f:facet name="input">
@@ -119,11 +122,11 @@
                     <p:rowEditor />
                 </p:column>
 
-                <p:column style="width:4%">
-                    <p:commandButton icon="ui-icon-trash" type="button" title="Delete" onclick ="PF('deleteAircraft').show();">
+                <p:column style="width:3%">
+                    <p:commandButton icon="ui-icon-trash" type="button" title="Delete" onclick ="PF('deleteAircraft').show();"
+                                     class="icon-only" style="margin-left: -10px;">
                         <f:setPropertyActionListener value="#{aircraft}" target="#{aircraftManagedBean.selectedAircraft}" />
                     </p:commandButton>
-                    <!--<p:commandButton value="Delete" type="button" onclick="PF('deleteAircraft').show();" />-->                   
                 </p:column>
 
             </p:dataTable>

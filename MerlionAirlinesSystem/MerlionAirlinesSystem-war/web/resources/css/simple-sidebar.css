@@ -22,7 +22,7 @@
     z-index: 1000;
     position: fixed;
     left: 250px;
-    width: 0;
+    width: 15%;
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
@@ -34,7 +34,7 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
+    width: 100%;
 }
 
 #page-content-wrapper {
@@ -54,7 +54,7 @@
     /*font-family: "Lucida Grande", Lucida, Verdana, sans-serif;*/
     position: absolute;
     top: 0;
-    width: 250px;
+    width: 100%;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -100,7 +100,7 @@
 
 @media(min-width:768px) {
     #wrapper {
-        padding-left: 250px;
+        /*padding-left: 250px;*/
     }
 
     #wrapper.toggled {
@@ -108,7 +108,7 @@
     }
 
     #sidebar-wrapper {
-        width: 250px;
+        width: 15%;
     }
 
     #wrapper.toggled #sidebar-wrapper {
