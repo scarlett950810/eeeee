@@ -47,7 +47,7 @@ public class LoginManagedBean {
 
     @PostConstruct
     public void init() {
-   //  insertData();
+       //insertData();
     }
 
     @PostRemove

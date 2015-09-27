@@ -8,7 +8,9 @@ package imas.web.managedbean.planning;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
+import imas.planning.sessionbean.CrewSchedulingSessionBeanLocal;
 import imas.planning.sessionbean.FleetAssignmentLocal;
+import imas.planning.sessionbean.TestFunctionsFAandCSLocal;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -38,19 +40,26 @@ public class FleetAssignmentManagedBean implements Serializable{
     @EJB
     private FleetAssignmentLocal fleetAssignment;
     private Date planningPeriodStartingDate;
-            
+    @EJB
+    private CrewSchedulingSessionBeanLocal crewSchedulingSession;
+    @EJB
+    private TestFunctionsFAandCSLocal functionsFAandCSLocal;
     /**
      * Creates a new instance of FASetFrequency
      */
     public FleetAssignmentManagedBean() {
+
     }
     
      @PostConstruct
     public void init()
     {     
+        
+        System.err.println("enter init");
 //         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftList", aircraftsAll);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("dateList", getAllPlanningPeirod());
-
+        crewSchedulingSession.pilotScheduling(functionsFAandCSLocal.getAllFlights(), functionsFAandCSLocal.getAllPilots());
+        
     }
     public void fleetAssignment() throws IOException{
         System.err.println("hehehhee");
