@@ -76,8 +76,8 @@ span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
 .ui-button.ui-widget.ui-button-icon-only.icon-only {
     background: none;
     border: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .ui-selectonemenu .ui-selectonemenu-trigger {
@@ -107,3 +107,7 @@ span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
     text-shadow:none !important;
 }
 
+.ui-radiobutton-icon {
+    margin-top: -1px;
+    margin-left: 0px;
+}

@@ -25,6 +25,7 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
                 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
@@ -33,11 +34,12 @@
         <h:form>
             <p:growl id="msgs" showDetail="true" />
 
-            <p:panel header="Delete return routes" style="margin-bottom:10px;">
+            <p:panel header="Delete return routes" style="margin-bottom:10px;" class="panel panel-danger">
                 <h:outputText value="take note that choose one connection will delete two routes" />                
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="connection" value="Connection: " />
-                    <p:selectOneMenu id="connection" value="#{routeManagedBean.routeDelete}" style="width:150px">
+                    <p:selectOneMenu id="connection" value="#{routeManagedBean.routeDelete}" style="width:150px"
+                                     filter="true" filterMatchMode="contains">
                         <f:selectItem itemLabel="Choose Connection" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{routeManagedBean.routesName}" />
                     </p:selectOneMenu>
@@ -45,7 +47,8 @@
 
                 <p:separator />
 
-                <p:commandButton value="Delete" update="msgs" actionListener="#{routeManagedBean.deleteRoute()}" icon="ui-icon-check" />
+                <p:commandButton value="Delete" update="msgs" actionListener="#{routeManagedBean.deleteRoute()}" icon="ui-icon-check" 
+                                 class="btn-sm btn-danger"/>
             </p:panel>
         </h:form>
     </ui:define>

@@ -31,17 +31,29 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
                 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
+                
+        <h:form id="addDeleteAirport">
+            <p:commandButton value="Delete Airport"  actionListener="#{airportManagedBean.goDeleteAirport()}"
+                             style="display: inline-block; float: right;" ajax="false" class="btn-sm btn-primary"/>
+            <p:commandButton value="Add Airport"  actionListener="#{airportManagedBean.addAirport()}"
+                             style="display: inline-block; float: right;" ajax="false" class="btn-sm btn-primary"/>            
+        </h:form>
+        
+        <br/><br/>
+
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" life="2000"/>
             <p:dataTable id="airports" var="airport" value="#{airportManagedBean.airportList}" editable="true" style="margin-bottom:20px"
-                         paginator="true"
+                         widgetVar="airportsTable" paginator="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="15, 20, 25">
+                         rowsPerPageTemplate="15, 30, 50"
+                         filteredValue="#{airportManagedBean.filteredAirports}">
                 <f:facet name="header">
                     Airports Information
                 </f:facet>
@@ -50,26 +62,26 @@
                 <p:ajax event="rowEditCancel" listener="#{airportManagedBean.onRowCancel}" update=":form:msgs" />
 
 
-                <p:column headerText="Country" >
+                <p:column headerText="Country" filterBy="#{airport.nationName}" filterMatchMode="contains">
                     <h:outputText value="#{airport.nationName}" />
                 </p:column>
 
-                <p:column headerText="City">
-                    <h:outputText value="#{airport.cityName}" />
-<!--                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{airport.cityName}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{airport.cityName}" style="width:100%" label="City"/></f:facet>
-                    </p:cellEditor>-->
+<!--                 <p:column headerText="City" filterBy="{airport.cityName}" filterMatchMode="contains">
+                    <h:outputText value="{airport.cityName}" />
+                   <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="{airport.cityName}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="{airport.cityName}" style="width:100%" label="City"/></f:facet>
+                    </p:cellEditor>
                 </p:column>
-
-                <p:column headerText="Airport Name">
+-->
+                <p:column headerText="Airport Name" filterBy="#{airport.airportName}" filterMatchMode="contains">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{airport.airportName}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{airport.airportName}" style="width:100%" label="Airport Name"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Airport Code">
+                <p:column headerText="Airport Code" filterBy="#{airport.airportCode}" filterMatchMode="contains">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{airport.airportCode}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{airport.airportCode}" style="width:100%" label="Airport Code"/></f:facet>
@@ -78,6 +90,13 @@
                 
                  
                 <p:column headerText="Hub or Spoke">
+<!--                    <f:facet name="filterHubOrSpoke">
+                        <p:selectOneButton onchange="PF('airportsTable').filter()">
+                            <f:converter converterId="javax.faces.Boolean" />
+                            <f:selectItem itemLabel="Hub" itemValue="true" />
+                            <f:selectItem itemLabel="Spoke" itemValue="false"/>
+                        </p:selectOneButton>
+                    </f:facet>-->
                     <h:outputText value="#{airportManagedBean.getHubOrSpoke(airport)}" />
                 </p:column>
 
@@ -85,17 +104,10 @@
                 <p:column style="width:32px">
                     <p:rowEditor />
                 </p:column>
+
             </p:dataTable>
         </h:form>
         
-        <h:form>
-            <p:commandButton value="Delete Airport"  actionListener="#{airportManagedBean.goDeleteAirport()}" style="display: inline-block; float: right;" ajax="false"/>
-            <p:commandButton value="Add Airport"  actionListener="#{airportManagedBean.addAirport()}" style="display: inline-block; float: right;" ajax="false"/>
-            
-        </h:form>
-
-        
-   
     </ui:define>
 
 </ui:composition>

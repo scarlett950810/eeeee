@@ -25,6 +25,7 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
@@ -33,21 +34,22 @@
 
         <h:form>
             <p:dataTable var="flight" value="#{flightsDisplayManagedBean.flightsGenerated}" widgetVar="flightsTable"
-                         emptyMessage="No cars found with given criteria" filteredValue="#{flightsDisplayManagedBean.flightsFiltered}">
-
+                         emptyMessage="No cars found with given criteria" filteredValue="#{flightsDisplayManagedBean.flightsFiltered}"
+                         class="panel-primary" >
+                
                 <f:facet name="header">
                     <p:outputPanel>
-                        <h:outputText value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('flightsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        <h:outputText value="Search all fields:"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('flightsTable').filter()" style="width:250px" placeholder="Enter keyword"/>
                     </p:outputPanel>
                 </f:facet>
-
-                <p:column filterBy="#{flight.flightNo}" headerText="Flight Number" footerText="contains" filterMatchMode="contains">
+                    
+                <p:column filterBy="#{flight.flightNo}" headerText="Flight Number" filterMatchMode="contains">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
 
 
-                <p:column filterBy="#{flight.route.routeName}" headerText="Brand" footerText="exact" filterMatchMode="exact">
+                <p:column filterBy="#{flight.route.routeName}" headerText="Direction" filterMatchMode="exact">
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('flightsTable').filter()" >
                             <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
@@ -58,16 +60,7 @@
                 </p:column>
                 <p:column headerText="Departure Time" sortBy="#{flight.departureDate.date}">
                     <h:outputText value="#{flight.departureDate}" />
-                </p:column>
-                <!--        <p:column filterBy="{car.color}" headerText="Color" footerText="in" filterMatchMode="in">
-                            <f:facet name="filter">
-                                <p:selectCheckboxMenu label="Colors" onchange="PF('carsTable').filter()" panelStyle="width:125px" scrollHeight="150">
-                                    <f:selectItems value="(dtFilterView.colors}" />
-                                </p:selectCheckboxMenu>
-                            </f:facet>
-                            <h:outputText value="{car.color}" />
-                        </p:column>-->
-
+                </p:column>                
 
             </p:dataTable>
         </h:form>

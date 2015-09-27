@@ -25,13 +25,14 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
                 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
         <h:form id="f1">
-            <p:panel header="Choose Route for Frequency Setting" style="margin-bottom: 15px">
+            <p:panel header="Choose Route for Frequency Setting" style="margin-bottom: 15px" class="panel panel-primary">
 
                 <h:outputText value="Select a route and its return route for frequency setting"/>
                 <h:panelGrid columns="2" cellpadding="5">
@@ -69,18 +70,19 @@
                              
             </p:panel>
 
-            <p:panel header="Set Frequency for route" style="margin-bottom: 15px">
-                <h:panelGrid columns="1"  cellpadding="7">            
+            <p:panel header="Set Frequency for route" style="margin-bottom: 15px"  class="panel panel-primary">
+                <h:panelGrid columns="2"  cellpadding="7">            
                     <p:outputLabel for="iteration" value="Choose Iteration Period: " />
                     <p:selectOneRadio id="iteration" value="#{scheduleDevelopmentManagedBean.iterationPeriod}">
-                        <f:selectItem itemLabel="Day" itemValue="Day" />
+                        <f:selectItem itemLabel="Day" itemValue="Day"/>
                         <f:selectItem itemLabel="Week" itemValue="Week" />
                     </p:selectOneRadio>
                     <p:outputLabel for="time" value="Input flight times per period: " style="font-weight:bold" />
                     <p:inputText id="time" value="#{scheduleDevelopmentManagedBean.flightTimes}" />
                 </h:panelGrid>
             </p:panel>
-            <p:commandButton value="Submit" actionListener="#{scheduleDevelopmentManagedBean.setFrequencyFinished}" icon="ui-icon-check" />
+            <p:commandButton value="Submit" actionListener="#{scheduleDevelopmentManagedBean.setFrequencyFinished}" icon="ui-icon-check" 
+                             class="btn-sm btn-primary" />
 
         </h:form>
     </ui:define>
