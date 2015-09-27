@@ -42,7 +42,7 @@
                 </p:column>
 
                 <p:column headerText="Flight Number">
-                    <h:inputText value="#{flight.flightNo}" />
+                    <h:inputText value="#{flight.flightNo}" required="true"/>
                 </p:column>
 
                 <p:column headerText="#{scheduleManagedBean.routeSelected.routeName} Departure Time">
@@ -58,6 +58,7 @@
                 </p:column>
                 
                 <p:column headerText="Reverse Flight Number">
+                    <h:inputText value="#{flight.reverseFlight.flightNo}" />
 <!--                    <h:inputText value="{flight.flightNo}" />-->
                 </p:column>
                 
