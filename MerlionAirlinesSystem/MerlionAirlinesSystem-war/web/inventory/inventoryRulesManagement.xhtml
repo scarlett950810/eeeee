@@ -28,16 +28,12 @@
             <h:panelGrid columns="2" cellpadding="5" class="panel-success">
                 <p:outputLabel for="selectFlight" value="Select a Flight to Manage its Rules:" />
                 <p:selectOneMenu id="selectFlight" value="#{yieldManagementManagedBean.flight}"
-                                 style="width:150px" converter="flightConverter" filter="true" filterMatchMode="contains">
+                                 converter="flightConverter" filter="true" filterMatchMode="contains">
                     <p:ajax listener="#{yieldManagementManagedBean.onFlightChange()}"
-                            update="formChangeRule1:rule1-1 formChangeRule1:rule1-2
-                            formChangeRule1:rule1-3 formChangeRule1:rule1-4
-                            formChangeRule2:rule2-1 formChangeRule2:rule2-2
-                            formChangeRule2:rule2-3 formChangeRule2:rule2-4
-                            formChangeRule3:rule3-1 formChangeRule3:rule3-2
-                            formChangeRule3:rule3-3 formChangeRule3:rule3-4
-                            formChangeRule4:rule4-1 formChangeRule4:rule4-2
-                            formChangeRule4:rule4-3 formChangeRule4:rule4-4" />
+                            update="formChangeRule1:rule1-1 formChangeRule1:rule1-2 formChangeRule1:rule1-3 formChangeRule1:rule1-4
+                            formChangeRule2:rule2-1 formChangeRule2:rule2-2 formChangeRule2:rule2-3 formChangeRule2:rule2-4
+                            formChangeRule3:rule3-1 formChangeRule3:rule3-2 formChangeRule3:rule3-3 formChangeRule3:rule3-4
+                            formChangeRule4:rule4-1 formChangeRule4:rule4-2 formChangeRule4:rule4-3 formChangeRule4:rule4-4" />
                     <f:selectItem itemLabel="Select Flight" itemDisabled="true" />
                     <f:selectItems value="#{yieldManagementManagedBean.flights}" var="flight" 
                                    itemLabel="#{flight.flightNo} - #{flight.route.originAirport.airportName} to #{flight.route.destinationAirport.airportName}, departure at #{flight.departureDate}" itemValue="#{flight}" />
