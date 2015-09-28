@@ -3,12 +3,12 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../templates/DefaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="head">
         <!--insert customized import here-->
     </ui:define>
 
-    <ui:define name="title">Flight Operation Home Page</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
@@ -26,15 +26,27 @@
             </ul>
         </div>
     </ui:define>
-
+    
     <ui:define name="centerPanel">
-        Please use this template for every page under operation.
-        <br/> 
-        Only customize page title, and your customized imports, if any (put in ui define name="head" in head).
-        <br/>
-        Also pay attention to xmlns on the top, if yours own page have any additional ones, put them in. But do not delete those in home page.
-        <br/>
-        move all your content here.
+        <h:form id="chooseAircraft"> 
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:panel header="Select a Aircraft" style="margin-bottom:10px;">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="aircraft" value="Aircraft: " />
+                    <p:selectOneMenu id="aircraft" value="#{viewFlightScheduleManagedBean.aircraft}" style="width:150px">
+                        <f:selectItem itemLabel="Select Aircraft" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{viewFlightScheduleManagedBean.aircrafts}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>     
+                <p:commandButton value="Submit" update="msgs dialog" actionListener="#{viewFlightScheduleManagedBean.submit}" icon="ui-icon-check" />             
+            </p:panel>
+
+            <p:dialog id="dialog" header="Flight Schedule" widgetVar="dlg" dynamic="true">           
+                <p:schedule value="#{viewFlightScheduleManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />
+            </p:dialog>
+        </h:form>  
     </ui:define>
+
 
 </ui:composition>

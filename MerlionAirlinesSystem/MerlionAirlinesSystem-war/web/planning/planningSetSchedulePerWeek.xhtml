@@ -62,6 +62,10 @@
 
                     </p:calendar>
                 </p:column>
+                <p:column headerText="Reverse Flight Number">
+                    <h:inputText value="#{flight.reverseFlight.flightNo}" />
+<!--                    <h:inputText value="{flight.flightNo}" />-->
+                </p:column>
                 <p:column headerText="#{scheduleByWeekManagedBean.routeSelected.reverseRoute.routeName} Departure Time">
                     <p:selectOneMenu id="weekday1" value="#{flight.reverseFlight.weekDay}">
                         <f:selectItem itemLabel="Select the weekday"/>

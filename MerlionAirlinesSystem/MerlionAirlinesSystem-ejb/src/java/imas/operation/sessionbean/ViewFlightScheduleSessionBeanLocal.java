@@ -5,21 +5,19 @@
  */
 package imas.operation.sessionbean;
 
-import imas.planning.entity.FlightEntity;
-import java.util.List;
+import java.util.Map;
 import javax.ejb.Local;
+import org.primefaces.model.ScheduleModel;
 
 /**
  *
  * @author Lei
  */
 @Local
-public interface PostFlightReportSessionBeanLocal {
+public interface ViewFlightScheduleSessionBeanLocal {
 
-    public List<FlightEntity> getList();
+    public Map<String, String> getAircrafts();
 
-    public void init();
-
-    public void updateReport(FlightEntity selectedFlight);
-
+    public ScheduleModel createEvent(String aircraft);
+    
 }

@@ -152,6 +152,8 @@ public class ScheduleManagedBean implements Serializable {
                 f1.setReverseFlight(new FlightEntity(yearSelected));
                 f1.getReverseFlight().setRoute(routeSelected.getReverseRoute());
                 f1.setRoute(f.getRoute());
+                f1.setFlightNo(f.getFlightNo());
+                f1.getReverseFlight().setFlightNo(f.getReverseFlight().getFlightNo());
                 departureT = combineTwoDate(f.getReverseFlight().getDepartureDate(), departureDateTemp);
                 f1.getReverseFlight().setDepartureDate(departureT);
                 cal.setTime(departureT);
