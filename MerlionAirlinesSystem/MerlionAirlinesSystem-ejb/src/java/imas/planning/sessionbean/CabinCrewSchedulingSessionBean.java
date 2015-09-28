@@ -279,8 +279,8 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         q1.setParameter("aircraft", a);
         q1.setParameter("seatClass", "First Class");
         Integer n1 = q1.getResultList().size();
-        int a1 = n1 / 10;
-        if (n1 % 10 > 0) {
+        int a1 = n1 / 20;
+        if (n1 % 20 > 0) {
             a1++;
         }
         sum = sum + a1;
@@ -289,8 +289,8 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         q2.setParameter("aircraft", a);
         q2.setParameter("seatClass", "Premium Economy Class");
         Integer n2 = q2.getResultList().size();
-        int a2 = n2 / 20;
-        if (n2 % 20 > 0) {
+        int a2 = n2 / 35;
+        if (n2 % 35 > 0) {
             a2++;
         }
         sum = sum + a2;
@@ -299,8 +299,8 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         q3.setParameter("aircraft", a);
         q3.setParameter("seatClass", "Economy Class");
         Integer n3 = q3.getResultList().size();
-        int a3 = n3 / 30;
-        if (n3 % 30 > 0) {
+        int a3 = n3 / 50;
+        if (n3 % 50 > 0) {
             a3++;
         }
         sum = sum + a3;
@@ -309,8 +309,8 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         q4.setParameter("aircraft", a);
         q4.setParameter("seatClass", "Business Class");
         Integer n4 = q4.getResultList().size();
-        int a4 = n4 / 15;
-        if (n4 % 15 > 0) {
+        int a4 = n4 / 30;
+        if (n4 % 30 > 0) {
             a4++;
         }
         sum = sum + a4;

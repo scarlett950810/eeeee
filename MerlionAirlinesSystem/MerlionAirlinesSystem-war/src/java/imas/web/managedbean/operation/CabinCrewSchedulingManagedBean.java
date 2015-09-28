@@ -10,6 +10,7 @@ import imas.planning.entity.FlightEntity;
 import imas.planning.sessionbean.CabinCrewSchedulingSessionBeanLocal;
 import imas.planning.sessionbean.FleetAssignmentLocal;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,7 +29,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "cabinCrewSchedulingManagedBean")
 @ViewScoped
-public class CabinCrewSchedulingManagedBean {
+public class CabinCrewSchedulingManagedBean implements Serializable{
 
     private List<FlightEntity> flightsAll;
     private List<FlightEntity> flightsLeft;
