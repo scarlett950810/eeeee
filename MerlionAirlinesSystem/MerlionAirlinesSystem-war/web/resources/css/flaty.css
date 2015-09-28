@@ -5129,7 +5129,7 @@ a.thumbnail.active {
 .alert-info .alert-link {
   color: #e6e6e6;
 }
-.alert-warning, .ui-growl-item-container{
+.alert-warning {
   background-color: #f39c12;
   border-color: #f39c12;
   color: #ffffff;
@@ -5140,7 +5140,7 @@ a.thumbnail.active {
 .alert-warning .alert-link {
   color: #e6e6e6;
 }
-.alert-danger, .ui-growl-item-container {
+.alert-danger {
   background-color: #e74c3c;
   border-color: #e74c3c;
   color: #ffffff;
@@ -5742,8 +5742,7 @@ button.list-group-item-danger.active:focus {
   border-color: #ecf0f1;
 }
 .panel-default.ui-panel > .panel-heading, .panel-default.ui-panel .ui-panel-titlebar, .panel-default.ui-panel .ui-widget-header,
-.panel-default.ui-panel .ui-selectonemenu .ui-selectonemenu-trigger,
-.ui-selectonemenu .ui-selectonemenu-trigger {
+.panel-default.ui-panel .ui-selectonemenu .ui-selectonemenu-trigger {
   color: #2c3e50;
   background-color: #ecf0f1;
   border-color: #ecf0f1;

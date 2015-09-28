@@ -26,21 +26,20 @@
             </ul>
         </div>
     </ui:define>
-    
+
     <ui:define name="centerPanel">
         <h:form id="chooseAircraft"> 
             <p:growl id="msgs" showDetail="true" />
 
-            <p:panel header="Select a Aircraft" style="margin-bottom:10px;">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel for="aircraft" value="Aircraft: " />
-                    <p:selectOneMenu id="aircraft" value="#{viewFlightScheduleManagedBean.aircraft}" style="width:150px">
-                        <f:selectItem itemLabel="Select Aircraft" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{viewFlightScheduleManagedBean.aircrafts}" />
-                    </p:selectOneMenu>
-                </h:panelGrid>     
-                <p:commandButton value="Submit" update="msgs dialog" actionListener="#{viewFlightScheduleManagedBean.submit}" icon="ui-icon-check" />             
-            </p:panel>
+            <h:panelGrid columns="2" cellpadding="5" class="panel-primary">
+                <p:outputLabel for="aircraft" value="Select an aircraft to view its flight schedule: " />
+                <p:selectOneMenu id="aircraft" value="#{viewFlightScheduleManagedBean.aircraft}">
+                    <f:selectItem itemLabel="Select Aircraft" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{viewFlightScheduleManagedBean.aircrafts}" />
+                </p:selectOneMenu>
+            </h:panelGrid>     
+            <p:commandButton value="Submit" update="msgs dialog" actionListener="#{viewFlightScheduleManagedBean.submit}"
+                             icon="ui-icon-check" class="btn-sm btn-primary"/>             
 
             <p:dialog id="dialog" header="Flight Schedule" widgetVar="dlg" dynamic="true">           
                 <p:schedule value="#{viewFlightScheduleManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />
