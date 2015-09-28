@@ -14,6 +14,8 @@
     </h:head>
 
     <h:body>
+        #{errorHandlingManagedBean.checkUser()}
+        
         <f:facet name="last">
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <h:outputStylesheet name="./css/simple-sidebar.css"/>
@@ -22,8 +24,8 @@
         </f:facet>
 
         <h:form>
-            <p:idleMonitor timeout="3600000" onidle="PF('idleDialog').show();"/>
-            <p:growl id="messages" showDetail="true" autoUpdate="false" class="alert-warning"/>
+            <p:idleMonitor timeout="180000" onidle="PF('idleDialog').show();"/>
+            <p:growl id="messages" showDetail="true" autoUpdate="true" class="alert-warning"/>
 
             <p:dialog id="confirmDialog"
                       header="Are you there?" widgetVar="idleDialog">
@@ -62,7 +64,7 @@
                     <p:stack icon="../resources/img/menuStack/menu.png" expanded="false" class="menuBasket">
 
                         <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
-                        <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/account.png" url="#"/>
+                        <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/account.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/userProfile.xhtml"/>
                         <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/announcement.png"
                                     actionListener="#{internalAnnouncementManagedBean.refreshAnnouncements}" update="viewAnnouncement"/>
                         <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/inbox.png"

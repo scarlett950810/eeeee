@@ -6,6 +6,7 @@
 package imas.planning.sessionbean;
 
 import imas.common.entity.CabinCrewEntity;
+import imas.common.entity.PilotEntity;
 import imas.planning.entity.FlightEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -21,4 +22,8 @@ public interface CabinCrewSchedulingSessionBeanLocal {
 
     List<CabinCrewEntity> retrieveAllCabinCrew();
     
+
+    List<FlightEntity> oneCabinCrewScheduling(List<FlightEntity> flights, CabinCrewEntity cabinCrew);
+    List<FlightEntity> CabinCrewScheduling(List<FlightEntity> flights, List<CabinCrewEntity> cabinCrews);
+    List<FlightEntity> CabinScheduling(List<FlightEntity> flights, List<CabinCrewEntity> cabinCrews);
 }

@@ -32,7 +32,7 @@
 
     <ui:define name="centerPanel">
 
-        <p:panel header="Add Aircraft" class="panel panel-primary">
+        <p:panel header="Add Aircraft" class="panel panel-success">
             <h:form>
                 
                 <h:panelGrid columns="2" cellpadding="5" style="padding-bottom: 25px;">
@@ -94,8 +94,6 @@
                         <p:watermark for="turnaroundTime" value="Please enter turnaround time" />
                     </p:inputText>
 
-
-
                 </h:panelGrid>
 
                 <h:outputText value="Seat Plan:"/>
@@ -154,7 +152,7 @@
                     <p:inputText id="EconomyClassRowNo" value="#{aircraftManagedBean.economyClassRowNo}" required="true"/>
 
                 </h:panelGrid>
-                <p:commandButton class="btn-sm btn-primary" ajax="false" value="Add" icon="ui-icon-check" actionListener="#{aircraftManagedBean.addAircraft}" />
+                <p:commandButton class="btn-sm btn-success" ajax="false" value="Add" icon="ui-icon-check" actionListener="#{aircraftManagedBean.addAircraft}" />
             </h:form>
 
         </p:panel>

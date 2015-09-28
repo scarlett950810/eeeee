@@ -47,9 +47,7 @@ public class CrewCheckInManagedBean implements Serializable{
     
     @PostConstruct
     public void init(){
-        
         fetchFlights();
-        System.out.print(flights);
     }
     
     public void fetchFlights(){
@@ -129,12 +127,12 @@ public class CrewCheckInManagedBean implements Serializable{
         this.display = display;
     }
     
-    
     public void onFlightChange(){
         if(flight != null){
             pilotList = flight.getPilots();
             crewList = flight.getCabinCrews();
             display = true;
+            System.out.print(flight);
         }
     }
 }

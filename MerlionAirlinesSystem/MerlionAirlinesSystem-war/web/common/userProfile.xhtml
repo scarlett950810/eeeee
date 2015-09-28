@@ -9,6 +9,7 @@
     </ui:define>
 
     <ui:define name="centerPanel">
+        
         <p:panelGrid columns="2">
             <f:facet name="header">
                 <h:outputText value="Account Information" />
@@ -47,7 +48,7 @@
 
         </p:panelGrid>
 
-        <h:panelGrid columns="3" cellpadding="5">
+        <h:panelGrid columns="3" cellpadding="5" style="margin-top: 20px">
             <p:commandButton value="Change Password" type="button" onclick="PF('changePassword').show();" />
 
             <p:commandButton value="Change Email" type="button" onclick="PF('changeEmail').show();" />

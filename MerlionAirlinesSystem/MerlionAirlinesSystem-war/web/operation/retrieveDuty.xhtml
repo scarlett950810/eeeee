@@ -29,26 +29,29 @@
     </ui:define>
 
     <ui:define name="centerPanel">
+        
         <h:form>
             <p:growl id="msgs" showDetail="true" />
+            
+            <h:outputText value="Select a staff:"/>
+            <h:panelGrid columns="2" cellpadding="5" class="panel-primary">
+                <p:outputLabel for="position" value="Position: " />
+                <p:selectOneMenu id="position" value="#{retrieveDutyManagedBean.position}" style="width:150px">
+                    <p:ajax listener="#{retrieveDutyManagedBean.onPositionChange}" update="name" />
+                    <f:selectItem itemLabel="Select Position" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{retrieveDutyManagedBean.positions}" />
+                </p:selectOneMenu>
 
-            <p:panel header="Select a staff" style="margin-bottom:10px;">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel for="position" value="Position: " />
-                    <p:selectOneMenu id="position" value="#{retrieveDutyManagedBean.position}" style="width:150px">
-                        <p:ajax listener="#{retrieveDutyManagedBean.onPositionChange}" update="name" />
-                        <f:selectItem itemLabel="Select Position" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{retrieveDutyManagedBean.positions}" />
-                    </p:selectOneMenu>
-
-                    <p:outputLabel for="name" value="Name:" />
-                    <p:selectOneMenu id="name" value="#{retrieveDutyManagedBean.name}" style="width:150px">
-                        <f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{retrieveDutyManagedBean.names}" />
-                    </p:selectOneMenu>
-                </h:panelGrid>
-                <p:commandButton value="Submit" update="msgs" actionListener="#{retrieveDutyManagedBean.submit()}" icon="ui-icon-check" />
-            </p:panel>
+                <p:outputLabel for="name" value="Name:" />
+                <p:selectOneMenu id="name" value="#{retrieveDutyManagedBean.name}" style="width:150px">
+                    <f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{retrieveDutyManagedBean.names}" />
+                </p:selectOneMenu>
+            </h:panelGrid>
+            
+            <p:commandButton value="Submit" update="msgs" actionListener="#{retrieveDutyManagedBean.submit()}"
+                             icon="ui-icon-check" class="btn-sm btn-primary"/>
+            
             <p:dialog id="dialog" header="Staff Schedule" widgetVar="dlg" dynamic="true">           
                 <p:schedule value="#{retrieveDutyManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />
             </p:dialog>
