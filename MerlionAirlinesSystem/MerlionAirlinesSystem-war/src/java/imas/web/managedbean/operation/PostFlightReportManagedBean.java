@@ -2,6 +2,7 @@ package imas.web.managedbean.operation;
 
 import imas.operation.sessionbean.PostFlightReportSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -9,6 +10,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.context.RequestContext;
@@ -72,16 +74,15 @@ public class PostFlightReportManagedBean implements Serializable {
     }
 
     public void update() {
-        if (!selectedFlight.getEmergencyOfAtcViolation().isEmpty()||!selectedFlight.getMechanicalFailures().isEmpty()||
-                !selectedFlight.getFuelDumping().isEmpty()||!selectedFlight.getPassengerSpecialStatus().isEmpty()||
-                !selectedFlight.getCrewSpecialStatus().isEmpty()||!selectedFlight.getPassengerMisconduct().isEmpty()||
-                !selectedFlight.getHazmatIssue().isEmpty()||!selectedFlight.getDiversions().isEmpty()||
-                !selectedFlight.getHighSpeedAborts().isEmpty()||!selectedFlight.getHighSpeedAborts().isEmpty()||
-                !selectedFlight.getNearAirCollisions().isEmpty()||!selectedFlight.getOthers().isEmpty() ) { 
-            
-            
+        if (!selectedFlight.getEmergencyOfAtcViolation().isEmpty() || !selectedFlight.getMechanicalFailures().isEmpty()
+                || !selectedFlight.getFuelDumping().isEmpty() || !selectedFlight.getPassengerSpecialStatus().isEmpty()
+                || !selectedFlight.getCrewSpecialStatus().isEmpty() || !selectedFlight.getPassengerMisconduct().isEmpty()
+                || !selectedFlight.getHazmatIssue().isEmpty() || !selectedFlight.getDiversions().isEmpty()
+                || !selectedFlight.getHighSpeedAborts().isEmpty() || !selectedFlight.getHighSpeedAborts().isEmpty()
+                || !selectedFlight.getNearAirCollisions().isEmpty() || !selectedFlight.getOthers().isEmpty()) {
+
             postFlightReportSessionBean.updateReport(selectedFlight);
-            FacesMessage msg = new FacesMessage("Reminder", selectedFlight.getFlightNo()+ " has been updated " );
+            FacesMessage msg = new FacesMessage("Reminder", selectedFlight.getFlightNo() + " has been updated ");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
             FacesMessage msg = new FacesMessage("Sorry", "Please try to update again");
@@ -105,5 +106,12 @@ public class PostFlightReportManagedBean implements Serializable {
         this.selectedFlight = selectedFlight;
     }
 
-   
+    public void updateFlightStatus(ActionEvent event) throws IOException {
+        selectedFlight = (FlightEntity) event.getComponent().getAttributes().get("flight");
+
+        postFlightReportSessionBean.updateFlightStatus(selectedFlight);
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("operationPostFlightReport.xhtml");
+    }
 }

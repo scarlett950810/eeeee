@@ -25,6 +25,7 @@
     </ui:define>
 
     <ui:define name="centerPanel">
+        
         <h:form>
             <p:dataTable id="flightList" var="flight" value="#{inventoryRevenueManagementManagedBean.flightList}" rowKey="#{flight.id}"
                          widgetVar="flightTable" emptyMessage="No flight found with given criteria" filteredValue="#{inventoryRevenueManagementManagedBean.fliteredFlight}" 
@@ -33,8 +34,8 @@
                     Merlion Airline Flight List
                 </f:facet>
 
-                <p:column headerText="Departure Time" filterBy="#{flight.departureDate.date}" filterMatchMode="contains">
-                    <h:outputText value="#{flight.departureDate.date}" />
+                <p:column headerText="Departure Time" filterBy="#{flight.departureDate}" filterMatchMode="contains">
+                    <h:outputText value="#{flight.departureDate}" />
                 </p:column>
                 <p:column headerText="Arrival Time" filterBy="#{flight.arrivalDate}" filterMatchMode="contains">
                     <h:outputText value="#{flight.arrivalDate}" />

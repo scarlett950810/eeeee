@@ -27,13 +27,12 @@ import org.primefaces.event.RowEditEvent;
 @Named(value = "userProfileManagedBean")
 @ViewScoped
 public class UserProfileManagedBean implements Serializable {
+
     @EJB
     private LoginSessionBeanLocal loginSessionBean;
 
     @EJB
     private UserProfileManagementSessionBeanLocal userProfileManagementSessionBean;
-    
-    
 
     private StaffEntity staff;
     private String email;
@@ -50,11 +49,11 @@ public class UserProfileManagedBean implements Serializable {
     private String newEmail;
 
     @PostConstruct
-    public void init() {
+    public void init(){
         staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-        System.out.print(FacesContext.getCurrentInstance().getViewRoot().getViewId());
-        System.out.print(staffNo);
-        staff = loginSessionBean.fetchStaff(staffNo);
+        if(staffNo != null){
+            staff = loginSessionBean.fetchStaff(staffNo);
+        }
     }
 
     public UserProfileManagedBean() {
@@ -171,19 +170,19 @@ public class UserProfileManagedBean implements Serializable {
         ec.redirect("userProfile.xhtml");
     }
 
-    public void changeContact() throws IOException{
+    public void changeContact() throws IOException {
         userProfileManagementSessionBean.updateContact(staffNo, contactNumber);
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage msg = new FacesMessage("Successful", "You have changed your contact number");
         FacesContext fc = FacesContext.getCurrentInstance();
         fc.addMessage(null, msg);
         fc.getExternalContext().redirect("userProfile.xhtml");
-        
+
 //        FacesContext fc = FacesContext.getCurrentInstance();
 //        ExternalContext ec = fc.getExternalContext();
 //        ec.redirect("userProfile.xhtml");
     }
-    
+
     public void changePassword() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         if (userProfileManagementSessionBean.getOldPassword(staffNo, originPassword)) {

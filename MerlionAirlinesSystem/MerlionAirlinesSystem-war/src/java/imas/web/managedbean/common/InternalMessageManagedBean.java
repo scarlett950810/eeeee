@@ -9,6 +9,7 @@ import imas.common.entity.InternalAnnouncementEntity;
 import imas.common.entity.InternalMessageEntity;
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.InternalMessageSessionBeanLocal;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -39,9 +41,9 @@ public class InternalMessageManagedBean implements Serializable {
     private StaffEntity receiver;
 
     private String content;
-    
+
     private List<StaffEntity> staffList;
-    
+
     private List<InternalMessageEntity> allMessages;
 
     /**
@@ -52,10 +54,13 @@ public class InternalMessageManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        String staffNo = (String) ec.getSessionMap().get("staffNo");
+        
         loggedInStaff = internalMessageSessionBean.getStaffEntityByStaffNo(staffNo);
-       
-        staffList = internalMessageSessionBean.getAllStaff();        
+        
+        staffList = internalMessageSessionBean.getAllStaff();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", staffList);
         allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
     }
@@ -104,25 +109,26 @@ public class InternalMessageManagedBean implements Serializable {
     public void setAllMessages(List<InternalMessageEntity> allMessages) {
         this.allMessages = allMessages;
     }
-    
-    
+
     public void send() {
         internalMessageSessionBean.sendMessage(loggedInStaff, receiver, content);
         allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
-        
+
     }
-    
+
     public void toggleRead(InternalMessageEntity internalMessageEntity) {
         internalMessageSessionBean.toggleRead(internalMessageEntity);
     }
+
     public void refreshMessages(ActionEvent event) {
 //        System.out.println("message refreshed!");
         allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
         RequestContext.getCurrentInstance().execute("PF('message').show();");
     }
+
     public void showMessage(String sender, String content) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, sender, content);         
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, sender, content);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-    
+
 }
