@@ -7,14 +7,11 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 
-
-    <ui:define name="title">
-        Crew Boarding
-    </ui:define>
-
     <ui:define name="head">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </ui:define>
+
+   <ui:define name="title">Operation - Crew Boarding</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
@@ -23,20 +20,21 @@
                 <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
                 <li><a href="operationDisplayFlights.xhtml">Flight Display </a></li> 
                 <li><a href="viewFlightSchedule.xhtml">Flight Schedule </a></li> 
-                <li class="sidebar-h1">Flight Management </li>                     
-                <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
-                <li class="sidebar-h1">Staff Management</li> 
+                <li class="sidebar-h1">Flight Management </li>
                 <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
                 <li><a href="operationCrewCheckIn.xhtml"> Crew Check-in </a></li> 
+                <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
+                <li class="sidebar-h1">Staff Management</li> 
+                <li><a href="operationCabinCrewScheduling.xhtml">Cabin Crew Schedule</a></li> 
+                <li><a href="operationPilotCrewScheduling.xhtml"> Pilot Schedule </a></li>
                 <li><a href="retrieveDuty.xhtml"> Retrieve Duty </a></li>
-                 <li><a href="operationPilotCrewScheduling.xhtml"> Staff Schedule </a></li>
             </ul>
         </div>
     </ui:define>
 
 
     <ui:define name="centerPanel">
-        
+
         <h:form id="selectFlight">
             <p:growl id="msg" />
 
@@ -54,7 +52,7 @@
 
             <p:panel header="#{crewBoardingManagedBean.flight.flightNo} #{crewBoardingManagedBean.flight.route.originAirport.cityName}-#{crewBoardingManagedBean.flight.route.destinationAirport.cityName}"
                      id="crew" visible="#{crewBoardingManagedBean.display}" class="panel panel-success">
-                
+
                 <p:outputLabel value="Departure Time: #{crewBoardingManagedBean.flight.departureDate.toString()}"/>
 
                 <p:dataTable id="pilotTable" var="pilot" value="#{crewBoardingManagedBean.pilotList}" selection="#{crewBoardingManagedBean.selectedPilots}" 
