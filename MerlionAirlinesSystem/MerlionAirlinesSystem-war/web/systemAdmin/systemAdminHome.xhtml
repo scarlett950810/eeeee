@@ -8,7 +8,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -29,6 +30,27 @@ and open the template in the editor.
     </h:head>
 
     <h:body>
+        #{errorHandlingManagedBean.checkUser()}
+        
+        <h:form>
+            <p:idleMonitor timeout="180000" onidle="PF('idleDialog').show();"/>
+            <p:growl id="messages" showDetail="true" autoUpdate="true" class="alert-warning"/>
+
+            <p:dialog id="confirmDialog"
+                      header="Are you there?" widgetVar="idleDialog">
+                <h:outputText value="You have been idle for a while, 
+                              Please click ok to continue." />
+                <p:commandButton id="confirm" value="Ok" update="messages"
+                                 oncomplete="PF('idleDialog').hide()"
+                                 actionListener="#{loginManagedBean.welcome()}" />
+
+                <p:commandButton id="Logout" value="LogMeOut" update="messages"
+                                 oncomplete="idleDialog.hide()"
+                                 actionListener="#{loginManagedBean.doLogout()}" />
+
+            </p:dialog>
+
+        </h:form>
 
         <p:layout fullPage="true">
 
@@ -73,15 +95,115 @@ and open the template in the editor.
             </p:layoutUnit>
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
+                <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
+                    <h:form id="viewAnnouncement">
+                        <p:dataTable value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" 
+                                     paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
+                                     editable="true" editMode="cell" sortMode="multiple"
+                                     resizableColumns="true" liveResize="true">
+                            <p:column headerText="Time"  sortBy="#{announcement.sentTime}">
+                                <h:outputText value="#{announcement.sentTime}"/>
+                            </p:column>
+
+                            <p:column headerText="Title" sortBy="#{announcement.title}">
+                                <h:outputText value="#{announcement.title}" />
+                            </p:column>
+
+                            <p:column headerText="Content">
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{internalAnnouncementManagedBean.showAnnouncement(announcement.title, announcement.content)}"/>
+                            </p:column>
+
+                            <p:column headerText="Read" sortBy="#{announcement.isRead}">
+                                <p:selectBooleanCheckbox value="#{announcement.isRead}" >                                       
+                                    <p:ajax update="@form" listener="#{internalAnnouncementManagedBean.toggleRead(announcement)}" />
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog header="Message" widgetVar="message" minHeight="40" showEffect="clip" hideEffect="clip">
+                    <h:form id="sendMessage">
+                        <p:panel header="Send New Message" style="padding-bottom: 15px;">
+
+                            <h:panelGrid columns="2" cellpadding="5">
+
+                                <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
+                                <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}"
+                                                 effect="fold" editable="true" converter="staffConverter"
+                                                 var="s" >
+                                    <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff"
+                                                    itemValue="#{staff}" itemLabel="#{staff.id}"  />
+                                    <p:column>
+                                        <h:outputText value="#{s.displayName}(#{s.staffNo})" />
+                                    </p:column>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="content" value="Content" />
+                                <p:inputTextarea style="width: 100%;" id="content" value="#{internalMessageManagedBean.content}"></p:inputTextarea>
+
+                                <p:commandButton id="sendAnnouncement" value="Send"
+                                                 actionListener="#{internalMessageManagedBean.send}" update="@form viewMessages"/>
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+                    <p:panel header="Messages">
+                        <h:form id="viewMessages">
+                            <p:dataTable id="messageTable" value="#{internalMessageManagedBean.allMessages}" var="message" 
+                                         paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
+                                         editable="true" editMode="cell" sortMode="multiple"
+                                         resizableColumns="true" liveResize="true">
+                                <p:column headerText="Time"  sortBy="#{message.sentTime}">
+                                    <h:outputText value="#{message.sentTime}"/>
+                                </p:column>
+
+                                <p:column headerText="Sender Name" sortBy="#{message.sender.displayName}">
+                                    <h:outputText value="#{message.sender.displayName}" />
+                                </p:column>
+
+                                <p:column headerText="Content">
+                                    <p:commandButton icon="ui-icon-comment" 
+                                                     actionListener="#{internalMessageManagedBean.showMessage(message.sender.displayName, message.content)}"/>
+                                </p:column>
+
+                                <p:column headerText="Read" sortBy="#{message.isRead}">
+                                    <p:selectBooleanCheckbox value="#{message.isRead}" >                                       
+                                        <p:ajax update="@form" listener="#{internalMessageManagedBean.toggleRead(message)}" />
+                                    </p:selectBooleanCheckbox>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:panel>
+                </p:dialog>
                 <ui:insert name="centerPanel">
 
                 </ui:insert>
             </p:layoutUnit>
 
+            <p:layoutUnit id="layoutUnit_right" position="east" size="8%" resizable="false" collapsible="false">
+                <h:form id="toolBox" style="margin: 0px !important;">
+
+                    <p:stack icon="../resources/img/menuStack/menu.png" expanded="false" class="menuBasket">
+
+                        <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
+                        <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/account.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/userProfile.xhtml"/>
+                        <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/announcement.png"
+                                    actionListener="#{internalAnnouncementManagedBean.refreshAnnouncements}" update="viewAnnouncement"/>
+                        <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/inbox.png"
+                                    actionListener="#{internalMessageManagedBean.refreshMessages}" update="viewMessages"/>
+                        <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/home.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml"/>
+
+                    </p:stack>
+                </h:form>
+
+            </p:layoutUnit>
+
         </p:layout>
 
         <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
-            
+
         </p:ajaxStatus>
 
         <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />

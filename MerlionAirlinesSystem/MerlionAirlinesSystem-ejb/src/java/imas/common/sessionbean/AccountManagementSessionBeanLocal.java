@@ -42,4 +42,6 @@ public interface AccountManagementSessionBeanLocal {
 
     AirportEntity fetchBase(String base);
 
+    void assignAccessRight(String staffNo, String businessUnit, String division, String position);
+
 }

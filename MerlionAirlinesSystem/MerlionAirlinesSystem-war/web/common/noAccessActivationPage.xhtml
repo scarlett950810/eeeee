@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/simple-sidebar.css"/>
+        <h:outputScript name="./js/bootstrap.min.js"/>
+
+        <title><ui:insert name="title">No Access To Activation Page</ui:insert></title>
+        <ui:insert name="head"></ui:insert>
+    </h:head>
+
+    <h:body>
+
+        <p:layout fullPage="true">
+
+            <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
+                <p:graphicImage name="img/merlionLogo.jpg" height="100%" style="float: left;"></p:graphicImage>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="20">
+                <p:layoutUnit position="center">Merlion Airline</p:layoutUnit>
+            </p:layoutUnit>
+
+            <p:layoutUnit id="layoutUnit_center" position="center" size="80%">
+                <h1 style="font-size: 30px;margin-left: 25%; margin-top: 30px; border-bottom: none;">
+                    Sorry, you have already activated your account.
+                </h1>
+                <h:form>
+                    <p:commandButton actionListener="#{errorHandlingManagedBean.noAccessActivationRedirection()}" value="Back to landing page" style="margin-top: 100px; margin-left: 45%">
+
+                    </p:commandButton>
+                </h:form>
+            </p:layoutUnit>
+
+        </p:layout>
+
+    </h:body>
+
+</html>

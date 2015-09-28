@@ -38,9 +38,7 @@
             </ul>
         </div>
     </ui:define>
-
-
-
+    
     <ui:define name="centerPanel">
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
@@ -54,10 +52,11 @@
                 <p:column headerText="Flight No" style="width: 100px">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
-                <p:column headerText="Departure Date">
+                <p:column headerText="Departure Timing" style="width: 100px">
                     <h:outputText value="#{flight.departureDate}" />
                 </p:column>
-                <p:column headerText="Arrival Date">
+
+                <p:column headerText="Arrival Timing" style="width: 100px">
                     <h:outputText value="#{flight.arrivalDate}" />
                 </p:column>
                 <p:column headerText="Origin" >
@@ -72,8 +71,15 @@
                     </p:commandLink>
                 </p:column>
 
-                <p:column style="width:80px" headerText="Special Records">
-                    <p:commandLink update=":updateFlightForm:flightSpecialDetail" actionListener="#{postFlightReportManagedBean.updateFlightSpecialReportActionListener}" title="View or Edit " styleClass="ui-icon ui-icon-search" >
+                <p:column style="width:50px;text-align: center" headerText="Special Records">
+                    <p:commandLink update=":updateFlightForm:flightSpecialDetail" actionListener="#{postFlightReportManagedBean.updateFlightSpecialReportActionListener}" 
+                                   title="View or Edit " styleClass="ui-icon ui-icon-search" >
+                        <f:attribute value="#{flight}" name="flight" />
+                    </p:commandLink>
+                </p:column>
+                
+                <p:column style="width:50px;text-align: center" headerText="Update Flight Status">
+                    <p:commandLink update="editAircraft" actionListener="#{postFlightReportManagedBean.updateFlightStatus}" title="Update Flight Status" styleClass="ui-icon ui-icon-check" disabled="#{flight.actualArrivalDate != null}">
                         <f:attribute value="#{flight}" name="flight" />
                     </p:commandLink>
                 </p:column>

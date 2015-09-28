@@ -109,7 +109,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         if (staffs.isEmpty()) {
 
             if (isPilot == false && isCabinCrew == false) {
-                System.out.print("1");
+
                 StaffEntity staff = new StaffEntity(staffNo, name, tempPassword, email, contactNumber, address, gender);
                 StaffRole role = new StaffRole(businessUnit, position, division, location, null);
 
@@ -128,7 +128,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
                 }
 
             } else if (isPilot == true) {
-                System.out.print("2");
+
                 PilotEntity pilot = new PilotEntity(staffNo, name, tempPassword, email,
                         contactNumber, address, gender, workingStatus, aircraftTypeCapabilities, null, mileageLimit);
                 StaffRole role = new StaffRole(businessUnit, position, division, location, null);
@@ -144,7 +144,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
                 pilot.setSalt(salt);
                 pilot.setBase(airport);
             } else if (isCabinCrew == true) {
-                System.out.print("3");
+
                 CabinCrewEntity cabinCrew = new CabinCrewEntity(staffNo, name, tempPassword, email, contactNumber,
                         address, gender, "available", null);
                 StaffRole role = new StaffRole(businessUnit, position, division, location, null);
@@ -160,6 +160,8 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
                 cabinCrew.setSalt(salt);
                 cabinCrew.setBase(airport);
             }
+
+            assignAccessRight(staffNo, businessUnit, division, position);
 
             try {
                 sendNewStaffEmail(email, password, name, staffNo);
@@ -275,7 +277,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
 
     @Override
     public void createRootUser() {
-        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s");
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = 'admin'");
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
         if (staffs.isEmpty()) {
             String password = "123";
@@ -288,13 +290,19 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
             }
 
             tempPassword = cp.doMD5Hashing(password + salt);
+            ArrayList<String> accessRight = new ArrayList<>();
+            accessRight.add("all");
+            StaffEntity staff1 = new StaffEntity("admin", "System Administrator", tempPassword, "systemadmin@merlionairline.sg", "12345678", "ABC Street", "male");
 
-            StaffEntity staff = new StaffEntity("admin", "System Administrator", tempPassword, "systemadmin@merlionairline.sg", "12345678", "ABC Street", "male");
-            entityManager.persist(staff);
-            StaffRole role = new StaffRole("Administration", "Manager", "Human Resources", "Singapore", null);
-            entityManager.persist(role);
-            staff.setSalt(salt);
-            staff.setRole(role);
+            entityManager.persist(staff1);
+
+            StaffRole role1 = new StaffRole("Administration", "Manager", "Information Technology", "Singapore", accessRight);
+
+            entityManager.persist(role1);
+
+            staff1.setSalt(salt);
+            staff1.setRole(role1);
+
         }
     }
 
@@ -312,6 +320,90 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
             return airports.get(0);
         }
 
+    }
+
+    @Override
+    public void assignAccessRight(String staffNo, String businessUnit, String division, String position) {
+        ArrayList<String> accessRight = new ArrayList<>();
+
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        StaffEntity staff = staffs.get(0);
+
+        accessRight.add("/common/userProfile.xhtml");
+        accessRight.add("/common/common_landing.xhtml");
+        accessRight.add("/operation/operationDisplayFlights.xhtml");
+
+        if (businessUnit.equals("Operation")) {
+            accessRight.add("/operation/operationHomePage.xhtml");
+            if (division.equals("Crew Management")) {
+                accessRight.add("/operation/operationCrewBoarding.xhtml");
+                accessRight.add("/operation/OperationCrewCheckIn.xhtml");
+            } else if (division.equals("Cockpit Crew")) {
+                accessRight.add("/operation/operationPostFlightReport.xhtml");
+                accessRight.add("/operation/retrieveDuty.xhtml");
+            } else if (division.equals("Cabin Crew")) {
+                accessRight.add("/operation/retrieveDuty.xhtml");
+            } else if (division.equals("planning")) {
+                accessRight.add("/operation/viewFlightSchedule.xhtml");
+                accessRight.add("/operation/viewMaintenanceSchedule.xhtml");
+                accessRight.add("/planning/planningHomePage.xhtml");
+                if (position.toLowerCase().equals("manager")) {
+                    accessRight.add("/planning/planningAddAircraft.xhtml");
+                    accessRight.add("/planning/planningAddAircraftType.xhtml");
+                    accessRight.add("/planning/planningAddRoute.xhtml");
+                    accessRight.add("/planning/planningDeleteAircraftType.xhtml");
+                    accessRight.add("/planning/planningAddAirport.xhtml");
+                    accessRight.add("/planning/planningDeleteAirport.xhtml");
+                    accessRight.add("/planning/planningDeleteRoute.xhtml");
+                    accessRight.add("/planning/planningEditDeleteAircraft.xhtml");
+                    accessRight.add("/planning/planningFASetFrequency.xhtml");
+                    accessRight.add("/planning/planningFleetAssignment.xhtml");
+                    accessRight.add("/planning/planningFleetAssignmentDisplay.xhtml");
+                    accessRight.add("/planning/planningFleetAssignment.xhtml");
+                    accessRight.add("/planning/planningFASetFrequency.xhtml");
+                    accessRight.add("/planning/planningFleetAssignment.xhtml");
+                }else if (position.toLowerCase().equals("staff")) {
+                    accessRight.add("/planning/planningAirport.xhtml");
+                    accessRight.add("/planning/planningAircraftType.xhtml");
+                    accessRight.add("/planning/planningManageAircraftType.xhtml");
+                    accessRight.add("/planning/planningRoute.xhtml");
+                    accessRight.add("/planning/planningSetFrequency.xhtml");
+                    accessRight.add("/planning/planningSetSchedulePerDay.xhtml");
+                    accessRight.add("/planning/planningSetSchedulePerWeek.xhtml");
+                }
+            }
+
+        } else if (businessUnit.equals("Maintenance")) {
+            accessRight.add("/operation/viewMaintenanceSchedule.xhtml");
+
+        } else if (businessUnit.equals("Administration")) {
+            if (division.equals("Human Resources")) {
+                accessRight.add("/systemAdmin/systemAdminHome.xhtml");
+                accessRight.add("/systemAdmin/systemAdminAddStaff.xhtml");
+                accessRight.add("/systemAdmin/systemAdminSendAnnouncement.xhtml");
+                accessRight.add("/systemAdmin/systemAdminViewStaff.xhtml");
+            } else if (businessUnit.equals("Information Technology")) {
+                accessRight.add("all");
+            }
+
+        } else if (businessUnit.equals("Sales and Marketing")) {
+            if (division.equals("Sales")) {
+                accessRight.add("/inventory/inventoryBookingClassManagement.xhtml");
+                accessRight.add("/inventory/inventoryCost.xhtml");
+                accessRight.add("/inventory/inventoryHomePage.xhtml");
+                accessRight.add("/inventory/inventoryRevenueManagement.xhtml");
+                accessRight.add("/inventory/inventoryRulesManagement.xhtml");
+                accessRight.add("/inventory/inventorySeatsManagement.xhtml");
+            }
+        } else if (businessUnit.equals("Operation Control")) {
+
+        }
+
+        staff.getRole().setAccessRight(accessRight);
+        System.out.print(staff.getRole().getAccessRight());
     }
 
 }

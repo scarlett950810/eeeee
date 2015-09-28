@@ -22,4 +22,6 @@ public interface PostFlightReportSessionBeanLocal {
 
     public void updateReport(FlightEntity selectedFlight);
 
+    void updateFlightStatus(FlightEntity flight);
+
 }

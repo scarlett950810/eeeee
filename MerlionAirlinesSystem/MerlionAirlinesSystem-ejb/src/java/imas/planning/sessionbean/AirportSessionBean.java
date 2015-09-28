@@ -73,7 +73,7 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
         query.setParameter("airportCode", airportCode);
         AirportEntity a = (AirportEntity) query.getSingleResult();
         
-        if(checkRelatedRoute(a) && checkRelatedAircraft(a)){ //加一个查associated aircrafts
+        if(checkRelatedRoute(a) && checkRelatedAircraft(a)){ //check associated aircrafts
             System.err.println("enter checkrelated true");
             em.remove(a);
             return true;

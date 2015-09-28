@@ -6,9 +6,13 @@
 package imas.web.managedbean.common;
 
 import imas.common.entity.InternalAnnouncementEntity;
+import imas.common.entity.StaffEntity;
+import imas.common.entity.StaffRole;
 import imas.common.sessionbean.InternalAnnouncementSessionBeanLocal;
+import imas.common.sessionbean.InternalMessageSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import imas.planning.entity.AirportEntity;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +35,14 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @SessionScoped
 public class InternalAnnouncementManagedBean implements Serializable {
+    @EJB
+    private InternalMessageSessionBeanLocal internalMessageSessionBean;
 
     @EJB
     private InternalAnnouncementSessionBeanLocal internalAnnouncementSessionBean;
     @EJB
     private AirportSessionBeanLocal airportSessionBean;
+    
     
     private String loggedInStaffNo;
 
@@ -50,14 +57,17 @@ public class InternalAnnouncementManagedBean implements Serializable {
     private List<AirportEntity> airportList;
 
     private List<InternalAnnouncementEntity> allAnnouncements;
+    
+    private StaffEntity staff;
 
     @PostConstruct
     public void init() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.airportList);
         loggedInStaffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
+        
         allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(loggedInStaffNo);
-//        System.out.println("manageBean:");
-//        System.out.println(allAnnouncements);
+        staff = internalMessageSessionBean.getStaffEntityByStaffNo(loggedInStaffNo);
+        
     }
 
     @PostRemove
@@ -141,6 +151,14 @@ public class InternalAnnouncementManagedBean implements Serializable {
 
     public void setLoggedInStaffNo(String loggedInStaffNo) {
         this.loggedInStaffNo = loggedInStaffNo;
+    }
+
+    public StaffEntity getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffEntity staff) {
+        this.staff = staff;
     }
     
     public void toggleRead(InternalAnnouncementEntity announcementEntity) {

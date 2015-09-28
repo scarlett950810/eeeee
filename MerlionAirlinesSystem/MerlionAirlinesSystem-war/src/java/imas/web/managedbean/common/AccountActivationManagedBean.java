@@ -49,11 +49,25 @@ public class AccountActivationManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-        staff = accountManagementSessionBean.getStaff(staffNo);
-        staffRole = staff.getRole();
-        role = staffRole.getPosition() + ", " + staffRole.getBusinessUnit() + ", " + staffRole.getDivision() + ", " + staffRole.getLocation() + "\n";
-
-//        staff.getClass().getSimpleName();
+        if (staffNo == null) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("noLoginErrorPage.xhtml");
+            } catch (IOException ex) {
+                System.out.print(ex);
+            }
+        } else {
+            staff = accountManagementSessionBean.getStaff(staffNo);
+            if (staff.getActivationStatus() == true) {
+                try {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("noAccessActivationPage.xhtml");
+                } catch (IOException ex) {
+                    System.out.print(ex);
+                }
+            } else {
+                staffRole = staff.getRole();
+                role = staffRole.getPosition() + ", " + staffRole.getBusinessUnit() + ", " + staffRole.getDivision() + ", " + staffRole.getLocation() + "\n";
+            }
+        }
     }
 
     public String onFlowProcess(FlowEvent event) {
