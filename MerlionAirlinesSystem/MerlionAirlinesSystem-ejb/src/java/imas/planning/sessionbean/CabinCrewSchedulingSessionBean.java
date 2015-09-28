@@ -5,8 +5,10 @@
  */
 package imas.planning.sessionbean;
 
+import imas.common.entity.CabinCrewEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,4 +37,13 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         
         return null;
     }
+
+    @Override
+    public List<CabinCrewEntity> retrieveAllCabinCrew() {
+        Query q = em.createQuery("SELECT a FROM CabinCrewEntity a");
+        return (List<CabinCrewEntity>) q.getResultList();
+        
+    }
+    
+    
 }

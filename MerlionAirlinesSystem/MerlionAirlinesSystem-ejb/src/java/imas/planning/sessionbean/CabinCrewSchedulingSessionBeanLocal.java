@@ -5,7 +5,9 @@
  */
 package imas.planning.sessionbean;
 
+import imas.common.entity.CabinCrewEntity;
 import imas.planning.entity.FlightEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,5 +18,7 @@ import javax.ejb.Local;
 public interface CabinCrewSchedulingSessionBeanLocal {
 
     Integer getFlightCapacity(FlightEntity flight);
+
+    List<CabinCrewEntity> retrieveAllCabinCrew();
     
 }
