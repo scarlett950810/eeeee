@@ -47,7 +47,7 @@ public class LoginManagedBean {
 
     @PostConstruct
     public void init() {
- //      insertData();
+       /// insertData();
         createRootUser();
     }
 
@@ -141,8 +141,8 @@ public class LoginManagedBean {
                 null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome Back",
                         "Continue your works."));
-     String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-     System.out.print(staffNo);
+//     String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
+//     System.out.print(staffNo);
      
 
     }
