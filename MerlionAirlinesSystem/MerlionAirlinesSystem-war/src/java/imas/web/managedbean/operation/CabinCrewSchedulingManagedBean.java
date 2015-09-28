@@ -109,10 +109,10 @@ public class CabinCrewSchedulingManagedBean implements Serializable {
         cabinCrewAll = cabinCrewScheduling.retrieveAllCabinCrew();
         
         System.err.println("finishflightsAll");
-        cabinCrewScheduling.CabinScheduling(flightsAll, cabinCrewAll);
+        List<FlightEntity> flightsLeft = cabinCrewScheduling.CabinScheduling(flightsAll, cabinCrewAll);
         System.err.println("out of the optimization");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsLeft", flightsLeft);
-        ec.redirect("operationDisplayFlights.xhtml");
+        ec.redirect("retrieveDuty.xhtml");
 
     }
 }

@@ -224,6 +224,8 @@ public class ScheduleByWeekManagedBean implements Serializable {
         flightEntity.setArrivalDate(halfHourBack);
         cal.add(Calendar.MINUTE, 60);
         flightEntity.getReverseFlight().setDepartureDate(cal.getTime());
+                cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
+                flightEntity.getReverseFlight().setArrivalDate(cal.getTime());
     }
     public String getTimeName(Date date){
         if(date ==null)
