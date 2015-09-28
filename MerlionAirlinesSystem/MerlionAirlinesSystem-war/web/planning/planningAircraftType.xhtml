@@ -25,76 +25,77 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
-        
-        <p:panel header="Current Aircraft Types" class="panel panel-primary">
-            <h:form id="form">
-                <p:growl id="msgs" showDetail="true" life="2000"/>
-                <p:dataTable id="aircraftTypes" var="aircraftType" value="#{aircraftTypeManagedBean.aircraftTypes}" editable="true" style="margin-bottom:20px"
-                             paginator="true"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="15, 20, 25">
 
-                    <p:ajax event="rowEdit" listener="#{aircraftTypeManagedBean.onRowEdit}" update=":form:msgs" />
-                    <p:ajax event="rowEditCancel" listener="#{aircraftTypeManagedBean.onRowCancel}" update=":form:msgs" />
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" life="2000"/>
+            <p:dataTable id="aircraftTypes" var="aircraftType" value="#{aircraftTypeManagedBean.aircraftTypes}" editable="true"
+                         style="margin-bottom:20px" paginator="true"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="15, 30, 50" rows="15" class="table-responsive">
+                
+                <f:facet name="header">
+                    Current Aircraft Types
+                </f:facet>
+
+                <p:ajax event="rowEdit" listener="#{aircraftTypeManagedBean.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{aircraftTypeManagedBean.onRowCancel}" update=":form:msgs" />
 
 
-                    <p:column headerText="IATA Code" >
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{aircraftType.IATACode}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{aircraftType.IATACode}" style="width:100%" label="origin"/></f:facet>
-                        </p:cellEditor>
-                    </p:column>
+                <p:column headerText="IATA Code" class="col-xs-1">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{aircraftType.IATACode}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{aircraftType.IATACode}" style="width:100%" label="origin"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                    <p:column headerText="Range">
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{aircraftType.aircraftRange}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{aircraftType.aircraftRange}" style="width:100%" label="destination"/></f:facet>
-                        </p:cellEditor>
-                    </p:column>
+                <p:column headerText="Range">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{aircraftType.aircraftRange}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{aircraftType.aircraftRange}" style="width:100%" label="destination"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                    <p:column headerText="Cruising Speed">
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{aircraftType.cruisingSpeed}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{aircraftType.cruisingSpeed}" style="width:100%" label="distance"/></f:facet>
-                        </p:cellEditor>
-                    </p:column>
+                <p:column headerText="Cruising Speed">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{aircraftType.cruisingSpeed}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{aircraftType.cruisingSpeed}" style="width:100%" label="distance"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                    <p:column headerText="Space">
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{aircraftType.aircraftSpace}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{aircraftType.aircraftSpace}" style="width:100%" label="Flight Hours"/></f:facet>
-                        </p:cellEditor>
-                    </p:column>
+                <p:column headerText="Space">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{aircraftType.aircraftSpace}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{aircraftType.aircraftSpace}" style="width:100%" label="Flight Hours"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                    <p:column headerText="Maintainence Hours">
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{aircraftType.maintenanceHoursRequiredACheck}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{aircraftType.maintenanceHoursRequiredACheck}" style="width:100%" label="Flight Hours"/></f:facet>
-                        </p:cellEditor>
-                    </p:column>
+                <p:column headerText="Maintainence Hours">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{aircraftType.maintenanceHoursRequiredACheck}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{aircraftType.maintenanceHoursRequiredACheck}" style="width:100%" label="Flight Hours"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                    <p:column style="width:32px">
-                        <p:rowEditor />
-                    </p:column>
-                </p:dataTable>
-            </h:form>
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+        </h:form>
 
-            <h:form>
-                <p:commandButton class="btn-sm btn-primary" value="Delete Aircraft Type"
-                                 actionListener ="#{aircraftTypeManagedBean.deleteAircraftType()}" 
-                                 style="display: inline-block; float: right;" ajax="false"/>
-                <p:commandButton class="btn-sm btn-primary" value="Add Aircraft Type" 
-                                 actionListener ="#{aircraftTypeManagedBean.addAircraftType()}" 
-                                 style="display: inline-block; float: right;" ajax="false"/>
-            </h:form>
-            <br/>
-            <br/>
-        </p:panel>
+        <h:form>
+            <p:commandButton class="btn-sm btn-danger" value="Delete Aircraft Type"
+                             actionListener ="#{aircraftTypeManagedBean.deleteAircraftType()}" 
+                             style="display: inline-block; float: right;" ajax="false"/>
+            <p:commandButton class="btn-sm btn-success" value="Add Aircraft Type" 
+                             actionListener ="#{aircraftTypeManagedBean.addAircraftType()}" 
+                             style="display: inline-block; float: right;" ajax="false"/>
+        </h:form>
 
     </ui:define>
 

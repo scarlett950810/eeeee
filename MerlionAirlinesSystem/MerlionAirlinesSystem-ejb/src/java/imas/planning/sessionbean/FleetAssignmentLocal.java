@@ -7,6 +7,7 @@ package imas.planning.sessionbean;
 
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -27,6 +28,9 @@ public interface FleetAssignmentLocal {
     List<FlightEntity> oneAircraftAssignment(AircraftEntity aircraft, List<FlightEntity> flightsAvai);
 
     Double calculateMaintenanceHours(AircraftEntity aircraft, Date mtAcc);
+
+    List<FlightEntity> retreiveDBrecords(RouteEntity route);
+    void deleteUnassginedFlights(List<FlightEntity> flightsUnassigned);
 
     
 }

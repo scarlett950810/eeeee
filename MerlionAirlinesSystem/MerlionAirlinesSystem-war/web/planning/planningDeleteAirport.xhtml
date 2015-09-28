@@ -30,27 +30,29 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
-        <h:body>
-            <h:form>
-                <p:messages id="statusMessages" redisplay="false"/>
-                <p:panel header="Delete Airport">
-                    <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
-                        <p:outputLabel for="deleteAirport" value="Choose Airport to Delete:"  />
-                        <p:selectOneMenu id="deleteAirport" value="#{airportManagedBean.airport}" panelStyle="width:180px" required="true" requiredMessage="Please input airport to delete"
-                                         effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
-                                         converter="airportConverter">
+    <h:body>
+        <h:form>
+            <p:messages id="statusMessages" redisplay="false"/>
+            <p:panel header="Delete Airport" class="panel panel-primary">
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="deleteAirport" value="Choose Airport to Delete:"  />
+                    <p:selectOneMenu id="deleteAirport" value="#{airportManagedBean.airport}" panelStyle="width:180px" required="true" requiredMessage="Please input airport to delete"
+                                     effect="fade" filter="true" filterMatchMode="startsWith"
+                                     converter="airportConverter">
 
-                            <f:selectItems value="#{airportManagedBean.airportList}" var="airport" itemLabel="#{airport.cityName}, #{airport.airportName}, #{airport.airportCode}" itemValue="#{airport}" />
-                        </p:selectOneMenu>
-                    </h:panelGrid>
-                    <p:commandButton value="Confirm" actionListener="#{airportManagedBean.deleteAirport}" update="statusMessages"/>
-                </p:panel>
-            </h:form>
+                        <f:selectItems value="#{airportManagedBean.airportList}" var="airport" itemLabel="#{airport.cityName}, #{airport.airportName}, #{airport.airportCode}" itemValue="#{airport}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <p:commandButton value="Confirm" actionListener="#{airportManagedBean.deleteAirport}" update="statusMessages"
+                                 class="btn-sm btn-primary"/>
+            </p:panel>
+        </h:form>
 
         </h:body>
     </ui:define>

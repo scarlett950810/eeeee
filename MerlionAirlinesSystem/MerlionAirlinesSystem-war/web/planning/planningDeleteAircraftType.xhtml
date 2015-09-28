@@ -30,16 +30,16 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
                 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
     
     <ui:define name="centerPanel">
-        
-    <h:body>
+    
         <h:form>
             <p:messages id="statusMessages" redisplay="false"/>
-            <p:panel header="Delete Aircraft type">
+            <p:panel header="Delete Aircraft type" class="panel panel-danger">
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                     <p:outputLabel for="deleteAircraftType" value="Choose Aircraft Type to Delete:"  />
                     <p:selectOneMenu id="deleteAircraftType" value="#{aircraftTypeManagedBean.IATACode}" panelStyle="width:180px" required="true" requiredMessage="Please choose an aircraft type to delete"
@@ -49,11 +49,12 @@
                         <f:selectItems value="#{aircraftTypeManagedBean.aircraftTypes}" var="aircraftType" itemLabel="#{aircraftType.IATACode}" itemValue="#{aircraftType}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
-                <p:commandButton value="Confirm" actionListener="#{aircraftTypeManagedBean.actualDeleteAircraftType}" update="statusMessages"/>
+                <p:commandButton value="Confirm" actionListener="#{aircraftTypeManagedBean.actualDeleteAircraftType}"
+                                 update="statusMessages" class="btn-sm btn-danger"/>
             </p:panel>
         </h:form>
-
-    </h:body>
+        <p:link outcome="planningAircraftType.xhtml" value="Back"/>
+    
     </ui:define>
     
 </ui:composition>

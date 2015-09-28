@@ -7,6 +7,7 @@ package imas.web.managedbean.planning;
 
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
+import imas.planning.sessionbean.FleetAssignmentLocal;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
@@ -44,6 +45,8 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
     private List<Integer> serialNo;
     private Integer planningPeiord;
     private String endingDate;
+    @EJB
+    private FleetAssignmentLocal fl;
 
     /**
      * Creates a new instance of ScheduleDevelopmentManagedBean
@@ -181,6 +184,7 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
     }
 
     public List<RouteEntity> getConnectionsAll() {
+        System.err.println("testfreq");
         List<RouteEntity> routesAll = routeSession.retrieveAllRoutes();
         connectionsAll = routeSession.filterRoutesToConnections(routesAll);
         System.out.println("enter getconnectionsall");
@@ -231,20 +235,38 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
     }
     
     public String getMinDate() {
-        if(!routeSelected.getFlights().isEmpty()){
-            List<FlightEntity> flights = routeSelected.getFlights();
+        if(routeSelected!=null){
+            
+        if(!fl.retreiveDBrecords(routeSelected).isEmpty()){
+            
+            List<FlightEntity> flights = fl.retreiveDBrecords(routeSelected);
             Date temp = flights.get(0).getDepartureDate();
             Date max = temp;
             for(FlightEntity f: flights){
                 if(max.compareTo(f.getDepartureDate())<0)
                     max = f.getDepartureDate();
             }
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(max);
+        System.err.println("getMinDate(): printout one year after current date:"+dateFormat.format(cal.getTime()));        
+        return dateFormat.format(cal.getTime());
         }
+        else{
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, 1);
+        System.err.println("getMinDate(): printout one year after current date:"+dateFormat.format(cal.getTime()));        
+        return dateFormat.format(cal.getTime());
+        }
+        }
+        else{
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 1);
         System.err.println("getMinDate(): printout one year after current date:"+dateFormat.format(cal.getTime()));        
         return dateFormat.format(cal.getTime());
+        }
                 //        if (yearSelected != null) {
                 //            System.out.println("year:" + yearSelected.toString());
                 //            String year1 = String.valueOf(yearSelected);

@@ -8,8 +8,7 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-
+        
         <title><ui:insert name="title">Merlion Airlines Internal System</ui:insert></title>
         <ui:insert name="head"></ui:insert>
     </h:head>
@@ -59,7 +58,7 @@
                 <ui:insert name="menubar"></ui:insert>
             </p:layoutUnit>
 
-            <p:layoutUnit id="layoutUnit_right" position="east" size="8%" resizable="false" collapsible="false">
+            <p:layoutUnit id="layoutUnit_right" position="east" size="6%" resizable="false" collapsible="false">
                 <h:form id="toolBox" style="margin: 0px !important;">
 
                     <p:stack icon="../resources/img/menuStack/menu.png" expanded="false" class="menuBasket">
@@ -77,7 +76,8 @@
 
             </p:layoutUnit>
 
-            <p:layoutUnit id="layoutUnit_center" position="center" style="padding: 20px 15px !important">
+            <p:layoutUnit id="layoutUnit_center" position="center" size="79%"
+                          style="padding: 20px 15px !important">
 
                 <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
                     <h:form id="viewAnnouncement">

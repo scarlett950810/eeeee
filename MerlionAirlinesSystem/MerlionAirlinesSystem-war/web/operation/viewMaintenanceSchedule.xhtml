@@ -31,16 +31,15 @@
         <h:form id="chooseAircraft"> 
             <p:growl id="msgs" showDetail="true" />
 
-            <p:panel header="Select a Aircraft" style="margin-bottom:10px;">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel for="aircraft" value="Aircraft: " />
-                    <p:selectOneMenu id="aircraft" value="#{viewMaintenanceScheduleManagedBean.aircraft}" style="width:150px">
-                        <f:selectItem itemLabel="Select Aircraft" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{viewMaintenanceScheduleManagedBean.aircrafts}" />
-                    </p:selectOneMenu>
-                </h:panelGrid>     
-                <p:commandButton value="Submit" update="msgs dialog" actionListener="#{viewMaintenanceScheduleManagedBean.submit}" icon="ui-icon-check" />             
-            </p:panel>
+            <h:panelGrid columns="2" cellpadding="5" class="panel-primary">
+                <p:outputLabel for="aircraft" value="Select an aircraft to view its maintenance: " />
+                <p:selectOneMenu id="aircraft" value="#{viewMaintenanceScheduleManagedBean.aircraft}" style="width:150px">
+                    <f:selectItem itemLabel="Select Aircraft" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{viewMaintenanceScheduleManagedBean.aircrafts}" />
+                </p:selectOneMenu>
+            </h:panelGrid>     
+            <p:commandButton value="Submit" update="msgs dialog" actionListener="#{viewMaintenanceScheduleManagedBean.submit}"
+                             icon="ui-icon-check" class="btn-sm btn-primary"/>             
 
             <p:dialog id="dialog" header="Maintenance Schedule" widgetVar="dlg" dynamic="true">           
                 <p:schedule value="#{viewMaintenanceScheduleManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />

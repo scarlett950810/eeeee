@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.web.managedbean.planning;
+package imas.web.managedbean.operation;
 
+import imas.common.entity.PilotEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
@@ -28,15 +29,12 @@ import javax.faces.view.ViewScoped;
  *
  * @author ruicai
  */
-@Named(value = "fleetAssignmentManagedBean")
+@Named(value = "pilotCrewScheduling")
 @ViewScoped
-public class FleetAssignmentManagedBean implements Serializable{
-    private AircraftEntity aircraft;
-    private List<AircraftEntity> aircraftsAll;
+public class PilotCrewScheduling implements Serializable{
     private List<FlightEntity> flightsAll;
     private List<FlightEntity> flightsLeft;
-    @EJB
-    private AircraftSessionBeanLocal aircraftSessionBean;
+    private List<PilotEntity> pilotsAll;
     @EJB
     private FleetAssignmentLocal fleetAssignment;
     private Date planningPeriodStartingDate;
@@ -44,14 +42,14 @@ public class FleetAssignmentManagedBean implements Serializable{
     private CrewSchedulingSessionBeanLocal crewSchedulingSession;
     @EJB
     private TestFunctionsFAandCSLocal functionsFAandCSLocal;
-    /**
-     * Creates a new instance of FASetFrequency
-     */
-    public FleetAssignmentManagedBean() {
 
+    /**
+     * Creates a new instance of PilotCrewScheduling
+     */
+    public PilotCrewScheduling() {
     }
     
-     @PostConstruct
+    @PostConstruct
     public void init()
     {     
         
@@ -61,33 +59,44 @@ public class FleetAssignmentManagedBean implements Serializable{
  //       crewSchedulingSession.pilotScheduling(functionsFAandCSLocal.getAllFlights(), functionsFAandCSLocal.getAllPilots());
         
     }
-    public void fleetAssignment() throws IOException{
+    
+    public void pilotAssignment() throws IOException{
         System.err.println("hehehhee");
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        aircraftsAll = aircraftSessionBean.getAircrafts();  
-        System.err.println("planningPeriodStartingDate"+planningPeriodStartingDate.toString());
+        
         flightsAll = fleetAssignment.getAllFlightsWithinPlanningPeriod(planningPeriodStartingDate);
+        pilotsAll = crewSchedulingSession.retriveAllPilots();
         System.err.println("finishflightsAll");
-        flightsLeft = fleetAssignment.fleetAssignment(flightsAll, aircraftsAll);
-        System.err.println("outof the optimization");
+        crewSchedulingSession.pilotScheduling(flightsAll, pilotsAll);       
+        System.err.println("out of the optimization");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsLeft", flightsLeft);
-//      fleetAssignment.deleteUnassginedFlights(flightsLeft);
-        ec.redirect("./operation/viewFlightsSchedule.xhtml");
+        ec.redirect("operationDisplayFlights.xhtml");
 
     }
 
-    public List<Date> getAllPlanningPeirod(){
-        return fleetAssignment.getAllPlanningPeriodStartDateByYear();
+    public List<FlightEntity> getFlightsAll() {
+        return flightsAll;
     }
 
-    public Date getPlanningPeriodStartingDate() {
-        System.err.println("enter...."+planningPeriodStartingDate);
-        return planningPeriodStartingDate;
+    public void setFlightsAll(List<FlightEntity> flightsAll) {
+        this.flightsAll = flightsAll;
     }
 
-    public void setPlanningPeriodStartingDate(Date planningPeriodStartingDate) {
-        this.planningPeriodStartingDate = planningPeriodStartingDate;
+    public List<FlightEntity> getFlightsLeft() {
+        return flightsLeft;
+    }
+
+    public void setFlightsLeft(List<FlightEntity> flightsLeft) {
+        this.flightsLeft = flightsLeft;
+    }
+
+    public FleetAssignmentLocal getFleetAssignment() {
+        return fleetAssignment;
+    }
+
+    public void setFleetAssignment(FleetAssignmentLocal fleetAssignment) {
+        this.fleetAssignment = fleetAssignment;
     }
     
     public String getPlanningPeriodName(Date d){
@@ -100,23 +109,24 @@ public class FleetAssignmentManagedBean implements Serializable{
         return dateStr + " to "+ dateF.format(cal1.getTime());
     }
     
-    
-    public AircraftEntity getAircraft() {
-        return aircraft;
+    public List<Date> getAllPlanningPeirod(){
+        return fleetAssignment.getAllPlanningPeriodStartDateByYear();
     }
 
-    public void setAircraft(AircraftEntity aircraft) {
-        this.aircraft = aircraft;
+    public Date getPlanningPeriodStartingDate() {
+        return planningPeriodStartingDate;
     }
 
-    public List<AircraftEntity> getAircraftsAll() {
-        return aircraftsAll;
+    public void setPlanningPeriodStartingDate(Date planningPeriodStartingDate) {
+        this.planningPeriodStartingDate = planningPeriodStartingDate;
     }
 
-    public void setAircraftsAll(List<AircraftEntity> aircraftsAll) {
-        this.aircraftsAll = aircraftsAll;
+    public TestFunctionsFAandCSLocal getFunctionsFAandCSLocal() {
+        return functionsFAandCSLocal;
     }
-    
-    
+
+    public void setFunctionsFAandCSLocal(TestFunctionsFAandCSLocal functionsFAandCSLocal) {
+        this.functionsFAandCSLocal = functionsFAandCSLocal;
+    }
     
 }

@@ -22,7 +22,7 @@ public class AirportEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Boolean hubOrSpoke;
+    private Boolean hubOrSpoke; // true for hub
     private String cityName;
     private String airportName;  
     private String airportCode;
@@ -50,24 +50,7 @@ public class AirportEntity implements Serializable {
         
     }
     
-//    public List<AircraftEntity> getAirportsH() {
-//        return AirportsH;
-//    }
-//
-//    public void setAirportsH(List<AircraftEntity> AirportsH) {
-//        this.AirportsH = AirportsH;
-//    }
-
-    // aircraft location
-//    public List<AircraftEntity> getAirportsLct() {
-//        return AirportsLct;
-//    }
-//
-//    public void setAirportsLct(List<AircraftEntity> AirportsLct) {
-//        this.AirportsLct = AirportsLct;
-//    }
-
-        /**
+    /**
      * Get the value of nationName
      *
      * @return the value of nationName

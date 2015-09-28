@@ -25,6 +25,7 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
@@ -32,9 +33,10 @@
     <ui:define name="centerPanel">
 
         <h:form>
-            <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleByWeekManagedBean.flights}" style="margin-right: 200px">
+            <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleByWeekManagedBean.flights}" style="margin-right: 200px"
+                         class="panel-success">
                 <f:facet name="header">
-                    List of Flights
+                    List of Flights to Generate
                 </f:facet>
 
                 <p:column headerText="No.">
@@ -52,19 +54,16 @@
                     </p:selectOneMenu>
 
                     <p:calendar id="departureTime" value="#{flight.departureDate}" pattern="HH:mm" timeOnly="true" >
-                        <p:ajax event="dateSelect" listener="#{scheduleByWeekManagedBean.dateSelectListener}" update="arrivalTime" />
+                        <p:ajax event="dateSelect" listener="#{scheduleByWeekManagedBean.dateSelectListener}" update="arrivalTime departureTime2" />
                         <f:attribute name="flight" value="#{flight}" />
                     </p:calendar>
 
                 </p:column>
                 <p:column headerText="#{scheduleByWeekManagedBean.routeSelected.routeName} Arrival Time">
-                    <p:calendar id="arrivalTime" value="#{flight.arrivalDate}" pattern="HH:mm" timeOnly="true">
-
-                    </p:calendar>
+                    <h:outputText id="arrivalTime" value="#{scheduleManagedBean.getTimeName(flight.arrivalDate)}"/>
                 </p:column>
-                <p:column headerText="Reverse Flight Number">
+                <p:column headerText="Flight Number">
                     <h:inputText value="#{flight.reverseFlight.flightNo}" />
-<!--                    <h:inputText value="{flight.flightNo}" />-->
                 </p:column>
                 <p:column headerText="#{scheduleByWeekManagedBean.routeSelected.reverseRoute.routeName} Departure Time">
                     <p:selectOneMenu id="weekday1" value="#{flight.reverseFlight.weekDay}">
@@ -77,16 +76,13 @@
                     </p:calendar>
                 </p:column>
                 <p:column headerText="#{scheduleByWeekManagedBean.routeSelected.reverseRoute.routeName} Arrival Time">
-                    <p:calendar id="arrivalTime2" value="#{flight.reverseFlight.arrivalDate}"  pattern="HH:mm" timeOnly="true">
-
-                    </p:calendar>
+                    <h:outputText id="arrivalTime2" value="#{scheduleManagedBean.getTimeName(flight.reverseFlight.arrivalDate)}"   />
                 </p:column>
 
-                <f:facet name="footer">
-                    In total there 
-                </f:facet>
             </p:dataTable>
-            <p:commandButton value="Submit" actionListener="#{scheduleByWeekManagedBean.generateFlightsByWeek}" icon="ui-icon-check" />
+            
+            <p:commandButton value="Submit" actionListener="#{scheduleByWeekManagedBean.generateFlightsByWeek}"
+                             icon="ui-icon-check" class="btn-sm btn-success"/>
 
         </h:form>
 
