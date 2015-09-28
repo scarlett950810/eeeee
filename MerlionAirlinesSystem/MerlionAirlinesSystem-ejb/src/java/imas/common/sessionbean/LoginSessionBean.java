@@ -56,6 +56,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        //insertData();
 
         if (!staffs.isEmpty()) {
             //get same staffNo 
@@ -499,12 +500,12 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         c1.setBase(a4);
         c2.setBase(a4);
         c3.setBase(a4);
-        c4.setBase(a8);
+        c4.setBase(a4);
         c5.setBase(a4);
         c6.setBase(a4);
         c7.setBase(a4);
         c8.setBase(a4);
-        c9.setBase(a8);
+        c9.setBase(a4);
         c10.setBase(a8);
         c11.setBase(a4);
         c12.setBase(a8);
@@ -540,12 +541,12 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         c42.setBase(a8);
         c43.setBase(a8);
         c44.setBase(a8);
-        c45.setBase(a15);
+        c45.setBase(a8);
         c46.setBase(a4);
-        c47.setBase(a5);
-        c48.setBase(a7);
+        c47.setBase(a8);
+        c48.setBase(a4);
         c49.setBase(a8);
-        c50.setBase(a15);
+        c50.setBase(a4);
 
         System.out.println("Cabin crew are created.");
        

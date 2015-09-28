@@ -72,7 +72,7 @@ public class FleetAssignmentManagedBean implements Serializable{
         flightsLeft = fleetAssignment.fleetAssignment(flightsAll, aircraftsAll);
         System.err.println("outof the optimization");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsLeft", flightsLeft);
-//      fleetAssignment.deleteUnassginedFlights(flightsLeft);
+        fleetAssignment.deleteUnassginedFlights(flightsLeft);
         ec.redirect("../operation/viewFlightSchedule.xhtml");
 
     }
