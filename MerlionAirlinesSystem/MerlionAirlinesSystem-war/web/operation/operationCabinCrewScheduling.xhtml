@@ -24,21 +24,21 @@
 
     <ui:define name="centerPanel">
         <h:form id="f1">
-            <p:panel header="Choose a planning period for Pilot Scheduling" style="margin-bottom: 15px">
+            <p:panel header="Choose a planning period for cabin crew scheduling" style="margin-bottom: 15px">
 
-                <h:outputText value="Select an period for pilot scheduling"/>
+                <h:outputText value="Select an period for cabin crew scheduling"/>
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="planning period seleted: " />
-                    <p:selectOneMenu id="planningPeriodSelected" value="#{pilotCrewScheduling.planningPeriodStartingDate}" converter="dateConverter" style="width:400px">
+                    <p:selectOneMenu id="planningPeriodSelected" value="#{cabinCrewSchedulingManagedBean.planningPeriodStartingDate}" converter="dateConverter" style="width:400px">
                         <f:selectItem itemLabel="Select Period" itemDisabled="true" />
-                        <f:selectItems value="#{pilotCrewScheduling.allPlanningPeirod}" var="planningPeriod" itemLabel="#{pilotCrewScheduling.getPlanningPeriodName(planningPeriod)}" itemValue="#{planningPeriod}" />
+                        <f:selectItems value="#{cabinCrewSchedulingManagedBean.allPlanningPeirod}" var="planningPeriod" itemLabel="#{cabinCrewSchedulingManagedBean.getPlanningPeriodName(planningPeriod)}" itemValue="#{planningPeriod}" />
 
                     </p:selectOneMenu>
                 </h:panelGrid>
             </p:panel>     
             
-            <h:outputText value="The fleet assignment would take consideration of maximizing the uitilization rate, aircraft capability, maintenance requirement "/>`
-            <p:commandButton value="Pilot Crew Scheduling" actionListener="#{pilotCrewScheduling.pilotAssignment()}" icon="ui-icon-check" />
+            <h:outputText value="The fleet assignment would take consideration of maximizing the uitilization rate and aircraft configuration requirement"/>`
+            <p:commandButton value="Cabin Crew Scheduling" actionListener="#{cabinCrewSchedulingManagedBean.cabinAssignment}" icon="ui-icon-check" />
   
         </h:form>
     </ui:define>
