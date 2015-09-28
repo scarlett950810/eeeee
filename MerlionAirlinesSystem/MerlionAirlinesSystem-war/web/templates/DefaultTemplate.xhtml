@@ -8,13 +8,14 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-
+        
         <title><ui:insert name="title">Merlion Airlines Internal System</ui:insert></title>
         <ui:insert name="head"></ui:insert>
     </h:head>
 
     <h:body>
+        #{errorHandlingManagedBean.checkUser()}
+        
         <f:facet name="last">
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <h:outputStylesheet name="./css/simple-sidebar.css"/>
@@ -23,7 +24,7 @@
         </f:facet>
 
         <h:form>
-            <p:idleMonitor timeout="3600000" onidle="PF('idleDialog').show();"/>
+            <p:idleMonitor timeout="180000" onidle="PF('idleDialog').show();"/>
             <p:growl id="messages" showDetail="true" autoUpdate="true" class="alert-warning"/>
 
             <p:dialog id="confirmDialog"
@@ -57,13 +58,13 @@
                 <ui:insert name="menubar"></ui:insert>
             </p:layoutUnit>
 
-            <p:layoutUnit id="layoutUnit_right" position="east" size="8%" resizable="false" collapsible="false">
+            <p:layoutUnit id="layoutUnit_right" position="east" size="6%" resizable="false" collapsible="false">
                 <h:form id="toolBox" style="margin: 0px !important;">
 
                     <p:stack icon="../resources/img/menuStack/menu.png" expanded="false" class="menuBasket">
 
                         <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/signOut.png"  action="#{loginManagedBean.doLogout}"/>
-                        <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/account.png" url="#"/>
+                        <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/account.png" url="http://localhost:8080/MerlionAirlinesSystem-war/common/userProfile.xhtml"/>
                         <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/announcement.png"
                                     actionListener="#{internalAnnouncementManagedBean.refreshAnnouncements}" update="viewAnnouncement"/>
                         <p:menuitem styleClass="icon-resize" icon="../resources/img/menuStack/inbox.png"
@@ -75,7 +76,8 @@
 
             </p:layoutUnit>
 
-            <p:layoutUnit id="layoutUnit_center" position="center" style="padding: 20px 15px !important">
+            <p:layoutUnit id="layoutUnit_center" position="center" size="79%"
+                          style="padding: 20px 15px !important">
 
                 <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
                     <h:form id="viewAnnouncement">

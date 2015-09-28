@@ -24,14 +24,16 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
                 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
+        
         <h:form>
             <p:growl id="growl" showDetail="true"/>
-            <p:panel header="Add Airport">
+            <p:panel header="Add Airport" class="panel panel-primary">
                 <p:messages />
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                     <p:outputLabel for="cityName" value="City Name" />
@@ -57,7 +59,8 @@
                     <h:outputText value="This airport is a hub: " />
                     <h:selectBooleanCheckbox value="#{airportManagedBean.hubOrSpoke}" required="true" label="hubOrSpoke"/>
 
-                    <p:commandButton id="addAirport" value="confirm" actionListener="#{airportManagedBean.save}" update="growl"/>
+                    <p:commandButton id="addAirport" value="confirm" actionListener="#{airportManagedBean.save}" update="growl"
+                                     class="btn-sm btn-primary" />
 
                 </h:panelGrid>
             </p:panel>

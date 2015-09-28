@@ -19,22 +19,24 @@
                 <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
                 <li><a href="planningEditDeleteAircraft.xhtml">Modify Aircraft</a></li>
                 <li><a href="planningManageAircraftTypes.xhtml">View Aircraft</a></li>
-                
+
                 <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
                 <li><a href="planningAirport.xhtml">Manage Airport</a></li>
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
-                
+
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
-    
+
     <ui:define name="centerPanel">
 
         <h:form>
-            <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleManagedBean.flights}" style="margin-right: 200px">
+            <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleManagedBean.flights}"
+                         class="panel-success">
                 <f:facet name="header">
-                    List of Flights
+                    List of Flights to Generate
                 </f:facet>
 
                 <p:column headerText="No.">
@@ -47,37 +49,37 @@
 
                 <p:column headerText="#{scheduleManagedBean.routeSelected.routeName} Departure Time">
                     <p:calendar id="departureTime" value="#{flight.departureDate}" pattern="HH:mm" timeOnly="true" >
-                        <p:ajax event="dateSelect" listener="#{scheduleManagedBean.dateSelectListener}" update="arrivalTime" />
+                        <p:ajax event="dateSelect" listener="#{scheduleManagedBean.dateSelectListener}" update="arrivalTime departureTime2" />
                         <f:attribute name="flight" value="#{flight}" />
                     </p:calendar>
                 </p:column>
                 <p:column headerText="#{scheduleManagedBean.routeSelected.routeName} Arrival Time">
-                    <p:calendar id="arrivalTime" value="#{flight.arrivalDate}" pattern="HH:mm" timeOnly="true">
+                    <h:outputText id="arrivalTime" value="#{scheduleManagedBean.getTimeName(flight.arrivalDate)}"/>
 
-                    </p:calendar>
+
                 </p:column>
-                 <p:column headerText="Flight Number">
-                     <h:inputText value="#{flight.reverseFlight.flightNo}" />
+                <p:column headerText="Flight Number">
+                    <h:inputText value="#{flight.reverseFlight.flightNo}" />
                 </p:column>
-                
+
                 <p:column headerText="#{scheduleManagedBean.routeSelected.reverseRoute.routeName} Departure Time">
-                    <p:calendar id="departureTime2" value="#{flight.reverseFlight.departureDate}" pattern="HH:mm" timeOnly="true" >
+                    <p:calendar id="departureTime2" value="#{flight.reverseFlight.departureDate}"  pattern="HH:mm" timeOnly="true" >
                         <p:ajax event="dateSelect" listener="#{scheduleManagedBean.dateSelectListener}" update="arrivalTime2" />
                         <f:attribute name="flight" value="#{flight.reverseFlight}" />
                     </p:calendar>
                 </p:column>
                 <p:column headerText="#{scheduleManagedBean.routeSelected.reverseRoute.routeName} Arrival Time">
-                    <p:calendar id="arrivalTime2" value="#{flight.reverseFlight.arrivalDate}"  pattern="HH:mm" timeOnly="true">
+                    <h:outputText id="arrivalTime2" value="#{scheduleManagedBean.getTimeName(flight.reverseFlight.arrivalDate)}"   />
 
-                    </p:calendar>
+
                 </p:column>
 
-                <f:facet name="footer">
-                    In total there 
-                </f:facet>
             </p:dataTable>
-            <p:commandButton value="Submit" actionListener="#{scheduleManagedBean.generateFlightsByDay}" icon="ui-icon-check" />
+            <p:commandButton value="Submit" actionListener="#{scheduleManagedBean.generateFlightsByDay}" icon="ui-icon-check"
+                             class="btn-sm btn-success"/>
 
+            <p:commandButton value="Submit" actionListener="#{scheduleManagedBean.generateFlightsByDay}" icon="ui-icon-check"
+                             class="btn-sm btn-success"/>
         </h:form>
 
     </ui:define>

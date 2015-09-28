@@ -255,11 +255,11 @@ th {
   .label {
     border: 1px solid #000;
   }
-  .table {
+  .ui-datatable {
     border-collapse: collapse !important;
   }
-  .table td,
-  .table th {
+  .ui-datatable td,
+  .ui-datatable th {
     background-color: #fff !important;
   }
   .table-bordered th,
@@ -2265,38 +2265,38 @@ caption {
 th {
   text-align: left;
 }
-.table {
+.ui-datatable {
   width: 100%;
   max-width: 100%;
   margin-bottom: 21px;
 }
-.table > thead > tr > th,
-.table > tbody > tr > th,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > tbody > tr > td,
-.table > tfoot > tr > td {
+.ui-datatable > thead > tr > th,
+.ui-datatable > tbody > tr > th,
+.ui-datatable > tfoot > tr > th,
+.ui-datatable > thead > tr > td,
+.ui-datatable > tbody > tr > td,
+.ui-datatable > tfoot > tr > td {
   padding: 8px;
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #ecf0f1;
 }
-.table > thead > tr > th {
+.ui-datatable > thead > tr > th {
   vertical-align: bottom;
   border-bottom: 2px solid #ecf0f1;
 }
-.table > caption + thead > tr:first-child > th,
-.table > colgroup + thead > tr:first-child > th,
-.table > thead:first-child > tr:first-child > th,
-.table > caption + thead > tr:first-child > td,
-.table > colgroup + thead > tr:first-child > td,
-.table > thead:first-child > tr:first-child > td {
+.ui-datatable > caption + thead > tr:first-child > th,
+.ui-datatable > colgroup + thead > tr:first-child > th,
+.ui-datatable > thead:first-child > tr:first-child > th,
+.ui-datatable > caption + thead > tr:first-child > td,
+.ui-datatable > colgroup + thead > tr:first-child > td,
+.ui-datatable > thead:first-child > tr:first-child > td {
   border-top: 0;
 }
-.table > tbody + tbody {
+.ui-datatable > tbody + tbody {
   border-top: 2px solid #ecf0f1;
 }
-.table .table {
+.ui-datatable .ui-datatable {
   background-color: #ffffff;
 }
 .table-condensed > thead > tr > th,
@@ -2339,18 +2339,18 @@ table th[class*="col-"] {
   float: none;
   display: table-cell;
 }
-.table > thead > tr > td.active,
-.table > tbody > tr > td.active,
-.table > tfoot > tr > td.active,
-.table > thead > tr > th.active,
-.table > tbody > tr > th.active,
-.table > tfoot > tr > th.active,
-.table > thead > tr.active > td,
-.table > tbody > tr.active > td,
-.table > tfoot > tr.active > td,
-.table > thead > tr.active > th,
-.table > tbody > tr.active > th,
-.table > tfoot > tr.active > th {
+.ui-datatable > thead > tr > td.active,
+.ui-datatable > tbody > tr > td.active,
+.ui-datatable > tfoot > tr > td.active,
+.ui-datatable > thead > tr > th.active,
+.ui-datatable > tbody > tr > th.active,
+.ui-datatable > tfoot > tr > th.active,
+.ui-datatable > thead > tr.active > td,
+.ui-datatable > tbody > tr.active > td,
+.ui-datatable > tfoot > tr.active > td,
+.ui-datatable > thead > tr.active > th,
+.ui-datatable > tbody > tr.active > th,
+.ui-datatable > tfoot > tr.active > th {
   background-color: #ecf0f1;
 }
 .table-hover > tbody > tr > td.active:hover,
@@ -2360,18 +2360,18 @@ table th[class*="col-"] {
 .table-hover > tbody > tr.active:hover > th {
   background-color: #dde4e6;
 }
-.table > thead > tr > td.success,
-.table > tbody > tr > td.success,
-.table > tfoot > tr > td.success,
-.table > thead > tr > th.success,
-.table > tbody > tr > th.success,
-.table > tfoot > tr > th.success,
-.table > thead > tr.success > td,
-.table > tbody > tr.success > td,
-.table > tfoot > tr.success > td,
-.table > thead > tr.success > th,
-.table > tbody > tr.success > th,
-.table > tfoot > tr.success > th {
+.ui-datatable > thead > tr > td.success,
+.ui-datatable > tbody > tr > td.success,
+.ui-datatable > tfoot > tr > td.success,
+.ui-datatable > thead > tr > th.success,
+.ui-datatable > tbody > tr > th.success,
+.ui-datatable > tfoot > tr > th.success,
+.ui-datatable > thead > tr.success > td,
+.ui-datatable > tbody > tr.success > td,
+.ui-datatable > tfoot > tr.success > td,
+.ui-datatable > thead > tr.success > th,
+.ui-datatable > tbody > tr.success > th,
+.ui-datatable > tfoot > tr.success > th {
   background-color: #18bc9c;
 }
 .table-hover > tbody > tr > td.success:hover,
@@ -2381,18 +2381,18 @@ table th[class*="col-"] {
 .table-hover > tbody > tr.success:hover > th {
   background-color: #15a589;
 }
-.table > thead > tr > td.info,
-.table > tbody > tr > td.info,
-.table > tfoot > tr > td.info,
-.table > thead > tr > th.info,
-.table > tbody > tr > th.info,
-.table > tfoot > tr > th.info,
-.table > thead > tr.info > td,
-.table > tbody > tr.info > td,
-.table > tfoot > tr.info > td,
-.table > thead > tr.info > th,
-.table > tbody > tr.info > th,
-.table > tfoot > tr.info > th {
+.ui-datatable > thead > tr > td.info,
+.ui-datatable > tbody > tr > td.info,
+.ui-datatable > tfoot > tr > td.info,
+.ui-datatable > thead > tr > th.info,
+.ui-datatable > tbody > tr > th.info,
+.ui-datatable > tfoot > tr > th.info,
+.ui-datatable > thead > tr.info > td,
+.ui-datatable > tbody > tr.info > td,
+.ui-datatable > tfoot > tr.info > td,
+.ui-datatable > thead > tr.info > th,
+.ui-datatable > tbody > tr.info > th,
+.ui-datatable > tfoot > tr.info > th {
   background-color: #3498db;
 }
 .table-hover > tbody > tr > td.info:hover,
@@ -2402,18 +2402,18 @@ table th[class*="col-"] {
 .table-hover > tbody > tr.info:hover > th {
   background-color: #258cd1;
 }
-.table > thead > tr > td.warning,
-.table > tbody > tr > td.warning,
-.table > tfoot > tr > td.warning,
-.table > thead > tr > th.warning,
-.table > tbody > tr > th.warning,
-.table > tfoot > tr > th.warning,
-.table > thead > tr.warning > td,
-.table > tbody > tr.warning > td,
-.table > tfoot > tr.warning > td,
-.table > thead > tr.warning > th,
-.table > tbody > tr.warning > th,
-.table > tfoot > tr.warning > th {
+.ui-datatable > thead > tr > td.warning,
+.ui-datatable > tbody > tr > td.warning,
+.ui-datatable > tfoot > tr > td.warning,
+.ui-datatable > thead > tr > th.warning,
+.ui-datatable > tbody > tr > th.warning,
+.ui-datatable > tfoot > tr > th.warning,
+.ui-datatable > thead > tr.warning > td,
+.ui-datatable > tbody > tr.warning > td,
+.ui-datatable > tfoot > tr.warning > td,
+.ui-datatable > thead > tr.warning > th,
+.ui-datatable > tbody > tr.warning > th,
+.ui-datatable > tfoot > tr.warning > th {
   background-color: #f39c12;
 }
 .table-hover > tbody > tr > td.warning:hover,
@@ -2423,18 +2423,18 @@ table th[class*="col-"] {
 .table-hover > tbody > tr.warning:hover > th {
   background-color: #e08e0b;
 }
-.table > thead > tr > td.danger,
-.table > tbody > tr > td.danger,
-.table > tfoot > tr > td.danger,
-.table > thead > tr > th.danger,
-.table > tbody > tr > th.danger,
-.table > tfoot > tr > th.danger,
-.table > thead > tr.danger > td,
-.table > tbody > tr.danger > td,
-.table > tfoot > tr.danger > td,
-.table > thead > tr.danger > th,
-.table > tbody > tr.danger > th,
-.table > tfoot > tr.danger > th {
+.ui-datatable > thead > tr > td.danger,
+.ui-datatable > tbody > tr > td.danger,
+.ui-datatable > tfoot > tr > td.danger,
+.ui-datatable > thead > tr > th.danger,
+.ui-datatable > tbody > tr > th.danger,
+.ui-datatable > tfoot > tr > th.danger,
+.ui-datatable > thead > tr.danger > td,
+.ui-datatable > tbody > tr.danger > td,
+.ui-datatable > tfoot > tr.danger > td,
+.ui-datatable > thead > tr.danger > th,
+.ui-datatable > tbody > tr.danger > th,
+.ui-datatable > tfoot > tr.danger > th {
   background-color: #e74c3c;
 }
 .table-hover > tbody > tr > td.danger:hover,
@@ -3396,39 +3396,39 @@ fieldset[disabled] .btn-warning.active {
   background-color: #e74c3c;
   border-color: #e74c3c;
 }
-.btn-danger:focus,
-.btn-danger.focus {
+.btn-danger:focus, .ui-state-default.btn-danger:focus, .ui-widget-content .ui-state-default.btn-danger:focus,
+.btn-danger.focus, .ui-state-default.btn-danger.focus, .ui-widget-content .ui-state-default.btn-danger.focus {
   color: #ffffff;
   background-color: #d62c1a;
   border-color: #921e12;
 }
-.btn-danger:hover {
+.btn-danger:hover, .ui-state-default.btn-danger:hover, .ui-widget-content .ui-state-default.btn-danger:hover {
   color: #ffffff;
   background-color: #d62c1a;
   border-color: #cd2a19;
 }
-.btn-danger:active,
-.btn-danger.active,
+.btn-danger:active, .ui-state-default.btn-danger:active, .ui-widget-content .ui-state-default.btn-danger:active,
+.btn-danger.active, .ui-state-default.btn-danger.active, .ui-widget-content .ui-state-default.btn-danger.active,
 .open > .dropdown-toggle.btn-danger {
   color: #ffffff;
   background-color: #d62c1a;
   border-color: #cd2a19;
 }
-.btn-danger:active:hover,
-.btn-danger.active:hover,
+.btn-danger:active:hover, .ui-state-default.btn-danger:active:hover, .ui-widget-content .ui-state-default.btn-danger:active:hover,
+.btn-danger.active:hover, .ui-state-default.btn-danger.active:hover, .ui-widget-content .ui-state-default.btn-danger.active:hover,
 .open > .dropdown-toggle.btn-danger:hover,
-.btn-danger:active:focus,
-.btn-danger.active:focus,
+.btn-danger:active:focus, .ui-state-default.btn-danger:active:focus, .ui-widget-content .ui-state-default.btn-danger:active:focus,
+.btn-danger.active:focus, .ui-state-default.btn-danger.active:focus, .ui-widget-content .ui-state-default.btn-danger.active:focus,
 .open > .dropdown-toggle.btn-danger:focus,
-.btn-danger:active.focus,
-.btn-danger.active.focus,
+.btn-danger:active.focus, .ui-state-default.btn-danger:active.focus, .ui-widget-content .ui-state-default.btn-danger:active.focus,
+.btn-danger.active.focus, .ui-state-default.btn-danger.active.focus, .ui-widget-content .ui-state-default.btn-danger.active.focus,
 .open > .dropdown-toggle.btn-danger.focus {
   color: #ffffff;
   background-color: #b62516;
   border-color: #921e12;
 }
-.btn-danger:active,
-.btn-danger.active,
+.btn-danger:active, .ui-state-default.btn-danger:active, .ui-widget-content .ui-state-default.btn-danger:active,
+.btn-danger.active, .ui-state-default.btn-danger.active, .ui-widget-content .ui-state-default.btn-danger.active,
 .open > .dropdown-toggle.btn-danger {
   background-image: none;
 }
@@ -5129,7 +5129,7 @@ a.thumbnail.active {
 .alert-info .alert-link {
   color: #e6e6e6;
 }
-.alert-warning, .ui-growl-item-container{
+.alert-warning {
   background-color: #f39c12;
   border-color: #f39c12;
   color: #ffffff;
@@ -5140,7 +5140,7 @@ a.thumbnail.active {
 .alert-warning .alert-link {
   color: #e6e6e6;
 }
-.alert-danger, .ui-growl-item-container {
+.alert-danger {
   background-color: #e74c3c;
   border-color: #e74c3c;
   color: #ffffff;
@@ -5761,7 +5761,7 @@ button.list-group-item-danger.active:focus {
   border-color: #2c3e50;
 }
 .panel-primary.ui-panel > .panel-heading, .panel-primary.ui-panel .ui-panel-titlebar, .panel-primary.ui-panel .ui-widget-header,
-.panel-primary.ui-panel .ui-selectonemenu .ui-selectonemenu-trigger {
+.panel-primary .ui-selectonemenu .ui-selectonemenu-trigger {
   color: #ffffff;
   background-color: #2c3e50;
   border-color: #2c3e50;
@@ -5779,7 +5779,9 @@ button.list-group-item-danger.active:focus {
 .panel-success.ui-panel {
   border-color: #18bc9c;
 }
-.panel-success > .panel-heading {
+.panel-success.ui-panel > .panel-heading,
+.panel-success.ui-panel .ui-panel-titlebar, .panel-success.ui-panel .ui-widget-header,
+.panel-success .ui-selectonemenu .ui-selectonemenu-trigger  {
   color: #ffffff;
   background-color: #18bc9c;
   border-color: #18bc9c;
@@ -5830,22 +5832,24 @@ button.list-group-item-danger.active:focus {
 .panel-warning > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: #f39c12;
 }
-.panel-danger {
+.panel-danger.ui-panel {
   border-color: #e74c3c;
 }
-.panel-danger > .panel-heading {
+.panel-danger.ui-panel > .panel-heading,
+.panel-danger.ui-panel .ui-panel-titlebar, .panel-danger.ui-panel .ui-widget-header,
+.panel-danger .ui-selectonemenu .ui-selectonemenu-trigger  {
   color: #ffffff;
   background-color: #e74c3c;
   border-color: #e74c3c;
 }
-.panel-danger > .panel-heading + .panel-collapse > .panel-body {
+.panel-danger.ui-panel > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #e74c3c;
 }
-.panel-danger > .panel-heading .badge {
+.panel-danger.ui-panel > .panel-heading .badge {
   color: #e74c3c;
   background-color: #ffffff;
 }
-.panel-danger > .panel-footer + .panel-collapse > .panel-body {
+.panel-danger.ui-panel > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: #e74c3c;
 }
 .embed-responsive {

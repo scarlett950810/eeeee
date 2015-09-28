@@ -19,77 +19,75 @@
                 <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
                 <li><a href="planningEditDeleteAircraft.xhtml">Modify Aircraft</a></li>
                 <li><a href="planningManageAircraftTypes.xhtml">View Aircraft</a></li>
-                
+
                 <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
                 <li><a href="planningAirport.xhtml">Manage Airport</a></li>
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
-                
+
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
-        <p:growl id="growl" sticky="true" showDetail="true" class="alert-warning"/>
         
+        <p:growl id="growl" sticky="true" showDetail="true" class="alert-warning"/>
 
-        <p:panel header="Current Aircraft Types" class="panel panel-primary">
-            <h:form id="formChangeAircraftType">
-                <h:outputText value="Select a type to see aircrafts"/>
-                <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel for="aircraftTypes" value="Aircraft Type:" />
-                    <p:selectOneMenu id="aircraftTypes" value="#{aircraftTypeManagedBean.aircraftType}" style="width:150px" converter="aircraftTypeConverter">
-                        <p:ajax listener="#{aircraftTypeManagedBean.onAircraftTypeChange()}" update="aircrafts" />
-                        <f:selectItem itemLabel="Select Aircraft Type" itemDisabled="true" />
-                        <f:selectItems value="#{aircraftTypeManagedBean.aircraftTypes}" var="aircraftType" itemLabel="#{aircraftType.IATACode}" itemValue="#{aircraftType}" />
-                    </p:selectOneMenu>
-                </h:panelGrid>
+        <h:form id="formChangeAircraftType">
+            <h:panelGrid columns="2" cellpadding="5" class="panel-primary">
+                <p:outputLabel for="aircraftTypes" value="Selct a Aircraft Type:" />
+                <p:selectOneMenu id="aircraftTypes" value="#{aircraftTypeManagedBean.aircraftType}" style="width:150px" converter="aircraftTypeConverter">
+                    <p:ajax listener="#{aircraftTypeManagedBean.onAircraftTypeChange()}" update="aircrafts" />
+                    <f:selectItem itemLabel="Select Aircraft Type" itemDisabled="true" />
+                    <f:selectItems value="#{aircraftTypeManagedBean.aircraftTypes}" var="aircraftType" itemLabel="#{aircraftType.IATACode}" itemValue="#{aircraftType}" />
+                </p:selectOneMenu>
+            </h:panelGrid>
 
-                <p:dataTable id="aircrafts" var="aircraft" value="#{aircraftTypeManagedBean.aircrafts}">
-                    <f:facet name="header">
-                        List of Aircrafts
-                    </f:facet>
+            <p:dataTable id="aircrafts" var="aircraft" value="#{aircraftTypeManagedBean.aircrafts}">
+                <f:facet name="header">
+                    List of Aircrafts
+                </f:facet>
 
-                    <p:column headerText="Tail ID">
-                        <h:outputText value="#{aircraft.tailId}" />
-                    </p:column>
+                <p:column headerText="Tail ID" style="width: 5%">
+                    <h:outputText value="#{aircraft.tailId}" />
+                </p:column>
 
-                    <p:column headerText="Aircraft Type">
-                        <h:outputText value="#{aircraft.aircraftType.IATACode}" />
-                    </p:column>
+                <p:column headerText="Aircraft Type" style="width: 6%">
+                    <h:outputText value="#{aircraft.aircraftType.IATACode}" />
+                </p:column>
 
-                    <p:column headerText="Net Asset Value ($)">
-                        <h:outputText value="#{aircraft.netAssetValue}" />
-                    </p:column>
+                <p:column headerText="Net Asset Value ($)" style="width: 8%">
+                    <h:outputText value="#{aircraft.netAssetValue / 1000000} M" />
+                </p:column>
 
-                    <p:column headerText="Aircraft Life">
-                        <h:outputText value="#{aircraft.aircraftLife}" />
-                    </p:column>
+                <p:column headerText="Aircraft Life" style="width: 8%">
+                    <h:outputText value="#{aircraft.aircraftLife}" />
+                </p:column>
 
-                    <p:column headerText="Operation Year">
-                        <h:outputText value="#{aircraft.operationYear}" />
-                    </p:column>
+                <p:column headerText="Operation Year" style="width: 8%">
+                    <h:outputText value="#{aircraft.operationYear}" />
+                </p:column>
 
-                    <p:column headerText="Condition Description">
-                        <h:outputText value="#{aircraft.conditionDescription}" />
-                    </p:column>
+                <p:column headerText="Condition Description"  style="width: 10%">
+                    <h:outputText value="#{aircraft.conditionDescription}" />
+                </p:column>
 
-                    <p:column headerText="Airport Hub">
-                        <h:outputText value="#{aircraft.airportHub.airportCode} #{aircraft.airportHub.airportName} @ #{aircraft.airportHub.cityName}, #{aircraft.airportHub.nationName}" />
-                    </p:column>
+                <p:column headerText="Airport Hub">
+                    <h:outputText value="#{aircraft.airportHub.airportCode} #{aircraft.airportHub.airportName} @ #{aircraft.airportHub.cityName}, #{aircraft.airportHub.nationName}" />
+                </p:column>
 
-                    <p:column headerText="Current Airport">
-                        <h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}, #{aircraft.currentAirport.nationName}" />
-                    </p:column>
+                <p:column headerText="Current Airport">
+                    <h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}, #{aircraft.currentAirport.nationName}" />
+                </p:column>
 
-                    <p:column headerText="Turnaround Time (minutes)">
-                        <h:outputText value="#{aircraft.currentAirport.airportCode} #{aircraft.currentAirport.airportName} @ #{aircraft.currentAirport.cityName}, #{aircraft.currentAirport.nationName}" />
-                    </p:column>
+                <p:column headerText="Turnaround Time (minutes)" style="width: 8%">
+                    <h:outputText value="#{aircraft.turnAroundTime}" />
+                </p:column>
 
-                </p:dataTable>
+            </p:dataTable>
 
-            </h:form>
-        </p:panel>
+        </h:form>
 
     </ui:define>
 

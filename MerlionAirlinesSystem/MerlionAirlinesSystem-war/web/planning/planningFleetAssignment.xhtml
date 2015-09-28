@@ -25,28 +25,30 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
                 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
+        
         <h:form id="f1">
-            <p:panel header="Choose a planning period for fleet assignment" style="margin-bottom: 15px">
+            <p:panel header="Choose a planning period for fleet assignment" style="margin-bottom: 15px" class="panel panel-success">
 
-                <h:outputText value="Select an aircraft for fleet assignment"/>
                 <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel value="planning period seleted: " />
+                    <p:outputLabel value="Planning Period:" />
                     <p:selectOneMenu id="plannSelected" value="#{fleetAssignmentManagedBean.planningPeriodStartingDate}" converter="dateConverter" style="width:400px">
-                        <f:selectItem itemLabel="Select Aircraft" itemDisabled="true" />
+                        <f:selectItem itemLabel="Select Planning Period" itemDisabled="true" />
                         <f:selectItems value="#{fleetAssignmentManagedBean.allPlanningPeirod}" var="planningPeriod" itemLabel="#{fleetAssignmentManagedBean.getPlanningPeriodName(planningPeriod)}" itemValue="#{planningPeriod}" />
 
                     </p:selectOneMenu>
                 </h:panelGrid>
-            </p:panel>     
+  
             
             <h:outputText value="The fleet assignment would take consideration of maximizing the uitilization rate, aircraft capability, maintenance requirement "/>`
-            <p:commandButton value="Fleet Assignment" actionListener="#{fleetAssignmentManagedBean.fleetAssignment}" icon="ui-icon-check" />
-  
+            <p:commandButton value="Fleet Assignment" actionListener="#{fleetAssignmentManagedBean.fleetAssignment}" icon="ui-icon-check" class="btn-sm btn-success"/>
+
+            </p:panel>     
         </h:form>
     </ui:define>
 

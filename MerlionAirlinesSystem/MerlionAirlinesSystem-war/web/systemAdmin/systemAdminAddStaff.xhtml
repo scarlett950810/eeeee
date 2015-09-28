@@ -7,6 +7,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="centerPanel">
+        #{errorHandlingManagedBean.checkUser()}
+        
         <p:panel header="Add Staff">
             <h:form id="staffAddition">
                 <p:growl id="growl" showDetail="true"/>
@@ -66,8 +68,9 @@
                     <p:outputLabel for="base" value="Base: " />
                     <p:selectOneMenu id="base" value="#{addStaffManagedBean.base}">
                         <f:selectItem itemLabel="Select One" itemValue="" itemDisabled="true"/>
-                        <f:selectItems value="#{addStaffManagedBean.bases}" />
                         <f:selectItem itemLabel="Not Applicable" itemValue=""/>
+                        <f:selectItems value="#{addStaffManagedBean.bases}" />
+                        
                     </p:selectOneMenu>
                 </h:panelGrid>
 

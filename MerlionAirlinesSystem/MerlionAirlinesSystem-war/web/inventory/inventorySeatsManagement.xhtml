@@ -9,14 +9,14 @@
         <!--insert customized import here-->
     </ui:define>
 
-    <ui:define name="title">Inventory Home Page</ui:define>
+    <ui:define name="title">Inventory | Create Booking Class</ui:define>
 
     <ui:define name="menubar">
+        
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li><a href="inventorySeatsManagement.xhtml">Manu create booking class</a></li>                     
-                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>
-                <!--<li><a href="inventoryBookingClassManagement.xhtml">Manage Booking Classes</a></li>-->         
+                <li><a href="inventorySeatsManagement.xhtml">Create booking class</a></li>                     
+                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>     
                 <li><a href="inventoryRulesManagement.xhtml">Manage Rules</a></li>
                 <li><a href="inventoryRevenueManagement.xhtml">Manage Revenue</a></li>
 
@@ -26,35 +26,35 @@
 
     <ui:define name="centerPanel">
 
-        <p:panel header="Pending flights" style="padding-bottom: 15px;">
-            <p:growl id="growl" showDetail="true" autoUpdate="true" />
-            <h:panelGrid columns="2" cellpadding="5">
+        <h:form>
+            <p:dataTable id="pendingFlights" value="#{seatsManagementManagedBean.pendingFlights}" var="flight"
+                         paginator="true" 
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="15, 30, 50" rows="15" class="panel-primary">
 
-                <!--<p:outputLabel value="Select flight to manage seat and price" for="selectFlight" />-->
-                <!--<p:selectOneMenu style="min-width: 240px; width: 100%" filter="true" id="selectFlight" value="{seatsManagementManagedBean.flight}"--> 
-                <!--effect="fold" converter="flightConverter">-->                                    
-                <!--<p:ajax listener="{seatsManagementManagedBean.onFlightChange}" update="bookingClasses" />-->
-                <!--<f:selectItems value="{seatsManagementManagedBean.pendingFlights}" var="flight" itemValue="{flight}" itemLabel="{flight.flightNo}" />-->
-                <!--</p:selectOneMenu>-->
-                <!--<p:outputPanel id="bookingClasses">{seatsManagementManagedBean.economyClassCapacity}</p:outputPanel>-->
-                <!--<h:outputText value="{seatsManagementManagedBean.economyClassCapacity}"></h:outputText>-->
+                <f:facet name="header">
+                    Pending Flights to be Priced
+                </f:facet>
 
-                <h:form>
-                    <p:dataTable paginator="true" rows="30" id="pendingFlights" value="#{seatsManagementManagedBean.pendingFlights}" var="flight">
-                        <p:column headerText="Flight">
-                            <h:outputText value="#{flight.flightNo}" />
-                        </p:column>
+                <p:column headerText="Flight" style="width: 10%">
+                    <h:outputText value="#{flight.flightNo}" />
+                </p:column>
+                
+                <p:column headerText="Route"  style="width: 60%">
+                    <h:outputText value="#{flight.route.originAirport.airportName} (#{flight.route.originAirport.cityName}) to #{flight.route.destinationAirport.airportName} (#{flight.route.destinationAirport.cityName})" />
+                </p:column>
+                
+                <p:column headerText="Time to Departure (day)"  style="width: 15%">
+                    <h:outputText value="#{seatsManagementManagedBean.getDaysToDeparture(flight)}" />
+                </p:column>
+                
+                <p:column headerText="Auto Create Booking Class (Booking Class, Price, Quota)"  style="width: 15%">
+                    <p:commandButton ajax="false" value="Create" class="btn-sm btn-success" 
+                                     action="#{seatsManagementManagedBean.automaticallyCreateBookingClassAndRules(flight)}" /> 
+                </p:column>
 
-                        <p:column>
-                            <p:commandButton ajax="false" value="Auto Set Price" 
-                                             action="#{seatsManagementManagedBean.automaticallyCreateBookingClassAndRules(flight)}" /> 
-                        </p:column>
-
-                    </p:dataTable>
-                </h:form>
-
-            </h:panelGrid>
-        </p:panel>
+            </p:dataTable>
+        </h:form>
 
     </ui:define>
 

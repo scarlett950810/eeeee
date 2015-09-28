@@ -5,6 +5,8 @@
  */
 package imas.operation.sessionbean;
 
+import imas.common.entity.CabinCrewEntity;
+import imas.common.entity.PilotEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
@@ -16,6 +18,7 @@ import imas.planning.sessionbean.AircraftGroupSessionBeanLocal;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -126,4 +129,26 @@ public class PostFlightReportSessionBean implements PostFlightReportSessionBeanL
         List<FlightEntity> list = query.getResultList();
         return list;
     }
+
+    @Override
+    public void updateFlightStatus(FlightEntity flight) {
+        System.out.print(new Date());
+        flight.setActualArrivalDate(new Date());
+        em.merge(flight);
+        
+        List<CabinCrewEntity> cabinCrews = flight.getCabinCrews();
+        List<PilotEntity> pilots = flight.getPilots();
+        
+        for(int i=0; i<cabinCrews.size(); i++){
+            cabinCrews.get(i).setWorkingStatus("available");
+            em.merge(cabinCrews.get(i));
+        }
+        for(int j=0; j<pilots.size(); j++){
+            pilots.get(j).setWorkingStatus("available");
+            em.merge(pilots.get(j));
+        }
+        
+    }
+    
+    
 }

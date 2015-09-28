@@ -12,11 +12,6 @@
 
     <ui:define name="head">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <!--        <style type="text/css">
-                    td.selectionDisabled .ui-chkbox{
-                        display: none;
-                    }
-                </style>-->
     </ui:define>
     
     <ui:define name="menubar">
@@ -37,12 +32,11 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-
+        
         <h:form id="selectFlight">
-            <!--            <p:growl id="msg" />-->
 
             <p:focus context="selectFlight"/>
-            <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+            <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;" class="panel-success">
                 <p:outputLabel for="selectFlight" value="Flight No: " />
                 <p:selectOneMenu id="selectFlight" value="#{crewCheckInManagedBean.flight}" panelStyle="width:180px" required="true" requiredMessage="Please input flight No."
                                  effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
@@ -53,14 +47,16 @@
                 </p:selectOneMenu> 
             </h:panelGrid>
 
-            <p:panel id="crew" visible="#{crewCheckInManagedBean.display}">
+            <p:panel id="crew" visible="#{crewCheckInManagedBean.display}"
+                     header="#{crewCheckInManagedBean.flight.flightNo} #{crewCheckInManagedBean.flight.route.originAirport.cityName} - #{crewCheckInManagedBean.flight.route.destinationAirport.cityName}"
+                     class="panel panel-success">
                 <p:outputLabel value="#{crewCheckInManagedBean.flight.flightNo} #{crewCheckInManagedBean.flight.route.originAirport.cityName}-#{crewCheckInManagedBean.flight.route.destinationAirport.cityName}"></p:outputLabel>
                 <br/>
                 <br/>
                 <p:outputLabel value="Departure Time: #{crewCheckInManagedBean.flight.departureDate.toString()}"></p:outputLabel>
 
                 <p:dataTable id="pilotTable" var="pilot" value="#{crewCheckInManagedBean.pilotList}" selection="#{crewCheckInManagedBean.selectedPilots}" 
-                             rowKey="#{pilot.staffNo}" disabledSelection="#{pilot.workingStatus == 'checked-in'||pilot.workingStatus == 'in flight'}" style="margin-bottom:0">
+                             rowKey="#{pilot.staffNo}" disabledSelection="#{pilot.workingStatus == 'checked-in'||pilot.workingStatus == 'in flight'}">
                     <f:facet name="header">
                         Pilot List
                     </f:facet>
@@ -77,12 +73,9 @@
 
                 </p:dataTable>
 
-                <br/>
-                <br/>
-
                 <p:dataTable id="crewTable" var="crew" value="#{crewCheckInManagedBean.crewList}" 
                              selection="#{crewCheckInManagedBean.selectedCrew}" rowKey="#{crew.staffNo}" 
-                             disabledSelection="#{crew.workingStatus == 'checked-in'||crew.workingStatus == 'in flight'}" style="margin-bottom:0">
+                             disabledSelection="#{crew.workingStatus == 'checked-in'||crew.workingStatus == 'in flight'}">
                     <f:facet name="header">
                         Cabin Crew List
                     </f:facet>
@@ -99,7 +92,8 @@
 
                 </p:dataTable>
 
-                <p:commandButton process="pilotTable, crewTable" update=":selectFlight:checkInDetail" value="Check In" oncomplete="PF('checkInConfirmation').show()" />
+                <p:commandButton process="pilotTable, crewTable" update=":selectFlight:checkInDetail" value="Check In" 
+                                 oncomplete="PF('checkInConfirmation').show()" class="btn-sm btn-success"/>
 
                 <p:dialog widgetVar="checkInConfirmation" showEffect="fade" hideEffect="fade" resizable="false" width="400">
                     <p:outputPanel id="checkInDetail" style="text-align:center;">
@@ -113,7 +107,7 @@
                         </ui:repeat>
                     </p:outputPanel>
                     <br/>
-                    <p:commandButton value="Confirm" actionListener="#{crewCheckInManagedBean.doCrewCheckIn()}" />
+                    <p:commandButton value="Confirm" actionListener="#{crewCheckInManagedBean.doCrewCheckIn()}" class="btn-sm btn-success"/>
                 </p:dialog>
             </p:panel>
         </h:form>

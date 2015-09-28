@@ -35,12 +35,12 @@
 
 
     <ui:define name="centerPanel">
-
+        
         <h:form id="selectFlight">
             <p:growl id="msg" />
 
             <p:focus context="selectFlight"/>
-            <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+            <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;"  class="panel-success">
                 <p:outputLabel for="selectFlight" value="Flight No: " />
                 <p:selectOneMenu id="selectFlight" value="#{crewBoardingManagedBean.flight}" panelStyle="width:500px" required="true" requiredMessage="Please input flight No."
                                  effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
@@ -51,14 +51,13 @@
                 </p:selectOneMenu> 
             </h:panelGrid>
 
-            <p:panel id="crew" visible="#{crewBoardingManagedBean.display}">
-                <p:outputLabel value="#{crewBoardingManagedBean.flight.flightNo} #{crewBoardingManagedBean.flight.route.originAirport.cityName}-#{crewBoardingManagedBean.flight.route.destinationAirport.cityName}"></p:outputLabel>
-                <br/>
-                <br/>
-                <p:outputLabel value="Departure Time: #{crewBoardingManagedBean.flight.departureDate.toString()}"></p:outputLabel>
+            <p:panel header="#{crewBoardingManagedBean.flight.flightNo} #{crewBoardingManagedBean.flight.route.originAirport.cityName}-#{crewBoardingManagedBean.flight.route.destinationAirport.cityName}"
+                     id="crew" visible="#{crewBoardingManagedBean.display}" class="panel panel-success">
+                
+                <p:outputLabel value="Departure Time: #{crewBoardingManagedBean.flight.departureDate.toString()}"/>
 
                 <p:dataTable id="pilotTable" var="pilot" value="#{crewBoardingManagedBean.pilotList}" selection="#{crewBoardingManagedBean.selectedPilots}" 
-                             rowKey="#{pilot.staffNo}" disabledSelection="#{pilot.workingStatus != 'checked-in'}" style="margin-bottom:0">
+                             rowKey="#{pilot.staffNo}" disabledSelection="#{pilot.workingStatus != 'checked-in'}">
                     <f:facet name="header">
                         Pilot List
                     </f:facet>
@@ -75,12 +74,10 @@
 
                 </p:dataTable>
 
-                <br/>
-                <br/>
 
                 <p:dataTable id="crewTable" var="crew" value="#{crewBoardingManagedBean.crewList}" 
                              selection="#{crewBoardingManagedBean.selectedCrew}" rowKey="#{crew.staffNo}" 
-                             disabledSelection="#{crew.workingStatus != 'checked-in'}" style="margin-bottom:0">
+                             disabledSelection="#{crew.workingStatus != 'checked-in'}">
                     <f:facet name="header">
                         Cabin Crew List
                     </f:facet>
@@ -96,9 +93,9 @@
                     </p:column>
 
                 </p:dataTable>
-                <br/>
 
-                <p:commandButton process="pilotTable, crewTable" update=":selectFlight:boardingDetail" value="Board" oncomplete="PF('boardingConfirmation').show()" />
+                <p:commandButton process="pilotTable, crewTable" update=":selectFlight:boardingDetail" value="Board" 
+                                 oncomplete="PF('boardingConfirmation').show()" class="btn-sm btn-success"/>
 
                 <p:dialog widgetVar="boardingConfirmation" showEffect="fade" hideEffect="fade" resizable="false" width="400">
                     <p:outputPanel id="boardingDetail" style="text-align:center;">
@@ -111,8 +108,8 @@
                             <h:outputText value="#{crew.displayName} : #{crew.role.position}" style="display:block"/>
                         </ui:repeat>
                     </p:outputPanel>
-
-                    <p:commandButton value="Confirm" actionListener="#{crewBoardingManagedBean.doCrewBoarding()}" />
+                    <br/>
+                    <p:commandButton value="Confirm" actionListener="#{crewBoardingManagedBean.doCrewBoarding()}" class="btn-sm btn-success"/>
                 </p:dialog>
             </p:panel>
         </h:form>

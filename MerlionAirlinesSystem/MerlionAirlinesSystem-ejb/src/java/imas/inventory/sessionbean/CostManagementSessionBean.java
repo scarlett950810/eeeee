@@ -10,13 +10,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
- 
+
 /**
  *
  * @author Lei
@@ -29,11 +30,14 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     // "Insert Code > Add Business Method")
     @PersistenceContext
     private EntityManager em;
+    @EJB
+    private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
+    private Double showRate;
 
     @Override
     public List<CostPairEntity> createTable() {
         List<CostPairEntity> list = new ArrayList<CostPairEntity>();
-
+        showRate = seatsManagementSessionBean.computeHistoricalShowRate();
         list.add(new CostPairEntity("Cost per seat per mile", 0.134));//0*
         list.add(new CostPairEntity("Fixed cost per seat per mile", 0.0554));//1*
         list.add(new CostPairEntity("Flight distance per seat per day", 3657.390));//2
@@ -47,7 +51,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         list.add(new CostPairEntity("Tolls per seat per mile for take-off/landing", 0.00885));//10
         list.add(new CostPairEntity("Other variable cost per seat per mile", 0.000354));//11
         list.add(new CostPairEntity("Passenger cost per seat per mile", 0.0185));//12*
-        list.add(new CostPairEntity("Show rate", 0.764));//13
+        list.add(new CostPairEntity("Show rate", showRate));//13
         list.add(new CostPairEntity("Average flight distance per passenger", 871.784));//14
         list.add(new CostPairEntity("Average cost per passenger", 21.103));//15
         list.add(new CostPairEntity("Sales cost per passenger", 5.188));//16
@@ -59,7 +63,6 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         list.add(new CostPairEntity("Delay cost per passenger", 0.0389));//22
         list = correctList(list);
         writeList(list);
-        
         return list;
     }
 
@@ -122,18 +125,32 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @Override
     public void updateCost(String costName, Double costFigure) {
-   
+
         Query query = em.createQuery("SELECT c FROM CostPairEntity c WHERE c.costType =:costname ");
         query.setParameter("costname", costName);
-        List<CostPairEntity> costList= (List<CostPairEntity>) query.getResultList();
+        List<CostPairEntity> costList = (List<CostPairEntity>) query.getResultList();
 
         if (!costList.isEmpty()) {
             //get same staffNo 
-            CostPairEntity tempCost = costList.get(0);
-            tempCost.setCostFigure(costFigure);
-            costList=correctList(getList());
+            costList.get(0).setCostFigure(costFigure);
+            costList = correctList(getList());
             writeList(costList);
+
+        }
+    }
+
+    @Override
+    public void updateShowRate(Double showRate) {
+        Query query = em.createQuery("SELECT c FROM CostPairEntit ");
+        List<CostPairEntity> costList = (List<CostPairEntity>) query.getResultList();
+
+        if (!costList.isEmpty()) {
+            //get show rate
             
+            costList.get(13).setCostFigure(showRate);
+            costList = correctList(costList);
+            writeList(costList);
+
         }
     }
 
@@ -165,6 +182,14 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         return list;
     }
 
+    public Double getShowRate() {
+        return showRate;
+    }
+
+    public void setShowRate(Double showRate) {
+        this.showRate = showRate;
+    }
+
     @Override
     public Double getCostPerSeatPerMile() {
 //        System.out.println("costManagementSessionBean.getCostPerSeatPerMile");
@@ -173,4 +198,3 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     }
 
 }
-

@@ -26,6 +26,8 @@
     </ui:define>
 
     <ui:define name="centerPanel">
+        #{internalAnnouncementManagedBean.checkUser()}
+        
         <h:form>
             <p:growl id="growl" showDetail="true"/>
             <p:panel header="New Announcement">

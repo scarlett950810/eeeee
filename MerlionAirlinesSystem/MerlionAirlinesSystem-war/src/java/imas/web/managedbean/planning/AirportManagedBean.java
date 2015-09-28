@@ -38,6 +38,7 @@ public class AirportManagedBean implements Serializable{
     private Boolean hubOrSpoke;
     private List<AirportEntity> airportList;
     private AirportEntity airport;
+    private List<AirportEntity> filteredAirports;
     
     @PostConstruct
     public void init()
@@ -105,6 +106,14 @@ public class AirportManagedBean implements Serializable{
     public void setHubOrSpoke(Boolean hubOrSpoke) {
         this.hubOrSpoke = hubOrSpoke;
     }
+
+    public List<AirportEntity> getFilteredAirports() {
+        return filteredAirports;
+    }
+
+    public void setFilteredAirports(List<AirportEntity> filteredAirports) {
+        this.filteredAirports = filteredAirports;
+    }
     
     public void save() throws IOException {
         if(hubOrSpoke == null || cityName == null || airportName == null || airportCode == null){
@@ -125,7 +134,7 @@ public class AirportManagedBean implements Serializable{
     }
     
     public void addAirport() throws IOException{
-        System.out.print("Called");
+//        System.out.print("Called");
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningAddAirport.xhtml");
@@ -146,7 +155,7 @@ public class AirportManagedBean implements Serializable{
     
     public void deleteAirport() throws IOException{
         FacesMessage msg;
-        System.err.println("enter deleteAirport()");
+//        System.err.println("enter deleteAirport()");
         if(airportSessionBean.deleteAirport(airport.getAirportCode())){            
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
@@ -171,7 +180,7 @@ public class AirportManagedBean implements Serializable{
     }
     
     public void updateAirport() throws IOException{
-        System.out.println(hubOrSpoke + "," + cityName + "," + airportName + ","+ airportCode);
+//        System.out.println(hubOrSpoke + "," + cityName + "," + airportName + ","+ airportCode);
         airportSessionBean.updateAirport(hubOrSpoke, cityName, airportName, airportCode, nationName);
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
