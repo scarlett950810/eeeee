@@ -47,7 +47,8 @@ public class InventoryCostManagedBean implements Serializable {
 
         if (selectedCost.getCostType().equals("Cost per seat per mile") || selectedCost.getCostType().equals("Fixed cost per seat per mile")
                 || selectedCost.getCostType().equals("Fixed cost per seat") || selectedCost.getCostType().equals("Flight cost per seat per mile")
-                || selectedCost.getCostType().equals("Passenger cost per seat per mile") || selectedCost.getCostType().equals("Average cost per passenger")) {
+                || selectedCost.getCostType().equals("Passenger cost per seat per mile") || selectedCost.getCostType().equals("Average cost per passenger")
+                || selectedCost.getCostType().equals("Show rate") ) {
             FacesMessage msg = new FacesMessage("Sorry", "Please change those editable costs");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
