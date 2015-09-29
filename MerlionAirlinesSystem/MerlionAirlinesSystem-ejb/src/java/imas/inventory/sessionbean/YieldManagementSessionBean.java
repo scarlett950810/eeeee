@@ -52,7 +52,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
             queryForAllTicketsUnderFlight.setParameter("flight", f);
             List<TicketEntity> tickets = queryForAllTicketsUnderFlight.getResultList();
 
-            System.out.println(tickets.size());
+//            System.out.println(tickets.size());
 
             if (tickets.isEmpty()) {
                 return 0.5;
@@ -528,11 +528,20 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 //        System.out.println("autoCreateRulesForFlight");
         updateAllRoutePopularity();
 
-        Double popularity = flight.getRoute().getPopularity();
+        Double normalizedPopularity = getNormalizedPopularity(flight.getRoute());
+
+        createRule1(flight, normalizedPopularity);
+        createRule2(flight, normalizedPopularity);
+        createRule3(flight, normalizedPopularity);
+        createRule4(flight, normalizedPopularity);
+    }
+    
+    @Override
+    public double getNormalizedPopularity(RouteEntity route) {
+        Double popularity = route.getPopularity();
         Query queryForMinMax = entityManager.createQuery("SELECT r.popularity FROM RouteEntity r ORDER BY r.popularity ASC");
         int size = queryForMinMax.getResultList().size();
 
-//        System.out.println("size = " + size);
         Double normalizedPopularity = 0.5;
 
         if (size != 0) {
@@ -543,13 +552,9 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
             }
 
         }
-
-//        System.out.println("np = " + normalizedPopularity);
-        createRule1(flight, normalizedPopularity);
-        createRule2(flight, normalizedPopularity);
-        createRule3(flight, normalizedPopularity);
-        createRule4(flight, normalizedPopularity);
+        return normalizedPopularity;
     }
+    
 
     private Double normalizePopularity(Double popularity, Double max, Double min) {
         return (popularity - min) / (max - min);

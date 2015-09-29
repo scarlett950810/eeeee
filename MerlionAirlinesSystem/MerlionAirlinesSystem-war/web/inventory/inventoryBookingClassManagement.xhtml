@@ -33,7 +33,7 @@
                 <h:outputText value="#{bookingClasses.seatClass}" />
             </p:column>
 
-            <p:column headerText="Name">
+            <p:column headerText="Booking Class Name">
                 <h:outputText value="#{bookingClasses.name}" />
             </p:column>
 
@@ -56,9 +56,9 @@
 
         </p:dataTable>
         <h:form>
-            <p:commandButton value="Return" actionListener="#{inventoryRevenueManagementManagedBean.returnBack}" style="margin-top: 20px"/>
-            <p:commandButton value="Edit Economy Booking Class Ratio" onclick="PF('editBox').show();" style="margin-top: 20px; float: right"/>
-            <p:commandButton value="Edit Booking Class Pricing" onclick="PF('changePrice').show();" style="margin-top: 20px; float: right"/>
+            <p:commandButton value="Return" actionListener="#{inventoryRevenueManagementManagedBean.returnBack}" style="margin-top: 20px" class="btn-sm btn-default"/>
+            <p:commandButton value="Edit Economy Booking Class Ratio" onclick="PF('editBox').show();" style="margin-top: 20px; float: right" class="btn-sm btn-success"/>
+            <p:commandButton value="Edit Booking Class Pricing" onclick="PF('changePrice').show();" style="margin-top: 20px; float: right" class="btn-sm btn-success"/>
         </h:form>
 
 
@@ -112,7 +112,7 @@
                     <h:outputText value="Capacity of Economy Class: #{inventoryRevenueManagementManagedBean.economyClassSeats}" style="color:red" />
                 </h:panelGrid>
 
-                <p:commandButton value="Submit" update="display" oncomplete="PF('confirmation').show();" />
+                <p:commandButton value="Submit" update="display" oncomplete="PF('confirmation').show();" class="btn-sm btn-success"/>
 
 
                 <p:dialog showEffect="fade" hideEffect="fade" widgetVar="confirmation">
@@ -135,13 +135,13 @@
 
                     </h:panelGrid>
 
-                    <p:commandButton value="Confirm" actionListener="#{inventoryRevenueManagementManagedBean.updateBookingClassQuota()}"/>
+                    <p:commandButton value="Confirm" actionListener="#{inventoryRevenueManagementManagedBean.updateBookingClassQuota()}" class="btn-sm btn-success"/>
 
                 </p:dialog>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Edit Booking Class Pricing" widgetVar="changePrice" minHeight="40">
+        <p:dialog header="Edit Booking Class Pricing" widgetVar="changePrice" minHeight="40" class="panel panel-success">
             <h:form>
                 <p:outputLabel for="bookingClass" value="Booking Class: " />
                 <p:selectOneMenu id="bookingClass" value="#{inventoryRevenueManagementManagedBean.bookingClass}" style="width:150px" converter="bookingClassConverter">
@@ -150,8 +150,8 @@
 
                 <h:outputLabel for="newPrice" value="New Pricing:" style="font-weight:bold" />
                 <p:inputText id="newPrice" value="#{inventoryRevenueManagementManagedBean.newPricing}" />
-
-                <p:commandButton value="Submit" update="display1" oncomplete="PF('confirmation1').show();" />
+                <br/>
+                <p:commandButton value="Submit" update="display1" oncomplete="PF('confirmation1').show();" class="btn-sm btn-success"/>
 
                 <p:dialog showEffect="fade" hideEffect="fade" widgetVar="confirmation1">
                     <h:panelGrid id="display1" columns="1" cellpadding="5">
@@ -159,7 +159,7 @@
 
                     </h:panelGrid>
 
-                    <p:commandButton value="Confirm" actionListener="#{inventoryRevenueManagementManagedBean.updatePricing()}"/>
+                    <p:commandButton value="Confirm" actionListener="#{inventoryRevenueManagementManagedBean.updatePricing()}"  class="btn-sm btn-success"/>
 
                 </p:dialog>
             </h:form>

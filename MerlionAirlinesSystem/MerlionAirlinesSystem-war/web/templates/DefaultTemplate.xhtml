@@ -25,7 +25,7 @@
 
         <h:form>
             <p:idleMonitor timeout="180000" onidle="PF('idleDialog').show();"/>
-            <p:growl id="messages" showDetail="true" autoUpdate="true" class="alert-warning"/>
+            <p:growl id="messages" showDetail="true" autoUpdate="false" class="alert-warning"/>
 
             <p:dialog id="confirmDialog"
                       header="Are you there?" widgetVar="idleDialog">

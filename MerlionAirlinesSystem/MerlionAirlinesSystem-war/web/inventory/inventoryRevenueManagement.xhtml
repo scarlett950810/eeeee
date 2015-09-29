@@ -40,21 +40,23 @@
                 <p:column headerText="Arrival Time" filterBy="#{flight.arrivalDate}" filterMatchMode="contains">
                     <h:outputText value="#{flight.arrivalDate}" />
                 </p:column>
-                <p:column headerText="Flight Number" filterBy="#{flight.flightNo}" filterMatchMode="contains">
+                <p:column headerText="Flight Number" filterBy="#{flight.flightNo}" filterMatchMode="contains" width="10%">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
-                <p:column headerText="Aircraft Type" filterBy="#{flight.aircraft.aircraftType.IATACode}" filterMatchMode="contains">
+                <p:column headerText="Aircraft Type" filterBy="#{flight.aircraft.aircraftType.IATACode}" filterMatchMode="contains" width="10%">
                     <h:outputText value="#{flight.aircraft.aircraftType.IATACode}" />
                 </p:column>
-                <p:column headerText="Origin" filterBy="#{flight.route.originAirport.cityName}" filterMatchMode="contains">
+                <p:column headerText="Origin" filterBy="#{flight.route.originAirport.cityName}" filterMatchMode="contains" width="15%">
                     <h:outputText value="#{flight.route.originAirport.cityName} (#{flight.route.originAirport.airportCode})" />
                 </p:column>
-                <p:column headerText="Destination" filterBy="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" filterMatchMode="contains">
+                <p:column headerText="Destination" filterBy="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" filterMatchMode="contains"
+                           width="15%">
                     <h:outputText value="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" />
                 </p:column>
 
                 <f:facet name="footer">
-                    <p:commandButton process="flightList" value="View Booking Class" update="flightList" icon="ui-icon-search" actionListener="#{inventoryRevenueManagementManagedBean.viewBookingClass()}"/>
+                    <p:commandButton process="flightList" value="View Booking Class" update="flightList" icon="ui-icon-search" 
+                                     actionListener="#{inventoryRevenueManagementManagedBean.viewBookingClass()}" class="btn-sm btn-primary"/>
                 </f:facet>
 
             </p:dataTable>
