@@ -49,7 +49,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
      * @param password
      * @return staffId
      */
-    
     @Override
     public String doLogin(String staffNo, String oldpassword) {
 
@@ -140,7 +139,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         }
 
     }
-    
 
     @EJB
     private AirportSessionBeanLocal airportSessionBean;
@@ -153,13 +151,13 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     @Override
     public void insertData() {
-        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double)10000, 50, (double) 100000, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 60);
-        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double)5000, 80, (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
-        AircraftTypeEntity aircraftType3 = new AircraftTypeEntity("B777", (double)10000, 80, (double) 180000, (double) 550, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
-        AircraftTypeEntity aircraftType4 = new AircraftTypeEntity("B787", (double)12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 60);
-        AircraftTypeEntity aircraftType5 = new AircraftTypeEntity("B747", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
-        AircraftTypeEntity aircraftType6 = new AircraftTypeEntity("B737", (double)12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
-        AircraftTypeEntity aircraftType7 = new AircraftTypeEntity("A320", (double)8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 70);
+        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double) 10000, 50, (double) 100000, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 60);
+        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double) 5000, 80, (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
+        AircraftTypeEntity aircraftType3 = new AircraftTypeEntity("B777", (double) 10000, 80, (double) 180000, (double) 550, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
+        AircraftTypeEntity aircraftType4 = new AircraftTypeEntity("B787", (double) 12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 60);
+        AircraftTypeEntity aircraftType5 = new AircraftTypeEntity("B747", (double) 8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
+        AircraftTypeEntity aircraftType6 = new AircraftTypeEntity("B737", (double) 12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
+        AircraftTypeEntity aircraftType7 = new AircraftTypeEntity("A320", (double) 8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 70);
         entityManager.persist(aircraftType1);
         entityManager.persist(aircraftType2);
         entityManager.persist(aircraftType3);
@@ -168,7 +166,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(aircraftType6);
         entityManager.persist(aircraftType7);
 
-        
         System.out.println("aircraftTypes added");
 
         AirportEntity a1 = new AirportEntity(false, "Shijiazhuang", "ZD Airport", "SJZ", "China");
@@ -294,40 +291,38 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         l10.add("B787");
         l10.add("B700");
 
-        
-
         System.out.println("List of aircraft types created for pilot scheduling testing");
 
-        PilotEntity p1 = new PilotEntity ("p001", "Tom", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l1, null, false);
-        PilotEntity p2 = new PilotEntity ("p002", "Tommy", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, true);
-        PilotEntity p3 = new PilotEntity ("p003", "Kurt", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
-        PilotEntity p4 = new PilotEntity ("p004", "Yin Lei", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, true);
-        PilotEntity p5 = new PilotEntity ("p005", "Hao", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, false);
-        PilotEntity p6 = new PilotEntity ("p006", "Jerry", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l6, null, true);
-        PilotEntity p7 = new PilotEntity ("p007", "Dog", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, false);
-        PilotEntity p8 = new PilotEntity ("p008", "Cat", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, true);
-        PilotEntity p9 = new PilotEntity ("p009", "Pig", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, false);
-        PilotEntity p10 = new PilotEntity ("p010", "Zebra", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, true);
-        PilotEntity p11 = new PilotEntity ("p011", "Ant", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l1, null, false);
-        PilotEntity p12 = new PilotEntity ("p012", "Flower", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, true);
-        PilotEntity p13 = new PilotEntity ("p013", "Bird", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
-        PilotEntity p14 = new PilotEntity ("p014", "Butterfly", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l4, null, true);
-        PilotEntity p15 = new PilotEntity ("p015", "Kimberly", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, false);
-        PilotEntity p16 = new PilotEntity ("p016", "One", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
-        PilotEntity p17 = new PilotEntity ("p017", "Two", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
-        PilotEntity p18 = new PilotEntity ("p018", "Three", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
-        PilotEntity p19 = new PilotEntity ("p019", "Four", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, true);
-        PilotEntity p20 = new PilotEntity ("p020", "Five", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
-        PilotEntity p21 = new PilotEntity ("p021", "Six", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l1, null, true);
-        PilotEntity p22 = new PilotEntity ("p022", "Seven", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, false);
-        PilotEntity p23 = new PilotEntity ("p023", "Eight", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
-        PilotEntity p24 = new PilotEntity ("p024", "Nine", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, false);
-        PilotEntity p25 = new PilotEntity ("p025", "Ten", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, true);
-        PilotEntity p26 = new PilotEntity ("p026", "Elevan", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
-        PilotEntity p27 = new PilotEntity ("p027", "Twlve", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
-        PilotEntity p28 = new PilotEntity ("p028", "Thirteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
-        PilotEntity p29 = new PilotEntity ("p029", "Fourteen", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l9, null, true);
-        PilotEntity p30 = new PilotEntity ("p030", "Fifteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
+        PilotEntity p1 = new PilotEntity("p001", "Tom", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l1, null, false);
+        PilotEntity p2 = new PilotEntity("p002", "Tommy", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, true);
+        PilotEntity p3 = new PilotEntity("p003", "Kurt", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p4 = new PilotEntity("p004", "Yin Lei", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, true);
+        PilotEntity p5 = new PilotEntity("p005", "Hao", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, false);
+        PilotEntity p6 = new PilotEntity("p006", "Jerry", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l6, null, true);
+        PilotEntity p7 = new PilotEntity("p007", "Dog", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, false);
+        PilotEntity p8 = new PilotEntity("p008", "Cat", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, true);
+        PilotEntity p9 = new PilotEntity("p009", "Pig", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, false);
+        PilotEntity p10 = new PilotEntity("p010", "Zebra", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, true);
+        PilotEntity p11 = new PilotEntity("p011", "Ant", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l1, null, false);
+        PilotEntity p12 = new PilotEntity("p012", "Flower", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, true);
+        PilotEntity p13 = new PilotEntity("p013", "Bird", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p14 = new PilotEntity("p014", "Butterfly", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l4, null, true);
+        PilotEntity p15 = new PilotEntity("p015", "Kimberly", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, false);
+        PilotEntity p16 = new PilotEntity("p016", "One", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
+        PilotEntity p17 = new PilotEntity("p017", "Two", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
+        PilotEntity p18 = new PilotEntity("p018", "Three", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
+        PilotEntity p19 = new PilotEntity("p019", "Four", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, true);
+        PilotEntity p20 = new PilotEntity("p020", "Five", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
+        PilotEntity p21 = new PilotEntity("p021", "Six", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l1, null, true);
+        PilotEntity p22 = new PilotEntity("p022", "Seven", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, false);
+        PilotEntity p23 = new PilotEntity("p023", "Eight", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
+        PilotEntity p24 = new PilotEntity("p024", "Nine", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, false);
+        PilotEntity p25 = new PilotEntity("p025", "Ten", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, true);
+        PilotEntity p26 = new PilotEntity("p026", "Elevan", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
+        PilotEntity p27 = new PilotEntity("p027", "Twlve", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
+        PilotEntity p28 = new PilotEntity("p028", "Thirteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
+        PilotEntity p29 = new PilotEntity("p029", "Fourteen", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l9, null, true);
+        PilotEntity p30 = new PilotEntity("p030", "Fifteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
 
         entityManager.persist(p1);
         entityManager.persist(p2);
@@ -391,7 +386,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         p29.setBase(a4);
         p30.setBase(a4);
 
-
         System.out.println("Pilots are created");
 
         CabinCrewEntity c1 = new CabinCrewEntity("c001", "Big pig", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
@@ -445,6 +439,57 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         CabinCrewEntity c49 = new CabinCrewEntity("c049", "Sunny", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
         CabinCrewEntity c50 = new CabinCrewEntity("c050", "Edwin", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
 
+        CabinCrewEntity c51 = new CabinCrewEntity("c051", "Big pig", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c52 = new CabinCrewEntity("c052", "Small pig", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c53 = new CabinCrewEntity("c053", "Bunny", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c54 = new CabinCrewEntity("c054", "Wang fei", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c55 = new CabinCrewEntity("c055", "Dongyan", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c56 = new CabinCrewEntity("c056", "Li Dongyan", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c57 = new CabinCrewEntity("c057", "Hao", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c58 = new CabinCrewEntity("c058", "Cai Rui", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c59 = new CabinCrewEntity("c059", "Cherry", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c60 = new CabinCrewEntity("c060", "Wu Tong", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c61 = new CabinCrewEntity("c061", "Tong", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c62 = new CabinCrewEntity("c062", "Tom", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c63 = new CabinCrewEntity("c063", "Tommy", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c64 = new CabinCrewEntity("c064", "Liu Jingjing", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c65 = new CabinCrewEntity("c065", "Ma Weiwei", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c66 = new CabinCrewEntity("c066", "Chui Ji", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c67 = new CabinCrewEntity("c067", "Chen Yongkai", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c68 = new CabinCrewEntity("c068", "Wu Qingfeng", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c69 = new CabinCrewEntity("c069", "Beautiful", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c70 = new CabinCrewEntity("c070", "Ugly", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c71 = new CabinCrewEntity("c071", "East", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c72 = new CabinCrewEntity("c072", "West", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c73 = new CabinCrewEntity("c073", "Lewis", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c74 = new CabinCrewEntity("c074", "Xinyi", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c75 = new CabinCrewEntity("c075", "Gong Yuqi", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c76 = new CabinCrewEntity("c076", "Sodagreen", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c77 = new CabinCrewEntity("c077", "Pen", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c78 = new CabinCrewEntity("c078", "iphone", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c79 = new CabinCrewEntity("c079", "Pencil", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c80 = new CabinCrewEntity("c080", "Library", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c81 = new CabinCrewEntity("c081", "Netbean", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c82 = new CabinCrewEntity("c082", "Glassfish", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c83 = new CabinCrewEntity("c083", "Sam", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c84 = new CabinCrewEntity("c084", "Da Xiong", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c85 = new CabinCrewEntity("c085", "Chen Yixun", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c86 = new CabinCrewEntity("c086", "Wang Tong", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c87 = new CabinCrewEntity("c087", "Lewis Phey", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c88 = new CabinCrewEntity("c088", "Handphone", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c89 = new CabinCrewEntity("c089", "Water", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c90 = new CabinCrewEntity("c090", "East", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c91 = new CabinCrewEntity("c091", "South", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c92 = new CabinCrewEntity("c092", "West", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c93 = new CabinCrewEntity("c093", "North", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c94 = new CabinCrewEntity("c094", "Cable", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c95 = new CabinCrewEntity("c095", "Left", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c96 = new CabinCrewEntity("c096", "Right", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c97 = new CabinCrewEntity("c097", "Table", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c98 = new CabinCrewEntity("c098", "Sam", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        CabinCrewEntity c99 = new CabinCrewEntity("c099", "Sunny", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
+        CabinCrewEntity c100 = new CabinCrewEntity("c100", "Edwin", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+
         entityManager.persist(c1);
         entityManager.persist(c2);
         entityManager.persist(c3);
@@ -495,43 +540,93 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(c48);
         entityManager.persist(c49);
         entityManager.persist(c50);
+        entityManager.persist(c51);
+        entityManager.persist(c52);
+        entityManager.persist(c53);
+        entityManager.persist(c54);
+        entityManager.persist(c55);
+        entityManager.persist(c56);
+        entityManager.persist(c57);
+        entityManager.persist(c58);
+        entityManager.persist(c59);
+        entityManager.persist(c60);
+        entityManager.persist(c61);
+        entityManager.persist(c62);
+        entityManager.persist(c63);
+        entityManager.persist(c64);
+        entityManager.persist(c65);
+        entityManager.persist(c66);
+        entityManager.persist(c67);
+        entityManager.persist(c68);
+        entityManager.persist(c69);
+        entityManager.persist(c70);
+        entityManager.persist(c71);
+        entityManager.persist(c72);
+        entityManager.persist(c73);
+        entityManager.persist(c74);
+        entityManager.persist(c75);
+        entityManager.persist(c76);
+        entityManager.persist(c77);
+        entityManager.persist(c78);
+        entityManager.persist(c79);
+        entityManager.persist(c80);
+        entityManager.persist(c81);
+        entityManager.persist(c82);
+        entityManager.persist(c83);
+        entityManager.persist(c84);
+        entityManager.persist(c85);
+        entityManager.persist(c86);
+        entityManager.persist(c87);
+        entityManager.persist(c88);
+        entityManager.persist(c89);
+        entityManager.persist(c90);
+        entityManager.persist(c91);
+        entityManager.persist(c92);
+        entityManager.persist(c93);
+        entityManager.persist(c94);
+        entityManager.persist(c95);
+        entityManager.persist(c96);
+        entityManager.persist(c97);
+        entityManager.persist(c98);
+        entityManager.persist(c99);
+        entityManager.persist(c100);
 
         c1.setBase(a4);
         c2.setBase(a4);
         c3.setBase(a4);
-        c4.setBase(a8);
+        c4.setBase(a4);
         c5.setBase(a4);
         c6.setBase(a4);
         c7.setBase(a4);
         c8.setBase(a4);
-        c9.setBase(a8);
-        c10.setBase(a8);
+        c9.setBase(a4);
+        c10.setBase(a4);
         c11.setBase(a4);
-        c12.setBase(a8);
+        c12.setBase(a4);
         c13.setBase(a4);
-        c14.setBase(a8);
+        c14.setBase(a4);
         c15.setBase(a4);
         c16.setBase(a4);
         c17.setBase(a4);
         c18.setBase(a4);
-        c19.setBase(a8);
+        c19.setBase(a4);
         c20.setBase(a4);
         c21.setBase(a4);
-        c22.setBase(a8);
+        c22.setBase(a4);
         c23.setBase(a4);
-        c24.setBase(a8);
+        c24.setBase(a4);
         c25.setBase(a4);
-        c26.setBase(a4);
+        c26.setBase(a8);
         c27.setBase(a8);
         c28.setBase(a8);
         c29.setBase(a8);
-        c30.setBase(a4);
-        c31.setBase(a4);
+        c30.setBase(a8);
+        c31.setBase(a8);
         c32.setBase(a8);
-        c33.setBase(a4);
+        c33.setBase(a8);
         c34.setBase(a8);
         c35.setBase(a8);
-        c36.setBase(a4);
+        c36.setBase(a8);
         c37.setBase(a8);
         c38.setBase(a8);
         c39.setBase(a8);
@@ -540,18 +635,68 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         c42.setBase(a8);
         c43.setBase(a8);
         c44.setBase(a8);
-        c45.setBase(a15);
-        c46.setBase(a4);
-        c47.setBase(a5);
-        c48.setBase(a7);
+        c45.setBase(a8);
+        c46.setBase(a8);
+        c47.setBase(a8);
+        c48.setBase(a8);
         c49.setBase(a8);
-        c50.setBase(a15);
+        c50.setBase(a8);
+
+        c51.setBase(a4);
+        c52.setBase(a4);
+        c53.setBase(a4);
+        c54.setBase(a4);
+        c55.setBase(a4);
+        c56.setBase(a4);
+        c57.setBase(a4);
+        c58.setBase(a4);
+        c59.setBase(a4);
+        c60.setBase(a4);
+        c61.setBase(a4);
+        c62.setBase(a4);
+        c63.setBase(a4);
+        c64.setBase(a4);
+        c65.setBase(a4);
+        c66.setBase(a4);
+        c67.setBase(a4);
+        c68.setBase(a4);
+        c69.setBase(a4);
+        c70.setBase(a4);
+        c71.setBase(a4);
+        c72.setBase(a4);
+        c73.setBase(a4);
+        c74.setBase(a4);
+        c75.setBase(a4);
+        c76.setBase(a8);
+        c77.setBase(a8);
+        c78.setBase(a8);
+        c79.setBase(a8);
+        c80.setBase(a8);
+        c81.setBase(a8);
+        c82.setBase(a8);
+        c83.setBase(a8);
+        c84.setBase(a8);
+        c85.setBase(a8);
+        c86.setBase(a8);
+        c87.setBase(a8);
+        c88.setBase(a8);
+        c89.setBase(a8);
+        c90.setBase(a8);
+        c91.setBase(a8);
+        c92.setBase(a8);
+        c93.setBase(a8);
+        c94.setBase(a8);
+        c95.setBase(a8);
+        c96.setBase(a8);
+        c97.setBase(a8);
+        c98.setBase(a8);
+        c99.setBase(a8);
+        c100.setBase(a8);
 
         System.out.println("Cabin crew are created.");
-       
-         }
-   
-    
+
+    }
+
     @Override
     public StaffEntity fetchStaff(String staffNo) {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");

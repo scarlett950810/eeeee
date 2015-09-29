@@ -70,19 +70,27 @@ public class RetrieveDutyManagedBean implements Serializable {
 
     public void submit() {
         FacesMessage msg;
-        if (position != null && name != null) {
-            msg = new FacesMessage("Selected", position + " :  " + name);
+        if (position == null || name == null) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid", "Staff is not selected.");
+        } else {
+            
             if (position.equals("Pilot")) {
                 lazyEventModel = retrieveDutySessionBean.createPilotEvent(name);
             } else {//cabin crew
                 lazyEventModel = retrieveDutySessionBean.createCabinEvent(name);
             }
-            RequestContext requestContext = RequestContext.getCurrentInstance();
-            requestContext.execute("PF('dlg').show()");
-        } else {
+            
+            if (lazyEventModel != null && lazyEventModel.getEventCount() != 0) {
+               msg = new FacesMessage("Selected", position + " :  " + name);
+                RequestContext requestContext = RequestContext.getCurrentInstance();
+                requestContext.execute("PF('dlg').show()");
+            } else {
+                msg = new FacesMessage("Warning", "Staff:" + name + "  has no flight schedule");
+            }
+            
 
-            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid", "Staff is not selected.");
         }
+        
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

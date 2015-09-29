@@ -49,8 +49,12 @@ public class LoginManagedBean {
 
     @PostConstruct
     public void init() {
-//       insertData();
-        createRootUser();
+
+        if (accountManagementSessionBean.fetchStaff().isEmpty() || accountManagementSessionBean.fetchStaff() == null) {
+            insertData();
+            createRootUser();
+        }
+
     }
 
     @PostRemove
@@ -145,7 +149,6 @@ public class LoginManagedBean {
                         "Continue your works."));
 //     String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
 //     System.out.print(staffNo);
-     
 
     }
 
@@ -183,10 +186,10 @@ public class LoginManagedBean {
 
     }
 
-    public void createRootUser(){
+    public void createRootUser() {
         accountManagementSessionBean.createRootUser();
     }
-    
+
     public void insertData() {
         loginSessionBean.insertData();
     }

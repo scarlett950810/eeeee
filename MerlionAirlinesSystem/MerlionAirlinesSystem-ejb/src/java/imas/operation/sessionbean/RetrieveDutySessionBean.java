@@ -86,11 +86,11 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
             List<FlightEntity> flights = list.get(0).getPilotFlights();
 
             for (int i = 0; i < flights.size(); i++) {
-                System.out.print("33333");
+//                System.out.print("33333");
                 flightNo = flights.get(i).getFlightNo();
                 startDate = flights.get(i).getDepartureDate();
                 endDate = flights.get(i).getArrivalDate();
-                if (flightNo != null & startDate != null & endDate != null) {
+                if (flightNo != null && startDate != null && endDate != null) {
                     event = new DefaultScheduleEvent(flightNo, startDate, endDate);
                     System.out.print(event);
                     lazyEventModel.addEvent(event);
@@ -116,11 +116,11 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
             List<FlightEntity> flights = list.get(0).getCabinCrewFlights();
 
             for (int i = 0; i < flights.size(); i++) {
-                System.out.print("33333");
+//                System.out.print("33333");
                 flightNo = flights.get(i).getFlightNo();
                 startDate = flights.get(i).getDepartureDate();
                 endDate = flights.get(i).getArrivalDate();
-                if (flightNo != null & startDate != null & endDate != null) {
+                if (flightNo != null && startDate != null && endDate != null) {
                     event = new DefaultScheduleEvent(flightNo, startDate, endDate);
                     System.out.print(event);
                     lazyEventModel.addEvent(event);
