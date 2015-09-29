@@ -36,10 +36,13 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
+    
+    private int counter = 0;
 
     @Override
     public List<FlightEntity> CabinCrewScheduling(List<FlightEntity> flights, List<CabinCrewEntity> cabinCrews) {
-        System.err.println("enter pilotScheduling");
+        System.err.println("enter cabin Scheduling");
 
         List<FlightEntity> flightsLeft = CabinScheduling(flights, cabinCrews);
 
@@ -59,6 +62,8 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
 
     @Override
     public List<FlightEntity> oneCabinCrewScheduling(List<FlightEntity> flights, CabinCrewEntity cabinCrew) {
+        
+        
         System.err.println("enter one for short");
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
         for (FlightEntity f : flights) {
@@ -201,7 +206,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
                 }
 
             }
-            System.err.println("find a suitable flight");
+            System.err.println("find a suitable flight cabin");
             //find a suitable flight
             if (findSoonest == null) {
                 findNextFlight = false;
@@ -241,8 +246,8 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
                 currentLoc = flightAssigned.getRoute().getDestinationAirport();
                 //                      System.err.println("7.2.1");
                 long diffInHours = TimeUnit.MILLISECONDS.toHours(flightAssigned.getArrivalDate().getTime() - mtAcc.getTime());
-                System.err.println("findNextFlight is tru and diffHours = " + diffInHours);
-                if (diffInHours > 96 && currentLoc.getAirportCode().equals(cabinCrew.getBase().getAirportCode())) {
+                System.err.println("cabin findNextFlight is tru and diffHours = " + diffInHours);
+                if (diffInHours >= 96 && currentLoc.getAirportCode().equals(cabinCrew.getBase().getAirportCode())) {
                     //               System.err.println("flightAssigned FLIGHT hours"+flightAssigned.getRoute().getFlightHours());
 
                     cal.setTime(earliestDep);
@@ -252,7 +257,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
 
                     currentLoc = cabinCrew.getBase();
                     mtAcc = earliestDep;
-                    System.err.println("mtAcc = " + mtAcc);
+                    System.err.println("cabin mtAcc = " + mtAcc);
 //                       System.err.println("7.2");
 
                 }
@@ -273,12 +278,22 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
 
     @Override
     public Integer getFlightCapacity(FlightEntity flight) {
+        
+        counter++;
+        System.err.println("counter: " + counter);
+        
+        
+        
         AircraftEntity a = flight.getAircraft();
         Integer sum = 0;
+        
+        System.err.println("getFlightCapacity before query");
         Query q1 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
         q1.setParameter("aircraft", a);
         q1.setParameter("seatClass", "First Class");
         Integer n1 = q1.getResultList().size();
+                System.err.println("getFlightCapacity after query");
+
         int a1 = n1 / 20;
         if (n1 % 20 > 0) {
             a1++;

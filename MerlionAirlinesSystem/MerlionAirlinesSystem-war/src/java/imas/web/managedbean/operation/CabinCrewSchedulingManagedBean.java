@@ -112,7 +112,7 @@ public class CabinCrewSchedulingManagedBean implements Serializable {
         cabinCrewScheduling.CabinScheduling(flightsAll, cabinCrewAll);
         System.err.println("out of the optimization");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsLeft", flightsLeft);
-        ec.redirect("operationDisplayFlights.xhtml");
+        ec.redirect("retrieveDuty.xhtml");
 
     }
 }

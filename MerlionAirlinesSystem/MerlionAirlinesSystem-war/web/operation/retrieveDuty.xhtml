@@ -51,7 +51,7 @@
                 </p:selectOneMenu>
             </h:panelGrid>
             
-            <p:commandButton value="Submit" update="msgs" actionListener="#{retrieveDutyManagedBean.submit()}"
+            <p:commandButton value="Submit" update="msgs dialog" actionListener="#{retrieveDutyManagedBean.submit()}"
                              icon="ui-icon-check" class="btn-sm btn-primary"/>
             
             <p:dialog id="dialog" header="Staff Schedule" widgetVar="dlg" dynamic="true">           

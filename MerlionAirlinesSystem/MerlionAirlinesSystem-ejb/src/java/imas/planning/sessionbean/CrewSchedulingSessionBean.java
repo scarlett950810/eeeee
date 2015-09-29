@@ -255,7 +255,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
                 //                      System.err.println("7.2.1");
                 long diffInHours = TimeUnit.MILLISECONDS.toHours(flightAssigned.getArrivalDate().getTime() - mtAcc.getTime());
                 System.err.println("findNextFlight is tru and diffHours = " + diffInHours);
-                if (diffInHours > 96 && currentLoc.getAirportCode().equals(pilot.getBase().getAirportCode())) {
+                if (diffInHours >= 96 && currentLoc.getAirportCode().equals(pilot.getBase().getAirportCode())) {
                     //               System.err.println("flightAssigned FLIGHT hours"+flightAssigned.getRoute().getFlightHours());
 
                     cal.setTime(earliestDep);
@@ -501,7 +501,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
 
                 long diffInHours = TimeUnit.MILLISECONDS.toHours(flightAssigned.getArrivalDate().getTime() - mtAcc.getTime());
                 System.err.println("findNextFlight is tru and diffHours = " + diffInHours);
-                if (diffInHours > 96 && currentLoc.getAirportCode().equals(pilot.getBase().getAirportCode())) {
+                if (diffInHours >= 96 && currentLoc.getAirportCode().equals(pilot.getBase().getAirportCode())) {
                     //               System.err.println("flightAssigned FLIGHT hours"+flightAssigned.getRoute().getFlightHours());
 
                     cal.setTime(earliestDep);
