@@ -7,6 +7,7 @@ package imas.common.sessionbean;
 
 import imas.common.entity.InternalAnnouncementEntity;
 import imas.common.entity.StaffEntity;
+import imas.planning.entity.AirportEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateful;
@@ -39,26 +40,25 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
                 InternalAnnouncementEntity a = (InternalAnnouncementEntity) o;
                 announcements.add(a);
             });
-//            System.out.println("session bean");
-//            System.out.println(announcements);
+
             return (List<InternalAnnouncementEntity>) announcements;
         }
-     return null;
+        return null;
     }
 
     @Override
-    public String sendInternalAnnouncements(List<String> departments, List<String> bases, String title, String content) {
-        if (departments.isEmpty() && bases.isEmpty()) {
-            Query queryForAllStaff = entityManager.createQuery("SELECT s FROM StaffEntity s");
-            List<StaffEntity> allStaff = queryForAllStaff.getResultList();
-            for (StaffEntity s : allStaff) {
+    public String sendInternalAnnouncements(List<String> departments, List<AirportEntity> bases, String title, String content) {
+
+        Query queryForAllStaff = entityManager.createQuery("SELECT s FROM StaffEntity s");
+        List<StaffEntity> allStaff = queryForAllStaff.getResultList();
+        for (StaffEntity s : allStaff) {
+            if (departments.contains(s.getRole().getBusinessUnit()) || bases.contains(s.getBase())) {
                 InternalAnnouncementEntity newAnnouncement = new InternalAnnouncementEntity(s, title, content);
                 entityManager.persist(newAnnouncement);
             }
-            return "Message has been sent to all staff.";
-        } else {
-            return "Selecting receiver not supported yet.";
         }
+        return "Message has been sent to all selected staff.";
+
     }
 
     @Override

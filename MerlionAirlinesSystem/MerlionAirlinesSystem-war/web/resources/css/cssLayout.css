@@ -73,9 +73,10 @@ span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
     height: 0px!important;
 }
 
-.ui-button.ui-widget.ui-button-icon-only.icon-only {
-    background: none;
-    border: none;
+.ui-button.ui-widget.ui-button-icon-only.icon-only,
+.ui-state-default.icon-only, .ui-widget-content .ui-state-default.icon-only {
+    background: none !important;
+    border: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
@@ -114,6 +115,7 @@ span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
     margin-left: 0px;
 }
 
-.ui-selectonemenu-filter-container, .ui-selectonemenu-panel .ui-selectonemenu-filter {
+.ui-selectonemenu-filter-container, .ui-selectonemenu-panel .ui-selectonemenu-filter,
+.ui-selectlistbox-filter.ui-inputfield, .ui-selectonemenu .ui-selectonemenu-label {
     width: 100%! important;
 }
