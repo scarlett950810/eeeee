@@ -115,8 +115,6 @@ public class CrewCheckInManagedBean implements Serializable{
     public void doCrewCheckIn() throws IOException{
         crewCheckInSessionBean.doCrewCheckIn(selectedPilots, selectedCrew);
         FacesContext fc = FacesContext.getCurrentInstance();
-        fc.addMessage("status", new FacesMessage("Successful", "The selected flight crew for " + flight.getFlightNo() + " has been checked in."));
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("operationCrewCheckIn.xhtml");
     }

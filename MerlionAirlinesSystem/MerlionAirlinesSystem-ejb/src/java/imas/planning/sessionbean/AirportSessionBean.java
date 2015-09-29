@@ -98,11 +98,6 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
         Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.id = :airportID");
         query.setParameter("airportID", airportID);
         
-        System.out.print(cityName);
-        System.out.print(airportName);
-        System.out.print(airportCode);
-        System.out.print(nationName);
-        
         try{
             AirportEntity airport = (AirportEntity)query.getSingleResult();
             if(hubOrSpoke != null){

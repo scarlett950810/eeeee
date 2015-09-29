@@ -28,7 +28,7 @@ public interface CrewSchedulingSessionBeanLocal {
 
     List<FlightEntity> onePilotSchedulingForLong(List<FlightEntity> flights, PilotEntity pilot);
     
-    Date calculateMaintenanceHours(PilotEntity pilot, Date mtAcc);
+//    Date calculateMaintenanceHours(PilotEntity pilot, Date mtAcc);
 
     List<PilotEntity> retriveAllPilots();
 
