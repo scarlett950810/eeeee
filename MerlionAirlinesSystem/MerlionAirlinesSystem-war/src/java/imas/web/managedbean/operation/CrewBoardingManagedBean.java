@@ -128,7 +128,8 @@ public class CrewBoardingManagedBean implements Serializable{
             
         }else{
             crewCheckInSessionBean.doCrewBoarding(selectedPilots, selectedCrew);
-            fc.addMessage(null, new FacesMessage("Successful", "The selected flight crew for " + flight.getFlightNo() + " has been checked in."));
+            fc.addMessage("status", new FacesMessage("Successful", "The selected flight crew for " + flight.getFlightNo() + " has been checked in."));
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
             ExternalContext ec = fc.getExternalContext();
             ec.redirect("operationCrewBoarding.xhtml");
         }

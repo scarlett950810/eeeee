@@ -145,7 +145,7 @@ public class AirportManagedBean implements Serializable{
         ec.redirect("planningDeleteAirport.xhtml");
     }
     public String getHubOrSpoke(AirportEntity a){
-        System.err.println("lallalala");
+        
         if(a.getHubOrSpoke()){
         
         return "hub";}
@@ -181,17 +181,20 @@ public class AirportManagedBean implements Serializable{
     
     public void updateAirport() throws IOException{
 //        System.out.println(hubOrSpoke + "," + cityName + "," + airportName + ","+ airportCode);
-        airportSessionBean.updateAirport(hubOrSpoke, cityName, airportName, airportCode, nationName);
+        airportSessionBean.updateAirport(hubOrSpoke, cityName, airportName, airportCode, nationName, null);
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningHomePage.xhtml");
     }
     
-    public void onRowEdit(RowEditEvent event) {
+    public void onRowEdit(RowEditEvent event) throws IOException {
         airport =  (AirportEntity) event.getObject();
-        airportSessionBean.updateAirport(null, airport.getCityName(), airport.getAirportName(), airport.getAirportCode(), airport.getNationName());
+        airportSessionBean.updateAirport(null, airport.getCityName(), airport.getAirportName(), airport.getAirportCode(), airport.getNationName(), airport.getId());
         FacesMessage msg = new FacesMessage("Airport Edited", ((AirportEntity) event.getObject()).getAirportName());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningAirport.xhtml");
     }
      
     public void onRowCancel(RowEditEvent event) {

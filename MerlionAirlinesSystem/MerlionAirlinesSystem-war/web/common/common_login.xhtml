@@ -28,24 +28,25 @@
         <p:layout fullPage="true">
             <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
                 <p:graphicImage name="img/merlionLogo.jpg" height="100%" style="float: left;"></p:graphicImage>
-                <p:outputLabel value="Merlion Airlines Internal Systems" style="float: right; font-size: 40px; font-weight: bold; margin-top: 20px; margin-right: 10px; color: white"/>
+                <p:outputLabel  style="float: right; font-size: 40px; font-weight: bold; margin-top: 20px; margin-right: 10px; color: white"/>
             </p:layoutUnit>
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="79%" 
                           style="background-image:url('../resources/img/background.jpg'); background-size: cover; padding: 20px 15px !important">
-                
+
+
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" style="margin-top: 50px"/>
                 <h:form id="internalLoginForm">
                     <p:focus context="internalLoginForm"/>
                     <h:panelGrid id ="loginPG" columns="2" cellpadding="5" style="margin-bottom: 10px; color: white">
                         <p:outputLabel for="staffNo" value="Staff ID: " />
                         <p:inputText style="width:100%; background-color: #F3EEEE" id="staffNo" binding="#{staffNo}" label="StaffNo" required="true" requiredMessage="Please input your staff ID">
-                           
+
                         </p:inputText>                        
 
                         <p:outputLabel for="password" value="Password: "  />
                         <p:password style="width:100%; background-color: #F3EEEE" id="password" binding="#{password}" label="Password" required="true" requiredMessage="Please input password">
-                            
+
                         </p:password>
 
                         <p:captcha label="Captcha"  rendered="#{loginManagedBean.loginAttempts>=3}" required="#{loginManagedBean.loginAttempts>=3}" secure="true"/>

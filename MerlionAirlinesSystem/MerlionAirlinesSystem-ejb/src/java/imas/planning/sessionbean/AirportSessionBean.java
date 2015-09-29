@@ -94,9 +94,14 @@ public class AirportSessionBean implements AirportSessionBeanLocal {
     }
 
     @Override
-    public void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName) {
-        Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :airportCode");
-        query.setParameter("airportCode", airportCode);
+    public void updateAirport(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName, Long airportID) {
+        Query query = em.createQuery("SELECT a FROM AirportEntity a WHERE a.id = :airportID");
+        query.setParameter("airportID", airportID);
+        
+        System.out.print(cityName);
+        System.out.print(airportName);
+        System.out.print(airportCode);
+        System.out.print(nationName);
         
         try{
             AirportEntity airport = (AirportEntity)query.getSingleResult();

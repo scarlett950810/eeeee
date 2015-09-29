@@ -76,9 +76,9 @@ public class RouteManagedBean implements Serializable {
             spokes.put(spokeName, spokeName);
         }
         routesName = routeSession.retrieveAllConnectionName();
-        System.out.println("dadada1");
+        
         routes = routeSession.retrieveAllRoutes();
-        System.out.println("dadada");
+        
 
     }
 
@@ -186,7 +186,7 @@ public class RouteManagedBean implements Serializable {
         this.spokes = spokes;
     }
 
-    public void generateRoutes() {
+    public void generateRoutes() throws IOException {
         FacesMessage msg;
         if (hub.equals(spoke)) {
             msg = new FacesMessage("Unsuccessful", "Connecting two same airports not allowed");
@@ -206,13 +206,18 @@ public class RouteManagedBean implements Serializable {
                 //System.err.println("haha");
             }
         }
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+        FacesContext.getCurrentInstance().addMessage("status", msg);
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("planningAddRoute.xhtml");
+        
+        
     }
 
     public void deleteRoute() throws IOException {
-        String[] airportsName = routeDelete.split(" ");
+        String[] airportsName = routeDelete.split("-");
         FacesMessage msg;
-        if (routeSession.deleteRoutesByName(airportsName[0], airportsName[2])) {
+        if (routeSession.deleteRoutesByName(airportsName[0], airportsName[1])) {
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             ec.redirect("planningRoute.xhtml");

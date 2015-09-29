@@ -42,7 +42,7 @@
                     <p:selectOneMenu id="connection" value="#{routeManagedBean.routeDelete}" style="width:150px"
                                      filter="true" filterMatchMode="contains">
                         <f:selectItem itemLabel="Choose Connection" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{routeManagedBean.routesName}" />
+                        <f:selectItems var="route" value="#{routeManagedBean.routesName}" itemValue="#{route}"/>
                     </p:selectOneMenu>
                 </h:panelGrid>
 

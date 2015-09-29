@@ -42,7 +42,7 @@
             <p:panel header="Delete Aircraft type" class="panel panel-danger">
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                     <p:outputLabel for="deleteAircraftType" value="Choose Aircraft Type to Delete:"  />
-                    <p:selectOneMenu id="deleteAircraftType" value="#{aircraftTypeManagedBean.IATACode}" panelStyle="width:180px" required="true" requiredMessage="Please choose an aircraft type to delete"
+                    <p:selectOneMenu id="deleteAircraftType" value="#{aircraftTypeManagedBean.aircraftType}" panelStyle="width:180px" required="true" requiredMessage="Please choose an aircraft type to delete"
                                      effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
                                      converter="aircraftTypeConverter">
 
