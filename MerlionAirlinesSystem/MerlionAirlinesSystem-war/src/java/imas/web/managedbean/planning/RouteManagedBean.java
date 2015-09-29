@@ -48,6 +48,7 @@ public class RouteManagedBean implements Serializable {
     private List<String> routesName;
     private List<RouteEntity> routes;
     private String routeDelete;
+    private RouteEntity route;
 
     @PostConstruct
     public void init() {
@@ -97,6 +98,14 @@ public class RouteManagedBean implements Serializable {
 
     public void setDistance(Double distance) {
         this.distance = distance;
+    }
+
+    public RouteEntity getRoute() {
+        return route;
+    }
+
+    public void setRoute(RouteEntity route) {
+        this.route = route;
     }
 
     public void onRowEdit(RowEditEvent event) throws IOException {
@@ -228,12 +237,15 @@ public class RouteManagedBean implements Serializable {
 
     }
 
-    public String calculateDist(Double distance) {
+    public String calculateDist(RouteEntity route) {
+        distance = route.getDistance();
         Double time = distance / 497.097;
+        routeSession.updateRouteTime(route, time);        
         Integer hours = time.intValue();
         Double i = 60 * (time - time.intValue());
         Integer minutes = i.intValue();
         String s = hours.toString() + "hours " + minutes.toString() + "minutes";
+        
         return s;
 
     }

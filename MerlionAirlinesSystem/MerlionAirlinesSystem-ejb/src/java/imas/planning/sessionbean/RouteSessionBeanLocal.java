@@ -55,5 +55,7 @@ public interface RouteSessionBeanLocal {
     void saveReturnFlights(FlightEntity f);
 
     List<FlightEntity> retrieveAllFlightsGenerated(Integer year, RouteEntity route);
+
+    void updateRouteTime(RouteEntity route, Double time);
     
 }

@@ -7,12 +7,10 @@ package imas.web.managedbean.common;
 
 import imas.common.entity.InternalAnnouncementEntity;
 import imas.common.entity.StaffEntity;
-import imas.common.entity.StaffRole;
 import imas.common.sessionbean.InternalAnnouncementSessionBeanLocal;
 import imas.common.sessionbean.InternalMessageSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import imas.planning.entity.AirportEntity;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,18 +33,17 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @SessionScoped
 public class InternalAnnouncementManagedBean implements Serializable {
+    
     @EJB
     private InternalMessageSessionBeanLocal internalMessageSessionBean;
 
     @EJB
     private InternalAnnouncementSessionBeanLocal internalAnnouncementSessionBean;
+    
     @EJB
     private AirportSessionBeanLocal airportSessionBean;
-    
-    
+ 
     private String loggedInStaffNo;
-
-    private List<String> departments;
 
     private List<AirportEntity> airports;
 
@@ -59,6 +56,8 @@ public class InternalAnnouncementManagedBean implements Serializable {
     private List<InternalAnnouncementEntity> allAnnouncements;
     
     private StaffEntity staff;
+
+    private List<String> businessUnits;
 
     @PostConstruct
     public void init() {
@@ -77,14 +76,6 @@ public class InternalAnnouncementManagedBean implements Serializable {
 
     public InternalAnnouncementManagedBean() {
 
-    }
-
-    public List<String> getDepartments() {
-        return departments;
-    }
-
-    public void setDepartments(List<String> departments) {
-        this.departments = departments;
     }
 
     public List<AirportEntity> getAirports() {
@@ -112,10 +103,7 @@ public class InternalAnnouncementManagedBean implements Serializable {
     }
 
     public List<AirportEntity> getAirportList() {
-//        System.out.println("InternalAnnouncementManagedBean.getAirportList called.");
-//        System.out.println(airportSessionBean);
-//        System.out.println(airportSessionBean.fetchAirport());
-        return airportSessionBean.fetchAirport();
+       return airportSessionBean.fetchAirport();
     }
 
     public void setAirportList(List<AirportEntity> airportList) {
@@ -123,16 +111,8 @@ public class InternalAnnouncementManagedBean implements Serializable {
     }
 
     public void sendInternalAnnouncements() {
-//        System.out.println("internalAccouncementManagedBean.send called.");
-//        System.out.println(airports);
-        List<String> airportCodes = new ArrayList();
-        airports.stream().forEach((a) -> {
-            airportCodes.add(a.getAirportCode());
-        });
+        String message = internalAnnouncementSessionBean.sendInternalAnnouncements(this.businessUnits, this.airports, this.title, this.content);
 
-        String message = internalAnnouncementSessionBean.sendInternalAnnouncements(this.departments, airportCodes, this.title, this.content);
-
-//        System.out.println(message);
         FacesMessage msg = new FacesMessage(message, "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -165,11 +145,14 @@ public class InternalAnnouncementManagedBean implements Serializable {
         internalAnnouncementSessionBean.toggleRead(announcementEntity);
     }
 
-//    public String getFormatTime(Date d){
-//        SimpleDateFormat dateF = new SimpleDateFormat("yyyy/MM/dd 'at' HH:mm:ss z\"");
-//        return dateF.format(d);
-//    }
-    
+    public List<String> getBusinessUnits() {
+        return businessUnits;
+    }
+
+    public void setBusinessUnits(List<String> businessUnits) {
+        this.businessUnits = businessUnits;
+    }
+  
     public void refreshAnnouncements(ActionEvent event) {
         allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(loggedInStaffNo);
         RequestContext.getCurrentInstance().execute("PF('announcement').show();");

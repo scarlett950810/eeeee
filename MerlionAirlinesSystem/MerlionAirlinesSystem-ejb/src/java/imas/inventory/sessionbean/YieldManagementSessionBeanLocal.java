@@ -63,5 +63,7 @@ public interface YieldManagementSessionBeanLocal {
     public void updateAllRoutePopularity();
 
     public void disableYieldManagementRule(YieldManagementRuleEntity yieldManagementRuleEntity);
+
+    public double getNormalizedPopularity(RouteEntity route);
    
 }

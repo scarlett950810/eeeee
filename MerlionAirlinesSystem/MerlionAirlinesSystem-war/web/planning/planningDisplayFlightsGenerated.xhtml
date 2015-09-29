@@ -9,16 +9,15 @@
         <!--insert customized import here-->
     </ui:define>
 
-    <ui:define name="title">Planning Home Page</ui:define>
+    <ui:define name="title">Planning - Display Flights Generated</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
                 <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
-                <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
-                <li><a href="planningEditDeleteAircraft.xhtml">Modify Aircraft</a></li>
-                <li><a href="planningManageAircraftTypes.xhtml">View Aircraft</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Manage Aircraft</a></li>
+
 
                 <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
                 <li><a href="planningAirport.xhtml">Manage Airport</a></li>
@@ -35,7 +34,9 @@
         <h:form>
             <p:dataTable var="flight" value="#{flightsDisplayManagedBean.flightsGenerated}" widgetVar="flightsTable"
                          emptyMessage="No cars found with given criteria" filteredValue="#{flightsDisplayManagedBean.flightsFiltered}"
-                         class="panel-primary" >
+                         class="panel-primary" paginator="true" 
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="15, 30, 50" rows="15">
                 
                 <f:facet name="header">
                     <p:outputPanel>

@@ -8,14 +8,14 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        
+
         <title><ui:insert name="title">Merlion Airlines Internal System</ui:insert></title>
         <ui:insert name="head"></ui:insert>
     </h:head>
 
     <h:body>
         #{errorHandlingManagedBean.checkUser()}
-        
+
         <f:facet name="last">
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <h:outputStylesheet name="./css/simple-sidebar.css"/>
@@ -25,29 +25,30 @@
 
         <h:form>
             <p:idleMonitor timeout="180000" onidle="PF('idleDialog').show();"/>
-            <p:growl id="messages" showDetail="true" autoUpdate="true" class="alert-warning"/>
+            <p:growl id="messages" showDetail="true" autoUpdate="false" class="alert-warning"/>
 
             <p:dialog id="confirmDialog" header="Are you there?" widgetVar="idleDialog">
                 <h:outputText value="You have been idle for a while, 
                               Please click ok to continue." />
                 <p:commandButton id="confirm" value="Ok" update="messages"
                                  oncomplete="PF('idleDialog').hide()"
-                                 actionListener="#{loginManagedBean.welcome()}" />
+                                 actionListener="#{loginManagedBean.welcome()}" class="btn-sm btn-success"/>
 
                 <p:commandButton id="Logout" value="LogMeOut" update="messages"
                                  oncomplete="idleDialog.hide()"
-                                 actionListener="#{loginManagedBean.doLogout()}" />
-
+                                 actionListener="#{loginManagedBean.doLogout()}" class="btn-sm btn-danger"/>
             </p:dialog>
 
         </h:form>
-
 
         <p:layout fullPage="true">
 
             <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
                 <p:graphicImage name="img/merlionLogo.jpg" height="100%" style="float: left;"></p:graphicImage>
                 <p:outputLabel value="Welcome, #{internalMessageManagedBean.loggedInStaff.displayName}" style="float: right; margin-top: 40px; margin-right: 10px; color: white"/>
+                <a href="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml">
+                    <p:graphicImage name="img/merlionLogo.jpg" height="100%" style="float: left; z-index: 9999"/>
+                </a>
             </p:layoutUnit>
 
             <p:layoutUnit position="south" size="20">
@@ -79,12 +80,14 @@
             <p:layoutUnit id="layoutUnit_center" position="center" size="79%"
                           style="padding: 20px 15px !important">
 
-                <p:dialog header="Annoucement" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip">
+                <p:dialog header="Annoucements" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip"
+                          width="60%">
                     <h:form id="viewAnnouncement">
                         <p:dataTable value="#{internalAnnouncementManagedBean.allAnnouncements}" var="announcement" 
                                      paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
                                      editable="true" editMode="cell" sortMode="multiple"
-                                     resizableColumns="true" liveResize="true">
+                                     resizableColumns="true" liveResize="true" class="panel panel-primary"
+                                     emptyMessage="No announcements">
                             <p:column headerText="Time"  sortBy="#{announcement.sentTime}">
                                 <h:outputText value="#{announcement.sentTime}"/>
                             </p:column>
@@ -107,11 +110,11 @@
                     </h:form>
                 </p:dialog>
 
-                <p:dialog header="Message" widgetVar="message" minHeight="40" showEffect="clip" hideEffect="clip">
+                <p:dialog header="Message" widgetVar="message" minHeight="40" showEffect="clip" hideEffect="clip" width="60%">
                     <h:form id="sendMessage">
-                        <p:panel header="Send New Message" style="padding-bottom: 15px;">
+                        <p:panel header="Send New Message" class="panel panel-success">
 
-                            <h:panelGrid columns="2" cellpadding="5">
+                            <h:panelGrid columns="2" cellpadding="5" style="width: 100%">
 
                                 <p:outputLabel value="To staff:(Name, staffNo or department)" for="searchStaff" />
                                 <p:selectOneMenu style="width: 100%" filter="true" id="searchStaff" value="#{internalMessageManagedBean.receiver}"
@@ -120,25 +123,32 @@
                                     <f:selectItems  value="#{internalMessageManagedBean.staffList}" var="staff"
                                                     itemValue="#{staff}" itemLabel="#{staff.id}"  />
                                     <p:column>
-                                        <h:outputText value="#{s.displayName}(#{s.staffNo})" />
+                                        <h:outputText style="width: 100%" value="#{s.displayName}(#{s.staffNo})" />
                                     </p:column>
                                 </p:selectOneMenu>
 
                                 <p:outputLabel for="content" value="Content" />
-                                <p:inputTextarea style="width: 100%;" id="content" value="#{internalMessageManagedBean.content}"></p:inputTextarea>
+                                <p:inputTextarea style="width: 100%;" id="content" value="#{internalMessageManagedBean.content}"
+                                                 counter="display" maxlength="500" counterTemplate="{0} characters remaining."
+                                                 autoResize="flase" />
+                                <h:outputText id="display" />
 
                                 <p:commandButton id="sendAnnouncement" value="Send"
-                                                 actionListener="#{internalMessageManagedBean.send}" update="@form viewMessages"/>
+                                                 actionListener="#{internalMessageManagedBean.send}" update="@form viewMessages"
+                                                 class="btn-sm btn-success"/>
 
                             </h:panelGrid>
                         </p:panel>
                     </h:form>
-                    <p:panel header="Messages">
-                        <h:form id="viewMessages">
+
+                    <h:form id="viewMessages">
+                        <p:panel header="Inbox" class="panel panel-primary">                        
                             <p:dataTable id="messageTable" value="#{internalMessageManagedBean.allMessages}" var="message" 
-                                         paginator="true" rows="10" styleClass="paginated" paginatorAlwaysVisible="false"
+                                         paginator="true" styleClass="paginated" paginatorAlwaysVisible="false"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5, 20, 50" rows="5"
                                          editable="true" editMode="cell" sortMode="multiple"
-                                         resizableColumns="true" liveResize="true">
+                                         emptyMessage="Empty inbox">
                                 <p:column headerText="Time"  sortBy="#{message.sentTime}">
                                     <h:outputText value="#{message.sentTime}"/>
                                 </p:column>
@@ -149,7 +159,8 @@
 
                                 <p:column headerText="Content">
                                     <p:commandButton icon="ui-icon-comment" 
-                                                     actionListener="#{internalMessageManagedBean.showMessage(message.sender.displayName, message.content)}"/>
+                                                     actionListener="#{internalMessageManagedBean.showMessage(message.sender.displayName, message.content)}"
+                                                     class="icon-only"/>
                                 </p:column>
 
                                 <p:column headerText="Read" sortBy="#{message.isRead}">
@@ -157,13 +168,13 @@
                                         <p:ajax update="@form" listener="#{internalMessageManagedBean.toggleRead(message)}" />
                                     </p:selectBooleanCheckbox>
                                 </p:column>
-                            </p:dataTable>
-                        </h:form>
-                    </p:panel>
+                            </p:dataTable>                       
+                        </p:panel>
+                    </h:form>
                 </p:dialog>
 
                 <ui:insert name="centerPanel"></ui:insert>
-              
+
             </p:layoutUnit>
 
         </p:layout>

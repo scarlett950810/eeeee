@@ -319,4 +319,10 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         return (List<FlightEntity>) query.getResultList();
     }
 
+    @Override
+    public void updateRouteTime(RouteEntity route, Double time) {
+        RouteEntity r = em.find(RouteEntity.class, route.getId());
+        r.setFlightHours(time);
+    }
+
 }
