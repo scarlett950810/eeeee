@@ -30,7 +30,7 @@
             <p:dialog id="confirmDialog"
                       header="Are you there?" widgetVar="idleDialog">
                 <h:outputText value="You have been idle for a while, 
-                              Please click ok to continue.  " />
+                              Please click ok to continue." />
                 <p:commandButton id="confirm" value="Ok" update="messages"
                                  oncomplete="PF('idleDialog').hide()"
                                  actionListener="#{loginManagedBean.welcome()}" class="btn-sm btn-success"/>
