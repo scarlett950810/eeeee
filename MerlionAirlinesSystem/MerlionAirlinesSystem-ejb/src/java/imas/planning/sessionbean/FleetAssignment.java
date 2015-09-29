@@ -86,9 +86,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
             if (!flights.isEmpty()) {
                 flights = oneAircraftAssignment(a, flights);
                 //               System.err.println("finsh one fleetassignment");
-            } else {
-                break;
-            }
+            } 
         }
         //       System.err.println("finish fleetA"+flights.size());
         return flights;
@@ -99,7 +97,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
     public List<FlightEntity> oneAircraftAssignment(AircraftEntity aircraft, List<FlightEntity> flightsAll) {
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
         //        System.err.println("enter one aircraftAssignment");
-
+        System.err.println("flight Size"+flightsAll.size());
         for (FlightEntity f : flightsAll) {
             if (aircraft.getAircraftType().getAircraftRange() > f.getRoute().getDistance() && f.getAircraft() == null) {
                 flightsAvai.add(f);
@@ -169,9 +167,9 @@ public class FleetAssignment implements FleetAssignmentLocal {
             System.err.println("2nd assigned");
         }
 
-//        System.err.println("3 + earliest flight"+earliestFlight.getDepartureDate());
+        System.err.println("3 + earliest flight"+earliestFlight.getDepartureDate());
         if (!hasHubOrNot) {
-            //           System.err.println("all flights do not departure at the aircraft's hub");
+                System.err.println("all flights do not departure at the aircraft's hub");
             return flightsAll;
 
         }

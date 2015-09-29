@@ -62,7 +62,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
 
     @Override
     public List<FlightEntity> oneCabinCrewScheduling(List<FlightEntity> flights, CabinCrewEntity cabinCrew) {
-        
+        counter = 0;
         
         System.err.println("enter one for short");
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
@@ -74,6 +74,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
                     flightsAvai.add(f);
                 }
                 else{
+                    
                     if(f.getCabinCrews().size()<getFlightCapacity(f)){
                         flightsAvai.add(f);
                     }
@@ -285,52 +286,58 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         
         
         AircraftEntity a = flight.getAircraft();
-        Integer sum = 0;
+        int size = flight.getAircraft().getSeats().size();
+        int numOfCrew = size/50;
+        if(size%50>0)
+            numOfCrew++;
+        return numOfCrew;
         
-        System.err.println("getFlightCapacity before query");
-        Query q1 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-        q1.setParameter("aircraft", a);
-        q1.setParameter("seatClass", "First Class");
-        Integer n1 = q1.getResultList().size();
-                System.err.println("getFlightCapacity after query");
+//        Integer sum = 0;
+//        
+//        System.err.println("getFlightCapacity before query");
+//        Query q1 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
+//        q1.setParameter("aircraft", a);
+//        q1.setParameter("seatClass", "First Class");
+//        Integer n1 = q1.getResultList().size();
+//                System.err.println("getFlightCapacity after query");
+//
+//        int a1 = n1 / 20;
+//        if (n1 % 20 > 0) {
+//            a1++;
+//        }
+//        sum = sum + a1;
+//
+//        Query q2 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
+//        q2.setParameter("aircraft", a);
+//        q2.setParameter("seatClass", "Premium Economy Class");
+//        Integer n2 = q2.getResultList().size();
+//        int a2 = n2 / 35;
+//        if (n2 % 35 > 0) {
+//            a2++;
+//        }
+//        sum = sum + a2;
+//
+//        Query q3 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
+//        q3.setParameter("aircraft", a);
+//        q3.setParameter("seatClass", "Economy Class");
+//        Integer n3 = q3.getResultList().size();
+//        int a3 = n3 / 50;
+//        if (n3 % 50 > 0) {
+//            a3++;
+//        }
+//        sum = sum + a3;
+//
+//        Query q4 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
+//        q4.setParameter("aircraft", a);
+//        q4.setParameter("seatClass", "Business Class");
+//        Integer n4 = q4.getResultList().size();
+//        int a4 = n4 / 30;
+//        if (n4 % 30 > 0) {
+//            a4++;
+//        }
+//        sum = sum + a4;
 
-        int a1 = n1 / 20;
-        if (n1 % 20 > 0) {
-            a1++;
-        }
-        sum = sum + a1;
-
-        Query q2 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-        q2.setParameter("aircraft", a);
-        q2.setParameter("seatClass", "Premium Economy Class");
-        Integer n2 = q2.getResultList().size();
-        int a2 = n2 / 35;
-        if (n2 % 35 > 0) {
-            a2++;
-        }
-        sum = sum + a2;
-
-        Query q3 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-        q3.setParameter("aircraft", a);
-        q3.setParameter("seatClass", "Economy Class");
-        Integer n3 = q3.getResultList().size();
-        int a3 = n3 / 50;
-        if (n3 % 50 > 0) {
-            a3++;
-        }
-        sum = sum + a3;
-
-        Query q4 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-        q4.setParameter("aircraft", a);
-        q4.setParameter("seatClass", "Business Class");
-        Integer n4 = q4.getResultList().size();
-        int a4 = n4 / 30;
-        if (n4 % 30 > 0) {
-            a4++;
-        }
-        sum = sum + a4;
-
-        return sum;
+        
     }
 
     @Override
