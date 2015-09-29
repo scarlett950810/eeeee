@@ -137,22 +137,19 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     }
 
     @Override
-    public int getFirstClassCapacity(FlightEntity flight) {
-//        System.out.println("getFirstClassCapacity");
-//        System.out.println("flight = " + flight);
-
+    public int getFirstClassCapacity(FlightEntity flight) {       
         AircraftEntity a = flight.getAircraft();
 
-//        System.out.println("a = " + a);
         Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
         q.setParameter("aircraft", a);
         q.setParameter("seatClass", "First Class");
-//        System.out.println(q.getResultList());
+
         return q.getResultList().size();
     }
 
     @Override
     public int getBusinessClassCapacity(FlightEntity flight) {
+
         AircraftEntity a = flight.getAircraft();
         Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
         q.setParameter("aircraft", a);

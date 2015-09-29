@@ -31,6 +31,15 @@
 
     <ui:define name="centerPanel">
 
+        <h:form>
+            <p:commandButton class="btn-sm btn-danger" value="Delete Aircraft Type"
+                             actionListener ="#{aircraftTypeManagedBean.deleteAircraftType()}" 
+                             style="display: inline-block; float: right;" ajax="false"/>
+            <p:commandButton class="btn-sm btn-success" value="Add Aircraft Type" 
+                             actionListener ="#{aircraftTypeManagedBean.addAircraftType()}" 
+                             style="display: inline-block; float: right;" ajax="false"/>
+        </h:form>
+        
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" life="2000"/>
             <p:dataTable id="aircraftTypes" var="aircraftType" value="#{aircraftTypeManagedBean.aircraftTypes}" editable="true"
@@ -85,15 +94,6 @@
                     <p:rowEditor />
                 </p:column>
             </p:dataTable>
-        </h:form>
-
-        <h:form>
-            <p:commandButton class="btn-sm btn-danger" value="Delete Aircraft Type"
-                             actionListener ="#{aircraftTypeManagedBean.deleteAircraftType()}" 
-                             style="display: inline-block; float: right;" ajax="false"/>
-            <p:commandButton class="btn-sm btn-success" value="Add Aircraft Type" 
-                             actionListener ="#{aircraftTypeManagedBean.addAircraftType()}" 
-                             style="display: inline-block; float: right;" ajax="false"/>
         </h:form>
 
     </ui:define>

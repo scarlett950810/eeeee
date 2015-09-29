@@ -32,22 +32,20 @@
 
     <ui:define name="centerPanel">
         <h:form id="f1">
-            <p:panel header="Choose a planning period for cabin crew scheduling" style="margin-bottom: 15px">
 
-                <h:outputText value="Select an period for cabin crew scheduling"/>
-                <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel value="planning period seleted: " />
-                    <p:selectOneMenu id="planningPeriodSelected" value="#{cabinCrewSchedulingManagedBean.planningPeriodStartingDate}" converter="dateConverter" style="width:400px">
-                        <f:selectItem itemLabel="Select Period" itemDisabled="true" />
-                        <f:selectItems value="#{cabinCrewSchedulingManagedBean.allPlanningPeirod}" var="planningPeriod" itemLabel="#{cabinCrewSchedulingManagedBean.getPlanningPeriodName(planningPeriod)}" itemValue="#{planningPeriod}" />
+            <h:panelGrid columns="2" cellpadding="5" class="panel-success">
+                <p:outputLabel value="Select an period for cabin crew scheduling" />
+                <p:selectOneMenu id="planningPeriodSelected" value="#{cabinCrewSchedulingManagedBean.planningPeriodStartingDate}" converter="dateConverter" style="width:400px">
+                    <f:selectItem itemLabel="Select Period" itemDisabled="true" />
+                    <f:selectItems value="#{cabinCrewSchedulingManagedBean.allPlanningPeirod}" var="planningPeriod" itemLabel="#{cabinCrewSchedulingManagedBean.getPlanningPeriodName(planningPeriod)}" itemValue="#{planningPeriod}" />
 
-                    </p:selectOneMenu>
-                </h:panelGrid>
-            </p:panel>     
+                </p:selectOneMenu>
 
-            <h:outputText value="The fleet assignment would take consideration of maximizing the uitilization rate and aircraft configuration requirement"/>`
-            <p:commandButton value="Cabin Crew Scheduling" actionListener="#{cabinCrewSchedulingManagedBean.cabinAssignment()}" icon="ui-icon-check" />
-  
+            </h:panelGrid>
+
+            <h:outputText value="The cabin crew scheduling would follow correponding company rules"/>`
+            <p:commandButton value="Cabin Crew Scheduling" actionListener="#{cabinCrewSchedulingManagedBean.cabinAssignment()}" icon="ui-icon-check" 
+                             class="btn-sm btn-success" />
         </h:form>
     </ui:define>
 

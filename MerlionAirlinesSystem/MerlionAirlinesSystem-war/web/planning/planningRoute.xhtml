@@ -30,7 +30,16 @@
     </ui:define>
 
     <ui:define name="centerPanel">
+
+        <h:form>
+            <p:commandButton value="Delete Route"  actionListener="#{routeManagedBean.goDeleteRoute()}"
+                             class="btn-sm btn-danger" style="display: inline-block; float: right;" ajax="false"/>
+            <p:commandButton value="Add Route"  actionListener="#{routeManagedBean.goAddRoute()}"
+                             class="btn-sm btn-success" style="display: inline-block; float: right;" ajax="false"/>
+        </h:form>
         
+        <br/>
+
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" life="2000"/>
             <p:dataTable id="routes" var="route" value="#{routeManagedBean.routes}" editable="true" style="margin-bottom:20px"
@@ -47,18 +56,18 @@
 
                 <p:column headerText="Origin" >
                     <h:outputText value="#{route.originAirport.airportName}" />
-<!--                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{route.originAirport.airportName}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{route.originAirport.airportName}" style="width:100%" label="origin"/></f:facet>
-                    </p:cellEditor>-->
+                    <!--                    <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="{route.originAirport.airportName}" /></f:facet>
+                                            <f:facet name="input"><p:inputText value="{route.originAirport.airportName}" style="width:100%" label="origin"/></f:facet>
+                                        </p:cellEditor>-->
                 </p:column>
 
                 <p:column headerText="Destination">
                     <h:outputText value="#{route.destinationAirport.airportName}" />
-<!--                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{route.destinationAirport.airportName}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{route.destinationAirport.airportName}" style="width:100%" label="destination"/></f:facet>
-                    </p:cellEditor>-->
+                    <!--                    <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="{route.destinationAirport.airportName}" /></f:facet>
+                                            <f:facet name="input"><p:inputText value="{route.destinationAirport.airportName}" style="width:100%" label="destination"/></f:facet>
+                                        </p:cellEditor>-->
                 </p:column>
 
                 <p:column headerText="Distance">
@@ -75,23 +84,15 @@
                         <f:facet name="input"><p:inputText style="width:100%" label="Flight Hours"/></f:facet>
                     </p:cellEditor>-->
                 </p:column>
-                
-                
-                
+
+
+
                 <p:column style="width:32px">
                     <p:rowEditor />
                 </p:column>
             </p:dataTable>
         </h:form>
-        
-        <h:form>
-            <p:commandButton value="Delete Route"  actionListener="#{routeManagedBean.goDeleteRoute()}"
-                             class="btn-sm btn-danger" style="display: inline-block; float: right;" ajax="false"/>
-            <p:commandButton value="Add Route"  actionListener="#{routeManagedBean.goAddRoute()}"
-                             class="btn-sm btn-success" style="display: inline-block; float: right;" ajax="false"/>
-            
-        </h:form>
-        
+
     </ui:define>
 
 </ui:composition>

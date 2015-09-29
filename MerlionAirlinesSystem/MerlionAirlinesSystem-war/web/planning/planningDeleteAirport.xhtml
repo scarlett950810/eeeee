@@ -35,10 +35,10 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-    <h:body>
+    
         <h:form>
             <p:messages id="statusMessages" redisplay="false"/>
-            <p:panel header="Delete Airport" class="panel panel-primary">
+            <p:panel header="Delete Airport" class="panel panel-danger">
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                     <p:outputLabel for="deleteAirport" value="Choose Airport to Delete:"  />
                     <p:selectOneMenu id="deleteAirport" value="#{airportManagedBean.airport}" panelStyle="width:180px" required="true" requiredMessage="Please input airport to delete"
@@ -49,11 +49,11 @@
                     </p:selectOneMenu>
                 </h:panelGrid>
                 <p:commandButton value="Confirm" actionListener="#{airportManagedBean.deleteAirport}" update="statusMessages"
-                                 class="btn-sm btn-primary"/>
+                                 class="btn-sm btn-danger"/>
             </p:panel>
         </h:form>
 
-        </h:body>
+        <p:link outcome="planningAirport.xhtml" value="Back"/>
     </ui:define>
 
 </ui:composition>

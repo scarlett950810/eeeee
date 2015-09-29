@@ -32,7 +32,7 @@
         
         <h:form>
             <p:growl id="growl" showDetail="true"/>
-            <p:panel header="Add Airport" class="panel panel-primary">
+            <p:panel header="Add Airport" class="panel panel-success">
                 <p:messages />
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                     <p:outputLabel for="cityName" value="City Name" />
@@ -59,11 +59,12 @@
                     <h:selectBooleanCheckbox value="#{airportManagedBean.hubOrSpoke}" required="true" label="hubOrSpoke"/>
 
                     <p:commandButton id="addAirport" value="confirm" actionListener="#{airportManagedBean.save}" update="growl"
-                                     class="btn-sm btn-primary" />
+                                     class="btn-sm btn-success" />
 
                 </h:panelGrid>
             </p:panel>
         </h:form>
+        <p:link outcome="planningAirport.xhtml" value="Back"/>
     </ui:define>
 
 </ui:composition>
