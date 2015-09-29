@@ -351,8 +351,10 @@ public class ScheduleManagedBean implements Serializable {
         cal.add(Calendar.MINUTE, (int)(routeSelected.getFlightHours()*60+0.5d));
         Date halfHourBack = cal.getTime();
         flightEntity.setArrivalDate(halfHourBack);
-        cal.add(Calendar.MINUTE, 30);
+        cal.add(Calendar.MINUTE, 60);
         flightEntity.getReverseFlight().setDepartureDate(cal.getTime());
+        cal.add(Calendar.MINUTE, (int)(routeSelected.getFlightHours()*60+0.5d));
+        flightEntity.getReverseFlight().setArrivalDate(cal.getTime());
     }
 
     public Integer countPlusOne() {

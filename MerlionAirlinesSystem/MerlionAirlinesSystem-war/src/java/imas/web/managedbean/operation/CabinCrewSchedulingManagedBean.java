@@ -29,7 +29,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "cabinCrewSchedulingManagedBean")
 @ViewScoped
-public class CabinCrewSchedulingManagedBean implements Serializable{
+public class CabinCrewSchedulingManagedBean implements Serializable {
 
     private List<FlightEntity> flightsAll;
     private List<FlightEntity> flightsLeft;
@@ -49,6 +49,8 @@ public class CabinCrewSchedulingManagedBean implements Serializable{
     @PostConstruct
     public void init() {
         System.err.println("enter init");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("dateList", getAllPlanningPeirod());
+
     }
 
     public List<FlightEntity> getFlightsAll() {
@@ -96,19 +98,21 @@ public class CabinCrewSchedulingManagedBean implements Serializable{
         cal1.add(Calendar.YEAR, 1);
         return dateStr + " to " + dateF.format(cal1.getTime());
     }
-    
-    public void CabinAssignment() throws IOException{
+
+    public void cabinAssignment() throws IOException {
         System.err.println("hehehhee");
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        
+        System.err.println("before getAllflights");
         flightsAll = fleetAssignment.getAllFlightsWithinPlanningPeriod(planningPeriodStartingDate);
+        System.err.println("before retrieve all cabin ");
         cabinCrewAll = cabinCrewScheduling.retrieveAllCabinCrew();
+        
         System.err.println("finishflightsAll");
-        cabinCrewScheduling.CabinScheduling(flightsAll, cabinCrewAll);       
+        List<FlightEntity> flightsLeft = cabinCrewScheduling.CabinScheduling(flightsAll, cabinCrewAll);
         System.err.println("out of the optimization");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsLeft", flightsLeft);
-        ec.redirect("operationDisplayFlights.xhtml");
+        ec.redirect("retrieveDuty.xhtml");
 
     }
 }
