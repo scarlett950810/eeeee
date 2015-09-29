@@ -53,7 +53,7 @@
                     </p:selectOneMenu>
 
                     <p:calendar id="departureTime" value="#{flight.departureDate}" pattern="HH:mm" timeOnly="true" >
-                        <p:ajax event="dateSelect" listener="#{scheduleByWeekManagedBean.dateSelectListener}" update="arrivalTime departureTime2" />
+                        <p:ajax event="dateSelect" listener="#{scheduleByWeekManagedBean.dateSelectListener}" update="arrivalTime departureTime2 arrivalTime2" />
                         <f:attribute name="flight" value="#{flight}" />
                     </p:calendar>
 
