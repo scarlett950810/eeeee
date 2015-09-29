@@ -9,16 +9,15 @@
         <!--insert customized import here-->
     </ui:define>
 
-    <ui:define name="title">Planning Home Page</ui:define>
+    <ui:define name="title">Planning - Route Management</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
                 <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
-                <li><a href="planningAddAircraft.xhtml">Add Aircraft</a></li>
-                <li><a href="planningEditDeleteAircraft.xhtml">Modify Aircraft</a></li>
-                <li><a href="planningManageAircraftTypes.xhtml">View Aircraft</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Manage Aircraft</a></li>
+
 
                 <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
                 <li><a href="planningAirport.xhtml">Manage Airport</a></li>
@@ -79,11 +78,11 @@
                 </p:column>
 
                 <p:column headerText="Estimated Flight Hours">
-                    <h:outputText value="#{routeManagedBean.calculateDist(route.distance)}" />
-                    <!--                    <p:cellEditor>
-                                            <f:facet name="output"><h:outputText value="{routeManagedBean.calculateDist(route.distance)}" /></f:facet>
-                                            <f:facet name="input"><p:inputText style="width:100%" label="Flight Hours"/></f:facet>
-                                        </p:cellEditor>-->
+                    <h:outputText value="#{routeManagedBean.calculateDist(route)}" />
+<!--                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="{routeManagedBean.calculateDist(route.distance)}" /></f:facet>
+                        <f:facet name="input"><p:inputText style="width:100%" label="Flight Hours"/></f:facet>
+                    </p:cellEditor>-->
                 </p:column>
 
 
