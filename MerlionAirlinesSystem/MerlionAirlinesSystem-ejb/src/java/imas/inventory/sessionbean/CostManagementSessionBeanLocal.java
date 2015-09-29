@@ -35,5 +35,7 @@ public interface CostManagementSessionBeanLocal {
 
     public Double getCostPerSeatPerMile();
 
+    public void updateShowRate(Double showRate);
+
     
 }

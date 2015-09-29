@@ -68,10 +68,10 @@ public class PilotCrewScheduling implements Serializable{
         flightsAll = fleetAssignment.getAllFlightsWithinPlanningPeriod(planningPeriodStartingDate);
         pilotsAll = crewSchedulingSession.retriveAllPilots();
         System.err.println("finishflightsAll");
-        crewSchedulingSession.pilotScheduling(flightsAll, pilotsAll);       
+        List<FlightEntity> flightsL = crewSchedulingSession.pilotScheduling(flightsAll, pilotsAll);       
         System.err.println("out of the optimization");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsLeft", flightsLeft);
-        ec.redirect("operationDisplayFlights.xhtml");
+        ec.redirect("retrieveDuty.xhtml");
 
     }
 

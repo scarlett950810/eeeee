@@ -9,7 +9,7 @@
         <!--insert customized import here-->
     </ui:define>
 
-    <ui:define name="title">Operation - Retrieve Duty</ui:define>
+    <ui:define name="title">Operation - Cabin Crew Schedule</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
@@ -29,37 +29,26 @@
             </ul>
         </div>
     </ui:define>
-    
+
     <ui:define name="centerPanel">
-        
-        <h:form>
-            <p:growl id="msgs" showDetail="true" />
-            
-            <h:outputText value="Select a staff:"/>
-            <h:panelGrid columns="2" cellpadding="5" class="panel-primary">
-                <p:outputLabel for="position" value="Position: " />
-                <p:selectOneMenu id="position" value="#{retrieveDutyManagedBean.position}" style="width:150px">
-                    <p:ajax listener="#{retrieveDutyManagedBean.onPositionChange}" update="name" />
-                    <f:selectItem itemLabel="Select Position" itemValue="" noSelectionOption="true" />
-                    <f:selectItems value="#{retrieveDutyManagedBean.positions}" />
-                </p:selectOneMenu>
+        <h:form id="f1">
+            <p:panel header="Choose a planning period for cabin crew scheduling" style="margin-bottom: 15px">
 
-                <p:outputLabel for="name" value="Name:" />
-                <p:selectOneMenu id="name" value="#{retrieveDutyManagedBean.name}" style="width:150px">
-                    <f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
-                    <f:selectItems value="#{retrieveDutyManagedBean.names}" />
-                </p:selectOneMenu>
-            </h:panelGrid>
-            
-            <p:commandButton value="Submit" update="msgs" actionListener="#{retrieveDutyManagedBean.submit()}"
-                             icon="ui-icon-check" class="btn-sm btn-primary"/>
-            
-            <p:dialog id="dialog" header="Staff Schedule" widgetVar="dlg" dynamic="true">           
-                <p:schedule value="#{retrieveDutyManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />
-            </p:dialog>
+                <h:outputText value="Select an period for cabin crew scheduling"/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel value="planning period seleted: " />
+                    <p:selectOneMenu id="planningPeriodSelected" value="#{cabinCrewSchedulingManagedBean.planningPeriodStartingDate}" converter="dateConverter" style="width:400px">
+                        <f:selectItem itemLabel="Select Period" itemDisabled="true" />
+                        <f:selectItems value="#{cabinCrewSchedulingManagedBean.allPlanningPeirod}" var="planningPeriod" itemLabel="#{cabinCrewSchedulingManagedBean.getPlanningPeriodName(planningPeriod)}" itemValue="#{planningPeriod}" />
 
+                    </p:selectOneMenu>
+                </h:panelGrid>
+            </p:panel>     
+
+            <h:outputText value="The fleet assignment would take consideration of maximizing the uitilization rate and aircraft configuration requirement"/>`
+            <p:commandButton value="Cabin Crew Scheduling" actionListener="#{cabinCrewSchedulingManagedBean.cabinAssignment()}" icon="ui-icon-check" />
+  
         </h:form>
-
     </ui:define>
 
 </ui:composition>

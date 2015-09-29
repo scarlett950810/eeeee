@@ -28,7 +28,7 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        
+
         <p:growl id="growl" sticky="true" showDetail="true"/>
 
         <p:treeTable value="#{inventoryCostManagedBean.root}" var="costPair" style=" padding-left: 10%; width: 80%">
@@ -39,7 +39,7 @@
                 <h:outputText value="#{costPair.costType}"/>
             </p:column>
             <p:column headerText="Cost ($)" style="width: 30%">
-                <h:outputText value="#{costPair.costFigure * 100} cent"/>
+                <h:outputText value="#{costPair.costFigure}"/>
             </p:column>
             <p:column headerText="Update Cost" style="width: 20%">
                 <p:commandLink update=":updateCostForm:costPanel" actionListener="#{inventoryCostManagedBean.updateCostActionListener}" title="Edit Cost" styleClass="ui-icon ui-icon-script" >

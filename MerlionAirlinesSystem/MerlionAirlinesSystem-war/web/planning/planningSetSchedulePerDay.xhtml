@@ -49,7 +49,7 @@
 
                 <p:column headerText="#{scheduleManagedBean.routeSelected.routeName} Departure Time">
                     <p:calendar id="departureTime" value="#{flight.departureDate}" pattern="HH:mm" timeOnly="true" >
-                        <p:ajax event="dateSelect" listener="#{scheduleManagedBean.dateSelectListener}" update="arrivalTime departureTime2" />
+                        <p:ajax event="dateSelect" listener="#{scheduleManagedBean.dateSelectListener}" update="arrivalTime departureTime2 arrivalTime2" />
                         <f:attribute name="flight" value="#{flight}" />
                     </p:calendar>
                 </p:column>
@@ -78,8 +78,7 @@
             <p:commandButton value="Submit" actionListener="#{scheduleManagedBean.generateFlightsByDay}" icon="ui-icon-check"
                              class="btn-sm btn-success"/>
 
-            <p:commandButton value="Submit" actionListener="#{scheduleManagedBean.generateFlightsByDay}" icon="ui-icon-check"
-                             class="btn-sm btn-success"/>
+    
         </h:form>
 
     </ui:define>
