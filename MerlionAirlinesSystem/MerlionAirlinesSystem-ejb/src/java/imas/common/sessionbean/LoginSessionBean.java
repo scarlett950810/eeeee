@@ -56,6 +56,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        //insertData();
 
         if (!staffs.isEmpty()) {
             //get same staffNo 
@@ -318,16 +319,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         PilotEntity p18 = new PilotEntity ("p018", "Three", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
         PilotEntity p19 = new PilotEntity ("p019", "Four", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, true);
         PilotEntity p20 = new PilotEntity ("p020", "Five", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
-        PilotEntity p21 = new PilotEntity ("p021", "Six", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l1, null, true);
-        PilotEntity p22 = new PilotEntity ("p022", "Seven", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, false);
-        PilotEntity p23 = new PilotEntity ("p023", "Eight", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
-        PilotEntity p24 = new PilotEntity ("p024", "Nine", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, false);
-        PilotEntity p25 = new PilotEntity ("p025", "Ten", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, true);
-        PilotEntity p26 = new PilotEntity ("p026", "Elevan", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
-        PilotEntity p27 = new PilotEntity ("p027", "Twlve", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
-        PilotEntity p28 = new PilotEntity ("p028", "Thirteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
-        PilotEntity p29 = new PilotEntity ("p029", "Fourteen", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l9, null, true);
-        PilotEntity p30 = new PilotEntity ("p030", "Fifteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
+        
 
         entityManager.persist(p1);
         entityManager.persist(p2);
@@ -349,16 +341,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(p18);
         entityManager.persist(p19);
         entityManager.persist(p20);
-        entityManager.persist(p21);
-        entityManager.persist(p22);
-        entityManager.persist(p23);
-        entityManager.persist(p24);
-        entityManager.persist(p25);
-        entityManager.persist(p26);
-        entityManager.persist(p27);
-        entityManager.persist(p28);
-        entityManager.persist(p29);
-        entityManager.persist(p30);
 
         p1.setBase(a4);
         p2.setBase(a4);
@@ -380,16 +362,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         p18.setBase(a8);
         p19.setBase(a8);
         p20.setBase(a8);
-        p21.setBase(a8);
-        p22.setBase(a8);
-        p23.setBase(a8);
-        p24.setBase(a8);
-        p25.setBase(a8);
-        p26.setBase(a4);
-        p27.setBase(a4);
-        p28.setBase(a4);
-        p29.setBase(a4);
-        p30.setBase(a4);
 
 
         System.out.println("Pilots are created");
@@ -423,27 +395,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         CabinCrewEntity c27 = new CabinCrewEntity("c027", "Pen", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
         CabinCrewEntity c28 = new CabinCrewEntity("c028", "iphone", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
         CabinCrewEntity c29 = new CabinCrewEntity("c029", "Pencil", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c30 = new CabinCrewEntity("c030", "Library", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c31 = new CabinCrewEntity("c031", "Netbean", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c32 = new CabinCrewEntity("c032", "Glassfish", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c33 = new CabinCrewEntity("c033", "Sam", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c34 = new CabinCrewEntity("c034", "Da Xiong", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c35 = new CabinCrewEntity("c035", "Chen Yixun", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c36 = new CabinCrewEntity("c036", "Wang Tong", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c37 = new CabinCrewEntity("c037", "Lewis Phey", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c38 = new CabinCrewEntity("c038", "Handphone", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c39 = new CabinCrewEntity("c039", "Water", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c40 = new CabinCrewEntity("c040", "East", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c41 = new CabinCrewEntity("c041", "South", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c42 = new CabinCrewEntity("c042", "West", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c43 = new CabinCrewEntity("c043", "North", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c44 = new CabinCrewEntity("c044", "Cable", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c45 = new CabinCrewEntity("c045", "Left", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c46 = new CabinCrewEntity("c046", "Right", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c47 = new CabinCrewEntity("c047", "Table", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c48 = new CabinCrewEntity("c048", "Sam", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
-        CabinCrewEntity c49 = new CabinCrewEntity("c049", "Sunny", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
-        CabinCrewEntity c50 = new CabinCrewEntity("c050", "Edwin", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+        
 
         entityManager.persist(c1);
         entityManager.persist(c2);
@@ -474,27 +426,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(c27);
         entityManager.persist(c28);
         entityManager.persist(c29);
-        entityManager.persist(c30);
-        entityManager.persist(c31);
-        entityManager.persist(c32);
-        entityManager.persist(c33);
-        entityManager.persist(c34);
-        entityManager.persist(c35);
-        entityManager.persist(c36);
-        entityManager.persist(c37);
-        entityManager.persist(c38);
-        entityManager.persist(c39);
-        entityManager.persist(c40);
-        entityManager.persist(c41);
-        entityManager.persist(c42);
-        entityManager.persist(c43);
-        entityManager.persist(c44);
-        entityManager.persist(c45);
-        entityManager.persist(c46);
-        entityManager.persist(c47);
-        entityManager.persist(c48);
-        entityManager.persist(c49);
-        entityManager.persist(c50);
 
         c1.setBase(a4);
         c2.setBase(a4);
@@ -525,27 +456,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         c27.setBase(a8);
         c28.setBase(a8);
         c29.setBase(a8);
-        c30.setBase(a4);
-        c31.setBase(a4);
-        c32.setBase(a8);
-        c33.setBase(a4);
-        c34.setBase(a8);
-        c35.setBase(a8);
-        c36.setBase(a4);
-        c37.setBase(a8);
-        c38.setBase(a8);
-        c39.setBase(a8);
-        c40.setBase(a8);
-        c41.setBase(a8);
-        c42.setBase(a8);
-        c43.setBase(a8);
-        c44.setBase(a8);
-        c45.setBase(a15);
-        c46.setBase(a4);
-        c47.setBase(a5);
-        c48.setBase(a7);
-        c49.setBase(a8);
-        c50.setBase(a15);
+
 
         System.out.println("Cabin crew are created.");
        
