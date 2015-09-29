@@ -31,7 +31,7 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Scarlett
  */
-@Named(value = "aircraftManagedBean")
+@Named
 @ViewScoped
 public class AircraftManagedBean implements Serializable {
 
@@ -117,9 +117,9 @@ public class AircraftManagedBean implements Serializable {
         return tailId;
     }
 
-    public void abc() {
-        System.err.println("abc");
-    }
+//    public void abc() {
+//        System.err.println("abc");
+//    }
 
     public void setTailId(String tailId) {
         this.tailId = tailId;
@@ -390,4 +390,8 @@ public class AircraftManagedBean implements Serializable {
         ec.redirect("planningEditDeleteAircraft.xhtml");
     }
 
+    public void beforeDelete(){
+        System.out.println("You are deleting " + selectedAircraft);
+    }
+    
 }
