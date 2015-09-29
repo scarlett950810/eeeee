@@ -13,7 +13,6 @@ import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -21,7 +20,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
-import javax.persistence.Query;
 
 /**
  *
