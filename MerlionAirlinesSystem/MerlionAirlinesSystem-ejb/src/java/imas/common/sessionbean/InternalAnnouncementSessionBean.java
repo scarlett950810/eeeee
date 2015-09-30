@@ -27,7 +27,7 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
 
     @Override
     public List<InternalAnnouncementEntity> getAllAnnouncements(String staffNo) {
-        System.out.println("get all announcements:");
+//        System.out.println("get all announcements:");
         Query queryForStaff = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNo");
         queryForStaff.setParameter("staffNo", staffNo);
         List<StaffEntity> staffs = (List<StaffEntity>) queryForStaff.getResultList();
@@ -41,7 +41,7 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
                 InternalAnnouncementEntity a = (InternalAnnouncementEntity) o;
                 announcements.add(a);
             });
-            System.out.println(announcements);
+//            System.out.println(announcements);
             return (List<InternalAnnouncementEntity>) announcements;
         }
         return null;
@@ -54,7 +54,7 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
         List<StaffEntity> allStaff = queryForAllStaff.getResultList();
 
         if (departments.size() > 0 && bases.size() > 0) {
-            System.out.println("1");
+//            System.out.println("1");
             for (StaffEntity s : allStaff) {
                 if (s.getBase() != null) {
                     if (departments.contains(s.getRole().getBusinessUnit()) && bases.contains(s.getBase())) {
@@ -64,8 +64,8 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
                 }
             }
         } else if (departments.size() > 0) {
-            System.out.println("2");
-            System.out.println("departments = " + departments);
+//            System.out.println("2");
+//            System.out.println("departments = " + departments);
 
             for (StaffEntity s : allStaff) {
                 if (s.getRole() != null) {
@@ -77,7 +77,7 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
 
             }
         } else if (bases.size() > 0) {
-            System.out.println("3");
+//            System.out.println("3");
             for (StaffEntity s : allStaff) {
                 if (s.getBase() != null) {
                     if (bases.contains(s.getBase())) {
@@ -87,7 +87,7 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
                 }
             }
         } else {
-            System.out.println("none");
+//            System.out.println("none");
             for (StaffEntity s : allStaff) {
                 InternalAnnouncementEntity newAnnouncement = new InternalAnnouncementEntity(s, title, content);
                 entityManager.persist(newAnnouncement);
