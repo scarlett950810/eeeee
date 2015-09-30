@@ -36,7 +36,7 @@ public class CrewBoardingManagedBean implements Serializable{
     private CrewCheckInSessionBeanLocal crewCheckInSessionBean;
 
     
-    private String base;
+    private String base = "SGC";
     private List<FlightEntity> flights;
     private FlightEntity flight;
     private List<PilotEntity> pilotList;

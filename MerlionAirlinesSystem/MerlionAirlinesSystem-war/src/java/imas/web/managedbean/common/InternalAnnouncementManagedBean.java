@@ -154,6 +154,7 @@ public class InternalAnnouncementManagedBean implements Serializable {
     }
   
     public void refreshAnnouncements(ActionEvent event) {
+        System.out.println("loggedInStaffNo = " + loggedInStaffNo);
         allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(loggedInStaffNo);
         RequestContext.getCurrentInstance().execute("PF('announcement').show();");
     }

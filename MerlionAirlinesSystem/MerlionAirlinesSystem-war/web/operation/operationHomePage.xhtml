@@ -9,25 +9,6 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <ui:define name="menubar">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-h1">Aircraft Management </li> 
-                <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
-                <li><a href="operationDisplayFlights.xhtml">Flight Display </a></li> 
-                 
-                <li class="sidebar-h1">Flight Management </li>
-                <li><a href="operationCrewCheckIn.xhtml"> Crew Check-in </a></li> 
-                <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
-                 
-                <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
-                <li class="sidebar-h1">Staff Management</li> 
-                <li><a href="operationCabinCrewScheduling.xhtml">Cabin Crew Schedule</a></li> 
-                <li><a href="operationPilotCrewScheduling.xhtml"> Pilot Schedule </a></li>
-                <li><a href="retrieveDuty.xhtml"> Retrieve Duty </a></li>
-            </ul>
-        </div>
-    </ui:define>
         <title><ui:insert name="title">Merlion Airlines Internal System</ui:insert></title>
         <ui:insert name="head"></ui:insert>
     </h:head>
@@ -76,10 +57,11 @@
                             <li class="sidebar-h1">Aircraft Management </li> 
                             <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
                             <li><a href="operationDisplayFlights.xhtml">Flight Display </a></li> 
-                            <li><a href="viewFlightSchedule.xhtml">Flight Schedule </a></li> 
+
                             <li class="sidebar-h1">Flight Management </li>
-                            <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
                             <li><a href="operationCrewCheckIn.xhtml"> Crew Check-in </a></li> 
+                            <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
+
                             <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
                             <li class="sidebar-h1">Staff Management</li> 
                             <li><a href="operationCabinCrewScheduling.xhtml">Cabin Crew Schedule</a></li> 
@@ -202,7 +184,7 @@
                     </h:form>
                 </p:dialog>
 
-                
+
 
             </p:layoutUnit>
 
