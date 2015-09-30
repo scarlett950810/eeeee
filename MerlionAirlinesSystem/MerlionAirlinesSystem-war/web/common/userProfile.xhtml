@@ -107,8 +107,8 @@
                 <p:outputLabel for="newContact" value="Please input your new contact number" />
                 <p:inputText id="newContact" required="true" label="new contact" size="40"
                              requiredMessage="Please enter your contact number."
-                             value="#{userProfileManagedBean.contactNumber}">
-
+                             value="#{userProfileManagedBean.contactNumber}" validatorMessage="Invalid contact number format">
+                    <f:validateLength minimum="8" maximum="11" />
                 </p:inputText>
                 <p:watermark for="newContact" value="New Contact Number" />
                 <p:message for="newContact" />

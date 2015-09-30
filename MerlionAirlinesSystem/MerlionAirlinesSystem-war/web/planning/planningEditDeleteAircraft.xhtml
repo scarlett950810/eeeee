@@ -131,22 +131,24 @@
                 </p:column>
 
                 <p:column style="width:3%">
-                    <p:commandButton icon="ui-icon-trash" type="button" title="Delete" onclick ="PF('deleteAircraft').show();"
-                                     class="icon-only" style="margin-left: -10px;">
+                    <p:commandButton icon="ui-icon-trash" title="Delete" action="#{aircraftManagedBean.beforeDelete()}" onclick ="PF('deleteAircraft').show();"
+                                     class="icon-only" style="margin-left: -10px;" update=":form:deleteAircraft">
                         <f:setPropertyActionListener value="#{aircraft}" target="#{aircraftManagedBean.selectedAircraft}" />
                     </p:commandButton>
                 </p:column>
 
             </p:dataTable>
+
+            <p:dialog header="Confirmation" widgetVar="deleteAircraft" minHeight="40">
+                <p:outputPanel id="deleteAircraft">
+                    <p:outputLabel value="You are deleting #{aircraftManagedBean.selectedAircraft.tailId}" />
+                    <br/><br/>
+                    <p:commandButton value="Return" actionListener="#{aircraftManagedBean.returnBack()}" style="margin-top: 20px"/>
+                    <p:commandButton value="Delete" actionListener="#{aircraftManagedBean.onAircraftDelete()}" update="@form" style="margin-top: 20px"/>
+
+                </p:outputPanel>
+            </p:dialog>
         </h:form>
-
-        <p:dialog header="Confirmation" widgetVar="deleteAircraft" minHeight="40">
-            <h:form>
-                <p:commandButton value="Return" actionListener="#{aircraftManagedBean.returnBack()}" style="margin-top: 20px"/>
-                <p:commandButton value="Delete" actionListener="#{aircraftManagedBean.onAircraftDelete()}" update="@form" style="margin-top: 20px"/>
-            </h:form>
-        </p:dialog>
-
 
     </ui:define>
 

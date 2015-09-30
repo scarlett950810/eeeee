@@ -49,8 +49,9 @@ public class ErrorHandlingManagedBean implements Serializable {
 
     public void checkUser() {
         String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-
+        
         if (staffNo == null) {
+            
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/noLoginErrorPage.xhtml");
 
@@ -58,8 +59,10 @@ public class ErrorHandlingManagedBean implements Serializable {
                 System.out.print(ex);
             }
         } else {
+            
             StaffEntity staff = accountManagementSessionBean.getStaff(staffNo);
             StaffRole role = staff.getRole();
+//            System.out.print(role.getAccessRight());
             if (!role.getAccessRight().contains(FacesContext.getCurrentInstance().getViewRoot().getViewId()) && !role.getAccessRight().contains("all")) {
                 try {
                     FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/noAccessErrorPage.xhtml");

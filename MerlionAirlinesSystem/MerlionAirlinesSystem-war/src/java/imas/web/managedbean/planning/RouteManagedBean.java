@@ -209,9 +209,11 @@ public class RouteManagedBean implements Serializable {
             }
         } else {
             if (!routeSession.checkRouteByStringName(hub, spoke)) {
-                msg = new FacesMessage("Unsuccessful", "This route has been added");
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "This route has been added");
+                
             } else {
-                msg = new FacesMessage("", "Route added has exceed the maximum range of current fleet");
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "After checking the aircraft capability, route added has exceeded the maximum range of current fleet");
+                
                 //System.err.println("haha");
             }
         }
@@ -219,9 +221,9 @@ public class RouteManagedBean implements Serializable {
     }
 
     public void deleteRoute() throws IOException {
-        String[] airportsName = routeDelete.split(" ");
+        String[] airportsName = routeDelete.split("-");
         FacesMessage msg;
-        if (routeSession.deleteRoutesByName(airportsName[0], airportsName[2])) {
+        if (routeSession.deleteRoutesByName(airportsName[0], airportsName[1])) {
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             ec.redirect("planningRoute.xhtml");

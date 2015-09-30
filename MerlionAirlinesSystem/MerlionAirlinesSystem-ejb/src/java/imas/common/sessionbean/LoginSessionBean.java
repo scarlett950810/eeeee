@@ -171,8 +171,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         AirportEntity a1 = new AirportEntity(false, "Shijiazhuang", "ZD Airport", "SJZ", "China");
         AirportEntity a2 = new AirportEntity(false, "Guangzhou", "Baiyun Airport", "CAN", "China");
-        AirportEntity a3 = new AirportEntity(false, "Beijing", "BJ International Airport", "BJIA", "China");
-        AirportEntity a4 = new AirportEntity(true, "Singapore", "Changi Airport", "SGC", "Singapore");
+        AirportEntity a3 = new AirportEntity(false, "Beijing", "BJ International Airport", "PEK", "China");
+        AirportEntity a4 = new AirportEntity(true, "Singapore", "Changi Airport", "SIN", "Singapore");
         AirportEntity a5 = new AirportEntity(true, "Tokyo", "Natita Airport", "TNA", "Japan");
         AirportEntity a6 = new AirportEntity(false, "New York", "Lincoln Airport", "NYL", "U.S.");
         AirportEntity a7 = new AirportEntity(true, "Shanghai", "Pu Dong Airport", "SHP", "China");

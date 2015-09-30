@@ -32,7 +32,7 @@
     <ui:define name="centerPanel">
         
         <h:form>
-            <p:growl id="msgs" showDetail="false" />
+            <p:growl id="msgs" showDetail="true" />
 
             <p:panel header="Connect hub and spoke to generate return routes" style="margin-bottom:10px;" class="panel panel-success">
                 <h:outputText value="take note that the chosen two airports cannot be both spokes" />                
@@ -60,7 +60,6 @@
                                  icon="ui-icon-check" class="btn-sm btn-success"/>
             </p:panel>
         </h:form>
-        <p:link outcome="planningRoute.xhtml" value="Back"/>
     </ui:define>
 
 </ui:composition>

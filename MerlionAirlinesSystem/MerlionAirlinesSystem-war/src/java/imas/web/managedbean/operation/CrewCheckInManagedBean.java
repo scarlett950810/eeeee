@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -114,7 +115,6 @@ public class CrewCheckInManagedBean implements Serializable{
     public void doCrewCheckIn() throws IOException{
         crewCheckInSessionBean.doCrewCheckIn(selectedPilots, selectedCrew);
         FacesContext fc = FacesContext.getCurrentInstance();
-//        fc.addMessage(null, new FacesMessage("Successful", "The selected flight crew for " + flight.getFlightNo() + " has been checked in."));
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("operationCrewCheckIn.xhtml");
     }
