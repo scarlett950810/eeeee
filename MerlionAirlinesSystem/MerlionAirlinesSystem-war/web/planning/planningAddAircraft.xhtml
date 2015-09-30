@@ -77,9 +77,9 @@
                     </p:inputText>
 
                     <p:outputLabel for="airportHub" value="Airport Hub" />
-                    <p:selectOneMenu converter="airportConverter" style="width: 400px" id="airportHub" value="#{aircraftManagedBean.airportHub}" required="true" requiredMessage="Please input aircraft type">
+                    <p:selectOneMenu converter="airportConverter1" style="width: 400px" id="airportHub" value="#{aircraftManagedBean.airportHub}" required="true" requiredMessage="Please input aircraft type">
                         <f:selectItem itemLabel="Please select airport hub" itemDisabled="true" />
-                        <f:selectItems value="#{aircraftManagedBean.airports}" var="airport" itemLabel="#{airport.airportCode} #{airport.airportName} @ #{airport.cityName}, #{airport.nationName}" itemValue="#{airport}"/>
+                        <f:selectItems value="#{aircraftManagedBean.airportHubs}" var="airport" itemLabel="#{airport.airportCode} #{airport.airportName} @ #{airport.cityName}, #{airport.nationName}" itemValue="#{airport}"/>
                     </p:selectOneMenu>
 
                     <p:outputLabel for="currentAirport" value="Current Airport" />
