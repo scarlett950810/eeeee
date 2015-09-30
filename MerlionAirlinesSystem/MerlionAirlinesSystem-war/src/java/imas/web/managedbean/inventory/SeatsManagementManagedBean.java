@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -74,6 +75,8 @@ public class SeatsManagementManagedBean implements Serializable {
     public void automaticallyCreateBookingClassAndRules(FlightEntity flight) {
         automaticallyCreateBookingClass(flight);
         yieldManagementSessionBean.autoCreateRulesForFlight(flight);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful",
+                "Booking classes and rules for " + flight.getFlightNo() + " created."));
     }
     
     public void automaticallyCreateBookingClass(FlightEntity flight) {

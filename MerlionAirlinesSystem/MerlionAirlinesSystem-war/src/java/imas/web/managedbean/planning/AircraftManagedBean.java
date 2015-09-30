@@ -389,5 +389,17 @@ public class AircraftManagedBean implements Serializable {
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningEditDeleteAircraft.xhtml");
     }
+    
+    public void goAddAircraft() throws IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningAddAircraft.xhtml");
+    }
+    
+    public void goViewAircraft() throws IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningManageAircraftTypes.xhtml");
+    }
 
 }

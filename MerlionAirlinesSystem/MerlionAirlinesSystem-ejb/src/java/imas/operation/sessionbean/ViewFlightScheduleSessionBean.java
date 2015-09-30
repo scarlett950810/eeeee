@@ -78,7 +78,7 @@ public class ViewFlightScheduleSessionBean implements ViewFlightScheduleSessionB
                 flightNo = list.get(i).getFlightNo();
                 startDate = list.get(i).getDepartureDate();
                 endDate = list.get(i).getArrivalDate();
-                if ( startDate != null & endDate != null) {
+                if ( flightNo!=null&&startDate != null && endDate != null) {
                     event = new DefaultScheduleEvent(flightNo, startDate, endDate);
                     lazyEventModel.addEvent(event);
                 }
