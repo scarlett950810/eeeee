@@ -166,16 +166,20 @@ public class UserProfileManagedBean implements Serializable {
     public void changeEmail() throws IOException {
         userProfileManagementSessionBean.updateEmail(staffNo, newEmail);
         FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage msg = new FacesMessage("Successful", "You have changed your contact number");
+        
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("userProfile.xhtml");
     }
 
     public void changeContact() throws IOException {
         userProfileManagementSessionBean.updateContact(staffNo, contactNumber);
-        RequestContext context = RequestContext.getCurrentInstance();
+        
         FacesMessage msg = new FacesMessage("Successful", "You have changed your contact number");
         FacesContext fc = FacesContext.getCurrentInstance();
         fc.addMessage(null, msg);
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         fc.getExternalContext().redirect("userProfile.xhtml");
 
 //        FacesContext fc = FacesContext.getCurrentInstance();
@@ -190,18 +194,18 @@ public class UserProfileManagedBean implements Serializable {
             if (newPassword.equals(newRepeatPassword)) {
 
                 userProfileManagementSessionBean.updatePassword(newPassword, staffNo);
-
-                FacesMessage msg = new FacesMessage("Successful", "You have changed your password");
-                fc.addMessage(null, msg);
+//                FacesMessage msg = new FacesMessage("Successful", "You have changed your password");
+//                fc.addMessage("status", msg);
+//                FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
                 ExternalContext ec = fc.getExternalContext();
                 ec.redirect("userProfile.xhtml");
             } else {
-                FacesMessage msg = new FacesMessage("Sorry", "Please repeat your password again");
+                FacesMessage msg = new FacesMessage("Sorry, please repeat your password again", "Please repeat your password again");
                 fc.addMessage(null, msg);
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect old password", "Contact admin."));
-            System.out.print("here");
+            
         }
 
     }

@@ -91,7 +91,7 @@ public class AircraftTypeManagedBean implements Serializable {
 
     public void actualDeleteAircraftType() throws IOException {
         FacesMessage msg;
-        if (aircraftTypeSession.deleteAircraftType(IATACode)) {
+        if (aircraftTypeSession.deleteAircraftType(aircraftType.getIATACode())) {
             System.err.println("enter delete type" + IATACode);
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();

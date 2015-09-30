@@ -7,6 +7,8 @@ package imas.web.managedbean.operation;
 
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
+import imas.common.entity.StaffEntity;
+import imas.common.sessionbean.AccountManagementSessionBeanLocal;
 import imas.operation.sessionbean.CrewCheckInSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.io.IOException;
@@ -29,10 +31,12 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class CrewBoardingManagedBean implements Serializable{
     @EJB
+    private AccountManagementSessionBeanLocal accountManagementSessionBean;
+    @EJB
     private CrewCheckInSessionBeanLocal crewCheckInSessionBean;
 
     
-    private String base = "SGC";
+    private String base;
     private List<FlightEntity> flights;
     private FlightEntity flight;
     private List<PilotEntity> pilotList;
@@ -51,7 +55,9 @@ public class CrewBoardingManagedBean implements Serializable{
     @PostConstruct
     public void init(){
         fetchFlights();
-        
+        String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
+        StaffEntity staff = accountManagementSessionBean.getStaff(staffNo);
+        base = staff.getBase().getAirportCode();
     }
     
     public void fetchFlights(){
@@ -122,7 +128,8 @@ public class CrewBoardingManagedBean implements Serializable{
             
         }else{
             crewCheckInSessionBean.doCrewBoarding(selectedPilots, selectedCrew);
-            fc.addMessage(null, new FacesMessage("Successful", "The selected flight crew for " + flight.getFlightNo() + " has been checked in."));
+            fc.addMessage("status", new FacesMessage("Successful", "The selected flight crew for " + flight.getFlightNo() + " has been checked in."));
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
             ExternalContext ec = fc.getExternalContext();
             ec.redirect("operationCrewBoarding.xhtml");
         }
