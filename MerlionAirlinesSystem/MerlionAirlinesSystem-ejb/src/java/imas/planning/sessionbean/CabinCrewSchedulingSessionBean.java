@@ -284,13 +284,18 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         System.err.println("counter: " + counter);
         
         
-        
+        if(flight.getAircraft()!=null){
         AircraftEntity a = flight.getAircraft();
         int size = flight.getAircraft().getSeats().size();
         int numOfCrew = size/50;
         if(size%50>0)
             numOfCrew++;
+        
+        
         return numOfCrew;
+        }
+        else 
+            return 0;
         
 //        Integer sum = 0;
 //        
