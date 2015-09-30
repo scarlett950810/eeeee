@@ -7,11 +7,13 @@ package imas.inventory.sessionbean;
 
 import imas.inventory.entity.BookingClassEntity;
 import imas.distribution.entity.TicketEntity;
+import imas.distribution.sessionbean.DistributionSessionBeanLocal;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +28,10 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
 
     @PersistenceContext
     private EntityManager entityManager;
+    
+        @EJB
+    private DistributionSessionBeanLocal distributionSessionBean;
+
 
     // get flights with aircraft but without booking classes.
     @Override
@@ -189,17 +195,27 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         List<FlightEntity> undeparturedFlights = queryForFlights.getResultList();
         for (FlightEntity flight : undeparturedFlights) {
             flight.setDepartured(true);
-//            Query queryForBCs = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
-//            queryForBCs.setParameter("flight", flight);
-//            BookingClassEntity bc1 = (BookingClassEntity) queryForBCs.getResultList().get(0);
-//            BookingClassEntity bc2 = (BookingClassEntity) queryForBCs.getResultList().get(1);
-//            BookingClassEntity bc3 = (BookingClassEntity) queryForBCs.getResultList().get(2);
-//            BookingClassEntity bc4 = (BookingClassEntity) queryForBCs.getResultList().get(3);
-//            BookingClassEntity bc5 = (BookingClassEntity) queryForBCs.getResultList().get(4);
-//            BookingClassEntity bc6 = (BookingClassEntity) queryForBCs.getResultList().get(5);
-//            BookingClassEntity bc7 = (BookingClassEntity) queryForBCs.getResultList().get(6);
-//            BookingClassEntity bc8 = (BookingClassEntity) queryForBCs.getResultList().get(7);
-//            BookingClassEntity bc9 = (BookingClassEntity) queryForBCs.getResultList().get(8);
+            Query queryForBCs = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
+            queryForBCs.setParameter("flight", flight);
+            BookingClassEntity bc1 = (BookingClassEntity) queryForBCs.getResultList().get(0);
+            BookingClassEntity bc2 = (BookingClassEntity) queryForBCs.getResultList().get(1);
+            BookingClassEntity bc3 = (BookingClassEntity) queryForBCs.getResultList().get(2);
+            BookingClassEntity bc4 = (BookingClassEntity) queryForBCs.getResultList().get(3);
+            BookingClassEntity bc5 = (BookingClassEntity) queryForBCs.getResultList().get(4);
+            BookingClassEntity bc6 = (BookingClassEntity) queryForBCs.getResultList().get(5);
+            BookingClassEntity bc7 = (BookingClassEntity) queryForBCs.getResultList().get(6);
+            BookingClassEntity bc8 = (BookingClassEntity) queryForBCs.getResultList().get(7);
+            BookingClassEntity bc9 = (BookingClassEntity) queryForBCs.getResultList().get(8);
+            distributionSessionBean.makeBooking(bc1, (int) 0.9 * distributionSessionBean.getQuotaLeft(bc1));
+            distributionSessionBean.makeBooking(bc2, (int) 0.95 * distributionSessionBean.getQuotaLeft(bc1));
+            distributionSessionBean.makeBooking(bc3, (int) 0.8 * distributionSessionBean.getQuotaLeft(bc1));
+            distributionSessionBean.makeBooking(bc4, (int) 0.8 * distributionSessionBean.getQuotaLeft(bc1));
+            distributionSessionBean.makeBooking(bc5, (int) 0.9 * distributionSessionBean.getQuotaLeft(bc1));
+            distributionSessionBean.makeBooking(bc6, (int) 0.95 * distributionSessionBean.getQuotaLeft(bc1));
+            distributionSessionBean.makeBooking(bc7, (int) 0.95 * distributionSessionBean.getQuotaLeft(bc1));
+            distributionSessionBean.makeBooking(bc8, (int) 0.9 * distributionSessionBean.getQuotaLeft(bc1));
+            distributionSessionBean.makeBooking(bc9, (int) 0.7 * distributionSessionBean.getQuotaLeft(bc1));
+            
         }
 
         Query queryForTickets = entityManager.createQuery("SELECT t FROM TicketEntity t");
