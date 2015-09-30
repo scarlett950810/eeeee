@@ -151,7 +151,7 @@ public class AccountActivationManagedBean implements Serializable {
                 FacesMessage msg = new FacesMessage("Successful", "You have changed your password");
                 fc.addMessage(null, msg);
             } else {
-                FacesMessage msg = new FacesMessage("Sorry", "Please repeat your password again");
+                FacesMessage msg = new FacesMessage("Sorry, please repeat your password again", "Please repeat your password again");
                 fc.addMessage(null, msg);
             }
         } else {

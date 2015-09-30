@@ -32,7 +32,6 @@
     <ui:define name="centerPanel">
         
         <h:form>
-            <p:messages id="status"/>
             <p:growl id="msgs" showDetail="true" />
 
             <p:panel header="Connect hub and spoke to generate return routes" style="margin-bottom:10px;" class="panel panel-success">
@@ -41,16 +40,16 @@
                     <p:outputLabel for="hub" value="Hub: " />
                     <p:selectOneMenu id="hub" value="#{routeManagedBean.hub}" style="width:150px" required="true">
                         <f:selectItem itemLabel="Select Hub" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{routeManagedBean.hubs}"/>
+                        <f:selectItems value="#{routeManagedBean.hubs}" />
                     </p:selectOneMenu>
 
                     <p:outputLabel for="spoke" value="City: " />
                     <p:selectOneMenu id="spoke" value="#{routeManagedBean.spoke}" style="width:150px" required="true">
                         <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{routeManagedBean.spokes}"/>
+                        <f:selectItems value="#{routeManagedBean.spokes}" />
                     </p:selectOneMenu>
 
-                    <p:outputLabel for="distance" value="Distance (miles): " />
+                    <p:outputLabel for="distance" value="Distance: " />
                     <p:inputText id="distance" value="#{routeManagedBean.distance}" required="true" />
 
                 </h:panelGrid>
@@ -61,7 +60,6 @@
                                  icon="ui-icon-check" class="btn-sm btn-success"/>
             </p:panel>
         </h:form>
-        <p:link outcome="planningRoute.xhtml" value="Back"/>
     </ui:define>
 
 </ui:composition>

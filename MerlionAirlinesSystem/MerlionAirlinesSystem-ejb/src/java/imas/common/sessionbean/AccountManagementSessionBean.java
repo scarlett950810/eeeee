@@ -380,7 +380,8 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
                 accessRight.add("/systemAdmin/systemAdminAddStaff.xhtml");
                 accessRight.add("/systemAdmin/systemAdminSendAnnouncement.xhtml");
                 accessRight.add("/systemAdmin/systemAdminViewStaff.xhtml");
-            } else if (businessUnit.equals("Information Technology")) {
+            } else if (division.equals("Information Technology")) {
+                System.out.print("added all");
                 accessRight.add("all");
             }
 
@@ -401,7 +402,6 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         }
 
         staff.getRole().setAccessRight(accessRight);
-        System.out.print(staff.getRole().getAccessRight());
     }
 
 }
