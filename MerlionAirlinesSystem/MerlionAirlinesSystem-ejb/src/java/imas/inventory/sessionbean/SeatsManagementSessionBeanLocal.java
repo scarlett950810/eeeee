@@ -20,8 +20,6 @@ public interface SeatsManagementSessionBeanLocal {
 
     public double computeHistoricalShowRate();
 
-    public void insertData();
-
     public int getFirstClassCapacity(FlightEntity flight);
 
     public int getBusinessClassCapacity(FlightEntity flight);

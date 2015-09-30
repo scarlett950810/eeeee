@@ -9,6 +9,7 @@ import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.SeatEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
@@ -376,6 +377,7 @@ public class AircraftManagedBean implements Serializable {
         System.err.println("enter on aircraft delete");
         System.err.println(selectedAircraft.getTailId());
         aircraftSessionBean.deleteAircraft(selectedAircraft);
+        
         aircrafts = aircraftSessionBean.getAircrafts();
 
     }

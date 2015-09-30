@@ -57,7 +57,7 @@ public class CrewBoardingManagedBean implements Serializable{
         fetchFlights();
         String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
         StaffEntity staff = accountManagementSessionBean.getStaff(staffNo);
-        base = staff.getBase().getAirportCode();
+//        base = staff.getBase().getAirportCode();
     }
     
     public void fetchFlights(){
