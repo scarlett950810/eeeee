@@ -339,8 +339,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         if (businessUnit.equals("Operation")) {
             accessRight.add("/operation/operationHomePage.xhtml");
             if (division.equals("Crew Management")) {
-                accessRight.add("/operation/operationCrewBoarding.xhtml");
-                accessRight.add("/operation/OperationCrewCheckIn.xhtml");
+                
             } else if (division.equals("Cockpit Crew")) {
                 accessRight.add("/operation/operationPostFlightReport.xhtml");
                 accessRight.add("/operation/retrieveDuty.xhtml");
@@ -359,12 +358,8 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
                     accessRight.add("/planning/planningDeleteAirport.xhtml");
                     accessRight.add("/planning/planningDeleteRoute.xhtml");
                     accessRight.add("/planning/planningEditDeleteAircraft.xhtml");
-                    accessRight.add("/planning/planningFASetFrequency.xhtml");
                     accessRight.add("/planning/planningFleetAssignment.xhtml");
                     accessRight.add("/planning/planningFleetAssignmentDisplay.xhtml");
-                    accessRight.add("/planning/planningFleetAssignment.xhtml");
-                    accessRight.add("/planning/planningFASetFrequency.xhtml");
-                    accessRight.add("/planning/planningFleetAssignment.xhtml");
                 }else if (position.toLowerCase().equals("staff")) {
                     accessRight.add("/planning/planningAirport.xhtml");
                     accessRight.add("/planning/planningAircraftType.xhtml");
@@ -399,7 +394,10 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
                 accessRight.add("/inventory/inventorySeatsManagement.xhtml");
             }
         } else if (businessUnit.equals("Operation Control")) {
-
+            if (division.equals("Ground Crew")){
+                accessRight.add("/operation/operationCrewBoarding.xhtml");
+                accessRight.add("/operation/OperationCrewCheckIn.xhtml");
+            }
         }
 
         staff.getRole().setAccessRight(accessRight);
