@@ -65,7 +65,7 @@
                 <p:column headerText="Deprecation ($)" style="width:9%">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{aircraft.deprecation / 1000000} M" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{aircraft.deprecation / 1000000} M" style="width:96%" label="Deprecation"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{aircraft.deprecation}" style="width:96%" label="Deprecation"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
