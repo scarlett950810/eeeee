@@ -61,6 +61,7 @@ public class InternalAnnouncementManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        airportList = airportSessionBean.fetchAirport();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.airportList);
         loggedInStaffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
         
@@ -103,7 +104,7 @@ public class InternalAnnouncementManagedBean implements Serializable {
     }
 
     public List<AirportEntity> getAirportList() {
-       return airportSessionBean.fetchAirport();
+       return airportList;
     }
 
     public void setAirportList(List<AirportEntity> airportList) {
@@ -154,6 +155,7 @@ public class InternalAnnouncementManagedBean implements Serializable {
     }
   
     public void refreshAnnouncements(ActionEvent event) {
+        System.out.println("loggedInStaffNo = " + loggedInStaffNo);
         allAnnouncements = (List<InternalAnnouncementEntity>) internalAnnouncementSessionBean.getAllAnnouncements(loggedInStaffNo);
         RequestContext.getCurrentInstance().execute("PF('announcement').show();");
     }

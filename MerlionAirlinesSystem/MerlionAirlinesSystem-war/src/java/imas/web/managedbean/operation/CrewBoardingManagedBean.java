@@ -36,7 +36,7 @@ public class CrewBoardingManagedBean implements Serializable{
     private CrewCheckInSessionBeanLocal crewCheckInSessionBean;
 
     
-    private String base;
+    private String base = "SGC";
     private List<FlightEntity> flights;
     private FlightEntity flight;
     private List<PilotEntity> pilotList;
@@ -57,7 +57,7 @@ public class CrewBoardingManagedBean implements Serializable{
         fetchFlights();
         String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
         StaffEntity staff = accountManagementSessionBean.getStaff(staffNo);
-        base = staff.getBase().getAirportCode();
+//        base = staff.getBase().getAirportCode();
     }
     
     public void fetchFlights(){

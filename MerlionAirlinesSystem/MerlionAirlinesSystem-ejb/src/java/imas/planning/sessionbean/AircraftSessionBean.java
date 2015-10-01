@@ -116,12 +116,20 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
     }
 
     @Override
-    public void deleteAircraft(AircraftEntity aircraft) {
-        System.out.println("debug");
-        System.out.println(aircraft.getId());
-        AircraftEntity aircraftToDelete = em.find(AircraftEntity.class, aircraft.getId());
-        System.out.println(aircraftToDelete);
-        em.remove(aircraftToDelete);
+    public Boolean deleteAircraft(AircraftEntity aircraft) {
+//        System.out.println("debug");
+        if (aircraft.getFlights().isEmpty() || aircraft.getFlights() == null) {
+
+            AircraftEntity aircraftToDelete = em.find(AircraftEntity.class, aircraft.getId());
+            aircraftToDelete.setMaintenances(null);
+            aircraftToDelete.setSeats(null);
+            aircraftToDelete.setAircraftType(null);
+
+            em.remove(aircraftToDelete);
+            return true;
+        }
+        else
+            return false;
     }
 
     @Override
@@ -137,6 +145,5 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
         aircraftEntityToUpdate.setCurrentAirport(aircraftUpdated.getCurrentAirport());
         aircraftEntityToUpdate.setAircraftGroup(aircraftUpdated.getAircraftGroup());
     }
-    
 
 }

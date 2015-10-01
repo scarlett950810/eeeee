@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -150,15 +151,24 @@ public class DistributionBuyTicketsManagedBean implements Serializable {
     }
 
     public void purchase() {
-        distributionSessionBean.makeBooking(bookingClass, purchaseAmount);
-        bookingClasses = inventoryRevenueManagementSessionBean.fetchBookingClass(flight.getId());
-        List<BookingClassEntity> availableBookingClassEntities = new ArrayList();
-        for (BookingClassEntity bc : bookingClasses) {
-            if (bookingClassQuotaLeft(bc) > 0) {
-                availableBookingClassEntities.add(bc);
+        System.out.println("purchasing");
+        if (purchaseAmount < 0) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL, "Booking failed:", "Purchase amount must be positive."));
+        } else if (purchaseAmount > bookingClassQuotaLeft(bookingClass)) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL, "Booking failed:", "Purchase amount is more than available quota."));
+        } else {
+            distributionSessionBean.makeBooking(bookingClass, purchaseAmount);
+            bookingClasses = inventoryRevenueManagementSessionBean.fetchBookingClass(flight.getId());
+            List<BookingClassEntity> availableBookingClassEntities = new ArrayList();
+            for (BookingClassEntity bc : bookingClasses) {
+                if (bookingClassQuotaLeft(bc) > 0) {
+                    availableBookingClassEntities.add(bc);
+                }
             }
+            availableBookingClasses = availableBookingClassEntities;
         }
-        availableBookingClasses = availableBookingClassEntities;
     }
 
 }

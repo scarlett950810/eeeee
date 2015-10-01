@@ -102,11 +102,11 @@
                     <p:outputPanel id="boardingDetail" style="text-align:center;">
                         <p:outputLabel value="The following flight crews are boarding:" />
                         <ui:repeat value="#{crewBoardingManagedBean.selectedPilots}" var="pilot">
-                            <h:outputText value="#{pilot.displayName} : #{pilot.role.position}" style="display:block"/>
+                            <h:outputText value="#{pilot.displayName} : Pilot" style="display:block"/>
                         </ui:repeat>
 
                         <ui:repeat value="#{crewBoardingManagedBean.selectedCrew}" var="crew">
-                            <h:outputText value="#{crew.displayName} : #{crew.role.position}" style="display:block"/>
+                            <h:outputText value="#{crew.displayName} : Cabin Crew" style="display:block"/>
                         </ui:repeat>
                     </p:outputPanel>
                     <br/>

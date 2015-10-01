@@ -65,7 +65,7 @@
                 <p:column headerText="Deprecation ($)" style="width:9%">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{aircraft.deprecation / 1000000} M" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{aircraft.deprecation / 1000000} M" style="width:96%" label="Deprecation"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{aircraft.deprecation}" style="width:96%" label="Deprecation"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
@@ -130,24 +130,29 @@
                     <p:rowEditor />
                 </p:column>
 
-                <p:column style="width:3%">
-                    <p:commandButton icon="ui-icon-trash" title="Delete" action="#{aircraftManagedBean.beforeDelete()}" onclick ="PF('deleteAircraft').show();"
-                                     class="icon-only" style="margin-left: -10px;" update=":form:deleteAircraft">
-                        <f:setPropertyActionListener value="#{aircraft}" target="#{aircraftManagedBean.selectedAircraft}" />
-                    </p:commandButton>
+                <p:column style="width:4%">
+                    <p:commandButton class="icon-only" ajax="false" icon="ui-icon-trash" title="Delete" action="#{aircraftManagedBean.onAircraftDelete(aircraft)}"/>
                 </p:column>
+
+<!--                <p:column style="width:3%">
+                    <p:commandButton icon="ui-icon-trash" title="Delete" actionListener="{aircraftManagedBean.onAircraftDelete()}" 
+                                     class="icon-only" style="margin-left: -10px;" update=":form:deleteAircraft">
+                        <f:setPropertyActionListener value="{aircraft}" target="{aircraftManagedBean.selectedAircraft}" />
+                    </p:commandButton>
+                </p:column>-->
 
             </p:dataTable>
 
-            <p:dialog header="Confirmation" widgetVar="deleteAircraft" minHeight="40">
+<!--            <p:dialog header="Confirmation" widgetVar="deleteAircraft" minHeight="40">
                 <p:outputPanel id="deleteAircraft">
-                    <p:outputLabel value="You are deleting #{aircraftManagedBean.selectedAircraft.tailId}" />
+                    <p:outputLabel value="You are deleting {aircraftManagedBean.selectedAircraft.tailId}" />
                     <br/><br/>
-                    <p:commandButton value="Return" actionListener="#{aircraftManagedBean.returnBack()}" style="margin-top: 20px"/>
-                    <p:commandButton value="Delete" actionListener="#{aircraftManagedBean.onAircraftDelete()}" update="@form" style="margin-top: 20px"/>
+                    <p:commandButton value="Return" actionListener="{aircraftManagedBean.returnBack()}" style="margin-top: 20px"/>
+                    <p:commandButton value="Delete"  update="@form" style="margin-top: 20px"/>
 
                 </p:outputPanel>
-            </p:dialog>
+            </p:dialog>-->
+
         </h:form>
 
     </ui:define>
