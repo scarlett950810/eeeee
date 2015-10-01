@@ -33,11 +33,8 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    
-    
     private int counter = 0;
 
     @Override
@@ -63,25 +60,22 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
     @Override
     public List<FlightEntity> oneCabinCrewScheduling(List<FlightEntity> flights, CabinCrewEntity cabinCrew) {
         counter = 0;
-        
+
         System.err.println("enter one for short");
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
         for (FlightEntity f : flights) {
 
             if (f.getAircraft() != null) {
-                if (f.getCabinCrews()==null){
-                    f.setCabinCrews(new ArrayList<CabinCrewEntity>());   
+                if (f.getCabinCrews() == null) {
+                    f.setCabinCrews(new ArrayList<CabinCrewEntity>());
                     flightsAvai.add(f);
-                }
-                else{
-                    
-                    if(f.getCabinCrews().size()<getFlightCapacity(f)){
+                } else {
+
+                    if (f.getCabinCrews().size() < getFlightCapacity(f)) {
                         flightsAvai.add(f);
                     }
                 }
-                    
-                   
-  
+
             }
         }
         System.err.println("after filter available flights according to pilot");
@@ -163,7 +157,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
             cabinCrew.getCabinCrewFlights().add(earliestFlight);
         }
 
-        if (earliestFlight.getCabinCrews()!= null) {
+        if (earliestFlight.getCabinCrews() != null) {
             earliestFlight.getCabinCrews().add(cabinCrew);
         } else {
             earliestFlight.setCabinCrews(new ArrayList<CabinCrewEntity>());
@@ -279,24 +273,23 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
 
     @Override
     public Integer getFlightCapacity(FlightEntity flight) {
-        
+
         counter++;
         System.err.println("counter: " + counter);
-        
-        
-        if(flight.getAircraft()!=null){
-        AircraftEntity a = flight.getAircraft();
-        int size = flight.getAircraft().getSeats().size();
-        int numOfCrew = size/50;
-        if(size%50>0)
-            numOfCrew++;
-        
-        
-        return numOfCrew;
-        }
-        else 
+
+        if (flight.getAircraft() != null) {
+            AircraftEntity a = flight.getAircraft();
+            int size = flight.getAircraft().getSeats().size();
+            int numOfCrew = size / 50;
+            if (size % 50 > 0) {
+                numOfCrew++;
+            }
+
+            return numOfCrew;
+        } else {
             return 0;
-        
+        }
+
 //        Integer sum = 0;
 //        
 //        System.err.println("getFlightCapacity before query");
@@ -341,16 +334,13 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
 //            a4++;
 //        }
 //        sum = sum + a4;
-
-        
     }
 
     @Override
     public List<CabinCrewEntity> retrieveAllCabinCrew() {
         Query q = em.createQuery("SELECT a FROM CabinCrewEntity a");
         return (List<CabinCrewEntity>) q.getResultList();
-        
+
     }
-    
-    
+
 }

@@ -528,26 +528,26 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
         //before executing the function need to have maintenance hours required
     }
 
-    @Override
-    public Date calculateMaintenanceHours(PilotEntity pilot, Date mtAcc
-    ) {
-        //       System.err.println("date mtacc"+ mtAcc);
-        Double flyingHours = 0.0;
-        if (pilot.getPilotFlights().isEmpty()) {
-            return mtAcc;
-        }
-
-        List<FlightEntity> fL = pilot.getPilotFlights();
-        Date earliestT = fL.get(0).getDepartureDate();
-        for (FlightEntity f : fL) {
-            if (f.getDepartureDate().compareTo(mtAcc) >= 0 && f.getDepartureDate().compareTo(earliestT) < 0) {
-                earliestT = f.getDepartureDate();
-            }
-        }
-        System.err.println("Caluate Hours mtAcc" + mtAcc);
-        System.err.println("calcuate hours earliestT" + earliestT);
-        return earliestT;
-    }
+//    @Override
+//    public Date calculateMaintenanceHours(PilotEntity pilot, Date mtAcc
+//    ) {
+//        //       System.err.println("date mtacc"+ mtAcc);
+//        Double flyingHours = 0.0;
+//        if (pilot.getPilotFlights().isEmpty()) {
+//            return mtAcc;
+//        }
+//
+//        List<FlightEntity> fL = pilot.getPilotFlights();
+//        Date earliestT = fL.get(0).getDepartureDate();
+//        for (FlightEntity f : fL) {
+//            if (f.getDepartureDate().compareTo(mtAcc) >= 0 && f.getDepartureDate().compareTo(earliestT) < 0) {
+//                earliestT = f.getDepartureDate();
+//            }
+//        }
+//        System.err.println("Caluate Hours mtAcc" + mtAcc);
+//        System.err.println("calcuate hours earliestT" + earliestT);
+//        return earliestT;
+//    }
 
     @Override
     public List<PilotEntity> retriveAllPilots() {
