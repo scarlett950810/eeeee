@@ -10,6 +10,10 @@
                 border: none;
                 color: #4f4f4f;
             }
+            
+            a.a1.ui-icon, a.a2.ui-icon, a.a3.ui-icon, a.a6.ui-icon, a.a14.ui-icon {
+                display: none !important;
+            }
 
         </style>
     </ui:define>
@@ -42,7 +46,8 @@
                 <h:outputText value="#{costPair.costFigure}"/>
             </p:column>
             <p:column headerText="Update Cost" style="width: 20%">
-                <p:commandLink update=":updateCostForm:costPanel" actionListener="#{inventoryCostManagedBean.updateCostActionListener}" title="Edit Cost" styleClass="ui-icon ui-icon-script" >
+                <p:commandLink update=":updateCostForm:costPanel" actionListener="#{inventoryCostManagedBean.updateCostActionListener}" 
+                               title="Edit Cost" styleClass="ui-icon ui-icon-script a#{inventoryCostManagedBean.cellId}">
                     <f:attribute value="#{costPair}" name="costPair" />
                 </p:commandLink>
             </p:column>
