@@ -1,79 +1,110 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../templates/DefaultTemplate.xhtml"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="centerPanel">
-        <h:form>
-            <p:growl id="growl" showDetail="true"/>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-            <p:wizard flowListener="#{accountActivationManagedBean.onFlowProcess}">
-                <p:tab id="staffInformation" title="">
-                    <p:panel header="Staff Information">
-                        <p:messages id="editInformation"/>
-                        <h:panelGrid columns="2" columnClasses="label, value">
-                            <h:outputText value="Name: " />
-                            <h:outputText value="#{accountActivationManagedBean.staff.displayName}"/>
+        <title><ui:insert name="title">Merlion Airlines Internal System</ui:insert></title>
+        <style>
+            .label {
+                color: #000;
+            }
+        </style>
+    </h:head>
 
-                            <h:outputText value="Staff Number: " />
-                            <h:outputText value="#{accountActivationManagedBean.staff.staffNo}"/>
+    <h:body>
+        <f:facet name="last">
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputStylesheet name="./css/simple-sidebar.css"/>
+            <h:outputScript name="./js/bootstrap.min.js"/>
+            <h:outputStylesheet name="./css/flaty.css"/>
+        </f:facet>
 
-                            <h:outputText value="Role: " />
-                            <h:outputText value="#{accountActivationManagedBean.role}"/>
+        <p:layout fullPage="true">
+            <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
+                <p:graphicImage name="img/merlionLogo.jpg" height="100%" style="float: left;"></p:graphicImage>
+                <p:outputLabel  style="float: right; font-size: 40px; font-weight: bold; margin-top: 20px; margin-right: 10px; color: white"/>
+            </p:layoutUnit>
 
-                            <h:outputText value="Gender: " />
-                            <h:outputText value="#{accountActivationManagedBean.staff.gender}"/>
+            <p:layoutUnit id="layoutUnit_center" position="center" size="79%" 
+                          style="padding: 20px 15px !important">
+                <h:form>
+                    <p:growl id="growl" showDetail="true"/>
 
+                    <p:wizard flowListener="#{accountActivationManagedBean.onFlowProcess}">
+                        <p:tab id="staffInformation" title="">
+                            <p:panel header="Staff Information">
+                                <p:messages id="editInformation"/>
+                                <h:panelGrid columns="2" columnClasses="label, value" style="color: black">
+                                    <h:outputText value="Name: " />
+                                    <h:outputText value="#{accountActivationManagedBean.staff.displayName}"/>
 
+                                    <h:outputText value="Staff Number: " />
+                                    <h:outputText value="#{accountActivationManagedBean.staff.staffNo}"/>
 
-                            <h:outputText value="Email Address: " />
-                            <h:outputText value="#{accountActivationManagedBean.staff.email}"/>
+                                    <h:outputText value="Role: " />
+                                    <h:outputText value="#{accountActivationManagedBean.role}"/>
 
-                            <h:outputText value="Contact Number: " />
-                            <h:outputText value="#{accountActivationManagedBean.staff.contactNumber}"/>
-
-                            <h:outputText value="Address: " />
-                            <h:outputText value="#{accountActivationManagedBean.staff.address}"/>
-
-                        </h:panelGrid>
-                    </p:panel>
-                </p:tab>
-
-                <p:tab id="resetPassword" title="">
-                    <p:panel header="Reset Password">
-
-
-                        <p:messages id="Msg" />
-                        <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
-                            <p:outputLabel for="originPassword" value="Please input your original password" />
-                            <p:password style="width:100%;" id="originPassword" value="#{accountActivationManagedBean.originPassword}" label="originPassword" required="true" requiredMessage="Please input the original password">
-                            </p:password> 
-
-                            <p:outputLabel for="newPassword" value="Please input your new password" />
-                            <p:password style="width:100%;" id="newPassword" value="#{accountActivationManagedBean.newPassword}" label="newPassword" required="true" requiredMessage="Please input the new password">
-                            </p:password> 
-
-                            <p:outputLabel for="newRepeatPassword" value="Please confirm your password: " />
-                            <p:password style="width:100%;" id="newRepeatPassword" value="#{accountActivationManagedBean.newRepeatPassword}" label="newRepeatPassword" required="true" requiredMessage="Please repeat the new password">
-                            </p:password>
-                        </h:panelGrid>
-                        <p:commandButton id="changePassword" style="margin-left: auto; margin-right: auto" value="Save" actionListener="#{accountActivationManagedBean.changePassword}" update="Msg" />
+                                    <h:outputText value="Gender: " />
+                                    <h:outputText value="#{accountActivationManagedBean.staff.gender}"/>
 
 
-                    </p:panel>
-                </p:tab>
 
-                <p:tab id="confirm" title="">
-                    <p:panel header="Activate Account">
+                                    <h:outputText value="Email Address: " />
+                                    <h:outputText value="#{accountActivationManagedBean.staff.email}"/>
 
-                        <h:outputText> You are not at the last step to activate your account! </h:outputText>
+                                    <h:outputText value="Contact Number: " />
+                                    <h:outputText value="#{accountActivationManagedBean.staff.contactNumber}"/>
 
-                        <p:commandButton value="Activate" actionListener="#{accountActivationManagedBean.activateAccount()}" update="growl" process="@this" style="margin-right: auto; margin-left: auto;"/>
-                    </p:panel>
-                </p:tab>
-            </p:wizard>
-        </h:form>
-    </ui:define>
+                                    <h:outputText value="Address: " />
+                                    <h:outputText value="#{accountActivationManagedBean.staff.address}"/>
 
-</ui:composition>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="resetPassword" title="">
+                            <p:panel header="Reset Password">
+
+
+                                <p:messages id="Msg" />
+                                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                                    <p:outputLabel for="originPassword" value="Please input your original password" />
+                                    <p:password style="width:100%;" id="originPassword" value="#{accountActivationManagedBean.originPassword}" label="originPassword" required="true" requiredMessage="Please input the original password">
+                                    </p:password> 
+
+                                    <p:outputLabel for="newPassword" value="Please input your new password" />
+                                    <p:password style="width:100%;" id="newPassword" value="#{accountActivationManagedBean.newPassword}" label="newPassword" required="true" requiredMessage="Please input the new password">
+                                    </p:password> 
+
+                                    <p:outputLabel for="newRepeatPassword" value="Please confirm your password: " />
+                                    <p:password style="width:100%;" id="newRepeatPassword" value="#{accountActivationManagedBean.newRepeatPassword}" label="newRepeatPassword" required="true" requiredMessage="Please repeat the new password">
+                                    </p:password>
+                                </h:panelGrid>
+                                <p:commandButton id="changePassword" style="margin-left: auto; margin-right: auto" value="Save" actionListener="#{accountActivationManagedBean.changePassword}" update="Msg" />
+
+
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="confirm" title="">
+                            <p:panel header="Activate Account">
+
+                                <h:outputText> You are not at the last step to activate your account! </h:outputText>
+
+                                <p:commandButton value="Activate" actionListener="#{accountActivationManagedBean.activateAccount()}" update="growl" process="@this" style="margin-right: auto; margin-left: auto;"/>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </h:form>
+
+            </p:layoutUnit>    
+        </p:layout>
+
+    </h:body>
+
+</html>

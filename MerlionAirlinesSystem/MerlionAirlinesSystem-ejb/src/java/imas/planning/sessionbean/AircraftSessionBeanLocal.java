@@ -33,7 +33,7 @@ public interface AircraftSessionBeanLocal {
 
     public List<AircraftEntity> getAircrafts();
     
-    public void deleteAircraft(AircraftEntity aircraft);
+    public Boolean deleteAircraft(AircraftEntity aircraft);
 
     public boolean checkAircraftExistense(String tailId);
     

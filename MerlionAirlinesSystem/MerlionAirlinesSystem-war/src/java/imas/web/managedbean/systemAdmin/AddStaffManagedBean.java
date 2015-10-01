@@ -105,9 +105,9 @@ public class AddStaffManagedBean implements Serializable {
         }
 
         if (division.equals("Cabin Crew") || division.equals("Cockpit Crew") || businessUnit.equals("Operation Control")) {
-            System.out.println("judged");
+            
             if (base == null) {
-                System.out.println("base is null");
+                
                 FacesMessage msg = new FacesMessage("Warning", businessUnit + ", " + division + " must have a base.");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } else {

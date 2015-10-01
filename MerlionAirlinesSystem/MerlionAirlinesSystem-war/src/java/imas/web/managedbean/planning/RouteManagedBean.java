@@ -77,9 +77,9 @@ public class RouteManagedBean implements Serializable {
             spokes.put(spokeName, spokeName);
         }
         routesName = routeSession.retrieveAllConnectionName();
-        
+        System.out.println("dadada1");
         routes = routeSession.retrieveAllRoutes();
-        
+        System.out.println("dadada");
 
     }
 
@@ -195,7 +195,7 @@ public class RouteManagedBean implements Serializable {
         this.spokes = spokes;
     }
 
-    public void generateRoutes() throws IOException {
+    public void generateRoutes() {
         FacesMessage msg;
         if (hub.equals(spoke)) {
             msg = new FacesMessage("Unsuccessful", "Connecting two same airports not allowed");
@@ -209,18 +209,15 @@ public class RouteManagedBean implements Serializable {
             }
         } else {
             if (!routeSession.checkRouteByStringName(hub, spoke)) {
-                msg = new FacesMessage("Unsuccessful", "This route has been added");
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "This route has been added");
+                
             } else {
-                msg = new FacesMessage("", "Route added has exceed the maximum range of current fleet");
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "After checking the aircraft capability, route added has exceeded the maximum range of current fleet");
+                
                 //System.err.println("haha");
             }
         }
-        
-        FacesContext.getCurrentInstance().addMessage("status", msg);
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("planningAddRoute.xhtml");
-        
-        
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void deleteRoute() throws IOException {
