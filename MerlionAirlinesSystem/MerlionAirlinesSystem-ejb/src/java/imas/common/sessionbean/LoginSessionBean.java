@@ -8,12 +8,8 @@ package imas.common.sessionbean;
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
 import imas.common.entity.StaffEntity;
-import imas.inventory.entity.BookingClassEntity;
-import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
-import imas.planning.entity.FlightEntity;
-import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.AircraftGroupSessionBeanLocal;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
@@ -22,7 +18,6 @@ import java.util.ArrayList;
 import javax.ejb.Stateful;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -613,11 +608,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         System.out.println("Cabin crew are created.");
 
-    }
-
-    @Override
-    public Integer getLeftChance() {
-        return leftChance;
     }
 
     public void setLeftChance(Integer leftChance) {
