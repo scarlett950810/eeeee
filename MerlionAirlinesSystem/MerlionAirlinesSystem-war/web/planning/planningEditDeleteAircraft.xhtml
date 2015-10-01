@@ -143,8 +143,7 @@
                 <p:outputPanel id="deleteAircraft">
                     <p:outputLabel value="You are deleting #{aircraftManagedBean.selectedAircraft.tailId}" />
                     <br/><br/>
-                    <p:commandButton value="Return" actionListener="#{aircraftManagedBean.returnBack()}" style="margin-top: 20px"/>
-                    <p:commandButton value="Delete" actionListener="#{aircraftManagedBean.onAircraftDelete()}" update="@form" style="margin-top: 20px"/>
+                    <p:commandButton value="Delete" actionListener="#{aircraftManagedBean.onAircraftDelete()}" style="margin-top: 20px"/>
 
                 </p:outputPanel>
             </p:dialog>

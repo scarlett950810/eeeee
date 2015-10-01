@@ -116,12 +116,34 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
     }
 
     @Override
-    public void deleteAircraft(AircraftEntity aircraft) {
+    public String deleteAircraft(AircraftEntity aircraft) {
         System.out.println("debug");
         System.out.println(aircraft.getId());
         AircraftEntity aircraftToDelete = em.find(AircraftEntity.class, aircraft.getId());
-        System.out.println(aircraftToDelete);
+        if(aircraft.getFlights().isEmpty()||aircraft.getFlights()==null){
+            
+         
+        System.out.println(aircraftToDelete+"seats ID"+aircraftToDelete.getId());
+        aircraftToDelete.setAircraftType(null);
+        aircraftToDelete.setAirportHub(null);
+        aircraftToDelete.setCurrentAirport(null);
+        aircraftToDelete.setMaintenances(null);
+        aircraftToDelete.setSeats(null);
+        aircraftToDelete.setAircraftGroup(null);
+         System.err.println("after delete seats");
+
+        
+            System.err.println("before delete");
         em.remove(aircraftToDelete);
+            System.err.println("after delete");
+        
+        return "sucess";
+        }
+        else {
+            return "fail";
+            
+        }
+            
     }
 
     @Override

@@ -372,11 +372,16 @@ public class AircraftManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void onAircraftDelete() {
+    public void onAircraftDelete() throws IOException {
         System.err.println("enter on aircraft delete");
         System.err.println(selectedAircraft.getTailId());
-        aircraftSessionBean.deleteAircraft(selectedAircraft);
-        aircrafts = aircraftSessionBean.getAircrafts();
+        String msg = aircraftSessionBean.deleteAircraft(selectedAircraft);
+        System.err.println("sucess");
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningEditDeleteAircraft.xhtml");
+        
+        
 
     }
 
