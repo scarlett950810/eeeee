@@ -122,7 +122,8 @@ public class LoginManagedBean {
 //            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         } else if (returnMsg.equals("captcha")) {
             loginAttempts = 3;
-            this.errorMsg("pls input captcha ");
+            
+            this.errorMsg("You have "+ loginSessionBean.getLeftChance() + " chances to try to log in within 24hrs" );
 //            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         } else if (returnMsg.equals("lock")) {
             this.errorMsg("The staff ID is locked. Please try to login in after 24hrs");//success

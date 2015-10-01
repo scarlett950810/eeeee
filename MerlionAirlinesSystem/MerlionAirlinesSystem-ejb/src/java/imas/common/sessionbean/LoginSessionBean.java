@@ -39,6 +39,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     @PersistenceContext
     private EntityManager entityManager;
     CryptographicHelper cp = new CryptographicHelper();
+    private Integer leftChance = 7;
 
     public LoginSessionBean() {
     }
@@ -117,6 +118,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                                     tempStaff.setLoginAttempt(tempDate);
                                     entityManager.merge(tempStaff);
                                     System.out.println("captcha");
+                                    leftChance = 10 - tempStaff.getLoginAttempt().size();
                                     return "captcha";
                                 } else {
 
@@ -341,8 +343,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(p14);
         entityManager.persist(p15);
         entityManager.persist(p16);
-
-        
 
         p1.setBase(a4);
         p2.setBase(a4);
@@ -619,6 +619,15 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         System.out.println("Cabin crew are created.");
 
+    }
+
+    @Override
+    public Integer getLeftChance() {
+        return leftChance;
+    }
+
+    public void setLeftChance(Integer leftChance) {
+        this.leftChance = leftChance;
     }
 
     @Override

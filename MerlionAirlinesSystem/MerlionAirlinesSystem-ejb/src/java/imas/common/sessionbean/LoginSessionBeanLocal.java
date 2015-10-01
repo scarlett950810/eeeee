@@ -20,4 +20,8 @@ public interface LoginSessionBeanLocal {
     public void insertData();
 
     public StaffEntity fetchStaff(String staffNo);
+
+    public Integer getLeftChance();
+
+    
 }
