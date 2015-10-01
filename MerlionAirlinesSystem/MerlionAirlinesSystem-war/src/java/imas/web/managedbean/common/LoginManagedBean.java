@@ -9,6 +9,8 @@ import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.AccountManagementSessionBeanLocal;
 import imas.common.sessionbean.LoginSessionBeanLocal;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -190,5 +192,16 @@ public class LoginManagedBean {
 
     public void insertData() {
         loginSessionBean.insertData();
+    }
+    
+    public void backToHome() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+        try {
+            ec.redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(LoginManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
     }
 }

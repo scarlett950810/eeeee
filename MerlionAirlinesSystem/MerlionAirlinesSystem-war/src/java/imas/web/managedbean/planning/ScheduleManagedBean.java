@@ -146,11 +146,12 @@ public class ScheduleManagedBean implements Serializable {
                 //set the departure time of flight in the flights 
                 Date departureT = combineTwoDate(f.getDepartureDate(), departureDateTemp);
                 f1.setDepartureDate(departureT);
-                System.err.println("flightNo:"+f.getFlightNo());
+                System.err.println("print flight no" + f.getFlightNo());
+
                 f1.setFlightNo(f.getFlightNo());
                 cal.setTime(departureT);
                 cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
-                
+
                 f1.setArrivalDate(cal.getTime());
                 f1.setReverseFlight(new FlightEntity(yearSelected));
                 f1.getReverseFlight().setRoute(routeSelected.getReverseRoute());
@@ -159,12 +160,12 @@ public class ScheduleManagedBean implements Serializable {
                 f1.getReverseFlight().setFlightNo(f.getReverseFlight().getFlightNo());
                 departureT = combineTwoDate(f.getReverseFlight().getDepartureDate(), departureDateTemp);
                 f1.getReverseFlight().setDepartureDate(departureT);
-                f1.setFlightNo(f.getReverseFlight().getFlightNo());
+                
                 cal.setTime(departureT);
                 cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
-                
+
                 f1.getReverseFlight().setArrivalDate(cal.getTime());
-                
+
                 f1.getReverseFlight().setReverseFlight(f1);
                 routeSession.saveReturnFlights(f1);
                 System.err.println("generatebyday" + f1);
@@ -234,7 +235,6 @@ public class ScheduleManagedBean implements Serializable {
 //        ec.redirect("planningDisplayFlightsGenerated.xhtml");
 //        //since operating Date
 //    }
-
     //ai got mininue and hour ...
     public Date combineThreeDate(Date a, String weekday, Date time) {
         Calendar cal = Calendar.getInstance();
@@ -284,12 +284,14 @@ public class ScheduleManagedBean implements Serializable {
         return cal.getTime();
 
     }
-    public String getTimeName(Date date){
-        if(date ==null)
+
+    public String getTimeName(Date date) {
+        if (date == null) {
             return "";
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         return dateFormat.format(date);
-        
+
     }
 
     public Date combineTwoDate(Date a1, Date a2) {
@@ -325,16 +327,17 @@ public class ScheduleManagedBean implements Serializable {
     public List<FlightEntity> getFlightsGenerated() {
         return flightsGenerated;
     }
-    public String getMindate(Date d){
-        if(d!=null){
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
-        cal.add(Calendar.MINUTE, 30);
-        return dateFormat.format(cal.getTime());
-        }
-        else
+
+    public String getMindate(Date d) {
+        if (d != null) {
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            cal.add(Calendar.MINUTE, 30);
+            return dateFormat.format(cal.getTime());
+        } else {
             return "";
+        }
     }
 
     public void setFlightsGenerated(List<FlightEntity> flightsGenerated) {
@@ -348,8 +351,8 @@ public class ScheduleManagedBean implements Serializable {
         System.err.println("flightEntity: " + flightEntity.getDepartureDate());
         Calendar cal = Calendar.getInstance();
         cal.setTime(flightEntity.getDepartureDate());
-        
-        cal.add(Calendar.MINUTE, (int)(routeSelected.getFlightHours()*60+0.5d));
+
+        cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
         Date halfHourBack = cal.getTime();
         flightEntity.setArrivalDate(halfHourBack);
         cal.add(Calendar.MINUTE, 60);

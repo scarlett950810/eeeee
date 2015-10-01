@@ -48,6 +48,7 @@ public class RouteManagedBean implements Serializable {
     private List<String> routesName;
     private List<RouteEntity> routes;
     private String routeDelete;
+    private RouteEntity route;
 
     @PostConstruct
     public void init() {
@@ -76,9 +77,9 @@ public class RouteManagedBean implements Serializable {
             spokes.put(spokeName, spokeName);
         }
         routesName = routeSession.retrieveAllConnectionName();
-        System.out.println("dadada1");
+        
         routes = routeSession.retrieveAllRoutes();
-        System.out.println("dadada");
+        
 
     }
 
@@ -97,6 +98,14 @@ public class RouteManagedBean implements Serializable {
 
     public void setDistance(Double distance) {
         this.distance = distance;
+    }
+
+    public RouteEntity getRoute() {
+        return route;
+    }
+
+    public void setRoute(RouteEntity route) {
+        this.route = route;
     }
 
     public void onRowEdit(RowEditEvent event) throws IOException {
@@ -186,7 +195,7 @@ public class RouteManagedBean implements Serializable {
         this.spokes = spokes;
     }
 
-    public void generateRoutes() {
+    public void generateRoutes() throws IOException {
         FacesMessage msg;
         if (hub.equals(spoke)) {
             msg = new FacesMessage("Unsuccessful", "Connecting two same airports not allowed");
@@ -206,13 +215,18 @@ public class RouteManagedBean implements Serializable {
                 //System.err.println("haha");
             }
         }
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+        FacesContext.getCurrentInstance().addMessage("status", msg);
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("planningAddRoute.xhtml");
+        
+        
     }
 
     public void deleteRoute() throws IOException {
-        String[] airportsName = routeDelete.split(" ");
+        String[] airportsName = routeDelete.split("-");
         FacesMessage msg;
-        if (routeSession.deleteRoutesByName(airportsName[0], airportsName[2])) {
+        if (routeSession.deleteRoutesByName(airportsName[0], airportsName[1])) {
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             ec.redirect("planningRoute.xhtml");
@@ -223,12 +237,15 @@ public class RouteManagedBean implements Serializable {
 
     }
 
-    public String calculateDist(Double distance) {
+    public String calculateDist(RouteEntity route) {
+        distance = route.getDistance();
         Double time = distance / 497.097;
+        routeSession.updateRouteTime(route, time);        
         Integer hours = time.intValue();
         Double i = 60 * (time - time.intValue());
         Integer minutes = i.intValue();
         String s = hours.toString() + "hours " + minutes.toString() + "minutes";
+        
         return s;
 
     }

@@ -4,9 +4,14 @@
                 template="./../templates/DefaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:define name="head">
-        <!--insert customized import here-->
+        <style>
+            .footnote {
+                font-size: 80%;
+            }
+        </style>
     </ui:define>
 
     <ui:define name="title">Manage Rules</ui:define>
@@ -28,25 +33,21 @@
             <h:panelGrid columns="2" cellpadding="5" class="panel-success">
                 <p:outputLabel for="selectFlight" value="Select a Flight to Manage its Rules:" />
                 <p:selectOneMenu id="selectFlight" value="#{yieldManagementManagedBean.flight}"
-                                 style="width:150px" converter="flightConverter" filter="true" filterMatchMode="contains">
+                                 converter="flightConverter" filter="true" filterMatchMode="contains">
                     <p:ajax listener="#{yieldManagementManagedBean.onFlightChange()}"
-                            update="formChangeRule1:rule1-1 formChangeRule1:rule1-2
-                            formChangeRule1:rule1-3 formChangeRule1:rule1-4
-                            formChangeRule2:rule2-1 formChangeRule2:rule2-2
-                            formChangeRule2:rule2-3 formChangeRule2:rule2-4
-                            formChangeRule3:rule3-1 formChangeRule3:rule3-2
-                            formChangeRule3:rule3-3 formChangeRule3:rule3-4
-                            formChangeRule4:rule4-1 formChangeRule4:rule4-2
-                            formChangeRule4:rule4-3 formChangeRule4:rule4-4" />
+                            update="formChangeRule1:rule1-1 formChangeRule1:rule1-2 formChangeRule1:rule1-3 formChangeRule1:rule1-4
+                            formChangeRule2:rule2-1 formChangeRule2:rule2-2 formChangeRule2:rule2-3 formChangeRule2:rule2-4
+                            formChangeRule3:rule3-1 formChangeRule3:rule3-2 formChangeRule3:rule3-3 formChangeRule3:rule3-4
+                            formChangeRule4:rule4-1 formChangeRule4:rule4-2 formChangeRule4:rule4-3 formChangeRule4:rule4-4"/>
                     <f:selectItem itemLabel="Select Flight" itemDisabled="true" />
                     <f:selectItems value="#{yieldManagementManagedBean.flights}" var="flight" 
                                    itemLabel="#{flight.flightNo} - #{flight.route.originAirport.airportName} to #{flight.route.destinationAirport.airportName}, departure at #{flight.departureDate}" itemValue="#{flight}" />
                 </p:selectOneMenu>
             </h:panelGrid>
         </h:form>
-        
-        <br/>
 
+        <br/>
+        <p:messages autoUpdate="true" for="rule1" showDetail="true" showIcon="false"/>
         <h:form id="formChangeRule1">
             <h:panelGrid columns="1" cellpadding="5">
                 <h:outputText value="Rule 1:"/>                    
@@ -54,12 +55,16 @@
                               (justified by long time from departure but already earned substantial revenue),
                               reallocate quota from low WTP class to high WTP class."/>                    
             </h:panelGrid>
-            <h:panelGrid columns="3" cellpadding="5" id="rule1-1">
+            <h:panelGrid columns="4" cellpadding="5" id="rule1-1">
                 <h:outputText value="When time to departure is longer than"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule1.timeToDepartureInDaysParameter}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule1.timeToDepartureInDaysParameter}"
+                             type="number"/>
+                <h:outputText value="(40 to 80)" class="footnote"/>
                 <h:outputText value="days,"/>
+
                 <h:outputText value="and revenue exceeds"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule1.totalRevenueToTotalCostParameter}"/>
+                <p:inputText value="#{yieldManagementManagedBean.twoDecimalRound(yieldManagementManagedBean.rule1.totalRevenueToTotalCostParameter)}"/>
+                <h:outputText value="(1.0 to 2.0)" class="footnote"/>
                 <h:outputText value="time(s) of costs,"/>
             </h:panelGrid>
             <h:panelGrid columns="1" cellpadding="5" id="rule1-2">
@@ -76,8 +81,10 @@
                                  actionListener="#{yieldManagementManagedBean.updateRule1}" class="btn-sm btn-success"/>
             </h:panelGrid>
         </h:form>
-        
+
         <p:separator />
+        
+        <p:messages autoUpdate="true" for="rule2" showDetail="true" showIcon="false"/>
 
         <h:form id="formChangeRule2">
             <h:panelGrid columns="1" cellpadding="5">
@@ -86,13 +93,15 @@
                               (justified by near to departure but earned little revenue), 
                               reallocate quota from high WTP economy class to low WTP economy classes."/>                    
             </h:panelGrid>
-            <h:panelGrid columns="3" cellpadding="5" id="rule2-1">
+            <h:panelGrid columns="4" cellpadding="5" id="rule2-1">
                 <h:outputText value="When time to departure is less than"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule2.timeToDepartureInDaysParameter}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule2.timeToDepartureInDaysParameter}" type="number"/>
+                <h:outputText value="(40 to 80)" class="footnote"/>
                 <h:outputText value="days,"/>
 
                 <h:outputText value="and revenue is less than"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule2.totalRevenueToTotalCostParameter}"/>
+                <p:inputText value="#{yieldManagementManagedBean.twoDecimalRound(yieldManagementManagedBean.rule2.totalRevenueToTotalCostParameter)}"/>
+                <h:outputText value="(0.5 to 1.2)" class="footnote"/>
                 <h:outputText value="time(s) of costs,"/>
             </h:panelGrid>
             <h:panelGrid columns="1" cellpadding="5" id="rule2-2">
@@ -111,8 +120,10 @@
                                  actionListener="#{yieldManagementManagedBean.updateRule2}" class="btn-sm btn-success"/>
             </h:panelGrid>
         </h:form>
-        
+
         <p:separator />
+        
+        <p:messages autoUpdate="true" for="rule3" showDetail="true" showIcon="false"/>
 
         <h:form id="formChangeRule3">
             <h:panelGrid columns="1" cellpadding="5">
@@ -121,14 +132,16 @@
                               airline cannot rely on incoming demand but need to “create” new demand.
                               At this point of time, Merlion Airline needs to reallocate all quotas to EconomyClass1 and EconomyClass5."/>                    
             </h:panelGrid>
-            <h:panelGrid columns="3" cellpadding="5" id="rule3-1">
+            <h:panelGrid columns="4" cellpadding="5" id="rule3-1">
                 <h:outputText value="When time to departure is less than"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule3.timeToDepartureInDaysParameter}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule3.timeToDepartureInDaysParameter}" type="number"/>
+                <h:outputText value="(10 to 20)" class="footnote"/>
                 <h:outputText value="days,"/>
 
                 <h:outputText value="and seats sold are less than"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule3.percentageSoldParameter}"/>
-                <h:outputText value="% of the capacity,"/>
+                <p:inputText value="#{yieldManagementManagedBean.twoDecimalRound(yieldManagementManagedBean.rule3.percentageSoldParameter)}"/>
+                <h:outputText value="(0.6 to 0.8)" class="footnote"/>
+                <h:outputText value="of the capacity,"/>
             </h:panelGrid>
 
             <h:panelGrid columns="1" cellpadding="5" id="rule3-2">
@@ -147,6 +160,8 @@
 
         <p:separator />
         
+        <p:messages autoUpdate="true" for="rule4" showDetail="true" showIcon="false"/>
+
         <h:form id="formChangeRule4">
             <h:panelGrid columns="1" cellpadding="5">
                 <h:outputText value="Rule 4:"/>                    
@@ -156,22 +171,26 @@
                               reallocate from low WTP class to high WTP classes."/>                    
             </h:panelGrid>
 
-            <h:panelGrid columns="3" cellpadding="5" id="rule4-1">
+            <h:panelGrid columns="4" cellpadding="5" id="rule4-1">
                 <h:outputText value="When time to departure is more than"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule4.timeToDepartureInDaysParameter}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule4.timeToDepartureInDaysParameter}" type="number"/>
+                <h:outputText value="(10 to 20)" class="footnote"/>
                 <h:outputText value="days,"/>
 
                 <h:outputText value="and quota left for Economy class 1 are less than"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule4.economyClass1RemainingQuotaParameter}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule4.economyClass1RemainingQuotaParameter}" type="number"/>
+                <h:outputText value="(3 to 10)" class="footnote"/>
                 <h:outputText value="tickets,"/>
 
                 <h:outputText value="or quota left for Economy class 2 are less than"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule4.economyClass2RemainingQuotaParameter}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule4.economyClass2RemainingQuotaParameter}" type="number"/>
+                <h:outputText value="(5 to 12)" class="footnote"/>
                 <h:outputText value="tickets,"/>
 
                 <h:outputText value="fulfill it(them) using"/>
-                <p:inputText value="#{yieldManagementManagedBean.rule4.changeEconomyClass3and4and5To1Or2PercentageParameter}"/>
-                <h:outputText value="% of the quota from low WTP economy classes. "/>
+                <p:inputText value="#{yieldManagementManagedBean.twoDecimalRound(yieldManagementManagedBean.rule4.changeEconomyClass3and4and5To1Or2PercentageParameter)}"/>
+                <h:outputText value="(0.1 to 0.5)" class="footnote"/>
+                <h:outputText value="of the quota from low WTP economy classes. "/>
 
             </h:panelGrid>
 

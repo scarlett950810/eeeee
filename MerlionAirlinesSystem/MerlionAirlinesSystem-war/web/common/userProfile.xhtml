@@ -10,7 +10,7 @@
 
     <ui:define name="centerPanel">
         
-        <p:panelGrid columns="2">
+        <p:panelGrid columns="2" style="width: 40%; margin-left: 20%">
             <f:facet name="header">
                 <h:outputText value="Account Information" />
             </f:facet>
@@ -48,12 +48,15 @@
 
         </p:panelGrid>
 
-        <h:panelGrid columns="3" cellpadding="5" style="margin-top: 20px">
-            <p:commandButton value="Change Password" type="button" onclick="PF('changePassword').show();" />
+        <h:panelGrid columns="3" cellpadding="5" style="width: 40%; margin-left: 20%; margin-top: 20px">
+            <p:commandButton value="Change Password" type="button" onclick="PF('changePassword').show();" 
+                             class="btn-sm btn-success"/>
 
-            <p:commandButton value="Change Email" type="button" onclick="PF('changeEmail').show();" />
+            <p:commandButton value="Change Email" type="button" onclick="PF('changeEmail').show();" 
+                             class="btn-sm btn-success"/>
 
-            <p:commandButton value="Change Contact" type="button" onclick="PF('changeContact').show();" />
+            <p:commandButton value="Change Contact" type="button" onclick="PF('changeContact').show();" 
+                             class="btn-sm btn-success"/>
         </h:panelGrid>
 
         <p:dialog header="Change Password" widgetVar="changePassword" height="200">
@@ -72,7 +75,8 @@
                     <p:password style="width:100%;" id="newRepeatPassword" value="#{userProfileManagedBean.newRepeatPassword}" label="newRepeatPassword" required="true" requiredMessage="Please repeat the new password">
                     </p:password>
                 </h:panelGrid>
-                <p:commandButton id="changePassword" value="Save" actionListener="#{userProfileManagedBean.changePassword}" update="errorMsg"/>
+                <p:commandButton id="changePassword" value="Save" actionListener="#{userProfileManagedBean.changePassword}" update="errorMsg"
+                                 class="btn-sm btn-success"/>
 
             </h:form>
         </p:dialog>   
@@ -93,7 +97,7 @@
                 <p:message for="newEmail" />
 
                 <p:commandButton value="Save" style="margin:20px"
-                                 action="#{userProfileManagedBean.changeEmail}" ajax="false" />
+                                 action="#{userProfileManagedBean.changeEmail}" ajax="false" class="btn-sm btn-success"/>
 
             </h:form>
         </p:dialog>
@@ -103,14 +107,14 @@
                 <p:outputLabel for="newContact" value="Please input your new contact number" />
                 <p:inputText id="newContact" required="true" label="new contact" size="40"
                              requiredMessage="Please enter your contact number."
-                             value="#{userProfileManagedBean.contactNumber}">
-
+                             value="#{userProfileManagedBean.contactNumber}" validatorMessage="Invalid contact number format">
+                    <f:validateLength minimum="8" maximum="11" />
                 </p:inputText>
                 <p:watermark for="newContact" value="New Contact Number" />
                 <p:message for="newContact" />
 
                 <p:commandButton value="Save" style="margin:20px"
-                                 action="#{userProfileManagedBean.changeContact}" ajax="false" />
+                                 action="#{userProfileManagedBean.changeContact}" ajax="false" class="btn-sm btn-success"/>
 
             </h:form>
         </p:dialog>
@@ -127,8 +131,6 @@
                         }
                     });
                 });
-
-
         </script>
     </ui:define>
 

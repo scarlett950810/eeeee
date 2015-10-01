@@ -31,7 +31,7 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Scarlett
  */
-@Named(value = "aircraftManagedBean")
+@Named
 @ViewScoped
 public class AircraftManagedBean implements Serializable {
 
@@ -117,9 +117,9 @@ public class AircraftManagedBean implements Serializable {
         return tailId;
     }
 
-    public void abc() {
-        System.err.println("abc");
-    }
+//    public void abc() {
+//        System.err.println("abc");
+//    }
 
     public void setTailId(String tailId) {
         this.tailId = tailId;
@@ -389,5 +389,21 @@ public class AircraftManagedBean implements Serializable {
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningEditDeleteAircraft.xhtml");
     }
+    
+    public void goAddAircraft() throws IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningAddAircraft.xhtml");
+    }
+    
+    public void goViewAircraft() throws IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningManageAircraftTypes.xhtml");
+    }
 
+    public void beforeDelete(){
+        System.out.println("You are deleting " + selectedAircraft);
+    }
+    
 }

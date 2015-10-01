@@ -148,17 +148,17 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
             RouteEntity r = (RouteEntity) o;
             String origin = r.getOriginAirport().getAirportName();
             String destination = r.getDestinationAirport().getAirportName();
-            String routeName = origin + " to " + destination;
+            String routeName = origin + "-" + destination;
             routesName.add(routeName);
 
         }
-        System.out.println("Debug 1");
 
         return routesName;
     }
 
     @Override
     public Boolean deleteRoutesByName(String origin, String destination) {
+        System.out.print(origin + "," + destination);
         Query q = em.createQuery("SELECT a FROM AirportEntity a WHERE a.airportName = :name");
         q.setParameter("name", origin);
         AirportEntity originAirportEntity = (AirportEntity) q.getSingleResult();
@@ -317,6 +317,12 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("reverseRoute", routeSelected.getReverseRoute());
 
         return (List<FlightEntity>) query.getResultList();
+    }
+
+    @Override
+    public void updateRouteTime(RouteEntity route, Double time) {
+        RouteEntity r = em.find(RouteEntity.class, route.getId());
+        r.setFlightHours(time);
     }
 
 }
