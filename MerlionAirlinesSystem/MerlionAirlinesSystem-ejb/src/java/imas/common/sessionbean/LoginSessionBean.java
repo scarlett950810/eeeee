@@ -615,14 +615,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     }
 
-    @Override
-    public Integer getLeftChance() {
-        return leftChance;
-    }
-
-    public void setLeftChance(Integer leftChance) {
-        this.leftChance = leftChance;
-    }
 
     @Override
     public StaffEntity fetchStaff(String staffNo) {

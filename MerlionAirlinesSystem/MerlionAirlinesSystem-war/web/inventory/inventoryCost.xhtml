@@ -29,9 +29,9 @@
 
     <ui:define name="centerPanel">
 
-        <p:growl id="growl" sticky="true" showDetail="true"/>
+        <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
 
-        <p:treeTable value="#{inventoryCostManagedBean.root}" var="costPair" style=" padding-left: 10%; width: 80%">
+        <p:treeTable value="#{inventoryCostManagedBean.root}" var="costPair" style=" padding-left: 10%; width: 80%" >
             <f:facet name="header">
                 Fixed cost per seat per mile
             </f:facet>
@@ -49,7 +49,7 @@
         </p:treeTable>
 
         <p:dialog id="dialog" header="Edit Cost" showEffect="fade" widgetVar="costDialog"  resizable="false">
-            <h:form id="updateCostForm" class="panel panel-primary">
+            <h:form id="updateCostForm" class="panel panel-primary">          
                 <p:outputPanel id="costPanel">
                     <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty inventoryCostManagedBean.selectedCost}">
                         <h:outputLabel for="name" value="Name: " />
