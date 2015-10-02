@@ -119,3 +119,8 @@ span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
 .ui-selectlistbox-filter.ui-inputfield, .ui-selectonemenu .ui-selectonemenu-label {
     width: 100%! important;
 }
+
+.div.timeline-event-content {
+    margin: 0px !important;
+    padding: 1px !important;
+}

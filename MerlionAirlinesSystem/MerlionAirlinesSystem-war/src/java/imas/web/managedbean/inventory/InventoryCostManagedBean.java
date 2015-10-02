@@ -35,6 +35,7 @@ public class InventoryCostManagedBean implements Serializable {
     private TreeNode root;
     private CostPairEntity selectedCost;
     private Double newCost;
+    private int cellId = 0;
 
     @PostConstruct
     public void init() {
@@ -100,6 +101,15 @@ public class InventoryCostManagedBean implements Serializable {
 
     public void setSelectedCost(CostPairEntity selectedCost) {
         this.selectedCost = selectedCost;
+    }
+
+    public int getCellId() {
+        cellId++;
+        return cellId;
+    }
+
+    public void setCellId(int cellId) {
+        this.cellId = cellId;
     }
 
 }
