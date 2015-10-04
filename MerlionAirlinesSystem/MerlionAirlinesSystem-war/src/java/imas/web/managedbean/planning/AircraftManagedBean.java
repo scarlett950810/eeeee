@@ -36,13 +36,13 @@ import org.primefaces.event.RowEditEvent;
 @Named
 @ViewScoped
 public class AircraftManagedBean implements Serializable {
-    
+
     @EJB
     private RouteSessionBeanLocal routeSessionBean;
 
     @EJB
     private AircraftSessionBeanLocal aircraftSessionBean;
-    
+
     private String tailId;
     private AircraftTypeEntity aircraftType;
     private List<AircraftTypeEntity> aircraftTypes; // list of Aircrafts to choose from
@@ -97,8 +97,8 @@ public class AircraftManagedBean implements Serializable {
     public void init() {
         aircrafts = aircraftSessionBean.getAircrafts();
         airportHubs = routeSessionBean.retrieveHubs();
-        
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());        
+
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportHubList", this.getAirportHubs());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.getAirports());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftList", aircrafts);
@@ -108,7 +108,7 @@ public class AircraftManagedBean implements Serializable {
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aircraftTypes");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportHubList");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
     }
 
     public AircraftManagedBean() {
@@ -130,7 +130,6 @@ public class AircraftManagedBean implements Serializable {
 //    public void abc() {
 //        System.err.println("abc");
 //    }
-
     public void setTailId(String tailId) {
         this.tailId = tailId;
     }
@@ -391,19 +390,18 @@ public class AircraftManagedBean implements Serializable {
     }
 
     public void onAircraftDelete() throws IOException {
-//        if(aircraftSessionBean.deleteAircraft(aircraft)){
-//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted successfully", "");
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-//        else{
-//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please delete associated flights first.", "");
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-        aircraftSessionBean.deleteAircraft(aircraft);
-        aircrafts = aircraftSessionBean.getAircrafts();
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        ec.redirect("planningEditDeleteAircraft.xhtml");    
+        if (aircraftSessionBean.deleteAircraft(aircraft)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted successfully", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            aircrafts = aircraftSessionBean.getAircrafts();
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            ec.redirect("planningEditDeleteAircraft.xhtml");
+        } else {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please delete associated flights first.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+
     }
 
     public void returnBack() throws IOException {
@@ -415,20 +413,20 @@ public class AircraftManagedBean implements Serializable {
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningEditDeleteAircraft.xhtml");
     }
-    
+
     public void goAddAircraft() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningAddAircraft.xhtml");
     }
-    
+
     public void goDeleteAircraft() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("planningDeleteAircraft.xhtml");
     }
 
-    public void beforeDelete(){
+    public void beforeDelete() {
         System.out.println("You are deleting " + selectedAircraft);
     }
 
@@ -439,5 +437,5 @@ public class AircraftManagedBean implements Serializable {
     public void setAirportHubs(List<AirportEntity> airportHubs) {
         this.airportHubs = airportHubs;
     }
-     
+
 }

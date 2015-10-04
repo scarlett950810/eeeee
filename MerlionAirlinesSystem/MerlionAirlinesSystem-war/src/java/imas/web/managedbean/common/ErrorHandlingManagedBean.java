@@ -49,9 +49,9 @@ public class ErrorHandlingManagedBean implements Serializable {
 
     public void checkUser() {
         String staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
-        System.out.print("Staff Number: " +staffNo);
+//        System.out.print("Staff Number: " +staffNo);
         if (staffNo == null) {
-            System.out.print("staff number is null");
+//            System.out.print("staff number is null");
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/noLoginErrorPage.xhtml");
 
