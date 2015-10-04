@@ -106,7 +106,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     // current approach: for all departured flights, total departured tickets / total tickets
     @Override
     public double computeHistoricalShowRate() {
-        System.out.println("Computing the latest historical show rate:");
+//        System.out.println("Computing the latest historical show rate:");
         int totalEconomyClassTickets = 0;
         int issuedEconomyClassTickets = 0;
 
@@ -140,9 +140,9 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
             return showRate;
         } else {
             // no historical records available
-            System.out.println("No historical records available.");
-            System.out.println("Returns default showrate = 1.");
-            return (double) 1;
+//            System.out.println("No historical records available.");
+//            System.out.println("Returns default showrate = 1.");
+            return (double) 0.96;
         }
 
     }

@@ -36,7 +36,7 @@
 
     <ui:define name="centerPanel">
     
-        <h:form>
+        <h:form id="delete">
             <p:messages id="statusMessages" redisplay="false"/>
             <p:panel header="Delete Airport" class="panel panel-danger">
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
@@ -44,13 +44,20 @@
                     <p:selectOneMenu id="deleteAirport" value="#{airportManagedBean.airport}" panelStyle="width:180px" required="true" requiredMessage="Please input airport to delete"
                                      effect="fade" filter="true" filterMatchMode="startsWith"
                                      converter="airportConverter">
-
+                        <p:ajax update="delete:confirmation"></p:ajax>
                         <f:selectItems value="#{airportManagedBean.airportList}" var="airport" itemLabel="#{airport.cityName}, #{airport.airportName}, #{airport.airportCode}" itemValue="#{airport}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
-                <p:commandButton value="Confirm" actionListener="#{airportManagedBean.deleteAirport}" update="statusMessages"
+                <p:commandButton value="Confirm"  update="statusMessages" onclick="PF('deleteConfirmation').show();"
                                  class="btn-sm btn-danger"/>
             </p:panel>
+            
+            <p:dialog id="confirmation" widgetVar="deleteConfirmation" minHeight="40">
+                <h:outputText value="You are deleting #{airportManagedBean.airport.airportName}" />
+                <br/><br/>
+                <p:commandButton value="Confirm" actionListener="#{airportManagedBean.deleteAirport}"
+                                 update="statusMessages" class="btn-sm btn-danger" ajax="false"/>
+            </p:dialog>
         </h:form>
 
         <p:link outcome="planningAirport.xhtml" value="Back"/>

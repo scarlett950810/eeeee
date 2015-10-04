@@ -66,6 +66,7 @@ public class AircraftManagedBean implements Serializable {
     private Integer tabIndex = 0;
 
     private List<AircraftEntity> aircrafts;
+    private List<AircraftEntity> filteredAircraft;
     private AircraftEntity aircraft;
     private AircraftEntity selectedAircraft;
 
@@ -92,6 +93,7 @@ public class AircraftManagedBean implements Serializable {
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.getAirports());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftList", aircrafts);
     }
 
     @PostRemove
@@ -310,6 +312,14 @@ public class AircraftManagedBean implements Serializable {
         this.tabIndex = tabIndex;
     }
 
+    public List<AircraftEntity> getFilteredAircraft() {
+        return filteredAircraft;
+    }
+
+    public void setFilteredAircraft(List<AircraftEntity> filteredAircraft) {
+        this.filteredAircraft = filteredAircraft;
+    }
+
     public void addAircraft(ActionEvent event) throws IOException {
         if (this.tailId == null || this.aircraftType == null || this.purchasePrice == null
                 || this.deprecation == null || this.netAssetValue == null || this.aircraftLife == null
@@ -372,12 +382,14 @@ public class AircraftManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void onAircraftDelete() {
+    public void onAircraftDelete() throws IOException {
         System.err.println("enter on aircraft delete");
-        System.err.println(selectedAircraft.getTailId());
-        aircraftSessionBean.deleteAircraft(selectedAircraft);
+        
+        aircraftSessionBean.deleteAircraft(aircraft);
         aircrafts = aircraftSessionBean.getAircrafts();
-
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningEditDeleteAircraft.xhtml");
     }
 
     public void returnBack() throws IOException {
@@ -396,10 +408,10 @@ public class AircraftManagedBean implements Serializable {
         ec.redirect("planningAddAircraft.xhtml");
     }
     
-    public void goViewAircraft() throws IOException {
+    public void goDeleteAircraft() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        ec.redirect("planningManageAircraftTypes.xhtml");
+        ec.redirect("planningDeleteAircraft.xhtml");
     }
 
     public void beforeDelete(){

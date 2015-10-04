@@ -134,6 +134,7 @@ public class PostFlightReportSessionBean implements PostFlightReportSessionBeanL
     public void updateFlightStatus(FlightEntity flight) {
         System.out.print(new Date());
         flight.setActualArrivalDate(new Date());
+        flight.getAircraft().setCurrentAirport(flight.getRoute().getDestinationAirport());
         em.merge(flight);
         
         List<CabinCrewEntity> cabinCrews = flight.getCabinCrews();

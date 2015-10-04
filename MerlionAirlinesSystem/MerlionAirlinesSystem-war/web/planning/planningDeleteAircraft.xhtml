@@ -6,7 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="title">Planning - Airport Management</ui:define>
+    <ui:define name="title">Planning - Aircraft Management</ui:define>
 
     <ui:define name="head">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -36,21 +36,28 @@
 
     <ui:define name="centerPanel">
     
-        <h:form>
+        <h:form id="delete">
             <p:messages id="statusMessages" redisplay="false"/>
-            <p:panel header="Delete Airport" class="panel panel-danger">
+            <p:panel header="Delete Aircraft" class="panel panel-danger">
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
-                    <p:outputLabel for="deleteAirport" value="Choose Airport to Delete:"  />
-                    <p:selectOneMenu id="deleteAirport" value="#{airportManagedBean.airport}" panelStyle="width:180px" required="true" requiredMessage="Please input airport to delete"
+                    <p:outputLabel for="deleteAircraft" value="Choose Aircraft to Delete:"  />
+                    <p:selectOneMenu id="deleteAircraft" value="#{aircraftManagedBean.aircraft}" panelStyle="width:180px" required="true" requiredMessage="Please input airport to delete"
                                      effect="fade" filter="true" filterMatchMode="startsWith"
-                                     converter="airportConverter">
-
-                        <f:selectItems value="#{airportManagedBean.airportList}" var="airport" itemLabel="#{airport.cityName}, #{airport.airportName}, #{airport.airportCode}" itemValue="#{airport}" />
+                                     converter="aircraftConverter">
+                        <p:ajax update="delete:confirmation"></p:ajax>
+                        <f:selectItems value="#{aircraftManagedBean.aircrafts}" var="aircraft" itemLabel="#{aircraft.tailId}, #{aircraft.aircraftType.IATACode}" itemValue="#{aircraft}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
-                <p:commandButton value="Confirm" actionListener="#{airportManagedBean.deleteAirport}" update="statusMessages"
+                <p:commandButton value="Confirm"  update="statusMessages" onclick="PF('deleteConfirmation').show();"
                                  class="btn-sm btn-danger"/>
             </p:panel>
+            
+            <p:dialog id="confirmation" widgetVar="deleteConfirmation" minHeight="40">
+                <h:outputText value="You are deleting #{aircraftManagedBean.aircraft.tailId}, #{aircraftManagedBean.aircraft.aircraftType.IATACode}" />
+                <br/><br/>
+                <p:commandButton value="Confirm" actionListener="#{aircraftManagedBean.onAircraftDelete}"
+                                 update="statusMessages" class="btn-sm btn-danger" ajax="false"/>
+            </p:dialog>
         </h:form>
 
         <p:link outcome="planningAirport.xhtml" value="Back"/>

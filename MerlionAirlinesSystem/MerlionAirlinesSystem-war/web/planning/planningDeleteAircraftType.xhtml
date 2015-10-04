@@ -7,7 +7,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">Planning - Delete Aircraft Type</ui:define>
-    
+
     <ui:define name="head">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <style type="text/css">
@@ -33,10 +33,10 @@
             </ul>
         </div>
     </ui:define>
-    
+
     <ui:define name="centerPanel">
-    
-        <h:form>
+
+        <h:form id="delete">
             <p:messages id="statusMessages" redisplay="false"/>
             <p:panel header="Delete Aircraft type" class="panel panel-danger">
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
@@ -44,16 +44,22 @@
                     <p:selectOneMenu id="deleteAircraftType" value="#{aircraftTypeManagedBean.aircraftType}" panelStyle="width:180px" required="true" requiredMessage="Please choose an aircraft type to delete"
                                      effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
                                      converter="aircraftTypeConverter">
-
+                        <p:ajax update="delete:confirmation"></p:ajax>
                         <f:selectItems value="#{aircraftTypeManagedBean.aircraftTypes}" var="aircraftType" itemLabel="#{aircraftType.IATACode}" itemValue="#{aircraftType}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
-                <p:commandButton value="Confirm" actionListener="#{aircraftTypeManagedBean.actualDeleteAircraftType}"
-                                 update="statusMessages" class="btn-sm btn-danger"/>
+                <p:commandButton value="Delete" class="btn-sm btn-danger" onclick="PF('deleteConfirmation').show();"/>
             </p:panel>
+
+            <p:dialog id="confirmation" widgetVar="deleteConfirmation" minHeight="40">
+                <h:outputText value="You are deleting #{aircraftTypeManagedBean.aircraftType.IATACode}" />
+                <br/><br/>
+                <p:commandButton value="Confirm" actionListener="#{aircraftTypeManagedBean.actualDeleteAircraftType}"
+                                 update="statusMessages" class="btn-sm btn-danger" ajax="false"/>
+            </p:dialog>
         </h:form>
         <p:link outcome="planningAircraftType.xhtml" value="Back"/>
-    
+
     </ui:define>
-    
+
 </ui:composition>

@@ -46,13 +46,13 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
             <p:dataTable id="editAircraft" var="flight" value="#{postFlightReportManagedBean.list}"
-                         paginator="true" 
+                         paginator="true" widgetVar="aircraftTable" filteredValue="#{postFlightReportManagedBean.filteredFlight}"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="15, 30, 50" rows="15" class="panel-primary">
                 <f:facet name="header" >
                     Operation Post Flight Report 
                 </f:facet>
-                <p:column headerText="Flight No" style="width: 8%">
+                <p:column headerText="Flight No" style="width: 8%" filterMatchMode="contains" filterBy="#{flight.flightNo}" filterStyle="width: 80px">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
                 <p:column headerText="Departure Timing">
@@ -62,11 +62,11 @@
                 <p:column headerText="Arrival Timing">
                     <h:outputText value="#{flight.arrivalDate}" />
                 </p:column>
-                <p:column headerText="Origin" >
-                    <h:outputText value="#{flight.route.originAirport.airportName}" />
+                <p:column headerText="Origin" filterMatchMode="contains" filterBy="#{flight.route.originAirport.cityName}">
+                    <h:outputText value="#{flight.route.originAirport.cityName}, #{flight.route.originAirport.airportName}" />
                 </p:column>
-                <p:column headerText="Destination" >
-                    <h:outputText value="#{flight.route.destinationAirport.airportName}" />
+                <p:column headerText="Destination" filterMatchMode="contains" filterBy="#{flight.route.destinationAirport.cityName}">
+                    <h:outputText value="#{flight.route.destinationAirport.cityName}, #{flight.route.destinationAirport.airportName}" />
                 </p:column>
                 <p:column style="width: 8%" headerText="Basic Info">
                     <p:commandLink update=":viewFlightForm:flightDetail" actionListener="#{postFlightReportManagedBean.updateFlightReportActionListener}" title="View Details" styleClass="ui-icon ui-icon-search" >
