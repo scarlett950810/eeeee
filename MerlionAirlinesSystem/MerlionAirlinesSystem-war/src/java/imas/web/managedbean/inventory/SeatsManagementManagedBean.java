@@ -81,6 +81,12 @@ public class SeatsManagementManagedBean implements Serializable {
 
     public void automaticallyCreateBookingClass(FlightEntity flight) {
 
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
         System.out.println("Creating Booking Classes for flight " + flight.getFlightNo() + " at " + flight.getDepartureDate() + ":");
 
         Integer firstClassCapacity = seatsManagementSessionBean.getFirstClassCapacity(flight);
@@ -147,7 +153,6 @@ public class SeatsManagementManagedBean implements Serializable {
         System.out.println("=========================================================================");
         System.out.println("......Done");
 
-        
         pendingFlights.remove(flight);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("pendingFlights", this.pendingFlights);
 

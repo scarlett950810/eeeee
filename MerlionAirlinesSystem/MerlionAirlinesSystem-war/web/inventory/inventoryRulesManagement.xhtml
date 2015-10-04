@@ -69,7 +69,7 @@
                 <h:outputText value="days,"/>
 
                 <h:outputText value="and revenue exceeds"/>
-                <p:inputText value="#{yieldManagementManagedBean.twoDecimalRound(yieldManagementManagedBean.rule1.totalRevenueToTotalCostParameter)}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule1.totalRevenueToTotalCostParameter}"/>
                 <h:outputText value="(1.0 to 2.0)" class="footnote"/>
                 <h:outputText value="time(s) of costs,"/>
             </h:panelGrid>
@@ -106,7 +106,7 @@
                 <h:outputText value="days,"/>
 
                 <h:outputText value="and revenue is less than"/>
-                <p:inputText value="#{yieldManagementManagedBean.twoDecimalRound(yieldManagementManagedBean.rule2.totalRevenueToTotalCostParameter)}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule2.totalRevenueToTotalCostParameter}"/>
                 <h:outputText value="(0.5 to 1.2)" class="footnote"/>
                 <h:outputText value="time(s) of costs,"/>
             </h:panelGrid>
@@ -145,7 +145,7 @@
                 <h:outputText value="days,"/>
 
                 <h:outputText value="and seats sold are less than"/>
-                <p:inputText value="#{yieldManagementManagedBean.twoDecimalRound(yieldManagementManagedBean.rule3.percentageSoldParameter)}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule3.percentageSoldParameter}"/>
                 <h:outputText value="(0.6 to 0.8)" class="footnote"/>
                 <h:outputText value="of the capacity,"/>
             </h:panelGrid>
@@ -194,7 +194,7 @@
                 <h:outputText value="tickets,"/>
 
                 <h:outputText value="fulfill it(them) using"/>
-                <p:inputText value="#{yieldManagementManagedBean.twoDecimalRound(yieldManagementManagedBean.rule4.changeEconomyClass3and4and5To1Or2PercentageParameter)}"/>
+                <p:inputText value="#{yieldManagementManagedBean.rule4.changeEconomyClass3and4and5To1Or2PercentageParameter}"/>
                 <h:outputText value="(0.1 to 0.5)" class="footnote"/>
                 <h:outputText value="of the quota from low WTP economy classes. "/>
 

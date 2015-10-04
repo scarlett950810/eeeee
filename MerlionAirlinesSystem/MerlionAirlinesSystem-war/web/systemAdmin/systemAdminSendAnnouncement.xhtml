@@ -46,7 +46,7 @@
                     <p:outputLabel for="base" value="Base" />
                     <p:selectManyMenu id="base" value="#{internalAnnouncementManagedBean.airports}" filter="true" filterMatchMode="contains"
                                       showCheckbox="true" converter="airportConverter">
-                        <f:selectItems value="#{internalAnnouncementManagedBean.airportList}" var="airport" 
+                        <f:selectItems value="#{internalAnnouncementManagedBean.airportList}" var="airport"
                                        itemLabel="#{airport.airportCode} #{airport.airportName} @ #{airport.cityName}, #{airport.nationName}" 
                                        itemValue="#{airport}" />
                     </p:selectManyMenu>

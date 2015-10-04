@@ -4,7 +4,8 @@
                 template="./../templates/DefaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:define name="head">
         <!--insert customized import here-->
     </ui:define>
@@ -17,11 +18,11 @@
                 <li class="sidebar-h1">Aircraft Management </li> 
                 <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
                 <li><a href="operationDisplayFlights.xhtml">Flight Display </a></li> 
-                 
+
                 <li class="sidebar-h1">Flight Management </li>
                 <li><a href="operationCrewCheckIn.xhtml"> Crew Check-in </a></li> 
                 <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
-                 
+
                 <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
                 <li class="sidebar-h1">Staff Management</li> 
                 <li><a href="operationCabinCrewScheduling.xhtml">Cabin Crew Schedule</a></li> 
@@ -30,36 +31,72 @@
             </ul>
         </div>
     </ui:define>
-    
+
     <ui:define name="centerPanel">
-        
-        <h:form>
-            <p:growl id="msgs" showDetail="true" />
-            
-            <h:outputText value="Select a staff:"/>
-            <h:panelGrid columns="2" cellpadding="5" class="panel-primary">
-                <p:outputLabel for="position" value="Position: " />
-                <p:selectOneMenu id="position" value="#{retrieveDutyManagedBean.position}" style="width:150px">
-                    <p:ajax listener="#{retrieveDutyManagedBean.onPositionChange}" update="name" />
-                    <f:selectItem itemLabel="Select Position" itemValue="" noSelectionOption="true" />
-                    <f:selectItems value="#{retrieveDutyManagedBean.positions}" />
-                </p:selectOneMenu>
+        <p:tabView dynamic="true">
 
-                <p:outputLabel for="name" value="Name:" />
-                <p:selectOneMenu id="name" value="#{retrieveDutyManagedBean.name}" style="width:150px">
-                    <f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
-                    <f:selectItems value="#{retrieveDutyManagedBean.names}" />
-                </p:selectOneMenu>
-            </h:panelGrid>
-            
-            <p:commandButton value="Submit" update="msgs dialog" actionListener="#{retrieveDutyManagedBean.submit()}"
-                             icon="ui-icon-check" class="btn-sm btn-primary"/>
-            
-            <p:dialog id="dialog" header="Staff Schedule" widgetVar="dlg" dynamic="true">           
-                <p:schedule value="#{retrieveDutyManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />
-            </p:dialog>
+            <p:tab title="Display Pilot Duty">
+                <pe:timeline id="pilotDuty" value="#{retrieveDutyManagedBean.pilotDutyTimeline}" var="flight" varGroup="pilot"
+                             eventMargin="5">
 
-        </h:form>
+                    <f:facet name="group">
+                        <h:graphicImage value="../resources/img/displayFlights/pilot.png" alt="Pilot"/>
+                        <h:outputText value="#{pilot.displayName} (#{pilot.staffNo})" style="font-weight:bold;"/>
+                    </f:facet>
+
+                    <h:graphicImage value="../resources/img/displayFlights/airplane.png" style="display:inline; vertical-align:middle;" alt="Flight"/>  
+                    <h:outputText value=" Flight #{flight.flightNo}"/>
+
+                </pe:timeline>
+            </p:tab>
+
+            <p:tab title="Display Cabin Crew Duty">
+                <pe:timeline id="cabinCrewDuty" value="#{retrieveDutyManagedBean.cabinCrewDutyTimeline}" var="flight"
+                             varGroup="cabinCrew" eventMargin="5">
+
+                    <f:facet name="group">
+                        <h:graphicImage value="../resources/img/displayFlights/cabinCrew.png" alt="Cabin Crew"/>
+                        <h:outputText value="#{cabinCrew.displayName} (#{cabinCrew.staffNo})" style="font-weight:bold;"/>
+                    </f:facet>
+
+                    <h:graphicImage value="../resources/img/displayFlights/airplane.png"
+                                    style="display:inline; vertical-align:middle;" alt="Flight"/>  
+                    <h:outputText value=" Flight #{flight.flightNo}"/>
+                </pe:timeline>
+            </p:tab>
+            
+            <p:tab title="Display Duty (Calendar View)">
+                <h:form>
+                    <p:growl id="msgs" showDetail="true" />
+
+                    <h:outputText value="Select a staff:"/>
+                    <h:panelGrid columns="2" cellpadding="5" class="panel-primary">
+                        <p:outputLabel for="position" value="Position: " />
+                        <p:selectOneMenu id="position" value="#{retrieveDutyManagedBean.position}" style="width:150px">
+                            <p:ajax listener="#{retrieveDutyManagedBean.onPositionChange}" update="name" />
+                            <f:selectItem itemLabel="Select Position" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{retrieveDutyManagedBean.positions}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="name" value="Name:" />
+                        <p:selectOneMenu id="name" value="#{retrieveDutyManagedBean.name}" style="width:150px">
+                            <f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{retrieveDutyManagedBean.names}" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+
+                    <p:commandButton value="Submit" update="msgs dialog" actionListener="#{retrieveDutyManagedBean.submit()}"
+                                     icon="ui-icon-check" class="btn-sm btn-primary"/>
+
+                    <p:dialog id="dialog" header="Staff Schedule" widgetVar="dlg" dynamic="true">           
+                        <p:schedule value="#{retrieveDutyManagedBean.lazyEventModel}" style="width: 700px; height: 400px" />
+                    </p:dialog>
+
+                </h:form>
+
+            </p:tab>
+
+        </p:tabView>        
 
     </ui:define>
 

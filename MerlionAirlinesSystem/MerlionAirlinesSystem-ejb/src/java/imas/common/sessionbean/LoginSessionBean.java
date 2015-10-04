@@ -8,12 +8,8 @@ package imas.common.sessionbean;
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
 import imas.common.entity.StaffEntity;
-import imas.inventory.entity.BookingClassEntity;
-import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
-import imas.planning.entity.FlightEntity;
-import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.AircraftGroupSessionBeanLocal;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
@@ -22,7 +18,6 @@ import java.util.ArrayList;
 import javax.ejb.Stateful;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -39,7 +34,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     @PersistenceContext
     private EntityManager entityManager;
     CryptographicHelper cp = new CryptographicHelper();
-    private Integer leftChance=7;
+    private Integer leftChance = 7;
+
     public LoginSessionBean() {
     }
 
@@ -117,7 +113,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                                     tempStaff.setLoginAttempt(tempDate);
                                     entityManager.merge(tempStaff);
                                     System.out.println("captcha");
-                                    leftChance=10 - tempStaff.getLoginAttempt().size();
+                                    leftChance = 10 - tempStaff.getLoginAttempt().size();
                                     return "captcha";
                                 } else {
 
@@ -612,6 +608,10 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         System.out.println("Cabin crew are created.");
 
+    }
+
+    public void setLeftChance(Integer leftChance) {
+        this.leftChance = leftChance;
     }
 
     @Override
