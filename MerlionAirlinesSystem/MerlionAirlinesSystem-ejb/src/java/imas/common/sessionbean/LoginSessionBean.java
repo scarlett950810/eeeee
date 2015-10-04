@@ -39,7 +39,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     @PersistenceContext
     private EntityManager entityManager;
     CryptographicHelper cp = new CryptographicHelper();
-
+    private Integer leftChance=7;
     public LoginSessionBean() {
     }
 
@@ -70,7 +70,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                     if (password.equals(tempStaff.getPassword())) {
                         tempStaff.setLoginAttempt(null);
                         entityManager.merge(tempStaff);
-                        System.out.println("success1");
+//                        System.out.println("success1");
                         return "success";
                     } else {
                         tempDate = new ArrayList<Date>();
@@ -117,6 +117,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                                     tempStaff.setLoginAttempt(tempDate);
                                     entityManager.merge(tempStaff);
                                     System.out.println("captcha");
+                                    leftChance=10 - tempStaff.getLoginAttempt().size();
                                     return "captcha";
                                 } else {
 
@@ -141,6 +142,12 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     }
 
+    @Override
+    public Integer getLeftChance() {
+        return leftChance;
+    }
+
+    
     @EJB
     private AirportSessionBeanLocal airportSessionBean;
     @EJB
@@ -172,7 +179,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         AirportEntity a1 = new AirportEntity(false, "Shijiazhuang", "ZD Airport", "SJZ", "China");
         AirportEntity a2 = new AirportEntity(false, "Guangzhou", "Baiyun Airport", "CAN", "China");
         AirportEntity a3 = new AirportEntity(false, "Beijing", "BJ International Airport", "PEK", "China");
-        AirportEntity a4 = new AirportEntity(true, "Singapore", "Changi Airport", "SIN", "Singapore");
+        AirportEntity a4 = new AirportEntity(true, "Singapore", "Changi Airport", "SGC", "Singapore");
         AirportEntity a5 = new AirportEntity(true, "Tokyo", "Natita Airport", "TNA", "Japan");
         AirportEntity a6 = new AirportEntity(false, "New York", "Lincoln Airport", "NYL", "U.S.");
         AirportEntity a7 = new AirportEntity(true, "Shanghai", "Pu Dong Airport", "SHP", "China");
@@ -228,21 +235,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         aircraftSessionBean.addAircraft("013", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
         aircraftSessionBean.addAircraft("014", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
         aircraftSessionBean.addAircraft("015", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
-        aircraftSessionBean.addAircraft("016", aircraftType6, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 10, 7, 50, (double) 30);
-        aircraftSessionBean.addAircraft("017", aircraftType6, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 35);
-        aircraftSessionBean.addAircraft("018", aircraftType7, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
-        aircraftSessionBean.addAircraft("019", aircraftType7, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("020", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("021", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
-        aircraftSessionBean.addAircraft("022", aircraftType6, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("023", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("024", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
-        aircraftSessionBean.addAircraft("025", aircraftType6, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 65);
-        aircraftSessionBean.addAircraft("026", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 37);
-        aircraftSessionBean.addAircraft("027", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 51);
-        aircraftSessionBean.addAircraft("028", aircraftType7, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("029", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("030", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
+        
 
         System.out.println("aircrafts added");
         List<String> l1 = new ArrayList<String>();
@@ -337,10 +330,10 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(p10);
         entityManager.persist(p11);
         entityManager.persist(p12);
-        entityManager.persist(p13);
-        entityManager.persist(p14);
-        entityManager.persist(p15);
-        entityManager.persist(p16);
+//        entityManager.persist(p13);
+//        entityManager.persist(p14);
+//        entityManager.persist(p15);
+//        entityManager.persist(p16);
 
         
 
@@ -356,10 +349,10 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         p10.setBase(a8);
         p11.setBase(a8);
         p12.setBase(a8);
-        p13.setBase(a8);
-        p14.setBase(a8);
-        p15.setBase(a8);
-        p16.setBase(a8);
+//        p13.setBase(a8);
+//        p14.setBase(a8);
+//        p15.setBase(a8);
+//        p16.setBase(a8);
 
         System.out.println("Pilots are created");
 

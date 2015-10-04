@@ -38,7 +38,8 @@
                             update="formChangeRule1:rule1-1 formChangeRule1:rule1-2 formChangeRule1:rule1-3 formChangeRule1:rule1-4
                             formChangeRule2:rule2-1 formChangeRule2:rule2-2 formChangeRule2:rule2-3 formChangeRule2:rule2-4
                             formChangeRule3:rule3-1 formChangeRule3:rule3-2 formChangeRule3:rule3-3 formChangeRule3:rule3-4
-                            formChangeRule4:rule4-1 formChangeRule4:rule4-2 formChangeRule4:rule4-3 formChangeRule4:rule4-4"/>
+                            formChangeRule4:rule4-1 formChangeRule4:rule4-2 formChangeRule4:rule4-3 formChangeRule4:rule4-4
+                            popularity"/>
                     <f:selectItem itemLabel="Select Flight" itemDisabled="true" />
                     <f:selectItems value="#{yieldManagementManagedBean.flights}" var="flight" 
                                    itemLabel="#{flight.flightNo} - #{flight.route.originAirport.airportName} to #{flight.route.destinationAirport.airportName}, departure at #{flight.departureDate}" itemValue="#{flight}" />
@@ -46,7 +47,12 @@
             </h:panelGrid>
         </h:form>
 
-        <br/>
+
+        <h:outputLabel for="popularity" value="Popularity:  "/>
+        <h:outputText id="popularity" value="#{yieldManagementManagedBean.getFlightPopularity()}" style="padding-left:5px; font-size: 1.2em;"/>
+        
+        <br/><br/>
+        
         <p:messages autoUpdate="true" for="rule1" showDetail="true" showIcon="false"/>
         <h:form id="formChangeRule1">
             <h:panelGrid columns="1" cellpadding="5">

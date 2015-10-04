@@ -18,10 +18,11 @@
                 <li class="sidebar-h1">Aircraft Management </li> 
                 <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
                 <li><a href="operationDisplayFlights.xhtml">Flight Display </a></li> 
-                <li><a href="viewFlightSchedule.xhtml">Flight Schedule </a></li> 
+                 
                 <li class="sidebar-h1">Flight Management </li>
-                <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
                 <li><a href="operationCrewCheckIn.xhtml"> Crew Check-in </a></li> 
+                <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
+                
                 <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
                 <li class="sidebar-h1">Staff Management</li> 
                 <li><a href="operationCabinCrewScheduling.xhtml">Cabin Crew Schedule</a></li> 
@@ -99,11 +100,11 @@
                     <p:outputPanel id="checkInDetail" style="text-align:center;">
                         <p:outputLabel value="The following flight crews are checking in:" />
                         <ui:repeat value="#{crewCheckInManagedBean.selectedPilots}" var="pilot">
-                            <h:outputText value="#{pilot.displayName} : #{pilot.role.position}" style="display:block"/>
+                            <h:outputText value="#{pilot.displayName} : Pilot" style="display:block"/>
                         </ui:repeat>
 
                         <ui:repeat value="#{crewCheckInManagedBean.selectedCrew}" var="crew">
-                            <h:outputText value="#{crew.displayName} : #{crew.role.position}" style="display:block"/>
+                            <h:outputText value="#{crew.displayName} : Cabin Crew" style="display:block"/>
                         </ui:repeat>
                     </p:outputPanel>
                     <br/>

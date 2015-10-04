@@ -51,6 +51,7 @@ public class UserProfileManagedBean implements Serializable {
     @PostConstruct
     public void init(){
         staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
+        System.out.print("staff No inside managed bean init:" + staffNo);
         if(staffNo != null){
             staff = loginSessionBean.fetchStaff(staffNo);
         }

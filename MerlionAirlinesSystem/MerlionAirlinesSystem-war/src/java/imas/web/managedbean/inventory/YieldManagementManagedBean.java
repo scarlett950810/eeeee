@@ -28,7 +28,7 @@ import javax.persistence.PostRemove;
 @Named(value = "yieldManagementManagedBean")
 @ViewScoped
 public class YieldManagementManagedBean implements Serializable {
-    
+
     @EJB
     private YieldManagementSessionBeanLocal yieldManagementSessionBean;
 
@@ -37,7 +37,7 @@ public class YieldManagementManagedBean implements Serializable {
 
     @EJB
     private DistributionSessionBeanLocal distributionSessionBean;
-       
+
     private List<FlightEntity> flights;
     private YieldManagementRuleEntity rule1;
     private YieldManagementRuleEntity rule2;
@@ -217,26 +217,31 @@ public class YieldManagementManagedBean implements Serializable {
             rulesManagementSessionBean.updateRule4(flight, rule4);
             FacesContext.getCurrentInstance().addMessage("rule4",
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful:", "Rule 4 updated."));
-        }        
+        }
     }
-    
+
     public String twoDecimalRound(double origin) {
         DecimalFormat f = new DecimalFormat("##.00");
         return f.format(origin);
     }
-    
-    public String getFlightPopularity() {
-        double np = yieldManagementSessionBean.getNormalizedPopularity(flight.getRoute());
 
-        if (np > 0.8) {
-            return "Very Popular";
-        } else if (np > 0.6) {
-            return "Popular";
-        } else if (np > 0.4) {
-            return "Normal";
+    public String getFlightPopularity() {
+        if (flight != null) {
+            double np = yieldManagementSessionBean.getNormalizedPopularity(flight.getRoute());
+
+            if (np > 0.8) {
+                return "Very Popular";
+            } else if (np > 0.6) {
+                return "Popular";
+            } else if (np > 0.4) {
+                return "Normal";
+            } else {
+                return "Not Popular";
+            }
         } else {
-            return "Not Popular";
+            return "";
         }
+
     }
 
 }
