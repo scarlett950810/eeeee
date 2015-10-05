@@ -353,7 +353,7 @@ public class FlightEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.planning.entity.FlightEntity[ id=" + id + " ]";
+        return route.toString() + " at " + departureDate + " by " + aircraft.toString();
     }
 
 }

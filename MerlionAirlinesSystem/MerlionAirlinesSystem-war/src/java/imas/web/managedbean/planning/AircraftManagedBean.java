@@ -9,7 +9,6 @@ import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
-import imas.planning.entity.SeatEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.IOException;
@@ -94,6 +93,7 @@ public class AircraftManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        airports = aircraftSessionBean.getAirports();
         aircrafts = aircraftSessionBean.getAircrafts();
         airportHubs = routeSessionBean.retrieveHubs();
         
@@ -106,7 +106,7 @@ public class AircraftManagedBean implements Serializable {
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aircraftTypes");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportHubList");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
     }
 
     public AircraftManagedBean() {
@@ -206,8 +206,7 @@ public class AircraftManagedBean implements Serializable {
     }
 
     public List<AirportEntity> getAirports() {
-//        System.out.print("aircraftManagedBean.getAirports called.");
-        return aircraftSessionBean.getAirports();
+        return this.airports;
     }
 
     public void setAirports(List<AirportEntity> airports) {
