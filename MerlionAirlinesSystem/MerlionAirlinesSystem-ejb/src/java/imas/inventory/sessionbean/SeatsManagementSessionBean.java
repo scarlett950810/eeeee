@@ -25,12 +25,12 @@ import javax.persistence.Query;
  */
 @Stateless
 public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLocal {
+    
+    @EJB
+    private CostManagementSessionBeanLocal costSessionBean;
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @EJB
-    private DistributionSessionBeanLocal distributionSessionBean;
 
     // get flights with aircraft but without booking classes.
     @Override
@@ -186,5 +186,33 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         return q.getResultList().size();
     }
 
+    @Override
+    public void automaticallyCreateBookingClass(FlightEntity flight) {
+
+        Integer firstClassCapacity = getFirstClassCapacity(flight);
+        Integer businessClassCapacity = getBusinessClassCapacity(flight);
+        Integer premiumEconomyClassCapacity = getPremiumEconomyClassCapacity(flight);
+        Integer economyClassCapacity = getEconomyClassCapacity(flight);
+        Double latestShowRate = computeHistoricalShowRate();
+        Integer economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
+
+        // to change to calling session bean.
+        Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile();
+        Double distance = flight.getRoute().getDistance();
+        Double baseFare = costPerSeatPerMile * distance;
+
+        generateFirstClassBookingClassEntity(flight, 15 * baseFare, firstClassCapacity);
+        generateBusinessClassBookingClassEntity(flight, 6 * baseFare, businessClassCapacity);
+        generatePremiumEconomyClassBookingClassEntity(flight, 4 * baseFare, premiumEconomyClassCapacity);
+
+        // TODO: optimization of yield management.
+        generateEconomyClass1BookingClassEntity(flight, 3 * baseFare, 0);
+        generateEconomyClass2BookingClassEntity(flight, 2.5 * baseFare, (int) (0.3 * economyClassComputedOverbookingLevel));
+        generateEconomyClass3BookingClassEntity(flight, 2 * baseFare, (int) (0.4 * economyClassComputedOverbookingLevel));
+        generateEconomyClassAgencyBookingClassEntity(flight, 1.5 * baseFare, (int) (0.1 * economyClassComputedOverbookingLevel));
+        generateEconomyClass4BookingClassEntity(flight, 1.1 * baseFare, (int) (0.2 * economyClassComputedOverbookingLevel));
+        generateEconomyClass5BookingClassEntity(flight, 0.8 * baseFare, 0);
+
+    }
 
 }
