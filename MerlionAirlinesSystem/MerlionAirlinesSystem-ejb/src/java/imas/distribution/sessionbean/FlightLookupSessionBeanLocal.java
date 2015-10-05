@@ -32,5 +32,7 @@ public interface FlightLookupSessionBeanLocal {
     public RouteEntity getDirectRoute(AirportEntity origin, AirportEntity destination);
 
     public Date getDateAfterDays(Date origin, int daysToadd);
+
+    public double getLowestFareAvailable(FlightEntity flight, String SeatClass);
     
 }

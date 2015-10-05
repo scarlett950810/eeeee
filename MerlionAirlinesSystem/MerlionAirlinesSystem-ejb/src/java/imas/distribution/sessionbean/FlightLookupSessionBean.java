@@ -130,4 +130,8 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
         return after.getTime();
     }
     
+    @Override
+    public double getLowestFareAvailable(FlightEntity flight, String SeatClass) {
+        return 0;
+    }
 }

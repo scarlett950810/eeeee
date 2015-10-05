@@ -42,6 +42,7 @@ public class SelectFlightManagedBean implements Serializable {
      private int childNo;
      private int infantNo;
      */
+    
     // attributes used in this managedBean to pass to booking management
     private FlightEntity departureFlight;
     private FlightEntity departureTransferFlight1;
@@ -60,10 +61,10 @@ public class SelectFlightManagedBean implements Serializable {
     private RouteEntity returnDirectRoute;
     private List<FlightEntity> departureDirectFlightCandidates;
     private List<FlightEntity> returnDirectFlightCandidates;
-
     private List<TransferFlight> departureTransferFlightCandidates;
     private List<TransferFlight> returnTransferFlightCandidates;
 
+    private String seatClass;
     /**
      * Creates a new instance of SelectFlightManagedBean
      */
@@ -84,7 +85,7 @@ public class SelectFlightManagedBean implements Serializable {
                 = (Date) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("departureDate");
         Date returnDate
                 = (Date) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("returnDate");
-        String seatClass
+        seatClass
                 = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("seatClass");
         Integer adultNo
                 = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adultNo");
@@ -253,10 +254,22 @@ public class SelectFlightManagedBean implements Serializable {
         this.returnTransferFlight2 = returnTransferFlight2;
     }
 
+    public String getSeatClass() {
+        return seatClass;
+    }
+
+    public void setSeatClass(String seatClass) {
+        this.seatClass = seatClass;
+    }
+
     public String getUserFriendlyTime(double hours) {
         int hourNo = (int) hours;
         int minNo = (int) (60 * (hours - hourNo));
         return hourNo + " hour " + minNo + " mins";
+    }
+    
+    public double getLowestFare(FlightEntity flight) {
+        return flightLookupSessionBean.getLowestFareAvailable(flight, seatClass);
     }
 
 }

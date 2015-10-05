@@ -25,7 +25,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLocal {
-    
+
     @EJB
     private CostManagementSessionBeanLocal costSessionBean;
 
@@ -132,17 +132,17 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         }
 
         if (totalEconomyClassTickets > 0) {
-            System.out.println("Up to now,");
-            System.out.println("in total " + totalEconomyClassTickets + " tickets are sold;");
+//            System.out.println("Up to now,");
+//            System.out.println("in total " + totalEconomyClassTickets + " tickets are sold;");
             double showRate = 1.0 * issuedEconomyClassTickets / totalEconomyClassTickets;
-            System.out.println("in total " + issuedEconomyClassTickets + " of them showed up.");
-            System.out.println("Latest show rate = " + showRate);
+//            System.out.println("in total " + issuedEconomyClassTickets + " of them showed up.");
+//            System.out.println("Latest show rate = " + showRate);
             return showRate;
         } else {
             // no historical records available
 //            System.out.println("No historical records available.");
 //            System.out.println("Returns default showrate = 1.");
-            return (double) 0.96;
+            return (double) 1;
         }
 
     }
@@ -151,39 +151,73 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     public int getFirstClassCapacity(FlightEntity flight) {
         AircraftEntity a = flight.getAircraft();
 
-        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-        q.setParameter("aircraft", a);
-        q.setParameter("seatClass", "First Class");
+//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
+//        q.setParameter("aircraft", a);
+//        q.setParameter("seatClass", "First Class");
+//        return q.getResultList().size();
+        int count = 0;
+        for (SeatEntity seat : a.getSeats()) {
+            if (seat.isFirstClass()) {
+                count++;
+            }
+        }
 
-        return q.getResultList().size();
+        return count;
     }
 
     @Override
     public int getBusinessClassCapacity(FlightEntity flight) {
 
         AircraftEntity a = flight.getAircraft();
-        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-        q.setParameter("aircraft", a);
-        q.setParameter("seatClass", "Business Class");
-        return q.getResultList().size();
+
+//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
+//        q.setParameter("aircraft", a);
+//        q.setParameter("seatClass", "Business Class");
+//        return q.getResultList().size();
+        int count = 0;
+        for (SeatEntity seat : a.getSeats()) {
+            if (seat.isBusinessClass()) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     @Override
     public int getPremiumEconomyClassCapacity(FlightEntity flight) {
         AircraftEntity a = flight.getAircraft();
-        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-        q.setParameter("aircraft", a);
-        q.setParameter("seatClass", "Premium Economy Class");
-        return q.getResultList().size();
+
+//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
+//        q.setParameter("aircraft", a);
+//        q.setParameter("seatClass", "Premium Economy Class");
+//        return q.getResultList().size();
+        int count = 0;
+        for (SeatEntity seat : a.getSeats()) {
+            if (seat.isPremiumEconomyClass()) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     @Override
     public int getEconomyClassCapacity(FlightEntity flight) {
         AircraftEntity a = flight.getAircraft();
-        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-        q.setParameter("aircraft", a);
-        q.setParameter("seatClass", "Economy Class");
-        return q.getResultList().size();
+
+//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
+//        q.setParameter("aircraft", a);
+//        q.setParameter("seatClass", "Economy Class");
+//        return q.getResultList().size();
+        int count = 0;
+        for (SeatEntity seat : a.getSeats()) {
+            if (seat.isEconomyClass()) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     @Override
