@@ -8,6 +8,7 @@ package imas.distribution.sessionbean;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,13 +60,13 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
     }
 
     @Override
-    public RouteEntity getDirectRoutes(AirportEntity origin, AirportEntity destination) {
+    public RouteEntity getDirectRoute(AirportEntity origin, AirportEntity destination) {
 
         // direct routes
         Query queryForRoute = entityManager.createQuery("SELECT r FROM RouteEntity r where r.originAirport = :originAirport and r.destinationAirport = :destinationAirport");
         queryForRoute.setParameter("originAirport", origin);
         queryForRoute.setParameter("destinationAirport", destination);
-        
+
         if (queryForRoute.getResultList().isEmpty()) {
             RouteEntity directFlightRoute = null;
             return null;
@@ -74,36 +75,59 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
         }
 
     }
-    
-    @Override
-    public List<RouteEntity> getTransfer1Routes(AirportEntity origin, AirportEntity destination) {
-
-        // direct routes
-        Query queryForRoute = entityManager.createQuery("SELECT r FROM RouteEntity r where r.originAirport = :originAirport and r.destinationAirport = :destinationAirport");
-        if (queryForRoute.getResultList().isEmpty()) {
-            RouteEntity directFlightRoute = null;
-            return null;
-        } else {
-            return queryForRoute.getResultList();
-        }
-
-    }
 
     @Override
-    public List<FlightEntity> getAvailableFlights(RouteEntity route, Date departureDate) {
+    public List<FlightEntity> getAvailableFlights(RouteEntity route, Date lowerBound, Date upperBound) {
 
-        Calendar upperBound = Calendar.getInstance();
-        upperBound.setTime(departureDate);
-        upperBound.add(Calendar.DATE, 1);
-        Date upperBoundDate = upperBound.getTime();
-        Query queryForAvailableFlights = entityManager.createQuery("SELECT f FROM FlightEntity f where f.route = :route and f.departureDate > :lowerBound AND f.departureDate < :upperBound");
+        Query queryForAvailableFlights = entityManager.createQuery("SELECT f FROM FlightEntity f where f.route = :route and f.departureDate > :lowerBound AND f.departureDate < :upperBound ORDER BY f.departureDate ASC");
         queryForAvailableFlights.setParameter("route", route);
-        queryForAvailableFlights.setParameter("lowerBound", departureDate);
-        queryForAvailableFlights.setParameter("upperBound", upperBoundDate);
+        queryForAvailableFlights.setParameter("lowerBound", lowerBound);
+        queryForAvailableFlights.setParameter("upperBound", upperBound);
 
         List<FlightEntity> availableFlights = queryForAvailableFlights.getResultList();
         return availableFlights;
 
     }
 
+    // the staying time of transfer would not exceed 24 hours.
+    @Override
+    public List<TransferFlight> getTransferRoutes(AirportEntity origin, AirportEntity destination, Date departureDate) {
+        List<TransferFlight> transferFlights = new ArrayList<>();
+        List<AirportEntity> directDestinations = getAllDestinationAirports(origin);
+        for (AirportEntity directDestination : directDestinations) {
+            List<AirportEntity> transferDestinations = getAllDestinationAirports(directDestination);
+            if (transferDestinations.contains(destination)) {
+                // found transfer route
+                RouteEntity route1 = getDirectRoute(origin, directDestination);
+                if (route1 != null) {
+                    List<FlightEntity> flights1 = getAvailableFlights(route1, departureDate, getDateAfterDays(departureDate, 1));
+                    if (flights1.size() > 0) {
+                        RouteEntity route2 = getDirectRoute(directDestination, destination);
+                        if (route2 != null) {
+                            Date lowerBound = flights1.get(0).getDepartureDate();
+                            Date upperBound = getDateAfterDays(lowerBound, 1);
+
+                            List<FlightEntity> flights2 = getAvailableFlights(route2, lowerBound, upperBound);
+
+                            if (flights2.size() > 0) {
+                                TransferFlight transferFlight = new TransferFlight(route1, route2, flights1, flights2);
+                                transferFlights.add(transferFlight);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return transferFlights;
+    }
+
+    @Override
+    public Date getDateAfterDays(Date origin, int daysToadd) {
+        Calendar after = Calendar.getInstance();
+        after.setTime(origin);
+        after.add(Calendar.DATE, daysToadd);
+        return after.getTime();
+    }
+    
 }

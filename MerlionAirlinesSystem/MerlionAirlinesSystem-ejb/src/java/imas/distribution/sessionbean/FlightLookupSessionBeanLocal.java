@@ -25,10 +25,12 @@ public interface FlightLookupSessionBeanLocal {
 
     public List<AirportEntity> getAllDestinationAirports(AirportEntity airport);
 
-    public List<FlightEntity> getAvailableFlights(RouteEntity route, Date departureDate);
+    public List<FlightEntity> getAvailableFlights(RouteEntity route, Date lowerBound, Date upperBound);
 
-    public List<RouteEntity> getTransfer1Routes(AirportEntity origin, AirportEntity destination);
+    public List<TransferFlight> getTransferRoutes(AirportEntity origin, AirportEntity destination, Date departureDate);
 
-    public RouteEntity getDirectRoutes(AirportEntity origin, AirportEntity destination);
+    public RouteEntity getDirectRoute(AirportEntity origin, AirportEntity destination);
+
+    public Date getDateAfterDays(Date origin, int daysToadd);
     
 }

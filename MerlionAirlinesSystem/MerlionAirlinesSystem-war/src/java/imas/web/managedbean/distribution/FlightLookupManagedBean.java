@@ -69,7 +69,7 @@ public class FlightLookupManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", airportList);
 
-        System.out.println("airportList set in sessionMap = " + airportList);
+//        System.out.println("airportList set in sessionMap = " + airportList);
 
         twoWay = true;
         Calendar today = Calendar.getInstance();

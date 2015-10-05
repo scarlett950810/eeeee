@@ -6,6 +6,7 @@
 package imas.web.managedbean.distribution;
 
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
+import imas.distribution.sessionbean.TransferFlight;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
@@ -41,20 +42,23 @@ public class SelectFlightManagedBean implements Serializable {
      private int childNo;
      private int infantNo;
      */
-    // attributes used in this managedBean
+    // attributes used in this managedBean to pass to booking management
     private FlightEntity departureFlight;
     private FlightEntity returnFlight;
 
-    // attributes storing relevant candidates
+    // attributes used only for select or display
+    private boolean departureHasDirectFlight;
+    private boolean departureHasTransferFlight;
+    private boolean returnHasDirectFlight;
+    private boolean returnHasTransferFlight;
+
     private RouteEntity departureDirectRoute;
     private RouteEntity returnDirectRoute;
-    private List<RouteEntity> departureTransfer1Route;
-    private List<RouteEntity> returnTransfer1Route;
-    
     private List<FlightEntity> departureDirectFlightCandidates;
     private List<FlightEntity> returnDirectFlightCandidates;
-    private List<FlightEntity> departureTransfer1FlightCandidates;
-    private List<FlightEntity> returnTransfer1FlightCandidates;
+
+    private List<TransferFlight> departureTransferFlightCandidates;
+    private List<TransferFlight> returnTransferFlightCandidates;
 
     /**
      * Creates a new instance of SelectFlightManagedBean
@@ -84,19 +88,33 @@ public class SelectFlightManagedBean implements Serializable {
                 = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("childNo");
         Integer infantNo
                 = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("infantNo");
+
+        // load departure flight data
         departureDirectRoute
-                = flightLookupSessionBean.getDirectRoutes(orginAirport, destinationAirport);
-        System.out.println("departureDirectRoute = " + departureDirectRoute);
-        
+                = flightLookupSessionBean.getDirectRoute(orginAirport, destinationAirport);
+
+        if (departureDirectRoute != null) {
+            departureDirectFlightCandidates
+                    = flightLookupSessionBean.getAvailableFlights(departureDirectRoute, departureDate, flightLookupSessionBean.getDateAfterDays(departureDate, 1));
+            departureHasDirectFlight = (departureDirectFlightCandidates.size() > 0);
+        } else {
+            departureHasDirectFlight = false;
+        }
+
+        departureTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, departureDate);
+        departureHasTransferFlight = (departureTransferFlightCandidates.size() > 0);
+
+        // loading return flight data
         returnDirectRoute
-                = flightLookupSessionBean.getDirectRoutes(destinationAirport, orginAirport);        
-        System.out.println("returnDirectRoute = " + returnDirectRoute);
-        
-        departureDirectFlightCandidates
-                = flightLookupSessionBean.getAvailableFlights(departureDirectRoute, departureDate);
-        returnDirectFlightCandidates
-                = flightLookupSessionBean.getAvailableFlights(returnDirectRoute, returnDate);
-        
+                = flightLookupSessionBean.getDirectRoute(destinationAirport, orginAirport);
+
+        if (returnDirectRoute != null) {
+            returnDirectFlightCandidates
+                    = flightLookupSessionBean.getAvailableFlights(returnDirectRoute, returnDate, flightLookupSessionBean.getDateAfterDays(returnDate, 1));
+        }
+
+        returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, returnDate);
+        returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
     }
 
     public FlightEntity getDepartureFlight() {
@@ -139,23 +157,6 @@ public class SelectFlightManagedBean implements Serializable {
         this.returnDirectRoute = returnDirectRoute;
     }
 
-    public List<RouteEntity> getDepartureTransfer1Route() {
-        return departureTransfer1Route;
-    }
-
-    public void setDepartureTransfer1Route(List<RouteEntity> departureTransfer1Route) {
-        this.departureTransfer1Route = departureTransfer1Route;
-    }
-
-    public List<RouteEntity> getReturnTransfer1Route() {
-        return returnTransfer1Route;
-    }
-
-    public void setReturnTransfer1Route(List<RouteEntity> returnTransfer1Route) {
-        this.returnTransfer1Route = returnTransfer1Route;
-    }
-
-
     public List<FlightEntity> getDepartureDirectFlightCandidates() {
         return departureDirectFlightCandidates;
     }
@@ -172,20 +173,58 @@ public class SelectFlightManagedBean implements Serializable {
         this.returnDirectFlightCandidates = returnDirectFlightCandidates;
     }
 
-    public List<FlightEntity> getDepartureTransfer1FlightCandidates() {
-        return departureTransfer1FlightCandidates;
+    public boolean isDepartureHasDirectFlight() {
+        return departureHasDirectFlight;
     }
 
-    public void setDepartureTransfer1FlightCandidates(List<FlightEntity> departureTransfer1FlightCandidates) {
-        this.departureTransfer1FlightCandidates = departureTransfer1FlightCandidates;
+    public void setDepartureHasDirectFlight(boolean departureHasDirectFlight) {
+        this.departureHasDirectFlight = departureHasDirectFlight;
     }
 
-    public List<FlightEntity> getReturnTransfer1FlightCandidates() {
-        return returnTransfer1FlightCandidates;
+    public boolean isDepartureHasTransferFlight() {
+        return departureHasTransferFlight;
     }
 
-    public void setReturnTransfer1FlightCandidates(List<FlightEntity> returnTransfer1FlightCandidates) {
-        this.returnTransfer1FlightCandidates = returnTransfer1FlightCandidates;
+    public void setDepartureHasTransferFlight(boolean departureHasTransferFlight) {
+        this.departureHasTransferFlight = departureHasTransferFlight;
+    }
+
+    public boolean isReturnHasDirectFlight() {
+        return returnHasDirectFlight;
+    }
+
+    public void setReturnHasDirectFlight(boolean returnHasDirectFlight) {
+        this.returnHasDirectFlight = returnHasDirectFlight;
+    }
+
+    public boolean isReturnHasTransferFlight() {
+        return returnHasTransferFlight;
+    }
+
+    public void setReturnHasTransferFlight(boolean returnHasTransferFlight) {
+        this.returnHasTransferFlight = returnHasTransferFlight;
+    }
+
+    public List<TransferFlight> getDepartureTransferFlightCandidates() {
+        return departureTransferFlightCandidates;
+    }
+
+    public void setDepartureTransferFlightCandidates(List<TransferFlight> departureTransferFlightCandidates) {
+        this.departureTransferFlightCandidates = departureTransferFlightCandidates;
+    }
+
+    public List<TransferFlight> getReturnTransferFlightCandidates() {
+        return returnTransferFlightCandidates;
+    }
+
+    public void setReturnTransferFlightCandidates(List<TransferFlight> returnTransferFlightCandidates) {
+        this.returnTransferFlightCandidates = returnTransferFlightCandidates;
+    }
+
+    public String getUserFriendlyTime(double hours) {
+        int hourNo = (int) hours;
+        int minNo = (int) (60 * (hours - hourNo));
+        return hourNo + " hour " + minNo + " mins";
     }
 
 }

@@ -59,7 +59,7 @@ public class ErrorHandlingManagedBean implements Serializable {
                 System.out.print(ex);
             }
         } else {
-            System.out.print("staff number is not null");
+//            System.out.print("staff number is not null");
             StaffEntity staff = accountManagementSessionBean.getStaff(staffNo);
             StaffRole role = staff.getRole();
 //            System.out.print(role.getAccessRight());
