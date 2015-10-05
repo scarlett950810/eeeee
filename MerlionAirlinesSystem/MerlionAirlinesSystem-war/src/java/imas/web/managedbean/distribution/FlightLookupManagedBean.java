@@ -332,6 +332,16 @@ public class FlightLookupManagedBean implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
 
+        ec.getSessionMap().remove("orginAirport");
+        ec.getSessionMap().remove("destinationAirport");
+        ec.getSessionMap().remove("twoWay");
+        ec.getSessionMap().remove("departureDate");
+        ec.getSessionMap().remove("returnDate");
+        ec.getSessionMap().remove("seatClass");
+        ec.getSessionMap().remove("adultNo");
+        ec.getSessionMap().remove("childNo");
+        ec.getSessionMap().remove("infantNo");
+        
         ec.getSessionMap().put("orginAirport", orginAirport);
         ec.getSessionMap().put("destinationAirport", destinationAirport);
         ec.getSessionMap().put("twoWay", twoWay);

@@ -120,32 +120,13 @@
 
             <p:tab id="selectFlightTab" title="2 Select Flight" class="panel panel-primary">
 
-                <p:panel header="Direct flight: #{selectFlightManagedBean.departureDirectRoute}" class="panel panel-primary">
-                    <p:dataTable value="#{selectFlightManagedBean.departureDirectFlightCandidates}" var="flight"
-                                 rowKey="#{flight.id}" selection="#{selectFlightManagedBean.departureFlight}" selectionMode="single">
-                        <p:column headerText="Departure Time">
-                            <h:outputText value="#{flight.departureDate}" />
-                        </p:column>
+                <p:panel header="Departure: #{flightLookupManagedBean.orginAirport} to #{flightLookupManagedBean.destinationAirport}" class="panel panel-primary">
 
-                        <p:column headerText="Arrival Time">
-                            <h:outputText value="#{flight.arrivalDate}" />
-                        </p:column>
+                    <c:if test="#{selectFlightManagedBean.departureHasDirectFlight}">
 
-                        <p:column headerText="Duration (hours)">
-                            <h:outputText value="#{selectFlightManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
-                        </p:column>
-
-                        <p:column headerText="Aircraft Type">
-                            <h:outputText value="#{flight.aircraft.aircraftType}" />
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
-
-                <c:if test="#{flightLookupManagedBean.twoWay}">
-
-                    <p:panel header="Direct flight: #{selectFlightManagedBean.returnDirectRoute}" class="panel panel-primary">
-                        <p:dataTable value="#{selectFlightManagedBean.returnDirectFlightCandidates}" var="flight"
-                                     rowKey="#{flight.id}" selection="#{selectFlightManagedBean.returnFlight}" selectionMode="single">
+                        <p:outputLabel for="departureDirect" value="Direct flight:" />
+                        <p:dataTable id="departureDirect" value="#{selectFlightManagedBean.departureDirectFlightCandidates}" var="flight"
+                                     rowKey="#{flight.id}" selection="#{selectFlightManagedBean.departureFlight}" selectionMode="single">
                             <p:column headerText="Departure Time">
                                 <h:outputText value="#{flight.departureDate}" />
                             </p:column>
@@ -162,12 +143,162 @@
                                 <h:outputText value="#{flight.aircraft.aircraftType}" />
                             </p:column>
                         </p:dataTable>
+
+                    </c:if>
+
+                    <c:if test="#{not selectFlightManagedBean.departureHasDirectFlight}">
+                        <h:outputText value="No direct flights found." />
+                        <p:separator />
+                    </c:if>
+
+                    <c:if test="#{selectFlightManagedBean.departureHasTransferFlight}">
+
+                        <c:forEach items="#{selectFlightManagedBean.departureTransferFlightCandidates}" var="transferFlight">
+
+                            <h:outputText value="Transfer option:"/>
+                            <p:dataTable value="#{transferFlight.flights1}" var="flight" 
+                                         rowKey="#{flight.id}" selection="#{selectFlightManagedBean.departureTransferFlight1}" selectionMode="single">
+                                <f:facet name="header">
+                                    #{transferFlight.route1}
+                                </f:facet>
+                                <p:column headerText="Departure Time">
+                                    <h:outputText value="#{flight.departureDate}" />
+                                </p:column>
+
+                                <p:column headerText="Arrival Time">
+                                    <h:outputText value="#{flight.arrivalDate}" />
+                                </p:column>
+
+                                <p:column headerText="Duration (hours)">
+                                    <h:outputText value="#{selectFlightManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                </p:column>
+
+                                <p:column headerText="Aircraft Type">
+                                    <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                </p:column>
+                            </p:dataTable>
+
+                            <p:dataTable value="#{transferFlight.flights2}" var="flight"
+                                         rowKey="#{flight.id}" selection="#{selectFlightManagedBean.departureTransferFlight2}" selectionMode="single">
+                                <f:facet name="header">
+                                    #{transferFlight.route2}
+                                </f:facet>
+                                <p:column headerText="Departure Time">
+                                    <h:outputText value="#{flight.departureDate}" />
+                                </p:column>
+
+                                <p:column headerText="Arrival Time">
+                                    <h:outputText value="#{flight.arrivalDate}" />
+                                </p:column>
+
+                                <p:column headerText="Duration (hours)">
+                                    <h:outputText value="#{selectFlightManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                </p:column>
+
+                                <p:column headerText="Aircraft Type">
+                                    <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                </p:column>
+                            </p:dataTable>
+
+                            <br/>
+                        </c:forEach>
+
+                    </c:if>
+                </p:panel>
+
+                <c:if test="#{flightLookupManagedBean.twoWay}">
+
+                    <p:panel header="Return: #{flightLookupManagedBean.destinationAirport} to #{flightLookupManagedBean.orginAirport}" class="panel panel-primary">
+
+                        <c:if test="#{selectFlightManagedBean.returnHasDirectFlight}">
+
+                            <p:outputLabel for="returnDirect" value="Direct flight:" />                    
+                            <p:dataTable id="returnDirect" value="#{selectFlightManagedBean.returnDirectFlightCandidates}" var="flight"
+                                         rowKey="#{flight.id}" selection="#{selectFlightManagedBean.returnFlight}" selectionMode="single">
+                                <p:column headerText="Departure Time">
+                                    <h:outputText value="#{flight.departureDate}" />
+                                </p:column>
+
+                                <p:column headerText="Arrival Time">
+                                    <h:outputText value="#{flight.arrivalDate}" />
+                                </p:column>
+
+                                <p:column headerText="Duration (hours)">
+                                    <h:outputText value="#{selectFlightManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                </p:column>
+
+                                <p:column headerText="Aircraft Type">
+                                    <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                </p:column>
+                            </p:dataTable>
+                        </c:if>
+
+                        <c:if test="#{not selectFlightManagedBean.returnHasDirectFlight}">
+                            <h:outputText value="No direct flights found." />
+                            <p:separator />
+                        </c:if>
+
+                        <c:if test="#{selectFlightManagedBean.returnHasTransferFlight}">
+
+                            <c:forEach items="#{selectFlightManagedBean.returnTransferFlightCandidates}" var="transferFlight">
+
+                                <h:outputText value="Transfer option:"/>
+                                <p:dataTable value="#{transferFlight.flights1}" var="flight" 
+                                             rowKey="#{flight.id}" selection="#{selectFlightManagedBean.returnTransferFlight1}" selectionMode="single">
+                                    <f:facet name="header">
+                                        #{transferFlight.route1}
+                                    </f:facet>
+                                    <p:column headerText="Departure Time">
+                                        <h:outputText value="#{flight.departureDate}" />
+                                    </p:column>
+
+                                    <p:column headerText="Arrival Time">
+                                        <h:outputText value="#{flight.arrivalDate}" />
+                                    </p:column>
+
+                                    <p:column headerText="Duration (hours)">
+                                        <h:outputText value="#{selectFlightManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                    </p:column>
+
+                                    <p:column headerText="Aircraft Type">
+                                        <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                    </p:column>
+                                </p:dataTable>
+
+                                <p:dataTable value="#{transferFlight.flights2}" var="flight"
+                                             rowKey="#{flight.id}" selection="#{selectFlightManagedBean.returnTransferFlight2}" selectionMode="single">
+                                    <f:facet name="header">
+                                        #{transferFlight.route2}
+                                    </f:facet>
+                                    <p:column headerText="Departure Time">
+                                        <h:outputText value="#{flight.departureDate}" />
+                                    </p:column>
+
+                                    <p:column headerText="Arrival Time">
+                                        <h:outputText value="#{flight.arrivalDate}" />
+                                    </p:column>
+
+                                    <p:column headerText="Duration (hours)">
+                                        <h:outputText value="#{selectFlightManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                    </p:column>
+
+                                    <p:column headerText="Aircraft Type">
+                                        <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                    </p:column>
+                                </p:dataTable>
+
+                                <br/>
+                            </c:forEach>
+
+                        </c:if>
+
                     </p:panel>
 
                 </c:if>
 
-
             </p:tab>
+            
         </p:tabView>
+        
     </ui:define>
 </ui:composition>
