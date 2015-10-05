@@ -68,9 +68,9 @@ public class FlightLookupManagedBean implements Serializable {
         airportList = aircraftSessionBean.getAirports();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", airportList);
-        
+
         System.out.println("airportList set in sessionMap = " + airportList);
-        
+
         twoWay = true;
         Calendar today = Calendar.getInstance();
         departureMinDate = today.getTime();
@@ -293,49 +293,25 @@ public class FlightLookupManagedBean implements Serializable {
         destinationAirportsByCountry = new ArrayList<>();
         List<String> countries = flightLookupSessionBean.getAllCountryNames();
         for (String country : countries) {
-            if (orginAirport.getNationName().equals(country)) {
-                SelectItemGroup group = new SelectItemGroup(country);
-                List<AirportEntity> airportsInCountry = flightLookupSessionBean.getAllAirportsInCountry(country);
-                if (airportsInCountry.size() > 1) {
-                    SelectItem[] selectItems = new SelectItem[airportsInCountry.size() - 1];
-                    for (int i = 0; i < airportsInCountry.size() - 1; i++) {
-                        AirportEntity airport = airportsInCountry.get(i);
-                        if (!airport.equals(orginAirport)) {
+            SelectItemGroup group = new SelectItemGroup(country);
+            List<AirportEntity> airportsInCountry = flightLookupSessionBean.getAllAirportsInCountry(country);
 
-                            if (airport == null) {
-                                System.err.println("******************** airport is NULL");
-                            }
+            SelectItem[] selectItems = new SelectItem[airportsInCountry.size()];
 
-                            SelectItem selectItem = new SelectItem(airport, airport.toString());
-                            selectItems[i] = selectItem;
-                        }
-                    }
-                    group.setSelectItems(selectItems);
-                    destinationAirportsByCountry.add(group);
+            for (int i = 0; i < airportsInCountry.size(); i++) {
+                AirportEntity airport = airportsInCountry.get(i);
+                SelectItem selectItem = new SelectItem(airport, airport.toString());
+                
+                if (airport.equals(orginAirport)) {
+                    selectItem.setDisabled(true);
                 }
-            } else {
-                SelectItemGroup group = new SelectItemGroup(country);
-                List<AirportEntity> airportsInCountry = flightLookupSessionBean.getAllAirportsInCountry(country);
-
-                SelectItem[] selectItems = new SelectItem[airportsInCountry.size()];
-
-                for (int i = 0; i < airportsInCountry.size(); i++) {
-                    AirportEntity airport = airportsInCountry.get(i);
-
-                    if (airport == null) {
-                        System.err.println("******************** airport is NULL");
-                    }
-
-                    SelectItem selectItem = new SelectItem(airport, airport.toString());
-                    selectItems[i] = selectItem;
-                }
-                group.setSelectItems(selectItems);
-                destinationAirportsByCountry.add(group);
+                
+                selectItems[i] = selectItem;
             }
-        }
+            group.setSelectItems(selectItems);
+            destinationAirportsByCountry.add(group);
 
-        System.out.println("airportsByCountry = " + airportsByCountry);
-        System.out.println("destinationAirportsByCountry = " + destinationAirportsByCountry);
+        }
 
     }
 
