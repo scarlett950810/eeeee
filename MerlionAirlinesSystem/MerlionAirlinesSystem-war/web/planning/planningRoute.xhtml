@@ -43,7 +43,7 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" life="2000"/>
             <p:dataTable id="routes" var="route" value="#{routeManagedBean.routes}" editable="true" style="margin-bottom:20px"
-                         paginator="true"
+                         paginator="true" widgetVar="routesTable" filteredValue="#{routeManagedBean.filteredRoutes}"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="15, 30, 50" rows="15">
                 <f:facet name="header">
@@ -54,16 +54,16 @@
                 <p:ajax event="rowEditCancel" listener="#{routeManagedBean.onRowCancel}" update=":form:msgs" />
 
 
-                <p:column headerText="Origin" >
-                    <h:outputText value="#{route.originAirport.airportName}" />
+                <p:column headerText="Origin" filterBy="#{route.originAirport.cityName}">
+                    <h:outputText value="#{route.originAirport.cityName}, #{route.originAirport.airportName}" />
                     <!--                    <p:cellEditor>
                                             <f:facet name="output"><h:outputText value="{route.originAirport.airportName}" /></f:facet>
                                             <f:facet name="input"><p:inputText value="{route.originAirport.airportName}" style="width:100%" label="origin"/></f:facet>
                                         </p:cellEditor>-->
                 </p:column>
 
-                <p:column headerText="Destination">
-                    <h:outputText value="#{route.destinationAirport.airportName}" />
+                <p:column headerText="Destination" filterBy="#{route.destinationAirport.cityName}">
+                    <h:outputText value="#{route.destinationAirport.cityName}, #{route.destinationAirport.airportName}" />
                     <!--                    <p:cellEditor>
                                             <f:facet name="output"><h:outputText value="{route.destinationAirport.airportName}" /></f:facet>
                                             <f:facet name="input"><p:inputText value="{route.destinationAirport.airportName}" style="width:100%" label="destination"/></f:facet>

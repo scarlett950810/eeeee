@@ -101,6 +101,9 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         TreeNode L1CL2CL3F = new DefaultTreeNode(new CostPairEntity(list.get(21).getCostType(), list.get(21).getCostFigure()), L1CL2C);
         TreeNode L1CL2CL3G = new DefaultTreeNode(new CostPairEntity(list.get(22).getCostType(), list.get(22).getCostFigure()), L1CL2C);
 //L1CL2CL3G.isExpanded()
+        L1A.setExpanded(true);
+        L1B.setExpanded(true);
+        L1C.setExpanded(true);
         return root;
     }
 

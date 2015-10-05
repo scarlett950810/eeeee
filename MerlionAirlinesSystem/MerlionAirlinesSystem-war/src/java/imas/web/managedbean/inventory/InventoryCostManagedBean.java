@@ -46,14 +46,15 @@ public class InventoryCostManagedBean implements Serializable {
     public void updateCostActionListener(ActionEvent event) {
         selectedCost = (CostPairEntity) event.getComponent().getAttributes().get("costPair");
 
-        if (selectedCost.getCostType().equals("Cost per seat per mile") || selectedCost.getCostType().equals("Fixed cost per seat per mile")
-                || selectedCost.getCostType().equals("Fixed cost per seat") || selectedCost.getCostType().equals("Flight cost per seat per mile")
-                || selectedCost.getCostType().equals("Passenger cost per seat per mile") || selectedCost.getCostType().equals("Average cost per passenger")
-                || selectedCost.getCostType().equals("Show rate") ) {
+        if (selectedCost.getCostType().equals("Fixed cost per seat per mile") || selectedCost.getCostType().equals("Fixed cost per seat")
+                || selectedCost.getCostType().equals("Flight variable cost per seat per mile") || selectedCost.getCostType().equals("Passenger cost per seat per mile")
+                || selectedCost.getCostType().equals("Show rate") || selectedCost.getCostType().equals("Average cost per passenger")
+                || selectedCost.getCostType().equals("Cost per seat per mile")) {
             FacesMessage msg = new FacesMessage("Sorry", "Please change those editable costs");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
             RequestContext requestContext = RequestContext.getCurrentInstance();
+            newCost = null;
             requestContext.execute("PF('costDialog').show()");
         }
 
@@ -68,7 +69,7 @@ public class InventoryCostManagedBean implements Serializable {
             root = costSession.createRoot();
             FacesMessage msg = new FacesMessage("Reminder", selectedCost.getCostType() + " has been changed to " + Double.toString(newCost));
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            
+
         }
 //        System.out.println(costName);
 //        System.out.println(costFigure);

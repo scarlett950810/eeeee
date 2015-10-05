@@ -100,6 +100,9 @@ public class ViewStaffManagedBean implements Serializable {
 
         view = TRUE;
         table = FALSE;
+        System.out.print(staff);
+        System.out.print(staff.getRole());
+        
         unit = staff.getRole().getBusinessUnit()+ "," + staff.getRole().getDivision();
         
         FacesContext fc = FacesContext.getCurrentInstance();
