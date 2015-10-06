@@ -14,7 +14,7 @@ import javax.ejb.Singleton;
  * @author Scarlett
  */
 @Singleton
-public class SetPriceTimerSessionBean {
+public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     
     private int monthToDeparture;
 
@@ -22,6 +22,7 @@ public class SetPriceTimerSessionBean {
         return monthToDeparture;
     }
 
+    @Override
     public void setMonthToDeparture(int monthToDeparture) {
         this.monthToDeparture = monthToDeparture;
     }
