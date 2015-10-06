@@ -7,11 +7,12 @@ package imas.inventory.sessionbean;
 
 import imas.inventory.entity.BookingClassEntity;
 import imas.distribution.entity.TicketEntity;
-import imas.distribution.sessionbean.DistributionSessionBeanLocal;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -54,7 +55,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         });
         return flightsWithoutBookingClass;
     }
-
+    
     @Override
     public void generateFirstClassBookingClassEntity(FlightEntity flight, double price, int quota) {
         entityManager.persist(new BookingClassEntity().FirstClassBookingClassEntity(flight, price, quota));
@@ -247,6 +248,24 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         generateEconomyClass4BookingClassEntity(flight, 1.1 * baseFare, (int) (0.2 * economyClassComputedOverbookingLevel));
         generateEconomyClass5BookingClassEntity(flight, 0.8 * baseFare, 0);
 
+    }
+
+    @Override
+    public void autoPriceToDepartureAndUnpricedFlights(int monthToDeparture) {
+            
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, monthToDeparture);
+        Date endingDate = cal.getTime();
+        Query q = entityManager.createQuery("SELECT a FROM FlightEntity a WHERE a.departured = :departured AND a.departureDate <= :endingDate");
+        q.setParameter("departured", false);
+        q.setParameter("endingDate", endingDate);
+        List<FlightEntity> candidateFlights = q.getResultList();
+
+        for (FlightEntity flight:candidateFlights) {
+            if (flight.getBookingClasses() == null) {
+                automaticallyCreateBookingClass(flight);
+            }
+        }        
     }
 
 }
