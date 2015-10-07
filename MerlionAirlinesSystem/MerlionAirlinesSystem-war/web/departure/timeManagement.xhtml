@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><a href="timeManagement.xhtml">Time Management</a></li>                     
+                <li><a href="delayManagement.xhtml">Delay Management</a></li>        
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
+
+        <h:form id="comingFlight">
+
+            <p:focus context="comingFlight"/>
+            <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;" class="panel-success">
+                <p:outputLabel for="comingFlight" value="Flight No: " />
+                <p:selectOneMenu id="comingFlight" value="#{timeManagementManagedBean.flight}" panelStyle="width:180px" required="true" requiredMessage="Please input flight No."
+                                 effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"  converter="flightConverter">
+                    <p:ajax update="comingFlight:time" listener="#{timeManagementManagedBean.onFlightChange()}" />
+                    <f:selectItem itemLabel="Please select" itemDisabled="true"/>
+                    <f:selectItems value="#{timeManagementManagedBean.comingFlights}" var="flight" itemLabel="#{flight.flightNo} #{flight.route.originAirport.cityName}-#{flight.route.destinationAirport.cityName},#{flight.departureDate.toLocaleString()}" itemValue="#{flight}" />
+                </p:selectOneMenu> 
+            </h:panelGrid>
+
+            <p:panel id="time" visible="#{timeManagementManagedBean.display}"
+                     header="#{timeManagementManagedBean.flight.flightNo} #{timeManagementManagedBean.flight.route.originAirport.cityName} - #{timeManagementManagedBean.flight.route.destinationAirport.cityName}"
+                     class="panel panel-success">
+                <p:outputLabel value="#{timeManagementManagedBean.flight.flightNo} #{timeManagementManagedBean.flight.route.originAirport.cityName}-#{timeManagementManagedBean.flight.route.destinationAirport.cityName}"></p:outputLabel>
+                <br/>
+                <p:outputLabel value="1. Check In Start Time : #{timeManagementManagedBean.checkInStartTime.toString()} "/> 
+                <br/>
+                <p:outputLabel value="2. Check In Close Time : #{timeManagementManagedBean.checkInCloseTime.toString()} "/> 
+                <br/>
+                <p:outputLabel value="3. Boarding Start Time : #{timeManagementManagedBean.boardingStartTime.toString()} "/> 
+                <br/>
+                <p:outputLabel value="4. Boarding Close Time : #{timeManagementManagedBean.boradingCloseTime.toString()} "/> 
+                <br/>
+                <p:outputLabel value="5.Estimated Departure Time: #{timeManagementManagedBean.flight.departureDate.toString()}"></p:outputLabel>
+                <br/> 
+                <p:outputLabel value="6.Actual Departure Time: #{timeManagementManagedBean.flight.actualDepartureDate.toString()} "/> 
+                <br/>
+                <p:commandButton value="Update" update="time" actionListener="#{timeManagementManagedBean.updateActualDepartureTime}"
+                                 icon="ui-icon-check" class="btn-sm btn-success" style="margin-top: 15px;">
+                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                </p:commandButton>
+
+                <br/>
+                <p:outputLabel value="7.Estimated Arrive Time: #{timeManagementManagedBean.flight.arrivalDate.toString()}"></p:outputLabel>
+                <br/> 
+                <p:outputLabel value="8.Actual Arrive Time: #{timeManagementManagedBean.flight.actualArrivalDate.toString()} "/> 
+                <br/>
+                <p:commandButton value="Departure" update="time" actionListener="#{timeManagementManagedBean.updateActualArriveTime()}"
+                                 icon="ui-icon-check" class="btn-sm btn-success" style="margin-top: 15px;">
+                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                </p:commandButton>
+
+                <br/>
+
+                <p:confirmDialog global="Arrive" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes btn-success" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no btn-danger" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+            </p:panel>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
