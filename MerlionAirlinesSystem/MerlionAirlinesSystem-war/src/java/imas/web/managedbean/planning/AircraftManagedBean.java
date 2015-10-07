@@ -9,7 +9,9 @@ import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.SeatEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
+import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
 import static java.lang.Boolean.FALSE;
@@ -34,10 +36,13 @@ import org.primefaces.event.RowEditEvent;
 @Named
 @ViewScoped
 public class AircraftManagedBean implements Serializable {
+    
+    @EJB
+    private RouteSessionBeanLocal routeSessionBean;
 
     @EJB
     private AircraftSessionBeanLocal aircraftSessionBean;
-
+    
     private String tailId;
     private AircraftTypeEntity aircraftType;
     private List<AircraftTypeEntity> aircraftTypes; // list of Aircrafts to choose from
@@ -49,6 +54,7 @@ public class AircraftManagedBean implements Serializable {
     private String conditionDescription;
     private AirportEntity airportHub;
     private List<AirportEntity> airports; // list of Airports to choose from
+    private List<AirportEntity> airportHubs; // list of Airports(hubs) to choose from
     private AirportEntity currentAirport;
     private AircraftGroupEntity aircraftGroup;
     private List<AircraftGroupEntity> aircraftGroups; // list of aircraftGroups to choose from
@@ -89,16 +95,18 @@ public class AircraftManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         aircrafts = aircraftSessionBean.getAircrafts();
-
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());
+        airportHubs = routeSessionBean.retrieveHubs();
+        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", this.getAircraftTypes());        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportHubList", this.getAirportHubs());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", this.getAirports());
     }
 
     @PostRemove
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aircraftTypes");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aircraftGroups");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportHubList");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");        
     }
 
     public AircraftManagedBean() {
@@ -372,16 +380,24 @@ public class AircraftManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void onAircraftDelete() throws IOException {
+    public void onAircraftDelete(AircraftEntity aircraft) {
         System.err.println("enter on aircraft delete");
-        System.err.println(selectedAircraft.getTailId());
-        String msg = aircraftSessionBean.deleteAircraft(selectedAircraft);
-        System.err.println("sucess");
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        ec.redirect("planningEditDeleteAircraft.xhtml");
+
         
         
+        System.err.println(aircraft.getTailId());
+        if(aircraftSessionBean.deleteAircraft(aircraft)){
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted successfully", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        else{
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please delete associated flights first.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+            
+        
+        aircrafts = aircraftSessionBean.getAircrafts();
+
 
     }
 
@@ -410,5 +426,13 @@ public class AircraftManagedBean implements Serializable {
     public void beforeDelete(){
         System.out.println("You are deleting " + selectedAircraft);
     }
-    
+
+    public List<AirportEntity> getAirportHubs() {
+        return airportHubs;
+    }
+
+    public void setAirportHubs(List<AirportEntity> airportHubs) {
+        this.airportHubs = airportHubs;
+    }
+     
 }
