@@ -40,7 +40,7 @@ public class AircraftEntity implements Serializable {
     private Double operationYear;
     private Double turnAroundTime; //minutes
     private String conditionDescription; // This is a string containing the description of the aircraft condition such as the left wing is abnormal
-    
+
     //private FlightEntity flight;
     @OneToMany(mappedBy = "aircraft")
     private List<FlightEntity> flights;
@@ -56,7 +56,7 @@ public class AircraftEntity implements Serializable {
     @ManyToOne
     private AirportEntity currentAirport;
 
-//group
+    //group
     @ManyToOne
     private AircraftGroupEntity aircraftGroup;
 
@@ -76,7 +76,7 @@ public class AircraftEntity implements Serializable {
         this.airportHub = airportHub;
         this.currentAirport = currentAirport;
     }
-    
+
     public AircraftEntity(String tailId, AircraftTypeEntity aircraftType, Double purchasePrice, Double deprecation, Double netAssetValue, Double aircraftLife, Double operationYear, String conditionDescription, AirportEntity airportHub, AirportEntity currentAirport, Double turnAroundTime) {
         this.tailId = tailId;
         this.aircraftType = aircraftType;
@@ -91,7 +91,7 @@ public class AircraftEntity implements Serializable {
         this.currentAirport = currentAirport;
         this.turnAroundTime = turnAroundTime;
     }
-    
+
     public AircraftGroupEntity getAircraftGroup() {
         return aircraftGroup;
     }
