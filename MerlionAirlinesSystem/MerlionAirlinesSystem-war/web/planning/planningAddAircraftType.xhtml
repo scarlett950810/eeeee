@@ -23,7 +23,7 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
-                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                <li class="sidebar-h1"><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
@@ -40,7 +40,7 @@
                         <p:watermark for="IATACode" value="Please enter IATA Code" />
                     </p:inputText>
                     
-                    <p:outputLabel for="aircraftRange" value="Aircraft Range" />
+                    <p:outputLabel for="aircraftRange" value="Aircraft Range (kilometer)" />
                     <p:inputText id="aircraftRange" value="#{aircraftTypeManagedBean.aircraftRange}"
                                  label="aircraftRange" required="true" requiredMessage="Please input aircraft range">
                         <p:watermark for="aircraftRange" value="Please enter aircraft range" />
@@ -52,31 +52,31 @@
                         <p:watermark for="aircraftSpace" value="Please enter aircraft space" />
                     </p:inputText>
 
-                    <p:outputLabel for="cruisingSpeed" value="Cruising Speed" />
+                    <p:outputLabel for="cruisingSpeed" value="Cruising Speed (mile)" />
                     <p:inputText id="cruisingSpeed" value="#{aircraftTypeManagedBean.cruisingSpeed}"
                                  label="cruisingSpeed" required="true" requiredMessage="Please input cruising speed">
                         <p:watermark for="cruisingSpeed" value="Please enter cruising speed" />
                     </p:inputText>
 
-                    <p:outputLabel for="wingSpan" value="Wing Span" />
+                    <p:outputLabel for="wingSpan" value="Wing Span (ft)" />
                     <p:inputText id="wingSpan" value="#{aircraftTypeManagedBean.wingSpan}" label="wingSpan"
                                  required="true" requiredMessage="Please input wing span">
                         <p:watermark for="wingSpan" value="Please enter wing span" />
                     </p:inputText>
                     
-                    <p:outputLabel for="aircraftWeight" value="Aircraft Weight" />
+                    <p:outputLabel for="aircraftWeight" value="Aircraft Weight (tonnes)" />
                     <p:inputText id="aircraftWeight" value="#{aircraftTypeManagedBean.aircraftWeight}"
                                  label="aircraftWeight" required="true" requiredMessage="Please input aircraft weight">
                         <p:watermark for="aircraftWeight" value="Please enter aircraft weight" />
                     </p:inputText>
                     
-                    <p:outputLabel for="aircraftLength" value="Aircraft Length" />
+                    <p:outputLabel for="aircraftLength" value="Aircraft Length (ft)" />
                     <p:inputText id="aircraftLength" value="#{aircraftTypeManagedBean.aircraftLength}"
                                  label="aircraftLength" required="true" requiredMessage="Please input aircraft length">
                         <p:watermark for="aircraftLength" value="Please enter aircraft length" />
                     </p:inputText>
                     
-                    <p:outputLabel for="aircraftHeight" value="Aircraft Height" />
+                    <p:outputLabel for="aircraftHeight" value="Aircraft Height (ft)" />
                     <p:inputText id="aircraftHeight" value="#{aircraftTypeManagedBean.aircraftHeight}"
                                  label="aircraftHeight" required="true" requiredMessage="Please input aircraft height">
                         <p:watermark for="aircraftHeight" value="Please enter aircraft height" />
@@ -88,7 +88,7 @@
                         <p:watermark for="powerPlant" value="Please enter power plant" />
                     </p:inputText>
                     
-                    <p:outputLabel for="MaintenanceHoursRequiredACheck" value="Maintainence Hours" />
+                    <p:outputLabel for="MaintenanceHoursRequiredACheck" value="Maintainence Required Time for A Check (minute)" />
                     <p:inputText id="MaintenanceHoursRequiredACheck" value="#{aircraftTypeManagedBean.maintenanceHoursRequiredACheck}"
                                  label="MaintenanceHoursRequiredACheck" required="true" requiredMessage="Please input maintainence hours">
                         <p:watermark for="MaintenanceHoursRequiredACheck" value="Please enter maintainence hours" />

@@ -27,7 +27,7 @@ import javax.persistence.Temporal;
  * @author Lei
  */
 @Entity
-public class FlightEntity implements Serializable {
+public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -63,6 +63,8 @@ public class FlightEntity implements Serializable {
     private String nearAirCollisions;//19
     private String others;//20
     private boolean departured;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date estimateDepartureDate;//ture is delayed
 
     @ManyToOne
     private AircraftEntity aircraft;
@@ -84,10 +86,12 @@ public class FlightEntity implements Serializable {
     public FlightEntity() {
 
     }
+
     public FlightEntity(Integer yearSelected) {
         this.operatingYear = yearSelected;
-        
+
     }
+
     public Integer getOperatingYear() {
         return operatingYear;
     }
@@ -101,10 +105,19 @@ public class FlightEntity implements Serializable {
         this.flightNo = flightNo;
         this.aircraft = aircraft;
         this.route = route;
+
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Date getEstimateDepartureDate() {
+        return estimateDepartureDate;
+    }
+
+    public void setEstimateDepartureDate(Date estimateDepartureDate) {
+        this.estimateDepartureDate = estimateDepartureDate;
     }
 
     public String getWeekDay() {
@@ -150,8 +163,6 @@ public class FlightEntity implements Serializable {
     public void setArrivalDate(Date arrivalDate) {
         this.arrivalDate = arrivalDate;
     }
-
-
 
     public Date getActualDepartureDate() {
         return actualDepartureDate;
@@ -338,7 +349,7 @@ public class FlightEntity implements Serializable {
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -350,6 +361,14 @@ public class FlightEntity implements Serializable {
             return route.toString() + " at " + departureDate + " by " + aircraft.toString();
         }
         
+    }
+
+    @Override
+    public int compareTo(FlightEntity o) {
+
+        return o.departureDate.compareTo(this.departureDate);
+
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -24,7 +24,7 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development </a></li>
-                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                <li class="sidebar-h1"><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
@@ -46,27 +46,27 @@
                         <f:selectItems value="#{aircraftManagedBean.aircraftTypes}" var="aircraftType" itemLabel="#{aircraftType.IATACode}" itemValue="#{aircraftType}" />
                     </p:selectOneMenu>
 
-                    <p:outputLabel for="purchasePrice" value="Purchase Price" />
+                    <p:outputLabel for="purchasePrice" value="Purchase Price (SGD)" />
                     <p:inputText style="width: 400px" id="purchasePrice" value="#{aircraftManagedBean.purchasePrice}" label="purchasePrice" required="true" requiredMessage="Please input Purchase Price">
                         <p:watermark for="purchasePrice" value="Please enter purchase price" />
                     </p:inputText>
 
-                    <p:outputLabel for="deprecation" value="Deprecation" />
+                    <p:outputLabel for="deprecation" value="Deprecation (SGD)" />
                     <p:inputText style="width: 400px" id="deprecation" value="#{aircraftManagedBean.deprecation}" label="deprecation" required="true" requiredMessage="Please input Deprecation">
                         <p:watermark for="deprecation" value="Please enter deprecation" />
                     </p:inputText>
 
-                    <p:outputLabel for="netAssetValue" value="Net Asset Value" />
+                    <p:outputLabel for="netAssetValue" value="Net Asset Value (SGD)" />
                     <p:inputText style="width: 400px" id="netAssetValue" value="#{aircraftManagedBean.netAssetValue}" label="netAssetValue" required="true" requiredMessage="Please input Net Asset Value">
                         <p:watermark for="netAssetValue" value="Please enter Net Asset Value" />
                     </p:inputText>
 
-                    <p:outputLabel for="aircraftLife" value="Aircraft Life" />
+                    <p:outputLabel for="aircraftLife" value="Aircraft Life (Year)" />
                     <p:inputText style="width: 400px" id="aircraftLife" value="#{aircraftManagedBean.aircraftLife}" label="aircraftLife" required="true" requiredMessage="Please input aircraft life">
                         <p:watermark for="aircraftLife" value="Please enter Aircraft Life" />
                     </p:inputText>
 
-                    <p:outputLabel for="operationYear" value="Operation Year" />
+                    <p:outputLabel for="operationYear" value="Operation Year (Year)" />
                     <p:inputText style="width: 400px" id="operationYear" value="#{aircraftManagedBean.operationYear}" label="operationYear" required="true" requiredMessage="Please input Operation Year">
                         <p:watermark for="operationYear" value="Please enter Operation Year" />
                     </p:inputText>
@@ -88,7 +88,7 @@
                         <f:selectItems value="#{aircraftManagedBean.airports}" var="airport" itemLabel="#{airport.airportCode} #{airport.airportName} @ #{airport.cityName}, #{airport.nationName}" itemValue="#{airport}"/>
                     </p:selectOneMenu>
 
-                    <p:outputLabel for="turnaroundTime" value="Turnaround Time" />
+                    <p:outputLabel for="turnaroundTime" value="Turnaround Time (minute)" />
                     <p:inputText style="width: 400px" id="turnaroundTime" value="#{aircraftManagedBean.turnaroundTime}" label="turnaroundTime" required="true" requiredMessage="Please input turnaround time">
                         <p:watermark for="turnaroundTime" value="Please enter turnaround time" />
                     </p:inputText>

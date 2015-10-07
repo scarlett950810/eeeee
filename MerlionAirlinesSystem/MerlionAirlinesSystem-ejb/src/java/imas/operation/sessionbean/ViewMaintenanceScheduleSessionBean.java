@@ -53,7 +53,7 @@ public class ViewMaintenanceScheduleSessionBean implements ViewMaintenanceSchedu
 
     @Override
     public void create() {
-        AircraftTypeEntity at1 = new AircraftTypeEntity("A980", (double) 10, 50, (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 20);
+        AircraftTypeEntity at1 = new AircraftTypeEntity("A980", (double) 10,  (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 20);
         em.persist(at1);
 
         AirportEntity a1 = new AirportEntity(false, "Shijiazhuang", "ZD Airport", "SJZ", "China");

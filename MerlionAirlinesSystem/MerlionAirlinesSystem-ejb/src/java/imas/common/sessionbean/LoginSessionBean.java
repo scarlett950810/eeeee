@@ -8,8 +8,12 @@ package imas.common.sessionbean;
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
 import imas.common.entity.StaffEntity;
+import imas.inventory.entity.BookingClassEntity;
+import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.AircraftGroupSessionBeanLocal;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
@@ -18,6 +22,7 @@ import java.util.ArrayList;
 import javax.ejb.Stateful;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,8 +39,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     @PersistenceContext
     private EntityManager entityManager;
     CryptographicHelper cp = new CryptographicHelper();
-    private Integer leftChance = 7;
-
+    private Integer leftChance=7;
     public LoginSessionBean() {
     }
 
@@ -113,7 +117,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
                                     tempStaff.setLoginAttempt(tempDate);
                                     entityManager.merge(tempStaff);
                                     System.out.println("captcha");
-                                    leftChance = 10 - tempStaff.getLoginAttempt().size();
+                                    leftChance=10 - tempStaff.getLoginAttempt().size();
                                     return "captcha";
                                 } else {
 
@@ -155,13 +159,13 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     @Override
     public void insertData() {
-        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double) 10000, 50, (double) 100000, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 60);
-        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double) 5000, 80, (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
-        AircraftTypeEntity aircraftType3 = new AircraftTypeEntity("B777", (double) 10000, 80, (double) 180000, (double) 550, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
-        AircraftTypeEntity aircraftType4 = new AircraftTypeEntity("B787", (double) 12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 60);
-        AircraftTypeEntity aircraftType5 = new AircraftTypeEntity("B747", (double) 8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
-        AircraftTypeEntity aircraftType6 = new AircraftTypeEntity("B737", (double) 12000, 80, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
-        AircraftTypeEntity aircraftType7 = new AircraftTypeEntity("A320", (double) 8000, 80, (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 70);
+        AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double) 10000,  (double) 100000, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 60);
+        AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double) 5000,  (double) 180000, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
+        AircraftTypeEntity aircraftType3 = new AircraftTypeEntity("B777", (double) 10000,  (double) 180000, (double) 550, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
+        AircraftTypeEntity aircraftType4 = new AircraftTypeEntity("B787", (double) 12000, (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 60);
+        AircraftTypeEntity aircraftType5 = new AircraftTypeEntity("B747", (double) 8000,  (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
+        AircraftTypeEntity aircraftType6 = new AircraftTypeEntity("B737", (double) 12000,  (double) 180000, (double) 600, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
+        AircraftTypeEntity aircraftType7 = new AircraftTypeEntity("A320", (double) 8000,  (double) 180000, (double) 580, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 70);
         entityManager.persist(aircraftType1);
         entityManager.persist(aircraftType2);
         entityManager.persist(aircraftType3);
@@ -246,10 +250,12 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         List<String> l3 = new ArrayList<String>();
         l3.add("A380");
-        l3.add("A880");
+        l3.add("A330");
         l3.add("B777");
         l3.add("B787");
-        l3.add("B700");
+        l3.add("B747");
+        l3.add("A320");
+        l3.add("B737");
 
         List<String> l4 = new ArrayList<String>();
         l4.add("A880");
@@ -283,36 +289,36 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         System.out.println("List of aircraft types created for pilot scheduling testing");
 
-        PilotEntity p1 = new PilotEntity("p001", "Tom", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l1, null, false);
-        PilotEntity p2 = new PilotEntity("p002", "Tommy", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, true);
+        PilotEntity p1 = new PilotEntity("p001", "Tom", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p2 = new PilotEntity("p002", "Tommy", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
         PilotEntity p3 = new PilotEntity("p003", "Kurt", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
-        PilotEntity p4 = new PilotEntity("p004", "Yin Lei", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, true);
-        PilotEntity p5 = new PilotEntity("p005", "Hao", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, false);
-        PilotEntity p6 = new PilotEntity("p006", "Jerry", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l6, null, true);
-        PilotEntity p7 = new PilotEntity("p007", "Dog", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, false);
-        PilotEntity p8 = new PilotEntity("p008", "Cat", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, true);
-        PilotEntity p9 = new PilotEntity("p009", "Pig", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, false);
-        PilotEntity p10 = new PilotEntity("p010", "Zebra", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, true);
-        PilotEntity p11 = new PilotEntity("p011", "Ant", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l1, null, false);
-        PilotEntity p12 = new PilotEntity("p012", "Flower", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, true);
-        PilotEntity p13 = new PilotEntity("p013", "Bird", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
-        PilotEntity p14 = new PilotEntity("p014", "Butterfly", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l4, null, true);
-        PilotEntity p15 = new PilotEntity("p015", "Kimberly", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, false);
-        PilotEntity p16 = new PilotEntity("p016", "One", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
-        PilotEntity p17 = new PilotEntity("p017", "Two", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
-        PilotEntity p18 = new PilotEntity("p018", "Three", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
-        PilotEntity p19 = new PilotEntity("p019", "Four", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, true);
-        PilotEntity p20 = new PilotEntity("p020", "Five", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
-        PilotEntity p21 = new PilotEntity("p021", "Six", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l1, null, true);
-        PilotEntity p22 = new PilotEntity("p022", "Seven", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, false);
-        PilotEntity p23 = new PilotEntity("p023", "Eight", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
-        PilotEntity p24 = new PilotEntity("p024", "Nine", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, false);
-        PilotEntity p25 = new PilotEntity("p025", "Ten", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, true);
-        PilotEntity p26 = new PilotEntity("p026", "Elevan", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
-        PilotEntity p27 = new PilotEntity("p027", "Twlve", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
-        PilotEntity p28 = new PilotEntity("p028", "Thirteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
-        PilotEntity p29 = new PilotEntity("p029", "Fourteen", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l9, null, true);
-        PilotEntity p30 = new PilotEntity("p030", "Fifteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
+        PilotEntity p4 = new PilotEntity("p004", "Yin Lei", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
+        PilotEntity p5 = new PilotEntity("p005", "Hao", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p6 = new PilotEntity("p006", "Jerry", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l3, null, true);
+        PilotEntity p7 = new PilotEntity("p007", "Dog", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p8 = new PilotEntity("p008", "Cat", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
+        PilotEntity p9 = new PilotEntity("p009", "Pig", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p10 = new PilotEntity("p010", "Zebra", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
+        PilotEntity p11 = new PilotEntity("p011", "Ant", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+        PilotEntity p12 = new PilotEntity("p012", "Flower", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
+//        PilotEntity p13 = new PilotEntity("p013", "Bird", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+//        PilotEntity p14 = new PilotEntity("p014", "Butterfly", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l4, null, true);
+//        PilotEntity p15 = new PilotEntity("p015", "Kimberly", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, false);
+//        PilotEntity p16 = new PilotEntity("p016", "One", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
+//        PilotEntity p17 = new PilotEntity("p017", "Two", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
+//        PilotEntity p18 = new PilotEntity("p018", "Three", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
+//        PilotEntity p19 = new PilotEntity("p019", "Four", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l9, null, true);
+//        PilotEntity p20 = new PilotEntity("p020", "Five", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
+//        PilotEntity p21 = new PilotEntity("p021", "Six", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l1, null, true);
+//        PilotEntity p22 = new PilotEntity("p022", "Seven", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, false);
+//        PilotEntity p23 = new PilotEntity("p023", "Eight", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
+//        PilotEntity p24 = new PilotEntity("p024", "Nine", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, false);
+//        PilotEntity p25 = new PilotEntity("p025", "Ten", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, true);
+//        PilotEntity p26 = new PilotEntity("p026", "Elevan", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
+//        PilotEntity p27 = new PilotEntity("p027", "Twlve", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
+//        PilotEntity p28 = new PilotEntity("p028", "Thirteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
+//        PilotEntity p29 = new PilotEntity("p029", "Fourteen", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l9, null, true);
+//        PilotEntity p30 = new PilotEntity("p030", "Fifteen", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
 
         entityManager.persist(p1);
         entityManager.persist(p2);
@@ -339,8 +345,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         p4.setBase(a4);
         p5.setBase(a4);
         p6.setBase(a4);
-        p7.setBase(a4);
-        p8.setBase(a4);
+        p7.setBase(a8);
+        p8.setBase(a8);
         p9.setBase(a8);
         p10.setBase(a8);
         p11.setBase(a8);
@@ -608,10 +614,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         System.out.println("Cabin crew are created.");
 
-    }
-
-    public void setLeftChance(Integer leftChance) {
-        this.leftChance = leftChance;
     }
 
     @Override

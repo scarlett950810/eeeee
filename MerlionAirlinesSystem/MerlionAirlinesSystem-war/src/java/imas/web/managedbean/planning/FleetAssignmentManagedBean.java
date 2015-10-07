@@ -44,6 +44,9 @@ public class FleetAssignmentManagedBean implements Serializable{
     private CrewSchedulingSessionBeanLocal crewSchedulingSession;
     @EJB
     private TestFunctionsFAandCSLocal functionsFAandCSLocal;
+    private Integer numOfUnassignedFlights;
+    private Boolean appearOrnot = true; 
+    private String color = "color: indianred";
     /**
      * Creates a new instance of FASetFrequency
      */
@@ -54,7 +57,11 @@ public class FleetAssignmentManagedBean implements Serializable{
      @PostConstruct
     public void init()
     {     
-        
+        numOfUnassignedFlights = fleetAssignment.getAllFlights().size();
+        if(numOfUnassignedFlights==0){
+            appearOrnot = false;
+            color = "#999999";
+        }
         System.err.println("enter init");
 //         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftList", aircraftsAll);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("dateList", getAllPlanningPeirod());
@@ -66,8 +73,8 @@ public class FleetAssignmentManagedBean implements Serializable{
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         aircraftsAll = aircraftSessionBean.getAircrafts();  
-        System.err.println("planningPeriodStartingDate"+planningPeriodStartingDate.toString());
-        flightsAll = fleetAssignment.getAllFlightsWithinPlanningPeriod(planningPeriodStartingDate);
+      //  System.err.println("planningPeriodStartingDate"+planningPeriodStartingDate.toString());
+        flightsAll = fleetAssignment.getAllFlights();
         System.err.println("finishflightsAll");
         flightsLeft = fleetAssignment.fleetAssignment(flightsAll, aircraftsAll);
         System.err.println("outof the optimization");
@@ -75,6 +82,46 @@ public class FleetAssignmentManagedBean implements Serializable{
         fleetAssignment.deleteUnassginedFlights(flightsLeft);
         ec.redirect("../operation/viewFlightSchedule.xhtml");
 
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public List<FlightEntity> getFlightsAll() {
+        return flightsAll;
+    }
+
+    public Boolean getAppearOrnot() {
+        return appearOrnot;
+    }
+
+    public void setAppearOrnot(Boolean appearOrnot) {
+        this.appearOrnot = appearOrnot;
+    }
+
+    public void setFlightsAll(List<FlightEntity> flightsAll) {
+        this.flightsAll = flightsAll;
+    }
+
+    public List<FlightEntity> getFlightsLeft() {
+        return flightsLeft;
+    }
+
+    public void setFlightsLeft(List<FlightEntity> flightsLeft) {
+        this.flightsLeft = flightsLeft;
+    }
+
+    public Integer getNumOfUnassignedFlights() {
+        return numOfUnassignedFlights;
+    }
+
+    public void setNumOfUnassignedFlights(Integer numOfUnassignedFlights) {
+        this.numOfUnassignedFlights = numOfUnassignedFlights;
     }
 
     public List<Date> getAllPlanningPeirod(){

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Delay Management</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><a href="timeManagement.xhtml">Time Management</a></li>                     
+                <li><a href="delayManagement.xhtml">Delay Management</a></li>         
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <h:form>
+            <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
+
+            <p:dataTable var="flight" value="#{delayManagementManagedBean.delayFlights}" sortMode="multiple" rows="15"
+                         paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="15,30,50">
+                
+                <f:facet name="header">
+                    Delay Flights
+                </f:facet>
+                <p:column headerText="Flight No" sortBy="#{flight.flightNo}">
+                    <h:outputText value="#{flight.flightNo}" />
+                </p:column>
+
+                <p:column headerText="Origin" sortBy="#{flight.route.originAirport.airportName}">
+                    <h:outputText value="#{flight.route.originAirport.airportName}" />
+                </p:column>
+
+                <p:column headerText="Destination" sortBy="#{flight.route.destinationAirport.airportName}">
+                    <h:outputText value="#{flight.route.destinationAirport.airportName}" />
+                </p:column>
+
+                <p:column headerText="Departure Time" sortBy="#{flight.departureDate}">
+                    <h:outputText value="#{flight.departureDate}" />
+                </p:column>
+               
+                <p:column headerText="Arrive Time" sortBy="#{flight.arrivalDate}">
+                    <h:outputText value="#{flight.arrivalDate}" />
+                </p:column>
+                
+                <p:column headerText="Estimate Departure Time" sortBy="#{flight.estimateDepartureDate}">
+                    <h:outputText value="#{flight.estimateDepartureDate}" />
+                </p:column>
+                
+                
+            </p:dataTable>
+
+
+
+
+        </h:form>
+
+
+    </ui:define>
+
+
+
+</ui:composition>
