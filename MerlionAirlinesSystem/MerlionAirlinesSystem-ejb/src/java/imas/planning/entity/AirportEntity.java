@@ -161,7 +161,7 @@ public class AirportEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.common.entity.AirportEntity[ id=" + id + " ]";
+        return airportName + " (" + airportCode + ") in " + cityName;
     }
     
 }

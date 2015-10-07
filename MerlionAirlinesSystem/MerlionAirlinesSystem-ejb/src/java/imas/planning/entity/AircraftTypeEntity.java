@@ -163,7 +163,7 @@ public class AircraftTypeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.planning.entity.AircraftTypeEntity[ id=" + id + " ]";
+        return IATACode;
     }
 
 }

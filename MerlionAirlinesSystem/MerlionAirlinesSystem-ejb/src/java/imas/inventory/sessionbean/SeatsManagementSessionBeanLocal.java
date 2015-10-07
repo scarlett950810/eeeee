@@ -46,4 +46,6 @@ public interface SeatsManagementSessionBeanLocal {
 
     public void generateEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
 
+    public void automaticallyCreateBookingClass(FlightEntity flight);
+
 }

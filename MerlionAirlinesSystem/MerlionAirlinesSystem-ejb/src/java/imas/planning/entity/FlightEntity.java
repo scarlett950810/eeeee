@@ -7,6 +7,7 @@ package imas.planning.entity;
 
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
+import imas.inventory.entity.BookingClassEntity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -33,17 +34,17 @@ public class FlightEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String flightNo;
-    private Double distance;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date departureDate;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date arrivalDate;
-    private Double duration; //per hour
     @OneToOne(cascade = CascadeType.PERSIST)
     private FlightEntity reverseFlight;
     private Integer operatingYear;
     private String weekDay;
-    //booking
+    //booking classes
+    @OneToMany(mappedBy = "flight")
+    private List<BookingClassEntity> bookingClasses;
     //ticket
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date actualDepartureDate;
@@ -95,11 +96,9 @@ public class FlightEntity implements Serializable {
         this.operatingYear = operatingYear;
     }
 
-    public FlightEntity(String flightNo, Double distance, Double duration, AircraftEntity aircraft, RouteEntity route) {
+    public FlightEntity(String flightNo, AircraftEntity aircraft, RouteEntity route) {
 
         this.flightNo = flightNo;
-        this.distance = distance;
-        this.duration = duration;
         this.aircraft = aircraft;
         this.route = route;
     }
@@ -168,14 +167,6 @@ public class FlightEntity implements Serializable {
 
     public void setActualArrivalDate(Date actualArrivalDate) {
         this.actualArrivalDate = actualArrivalDate;
-    }
-
-    public Double getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Double duration) {
-        this.duration = duration;
     }
 
     public List<CabinCrewEntity> getCabinCrews() {
@@ -298,14 +289,6 @@ public class FlightEntity implements Serializable {
         this.route = route;
     }
 
-    public Double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(Double distance) {
-        this.distance = distance;
-    }
-
     public List<FlightRecordEntity> getFlightRecords() {
         return flightRecords;
     }
@@ -328,6 +311,14 @@ public class FlightEntity implements Serializable {
 
     public void setDepartured(boolean departured) {
         this.departured = departured;
+    }
+
+    public List<BookingClassEntity> getBookingClasses() {
+        return bookingClasses;
+    }
+
+    public void setBookingClasses(List<BookingClassEntity> bookingClasses) {
+        this.bookingClasses = bookingClasses;
     }
 
     @Override
@@ -353,7 +344,12 @@ public class FlightEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.planning.entity.FlightEntity[ id=" + id + " ]";
+        if (route == null || departureDate == null || aircraft == null) {
+            return "Flight id " + id;
+        } else {
+            return route.toString() + " at " + departureDate + " by " + aircraft.toString();
+        }
+        
     }
 
 }

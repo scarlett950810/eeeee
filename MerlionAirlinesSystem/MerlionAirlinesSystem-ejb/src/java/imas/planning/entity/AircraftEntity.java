@@ -242,7 +242,7 @@ public class AircraftEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.planning.entity.AircraftEntity[ id=" + id + " ]";
+        return tailId + " (" + aircraftType.toString() + ")";
     }
 
 }
