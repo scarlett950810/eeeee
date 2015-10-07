@@ -44,6 +44,7 @@ public class PostFlightReportManagedBean implements Serializable {
 //    private String newLightningStrikers;//10
 //    private String newNearAirCollisions;//11
 //    private String newOthers;//12
+    private List<FlightEntity> filteredFlight;
     private Integer updateType = 0;
 
     public PostFlightReportManagedBean() {
@@ -106,6 +107,14 @@ public class PostFlightReportManagedBean implements Serializable {
         this.selectedFlight = selectedFlight;
     }
 
+    public List<FlightEntity> getFilteredFlight() {
+        return filteredFlight;
+    }
+
+    public void setFilteredFlight(List<FlightEntity> filteredFlight) {
+        this.filteredFlight = filteredFlight;
+    }
+    
     public void updateFlightStatus(ActionEvent event) throws IOException {
         selectedFlight = (FlightEntity) event.getComponent().getAttributes().get("flight");
 

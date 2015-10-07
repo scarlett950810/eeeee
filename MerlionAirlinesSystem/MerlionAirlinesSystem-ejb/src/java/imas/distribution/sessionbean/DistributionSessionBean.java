@@ -87,5 +87,5 @@ public class DistributionSessionBean implements DistributionSessionBeanLocal {
         
         return allAvailableFlights;
     }
-    
+
 }

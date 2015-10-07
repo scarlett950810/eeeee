@@ -16,8 +16,6 @@ import javax.ejb.Local;
 @Local
 public interface SeatsManagementSessionBeanLocal {
 
-    public List<FlightEntity> getFlightsWithoutBookingClass();
-
     public double computeHistoricalShowRate();
 
     public int getFirstClassCapacity(FlightEntity flight);
@@ -45,5 +43,11 @@ public interface SeatsManagementSessionBeanLocal {
     public void generateEconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota);
 
     public void generateEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
+
+    public void automaticallyCreateBookingClass(FlightEntity flight);
+
+    public void autoPriceToDepartureAndUnpricedFlights(int monthToDeparture);
+
+    public List<FlightEntity> getFlightsWithoutBookingClass();
 
 }

@@ -207,7 +207,7 @@ public class RouteEntity  implements Serializable {
     }  
        @Override
     public String toString() {
-        return "imas.common.entity.RouteEntity[ id=" + id + " ]";
+        return originAirport.toString() + " to " + destinationAirport.toString();
     }
     
 }

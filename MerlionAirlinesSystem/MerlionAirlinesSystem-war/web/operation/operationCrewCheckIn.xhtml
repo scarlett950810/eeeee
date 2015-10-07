@@ -41,7 +41,7 @@
             <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;" class="panel-success">
                 <p:outputLabel for="selectFlight" value="Flight No: " />
                 <p:selectOneMenu id="selectFlight" value="#{crewCheckInManagedBean.flight}" panelStyle="width:180px" required="true" requiredMessage="Please input flight No."
-                                 effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
+                                 effect="fade" style="width:500px" filter="true" filterMatchMode="startsWith"
                                  converter="flightConverter">
                     <p:ajax update="selectFlight:crew" listener="#{crewCheckInManagedBean.onFlightChange()}" />
                     <f:selectItem itemLabel="Please select" itemDisabled="true"/>
