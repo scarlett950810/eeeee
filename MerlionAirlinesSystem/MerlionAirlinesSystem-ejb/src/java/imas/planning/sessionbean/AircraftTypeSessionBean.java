@@ -37,7 +37,6 @@ public class AircraftTypeSessionBean implements AircraftTypeSessionBeanLocal {
         AircraftTypeEntity aircraftTypeOri = (AircraftTypeEntity) query.getSingleResult();
         aircraftTypeOri.setIATACode(aircraftType.getIATACode());
         //      System.out.println("Distance" + route.getDistance());
-        aircraftTypeOri.setAircraftSpace(aircraftType.getAircraftSpace());
         //     System.out.println("before persist");
         aircraftTypeOri.setMaintenanceHoursRequiredACheck(aircraftType.getMaintenanceHoursRequiredACheck());
         aircraftTypeOri.setCruisingSpeed(aircraftType.getCruisingSpeed());

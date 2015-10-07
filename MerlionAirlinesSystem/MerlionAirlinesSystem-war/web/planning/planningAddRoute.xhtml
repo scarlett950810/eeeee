@@ -24,7 +24,7 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development </a></li>
-                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                <li class="sidebar-h1"><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
@@ -49,7 +49,7 @@
                         <f:selectItems value="#{routeManagedBean.spokes}" />
                     </p:selectOneMenu>
 
-                    <p:outputLabel for="distance" value="Distance: " />
+                    <p:outputLabel for="distance" value="Distance (mile): " />
                     <p:inputText id="distance" value="#{routeManagedBean.distance}" required="true" />
 
                 </h:panelGrid>

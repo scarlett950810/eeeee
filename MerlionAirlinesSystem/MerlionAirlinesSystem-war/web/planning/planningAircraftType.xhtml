@@ -24,7 +24,7 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development </a></li>
-                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                <li class="sidebar-h1"><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
@@ -76,12 +76,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Space">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{aircraftType.aircraftSpace}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{aircraftType.aircraftSpace}" style="width:100%" label="Flight Hours"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
+                
 
                 <p:column headerText="Maintainence Hours">
                     <p:cellEditor>

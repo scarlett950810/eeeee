@@ -35,7 +35,6 @@ public class AircraftTypeManagedBean implements Serializable {
     private List<AircraftTypeEntity> aircraftTypes;
     private String IATACode;
     private Double aircraftRange;//km
-    private Integer aircraftSpace;//
     private Double cruisingSpeed;//miles/
     private Double wingSpan;//ft
     private Double aircraftWeight;//tonnes
@@ -103,13 +102,7 @@ public class AircraftTypeManagedBean implements Serializable {
         }
     }
 
-    public Integer getAircraftSpace() {
-        return aircraftSpace;
-    }
 
-    public void setAircraftSpace(Integer aircraftSpace) {
-        this.aircraftSpace = aircraftSpace;
-    }
 
     public Double getCruisingSpeed() {
         return cruisingSpeed;
@@ -190,7 +183,7 @@ public class AircraftTypeManagedBean implements Serializable {
     }
 
     public void save() throws IOException {
-        if (IATACode == null || aircraftRange == null || aircraftSpace == null || cruisingSpeed == null || wingSpan == null || aircraftWeight == null || aircraftLength == null || aircraftHeight == null || powerPlant == null || maintenanceHoursRequiredACheck == null) {
+        if (IATACode == null || aircraftRange == null || cruisingSpeed == null || wingSpan == null || aircraftWeight == null || aircraftLength == null || aircraftHeight == null || powerPlant == null || maintenanceHoursRequiredACheck == null) {
 //            System.err.println("aircraftRange"+ IATACode);
 //            System.err.println(IATACode);
 //            System.err.println(aircraftRange);
@@ -207,7 +200,7 @@ public class AircraftTypeManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
             if (aircraftTypeSession.checkAircraftType(IATACode)) {
-                AircraftTypeEntity aircraftType = new AircraftTypeEntity(IATACode, aircraftRange, aircraftSpace, cruisingSpeed, wingSpan, aircraftWeight, aircraftLength, aircraftHeight, powerPlant, maintenanceHoursRequiredACheck);
+                AircraftTypeEntity aircraftType = new AircraftTypeEntity(IATACode, aircraftRange, cruisingSpeed, wingSpan, aircraftWeight, aircraftLength, aircraftHeight, powerPlant, maintenanceHoursRequiredACheck);
                 aircraftTypeSession.addAircraftType(aircraftType);
                 FacesContext fc = FacesContext.getCurrentInstance();
                 ExternalContext ec = fc.getExternalContext();

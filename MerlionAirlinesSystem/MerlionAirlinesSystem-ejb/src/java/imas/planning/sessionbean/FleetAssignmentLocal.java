@@ -32,5 +32,9 @@ public interface FleetAssignmentLocal {
     List<FlightEntity> retreiveDBrecords(RouteEntity route);
     void deleteUnassginedFlights(List<FlightEntity> flightsUnassigned);
 
+    List<FlightEntity> getAllFlights();
+
+    List<FlightEntity> findUnassinedFlights();
+
     
 }
