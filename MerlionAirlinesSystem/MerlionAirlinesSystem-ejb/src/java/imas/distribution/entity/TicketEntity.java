@@ -24,6 +24,11 @@ public class TicketEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Double baggageWeight;
+    private Boolean premiumMeal;
+    private Boolean exclusiveService;
+    private Boolean insurance;
+    private Boolean flightWiFi;
     
     @ManyToOne
     private SeatEntity seat;
@@ -77,6 +82,46 @@ public class TicketEntity implements Serializable {
 
     public void setIssued(boolean issued) {
         this.issued = issued;
+    }
+
+    public Double getBaggageWeight() {
+        return baggageWeight;
+    }
+
+    public void setBaggageWeight(Double baggageWeight) {
+        this.baggageWeight = baggageWeight;
+    }
+
+    public Boolean getPremiumMeal() {
+        return premiumMeal;
+    }
+
+    public void setPremiumMeal(Boolean premiumMeal) {
+        this.premiumMeal = premiumMeal;
+    }
+
+    public Boolean getExclusiveService() {
+        return exclusiveService;
+    }
+
+    public void setExclusiveService(Boolean exclusiveService) {
+        this.exclusiveService = exclusiveService;
+    }
+
+    public Boolean getInsurance() {
+        return insurance;
+    }
+
+    public void setInsurance(Boolean insurance) {
+        this.insurance = insurance;
+    }
+
+    public Boolean getFlightWiFi() {
+        return flightWiFi;
+    }
+
+    public void setFlightWiFi(Boolean flightWiFi) {
+        this.flightWiFi = flightWiFi;
     }
 
     @Override

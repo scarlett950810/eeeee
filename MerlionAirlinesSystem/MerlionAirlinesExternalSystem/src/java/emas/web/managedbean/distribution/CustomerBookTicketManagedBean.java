@@ -5,19 +5,24 @@
  */
 package emas.web.managedbean.distribution;
 
+import imas.distribution.entity.PassengerEntity;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperRunManager;
+import org.primefaces.event.FlowEvent;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -27,46 +32,135 @@ import net.sf.jasperreports.engine.JasperRunManager;
 @SessionScoped
 public class CustomerBookTicketManagedBean {
 
-    @Resource(name = "merlionAirlineDataSource")
-    private DataSource merlionAirlineDataSource;
+    private int passengerNumber = 2;
+    private List<PassengerEntity> passengers = new ArrayList<>();
+    private String title;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String city;
+    private String country;
+    private String postCode;
+    private String email;
+    private String contactNumber;
+    
 
     public CustomerBookTicketManagedBean() {
     }
 
-    public void confirm() {
-        generateItinerary();
+    @PostConstruct
+    public void init() {
+        for (int i = 0; i < passengerNumber; i++) {
+            passengers.add(new PassengerEntity());
+        }
+
+    }
+    
+    public void onDateChange(SelectEvent event){
+        System.out.println(event.getObject());
+    }
+
+    public void confirm() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?User=Howard");
         System.out.print("finished");
     }
-
-    private void generateItinerary() {
-        try {
-            System.out.print("here we go!");
-            HttpServletResponse httpServletResponse = (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            System.out.print("1");
-            httpServletResponse.setContentType("application/pdf");
-            System.out.print("2");
-            InputStream reportStream
-                    = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperReports/FlightItinerary.jasper");
-            System.out.print("3");
-            ServletOutputStream outputStream = httpServletResponse.getOutputStream();
-            System.out.print("4");
-            HashMap parameters = new HashMap();
-            System.out.print("5");
-            parameters.put("IMAGEPATH", "http://localhost:8081/EventBookingSystem-war/resources/img/NEW_LOGO.png");
-            parameters.put("STAFFNAME", "Howard");
-            System.out.print("6");
-            JasperRunManager.runReportToPdfStream(reportStream, outputStream,
-                    parameters, merlionAirlineDataSource.getConnection());
-            System.out.print("7");
-            outputStream.flush();
-            System.out.print("8");
-            outputStream.close();
-        }catch (JRException jrex){
-            System.out.println("********** Jasperreport Exception");
-            jrex.printStackTrace();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+    
+    public void makeBooking() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("BookingConfirmation.xhtml");
     }
 
+    public String onFlowProcess(FlowEvent event) {
+
+        return event.getNewStep();
+    }
+
+    public int getPassengerNumber() {
+        return passengerNumber;
+    }
+
+    public void setPassengerNumber(int passengerNumber) {
+        this.passengerNumber = passengerNumber;
+    }
+
+    public List<PassengerEntity> getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(List<PassengerEntity> passengers) {
+        this.passengers = passengers;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+    
+    
 }

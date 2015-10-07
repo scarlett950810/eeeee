@@ -129,7 +129,7 @@
                         <li>
                             Booking Management
                             <ul>
-                                <li>Retrieve My Booking</li>
+                                <a href="distribution/MakeBooking.xhtml"><li>Retrieve My Booking</li></a>
                                 <li>Web Check-in</li>
                                 <li>Flight Status</li>
                             </ul>
@@ -139,13 +139,13 @@
                         <li>Contact us</li>
                     </ul>
                 </div>
-                <p:panel style="background-color: white !important; margin: 10px 10% 0 10%; height: 600px">
+                <p:panel style="background-color: white !important; margin: 10px 10% 0 10%; height: auto;">
                     <ui:insert name="main"></ui:insert>
                 </p:panel>
             </p:layoutUnit>
 
-            <p:layoutUnit position="south" size="20">
-                <p:layoutUnit position="center">Merlion Airline</p:layoutUnit>
+            <p:layoutUnit position="south" size="5%" style="text-align: center;">
+                <p:outputLabel value="&copy;Merlion Airline"></p:outputLabel>
             </p:layoutUnit>
 
         </p:layout>

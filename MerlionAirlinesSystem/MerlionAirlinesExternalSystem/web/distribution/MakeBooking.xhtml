@@ -1,14 +1,161 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../templates/ClientSideTemplate.xhtml">
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="head">
-        
+        <style>
+            .label{
+                color: black;
+                font-size: 100%;
+            }
+            #makeBooking{
+                margin-top: 5%;
+                margin-bottom: 20%
+            }
+            .ui-helper-clearfix:after{
+                clear: none !important;
+            }
+        </style>
     </ui:define>
 
     <ui:define name="main">
-        
+        <h:form id="makeBooking">
+
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+
+            <p:wizard flowListener="#{customerBookTicketManagedBean.onFlowProcess}" backLabel="false">
+                <p:tab id="contactDetails" title="Contact Details">
+                    <p:panel header="Contact Details">
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="Title " />
+                            <p:selectOneMenu value="#{customerBookTicketManagedBean.title}" style="width: 100%" required="true" label="title">
+                                <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
+                                <f:selectItem itemLabel="Dr" itemValue="Dr" />
+                                <f:selectItem itemLabel="Mdm" itemValue="Mdm" />
+                                <f:selectItem itemLabel="Miss" itemValue="Miss" />
+                                <f:selectItem itemLabel="Mr" itemValue="Mr" />
+                                <f:selectItem itemLabel="Mrs" itemValue="Mrs" />
+                                <f:selectItem itemLabel="Ms" itemValue="Ms" />
+                                <f:selectItem itemLabel="Mstr" itemValue="Mstr" />
+                                <f:selectItem itemLabel="Prof" itemValue="Prof" />
+                            </p:selectOneMenu>
+
+                            <h:outputText value="First / given name (as in passport) " />
+                            <p:inputText value="#{customerBookTicketManagedBean.firstName}" required="true" label="firstName"/>
+
+                            <h:outputText value="Family name (as in passport) " />
+                            <p:inputText value="#{customerBookTicketManagedBean.lastName}" required="true" label="familyName"/>
+
+                            <h:outputText value="Street Address " />
+                            <p:inputText value="#{customerBookTicketManagedBean.address}" required="true" label="streetAddress"/>
+
+                            <h:outputText value="City " />
+                            <p:inputText value="#{customerBookTicketManagedBean.city}" required="true" label="city"/>
+
+                            <h:outputText value="Country " />
+                            <p:inputText value="#{customerBookTicketManagedBean.country}" required="true" label="country"/>
+
+                            <h:outputText value="Post code " />
+                            <p:inputText value="#{customerBookTicketManagedBean.postCode}" required="true" label="postCode"/>
+
+                            <h:outputText value="Contact number" />
+                            <p:inputText value="#{customerBookTicketManagedBean.contactNumber}" required="true" label="contactNumber"/>
+
+                            <h:outputText value="Email address" />
+                            <p:inputText value="#{customerBookTicketManagedBean.email}" required="true" label="emailAddress"/>
+
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                
+                <p:tab id="passengerInformation" title="Passengers Information">
+
+
+                    <ui:repeat value="#{customerBookTicketManagedBean.passengers}" var="passenger">
+                        <p:panel header="Passenger" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+                            <h:panelGrid columns="2" columnClasses="label, value" style="display: inline-block;">
+                                <h:outputText value="Title " />
+                                <p:selectOneMenu value="#{passenger.title}" style="width: 100%" required="true" label="title">
+                                    <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Dr" itemValue="Dr" />
+                                    <f:selectItem itemLabel="Mdm" itemValue="Mdm" />
+                                    <f:selectItem itemLabel="Miss" itemValue="Miss" />
+                                    <f:selectItem itemLabel="Mr" itemValue="Mr" />
+                                    <f:selectItem itemLabel="Mrs" itemValue="Mrs" />
+                                    <f:selectItem itemLabel="Ms" itemValue="Ms" />
+                                    <f:selectItem itemLabel="Mstr" itemValue="Mstr" />
+                                    <f:selectItem itemLabel="Prof" itemValue="Prof" />
+                                </p:selectOneMenu>
+
+                                <h:outputText value="First / given name (as in passport) " />
+                                <p:inputText value="#{passenger.firstName}" required="true" label="lastName"/>
+
+                                <h:outputText value="Family name (as in passport) " />
+                                <p:inputText value="#{passenger.lastName}" required="true" label="familyName"/>
+
+                                <h:outputText value="Birth date " />
+                                <p:calendar value="#{passenger.birthdate}" locale="de" navigator="true" pattern="yyyy-MMM-dd" yearRange="c-100:c">
+                                    <p:ajax event="dateSelect" listener="#{customerBookTicketManagedBean.onDateChange}" />
+                                </p:calendar>
+
+                                <h:outputText value="Nationality of passport " />
+                                <p:inputText value="#{passenger.nationality}" required="true" label="nationality"/>
+
+                                <h:outputText value="Passport number " />
+                                <p:inputText value="#{passenger.passportNumber}" required="true" label="passportNumber"/>
+
+                                <h:outputText value="Passport expiration date " />
+                                <p:calendar value="#{passenger.passportExpiry}" locale="de" navigator="true" pattern="yyyy-MMM-dd" yearRange="c:c+15">
+                                    <p:ajax event="dateSelect" listener="#{customerBookTicketManagedBean.onDateChange}" />
+                                </p:calendar>
+                               
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2" columnClasses="label, value" style="display: inline-block;">
+                                
+
+                            </h:panelGrid>
+                            <!--                            <h:panelGrid title="Premium Services" columns="2">
+                                                            <h:outputText value="Upgrade Check-in baggage" />
+                                                            <ui:repeat value="{passenger.tickets}" var="ticket">
+                                                                <p:selectOneRadio id="baggage" value="{ticket}" layout="custom">
+                                                                    <f:selectItem itemLabel="Red" itemValue="Red" />
+                                                                    <f:selectItem itemLabel="Green" itemValue="Green" />
+                                                                    <f:selectItem itemLabel="Blue" itemValue="Blue" />
+                                                                </p:selectOneRadio>
+                                                            </ui:repeat>
+                                                        </h:panelGrid>-->
+                        </p:panel>
+                    </ui:repeat>
+                </p:tab>
+                
+                <p:tab id="seatSelection" title="Seats Selection">
+                    <p:panel>
+
+
+                        
+                    </p:panel>
+                </p:tab>
+
+                
+
+                <p:tab id="payment" title="Check Out">
+                    <p:panel header="Payment Details">
+
+                        <h:panelGrid columns="2" columnClasses="label, value">
+
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+
+        </h:form>
     </ui:define>
 
 </ui:composition>
