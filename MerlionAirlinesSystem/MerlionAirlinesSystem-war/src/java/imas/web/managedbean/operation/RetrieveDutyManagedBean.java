@@ -5,9 +5,14 @@
  */
 package imas.web.managedbean.operation;
 
+import imas.common.entity.CabinCrewEntity;
+import imas.common.entity.PilotEntity;
 import imas.operation.sessionbean.RetrieveDutySessionBeanLocal;
+import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,6 +21,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.extensions.model.timeline.TimelineEvent;
+import org.primefaces.extensions.model.timeline.TimelineGroup;
+import org.primefaces.extensions.model.timeline.TimelineModel;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
@@ -35,29 +43,60 @@ public class RetrieveDutyManagedBean implements Serializable {
     private String name;
     private Map<String, String> positions;
     private Map<String, String> names;
+    private TimelineModel pilotDutyTimeline;    
+    private TimelineModel cabinCrewDutyTimeline;
+    
     @EJB
     RetrieveDutySessionBeanLocal retrieveDutySessionBean;
 
     @PostConstruct
     public void init() {
+        // create calendar view
         positions = new HashMap<String, String>();
         positions.put("Pilot", "Pilot");
         positions.put("Cabin Crew", "Cabin Crew");
 
         Map<String, String> map = new HashMap<String, String>();
         map = retrieveDutySessionBean.getPilot();
-//        map.put("YL", "YL");
-//        map.put("CR", "CR");
         data.put("Pilot", map);
 
         map = new HashMap<String, String>();
-//        map.put("WT", "WT");
-//        map.put("DY", "DY");
-//        map.put("LH", "LH");
 
         map = retrieveDutySessionBean.getCabinCrew();
         data.put("Cabin Crew", map);
 
+        // create timeline view
+        pilotDutyTimeline = new TimelineModel();
+        List<PilotEntity> allPilots = retrieveDutySessionBean.getAllPilots();
+        
+        for (PilotEntity pilot: allPilots) {            
+            // create group
+            TimelineGroup group = new TimelineGroup(pilot.getId().toString(), pilot);
+            pilotDutyTimeline.addGroup(group);
+            
+            List<FlightEntity> flights = pilot.getPilotFlights();
+            
+            for (FlightEntity flight: flights) {
+                pilotDutyTimeline.add(new TimelineEvent(flight, flight.getDepartureDate(), flight.getArrivalDate(), false, group.getId()));
+            }
+            
+        }
+        
+        cabinCrewDutyTimeline = new TimelineModel();
+        List<CabinCrewEntity> allCabinCrew = retrieveDutySessionBean.getAllCabinCrew();
+        
+        for (CabinCrewEntity cabinCrew: allCabinCrew) {            
+            // create group
+            TimelineGroup group = new TimelineGroup(cabinCrew.getId().toString(), cabinCrew);
+            cabinCrewDutyTimeline.addGroup(group);
+            
+            List<FlightEntity> flights = cabinCrew.getCabinCrewFlights();
+            
+            for (FlightEntity flight: flights) {
+                cabinCrewDutyTimeline.add(new TimelineEvent(flight, flight.getDepartureDate(), flight.getArrivalDate(), false, group.getId()));
+            }
+            
+        }
     }
 
     public void onPositionChange() {
@@ -151,4 +190,20 @@ public class RetrieveDutyManagedBean implements Serializable {
         this.names = names;
     }
 
+    public TimelineModel getPilotDutyTimeline() {
+        return pilotDutyTimeline;
+    }
+
+    public void setPilotDutyTimeline(TimelineModel pilotDutyTimeline) {
+        this.pilotDutyTimeline = pilotDutyTimeline;
+    }
+
+    public TimelineModel getCabinCrewDutyTimeline() {
+        return cabinCrewDutyTimeline;
+    }
+
+    public void setCabinCrewDutyTimeline(TimelineModel cabinCrewDutyTimeline) {
+        this.cabinCrewDutyTimeline = cabinCrewDutyTimeline;
+    }
+    
 }

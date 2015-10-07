@@ -29,8 +29,6 @@ import org.primefaces.model.ScheduleModel;
 @Stateless
 public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     @PersistenceContext
     private EntityManager em;
     private String name;
@@ -86,7 +84,6 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
             List<FlightEntity> flights = list.get(0).getPilotFlights();
 
             for (int i = 0; i < flights.size(); i++) {
-//                System.out.print("33333");
                 flightNo = flights.get(i).getFlightNo();
                 startDate = flights.get(i).getDepartureDate();
                 endDate = flights.get(i).getArrivalDate();
@@ -116,7 +113,6 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
             List<FlightEntity> flights = list.get(0).getCabinCrewFlights();
 
             for (int i = 0; i < flights.size(); i++) {
-//                System.out.print("33333");
                 flightNo = flights.get(i).getFlightNo();
                 startDate = flights.get(i).getDepartureDate();
                 endDate = flights.get(i).getArrivalDate();
@@ -130,6 +126,19 @@ public class RetrieveDutySessionBean implements RetrieveDutySessionBeanLocal {
         } else {
             return null;
         }
+    }
+    
+
+    @Override
+    public List<PilotEntity> getAllPilots() {
+        Query queryForAllPilots = em.createQuery("SELECT p FROM PilotEntity p");
+        return queryForAllPilots.getResultList();        
+    }
+    
+    @Override
+    public List<CabinCrewEntity> getAllCabinCrew() {
+        Query queryForAllPilots = em.createQuery("SELECT cc FROM CabinCrewEntity cc");
+        return queryForAllPilots.getResultList();        
     }
 
 }

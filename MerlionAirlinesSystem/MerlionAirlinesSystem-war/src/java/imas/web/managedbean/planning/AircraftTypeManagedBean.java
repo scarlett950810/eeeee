@@ -47,7 +47,6 @@ public class AircraftTypeManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.err.println("!!!enter the init");
         aircraftTypes = aircraftTypeSession.getAllAircraftTypes();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftTypes", aircraftTypes);
     }
@@ -91,12 +90,12 @@ public class AircraftTypeManagedBean implements Serializable {
     public void actualDeleteAircraftType() throws IOException {
         FacesMessage msg;
         if (aircraftTypeSession.deleteAircraftType(aircraftType.getIATACode())) {
-            System.err.println("enter delete type" + IATACode);
+            System.err.println("enter delete type" + aircraftType.getIATACode());
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             ec.redirect("planningAircraftType.xhtml");
         } else {
-            System.err.println("enter delete type" + IATACode);
+            System.err.println("fail: enter delete type" + aircraftType.getIATACode());
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "Please delete associated aircrafts first");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
