@@ -246,7 +246,8 @@ public class RouteManagedBean implements Serializable {
 
     public String calculateDist(RouteEntity route) {
         distance = route.getDistance();
-        Double time = distance / 497.097;
+        Double speed = routeSession.getSpeed(distance);
+        Double time = distance / speed;
         routeSession.updateRouteTime(route, time);        
         Integer hours = time.intValue();
         Double i = 60 * (time - time.intValue());

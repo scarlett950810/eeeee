@@ -324,6 +324,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
         Query q = em.createQuery("SELECT a FROM FlightEntity a WHERE a.aircraft IS NULL");
         System.err.println("结束 getAll Flights method ()");
         System.err.println("...."+(List<FlightEntity>)q.getResultList());
+    
         
         
         return (List<FlightEntity>)q.getResultList();

@@ -10,6 +10,8 @@ import imas.common.sessionbean.LoginSessionBeanLocal;
 import imas.common.sessionbean.UserProfileManagementSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -47,12 +49,16 @@ public class UserProfileManagedBean implements Serializable {
     private String newPassword;
     private String newRepeatPassword;
     private String newEmail;
+    private Pattern pattern;
+    private Matcher matcher;
+    private static final String PASSWORD_PATTERN
+            = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
 
     @PostConstruct
-    public void init(){
+    public void init() {
         staffNo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staffNo");
         System.out.print("staff No inside managed bean init:" + staffNo);
-        if(staffNo != null){
+        if (staffNo != null) {
             staff = loginSessionBean.fetchStaff(staffNo);
         }
     }
@@ -168,7 +174,7 @@ public class UserProfileManagedBean implements Serializable {
         userProfileManagementSessionBean.updateEmail(staffNo, newEmail);
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage msg = new FacesMessage("Successful", "You have changed your contact number");
-        
+
         FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("userProfile.xhtml");
@@ -176,7 +182,7 @@ public class UserProfileManagedBean implements Serializable {
 
     public void changeContact() throws IOException {
         userProfileManagementSessionBean.updateContact(staffNo, contactNumber);
-        
+
         FacesMessage msg = new FacesMessage("Successful", "You have changed your contact number");
         FacesContext fc = FacesContext.getCurrentInstance();
         fc.addMessage(null, msg);
@@ -190,23 +196,28 @@ public class UserProfileManagedBean implements Serializable {
 
     public void changePassword() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
+        pattern = Pattern.compile(PASSWORD_PATTERN);
         if (userProfileManagementSessionBean.getOldPassword(staffNo, originPassword)) {
+            matcher = pattern.matcher(newPassword);
+            if (matcher.matches()) {
+                if (newPassword.equals(newRepeatPassword)) {
 
-            if (newPassword.equals(newRepeatPassword)) {
-
-                userProfileManagementSessionBean.updatePassword(newPassword, staffNo);
+                    userProfileManagementSessionBean.updatePassword(newPassword, staffNo);
 //                FacesMessage msg = new FacesMessage("Successful", "You have changed your password");
 //                fc.addMessage("status", msg);
 //                FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-                ExternalContext ec = fc.getExternalContext();
-                ec.redirect("userProfile.xhtml");
-            } else {
-                FacesMessage msg = new FacesMessage("Sorry, please repeat your password again", "Please repeat your password again");
-                fc.addMessage(null, msg);
+                    ExternalContext ec = fc.getExternalContext();
+                    ec.redirect("userProfile.xhtml");
+                } else {
+                    FacesMessage msg = new FacesMessage("Sorry, please repeat your password again", "Please repeat your password again");
+                    fc.addMessage(null, msg);
+                }
             }
+            else
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please match the required password pattern: at least one digit, at least one lowercase & uppercase characters, one special symbol (@#$%), length 6 to 20 ", "xxx"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect old password", "Contact admin."));
-            
+
         }
 
     }

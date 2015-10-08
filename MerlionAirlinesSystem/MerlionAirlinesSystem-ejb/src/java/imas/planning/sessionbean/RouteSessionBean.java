@@ -302,9 +302,11 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         Double speed; // 497.097miles/hr
         Double sum = 0.0;
         for(AircraftTypeEntity t: types){
+            System.err.println("Get types"+t.getIATACode());
             sum = sum+t.getCruisingSpeed();
         }
-        speed = sum/types.size();         
+        speed = sum/types.size();    
+        System.err.println("Speed is "+speed);
         Double hours = distance / speed;
         route1.setFlightHours(hours);
         route2.setFlightHours(hours);
@@ -332,6 +334,21 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     public void updateRouteTime(RouteEntity route, Double time) {
         RouteEntity r = em.find(RouteEntity.class, route.getId());
         r.setFlightHours(time);
+    }
+
+    @Override
+    public Double getSpeed(Double distance) {
+        Query query = em.createQuery("SELECT a FROM AircraftTypeEntity a WHERE a.aircraftRange >=:distance");
+        query.setParameter("distance", distance);
+        List<AircraftTypeEntity> types = query.getResultList();
+        Double speed; // 497.097miles/hr
+        Double sum = 0.0;
+        for(AircraftTypeEntity t: types){
+            System.err.println("Get types"+t.getIATACode());
+            sum = sum+t.getCruisingSpeed();
+        }
+        speed = sum/types.size();    
+        return speed;
     }
 
 }
