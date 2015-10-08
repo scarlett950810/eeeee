@@ -9,6 +9,8 @@ import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.RouteEntity;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -38,4 +40,6 @@ public interface AircraftSessionBeanLocal {
     public boolean checkAircraftExistense(String tailId);
     
     public void updateAircraft (AircraftEntity aircraftUpdated);
+
+    List<AircraftEntity> retrieveAvailableAircrafts(RouteEntity route, Date departureDate, Date arrivalDate);
 }

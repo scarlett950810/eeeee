@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Planning - Add Flight (manually insert)</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Manage Aircraft</a></li>
+
+
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Manage Airport</a></li>
+                <li><a href="planningRoute.xhtml">Manage Route</a></li>
+
+                <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development </a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+
+        <h:form>
+            <p:growl id="growl" showDetail="true"/>
+            <p:panel header="Please choose pilots and cabin crew" class="panel panel-success">
+
+                <!--                <p:messages />-->
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="advanced" value="Please choose #{flightManagedBean.pilotNumber} pilots:" />
+                    <p:selectManyMenu id="advanced" value="#{flightManagedBean.selectedPilots}" converter="pilotConverter"
+                                      var="p" filter="true" filterMatchMode="contains" showCheckbox="true">
+                        <f:selectItems value="#{flightManagedBean.pilots}" var="pilot" itemLabel="#{pilot.displayName}" itemValue="#{pilot}" />
+
+                        <p:column>
+                            <h:outputText value="#{p.displayName}" />
+                        </p:column>
+                    </p:selectManyMenu>
+                    
+                    <p:outputLabel for="advanced2" value="Please choose #{flightManagedBean.cabinCrewNumber} cabin crew:" />
+                    <p:selectManyMenu id="advanced2" value="#{flightManagedBean.selectedCabinCrewList}" converter="cabinCrewConverter"
+                                      var="c" filter="true" filterMatchMode="contains" showCheckbox="true">
+                        <f:selectItems value="#{flightManagedBean.cabinCrewList}" var="cabinCrew" itemLabel="#{cabinCrew.displayName}" itemValue="#{cabinCrew}" />
+
+                        <p:column>
+                            <h:outputText value="#{c.displayName}" />
+                        </p:column>
+                    </p:selectManyMenu>
+
+
+                    <p:commandButton id="addCrew" value="confirm" actionListener="#{flightManagedBean.goConfirmFlight()}" update="growl"
+                                     class="btn-sm btn-success" />  
+
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <p:link outcome="planningAddFlight.xhtml" value="Back"/>
+    </ui:define>
+
+</ui:composition>
+

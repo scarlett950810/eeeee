@@ -5,7 +5,9 @@
  */
 package imas.web.managedbean.planning;
 
-import imas.planning.entity.AircraftEntity;
+import imas.common.entity.CabinCrewEntity;
+import imas.common.entity.PilotEntity;
+import imas.planning.entity.FlightEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,30 +20,30 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Scarlett
  */
-@FacesConverter(value = "aircraftConverter")
-public class AircraftConverter  implements Converter {
+@FacesConverter(value = "flightConverter")
+public class FlightConverter  implements Converter {
     
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
                 
-                List<AircraftEntity> aircraftEntities = (List<AircraftEntity>)fc.getExternalContext().getSessionMap().get("aircraftList");
+                List<FlightEntity> flightEntities = (List<FlightEntity>)fc.getExternalContext().getSessionMap().get("allFlights");
                 
-                Long aircraftEntityId = Long.valueOf(Long.parseLong(value));
+                Long flightEntityId = Long.valueOf(Long.parseLong(value));
                 
-                System.err.println("PRINT"+aircraftEntities);
-                for(AircraftEntity aircraftEntity:aircraftEntities)
+                System.err.println("PRINT"+flightEntities);
+                for(FlightEntity flightEntity:flightEntities)
                 {
-                    if(aircraftEntity.getId().equals(aircraftEntityId))
+                    if(flightEntity.getId().equals(flightEntityId))
                     {
-                        return aircraftEntity;
+                        return flightEntity;
                     }
                 }
                 
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid aircraft."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid flight."));
             }
         } else {
             return null;
@@ -51,7 +53,7 @@ public class AircraftConverter  implements Converter {
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
         if (object != null) {    
-            return String.valueOf(((AircraftEntity) object).getId());
+            return String.valueOf(((FlightEntity) object).getId());
         } else {
             return null;
         }

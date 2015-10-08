@@ -5,6 +5,7 @@
  */
 package imas.planning.sessionbean;
 
+import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
@@ -295,7 +296,15 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("spoke", spoke);
         RouteEntity route2 = (RouteEntity) query.getSingleResult();
         route2.setDistance(distance);
-        Double speed = 497.097; // 497.097miles/hr
+        query = em.createQuery("SELECT a FROM AircraftTypeEntity a WHERE a.aircraftRange >=:distance");
+        query.setParameter("distance", distance);
+        List<AircraftTypeEntity> types = query.getResultList();
+        Double speed; // 497.097miles/hr
+        Double sum = 0.0;
+        for(AircraftTypeEntity t: types){
+            sum = sum+t.getCruisingSpeed();
+        }
+        speed = sum/types.size();         
         Double hours = distance / speed;
         route1.setFlightHours(hours);
         route2.setFlightHours(hours);
