@@ -5,6 +5,9 @@
  */
 package imas.operation.sessionbean;
 
+import imas.common.entity.CabinCrewEntity;
+import imas.common.entity.PilotEntity;
+import java.util.List;
 import java.util.Map;
 import javax.ejb.Local;
 import org.primefaces.model.ScheduleModel;
@@ -23,5 +26,9 @@ public interface RetrieveDutySessionBeanLocal {
     public ScheduleModel createPilotEvent(String name);
 
     public ScheduleModel createCabinEvent(String name);
+
+    public List<PilotEntity> getAllPilots();
+
+    public List<CabinCrewEntity> getAllCabinCrew();
     
 }

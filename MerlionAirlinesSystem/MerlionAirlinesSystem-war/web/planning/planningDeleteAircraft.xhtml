@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Planning - Aircraft Management</ui:define>
+
+    <ui:define name="head">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css">
+            .ui-selectonemenu-filter-container{
+                width: 290px;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Manage Aircraft</a></li>
+
+
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Manage Airport</a></li>
+                <li><a href="planningRoute.xhtml">Manage Route</a></li>
+
+                <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development </a></li>
+                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+    
+        <h:form id="delete">
+            <p:messages id="statusMessages" redisplay="false"/>
+            <p:panel header="Delete Aircraft" class="panel panel-danger">
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="deleteAircraft" value="Choose Aircraft to Delete:"  />
+                    <p:selectOneMenu id="deleteAircraft" value="#{aircraftManagedBean.aircraft}" panelStyle="width:180px" required="true" requiredMessage="Please input airport to delete"
+                                     effect="fade" filter="true" filterMatchMode="startsWith"
+                                     converter="aircraftConverter">
+                        <p:ajax update="delete:confirmation"></p:ajax>
+                        <f:selectItems value="#{aircraftManagedBean.aircrafts}" var="aircraft" itemLabel="#{aircraft.tailId}, #{aircraft.aircraftType.IATACode}" itemValue="#{aircraft}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <p:commandButton value="Confirm"  update="statusMessages" onclick="PF('deleteConfirmation').show();"
+                                 class="btn-sm btn-danger"/>
+            </p:panel>
+            
+            <p:dialog id="confirmation" widgetVar="deleteConfirmation" minHeight="40">
+                <h:outputText value="You are deleting #{aircraftManagedBean.aircraft.tailId}, #{aircraftManagedBean.aircraft.aircraftType.IATACode}" />
+                <br/><br/>
+                <p:commandButton value="Confirm" actionListener="#{aircraftManagedBean.onAircraftDelete}"
+                                 update="statusMessages" class="btn-sm btn-danger" ajax="false"/>
+            </p:dialog>
+        </h:form>
+
+        <p:link outcome="planningAirport.xhtml" value="Back"/>
+    </ui:define>
+
+</ui:composition>

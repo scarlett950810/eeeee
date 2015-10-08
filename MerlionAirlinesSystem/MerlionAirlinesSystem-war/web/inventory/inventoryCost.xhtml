@@ -10,6 +10,10 @@
                 border: none;
                 color: #4f4f4f;
             }
+            
+            a.a1.ui-icon, a.a2.ui-icon, a.a3.ui-icon,a.a4.ui-icon, a.a6.ui-icon, a.a12.ui-icon, a.a14.ui-icon {
+                display: none !important;
+            }
 
         </style>
     </ui:define>
@@ -19,7 +23,7 @@
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li><a href="inventorySeatsManagement.xhtml">Create booking class</a></li>                     
+                <!--<li><a href="inventorySeatsManagement.xhtml">Create booking class</a></li>-->                     
                 <li><a href="inventoryCost.xhtml">Manage Cost</a></li>
                 <li><a href="inventoryRulesManagement.xhtml">Manage Rules</a></li>
                 <li><a href="inventoryRevenueManagement.xhtml">Manage Revenue</a></li>
@@ -29,9 +33,9 @@
 
     <ui:define name="centerPanel">
 
-        <p:growl id="growl" sticky="true" showDetail="true"/>
+        <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
 
-        <p:treeTable value="#{inventoryCostManagedBean.root}" var="costPair" style=" padding-left: 10%; width: 80%">
+        <p:treeTable value="#{inventoryCostManagedBean.root}" var="costPair" style=" padding-left: 10%; width: 80%" >
             <f:facet name="header">
                 Fixed cost per seat per mile
             </f:facet>
@@ -42,14 +46,15 @@
                 <h:outputText value="#{costPair.costFigure}"/>
             </p:column>
             <p:column headerText="Update Cost" style="width: 20%">
-                <p:commandLink update=":updateCostForm:costPanel" actionListener="#{inventoryCostManagedBean.updateCostActionListener}" title="Edit Cost" styleClass="ui-icon ui-icon-script" >
+                <p:commandLink update=":updateCostForm:costPanel" actionListener="#{inventoryCostManagedBean.updateCostActionListener}" 
+                               title="Edit Cost" styleClass="ui-icon ui-icon-script a#{inventoryCostManagedBean.cellId}">
                     <f:attribute value="#{costPair}" name="costPair" />
                 </p:commandLink>
             </p:column>
         </p:treeTable>
 
         <p:dialog id="dialog" header="Edit Cost" showEffect="fade" widgetVar="costDialog"  resizable="false">
-            <h:form id="updateCostForm" class="panel panel-primary">
+            <h:form id="updateCostForm" class="panel panel-primary">          
                 <p:outputPanel id="costPanel">
                     <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty inventoryCostManagedBean.selectedCost}">
                         <h:outputLabel for="name" value="Name: " />

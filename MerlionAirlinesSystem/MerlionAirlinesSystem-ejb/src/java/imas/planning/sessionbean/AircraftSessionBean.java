@@ -126,15 +126,12 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
         if (aircraft.getFlights().isEmpty() || aircraft.getFlights() == null) {
 
             AircraftEntity aircraftToDelete = em.find(AircraftEntity.class, aircraft.getId());
-            aircraftToDelete.setMaintenances(null);
-            aircraftToDelete.setSeats(null);
-            aircraftToDelete.setAircraftType(null);
-
+//            System.out.print("session bean: " + aircraftToDelete);
             em.remove(aircraftToDelete);
             return true;
-        }
-        else
+        } else {
             return false;
+        }
     }
 
     @Override

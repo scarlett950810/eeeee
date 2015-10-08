@@ -6,7 +6,11 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="head">
-        <!--insert customized import here-->
+        <style>
+            .ui-column-customfilter{
+                
+            }
+        </style>
     </ui:define>
 
     <ui:define name="title">Planning - Aircraft Management</ui:define>
@@ -24,15 +28,15 @@
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
                 <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
-                <li class="sidebar-h1"><a href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                <li class="sidebar-h1"><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
         <h:form>         
-            <p:commandButton class="btn-sm btn-primary" value="View Aircraft by Type" 
-                             actionListener ="#{aircraftManagedBean.goViewAircraft()}" 
+            <p:commandButton class="btn-sm btn-danger" value="Delete Aircraft" 
+                             actionListener ="#{aircraftManagedBean.goDeleteAircraft()}" 
                              style="display: inline-block; float: right;" ajax="false"/>
             <p:commandButton class="btn-sm btn-success" value="Add Aircraft"
                              actionListener ="#{aircraftManagedBean.goAddAircraft()}" 
@@ -41,20 +45,34 @@
         <br/>
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
-            <p:dataTable id="editAircraft" var="aircraft" value="#{aircraftManagedBean.aircrafts}" editable="true" paginator="true"
+            <p:dataTable id="editAircraft" var="aircraft" widgetVar="aircraftTable" value="#{aircraftManagedBean.aircrafts}" editable="true" paginator="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="15, 30, 50" rows="15" class="table-responsive">
+                         rowsPerPageTemplate="15, 30, 50" rows="15" class="table-responsive" emptyMessage="No aircraft found with given criteria" 
+                         filteredValue="#{aircraftManagedBean.filteredAircraft}">
+
                 <f:facet name="header">
                     Editing Aircraft Information
                 </f:facet>
 
                 <p:ajax event="rowEdit" listener="#{aircraftManagedBean.onRowEdit}" update=":form:msgs" />
 
-                <p:column headerText="Tail ID" style="width:4%">
+                <p:column headerText="Tail ID" style="width:6%" filterBy="#{aircraft.tailId}" filterMatchMode="contains" filterStyle="width:100%">
                     <h:outputText value="#{aircraft.tailId}" />
                 </p:column>
 
-                <p:column headerText="Aircraft Type" style="width:7%">
+                <p:column headerText="Aircraft Type" style="width:7%" filterMatchMode="exact" filterBy="#{aircraft.aircraftType.IATACode}" filterStyle="width:70px">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('aircraftTable').filter()" >
+                            <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItem itemLabel="A380" itemValue="A380" />
+                            <f:selectItem itemLabel="A330" itemValue="A330" />
+                            <f:selectItem itemLabel="A320" itemValue="A320" />
+                            <f:selectItem itemLabel="B787" itemValue="B787" />
+                            <f:selectItem itemLabel="B777" itemValue="B777" />
+                            <f:selectItem itemLabel="B747" itemValue="B747" />
+                            <f:selectItem itemLabel="B737" itemValue="B737" />
+                        </p:selectOneMenu>
+                    </f:facet>
                     <h:outputText value="#{aircraft.aircraftType.IATACode}" />
                 </p:column>
 
@@ -130,29 +148,7 @@
                     <p:rowEditor />
                 </p:column>
 
-                <p:column style="width:4%">
-                    <p:commandButton class="icon-only" ajax="false" icon="ui-icon-trash" title="Delete" action="#{aircraftManagedBean.onAircraftDelete(aircraft)}"/>
-                </p:column>
-
-<!--                <p:column style="width:3%">
-                    <p:commandButton icon="ui-icon-trash" title="Delete" actionListener="{aircraftManagedBean.onAircraftDelete()}" 
-                                     class="icon-only" style="margin-left: -10px;" update=":form:deleteAircraft">
-                        <f:setPropertyActionListener value="{aircraft}" target="{aircraftManagedBean.selectedAircraft}" />
-                    </p:commandButton>
-                </p:column>-->
-
             </p:dataTable>
-
-<!--            <p:dialog header="Confirmation" widgetVar="deleteAircraft" minHeight="40">
-                <p:outputPanel id="deleteAircraft">
-                    <p:outputLabel value="You are deleting {aircraftManagedBean.selectedAircraft.tailId}" />
-                    <br/><br/>
-                    <p:commandButton value="Return" actionListener="{aircraftManagedBean.returnBack()}" style="margin-top: 20px"/>
-                    <p:commandButton value="Delete"  update="@form" style="margin-top: 20px"/>
-
-                </p:outputPanel>
-            </p:dialog>-->
-
         </h:form>
 
     </ui:define>

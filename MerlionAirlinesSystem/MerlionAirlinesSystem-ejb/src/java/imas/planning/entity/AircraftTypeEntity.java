@@ -25,7 +25,6 @@ public class AircraftTypeEntity implements Serializable {
 
     private String IATACode;
     private Double aircraftRange;//km
-    private Integer aircraftSpace;//
     private Double cruisingSpeed;//miles/
     private Double wingSpan;//ft
     private Double aircraftWeight;//tonnes
@@ -38,12 +37,11 @@ public class AircraftTypeEntity implements Serializable {
     public AircraftTypeEntity() {
     }
 
-    public AircraftTypeEntity(String IATACode, Double aircraftRange, Integer aircraftSpace, 
+    public AircraftTypeEntity(String IATACode, Double aircraftRange,  
             Double cruisingSpeed, Double wingSpan, Double aircraftWeight, Double aircraftLength, 
             Double aircraftHeight, String powerPlant, Double MaintenanceHoursRequiredACheck) {
         this.IATACode = IATACode;
         this.aircraftRange = aircraftRange;
-        this.aircraftSpace = aircraftSpace;
         this.cruisingSpeed = cruisingSpeed;
         this.wingSpan = wingSpan;
         this.aircraftWeight = aircraftWeight;
@@ -85,13 +83,7 @@ public class AircraftTypeEntity implements Serializable {
         this.aircraftRange = aircraftRange;
     }
 
-    public Integer getAircraftSpace() {
-        return aircraftSpace;
-    }
 
-    public void setAircraftSpace(Integer aircraftSpace) {
-        this.aircraftSpace = aircraftSpace;
-    }
 
     public Double getCruisingSpeed() {
         return cruisingSpeed;
@@ -163,7 +155,7 @@ public class AircraftTypeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.planning.entity.AircraftTypeEntity[ id=" + id + " ]";
+        return IATACode;
     }
 
 }

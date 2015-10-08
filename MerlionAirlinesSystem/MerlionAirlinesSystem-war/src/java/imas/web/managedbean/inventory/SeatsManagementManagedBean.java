@@ -48,6 +48,7 @@ public class SeatsManagementManagedBean implements Serializable {
     public void init() {
         this.pendingFlights = seatsManagementSessionBean.getFlightsWithoutBookingClass();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("pendingFlights", this.pendingFlights);
+//        seatsManagementSessionBean.insertData();
     }
 
     @PostRemove

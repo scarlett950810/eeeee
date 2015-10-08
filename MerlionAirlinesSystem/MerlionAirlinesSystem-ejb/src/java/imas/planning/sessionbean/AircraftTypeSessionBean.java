@@ -37,7 +37,6 @@ public class AircraftTypeSessionBean implements AircraftTypeSessionBeanLocal {
         AircraftTypeEntity aircraftTypeOri = (AircraftTypeEntity) query.getSingleResult();
         aircraftTypeOri.setIATACode(aircraftType.getIATACode());
         //      System.out.println("Distance" + route.getDistance());
-        aircraftTypeOri.setAircraftSpace(aircraftType.getAircraftSpace());
         //     System.out.println("before persist");
         aircraftTypeOri.setMaintenanceHoursRequiredACheck(aircraftType.getMaintenanceHoursRequiredACheck());
         aircraftTypeOri.setCruisingSpeed(aircraftType.getCruisingSpeed());
@@ -69,7 +68,7 @@ public class AircraftTypeSessionBean implements AircraftTypeSessionBeanLocal {
 
     @Override
     public Boolean deleteAircraftType(String IATACode) {
-        System.err.println("进入了"+ IATACode);
+//        System.err.println("进入了"+ IATACode);
         Query query = em.createQuery("SELECT a FROM AircraftTypeEntity a WHERE a.IATACode = :IATACode");
         query.setParameter("IATACode",IATACode);
         AircraftTypeEntity a = (AircraftTypeEntity) query.getSingleResult();
@@ -77,6 +76,7 @@ public class AircraftTypeSessionBean implements AircraftTypeSessionBeanLocal {
         q.setParameter("a", a);
         if(q.getResultList().isEmpty()){
             em.remove(a);
+            
             return true;
         }
         else

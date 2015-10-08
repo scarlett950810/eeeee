@@ -47,6 +47,7 @@ public class RouteManagedBean implements Serializable {
     private Map<String, String> spokes;
     private List<String> routesName;
     private List<RouteEntity> routes;
+    private List<RouteEntity> filteredRoutes;
     private String routeDelete;
     private RouteEntity route;
 
@@ -194,6 +195,15 @@ public class RouteManagedBean implements Serializable {
     public void setSpokes(Map<String, String> spokes) {
         this.spokes = spokes;
     }
+
+    public List<RouteEntity> getFilteredRoutes() {
+        return filteredRoutes;
+    }
+
+    public void setFilteredRoutes(List<RouteEntity> filteredRoutes) {
+        this.filteredRoutes = filteredRoutes;
+    }
+    
 
     public void generateRoutes() {
         FacesMessage msg;

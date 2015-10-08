@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Planning - Airport Management</ui:define>
+
+    <ui:define name="head">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css">
+            .ui-selectonemenu-filter-container{
+                width: 290px;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Manage Aircraft</a></li>
+
+
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Manage Airport</a></li>
+                <li><a href="planningRoute.xhtml">Manage Route</a></li>
+
+                <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development </a></li>
+                <li class="sidebar-h1"><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+
+        <p:panel id="basic" visible="#{frequencyAvailabilityCheck.canSupport}" header="Flights Frequency applicability check"  style="margin-bottom:20px">
+            <h:panelGrid columns="1" cellpadding="10">
+                <!--            <p:graphicImage name="demo/images/godfather/godfather1.jpg" />-->
+                <h:outputText
+                    value= "The current aircraft compositions can support such frequency for the route" />
+
+                <p:commandButton value="Confirm such planning" actionListener="#{frequencyAvailabilityCheck.generateFlights()}" icon="ui-icon-check"
+                                 class="btn-sm btn-success"/>
+                <p:commandButton value="Back to frequency set page" actionListener="#{frequencyAvailabilityCheck.goBack()}" icon="ui-icon-check"
+                                 class="btn-sm btn-success"/>
+            </h:panelGrid>            
+        </p:panel>
+        <p:panel id="basic1" visible="#{frequencyAvailabilityCheck.canNotSupport}" header="Flights Frequency applicability check" footer="Movie Details" style="margin-bottom:20px">
+            <h:panelGrid columns="1" cellpadding="10">
+                <!--            <p:graphicImage name="demo/images/godfather/godfather1.jpg" />-->
+                <h:outputText
+                    value= "The current aircraft compositions can not support such frequency for the route" />
+                <h:outputText
+                    value= "There will be #{frequencyAvailabilityCheck.numOfUnassignedFlights} flights fail to have supporting aircraft due to insufficient aircraft resource. Please add more aircrafts to support such planning" />
+                <h:outputText
+                    value= "There will be #{frequencyAvailabilityCheck.numOfUnassignedFlightsPilot} flights fail to have assigned pilot due to insufficent human recourse. Please hire more pilots to support such planning" />
+                <h:outputText
+                    value= "There will be #{frequencyAvailabilityCheck.numOfUnassignedFlightsCabin} flights fail to have assigned cabin crew due to insufficient human resource. Please hire more cabin crews to support such planning" />
+
+                <p:commandButton value="Back to frequency set page" actionListener="#{frequencyAvailabilityCheck.goBack()}" icon="ui-icon-check"
+                                 class="btn-sm btn-success"/>
+
+            </h:panelGrid>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
+
