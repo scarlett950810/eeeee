@@ -95,17 +95,21 @@ public class FleetAssignmentCheck implements FleetAssignmentCheckLocal {
             System.err.println("1st assign job");
         } else {
             earliestDep = aircraft.getFlights().get(0).getArrivalDate();
-            Date latestDate = null;
+            Date latestDate = aircraft.getFlights().get(0).getArrivalDate();
+            FlightEntity lastFlight = aircraft.getFlights().get(0);
             for (FlightEntity f : aircraft.getFlights()) {
                 if (f.getArrivalDate().compareTo(earliestDep) > 0) {
                     earliestDep = f.getArrivalDate();
                     latestDate = f.getArrivalDate();
+                    lastFlight = f;
+                    earliestFlight = f;
+                    
                 }
             }
 
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
-                if (depTemp.compareTo(latestDate) > 0 && aircraft.getAirportHub().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
                     earliestFlight = f;
                     earliestDep = f.getDepartureDate();
@@ -117,7 +121,7 @@ public class FleetAssignmentCheck implements FleetAssignmentCheckLocal {
 
             if (hasHubOrNot) {
                 for (FlightEntity f : flightsAvai) {
-                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && aircraft.getAirportHub().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                         //Find the earliest flight which departs at the aircraft's hub
                         earliestFlight = f;
                         earliestDep = f.getDepartureDate();
@@ -173,11 +177,13 @@ public class FleetAssignmentCheck implements FleetAssignmentCheckLocal {
                 if (currentLoc.equals(aircraft.getAirportHub())) {
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                         findSoonest = f.getDepartureDate();
+                        findNextFlight = true;
                         flightAssigned = f;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                     findSoonest = f.getDepartureDate();
                     flightAssigned = f;
+                    findNextFlight = true;
                 }
 
             }

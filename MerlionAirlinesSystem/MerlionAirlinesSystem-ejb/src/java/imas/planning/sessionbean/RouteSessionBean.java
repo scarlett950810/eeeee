@@ -302,7 +302,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     }
 
     public void saveReturnFlights(FlightEntity f) {
-        em.persist(f);
+        em.merge(f);
 //        System.err.println("saveReturnflighs1");
 //        System.err.println("saveReturnflighs2");
 

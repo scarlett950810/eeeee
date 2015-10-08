@@ -133,16 +133,19 @@ public class FleetAssignment implements FleetAssignmentLocal {
         } else {
             earliestDep = aircraft.getFlights().get(0).getArrivalDate();
             Date latestDate = aircraft.getFlights().get(0).getArrivalDate();
+            FlightEntity lastFlight = aircraft.getFlights().get(0);
             for (FlightEntity f : aircraft.getFlights()) {
                 if (f.getArrivalDate().compareTo(earliestDep) > 0) {
                     earliestDep = f.getArrivalDate();
+                    earliestFlight = f;
                     latestDate = f.getArrivalDate();
+                    lastFlight = f;
                 }
             }
 
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
-                if (depTemp.compareTo(latestDate) > 0 && aircraft.getAirportHub().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
                     earliestFlight = em.find(FlightEntity.class, f.getId());
                     earliestDep = f.getDepartureDate();
@@ -154,7 +157,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
 
             if (hasHubOrNot) {
                 for (FlightEntity f : flightsAvai) {
-                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && aircraft.getAirportHub().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                         //Find the earliest flight which departs at the aircraft's hub
                         earliestFlight = em.find(FlightEntity.class, f.getId());
                         earliestDep = f.getDepartureDate();
@@ -211,10 +214,12 @@ public class FleetAssignment implements FleetAssignmentLocal {
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                         findSoonest = f.getDepartureDate();
                         flightAssigned = em.find(FlightEntity.class, f.getId());
+                        findNextFlight = true;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                     findSoonest = f.getDepartureDate();
                     flightAssigned = em.find(FlightEntity.class, f.getId());
+                    findNextFlight = true;
                 }
 
             }

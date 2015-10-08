@@ -13,6 +13,7 @@ import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import imas.planning.sessionbean.CrewSchedulingCheckLocal;
 import imas.planning.sessionbean.FleetAssignmentCheckLocal;
+import imas.planning.sessionbean.FleetAssignmentLocal;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
@@ -61,6 +62,8 @@ public class ScheduleManagedBean implements Serializable {
     private AircraftSessionBeanLocal aircraftSessionBean;
     @EJB
     private CrewSchedulingCheckLocal crewSchedulingCheckLocal;
+    @EJB
+    private FleetAssignmentLocal fleetAssignment;
 
     /**
      * Creates a new instance of ScheduleManagedBean
@@ -129,6 +132,7 @@ public class ScheduleManagedBean implements Serializable {
 
                 f1.getReverseFlight().setReverseFlight(f1);
                 flightsToTest.add(f1);
+                flightsToTest.add(f1.getReverseFlight());
 //                routeSession.saveReturnFlights(f1);
                 System.err.println("generatebyday" + f1);
             }
@@ -140,7 +144,7 @@ public class ScheduleManagedBean implements Serializable {
             System.err.println("departuredayafter add one day" + departureDateTemp);
         }
 
-        List<FlightEntity> prevFlights = assignmentCheckLocal.getParticularPlanningPeriodFlights(planningPeriod, startingDate);
+        List<FlightEntity> prevFlights = fleetAssignment.getAllFlights();
         List<FlightEntity> flightsCheck = new ArrayList<>();
         flightsCheck.addAll(prevFlights);
         flightsCheck.addAll(flightsToTest);
