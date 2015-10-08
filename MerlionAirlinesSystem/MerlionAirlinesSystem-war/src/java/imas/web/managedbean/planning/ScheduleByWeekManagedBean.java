@@ -132,6 +132,7 @@ public class ScheduleByWeekManagedBean implements Serializable {
                 f1.getReverseFlight().setReverseFlight(f1);
 //                routeSession.saveReturnFlights(f1);
                 flightsToTest.add(f1);
+                flightsToTest.add(f1.getReverseFlight());
                 System.err.println("generatebyday" + f1);
             }
             System.err.println("before add one day");

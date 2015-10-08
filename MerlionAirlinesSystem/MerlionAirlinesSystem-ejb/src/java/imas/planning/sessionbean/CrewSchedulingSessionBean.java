@@ -120,19 +120,23 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
             System.err.println("1st assign job");
         } else {
             earliestDep = pilot.getPilotFlights().get(0).getArrivalDate();
-            Date latestDate = null;
+            Date latestDate = pilot.getPilotFlights().get(0).getArrivalDate();
+            FlightEntity lastFlight = pilot.getPilotFlights().get(0);
             for (FlightEntity f : pilot.getPilotFlights()) {
                 if (f.getArrivalDate().compareTo(earliestDep) > 0) {
                     earliestDep = f.getArrivalDate();
                     latestDate = f.getArrivalDate();
+                    lastFlight = f;
+                    earliestFlight = f;
+                    
                 }
             }
 
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
-                if (depTemp.compareTo(latestDate) > 0 && pilot.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
-                    earliestFlight = em.find(FlightEntity.class, f.getId());
+                    earliestFlight = f;                   
                     earliestDep = f.getDepartureDate();
                     hasHubOrNot = true;
 
@@ -207,10 +211,12 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                         findSoonest = f.getDepartureDate();
                         flightAssigned = em.find(FlightEntity.class, f.getId());
+                        findNextFlight = true;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(pilot.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                     findSoonest = f.getDepartureDate();
                     flightAssigned = em.find(FlightEntity.class, f.getId());
+                    findNextFlight = true;
                 }
 
             }
@@ -357,24 +363,24 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
             }
             System.err.println("after getBase");
         } else {
-            System.err.println("already go some flights before getbase");
             earliestDep = pilot.getPilotFlights().get(0).getArrivalDate();
-            Date latestDate = null;
+            Date latestDate = pilot.getPilotFlights().get(0).getArrivalDate();
+            FlightEntity lastFlight = pilot.getPilotFlights().get(0);
             for (FlightEntity f : pilot.getPilotFlights()) {
                 if (f.getArrivalDate().compareTo(earliestDep) > 0) {
                     earliestDep = f.getArrivalDate();
                     latestDate = f.getArrivalDate();
+                    lastFlight = f;
+                    earliestFlight = f;
+                    
                 }
             }
-            System.err.println("test problem");
+
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
-                System.err.println("test1 problem" + pilot.getBase().getAirportCode());
-                System.err.println("..." + f.getRoute().getOriginAirport().getAirportCode());
-                if (depTemp.compareTo(latestDate) > 0 && pilot.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
-                    System.err.println("test2 problem");
-                    earliestFlight = em.find(FlightEntity.class, f.getId());
+                    earliestFlight = f;                   
                     earliestDep = f.getDepartureDate();
                     hasHubOrNot = true;
 
@@ -452,10 +458,12 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                         findSoonest = f.getDepartureDate();
                         flightAssigned = em.find(FlightEntity.class, f.getId());
+                        findNextFlight = true;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(pilot.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                     findSoonest = f.getDepartureDate();
                     flightAssigned = em.find(FlightEntity.class, f.getId());
+                    findNextFlight = true;
                 }
 
             }
