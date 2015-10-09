@@ -35,11 +35,11 @@
             <p:growl id="msgs" showDetail="true" />
 
             <p:panel header="Connect hub and spoke to generate return routes" style="margin-bottom:10px;" class="panel panel-success">
-                
+
                 <h:outputText value="take note that the chosen two airports cannot be both spokes" />   
 
                 <h:panelGrid columns="2" cellpadding="5">
-                    
+
                     <p:outputLabel for="hub" value="Hub: " />
                     <p:selectOneMenu id="hub" value="#{routeManagedBean.hub}" required="true">
                         <p:ajax onsuccess="doUpdateHub()" />
@@ -53,26 +53,26 @@
                         <f:selectItem itemLabel="Select City" itemDisabled="true" />
                         <f:selectItems value="#{routeManagedBean.spokes}" />
                     </p:selectOneMenu>
-                     
-                    </h:panelGrid>
-                
-                    <h:panelGrid columns="5" cellpadding="5">
-                        
+
+                </h:panelGrid>
+
+                <h:panelGrid columns="6" cellpadding="5">
+
                     <p:outputLabel for="distance" value="Distance (mile): " />
                     <p:inputText id="distance" value="#{routeManagedBean.distance}" required="true" />
 
                     <h:outputText class="footnote" value="Direct distance is " />
                     <h:outputText class="footnote" id="directDistance" />
                     <h:outputText class="footnote" value=" miles." />
-                    
+
+                    <p:commandButton value="Connect" update="msgs" actionListener="#{routeManagedBean.generateRoutes}"
+                                     icon="ui-icon-check" class="btn-sm btn-success"/>
+
                 </h:panelGrid>
 
                 <div id="map-canvas" style="width: 100%; height: 60%;"></div>
 
                 <p:separator />
-
-                <p:commandButton value="Connect" update="msgs" actionListener="#{routeManagedBean.generateRoutes}"
-                                 icon="ui-icon-check" class="btn-sm btn-success"/>
 
                 <script type="text/javascript">
                     //<![CDATA[
@@ -170,7 +170,7 @@
                             var lon1 = hubMarker.getPosition().lng();
                             var lat2 = spokeMarker.getPosition().lat();
                             var lon2 = spokeMarker.getPosition().lng();
-                            
+
                             var R = 6371; // Radius of the earth in km
                             var dLat = deg2rad(lat2 - lat1);  // deg2rad below
                             var dLon = deg2rad(lon2 - lon1);
@@ -183,7 +183,7 @@
                             var distanceInKm = R * c; // Distance in km
                             distance = distanceInKm / 1.609344; // convert km into miles
                             distance = Math.round(distance * 100) / 100; // round to 2 decimal
-                            
+
                             $('#addRouteForm\\:directDistance').html(distance);
                         }
 
@@ -198,9 +198,9 @@
                 <script src="https://maps.googleapis.com/maps/api/js?callback=initialize" async="async" defer="defer"></script>
 
             </p:panel>
-        
+
         </h:form>
-    
+
     </ui:define>
 
 </ui:composition>
