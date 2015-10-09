@@ -11,6 +11,7 @@ import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -509,6 +510,11 @@ public class FlightLookupManagedBean implements Serializable {
         activeIndex = 1;
     }
     
+    public void searchFromHomePage() throws IOException {
+        initSelectFlight();        
+        activeIndex = 1;
+        FacesContext.getCurrentInstance().getExternalContext().redirect("selectFlight.xhtml");
+    }
     
     public void initSelectFlight() {
 
