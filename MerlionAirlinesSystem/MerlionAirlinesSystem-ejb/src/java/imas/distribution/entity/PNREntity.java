@@ -5,11 +5,15 @@
  */
 package imas.distribution.entity;
 
+import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -22,6 +26,7 @@ public class PNREntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String email;
+    private String title;
     private String firstName;
     private String lastName;
     private String address;
@@ -31,7 +36,12 @@ public class PNREntity implements Serializable {
     private String mobilePhone;
     private String referenceNumber;
     private Double totalPrice;
-    private Boolean paid;
+    private String status; //A PNR can have the following states: "reserved", "paid", "completed"
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PassengerEntity> passengers;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<FlightEntity> flights;
 
     public Long getId() {
         return id;
@@ -89,6 +99,14 @@ public class PNREntity implements Serializable {
         this.nation = nation;
     }
 
+    public List<FlightEntity> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(List<FlightEntity> flights) {
+        this.flights = flights;
+    }
+
     public String getZipCode() {
         return zipCode;
     }
@@ -121,12 +139,36 @@ public class PNREntity implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public Boolean getPaid() {
-        return paid;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPaid(Boolean paid) {
-        this.paid = paid;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<PassengerEntity> getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(List<PassengerEntity> passengers) {
+        this.passengers = passengers;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    
+    public PNREntity(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
+    }
+
+    public PNREntity() {
     }
 
     

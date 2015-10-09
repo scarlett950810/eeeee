@@ -6,13 +6,18 @@
 package emas.web.managedbean.distribution;
 
 import imas.distribution.entity.PassengerEntity;
+import imas.distribution.entity.TicketEntity;
+import imas.distribution.sessionbean.MakeBookingSessionBeanLocal;
+import imas.planning.entity.FlightEntity;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -30,10 +35,13 @@ import org.primefaces.event.SelectEvent;
  */
 @ManagedBean
 @SessionScoped
-public class CustomerBookTicketManagedBean {
+public class CustomerBookTicketManagedBean implements Serializable {
+    @EJB
+    private MakeBookingSessionBeanLocal makeBookingSessionBean;
 
-    private int passengerNumber = 2;
+    private int passengerNumber = 1;
     private List<PassengerEntity> passengers = new ArrayList<>();
+    private List<FlightEntity> flights; 
     private String title;
     private String firstName;
     private String lastName;
@@ -50,18 +58,22 @@ public class CustomerBookTicketManagedBean {
 
     @PostConstruct
     public void init() {
-        for (int i = 0; i < passengerNumber; i++) {
-            passengers.add(new PassengerEntity());
-        }
-
-    }
-    
-    public void onDateChange(SelectEvent event){
-        System.out.println(event.getObject());
+        passengers = makeBookingSessionBean.populateData();
+//          passengers.add(new PassengerEntity());
+        
     }
 
     public void confirm() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?User=Howard");
+        title = "Mr";
+        firstName = "Hao";
+        lastName = "Li";
+        address = "NUS";
+        city = "Singapore";
+        country = "Singapore";
+        email = "howe0819@gmail.com";
+        contactNumber = "314324243";
+        makeBookingSessionBean.generateItinerary(null, passengers, title, firstName, lastName, address, city, country, email, contactNumber, "paid");
+//        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?User=Howard");
         System.out.print("finished");
     }
     
@@ -160,6 +172,14 @@ public class CustomerBookTicketManagedBean {
 
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
+    }
+
+    public List<FlightEntity> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(List<FlightEntity> flights) {
+        this.flights = flights;
     }
     
     

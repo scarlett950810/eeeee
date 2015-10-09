@@ -173,9 +173,9 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         System.out.println("aircraftTypes added");
 
         AirportEntity a1 = new AirportEntity(false, "Shijiazhuang", "ZD Airport", "SJZ", "China");
-        AirportEntity a2 = new AirportEntity(false, "Guangzhou", "Baiyun Airport", "CAN", "China");
+//        AirportEntity a2 = new AirportEntity(false, "Guangzhou", "Baiyun Airport", "CAN", "China");
         AirportEntity a3 = new AirportEntity(false, "Beijing", "BJ International Airport", "PEK", "China");
-        AirportEntity a4 = new AirportEntity(true, "Singapore", "Changi Airport", "SGC", "Singapore");
+//        AirportEntity a4 = new AirportEntity(true, "Singapore", "Changi Airport", "SGC", "Singapore");
         AirportEntity a5 = new AirportEntity(true, "Tokyo", "Natita Airport", "TNA", "Japan");
         AirportEntity a6 = new AirportEntity(false, "New York", "Lincoln Airport", "NYL", "U.S.");
         AirportEntity a7 = new AirportEntity(true, "Shanghai", "Pu Dong Airport", "SHP", "China");
@@ -194,9 +194,9 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         AirportEntity a20 = new AirportEntity(false, "Frankfurt", "Frankfurt International Airport", "FIA", "Germany");
 
         airportSessionBean.addAirport(a1);
-        airportSessionBean.addAirport(a2);
+//        airportSessionBean.addAirport(a2);
         airportSessionBean.addAirport(a3);
-        airportSessionBean.addAirport(a4);
+//        airportSessionBean.addAirport(a4);
         airportSessionBean.addAirport(a5);
         airportSessionBean.addAirport(a6);
         airportSessionBean.addAirport(a7);
@@ -216,21 +216,21 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         System.out.println("Airports added");
 
-        aircraftSessionBean.addAircraft("001", aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 10, 7, 50, (double) 30);
+        aircraftSessionBean.addAircraft("001", aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a1, a1, 4, 5, 4, 6, 6, 10, 7, 50, (double) 30);
         aircraftSessionBean.addAircraft("002", aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 35);
-        aircraftSessionBean.addAircraft("003", aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
+        aircraftSessionBean.addAircraft("003", aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a1, a1, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
         aircraftSessionBean.addAircraft("004", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("005", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
+        aircraftSessionBean.addAircraft("005", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a1, a1, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
         aircraftSessionBean.addAircraft("006", aircraftType2, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
-        aircraftSessionBean.addAircraft("007", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
+        aircraftSessionBean.addAircraft("007", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a1, a1, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
         aircraftSessionBean.addAircraft("008", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("009", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
+        aircraftSessionBean.addAircraft("009", aircraftType3, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a1, a1, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
         aircraftSessionBean.addAircraft("010", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 65);
-        aircraftSessionBean.addAircraft("011", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 37);
+        aircraftSessionBean.addAircraft("011", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a1, a1, 4, 5, 4, 6, 6, 30, 7, 30, (double) 37);
         aircraftSessionBean.addAircraft("012", aircraftType4, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 0, 0, 4, 6, 6, 30, 7, 50, (double) 51);
-        aircraftSessionBean.addAircraft("013", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
+        aircraftSessionBean.addAircraft("013", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a1, a1, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
         aircraftSessionBean.addAircraft("014", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("015", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
+        aircraftSessionBean.addAircraft("015", aircraftType5, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a1, a1, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
         
 
         System.out.println("aircrafts added");
@@ -333,14 +333,14 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
         
 
-        p1.setBase(a4);
-        p2.setBase(a4);
-        p3.setBase(a4);
-        p4.setBase(a4);
-        p5.setBase(a4);
-        p6.setBase(a4);
-        p7.setBase(a4);
-        p8.setBase(a4);
+//        p1.setBase(a4);
+//        p2.setBase(a4);
+//        p3.setBase(a4);
+//        p4.setBase(a4);
+//        p5.setBase(a4);
+//        p6.setBase(a4);
+//        p7.setBase(a4);
+//        p8.setBase(a4);
         p9.setBase(a8);
         p10.setBase(a8);
         p11.setBase(a8);
@@ -555,21 +555,21 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 //        entityManager.persist(c99);
 //        entityManager.persist(c100);
 
-        c1.setBase(a4);
-        c2.setBase(a4);
-        c3.setBase(a4);
-        c4.setBase(a4);
-        c5.setBase(a4);
-        c6.setBase(a4);
-        c7.setBase(a4);
-        c8.setBase(a4);
-        c9.setBase(a4);
-        c10.setBase(a4);
-        c11.setBase(a4);
-        c12.setBase(a4);
-        c13.setBase(a4);
-        c14.setBase(a4);
-        c15.setBase(a4);
+        c1.setBase(a1);
+        c2.setBase(a1);
+        c3.setBase(a1);
+        c4.setBase(a1);
+        c5.setBase(a1);
+        c6.setBase(a1);
+        c7.setBase(a1);
+        c8.setBase(a1);
+        c9.setBase(a1);
+        c10.setBase(a1);
+        c11.setBase(a1);
+        c12.setBase(a1);
+        c13.setBase(a1);
+        c14.setBase(a1);
+        c15.setBase(a1);
         c16.setBase(a8);
         c17.setBase(a8);
         c18.setBase(a8);
