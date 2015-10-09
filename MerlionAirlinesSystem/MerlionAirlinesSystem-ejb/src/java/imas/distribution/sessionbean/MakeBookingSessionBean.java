@@ -112,8 +112,8 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
             entityManager.persist(s1);
             entityManager.persist(s2);
 
-            TicketEntity t1 = new TicketEntity(s1, b1);
-            TicketEntity t2 = new TicketEntity(s1, b2);
+            TicketEntity t1 = new TicketEntity(f1,null,null,0);
+            TicketEntity t2 = new TicketEntity(f2,null,null,0);
 
 //        entityManager.persist(t1);
 //        entityManager.persist(t2);

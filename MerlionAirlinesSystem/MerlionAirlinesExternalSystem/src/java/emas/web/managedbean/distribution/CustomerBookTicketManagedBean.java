@@ -58,7 +58,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        passengers = makeBookingSessionBean.populateData();
+//        passengers = makeBookingSessionBean.populateData();
 //          passengers.add(new PassengerEntity());
         
     }

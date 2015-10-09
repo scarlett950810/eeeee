@@ -44,9 +44,9 @@ public class TicketEntity implements Serializable {
     // Full Service Economy, Economy Plus, Standard Economy, Economy Save, Economy Super Save
     // Economy Class Agency
 
-    private double price;
-
-    private boolean issued; // if the ticket is issued at the check in counter
+    private Double price;
+    private Boolean boarded;
+    private Boolean issued; // if the ticket is issued at the check in counter
 
     public TicketEntity() {
     }
@@ -57,6 +57,7 @@ public class TicketEntity implements Serializable {
         this.bookingClassName = bookingClassName;
         this.price = price;
         this.issued = false;
+        this.boarded = false;
     }
 
     public TicketEntity(FlightEntity flight, String seatClass, String bookingClassName, double price, SeatEntity seat) {
@@ -65,6 +66,7 @@ public class TicketEntity implements Serializable {
         this.bookingClassName = bookingClassName;
         this.price = price;
         this.issued = false;
+        this.boarded = false;
         this.seat = seat;
     }
 
@@ -106,14 +108,6 @@ public class TicketEntity implements Serializable {
 
     public void setBookingClassName(String bookingClassName) {
         this.bookingClassName = bookingClassName;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public boolean isIssued() {
@@ -162,6 +156,30 @@ public class TicketEntity implements Serializable {
 
     public void setFlightWiFi(Boolean flightWiFi) {
         this.flightWiFi = flightWiFi;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Boolean getBoarded() {
+        return boarded;
+    }
+
+    public void setBoarded(Boolean boarded) {
+        this.boarded = boarded;
+    }
+
+    public Boolean getIssued() {
+        return issued;
+    }
+
+    public void setIssued(Boolean issued) {
+        this.issued = issued;
     }
 
     @Override
