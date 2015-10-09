@@ -20,7 +20,7 @@
         <!--insert customized import here-->
     </ui:define>
 
-   <ui:define name="title">Operation - Post-Flight Report</ui:define>
+    <ui:define name="title">Operation - Post-Flight Report</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
@@ -28,11 +28,11 @@
                 <li class="sidebar-h1">Aircraft Management </li> 
                 <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
                 <li><a href="operationDisplayFlights.xhtml">Flight Display </a></li> 
-                 
+
                 <li class="sidebar-h1">Flight Management </li>
                 <li><a href="operationCrewCheckIn.xhtml"> Crew Check-in </a></li> 
                 <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
-                 
+
                 <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
                 <li class="sidebar-h1">Staff Management</li> 
                 <li><a href="operationCabinCrewScheduling.xhtml">Cabin Crew Schedule</a></li> 
@@ -41,7 +41,7 @@
             </ul>
         </div>
     </ui:define>
-    
+
     <ui:define name="centerPanel">
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
@@ -54,6 +54,7 @@
                 </f:facet>
                 <p:column headerText="Flight No" style="width: 8%" filterMatchMode="contains" filterBy="#{flight.flightNo}" filterStyle="width: 80px">
                     <h:outputText value="#{flight.flightNo}" />
+
                 </p:column>
                 <p:column headerText="Departure Timing">
                     <h:outputText value="#{flight.departureDate}" />
@@ -80,7 +81,7 @@
                         <f:attribute value="#{flight}" name="flight" />
                     </p:commandLink>
                 </p:column>
-                
+
                 <p:column style="width:8%; text-align: center" headerText="Update Flight Status">
                     <p:commandLink update="editAircraft" actionListener="#{postFlightReportManagedBean.updateFlightStatus}" title="Update Flight Status" styleClass="ui-icon ui-icon-check" disabled="#{flight.actualArrivalDate != null}">
                         <f:attribute value="#{flight}" name="flight" />
@@ -89,47 +90,48 @@
             </p:dataTable>
         </h:form>
 
-        <p:dialog id="SecDialog" header="Special Info" widgetVar="flightSpecialDialog"  showEffect="fade"  resizable="false">
+        <p:dialog id="SecDialog" header="Special Info" widgetVar="flightSpecialDialog"  showEffect="fade"  resizable="true"  height="500">
             <h:form id="updateFlightForm">
-                <p:growl id="detail" showDetail="true"/>
-                <p:outputPanel id="flightSpecialDetail" >
-                    <p:panelGrid  columns="2"   rendered="#{not empty postFlightReportManagedBean.selectedFlight}">
+                <p:growl id="detail" showDetail="true" />
 
-                        <h:outputLabel for="emergency" value="1. Emergency of ATC violation:"/>
-                        <h:inputText id="emergency"   value="#{postFlightReportManagedBean.selectedFlight.emergencyOfAtcViolation}"/>
+                <p:outputPanel id="flightSpecialDetail">
+                    <p:panelGrid  columns="2"   rendered="#{not empty postFlightReportManagedBean.selectedFlight}" >
+
+                        <h:outputLabel for="emergency" value="1. Emergency of ATC violation:"/>      
+                        <p:inputTextarea rows="4" cols="33" id="emergency" value="#{postFlightReportManagedBean.selectedFlight.emergencyOfAtcViolation}" />
 
                         <h:outputLabel  for="mechanicalFailures" value="2. Mechanical failures: " style="font-weight:bold"/>                        
-                        <h:inputText id="mechanicalFailures" value="#{postFlightReportManagedBean.selectedFlight.mechanicalFailures}"/>
+                        <p:inputTextarea rows="4" cols="33" id="mechanicalFailures" value="#{postFlightReportManagedBean.selectedFlight.mechanicalFailures}"/>
 
                         <h:outputLabel  for="fuelDumping" value="3. Fuel dumping:" />
-                        <h:inputText id="fuelDumping" value="#{postFlightReportManagedBean.selectedFlight.fuelDumping}"/>
+                        <p:inputTextarea rows="4" cols="33" id="fuelDumping" value="#{postFlightReportManagedBean.selectedFlight.fuelDumping}"/>
 
                         <h:outputLabel  for="passengerSpecialStatus" value="4. Illness/injury/death of a passenger:"/>
-                        <h:inputText id="passengerSpecialStatus" value="#{postFlightReportManagedBean.selectedFlight.passengerSpecialStatus}"/>
+                        <p:inputTextarea rows="4" cols="33" id="passengerSpecialStatus" value="#{postFlightReportManagedBean.selectedFlight.passengerSpecialStatus}"/>
 
                         <h:outputLabel  for="crewSpecialStatus" value="5. Illness/injury/death of a crew member:"/>
-                        <h:inputText id="crewSpecialStatus" value="#{postFlightReportManagedBean.selectedFlight.crewSpecialStatus}"/>
+                        <p:inputTextarea rows="4" cols="33" id="crewSpecialStatus" value="#{postFlightReportManagedBean.selectedFlight.crewSpecialStatus}"/>
 
                         <h:outputLabel  for="passengerMisconduct" value="6. Passenger misconduct (e.g. smoking):"/>
-                        <h:inputText id="passengerMisconduct" value="#{postFlightReportManagedBean.selectedFlight.passengerMisconduct}"/>
+                        <p:inputTextarea rows="4" cols="33" id="passengerMisconduct" value="#{postFlightReportManagedBean.selectedFlight.passengerMisconduct}"/>
 
                         <h:outputLabel  for="hazmatIssue" value="7. HAZMAT issue:"/>
-                        <h:inputText id="hazmatIssue" value="#{postFlightReportManagedBean.selectedFlight.hazmatIssue}"/>
+                        <p:inputTextarea rows="4" cols="33" id="hazmatIssue" value="#{postFlightReportManagedBean.selectedFlight.hazmatIssue}"/>
 
                         <h:outputLabel  for="diversions" value="8. Diversions:"/>
-                        <h:inputText id="diversions" value="#{postFlightReportManagedBean.selectedFlight.diversions}"/>
+                        <p:inputTextarea rows="4" cols="33" id="diversions" value="#{postFlightReportManagedBean.selectedFlight.diversions}"/>
 
                         <h:outputLabel  for="highSpeedAborts" value="9. High-speed aborts:"/>
-                        <h:inputText id="highSpeedAborts" value="#{postFlightReportManagedBean.selectedFlight.highSpeedAborts}"/>
+                        <p:inputTextarea rows="4" cols="33" id="highSpeedAborts" value="#{postFlightReportManagedBean.selectedFlight.highSpeedAborts}"/>
 
                         <h:outputLabel  for="lightningStrikers" value="10. Lightning strikes:"/>
-                        <h:inputText id="lightningStrikers" value="#{postFlightReportManagedBean.selectedFlight.lightningStrikers}"/>
+                        <p:inputTextarea rows="4" cols="33" id="lightningStrikers" value="#{postFlightReportManagedBean.selectedFlight.lightningStrikers}" />
 
                         <h:outputLabel  for="nearAirCollisions" value="11. Near-air collisions:"/>
-                        <h:inputText id="nearAirCollisions" value="#{postFlightReportManagedBean.selectedFlight.nearAirCollisions}"/>
+                        <p:inputTextarea rows="4" cols="33" id="nearAirCollisions" value="#{postFlightReportManagedBean.selectedFlight.nearAirCollisions}"/>
 
                         <h:outputLabel  for="others" value="12. Others:"/>
-                        <h:inputText id="others" value="#{postFlightReportManagedBean.selectedFlight.others}"/>
+                        <p:inputTextarea rows="4" cols="33" id="others" value="#{postFlightReportManagedBean.selectedFlight.others}"/>
                     </p:panelGrid>
 
                     <p:commandButton value="Submit" update="detail" actionListener="#{postFlightReportManagedBean.update}"
@@ -141,8 +143,8 @@
                         <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes btn-success" icon="ui-icon-check" />
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no btn-danger" icon="ui-icon-close" />
                     </p:confirmDialog>
-
                 </p:outputPanel>
+
             </h:form>
 
         </p:dialog>

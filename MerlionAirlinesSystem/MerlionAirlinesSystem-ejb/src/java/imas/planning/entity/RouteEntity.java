@@ -5,6 +5,7 @@
  */
 package imas.planning.entity;
 
+import imas.inventory.entity.CostPairEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -20,15 +21,16 @@ import javax.persistence.OneToOne;
  * @author Lei
  */
 @Entity
-public class RouteEntity  implements Serializable {
+public class RouteEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @OneToOne
-    private AirportEntity originAirport ;
-    
+    private AirportEntity originAirport;
+
     @OneToOne
     private AirportEntity destinationAirport;
     private Double revenue;
@@ -43,6 +45,17 @@ public class RouteEntity  implements Serializable {
     private RouteEntity reverseRoute;
     private Double popularity;
 
+    @OneToMany(mappedBy="route")
+    private List<CostPairEntity> costPair;
+
+    public List<CostPairEntity> getCostPair() {
+        return costPair;
+    }
+
+    public void setCostPair(List<CostPairEntity> costPair) {
+        this.costPair = costPair;
+    }
+
     public RouteEntity getReverseRoute() {
         return reverseRoute;
     }
@@ -50,9 +63,10 @@ public class RouteEntity  implements Serializable {
     public void setReverseRoute(RouteEntity reverseRoute) {
         this.reverseRoute = reverseRoute;
     }
-    
+
     public RouteEntity() {
     }
+
     public RouteEntity(AirportEntity originAirport, AirportEntity destinationAirport) {
         this.popularity = 0.5;
         this.originAirport = originAirport;
@@ -60,7 +74,7 @@ public class RouteEntity  implements Serializable {
     }
 
     public RouteEntity(AirportEntity originAirport, AirportEntity destinationAirport,
-            Double revenue, Double cost, Double distance, Double flightHours) {        
+            Double revenue, Double cost, Double distance, Double flightHours) {
         this.popularity = 0.5;
         this.originAirport = originAirport;
         this.destinationAirport = destinationAirport;
@@ -69,14 +83,17 @@ public class RouteEntity  implements Serializable {
         this.distance = distance;
         this.flightHours = flightHours;
     }
-    public String getRouteName(){
-        return originAirport.getAirportName()+" to "+destinationAirport.getAirportName();
+
+    public String getRouteName() {
+        return originAirport.getAirportName() + " to " + destinationAirport.getAirportName();
     }
-    public String getReturnRoutesName(){
-        System.out.println("enter function getReturnRoutesName"+originAirport.getAirportName()+destinationAirport.getAirportName());
-        return originAirport.getAirportName()+" to "+destinationAirport.getAirportName()+" and its return route "+destinationAirport.getAirportName()+" to "+originAirport.getAirportName();
-        
+
+    public String getReturnRoutesName() {
+        System.out.println("enter function getReturnRoutesName" + originAirport.getAirportName() + destinationAirport.getAirportName());
+        return originAirport.getAirportName() + " to " + destinationAirport.getAirportName() + " and its return route " + destinationAirport.getAirportName() + " to " + originAirport.getAirportName();
+
     }
+
     /**
      * Get the value of flightHours
      *
@@ -94,8 +111,6 @@ public class RouteEntity  implements Serializable {
     public void setFlightHours(Double flightHours) {
         this.flightHours = flightHours;
     }
-
-    
 
     /**
      * Get the value of distance
@@ -115,19 +130,17 @@ public class RouteEntity  implements Serializable {
         this.distance = distance;
     }
 
-    
 //    @ManyToOne(cascade={CascadeType.ALL})
-    
-     public Long getId() {
+    public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public AirportEntity getOriginAirport() {
-    //    System.out.println("Lalala");
+        //    System.out.println("Lalala");
 
         return originAirport;
     }
@@ -138,7 +151,7 @@ public class RouteEntity  implements Serializable {
     }
 
     public AirportEntity getDestinationAirport() {
-      //  System.out.println("Lalala1");
+        //  System.out.println("Lalala1");
 
         return destinationAirport;
     }
@@ -162,7 +175,7 @@ public class RouteEntity  implements Serializable {
     public void setCost(Double cost) {
         this.cost = cost;
     }
-    
+
     public List<FlightEntity> getFlights() {
         return flights;
     }
@@ -170,13 +183,14 @@ public class RouteEntity  implements Serializable {
     public void setFlights(List<FlightEntity> flights) {
         this.flights = flights;
     }
-    
+
     @Override
-     public int hashCode() {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
+
     public RouteGroupEntity getRouteGroup() {
         return routeGroup;
     }
@@ -192,7 +206,7 @@ public class RouteEntity  implements Serializable {
     public void setPopularity(Double popularity) {
         this.popularity = popularity;
     }
-    
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -204,10 +218,11 @@ public class RouteEntity  implements Serializable {
             return false;
         }
         return true;
-    }  
-       @Override
+    }
+
+    @Override
     public String toString() {
         return originAirport.toString() + " to " + destinationAirport.toString();
     }
-    
+
 }

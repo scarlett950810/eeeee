@@ -5,11 +5,13 @@
  */
 package imas.inventory.entity;
 
+import imas.planning.entity.RouteEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -17,7 +19,7 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class CostPairEntity implements Serializable {
+public class CostPairEntity implements Serializable, Comparable<CostPairEntity>  {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -25,14 +27,27 @@ public class CostPairEntity implements Serializable {
     private Long id;
     private String costType;
     private Double costFigure;
+    private Integer rank;
+    
+    @ManyToOne
+    private RouteEntity route;
     
     public CostPairEntity() {
 
     }
 
-    public CostPairEntity(String costType, Double costFigure) {
+    public RouteEntity getRoute() {
+        return route;
+    }
+
+    public void setRoute(RouteEntity route) {
+        this.route = route;
+    }
+
+    public CostPairEntity(String costType, Double costFigure,Integer rank) {
         this.costType = costType;
         this.costFigure = costFigure;
+        this.rank=rank;
     }
 
     public Long getId() {
@@ -59,6 +74,14 @@ public class CostPairEntity implements Serializable {
         this.costFigure = costFigure;
     }
 
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -83,5 +106,10 @@ public class CostPairEntity implements Serializable {
     public String toString() {
         return "imas.inventory.entity.CostPairEntity[ id=" + id + " ]";
     }
+ @Override
+    public int compareTo(CostPairEntity o) {
 
+        return o.rank.compareTo(this.rank);
+
+    }
 }
