@@ -128,3 +128,7 @@ span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
 .footnote {
     font-size: 80%;
 }
+
+.ui-tabs .ui-tabs-nav {
+    background: none !important;
+}
