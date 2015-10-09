@@ -25,7 +25,7 @@
 
     <ui:define name="centerPanel">
         <p:tabView id="tabView" activeIndex="#{flightLookupManagedBean.activeIndex}">
-            <p:tab title="1 Search creiteria" class="panel panel-primary">
+            <p:tab title="1 Search creiteria" class="panel panel-primary" disabled="#{flightLookupManagedBean.tab1Disabled}">
                 <p:messages />
                 <h:form>
                     <h:panelGrid columns="2" cellpadding="5">
@@ -119,7 +119,7 @@
                 </h:form>
             </p:tab>
 
-            <p:tab id="selectFlightTab" title="2 Select Flight" class="panel panel-primary">
+            <p:tab id="selectFlightTab" title="2 Select Flight" class="panel panel-primary" disabled="#{flightLookupManagedBean.tab2Disabled}">
 
                 <p:panel header="Departure: #{flightLookupManagedBean.orginAirport} to #{flightLookupManagedBean.destinationAirport}" class="panel panel-primary">
 
@@ -297,6 +297,10 @@
 
                 </c:if>
 
+            </p:tab>
+            
+            <p:tab title="3 Select Booking Class" class="panel panel-primary" disabled="#{flightLookupManagedBean.tab3Disabled}">
+                
             </p:tab>
             
         </p:tabView>
