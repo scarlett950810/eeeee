@@ -34,7 +34,8 @@ public class DistributionSessionBean implements DistributionSessionBeanLocal {
     public void makeBooking(BookingClassEntity bookingClass, int number) {
         
         for (int i = 0; i < number; i++) {
-            TicketEntity ticketEntity = new TicketEntity(bookingClass);
+            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getSeatClass(),
+                    bookingClass.getName(), bookingClass.getPrice());
             entityManager.persist(ticketEntity);
         }
         
@@ -57,7 +58,42 @@ public class DistributionSessionBean implements DistributionSessionBeanLocal {
             }                
         }
     }
+    
+    @Override
+    public List<TicketEntity> createTicketEntitiesWithoutPersisting(BookingClassEntity bookingClass, int number) {
+        List<TicketEntity> tickets = new ArrayList<>();
+        
+        for (int i = 0; i < number; i++) {
+            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getSeatClass(),
+                    bookingClass.getName(), bookingClass.getPrice());
+            tickets.add(ticketEntity);
+        }
+        
+        return tickets;
+    }
 
+    @Override
+    public void runYieldManagementsRulesOnFlight(FlightEntity flight) {
+        Query queryForRules = entityManager.createQuery("SELECT r FROM YieldManagementRuleEntity r WHERE r.flight = :flight");
+        queryForRules.setParameter("flight", flight);
+        
+        List<YieldManagementRuleEntity> rules = queryForRules.getResultList();
+        
+        for (YieldManagementRuleEntity rule: rules) {
+            if (rule.isEnabled()) {
+                if (rule.isRule1()) {
+                    yieldManagementSessionBean.runYieldManagementRule1(rule);
+                } else if (rule.isRule2()) {
+                    yieldManagementSessionBean.runYieldManagementRule2(rule);
+                } else if (rule.isRule3()) {
+                    yieldManagementSessionBean.runYieldManagementRule3(rule);
+                } else if (rule.isRule4()) {
+                    yieldManagementSessionBean.runYieldManagementRule4(rule);
+                }
+            }                
+        }
+    }
+    
     @Override
     public int getQuotaLeft(BookingClassEntity bookingClassEntity) {
         Query queryForAllCurrentTicketsUnderBookingClass = entityManager.createQuery("SELECT t FROM TicketEntity t "

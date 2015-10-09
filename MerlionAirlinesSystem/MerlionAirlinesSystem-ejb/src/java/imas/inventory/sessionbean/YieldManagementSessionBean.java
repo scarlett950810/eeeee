@@ -60,7 +60,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
             for (TicketEntity t : tickets) {
                 totalSeatNo = totalSeatNo + 1;
-                totalRevenue = totalRevenue + t.getBookingClass().getPrice();
+                totalRevenue = totalRevenue + t.getPrice();
             }
 
             return totalRevenue / (totalSeatNo * routeDistance);
@@ -92,7 +92,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         List<TicketEntity> tickets = queryForAllCurrentTicketsUnderFlight.getResultList();
 
         for (TicketEntity t : tickets) {
-            totalRevenueTillNow = totalRevenueTillNow + t.getBookingClass().getPrice();
+            totalRevenueTillNow = totalRevenueTillNow + t.getPrice();
         }
         return totalRevenueTillNow;
     }
