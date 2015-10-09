@@ -48,7 +48,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 //        System.out.println(flightsUnderRoute);
         for (FlightEntity f : flightsUnderRoute) {
             Query queryForAllTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                    + "WHERE t.bookingClass.flight = :flight");
+                    + "WHERE t.flight = :flight");
             queryForAllTicketsUnderFlight.setParameter("flight", f);
             List<TicketEntity> tickets = queryForAllTicketsUnderFlight.getResultList();
 
@@ -87,7 +87,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         double totalRevenueTillNow = 0.0;
 
         Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.bookingClass.flight = :flight");
+                + "WHERE t.flight = :flight");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         List<TicketEntity> tickets = queryForAllCurrentTicketsUnderFlight.getResultList();
 
@@ -112,7 +112,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     @Override
     public int getTotalNumberOfSoldEconomyClass1Ticket(FlightEntity flight) {
         Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
+                + "WHERE t.flight = :flight AND t.bookingClassName = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Full Service Economy");
 
@@ -124,7 +124,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     @Override
     public int getTotalNumberOfSoldEconomyClass2Ticket(FlightEntity flight) {
         Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
+                + "WHERE t.flight = :flight AND t.bookingClassName = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Economy Plus");
 
@@ -136,7 +136,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     @Override
     public int getTotalNumberOfSoldEconomyClass3Ticket(FlightEntity flight) {
         Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
+                + "WHERE t.flight = :flight AND t.bookingClassName = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Standard Economy");
 
@@ -148,7 +148,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     @Override
     public int getTotalNumberOfSoldEconomyClass4Ticket(FlightEntity flight) {
         Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
+                + "WHERE t.flight = :flight AND t.bookingClassName = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Economy Save");
 
@@ -160,7 +160,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     @Override
     public int getTotalNumberOfSoldEconomyClass5Ticket(FlightEntity flight) {
         Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.name = :bookingClassName");
+                + "WHERE t.flight = :flight AND t.bookingClassName = :bookingClassName");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("bookingClassName", "Economy Super Save");
 
@@ -171,7 +171,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     @Override
     public int getTotalNumberOfSoldEconomyClassesTicket(FlightEntity flight) {
         Query queryForAllCurrentTicketsUnderFlight = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.bookingClass.flight = :flight AND t.bookingClass.seatClass = :seatClass");
+                + "WHERE t.flight = :flight AND t.seatClass = :seatClass");
         queryForAllCurrentTicketsUnderFlight.setParameter("flight", flight);
         queryForAllCurrentTicketsUnderFlight.setParameter("seatClass", "Economy Class");
 

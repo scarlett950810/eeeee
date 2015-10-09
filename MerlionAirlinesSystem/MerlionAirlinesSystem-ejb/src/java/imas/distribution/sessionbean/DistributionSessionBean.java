@@ -97,8 +97,9 @@ public class DistributionSessionBean implements DistributionSessionBeanLocal {
     @Override
     public int getQuotaLeft(BookingClassEntity bookingClassEntity) {
         Query queryForAllCurrentTicketsUnderBookingClass = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.bookingClass = :bookingClass");
-        queryForAllCurrentTicketsUnderBookingClass.setParameter("bookingClass", bookingClassEntity);
+                + "WHERE t.flight = : flight AND t.bookingClassName = :bookingClassName");
+        queryForAllCurrentTicketsUnderBookingClass.setParameter("flight", bookingClassEntity.getFlight());
+        queryForAllCurrentTicketsUnderBookingClass.setParameter("bookingClassName", bookingClassEntity.getName());
         List<TicketEntity> tickets = queryForAllCurrentTicketsUnderBookingClass.getResultList();
         int numberOfTicketsSold = tickets.size();
         return bookingClassEntity.getQuota() - numberOfTicketsSold;

@@ -134,7 +134,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
 
         // get all economy seats on each departured flights
         for (FlightEntity f : allDeparturedFlights) {
-            Query queryForTickets = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.bookingClass.flight = :flight "
+            Query queryForTickets = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.flight = :flight "
                     + "AND t.seat.seatClass = :seatClass ");
             queryForTickets.setParameter("flight", f);
             queryForTickets.setParameter("seatClass", "Economy Class");
