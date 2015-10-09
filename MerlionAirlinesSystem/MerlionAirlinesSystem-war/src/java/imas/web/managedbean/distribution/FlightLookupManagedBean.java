@@ -7,6 +7,7 @@ package imas.web.managedbean.distribution;
 
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.distribution.sessionbean.TransferFlight;
+import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
@@ -60,8 +61,12 @@ public class FlightLookupManagedBean implements Serializable {
     private List<SelectItem> airportsByCountry;
     private List<SelectItem> destinationAirportsByCountry;
     private String returnDateDisplay;
-
-    // attributes used to pass to booking management
+    
+    private boolean tab1Disabled;
+    private boolean tab2Disabled;
+    private boolean tab3Disabled;
+    
+    // selected flight
     private FlightEntity departureFlight;
     private FlightEntity departureTransferFlight1;
     private FlightEntity departureTransferFlight2;
@@ -69,7 +74,7 @@ public class FlightLookupManagedBean implements Serializable {
     private FlightEntity returnTransferFlight1;
     private FlightEntity returnTransferFlight2;
     
-    // attributes used only for select or display
+    // for displaying flights options
     private int activeIndex;
     private boolean departureHasDirectFlight;
     private boolean departureHasTransferFlight;
@@ -83,6 +88,9 @@ public class FlightLookupManagedBean implements Serializable {
     private List<TransferFlight> departureTransferFlightCandidates;
     private List<TransferFlight> returnTransferFlightCandidates;
 
+    // for displaying booking class options
+    private List<List<BookingClassEntity>> bookingClassCandidatesList;
+    
     @PostConstruct
     public void init() {
         fetchAllAirports();
@@ -98,6 +106,10 @@ public class FlightLookupManagedBean implements Serializable {
         departureMaxDate = today.getTime();
         returnMaxDate = today.getTime();
         activeIndex = 0;
+        tab1Disabled = false;        
+        tab2Disabled = true;
+        tab3Disabled = true;
+        
     }
 
     @PostRemove
@@ -239,17 +251,6 @@ public class FlightLookupManagedBean implements Serializable {
 
     public void setReturnTransferFlight2(FlightEntity returnTransferFlight2) {
         this.returnTransferFlight2 = returnTransferFlight2;
-    }
-
-
-    public String getUserFriendlyTime(double hours) {
-        int hourNo = (int) hours;
-        int minNo = (int) (60 * (hours - hourNo));
-        return hourNo + " hour " + minNo + " mins";
-    }
-    
-    public double getLowestFare(FlightEntity flight) {
-        return flightLookupSessionBean.getLowestFareAvailable(flight, seatClass);
     }
     
     public FlightLookupManagedBean() {
@@ -393,6 +394,30 @@ public class FlightLookupManagedBean implements Serializable {
         this.returnMaxDate = returnMaxDate;
     }
 
+    public boolean isTab1Disabled() {
+        return tab1Disabled;
+    }
+
+    public void setTab1Disabled(boolean tab1Disabled) {
+        this.tab1Disabled = tab1Disabled;
+    }
+
+    public boolean isTab2Disabled() {
+        return tab2Disabled;
+    }
+
+    public void setTab2Disabled(boolean tab2Disabled) {
+        this.tab2Disabled = tab2Disabled;
+    }
+
+    public boolean isTab3Disabled() {
+        return tab3Disabled;
+    }
+
+    public void setTab3Disabled(boolean tab3Disabled) {
+        this.tab3Disabled = tab3Disabled;
+    }
+
     public String getReturnDateDisplay() {
         if (twoWay) {
             return "display: block";
@@ -413,6 +438,23 @@ public class FlightLookupManagedBean implements Serializable {
         this.activeIndex = activeIndex;
     }
 
+    public List<List<BookingClassEntity>> getBookingClassCandidatesList() {
+        return bookingClassCandidatesList;
+    }
+
+    public void setBookingClassCandidatesList(List<List<BookingClassEntity>> bookingClassCandidatesList) {
+        this.bookingClassCandidatesList = bookingClassCandidatesList;
+    }
+    
+    public String getUserFriendlyTime(double hours) {
+        int hourNo = (int) hours;
+        int minNo = (int) (60 * (hours - hourNo));
+        return hourNo + " hour " + minNo + " mins";
+    }
+    
+    public double getLowestFare(FlightEntity flight) {
+        return flightLookupSessionBean.getLowestFareAvailable(flight, seatClass);
+    }
     
     private void fetchAllAirports() {
         airportsByCountry = new ArrayList<>();
@@ -541,6 +583,7 @@ public class FlightLookupManagedBean implements Serializable {
         returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, returnDate);
         returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
         
+        tab2Disabled = false;
     }
 
 

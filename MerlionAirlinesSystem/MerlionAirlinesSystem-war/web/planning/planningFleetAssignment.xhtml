@@ -44,9 +44,12 @@
                                 </h:panelGrid>-->
 
 
-                <h:outputText value="The fleet assignment would take consideration of maximizing the uitilization rate, aircraft capability, maintenance requirement "/>`
-                <h:outputText rendered="#{fleetAssignmentManagedBean.appearOrnot}" value="There are still #{fleetAssignmentManagedBean.numOfUnassignedFlights} flights haven't been assgned aircraft, pls do fleet assignment"/>`
-
+                <h:outputText value="The fleet assignment would take consideration of maximizing the uitilization rate, aircraft capability, maintenance requirement "/>
+                <br></br>
+                <br></br>
+                <h:outputText rendered="#{fleetAssignmentManagedBean.appearOrnot}" value="There are still #{fleetAssignmentManagedBean.numOfUnassignedFlights} flights haven't been assgned aircraft, pls do fleet assignment"/>
+                <br></br>
+                <br></br>
                 <p:commandButton value="Fleet Assignment" actionListener="#{fleetAssignmentManagedBean.fleetAssignment}" icon="ui-icon-check" class="btn-sm btn-success"/>
 
             </p:panel>     
