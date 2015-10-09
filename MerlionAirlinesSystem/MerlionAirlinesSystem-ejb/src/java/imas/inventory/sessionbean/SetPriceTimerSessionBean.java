@@ -30,9 +30,9 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
 
-    @Schedule(hour="*/1", persistent=false)
+    @Schedule(second="00", minute="*",hour="*", persistent=false)
     public void doWork(){
-        System.out.println("Set price timer run every 1 hour:");
+        System.out.println("Set price timer run every 1 minutes:");
         monthToDeparture = 12;
         seatsManagementSessionBean.autoPriceToDepartureAndUnpricedFlights(monthToDeparture);
     }
