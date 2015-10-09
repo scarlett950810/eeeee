@@ -147,6 +147,7 @@ public class ScheduleManagedBean implements Serializable {
         List<FlightEntity> prevFlights = fleetAssignment.getAllFlights();
         List<FlightEntity> flightsCheck = new ArrayList<>();
         flightsCheck.addAll(prevFlights);
+       
         flightsCheck.addAll(flightsToTest);
         List<AircraftEntity> aircrafts = aircraftSessionBean.getAircrafts();
         List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
@@ -161,6 +162,11 @@ public class ScheduleManagedBean implements Serializable {
 
         List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flights, aircrafts);
         FacesContext fc = FacesContext.getCurrentInstance();
+        for(FlightEntity f: flightsToTest){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsToTest", flightsToTest);
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassigned", flightsUnassigned);
