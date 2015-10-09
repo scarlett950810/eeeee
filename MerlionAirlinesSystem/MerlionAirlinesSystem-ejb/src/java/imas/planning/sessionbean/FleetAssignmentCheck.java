@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -23,65 +23,25 @@ import javax.persistence.Query;
  *
  * @author ruicai
  */
-@Stateful
-public class FleetAssignment implements FleetAssignmentLocal {
-
+@Stateless
+public class FleetAssignmentCheck implements FleetAssignmentCheckLocal {
+    
     @PersistenceContext
     private EntityManager em;
     
-    
     @Override
-    public List<Date> getAllPlanningPeriodStartDateByYear() {
-        Query q = em.createQuery("SELECT DISTINCT a.operatingYear FROM FlightEntity a");
-        List<Integer> ops = (List<Integer>) q.getResultList();
-
-        List<Date> result = new ArrayList<Date>();
-        for (Integer i : ops) {
-            //           System.err.println("operatingYear" + i);
-            q = em.createQuery("SELECT a FROM FlightEntity a Where a.operatingYear = :year ORDER BY a.departureDate");
-            q.setParameter("year", i);
-            List<FlightEntity> fs = (List<FlightEntity>) q.getResultList();
-            FlightEntity f = fs.get(0);
-            result.add(f.getDepartureDate());
-        }
-        return result;
-    }
-    
-
-    @Override
-    public void deleteUnassginedFlights(List<FlightEntity> flightsUnassigned) {
-        for (FlightEntity f : flightsUnassigned) {
-            FlightEntity fD = em.find(FlightEntity.class, f.getId());
-            if (fD != null) {
-                FlightEntity fRD = em.find(FlightEntity.class, fD.getReverseFlight().getId());
-                fD.setReverseFlight(null);
-                fRD.setReverseFlight(null);
-                em.remove(fD);
-                em.remove(fRD);
-            }
-
-        }
-
-    }
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-
-    @Override
-    public List<FlightEntity> getAllFlightsWithinPlanningPeriod(Date startingDate) {
+    public List<FlightEntity> getParticularPlanningPeriodFlights(Integer planningY, Date startingDate) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(startingDate);
-        cal.add(Calendar.YEAR, 1);
+        cal.add(Calendar.YEAR, planningY);
         Date endingDate = cal.getTime();
         Query q = em.createQuery("SELECT a FROM FlightEntity a WHERE a.departureDate >= :startingDate AND a.arrivalDate <= :endingDate");
         q.setParameter("startingDate", startingDate);
         q.setParameter("endingDate", endingDate);
         return (List<FlightEntity>) q.getResultList();
     }
-
     @Override
-    public List<FlightEntity> fleetAssignment(List<FlightEntity> flights, List<AircraftEntity> aircrafts) {
-        //       System.err.println("enter fleetAssignment");
+    public List<FlightEntity> fleetAssignmentCheck(List<FlightEntity> flights, List<AircraftEntity> aircrafts) {
         for (AircraftEntity a : aircrafts) {
             if (!flights.isEmpty()) {
                 flights = oneAircraftAssignment(a, flights);
@@ -90,8 +50,11 @@ public class FleetAssignment implements FleetAssignmentLocal {
         }
         //       System.err.println("finish fleetA"+flights.size());
         return flights;
-
     }
+
+    
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
 
     @Override
     public List<FlightEntity> oneAircraftAssignment(AircraftEntity aircraft, List<FlightEntity> flightsAll) {
@@ -115,14 +78,14 @@ public class FleetAssignment implements FleetAssignmentLocal {
         if (aircraft.getFlights() == null || aircraft.getFlights().isEmpty()) {
             System.err.println("1st assign job start");
             cal.setTime(earliestDep);
-            cal.add(Calendar.YEAR, 3);
+            cal.add(Calendar.YEAR, 1);
             earliestDep = cal.getTime();
 
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
                 if (depTemp.compareTo(earliestDep) < 0 && aircraft.getAirportHub().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
-                    earliestFlight = em.find(FlightEntity.class, f.getId());
+                    earliestFlight = f;
                     earliestDep = f.getDepartureDate();
                     hasHubOrNot = true;
 
@@ -137,9 +100,10 @@ public class FleetAssignment implements FleetAssignmentLocal {
             for (FlightEntity f : aircraft.getFlights()) {
                 if (f.getArrivalDate().compareTo(earliestDep) > 0) {
                     earliestDep = f.getArrivalDate();
-                    earliestFlight = f;
                     latestDate = f.getArrivalDate();
                     lastFlight = f;
+                    earliestFlight = f;
+                    
                 }
             }
 
@@ -147,7 +111,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
                 Date depTemp = f.getDepartureDate();
                 if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
-                    earliestFlight = em.find(FlightEntity.class, f.getId());
+                    earliestFlight = f;
                     earliestDep = f.getDepartureDate();
                     hasHubOrNot = true;
 
@@ -159,7 +123,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
                 for (FlightEntity f : flightsAvai) {
                     if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                         //Find the earliest flight which departs at the aircraft's hub
-                        earliestFlight = em.find(FlightEntity.class, f.getId());
+                        earliestFlight = f;
                         earliestDep = f.getDepartureDate();
                         hasHubOrNot = true;
 
@@ -213,12 +177,12 @@ public class FleetAssignment implements FleetAssignmentLocal {
                 if (currentLoc.equals(aircraft.getAirportHub())) {
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                         findSoonest = f.getDepartureDate();
-                        flightAssigned = em.find(FlightEntity.class, f.getId());
                         findNextFlight = true;
+                        flightAssigned = f;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                     findSoonest = f.getDepartureDate();
-                    flightAssigned = em.find(FlightEntity.class, f.getId());
+                    flightAssigned = f;
                     findNextFlight = true;
                 }
 
@@ -232,12 +196,12 @@ public class FleetAssignment implements FleetAssignmentLocal {
 
                     if (currentLoc.equals(aircraft.getAirportHub())) {
                         if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
-                            flightAssigned = em.find(FlightEntity.class, f.getId());
+                            flightAssigned = f;
                             findSoonest = f.getDepartureDate();
                             findNextFlight = true;
                         }
                     } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
-                        flightAssigned = em.find(FlightEntity.class, f.getId());
+                        flightAssigned = f;
                         findSoonest = f.getDepartureDate();
                         findNextFlight = true;
                     }
@@ -269,8 +233,6 @@ public class FleetAssignment implements FleetAssignmentLocal {
                         aircraft.getMaintenances().add(maintenanceSchedule);
                     }
                     maintenanceSchedule.setAircraft(aircraft);
-                    em.merge(maintenanceSchedule);
-                    em.merge(aircraft);
 
                     currentLoc = aircraft.getAirportHub();
                     mtAcc = earliestDep;
@@ -281,7 +243,6 @@ public class FleetAssignment implements FleetAssignmentLocal {
                     flightAssigned.setAircraftFlight(aircraft);
                     flightsAvai.remove(flightAssigned);
                     flightsAll.remove(flightAssigned);
-                    em.merge(aircraft);
 
                     earliestDep = flightAssigned.getArrivalDate(); // later can change to calculate 
                     currentLoc = flightAssigned.getRoute().getDestinationAirport();
@@ -293,7 +254,6 @@ public class FleetAssignment implements FleetAssignmentLocal {
 
         }
 
-        em.merge(aircraft);
         return flightsAll;
         //route with higher demand operate with larger aircraft
         //longer distance larger aircraft
@@ -316,29 +276,5 @@ public class FleetAssignment implements FleetAssignmentLocal {
         return flyingHours;
     }
 
-    @Override
-    public List<FlightEntity> retreiveDBrecords(RouteEntity route) {
-        RouteEntity r = em.find(RouteEntity.class, route.getId());
-
-        return r.getFlights();
-    }
-
-    @Override
-    public List<FlightEntity> getAllFlights() {
-        System.err.println("开始getAll Flights method ()");
-        Query q = em.createQuery("SELECT a FROM FlightEntity a WHERE a.aircraft IS NULL");
-        System.err.println("结束 getAll Flights method ()");
-        System.err.println("...."+(List<FlightEntity>)q.getResultList());
-        
-        
-        return (List<FlightEntity>)q.getResultList();
-        
-    }
-
-    @Override
-    public List<FlightEntity> findUnassinedFlights() {
-        Query q = em.createQuery("SELECT a FROM FlightEntity a WHERE a.aircraft IS NULL");
-        return (List<FlightEntity>)q.getResultList();
-    }
-
+    
 }

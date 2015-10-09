@@ -5,6 +5,7 @@
  */
 package imas.distribution.sessionbean;
 
+import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.FlightEntity;
 import java.util.List;
@@ -22,5 +23,9 @@ public interface DistributionSessionBeanLocal {
     public int getQuotaLeft(BookingClassEntity bookingClassEntity);
 
     public List<FlightEntity> getAllAvailableFlights();
+
+    public List<TicketEntity> createTicketEntitiesWithoutPersisting(BookingClassEntity bookingClass, int number);
+
+    public void runYieldManagementsRulesOnFlight(FlightEntity flight);
     
 }

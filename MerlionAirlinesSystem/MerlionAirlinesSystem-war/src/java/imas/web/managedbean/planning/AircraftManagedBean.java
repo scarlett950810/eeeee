@@ -401,6 +401,7 @@ public class AircraftManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
 
+
     }
 
     public void returnBack() throws IOException {

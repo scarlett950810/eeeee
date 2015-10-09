@@ -124,3 +124,7 @@ span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
     margin: 0px !important;
     padding: 1px !important;
 }
+
+.footnote {
+    font-size: 80%;
+}
