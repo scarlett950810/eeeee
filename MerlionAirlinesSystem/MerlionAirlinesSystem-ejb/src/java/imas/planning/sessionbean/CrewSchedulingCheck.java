@@ -147,19 +147,23 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
             System.err.println("1st assign job");
         } else {
             earliestDep = pilot.getPilotFlights().get(0).getArrivalDate();
-            Date latestDate = null;
+            Date latestDate = pilot.getPilotFlights().get(0).getArrivalDate();
+            FlightEntity lastFlight = pilot.getPilotFlights().get(0);
             for (FlightEntity f : pilot.getPilotFlights()) {
                 if (f.getArrivalDate().compareTo(earliestDep) > 0) {
                     earliestDep = f.getArrivalDate();
                     latestDate = f.getArrivalDate();
+                    lastFlight = f;
+                    earliestFlight = f;
+                    
                 }
             }
 
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
-                if (depTemp.compareTo(latestDate) > 0 && pilot.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
-                    earliestFlight = f;
+                    earliestFlight = f;                   
                     earliestDep = f.getDepartureDate();
                     hasHubOrNot = true;
 
@@ -169,7 +173,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
 
             if (hasHubOrNot) {
                 for (FlightEntity f : flightsAvai) {
-                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && pilot.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                         //Find the earliest flight which departs at the aircraft's hub
                         earliestFlight = f;
                         earliestDep = f.getDepartureDate();
@@ -234,10 +238,12 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                         findSoonest = f.getDepartureDate();
                         flightAssigned = f;
+                        findNextFlight = true;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(pilot.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                     findSoonest = f.getDepartureDate();
                     flightAssigned = f;
+                    findNextFlight = true;
                 }
 
             }
@@ -386,22 +392,23 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
         } else {
             System.err.println("already go some flights before getbase");
             earliestDep = pilot.getPilotFlights().get(0).getArrivalDate();
-            Date latestDate = null;
+            Date latestDate = pilot.getPilotFlights().get(0).getArrivalDate();
+            FlightEntity lastFlight = pilot.getPilotFlights().get(0);
             for (FlightEntity f : pilot.getPilotFlights()) {
                 if (f.getArrivalDate().compareTo(earliestDep) > 0) {
                     earliestDep = f.getArrivalDate();
                     latestDate = f.getArrivalDate();
+                    lastFlight = f;
+                    earliestFlight = f;
+                    
                 }
             }
-            System.err.println("test problem");
+
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
-                System.err.println("test1 problem" + pilot.getBase().getAirportCode());
-                System.err.println("..." + f.getRoute().getOriginAirport().getAirportCode());
-                if (depTemp.compareTo(latestDate) > 0 && pilot.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
-                    System.err.println("test2 problem");
-                    earliestFlight = f;
+                    earliestFlight = f;                   
                     earliestDep = f.getDepartureDate();
                     hasHubOrNot = true;
 
@@ -478,11 +485,13 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
                 if (currentLoc.equals(pilot.getBase())) {
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                         findSoonest = f.getDepartureDate();
+                        findNextFlight = true;
                         flightAssigned = f;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(pilot.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                     findSoonest = f.getDepartureDate();
                     flightAssigned = f;
+                    findNextFlight = true;
                 }
 
             }
@@ -655,17 +664,22 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
             System.err.println("1st assign job");
         } else {
             earliestDep = cabinCrew.getCabinCrewFlights().get(0).getArrivalDate();
-            Date latestDate = null;
+            Date latestDate = cabinCrew.getCabinCrewFlights().get(0).getArrivalDate();
+            FlightEntity lastFlight = cabinCrew.getCabinCrewFlights().get(0);
             for (FlightEntity f : cabinCrew.getCabinCrewFlights()) {
                 if (f.getArrivalDate().compareTo(earliestDep) > 0) {
                     earliestDep = f.getArrivalDate();
                     latestDate = f.getArrivalDate();
+                    earliestFlight = f;
+                    lastFlight = f;
+                   
                 }
             }
 
+           
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
-                if (depTemp.compareTo(latestDate) > 0 && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
                     earliestFlight = f;
                     earliestDep = f.getDepartureDate();
@@ -674,10 +688,11 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
                 }
 
             }
+            
 
             if (hasHubOrNot) {
                 for (FlightEntity f : flightsAvai) {
-                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                         //Find the earliest flight which departs at the aircraft's hub
                         earliestFlight = f;
                         earliestDep = f.getDepartureDate();
@@ -742,10 +757,12 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                         findSoonest = f.getDepartureDate();
                         flightAssigned = f;
+                        findNextFlight = true;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(cabinCrew.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                     findSoonest = f.getDepartureDate();
                     flightAssigned = f;
+                    findNextFlight = true;
                 }
 
             }
@@ -996,17 +1013,22 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
             System.err.println("1st assign job");
         } else {
             earliestDep = aircraft.getFlights().get(0).getArrivalDate();
-            Date latestDate = null;
+            Date latestDate = aircraft.getFlights().get(0).getArrivalDate();
+            FlightEntity lastFlight = aircraft.getFlights().get(0);
+                    
             for (FlightEntity f : aircraft.getFlights()) {
                 if (f.getArrivalDate().compareTo(earliestDep) > 0) {
                     earliestDep = f.getArrivalDate();
                     latestDate = f.getArrivalDate();
+                    lastFlight = f;
+                    earliestFlight = f;
+                    
                 }
             }
 
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
-                if (depTemp.compareTo(latestDate) > 0 && aircraft.getAirportHub().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
                     earliestFlight = f;
                     earliestDep = f.getDepartureDate();
@@ -1018,7 +1040,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
 
             if (hasHubOrNot) {
                 for (FlightEntity f : flightsAvai) {
-                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && aircraft.getAirportHub().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                         //Find the earliest flight which departs at the aircraft's hub
                         earliestFlight = f;
                         earliestDep = f.getDepartureDate();
@@ -1076,10 +1098,13 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                         findSoonest = f.getDepartureDate();
                         flightAssigned = f;
+                        findNextFlight = true;
                     }
                 } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
                     findSoonest = f.getDepartureDate();
                     flightAssigned = f;
+                    findNextFlight = true;
+                    
                 }
 
             }
