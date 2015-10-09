@@ -31,6 +31,7 @@
     <ui:define name="centerPanel">
 
         <h:form>
+            <p:growl id="msgs" showDetail="true" />
             <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleManagedBean.flights}"
                          class="panel-success">
                 <f:facet name="header">
@@ -68,13 +69,11 @@
                 </p:column>
                 <p:column headerText="#{scheduleManagedBean.routeSelected.reverseRoute.routeName} Arrival Time">
                     <h:outputText id="arrivalTime2" value="#{scheduleManagedBean.getTimeName(flight.reverseFlight.arrivalDate)}"   />
-
-
                 </p:column>
 
             </p:dataTable>
             <p:commandButton value="Submit" actionListener="#{scheduleManagedBean.generateFlightsByDay}" icon="ui-icon-check"
-                             class="btn-sm btn-success"/>
+                             class="btn-sm btn-success" update="msgs"/>
             
     
         </h:form>

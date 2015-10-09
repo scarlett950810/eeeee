@@ -32,6 +32,7 @@
     <ui:define name="centerPanel">
 
         <h:form>
+            <p:growl id="msgs" showDetail="true" />
             <p:dataTable id="dataTableFlightsDate" var="flight" value="#{scheduleByWeekManagedBean.flights}" style="margin-right: 200px"
                          class="panel-success">
                 <f:facet name="header">
@@ -81,7 +82,7 @@
             </p:dataTable>
             
             <p:commandButton value="Submit" actionListener="#{scheduleByWeekManagedBean.generateFlightsByWeek}"
-                             icon="ui-icon-check" class="btn-sm btn-success"/>
+                             icon="ui-icon-check" class="btn-sm btn-success" update="msgs"/>
 
         </h:form>
 
