@@ -7,13 +7,13 @@ package imas.inventory.sessionbean;
 
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Scarlett
  */
-@Singleton
+@Stateless
 public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     
     private int monthToDeparture;
@@ -30,9 +30,9 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
 
-    @Schedule(second="00", minute="*",hour="*", persistent=false)
+    @Schedule(second="00", minute="00",hour="*", persistent=false)
     public void doWork(){
-        System.out.println("Set price timer run every 1 minutes:");
+        System.out.println("Set price timer run every 1 hour:");
         monthToDeparture = 12;
         seatsManagementSessionBean.autoPriceToDepartureAndUnpricedFlights(monthToDeparture);
     }
