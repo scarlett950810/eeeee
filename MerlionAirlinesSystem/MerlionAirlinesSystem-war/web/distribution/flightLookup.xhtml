@@ -58,9 +58,11 @@
                     <p:outputLabel style="#{flightLookupManagedBean.returnDateDisplay}" id="returnDateLabel" for="returnDate"
                                    value="Select Return Date" />
                     <p:calendar style="#{flightLookupManagedBean.returnDateDisplay}" id="returnDate" value="#{flightLookupManagedBean.returnDate}"
-                                required="#{flightLookupManagedBean.twoWay}" mindate="#{flightLookupManagedBean.returnMinDate}" maxdate="#{flightLookupManagedBean.returnMaxDate}"/>
+                                required="#{flightLookupManagedBean.twoWay}" mindate="#{flightLookupManagedBean.returnMinDate}" maxdate="#{flightLookupManagedBean.returnMaxDate}">
+                        <p:ajax event="dateSelect" listener="#{flightLookupManagedBean.onDepartureDateSelect}" update="departureDate" />
+                    </p:calendar>
                     
-                    <h:outputLabel for="seatClass" value="Seat Class"/>                    
+                    <h:outputLabel for="seatClass" value="Seat Class"/>
                     <p:selectOneMenu id="seatClass" value="#{flightLookupManagedBean.seatClass}" required="true">
                         <f:selectItem itemValue="First Class" itemLabel="First Class"/>
                         <f:selectItem itemValue="Business Class" itemLabel="Business Class"/>
@@ -113,7 +115,8 @@
                     </p:selectOneMenu> 
                 </h:panelGrid>
                 
-                <p:commandButton value="Search" class="btn-sm btn-primary" actionListener="#{flightLookupManagedBean.searchFlight}" />
+                <p:commandButton value="Search" class="btn-sm btn-primary" actionListener="#{flightLookupManagedBean.searchFromHomePage}" />
+            
             </h:form>
 
         </p:panel>

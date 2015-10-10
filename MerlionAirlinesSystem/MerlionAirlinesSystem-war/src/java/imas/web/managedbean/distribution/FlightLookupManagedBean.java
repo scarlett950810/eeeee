@@ -61,19 +61,19 @@ public class FlightLookupManagedBean implements Serializable {
     private List<SelectItem> airportsByCountry;
     private List<SelectItem> destinationAirportsByCountry;
     private String returnDateDisplay;
-    
+
     private boolean tab1Disabled;
     private boolean tab2Disabled;
     private boolean tab3Disabled;
-    
+
     // selected flight
-    private FlightEntity departureFlight;
+    private FlightEntity departureDirectFlight;
     private FlightEntity departureTransferFlight1;
     private FlightEntity departureTransferFlight2;
-    private FlightEntity returnFlight;
+    private FlightEntity returnDirectFlight;
     private FlightEntity returnTransferFlight1;
     private FlightEntity returnTransferFlight2;
-    
+
     // for displaying flights options
     private int activeIndex;
     private boolean departureHasDirectFlight;
@@ -90,7 +90,7 @@ public class FlightLookupManagedBean implements Serializable {
 
     // for displaying booking class options
     private List<List<BookingClassEntity>> bookingClassCandidatesList;
-    
+
     @PostConstruct
     public void init() {
         fetchAllAirports();
@@ -106,10 +106,10 @@ public class FlightLookupManagedBean implements Serializable {
         departureMaxDate = today.getTime();
         returnMaxDate = today.getTime();
         activeIndex = 0;
-        tab1Disabled = false;        
+        tab1Disabled = false;
         tab2Disabled = true;
         tab3Disabled = true;
-        
+
     }
 
     @PostRemove
@@ -117,20 +117,20 @@ public class FlightLookupManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
     }
 
-    public FlightEntity getDepartureFlight() {
-        return departureFlight;
+    public FlightEntity getDepartureDirectFlight() {
+        return departureDirectFlight;
     }
 
-    public void setDepartureFlight(FlightEntity departureFlight) {
-        this.departureFlight = departureFlight;
+    public void setDepartureDirectFlight(FlightEntity departureDirectFlight) {
+        this.departureDirectFlight = departureDirectFlight;
     }
 
-    public FlightEntity getReturnFlight() {
-        return returnFlight;
+    public FlightEntity getReturnDirectFlight() {
+        return returnDirectFlight;
     }
 
-    public void setReturnFlight(FlightEntity returnFlight) {
-        this.returnFlight = returnFlight;
+    public void setReturnDirectFlight(FlightEntity returnDirectFlight) {
+        this.returnDirectFlight = returnDirectFlight;
     }
 
     public FlightLookupSessionBeanLocal getFlightLookupSessionBean() {
@@ -252,7 +252,7 @@ public class FlightLookupManagedBean implements Serializable {
     public void setReturnTransferFlight2(FlightEntity returnTransferFlight2) {
         this.returnTransferFlight2 = returnTransferFlight2;
     }
-    
+
     public FlightLookupManagedBean() {
     }
 
@@ -445,17 +445,17 @@ public class FlightLookupManagedBean implements Serializable {
     public void setBookingClassCandidatesList(List<List<BookingClassEntity>> bookingClassCandidatesList) {
         this.bookingClassCandidatesList = bookingClassCandidatesList;
     }
-    
+
     public String getUserFriendlyTime(double hours) {
         int hourNo = (int) hours;
         int minNo = (int) (60 * (hours - hourNo));
         return hourNo + " hour " + minNo + " mins";
     }
-    
+
     public double getLowestFare(FlightEntity flight) {
         return flightLookupSessionBean.getLowestFareAvailable(flight, seatClass);
     }
-    
+
     private void fetchAllAirports() {
         airportsByCountry = new ArrayList<>();
         List<String> countries = flightLookupSessionBean.getAllCountryNames();
@@ -521,11 +521,11 @@ public class FlightLookupManagedBean implements Serializable {
             for (int i = 0; i < airportsInCountry.size(); i++) {
                 AirportEntity airport = airportsInCountry.get(i);
                 SelectItem selectItem = new SelectItem(airport, airport.toString());
-                
+
                 if (airport.equals(orginAirport)) {
                     selectItem.setDisabled(true);
                 }
-                
+
                 selectItems[i] = selectItem;
             }
             group.setSelectItems(selectItems);
@@ -551,13 +551,13 @@ public class FlightLookupManagedBean implements Serializable {
         initSelectFlight();
         activeIndex = 1;
     }
-    
+
     public void searchFromHomePage() throws IOException {
-        initSelectFlight();        
+        initSelectFlight();
         activeIndex = 1;
         FacesContext.getCurrentInstance().getExternalContext().redirect("selectFlight.xhtml");
     }
-    
+
     public void initSelectFlight() {
 
         // load departure flight data
@@ -582,9 +582,42 @@ public class FlightLookupManagedBean implements Serializable {
         }
         returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, returnDate);
         returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
-        
+
         tab2Disabled = false;
     }
 
+    public boolean selectedDepartureDirectFlight() {
+        return departureDirectFlight != null && departureTransferFlight1 == null && departureTransferFlight2 == null;
+    }
+    
+    public boolean selectedDepartureTransferFlight() {
+        return departureDirectFlight == null && departureTransferFlight1 != null && departureTransferFlight2 != null;
+    }
+    
+    public boolean selectedReturnDirectFlight() {
+        return returnDirectFlight != null && returnTransferFlight1 == null && returnTransferFlight2 == null;
+    }
+    
+    public boolean selectedReturnTransferFlight() {
+        return departureDirectFlight == null && departureTransferFlight1 != null && departureTransferFlight2 != null;
+    }
+    
+    public boolean checkFlightsSubmitted() {
+
+        if (twoWay) {
+            return ((selectedDepartureDirectFlight() && !selectedDepartureTransferFlight()) ||
+                    (selectedDepartureTransferFlight() && !selectedDepartureDirectFlight())) &&
+                    ((selectedReturnDirectFlight() && !selectedReturnTransferFlight()) ||
+                    (selectedReturnTransferFlight() && !selectedReturnDirectFlight()));
+        } else {
+            return ((selectedDepartureDirectFlight() && !selectedDepartureTransferFlight()) ||
+                    (selectedDepartureTransferFlight() && !selectedDepartureDirectFlight()));
+        }
+        
+    }
+
+    public void initSelectBookingClass() {
+        
+    }
 
 }
