@@ -546,6 +546,10 @@ public class FlightLookupManagedBean implements Serializable {
             returnMinDate = departureDate;
         }
     }
+    
+    public void onReturnDateSelect(SelectEvent event) {
+        departureMaxDate = returnDate;
+    }
 
     public void searchFlight() {
         initSelectFlight();

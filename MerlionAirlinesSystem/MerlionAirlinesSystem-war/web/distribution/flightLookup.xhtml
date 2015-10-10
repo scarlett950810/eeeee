@@ -59,7 +59,7 @@
                                    value="Select Return Date" />
                     <p:calendar style="#{flightLookupManagedBean.returnDateDisplay}" id="returnDate" value="#{flightLookupManagedBean.returnDate}"
                                 required="#{flightLookupManagedBean.twoWay}" mindate="#{flightLookupManagedBean.returnMinDate}" maxdate="#{flightLookupManagedBean.returnMaxDate}">
-                        <p:ajax event="dateSelect" listener="#{flightLookupManagedBean.onDepartureDateSelect}" update="departureDate" />
+                        <p:ajax event="dateSelect" listener="#{flightLookupManagedBean.onReturnDateSelect}" update="departureDate" />
                     </p:calendar>
                     
                     <h:outputLabel for="seatClass" value="Seat Class"/>

@@ -59,7 +59,9 @@
                         <p:outputLabel style="#{flightLookupManagedBean.returnDateDisplay}" id="returnDateLabel" for="returnDate"
                                        value="Select Return Date" />
                         <p:calendar style="#{flightLookupManagedBean.returnDateDisplay}" id="returnDate" value="#{flightLookupManagedBean.returnDate}"
-                                    required="#{flightLookupManagedBean.twoWay}" mindate="#{flightLookupManagedBean.returnMinDate}" maxdate="#{flightLookupManagedBean.returnMaxDate}"/>
+                                    required="#{flightLookupManagedBean.twoWay}" mindate="#{flightLookupManagedBean.returnMinDate}" maxdate="#{flightLookupManagedBean.returnMaxDate}">
+                            <p:ajax event="dateSelect" listener="#{flightLookupManagedBean.onReturnDateSelect}" update="departureDate" />
+                        </p:calendar>
 
                         <h:outputLabel for="seatClass" value="Seat Class"/>                    
                         <p:selectOneMenu id="seatClass" value="#{flightLookupManagedBean.seatClass}" required="true">
@@ -298,14 +300,14 @@
                 </c:if>
 
             </p:tab>
-            
+
             <p:tab title="3 Select Booking Class" class="panel panel-primary" disabled="#{flightLookupManagedBean.tab3Disabled}">
-                
-                
-                
+
+
+
             </p:tab>
-            
+
         </p:tabView>
-        
+
     </ui:define>
 </ui:composition>
