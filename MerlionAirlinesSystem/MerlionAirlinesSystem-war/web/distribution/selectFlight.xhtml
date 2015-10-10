@@ -299,11 +299,34 @@
 
                 </c:if>
 
+                <p:commandButton value="Select Booking Class" class="btn-sm btn-primary" 
+                                 actionListener="#{flightLookupManagedBean.submitFlightsToSelectBookingClasses}" update="tabView" />
+
             </p:tab>
 
             <p:tab title="3 Select Booking Class" class="panel panel-primary" disabled="#{flightLookupManagedBean.tab3Disabled}">
 
+                <c:forEach items="#{flightLookupManagedBean.bookingClassCandidatesList}" var="bookingClassList">
 
+                    <p:dataTable value="#{bookingClassList}" var="bookingClass" selectionMode="single" selection="">
+                        <p:column headerText="Departure Time">
+                            <h:outputText value="#{flight.departureDate}" />
+                        </p:column>
+
+                        <p:column headerText="Arrival Time">
+                            <h:outputText value="#{flight.arrivalDate}" />
+                        </p:column>
+
+                        <p:column headerText="Duration (hours)">
+                            <h:outputText value="#{flightLookupManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                        </p:column>
+
+                        <p:column headerText="Aircraft Type">
+                            <h:outputText value="#{flight.aircraft.aircraftType}" />
+                        </p:column>
+                    </p:dataTable>
+
+                </c:forEach>
 
             </p:tab>
 

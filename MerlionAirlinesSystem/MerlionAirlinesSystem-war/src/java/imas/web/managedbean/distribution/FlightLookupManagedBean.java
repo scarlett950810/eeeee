@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -62,10 +63,6 @@ public class FlightLookupManagedBean implements Serializable {
     private List<SelectItem> destinationAirportsByCountry;
     private String returnDateDisplay;
 
-    private boolean tab1Disabled;
-    private boolean tab2Disabled;
-    private boolean tab3Disabled;
-
     // selected flight
     private FlightEntity departureDirectFlight;
     private FlightEntity departureTransferFlight1;
@@ -76,6 +73,9 @@ public class FlightLookupManagedBean implements Serializable {
 
     // for displaying flights options
     private int activeIndex;
+    private boolean tab1Disabled;
+    private boolean tab2Disabled;
+    private boolean tab3Disabled;
     private boolean departureHasDirectFlight;
     private boolean departureHasTransferFlight;
     private boolean returnHasDirectFlight;
@@ -546,7 +546,7 @@ public class FlightLookupManagedBean implements Serializable {
             returnMinDate = departureDate;
         }
     }
-    
+
     public void onReturnDateSelect(SelectEvent event) {
         departureMaxDate = returnDate;
     }
@@ -593,35 +593,78 @@ public class FlightLookupManagedBean implements Serializable {
     public boolean selectedDepartureDirectFlight() {
         return departureDirectFlight != null && departureTransferFlight1 == null && departureTransferFlight2 == null;
     }
-    
+
     public boolean selectedDepartureTransferFlight() {
         return departureDirectFlight == null && departureTransferFlight1 != null && departureTransferFlight2 != null;
     }
-    
+
     public boolean selectedReturnDirectFlight() {
         return returnDirectFlight != null && returnTransferFlight1 == null && returnTransferFlight2 == null;
     }
-    
+
     public boolean selectedReturnTransferFlight() {
         return departureDirectFlight == null && departureTransferFlight1 != null && departureTransferFlight2 != null;
     }
-    
+
+    public void submitFlightsToSelectBookingClasses() {
+        if (checkFlightsSubmitted()) {
+            initSelectBookingClass();
+            activeIndex = 2;
+            tab3Disabled = false;
+        }
+    }
+
     public boolean checkFlightsSubmitted() {
 
         if (twoWay) {
-            return ((selectedDepartureDirectFlight() && !selectedDepartureTransferFlight()) ||
-                    (selectedDepartureTransferFlight() && !selectedDepartureDirectFlight())) &&
-                    ((selectedReturnDirectFlight() && !selectedReturnTransferFlight()) ||
-                    (selectedReturnTransferFlight() && !selectedReturnDirectFlight()));
+            if (!((selectedDepartureDirectFlight() && !selectedDepartureTransferFlight()) || (selectedDepartureTransferFlight() && !selectedDepartureDirectFlight()))) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "For departure, please select one direct flight or a pair of transfer flights", ""));
+                return false;
+            } else if (!((selectedReturnDirectFlight() && !selectedReturnTransferFlight())
+                    || (selectedReturnTransferFlight() && !selectedReturnDirectFlight()))) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "For return, please select one direct flight or a pair of transfer flights", ""));
+                return false;
+            } else {
+                return true;
+            }
         } else {
-            return ((selectedDepartureDirectFlight() && !selectedDepartureTransferFlight()) ||
-                    (selectedDepartureTransferFlight() && !selectedDepartureDirectFlight()));
+            if ((selectedDepartureDirectFlight() && !selectedDepartureTransferFlight())
+                    || (selectedDepartureTransferFlight() && !selectedDepartureDirectFlight())) {
+                return true;
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select one direct flight or a pair of transfer flights", ""));
+                return false;
+            }
         }
-        
+
     }
 
     public void initSelectBookingClass() {
-        
+        List<List<BookingClassEntity>> bookingClassLists = new ArrayList<>();
+        if (departureDirectFlight != null) {
+            List<BookingClassEntity> bookingClassList = departureDirectFlight.getBookingClasses();
+            bookingClassLists.add(bookingClassList);
+        } else {
+            List<BookingClassEntity> bookingClassList1 = departureTransferFlight1.getBookingClasses();
+            List<BookingClassEntity> bookingClassList2 = departureTransferFlight2.getBookingClasses();
+            bookingClassLists.add(bookingClassList1);
+            bookingClassLists.add(bookingClassList2);
+        }
+        if (twoWay) {
+            if (returnDirectFlight != null) {
+                List<BookingClassEntity> bookingClassList = returnDirectFlight.getBookingClasses();
+                bookingClassLists.add(bookingClassList);
+            } else {
+                List<BookingClassEntity> bookingClassList1 = returnTransferFlight1.getBookingClasses();
+                List<BookingClassEntity> bookingClassList2 = returnTransferFlight2.getBookingClasses();
+                bookingClassLists.add(bookingClassList1);
+                bookingClassLists.add(bookingClassList2);
+            }
+        }
+        bookingClassCandidatesList = bookingClassLists;
     }
 
 }
