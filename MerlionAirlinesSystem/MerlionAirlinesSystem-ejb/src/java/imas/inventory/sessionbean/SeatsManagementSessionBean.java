@@ -280,10 +280,9 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
 
 //        System.out.println("candidateFlights = " + candidateFlights);
         for (FlightEntity flight:candidateFlights) {
-            entityManager.refresh(flight);
 //            System.out.println(flight.getBookingClasses());
             if (flight.getBookingClasses().isEmpty()) {
-//                System.out.println("created booking classes for " + flight);
+                System.out.println("created booking classes for " + flight);
 //                System.out.println("before:");
 //                System.out.println(flight.getBookingClasses());
                 
@@ -291,7 +290,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
                 automaticallyCreateBookingClass(flight);
                 // auto create yield management rules
                 yieldManagementSessionBean.autoCreateRulesForFlight(flight);
-                entityManager.refresh(flight);
+//                entityManager.refresh(flight);
 //                System.out.println("after:");
 //                System.out.println(flight.getBookingClasses());
             }

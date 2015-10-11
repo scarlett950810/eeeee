@@ -5,6 +5,7 @@
  */
 package imas.distribution.sessionbean;
 
+import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
@@ -33,6 +34,12 @@ public interface FlightLookupSessionBeanLocal {
 
     public Date getDateAfterDays(Date origin, int daysToadd);
 
-    public double getLowestFareAvailable(FlightEntity flight, String SeatClass);
+    /**
+     *
+     * @param flight
+     * @param seatClass
+     * @return
+     */
+    public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass);
     
 }
