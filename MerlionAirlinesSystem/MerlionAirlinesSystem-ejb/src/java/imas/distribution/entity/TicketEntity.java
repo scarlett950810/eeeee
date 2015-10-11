@@ -33,7 +33,7 @@ public class TicketEntity implements Serializable {
     
     @ManyToOne
     private SeatEntity seat;
-
+    @ManyToOne
     private FlightEntity flight;
 
     private String seatClass; // can only be one of: First Class, Business Class, Premium Economy Class, Economy Class
