@@ -59,6 +59,7 @@ public class FleetAssignmentManagedBean implements Serializable{
     {     
         numOfUnassignedFlights = fleetAssignment.getAllFlights().size();
         if(numOfUnassignedFlights==0){
+            System.err.println("the num of UnassignedFligh is zero");
             appearOrnot = false;
             color = "#999999";
         }

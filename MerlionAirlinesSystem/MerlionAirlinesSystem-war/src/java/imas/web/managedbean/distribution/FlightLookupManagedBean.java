@@ -642,8 +642,8 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public void submitFlightsToSelectBookingClasses() {
-        System.out.println("submitFlightsToSelectBookingClasses");
-        System.out.println("check = " + checkFlightsSubmitted());
+//        System.out.println("submitFlightsToSelectBookingClasses");
+//        System.out.println("check = " + checkFlightsSubmitted());
         if (checkFlightsSubmitted()) {
             initSelectBookingClass();
             activeIndex = 2;

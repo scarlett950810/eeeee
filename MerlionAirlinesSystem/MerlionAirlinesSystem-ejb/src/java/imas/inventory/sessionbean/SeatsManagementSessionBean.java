@@ -281,7 +281,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
 //        System.out.println("candidateFlights = " + candidateFlights);
         for (FlightEntity flight:candidateFlights) {
 //            System.out.println(flight.getBookingClasses());
-            if (flight.getBookingClasses().isEmpty()) {
+            if (flight.getBookingClasses().isEmpty() && (flight.getAircraft() != null)) {
                 System.out.println("created booking classes for " + flight);
 //                System.out.println("before:");
 //                System.out.println(flight.getBookingClasses());
