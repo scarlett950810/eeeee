@@ -72,6 +72,7 @@ public class FlightLookupManagedBean implements Serializable {
     private FlightEntity returnTransferFlight2;
 
     // for displaying flights options
+    private boolean showTransferOptions;
     private int activeIndex;
     private boolean tab1Disabled;
     private boolean tab2Disabled;
@@ -93,6 +94,7 @@ public class FlightLookupManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        
         fetchAllAirports();
         airportList = aircraftSessionBean.getAirports();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("airportList", null);
@@ -109,7 +111,7 @@ public class FlightLookupManagedBean implements Serializable {
         tab1Disabled = false;
         tab2Disabled = true;
         tab3Disabled = true;
-
+        
     }
 
     @PostRemove
@@ -446,6 +448,14 @@ public class FlightLookupManagedBean implements Serializable {
         this.bookingClassCandidatesList = bookingClassCandidatesList;
     }
 
+    public boolean isShowTransferOptions() {
+        return showTransferOptions;
+    }
+
+    public void setShowTransferOptions(boolean showTransferOptions) {
+        this.showTransferOptions = showTransferOptions;
+    }
+
     public String getUserFriendlyTime(double hours) {
         int hourNo = (int) hours;
         int minNo = (int) (60 * (hours - hourNo));
@@ -544,11 +554,17 @@ public class FlightLookupManagedBean implements Serializable {
     public void onDepartureDateSelect(SelectEvent event) {
         if (twoWay) {
             returnMinDate = departureDate;
+            if (returnDate != null && departureDate.after(returnDate)) {
+                returnDate = null;
+            }
         }
     }
 
     public void onReturnDateSelect(SelectEvent event) {
         departureMaxDate = returnDate;
+        if (departureDate != null && departureDate.after(returnDate)) {
+            departureDate = null;
+        }
     }
 
     public void searchFlight() {
@@ -587,9 +603,14 @@ public class FlightLookupManagedBean implements Serializable {
         returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, returnDate);
         returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
 
+        showTransferOptions = true;
         tab2Disabled = false;
     }
 
+//    public void toggleShowTransferOptions() {
+//        showTransferOptions = !showTransferOptions;
+//    }
+    
     public boolean selectedDepartureDirectFlight() {
         return departureDirectFlight != null && departureTransferFlight1 == null && departureTransferFlight2 == null;
     }
@@ -607,11 +628,13 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public void submitFlightsToSelectBookingClasses() {
-        if (checkFlightsSubmitted()) {
+        System.out.println("submitFlightsToSelectBookingClasses");
+        System.out.println("departure direct = " + departureDirectFlight);
+//        if (checkFlightsSubmitted()) {
             initSelectBookingClass();
             activeIndex = 2;
             tab3Disabled = false;
-        }
+//        }
     }
 
     public boolean checkFlightsSubmitted() {
