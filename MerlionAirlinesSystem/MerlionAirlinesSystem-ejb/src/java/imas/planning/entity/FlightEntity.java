@@ -45,7 +45,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private String weekDay;
     @OneToMany(mappedBy = "flight")
     private List<BookingClassEntity> bookingClasses;
-    @OneToMany
+    @OneToMany(mappedBy = "flight")
     private List<TicketEntity> tickets;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date actualDepartureDate;
