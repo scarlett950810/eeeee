@@ -43,10 +43,10 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private FlightEntity reverseFlight;
     private Integer operatingYear;
     private String weekDay;
-    //booking classes
     @OneToMany(mappedBy = "flight")
     private List<BookingClassEntity> bookingClasses;
-    //ticket
+    @OneToMany(mappedBy = "flight")
+    private List<TicketEntity> tickets;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date actualDepartureDate;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -342,6 +342,14 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     public void setBookingClasses(List<BookingClassEntity> bookingClasses) {
         this.bookingClasses = bookingClasses;
+    }
+
+    public List<TicketEntity> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<TicketEntity> tickets) {
+        this.tickets = tickets;
     }
 
     @Override

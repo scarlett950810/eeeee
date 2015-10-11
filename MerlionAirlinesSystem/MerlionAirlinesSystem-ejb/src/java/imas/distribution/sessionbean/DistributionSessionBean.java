@@ -34,8 +34,7 @@ public class DistributionSessionBean implements DistributionSessionBeanLocal {
     public void makeBooking(BookingClassEntity bookingClass, int number) {
         
         for (int i = 0; i < number; i++) {
-            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getSeatClass(),
-                    bookingClass.getName(), bookingClass.getPrice());
+            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getName(), bookingClass.getPrice());
             entityManager.persist(ticketEntity);
         }
         
@@ -64,8 +63,7 @@ public class DistributionSessionBean implements DistributionSessionBeanLocal {
         List<TicketEntity> tickets = new ArrayList<>();
         
         for (int i = 0; i < number; i++) {
-            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getSeatClass(),
-                    bookingClass.getName(), bookingClass.getPrice());
+            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getName(), bookingClass.getPrice());
             tickets.add(ticketEntity);
         }
         

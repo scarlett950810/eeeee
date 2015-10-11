@@ -33,10 +33,9 @@ public class TicketEntity implements Serializable {
     
     @ManyToOne
     private SeatEntity seat;
+
     @ManyToOne
     private FlightEntity flight;
-
-    private String seatClass; // can only be one of: First Class, Business Class, Premium Economy Class, Economy Class
 
     private String bookingClassName; // booking class Name. 
     // Can only be one of: 
@@ -44,6 +43,8 @@ public class TicketEntity implements Serializable {
     // Full Service Economy, Economy Plus, Standard Economy, Economy Save, Economy Super Save
     // Economy Class Agency
 
+    @ManyToOne
+    private PassengerEntity passenger;
     private Double price;
     private Boolean boarded;
     private Boolean issued; // if the ticket is issued at the check in counter
@@ -51,23 +52,40 @@ public class TicketEntity implements Serializable {
     public TicketEntity() {
     }
 
-    public TicketEntity(FlightEntity flight, String seatClass, String bookingClassName, double price) {
+    public TicketEntity(FlightEntity flight, String bookingClassName, double price) {
         this.flight = flight;
-        this.seatClass = seatClass;
         this.bookingClassName = bookingClassName;
         this.price = price;
         this.issued = false;
         this.boarded = false;
     }
 
-    public TicketEntity(FlightEntity flight, String seatClass, String bookingClassName, double price, SeatEntity seat) {
+    public TicketEntity(FlightEntity flight, String bookingClassName, double price, SeatEntity seat) {
         this.flight = flight;
-        this.seatClass = seatClass;
         this.bookingClassName = bookingClassName;
         this.price = price;
         this.issued = false;
         this.boarded = false;
         this.seat = seat;
+    }
+    
+    public TicketEntity(FlightEntity flight, String bookingClassName, double price, PassengerEntity passengerEntity) {
+        this.flight = flight;
+        this.bookingClassName = bookingClassName;
+        this.price = price;
+        this.issued = false;
+        this.boarded = false;
+        this.passenger = passengerEntity;
+    }
+
+    public TicketEntity(FlightEntity flight, String bookingClassName, double price, SeatEntity seat, PassengerEntity passengerEntity) {
+        this.flight = flight;
+        this.bookingClassName = bookingClassName;
+        this.price = price;
+        this.issued = false;
+        this.boarded = false;
+        this.seat = seat;
+        this.passenger = passengerEntity;
     }
 
     public Long getId() {
@@ -94,20 +112,20 @@ public class TicketEntity implements Serializable {
         this.flight = flight;
     }
 
-    public String getSeatClass() {
-        return seatClass;
-    }
-
-    public void setSeatClass(String seatClass) {
-        this.seatClass = seatClass;
-    }
-
     public String getBookingClassName() {
         return bookingClassName;
     }
 
     public void setBookingClassName(String bookingClassName) {
         this.bookingClassName = bookingClassName;
+    }
+
+    public PassengerEntity getPassenger() {
+        return passenger;
+    }
+
+    public void setPassenger(PassengerEntity passenger) {
+        this.passenger = passenger;
     }
 
     public boolean isIssued() {

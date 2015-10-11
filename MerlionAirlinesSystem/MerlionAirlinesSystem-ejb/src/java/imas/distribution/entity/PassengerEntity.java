@@ -26,7 +26,7 @@ public class PassengerEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany
+    @OneToMany(mappedBy = "passenger")
     private List<TicketEntity> tickets;
     
     private String firstName;
