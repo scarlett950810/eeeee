@@ -11,6 +11,12 @@
 
         <title><ui:insert name="title">Merlion Airlines Internal System</ui:insert></title>
         <ui:insert name="head"></ui:insert>
+        <style>
+            #loadingDiv {
+                box-shadow: none !important;
+                background: transparent !important;
+            }
+        </style>
     </h:head>
 
     <h:body>
@@ -44,15 +50,15 @@
         <p:layout fullPage="true">
 
             <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
-                <a href="http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml">
+                <a href="https://localhost:8081/MerlionAirlinesSystem-war/common/common_landing.xhtml">
                     <p:graphicImage name="img/merlionLogo.jpg" height="100%" style="float: left; z-index: 9999"/>
                 </a>
                 <p:outputLabel value="Welcome, #{internalMessageManagedBean.loggedInStaff.displayName}" style="float: right; margin-top: 40px; margin-right: 10px; color: white"/>
                 
             </p:layoutUnit>
 
-            <p:layoutUnit position="south" size="20">
-                <p:layoutUnit position="center">Merlion Airline</p:layoutUnit>
+            <p:layoutUnit position="south" size="5%" style="text-align: center;">
+                <p:outputLabel value="&copy;Merlion Airline"></p:outputLabel>
             </p:layoutUnit>
 
             <p:layoutUnit id="layoutUnit_left" position="west" size="15%" resizable="false" collapsible="false">
@@ -185,7 +191,7 @@
 
         <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 
-        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+        <p:dialog id="loadingDiv" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
             <p:graphicImage name="./img/ajax-loader.gif" style="background: transparent;" />
         </p:dialog>
 

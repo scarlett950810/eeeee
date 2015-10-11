@@ -349,7 +349,11 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
-
+        else if(this.id == null && other.id == null)
+        {
+            return this.arrivalDate.equals(other.arrivalDate)&&this.departureDate.equals(other.departureDate)&&this.flightNo.equals(other.flightNo)&&this.route.equals(other.route); // return true or false
+        }
+        
         return true;
     }
 
@@ -368,7 +372,6 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
         return o.departureDate.compareTo(this.departureDate);
 
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

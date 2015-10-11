@@ -5,8 +5,14 @@
  */
 package imas.web.managedbean.planning;
 
+import imas.common.entity.CabinCrewEntity;
+import imas.common.entity.PilotEntity;
+import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
+import imas.planning.sessionbean.AircraftSessionBeanLocal;
+import imas.planning.sessionbean.CrewSchedulingCheckLocal;
+import imas.planning.sessionbean.FleetAssignmentCheckLocal;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
@@ -46,7 +52,13 @@ public class ScheduleByWeekManagedBean implements Serializable {
     private List<Date> departureDates;
     private List<FlightEntity> flightsGenerated;
     private Integer planningPeriod;
-
+@EJB
+    private FleetAssignmentCheckLocal assignmentCheckLocal;
+    @EJB
+    private AircraftSessionBeanLocal aircraftSessionBean;
+    
+    @EJB
+    private CrewSchedulingCheckLocal crewSchedulingCheckLocal;
     /**
      * Creates a new instance of ScheduleByWeekManagedBean
      */
@@ -93,7 +105,7 @@ public class ScheduleByWeekManagedBean implements Serializable {
         System.err.println("yearselected" + yearSelected);
         cal.add(Calendar.YEAR, planningPeriod);
         Date EndingDate = cal.getTime();
-
+        ArrayList<FlightEntity> flightsToTest = new ArrayList<>();
         while (departureDateTemp.compareTo(EndingDate) <= 0) {
             for (FlightEntity f : flights) {
                 FlightEntity f1 = new FlightEntity(yearSelected);
@@ -118,7 +130,9 @@ public class ScheduleByWeekManagedBean implements Serializable {
                 
                 f1.getReverseFlight().setArrivalDate(cal.getTime());
                 f1.getReverseFlight().setReverseFlight(f1);
-                routeSession.saveReturnFlights(f1);
+//                routeSession.saveReturnFlights(f1);
+                flightsToTest.add(f1);
+                flightsToTest.add(f1.getReverseFlight());
                 System.err.println("generatebyday" + f1);
             }
             System.err.println("before add one day");
@@ -128,12 +142,34 @@ public class ScheduleByWeekManagedBean implements Serializable {
             System.err.println("departuredayafter add one day" + departureDateTemp);
         }
 
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("yearSelected", yearSelected);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routeSelected", routeSelected);
+        List<FlightEntity> prevFlights = assignmentCheckLocal.getParticularPlanningPeriodFlights(planningPeriod, startingDate);
+        List<FlightEntity> flightsCheck = new ArrayList<>();
+        flightsCheck.addAll(prevFlights);
+        flightsCheck.addAll(flightsToTest);
+        List<AircraftEntity> aircrafts = aircraftSessionBean.getAircrafts();
+List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
+        List<CabinCrewEntity> cabinCrews = crewSchedulingCheckLocal.retrieveAllCabinCrew();
+        List<FlightEntity> flightsUnassignedPilot = crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots);
+        List<FlightEntity> flightsUnassignedCabinCrew = crewSchedulingCheckLocal.CabinCrewScheduling(flightsCheck, cabinCrews);
+
+        List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flights, aircrafts);
         FacesContext fc = FacesContext.getCurrentInstance();
+        for(FlightEntity f: flightsToTest){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsToTest", flightsToTest);
+
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassigned", flightsUnassigned);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassignedPilot", flightsUnassignedPilot);
+      FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassignedCabinCrew", flightsUnassignedCabinCrew);
+      
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routeSelected", routeSelected);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("yearSelected", yearSelected);
         ExternalContext ec = fc.getExternalContext();
-        ec.redirect("planningDisplayFlightsGenerated.xhtml");
-        //since operating Date
+//        ec.redirect("planningDisplayFlightsGenerated.xhtml");
+        ec.redirect("planningFrequencyAvailabilityCheck.xhtml");
     }
 
     //ai got mininue and hour ...

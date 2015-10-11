@@ -5,7 +5,7 @@
  */
 package imas.distribution.entity;
 
-import imas.inventory.entity.BookingClassEntity;
+import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -20,33 +20,56 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class TicketEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Double baggageWeight;
+    private Boolean premiumMeal;
+    private Boolean exclusiveService;
+    private Boolean insurance;
+    private Boolean flightWiFi;
     
     @ManyToOne
     private SeatEntity seat;
 
-    @ManyToOne
-    private BookingClassEntity bookingClass;
-   
-    private boolean issued; // if the ticket is issued at the check in counter
+    private FlightEntity flight;
+
+    private String seatClass; // can only be one of: First Class, Business Class, Premium Economy Class, Economy Class
+
+    private String bookingClassName; // booking class Name. 
+    // Can only be one of: 
+    // First Class, Business Class, Premium Economy Class,
+    // Full Service Economy, Economy Plus, Standard Economy, Economy Save, Economy Super Save
+    // Economy Class Agency
+
+    private Double price;
+    private Boolean boarded;
+    private Boolean issued; // if the ticket is issued at the check in counter
 
     public TicketEntity() {
     }
-    
-    public TicketEntity(BookingClassEntity bookingClass) {
-        this.bookingClass = bookingClass;
+
+    public TicketEntity(FlightEntity flight, String seatClass, String bookingClassName, double price) {
+        this.flight = flight;
+        this.seatClass = seatClass;
+        this.bookingClassName = bookingClassName;
+        this.price = price;
         this.issued = false;
+        this.boarded = false;
     }
 
-    public TicketEntity(SeatEntity seat, BookingClassEntity bookingClass) {
-        this.seat = seat;
-        this.bookingClass = bookingClass;
+    public TicketEntity(FlightEntity flight, String seatClass, String bookingClassName, double price, SeatEntity seat) {
+        this.flight = flight;
+        this.seatClass = seatClass;
+        this.bookingClassName = bookingClassName;
+        this.price = price;
         this.issued = false;
+        this.boarded = false;
+        this.seat = seat;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -63,19 +86,99 @@ public class TicketEntity implements Serializable {
         this.seat = seat;
     }
 
-    public BookingClassEntity getBookingClass() {
-        return bookingClass;
+    public FlightEntity getFlight() {
+        return flight;
     }
 
-    public void setBookingClass(BookingClassEntity bookingClass) {
-        this.bookingClass = bookingClass;
+    public void setFlight(FlightEntity flight) {
+        this.flight = flight;
     }
-   
+
+    public String getSeatClass() {
+        return seatClass;
+    }
+
+    public void setSeatClass(String seatClass) {
+        this.seatClass = seatClass;
+    }
+
+    public String getBookingClassName() {
+        return bookingClassName;
+    }
+
+    public void setBookingClassName(String bookingClassName) {
+        this.bookingClassName = bookingClassName;
+    }
+
     public boolean isIssued() {
         return issued;
     }
 
     public void setIssued(boolean issued) {
+        this.issued = issued;
+    }
+
+    public Double getBaggageWeight() {
+        return baggageWeight;
+    }
+
+    public void setBaggageWeight(Double baggageWeight) {
+        this.baggageWeight = baggageWeight;
+    }
+
+    public Boolean getPremiumMeal() {
+        return premiumMeal;
+    }
+
+    public void setPremiumMeal(Boolean premiumMeal) {
+        this.premiumMeal = premiumMeal;
+    }
+
+    public Boolean getExclusiveService() {
+        return exclusiveService;
+    }
+
+    public void setExclusiveService(Boolean exclusiveService) {
+        this.exclusiveService = exclusiveService;
+    }
+
+    public Boolean getInsurance() {
+        return insurance;
+    }
+
+    public void setInsurance(Boolean insurance) {
+        this.insurance = insurance;
+    }
+
+    public Boolean getFlightWiFi() {
+        return flightWiFi;
+    }
+
+    public void setFlightWiFi(Boolean flightWiFi) {
+        this.flightWiFi = flightWiFi;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Boolean getBoarded() {
+        return boarded;
+    }
+
+    public void setBoarded(Boolean boarded) {
+        this.boarded = boarded;
+    }
+
+    public Boolean getIssued() {
+        return issued;
+    }
+
+    public void setIssued(Boolean issued) {
         this.issued = issued;
     }
 
@@ -103,5 +206,5 @@ public class TicketEntity implements Serializable {
     public String toString() {
         return "imas.inventory.entity.TicketEntity[ id=" + id + " ]";
     }
-    
+
 }

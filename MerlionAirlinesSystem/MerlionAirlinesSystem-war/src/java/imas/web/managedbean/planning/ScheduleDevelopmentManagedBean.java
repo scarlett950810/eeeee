@@ -249,7 +249,7 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         Calendar cal = Calendar.getInstance();
         cal.setTime(max);
-        System.err.println("getMinDate(): printout one year after current date:"+dateFormat.format(cal.getTime()));        
+        System.err.println("getMinDate()not emp: printout one year after current date:"+dateFormat.format(cal.getTime()));        
         return dateFormat.format(cal.getTime());
         }
         else{
