@@ -78,6 +78,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     @OneToMany(mappedBy = "flightRecords")
     private List<FlightRecordEntity> flightRecords;
 
+
     @ManyToMany(mappedBy = "cabinCrewFligths")
     private List<CabinCrewEntity> cabinCrews;
 
@@ -107,6 +108,14 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         this.aircraft = aircraft;
         this.route = route;
 
+    }
+
+    public List<TicketEntity> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<TicketEntity> tickets) {
+        this.tickets = tickets;
     }
 
     public Long getId() {
@@ -333,14 +342,6 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         this.bookingClasses = bookingClasses;
     }
 
-    public List<TicketEntity> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<TicketEntity> tickets) {
-        this.tickets = tickets;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -357,12 +358,10 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         FlightEntity other = (FlightEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        } else if (this.id == null && other.id == null) {
+            return this.arrivalDate.equals(other.arrivalDate) && this.departureDate.equals(other.departureDate) && this.flightNo.equals(other.flightNo) && this.route.equals(other.route); // return true or false
         }
-        else if(this.id == null && other.id == null)
-        {
-            return this.arrivalDate.equals(other.arrivalDate)&&this.departureDate.equals(other.departureDate)&&this.flightNo.equals(other.flightNo)&&this.route.equals(other.route); // return true or false
-        }
-        
+
         return true;
     }
 
@@ -373,7 +372,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         } else {
             return route.toString() + " at " + departureDate + " by " + aircraft.toString();
         }
-        
+
     }
 
     @Override
