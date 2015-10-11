@@ -33,7 +33,15 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     @Schedule(second="00", minute="00",hour="*", persistent=false)
     public void doWork(){
         System.out.println("Set price timer run every 1 hour:");
-        monthToDeparture = 12;
+        /*
+        set price timer run very one hour
+        to detect flights within 13 months to departure but price not set yet,
+        booking classes would be create automatically for those flights.
+        
+        flights become available for booking 12 months before depature, 
+        thus staff from inventory have 1 month to manually adjust the price.
+        */
+        monthToDeparture = 13;
         seatsManagementSessionBean.autoPriceToDepartureAndUnpricedFlights(monthToDeparture);
     }
     

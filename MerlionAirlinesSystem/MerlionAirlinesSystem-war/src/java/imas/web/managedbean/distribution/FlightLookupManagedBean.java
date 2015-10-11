@@ -462,7 +462,7 @@ public class FlightLookupManagedBean implements Serializable {
         return hourNo + " hour " + minNo + " mins";
     }
 
-    public double getLowestFare(FlightEntity flight) {
+    public int getLowestFare(FlightEntity flight) {
         List<BookingClassEntity> bcs = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass);
         double lowestFare = Double.MAX_VALUE;
         for (BookingClassEntity bc: bcs) {
@@ -470,7 +470,7 @@ public class FlightLookupManagedBean implements Serializable {
                 lowestFare = bc.getPrice();
             }
         }
-        return lowestFare;
+        return (int) lowestFare;
     }
 
     private void fetchAllAirports() {
@@ -642,6 +642,8 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public void submitFlightsToSelectBookingClasses() {
+        System.out.println("submitFlightsToSelectBookingClasses");
+        System.out.println("check = " + checkFlightsSubmitted());
         if (checkFlightsSubmitted()) {
             initSelectBookingClass();
             activeIndex = 2;
