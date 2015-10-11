@@ -26,11 +26,13 @@ public class TicketEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Double baggageWeight;
+    private Double actualBaggageWeight;
     private Boolean premiumMeal;
     private Boolean exclusiveService;
     private Boolean insurance;
     private Boolean flightWiFi;
-    
+    private String referenceNumber;
+
     @ManyToOne
     private SeatEntity seat;
 
@@ -68,7 +70,7 @@ public class TicketEntity implements Serializable {
         this.boarded = false;
         this.seat = seat;
     }
-    
+
     public TicketEntity(FlightEntity flight, String bookingClassName, double price, PassengerEntity passengerEntity) {
         this.flight = flight;
         this.bookingClassName = bookingClassName;
@@ -94,6 +96,22 @@ public class TicketEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Double getActualBaggageWeight() {
+        return actualBaggageWeight;
+    }
+
+    public void setActualBaggageWeight(Double actualBaggageWeight) {
+        this.actualBaggageWeight = actualBaggageWeight;
+    }
+
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
     }
 
     public SeatEntity getSeat() {

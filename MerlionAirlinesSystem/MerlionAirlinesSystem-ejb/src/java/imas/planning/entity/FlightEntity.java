@@ -78,8 +78,6 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     @OneToMany(mappedBy = "flightRecords")
     private List<FlightRecordEntity> flightRecords;
 
-    @OneToMany(mappedBy = "flight")
-    private List<TicketEntity> tickets;
 
     @ManyToMany(mappedBy = "cabinCrewFligths")
     private List<CabinCrewEntity> cabinCrews;
@@ -342,14 +340,6 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     public void setBookingClasses(List<BookingClassEntity> bookingClasses) {
         this.bookingClasses = bookingClasses;
-    }
-
-    public List<TicketEntity> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<TicketEntity> tickets) {
-        this.tickets = tickets;
     }
 
     @Override

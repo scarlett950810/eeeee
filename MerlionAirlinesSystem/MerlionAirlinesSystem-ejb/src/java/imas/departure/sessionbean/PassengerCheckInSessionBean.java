@@ -5,6 +5,8 @@
  */
 package imas.departure.sessionbean;
 
+import imas.distribution.entity.PassengerEntity;
+import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,4 +55,38 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
             return comingFlights;
         }
     }
+
+    @Override
+    public void intiFFF(FlightEntity flight) {
+        flight.setTickets(null);
+        PassengerEntity p1 = new PassengerEntity("li"+flight.getFlightNo(), "hao", "12334441");
+        PassengerEntity p2 = new PassengerEntity("li2"+flight.getFlightNo(), "hao2", "12334442");
+        PassengerEntity p3 = new PassengerEntity("li3"+flight.getFlightNo(), "hao3", "12334443");
+        PassengerEntity p4 = new PassengerEntity("li4"+flight.getFlightNo(), "hao4", "12334444");
+        PassengerEntity p5 = new PassengerEntity("li5"+flight.getFlightNo(), "hao5", "12334445");
+        em.persist(p1);
+        em.persist(p2);
+        em.persist(p3);
+        em.persist(p4);
+        em.persist(p5);
+        TicketEntity t1 = new TicketEntity(flight, "First", 1000.0, p1);
+        TicketEntity t2 = new TicketEntity(flight, "First", 1000.0, p2);
+        TicketEntity t3 = new TicketEntity(flight, "First", 1000.0, p3);
+        TicketEntity t4 = new TicketEntity(flight, "First", 1000.0, p4);
+        TicketEntity t5 = new TicketEntity(flight, "First", 1000.0, p5);
+        em.persist(t1);
+        em.persist(t2);
+        em.persist(t3);
+        em.persist(t4);
+        em.persist(t5);
+        List<TicketEntity> newList = new ArrayList<TicketEntity>();
+        newList.add(t1);
+        newList.add(t2);
+        newList.add(t3);
+        newList.add(t4);
+        newList.add(t5);
+        flight.setTickets(newList);
+        em.merge(flight);
+    }
+
 }

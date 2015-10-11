@@ -6,8 +6,6 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-
-
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -21,19 +19,18 @@
 
     <ui:define name="centerPanel">
         <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
-
         <h:form id="comingFlight">
-
             <p:focus context="comingFlight"/>
             <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;" class="panel-success">
                 <p:outputLabel for="comingFlight" value="Flight No: " />
                 <p:selectOneMenu id="comingFlight" value="#{passengerCheckInManagedBean.flight}" panelStyle="width:180px" required="true" requiredMessage="Please input flight No."
                                  effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"  converter="flightConverter">
-                    <p:ajax update="" listener="#{passengerCheckInManagedBean.onFlightChange()}" />
+                    <p:ajax update="comingFlight:" listener="#{passengerCheckInManagedBean.onFlightChange()}" />
                     <f:selectItem itemLabel="Please select" itemDisabled="true"/>
                     <f:selectItems value="#{passengerCheckInManagedBean.comingFlights}" var="flight" itemLabel="#{flight.flightNo} #{flight.route.originAirport.cityName}-#{flight.route.destinationAirport.cityName},#{flight.departureDate.toLocaleString()}" itemValue="#{flight}" />
                 </p:selectOneMenu> 
             </h:panelGrid>
+
             <p:panel id="passenger" visible="#{passengerCheckInManagedBean.display}"
                      header="#{passengerCheckInManagedBean.flight.flightNo} #{passengerCheckInManagedBean.flight.route.originAirport.cityName} - #{passengerCheckInManagedBean.flight.route.destinationAirport.cityName}"
                      class="panel panel-success">
@@ -47,15 +44,77 @@
                         </p:outputPanel>
                     </f:facet>
 
-                    <p:column filterBy="#{ticket.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
-                        <h:outputText value="#{ticket.id}" />
+                    <p:column filterBy="#{ticket.passenger.passportNumber}" headerText="Passport" footerText="contains" filterMatchMode="contains" style="width:8%; text-align: center"  >
+                        <h:outputText value="#{ticket.passenger.passportNumber}" />
                     </p:column>
-                    
+
+                    <p:column filterBy="#{ticket.referenceNumber}" headerText="Reference Number" footerText="contains" filterMatchMode="contains" style="width:8%; text-align: center" >
+                        <h:outputText value="#{ticket.referenceNumber}" />
+                    </p:column>
+
+                    <p:column filterBy="#{ticket.passenger.firstName}" headerText="Name" footerText="contains" filterMatchMode="contains" style="width:8%; text-align: center" >
+                        <h:outputText value="#{ticket.passenger.firstName}  #{ticket.passenger.lastName}" />
+                    </p:column>
+
+                    <p:column filterBy="#{ticket.issued}" headerText="Issue Status" footerText="equals" filterMatchMode="equals" style="width:8%; text-align: center" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('ticketTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="All" itemValue="" />
+                                <f:selectItem itemLabel="True" itemValue="True" />
+                                <f:selectItem itemLabel="False" itemValue="False" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <h:outputText value="#{ ticket.issued ? 'True': 'False'}" />
+                    </p:column>
+
+                    <p:column style="width:8%; text-align: center" headerText="Details">
+                        <p:commandLink update=":viewTicketForm:ticketDetail" actionListener="#{passengerCheckInManagedBean.updateFlightReportActionListener}" 
+                                       title="View or Edit " styleClass="ui-icon ui-icon-search" >
+                            <f:attribute value="#{ticket}" name="ticket" />
+                        </p:commandLink>
+                    </p:column>
+
                 </p:dataTable>
             </p:panel>
-
-
-
         </h:form>
+
+        <p:dialog id="Dialog" header="Ticket Info" widgetVar="ticketDialog"  showEffect="fade"  resizable="true">
+            <h:form id="viewTicketForm">
+                <p:growl id="detail" showDetail="true" />
+                <p:outputPanel id="ticketDetail" style="">
+                    <p:panelGrid  columns="2" rendered="#{not empty passengerCheckInManagedBean.selectedTicket}" >
+                        <h:outputLabel  value="Title:"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.passenger.title}" />
+                        <h:outputLabel  value="First Name:"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.passenger.firstName}" />
+                        <h:outputLabel  value="Last Name:"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.passenger.lastName}" />
+                        <h:outputLabel  value="Nationality:"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.passenger.nationality}" />
+                        <h:outputLabel  value="Date of Birth:"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.passenger.birthdate}" />
+                        <h:outputLabel  value="Passport:"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.passenger.passportNumber}" />
+                        <h:outputLabel  value="Passport Expiry Date:"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.passenger.passportExpiry}" />      
+                        <h:outputLabel  value="Seat Class:"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.seat.seatClass}" />
+                        <h:outputLabel  value="Seat No:"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.seat.seatNo}" />
+                        <h:outputLabel  value="Baggage Weight Limit"/>
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.baggageWeight}" />
+                        <h:outputLabel  for="actualWeight" value="Actual Weight"/>
+                        <p:inputText id="actualWeight" value="#{passengerCheckInManagedBean.selectedTicket.actualBaggageWeight}"/>
+                        
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+
+
+
+
     </ui:define>
 </ui:composition>

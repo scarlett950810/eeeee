@@ -17,5 +17,7 @@ import javax.ejb.Local;
 public interface PassengerCheckInSessionBeanLocal {
 
     public List<FlightEntity> fetchComingFlights(String base);
+
+    public void intiFFF(FlightEntity flight);
     
 }

@@ -15,7 +15,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -33,6 +35,7 @@ public class PassengerCheckInManagedBean implements Serializable {
     private FlightEntity flight;
     private boolean display = false;
     private List<TicketEntity> tickets;
+    private TicketEntity selectedTicket;
 
     @PostConstruct
     public void init() {
@@ -46,11 +49,23 @@ public class PassengerCheckInManagedBean implements Serializable {
 
     public void onFlightChange() {
         if (flight != null) {
-            display = true;
+
+            if (flight.getTickets().isEmpty() || flight.getTickets() == null) {
+                passengerCheckInSessionBean.intiFFF(flight);
+            }
             tickets = flight.getTickets();
             System.out.print(flight);
+            display = true;
+            System.out.print(display);
 
         }
+    }
+
+    public void updateFlightReportActionListener(ActionEvent event) {
+        selectedTicket = (TicketEntity) event.getComponent().getAttributes().get("ticket");
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        requestContext.execute("PF('ticketDialog').show()");
+
     }
 
     public List<FlightEntity> getComingFlights() {
@@ -99,6 +114,14 @@ public class PassengerCheckInManagedBean implements Serializable {
 
     public void setDisplay(boolean display) {
         this.display = display;
+    }
+
+    public TicketEntity getSelectedTicket() {
+        return selectedTicket;
+    }
+
+    public void setSelectedTicket(TicketEntity selectedTicket) {
+        this.selectedTicket = selectedTicket;
     }
 
 }
