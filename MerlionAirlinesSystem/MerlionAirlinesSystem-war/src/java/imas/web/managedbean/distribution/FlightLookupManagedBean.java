@@ -715,9 +715,9 @@ public class FlightLookupManagedBean implements Serializable {
             returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, returnDate);
             returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
 
-            showTransferOptions = true;
-            tab2Disabled = false;
         }
+        showTransferOptions = true;
+        tab2Disabled = false;
 
     }
 
