@@ -89,7 +89,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
     
     public void makeBooking() throws IOException{
-        FacesContext.getCurrentInstance().getExternalContext().redirect("BookingConfirmation.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("bookingConfirmation.xhtml");
     }
 
     public String onFlowProcess(FlowEvent event) {

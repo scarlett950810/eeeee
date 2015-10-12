@@ -6,8 +6,14 @@
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningEditDeleteAircraft.xhtml</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/common/AccountActivationManagedBean.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/common/LoginManagedBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/common/accountActivation.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/operation/CrewCheckInManagedBean.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/templates/DefaultTemplate.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/operation/operationCrewCheckIn.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/distribution/flightLookup.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/systemAdmin/systemAdminViewStaff.xhtml</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningHomePage.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/distribution/FlightLookupManagedBean.java</file>
         </group>
     </open-files>
 </project-private>
