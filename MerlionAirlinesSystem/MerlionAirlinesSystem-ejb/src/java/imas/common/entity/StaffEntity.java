@@ -19,7 +19,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-
 /**
  *
  * @author Scarlett
@@ -27,54 +26,55 @@ import javax.persistence.OneToOne;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class StaffEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String staffNo;
-    
+
     private String displayName;
-    
+
     private String password;
-    
+
     private String email;
 
     private String contactNumber;
-    
+
     private String address;
-    
+
     private String gender;
-    
+
     @OneToOne
     private AirportEntity base;
-    
+
     private Boolean activationStatus;
-    
+
     private Boolean deleteStatus;
 
     private List<Date> loginAttempt;
-    
+
     private String salt;
-    
+
     private Boolean working;
- 
+
     @OneToMany(mappedBy = "receiver")
     private List<InternalAnnouncementEntity> announcements;
-    
+
     @OneToMany(mappedBy = "sender")
     private List<InternalMessageEntity> sentMessages;
 
     @OneToMany(mappedBy = "receiver")
     private List<InternalMessageEntity> receivedMessages;
-    
+
     @OneToOne
     private StaffRole role;
-    
+
     public StaffEntity() {
     }
 
-    public StaffEntity(String staffNo, String displayName, String password, 
+    public StaffEntity(String staffNo, String displayName, String password,
             String email, String contactNumber, String address, String gender) {
         this.staffNo = staffNo;
         this.displayName = displayName;
@@ -86,7 +86,8 @@ public class StaffEntity implements Serializable {
         this.activationStatus = false;
         this.deleteStatus = false;
         this.loginAttempt = new ArrayList();
-        this.salt=null;
+        this.salt = null;
+        this.working = false;
     }
 
     public Long getId() {
@@ -112,7 +113,6 @@ public class StaffEntity implements Serializable {
 //    public void setDepartment(String department) {
 //        this.department = department;
 //    }
-
     public Boolean getActivationStatus() {
         return activationStatus;
     }
@@ -120,7 +120,7 @@ public class StaffEntity implements Serializable {
     public void setActivationStatus(Boolean activationStatus) {
         this.activationStatus = activationStatus;
     }
-    
+
     public String getAddress() {
         return address;
     }
@@ -136,7 +136,7 @@ public class StaffEntity implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -216,16 +216,14 @@ public class StaffEntity implements Serializable {
 //    public void setOrganizationUnit(List<OrganizationUnit> organizationUnit) {
 //        this.organizationUnit = organizationUnit;
 //    }
-
-   
-    
     public List<Date> getLoginAttempt() {
         return loginAttempt;
     }
 
     public void setLoginAttempt(List<Date> loginAttempt) {
         this.loginAttempt = loginAttempt;
-    }    
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -257,8 +255,6 @@ public class StaffEntity implements Serializable {
         this.working = working;
     }
 
-    
-    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -276,5 +272,5 @@ public class StaffEntity implements Serializable {
     public String toString() {
         return "irms.common.entity.StaffEntity[ id=" + id + " ]";
     }
-    
+
 }

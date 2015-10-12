@@ -22,7 +22,7 @@
             <h:outputScript name="./js/bootstrap.min.js"/>
             <h:outputStylesheet name="./css/flaty.css"/>
         </f:facet>
-        
+
         <p:layout fullPage="true">
 
             <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
@@ -48,8 +48,11 @@
                             <li><a href="planningAirport.xhtml">Manage Airport</a></li>
                             <li><a href="planningRoute.xhtml">Manage Route</a></li>
 
-                            <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
-                            <li class="sidebar-h1"><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                            <li class="sidebar-h1">Flight Planning</li>
+                            <li><a href="planningFlightManagement.xhtml">Manage Flight</a></li>
+                            <li><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                            <li><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+
                         </ul>
                     </div>                    
                 </ui:insert>

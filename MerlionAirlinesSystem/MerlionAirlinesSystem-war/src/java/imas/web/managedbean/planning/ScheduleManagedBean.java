@@ -174,13 +174,21 @@ public class ScheduleManagedBean implements Serializable {
             List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
             List<CabinCrewEntity> cabinCrews = crewSchedulingCheckLocal.retrieveAllCabinCrew();
             // System.err.println("print out the result "+crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots));  
-
+            List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flights, aircrafts);
+            for (FlightEntity f : flightsToTest) {
+                f.setAircraftFlight(null);
+                f.setPilots(null);
+                f.setCabinCrews(null);
+            }
             List<FlightEntity> flightsUnassignedPilot = crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots);
             System.err.println("after pilotscheduling");
-
+            for (FlightEntity f : flightsToTest) {
+                f.setAircraftFlight(null);
+                f.setPilots(null);
+                f.setCabinCrews(null);
+            }
             List<FlightEntity> flightsUnassignedCabinCrew = crewSchedulingCheckLocal.CabinCrewScheduling(flightsCheck, cabinCrews);
 
-            List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flights, aircrafts);
             FacesContext fc = FacesContext.getCurrentInstance();
             for (FlightEntity f : flightsToTest) {
                 f.setAircraftFlight(null);
