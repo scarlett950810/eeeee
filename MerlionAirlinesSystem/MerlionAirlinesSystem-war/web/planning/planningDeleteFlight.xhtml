@@ -1,16 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../templates/DefaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Planning - Delete Aircraft Type</ui:define>
+
     <ui:define name="head">
-        <!--insert customized import here-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css">
+            .ui-selectonemenu-filter-container{
+                width: 290px;
+            }
+        </style>
     </ui:define>
-
-    <ui:define name="title">Planning - Delete Route</ui:define>
-
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -33,37 +38,31 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        
-        <h:form id="delete">
-            <p:growl id="msgs" showDetail="true" />
 
-            <p:panel header="Delete return routes" style="margin-bottom:10px;" class="panel panel-danger">
-                <h:outputText value="take note that choose one connection will delete two routes" />                
-                <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel for="connection" value="Connection: " />
-                    <p:selectOneMenu id="connection" value="#{routeManagedBean.routeDelete}" style="width:150px"
-                                     filter="true" filterMatchMode="contains">
+        <h:form id="delete">
+            <p:messages id="statusMessages" redisplay="false"/>
+            <p:panel header="Delete Aircraft type" class="panel panel-danger">
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="deleteFlight" value="Choose Flight to Delete:"  />
+                    <p:selectOneMenu id="deleteFlight" value="#{flightManagedBean.flightForDelete}" panelStyle="width:180px" required="true" requiredMessage="Please choose a flight to delete"
+                                     effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"
+                                     converter="flightConverter">
                         <p:ajax update="delete:confirmation"></p:ajax>
-                        <f:selectItem itemLabel="Choose Connection" itemValue="" noSelectionOption="true" />
-                        <f:selectItems var="route" value="#{routeManagedBean.routesName}" itemValue="#{route}"/>
+                        <f:selectItems value="#{flightManagedBean.flights}" var="flight" itemLabel="#{flight.flightNo}, from #{flight.route.destinationAirport.airportName} to #{flight.route.originAirport.airportName}, depart at #{flight.departureDate} and arrive at #{flight.arrivalDate}" itemValue="#{flight}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
-
-                <p:separator />
-
-                <p:commandButton value="Delete" update="msgs"  icon="ui-icon-check" onclick="PF('deleteConfirmation').show();"
-                                 class="btn-sm btn-danger"/>
+                <p:commandButton value="Delete" class="btn-sm btn-danger" onclick="PF('deleteConfirmation').show();"/>
             </p:panel>
-            
+
             <p:dialog id="confirmation" widgetVar="deleteConfirmation" minHeight="40">
-                <h:outputText value="You are deleting #{routeManagedBean.routeDelete}" />
+                <h:outputText value="Are you sure to delete this flight?" />
                 <br/><br/>
-                <p:commandButton value="Confirm" actionListener="#{routeManagedBean.deleteRoute()}"
+                <p:commandButton value="Confirm" actionListener="#{flightManagedBean.deleteFlight()}"
                                  update="statusMessages" class="btn-sm btn-danger" ajax="false"/>
             </p:dialog>
         </h:form>
-        <p:link outcome="planningRoute.xhtml" value="Back"/>
+        <p:link outcome="planningAircraftType.xhtml" value="Back"/>
+
     </ui:define>
 
 </ui:composition>
-

@@ -9,7 +9,7 @@
         <!--insert customized import here-->
     </ui:define>
 
-    <ui:define name="title">Planning - Display Flights Generated</ui:define>
+    <ui:define name="title">Planning - Route Management</ui:define>
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
@@ -33,38 +33,50 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        
+
         <h:form>
-            <p:dataTable var="flight" value="#{flightsDisplayManagedBean.flightsGenerated}" widgetVar="flightsTable"
-                         emptyMessage="No cars found with given criteria" filteredValue="#{flightsDisplayManagedBean.flightsFiltered}"
-                         class="panel-primary" paginator="true" 
+            <p:commandButton value="Delete Flight"  actionListener="#{flightManagedBean.goDeleteFlight()}"
+                             class="btn-sm btn-danger" style="display: inline-block; float: right;" ajax="false"/>
+            <p:commandButton value="Add Flight"  actionListener="#{flightManagedBean.goAddFlight()}"
+                             class="btn-sm btn-success" style="display: inline-block; float: right;" ajax="false"/>
+        </h:form>
+        
+        <br/>
+
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" life="2000"/>
+            <p:dataTable id="flights" var="flight" value="#{flightManagedBean.flights}" style="margin-bottom:20px"
+                         paginator="true" widgetVar="routesTable"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="15, 30, 50" rows="15">
-                
                 <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText value="Search all fields:"/>
-                        <p:inputText id="globalFilter" onkeyup="PF('flightsTable').filter()" style="width:250px" placeholder="Enter keyword"/>
-                    </p:outputPanel>
+                    Flights Information
                 </f:facet>
-                    
-                <p:column filterBy="#{flight.flightNo}" headerText="Flight Number" filterMatchMode="contains">
+
+                <p:column headerText="Flight No">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
 
 
-                <p:column filterBy="#{flight.route.routeName}" headerText="Direction" filterMatchMode="exact">
-                    <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('flightsTable').filter()" >
-                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-                            <f:selectItems value="#{flightsDisplayManagedBean.routesName}" />
-                        </p:selectOneMenu>
-                    </f:facet>
-                    <h:outputText value="#{flight.route.routeName}" />
+                <p:column headerText="Origin">
+                    <h:outputText value="#{flight.route.originAirport.airportCode}, #{flight.route.originAirport.airportName}" />
                 </p:column>
-                <p:column headerText="Departure Time" sortBy="#{flight.departureDate.date}">
+
+                <p:column headerText="Destination">
+                    <h:outputText value="#{flight.route.destinationAirport.airportCode}, #{flight.route.destinationAirport.airportName}" />
+                </p:column>
+
+                <p:column headerText="Departure time">
                     <h:outputText value="#{flight.departureDate}" />
-                </p:column>                
+                </p:column>
+
+                <p:column headerText="Arrival time">
+                    <h:outputText value="#{flight.arrivalDate}" />
+                </p:column>
+                
+                <p:column headerText="Aircraft Assigned">
+                    <h:outputText value="#{flight.aircraft}" />
+                </p:column>
 
             </p:dataTable>
         </h:form>
