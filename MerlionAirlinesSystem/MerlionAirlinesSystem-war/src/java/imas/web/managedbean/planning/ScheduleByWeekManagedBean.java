@@ -149,11 +149,37 @@ public class ScheduleByWeekManagedBean implements Serializable {
         List<AircraftEntity> aircrafts = aircraftSessionBean.getAircrafts();
 List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
         List<CabinCrewEntity> cabinCrews = crewSchedulingCheckLocal.retrieveAllCabinCrew();
-        List<FlightEntity> flightsUnassignedPilot = crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots);
-        List<FlightEntity> flightsUnassignedCabinCrew = crewSchedulingCheckLocal.CabinCrewScheduling(flightsCheck, cabinCrews);
+        List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flightsCheck, aircrafts);
 
-        List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flights, aircrafts);
+        for(FlightEntity f: flightsCheck){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        for(FlightEntity f: flightsToTest){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        List<FlightEntity> flightsUnassignedPilot = crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots);
+        for(FlightEntity f: flightsCheck){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        for(FlightEntity f: flightsToTest){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        List<FlightEntity> flightsUnassignedCabinCrew = crewSchedulingCheckLocal.CabinCrewScheduling(flightsCheck, cabinCrews);
+        
         FacesContext fc = FacesContext.getCurrentInstance();
+        for(FlightEntity f: flightsCheck){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
         for(FlightEntity f: flightsToTest){
             f.setAircraftFlight(null);
             f.setPilots(null);

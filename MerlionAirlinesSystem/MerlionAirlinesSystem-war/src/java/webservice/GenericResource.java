@@ -5,6 +5,9 @@
  */
 package webservice;
 
+import imas.planning.entity.FlightEntity;
+import java.util.Date;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -13,6 +16,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 /**
  * REST Web Service
@@ -29,6 +34,17 @@ public class GenericResource {
      * Creates a new instance of GenericResource
      */
     public GenericResource() {
+    }
+    
+    @GET
+    @Path(value = "getOneWayFlightsByRouteDate")
+    @Produces(MediaType.APPLICATION_JSON)
+    public FlightsList getOneWayFlightsByRouteDate(@QueryParam("origin") String origin, @QueryParam("destination") String destination,@QueryParam("departureD") Date departureD) 
+    {
+        System.err.println("Server running: getOneWayflightsby route and date execute");
+        
+        
+        return new FlightsList();
     }
 
     /**
