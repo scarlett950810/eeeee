@@ -56,6 +56,8 @@ public class StaffEntity implements Serializable {
     private List<Date> loginAttempt;
     
     private String salt;
+    
+    private Boolean working;
  
     @OneToMany(mappedBy = "receiver")
     private List<InternalAnnouncementEntity> announcements;
@@ -245,6 +247,14 @@ public class StaffEntity implements Serializable {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public Boolean getWorking() {
+        return working;
+    }
+
+    public void setWorking(Boolean working) {
+        this.working = working;
     }
 
     

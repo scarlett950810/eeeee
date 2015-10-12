@@ -391,4 +391,16 @@ public class FlightManagedBean implements Serializable {
         //crewToFlightSession.deleteFlight(returnF);
         context.addMessage(null, new FacesMessage("", "Delete successfully"));
     }
+    
+    public void goAddFlight() throws IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningAddFlight.xhtml");
+    }
+    
+    public void goDeleteFlight() throws IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("planningDeleteFlight.xhtml");
+    }
 }

@@ -221,6 +221,16 @@ public class UserProfileManagedBean implements Serializable {
         }
 
     }
+    
+    public void updateWorkingStatus(){
+        System.err.println("PRINT PRINT WORKING STATUS"+staffNo);
+        userProfileManagementSessionBean.updateWorking(staffNo);
+    }
+    
+    public String getWorkingMessage(){
+        System.err.println("PRINT PRINT WORKING MSG"+staffNo);
+        return userProfileManagementSessionBean.getWorkingMessage(staffNo);
+    }
 
     public void onRowEdit(RowEditEvent event) {
         System.out.print(email + ", " + contactNumber);

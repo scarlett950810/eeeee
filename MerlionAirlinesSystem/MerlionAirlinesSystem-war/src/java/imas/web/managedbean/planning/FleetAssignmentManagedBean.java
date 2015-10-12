@@ -57,14 +57,14 @@ public class FleetAssignmentManagedBean implements Serializable{
      @PostConstruct
     public void init()
     {     
-        numOfUnassignedFlights = fleetAssignment.getAllFlights().size();
-        if(numOfUnassignedFlights==0){
-            appearOrnot = false;
-            color = "#999999";
-        }
-        System.err.println("enter init");
-//         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftList", aircraftsAll);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("dateList", getAllPlanningPeirod());
+//        numOfUnassignedFlights = fleetAssignment.getAllFlights().size();
+//        if(numOfUnassignedFlights==0){
+//            appearOrnot = false;
+//            color = "#999999";
+//        }
+//        System.err.println("enter init");
+////         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftList", aircraftsAll);
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("dateList", getAllPlanningPeirod());
  //       crewSchedulingSession.pilotScheduling(functionsFAandCSLocal.getAllFlights(), functionsFAandCSLocal.getAllPilots());
         
     }
