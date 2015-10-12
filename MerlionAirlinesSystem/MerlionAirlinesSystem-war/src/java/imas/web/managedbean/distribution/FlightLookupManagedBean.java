@@ -5,6 +5,8 @@
  */
 package imas.web.managedbean.distribution;
 
+import imas.distribution.entity.PassengerEntity;
+import imas.distribution.entity.TicketEntity;
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.distribution.sessionbean.TransferFlight;
 import imas.inventory.entity.BookingClassEntity;
@@ -28,6 +30,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.persistence.PostRemove;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 /**
  *
@@ -63,13 +66,19 @@ public class FlightLookupManagedBean implements Serializable {
     private List<SelectItem> destinationAirportsByCountry;
     private String returnDateDisplay;
 
-    // selected flight
+    // selected flights and bookingClasses
     private FlightEntity departureDirectFlight;
     private FlightEntity departureTransferFlight1;
     private FlightEntity departureTransferFlight2;
     private FlightEntity returnDirectFlight;
     private FlightEntity returnTransferFlight1;
     private FlightEntity returnTransferFlight2;
+    private BookingClassEntity departureDirectFlightBookingClass;
+    private BookingClassEntity departureTransferFlight1BookingClass;
+    private BookingClassEntity departureTransferFlight2BookingClass;
+    private BookingClassEntity returnDirectFlightBookingClass;
+    private BookingClassEntity returnTransferFlight1BookingClass;
+    private BookingClassEntity returnTransferFlight2BookingClass;
 
     // for displaying flights options
     private boolean showTransferOptions;
@@ -90,7 +99,12 @@ public class FlightLookupManagedBean implements Serializable {
     private List<TransferFlight> returnTransferFlightCandidates;
 
     // for displaying booking class options
-    private List<List<BookingClassEntity>> bookingClassCandidatesList;
+    private List<BookingClassEntity> departureDirectFlightBookingClassCandidates;
+    private List<BookingClassEntity> departureTransferFlight1BookingClassCandidates;
+    private List<BookingClassEntity> departureTransferFlight2BookingClassCandidates;
+    private List<BookingClassEntity> returnDirectFlightBookingClassCandidates;
+    private List<BookingClassEntity> returnTransferFlight1BookingClassCandidates;
+    private List<BookingClassEntity> returnTransferFlight2BookingClassCandidates;
 
     @PostConstruct
     public void init() {
@@ -440,20 +454,108 @@ public class FlightLookupManagedBean implements Serializable {
         this.activeIndex = activeIndex;
     }
 
-    public List<List<BookingClassEntity>> getBookingClassCandidatesList() {
-        return bookingClassCandidatesList;
-    }
-
-    public void setBookingClassCandidatesList(List<List<BookingClassEntity>> bookingClassCandidatesList) {
-        this.bookingClassCandidatesList = bookingClassCandidatesList;
-    }
-
     public boolean isShowTransferOptions() {
         return showTransferOptions;
     }
 
     public void setShowTransferOptions(boolean showTransferOptions) {
         this.showTransferOptions = showTransferOptions;
+    }
+
+    public BookingClassEntity getDepartureDirectFlightBookingClass() {
+        return departureDirectFlightBookingClass;
+    }
+
+    public void setDepartureDirectFlightBookingClass(BookingClassEntity departureDirectFlightBookingClass) {
+        this.departureDirectFlightBookingClass = departureDirectFlightBookingClass;
+    }
+
+    public BookingClassEntity getDepartureTransferFlight1BookingClass() {
+        return departureTransferFlight1BookingClass;
+    }
+
+    public void setDepartureTransferFlight1BookingClass(BookingClassEntity departureTransferFlight1BookingClass) {
+        this.departureTransferFlight1BookingClass = departureTransferFlight1BookingClass;
+    }
+
+    public BookingClassEntity getDepartureTransferFlight2BookingClass() {
+        return departureTransferFlight2BookingClass;
+    }
+
+    public void setDepartureTransferFlight2BookingClass(BookingClassEntity departureTransferFlight2BookingClass) {
+        this.departureTransferFlight2BookingClass = departureTransferFlight2BookingClass;
+    }
+
+    public BookingClassEntity getReturnDirectFlightBookingClass() {
+        return returnDirectFlightBookingClass;
+    }
+
+    public void setReturnDirectFlightBookingClass(BookingClassEntity returnDirectFlightBookingClass) {
+        this.returnDirectFlightBookingClass = returnDirectFlightBookingClass;
+    }
+
+    public BookingClassEntity getReturnTransferFlight1BookingClass() {
+        return returnTransferFlight1BookingClass;
+    }
+
+    public void setReturnTransferFlight1BookingClass(BookingClassEntity returnTransferFlight1BookingClass) {
+        this.returnTransferFlight1BookingClass = returnTransferFlight1BookingClass;
+    }
+
+    public BookingClassEntity getReturnTransferFlight2BookingClass() {
+        return returnTransferFlight2BookingClass;
+    }
+
+    public void setReturnTransferFlight2BookingClass(BookingClassEntity returnTransferFlight2BookingClass) {
+        this.returnTransferFlight2BookingClass = returnTransferFlight2BookingClass;
+    }
+
+    public List<BookingClassEntity> getDepartureDirectFlightBookingClassCandidates() {
+        return departureDirectFlightBookingClassCandidates;
+    }
+
+    public void setDepartureDirectFlightBookingClassCandidates(List<BookingClassEntity> departureDirectFlightBookingClassCandidates) {
+        this.departureDirectFlightBookingClassCandidates = departureDirectFlightBookingClassCandidates;
+    }
+
+    public List<BookingClassEntity> getDepartureTransferFlight1BookingClassCandidates() {
+        return departureTransferFlight1BookingClassCandidates;
+    }
+
+    public void setDepartureTransferFlight1BookingClassCandidates(List<BookingClassEntity> departureTransferFlight1BookingClassCandidates) {
+        this.departureTransferFlight1BookingClassCandidates = departureTransferFlight1BookingClassCandidates;
+    }
+
+    public List<BookingClassEntity> getDepartureTransferFlight2BookingClassCandidates() {
+        return departureTransferFlight2BookingClassCandidates;
+    }
+
+    public void setDepartureTransferFlight2BookingClassCandidates(List<BookingClassEntity> departureTransferFlight2BookingClassCandidates) {
+        this.departureTransferFlight2BookingClassCandidates = departureTransferFlight2BookingClassCandidates;
+    }
+
+    public List<BookingClassEntity> getReturnDirectFlightBookingClassCandidates() {
+        return returnDirectFlightBookingClassCandidates;
+    }
+
+    public void setReturnDirectFlightBookingClassCandidates(List<BookingClassEntity> returnDirectFlightBookingClassCandidates) {
+        this.returnDirectFlightBookingClassCandidates = returnDirectFlightBookingClassCandidates;
+    }
+
+    public List<BookingClassEntity> getReturnTransferFlight1BookingClassCandidates() {
+        return returnTransferFlight1BookingClassCandidates;
+    }
+
+    public void setReturnTransferFlight1BookingClassCandidates(List<BookingClassEntity> returnTransferFlight1BookingClassCandidates) {
+        this.returnTransferFlight1BookingClassCandidates = returnTransferFlight1BookingClassCandidates;
+    }
+
+    public List<BookingClassEntity> getReturnTransferFlight2BookingClassCandidates() {
+        return returnTransferFlight2BookingClassCandidates;
+    }
+
+    public void setReturnTransferFlight2BookingClassCandidates(List<BookingClassEntity> returnTransferFlight2BookingClassCandidates) {
+        this.returnTransferFlight2BookingClassCandidates = returnTransferFlight2BookingClassCandidates;
     }
 
     public String getUserFriendlyTime(double hours) {
@@ -465,7 +567,7 @@ public class FlightLookupManagedBean implements Serializable {
     public int getLowestFare(FlightEntity flight) {
         List<BookingClassEntity> bcs = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass);
         double lowestFare = Double.MAX_VALUE;
-        for (BookingClassEntity bc: bcs) {
+        for (BookingClassEntity bc : bcs) {
             if (bc.getPrice() < lowestFare) {
                 lowestFare = bc.getPrice();
             }
@@ -614,9 +716,6 @@ public class FlightLookupManagedBean implements Serializable {
         tab2Disabled = false;
     }
 
-//    public void toggleShowTransferOptions() {
-//        showTransferOptions = !showTransferOptions;
-//    }
     public boolean selectedDepartureDirectFlight() {
         return departureDirectFlight != null && departureTransferFlight1 == null && departureTransferFlight2 == null;
     }
@@ -642,12 +741,13 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public void submitFlightsToSelectBookingClasses() {
-//        System.out.println("submitFlightsToSelectBookingClasses");
-//        System.out.println("check = " + checkFlightsSubmitted());
         if (checkFlightsSubmitted()) {
             initSelectBookingClass();
             activeIndex = 2;
             tab3Disabled = false;
+        } else {
+            activeIndex = 1;
+            tab3Disabled = true;
         }
     }
 
@@ -671,38 +771,118 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public void initSelectBookingClass() {
-        
+
         List<List<BookingClassEntity>> bookingClassLists = new ArrayList<>();
-        
+
         if (selectedDepartureDirectFlight()) {
             List<BookingClassEntity> bookingClassList
                     = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureDirectFlight, seatClass);
-            bookingClassLists.add(bookingClassList);
+            departureDirectFlightBookingClassCandidates = bookingClassList;
         } else if (selectedDepartureTransferFlight()) {
             List<BookingClassEntity> bookingClassList1
                     = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight1, seatClass);
             List<BookingClassEntity> bookingClassList2
                     = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight2, seatClass);
-            bookingClassLists.add(bookingClassList1);
-            bookingClassLists.add(bookingClassList2);
+            departureTransferFlight1BookingClassCandidates = bookingClassList1;
+            departureTransferFlight2BookingClassCandidates = bookingClassList2;
         }
-        
+
         if (twoWay) {
             if (selectedReturnDirectFlight()) {
                 List<BookingClassEntity> bookingClassList
                         = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnDirectFlight, seatClass);
-                bookingClassLists.add(bookingClassList);
+                returnDirectFlightBookingClassCandidates = bookingClassList;
             } else if (selectedReturnTransferFlight()) {
                 List<BookingClassEntity> bookingClassList1
                         = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight1, seatClass);
                 List<BookingClassEntity> bookingClassList2
                         = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight2, seatClass);
-                bookingClassLists.add(bookingClassList1);
-                bookingClassLists.add(bookingClassList2);
+                returnTransferFlight1BookingClassCandidates = bookingClassList1;
+                returnTransferFlight2BookingClassCandidates = bookingClassList2;
             }
         }
-        
-        bookingClassCandidatesList = bookingClassLists;
+
+    }
+
+    public boolean checkBookingClassesSubmitted() {
+        boolean flag = true;
+
+        if (selectedDepartureDirectFlight() && departureDirectFlightBookingClass == null) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your departure flight, please select booking class", ""));
+        } else if (selectedDepartureTransferFlight() && (returnTransferFlight1BookingClass == null || returnTransferFlight2BookingClass == null)) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your departure flight, please select booking class for both transfer flights", ""));
+        }
+        if (selectedReturnDirectFlight() && returnDirectFlightBookingClass == null) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your return flight, please select booking class", ""));
+        } else if (selectedReturnTransferFlight() && (returnTransferFlight1BookingClass == null || returnTransferFlight2BookingClass == null)) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your return flight, please select booking class for both transfer flights", ""));
+        }
+        return flag;
+    }
+
+    public void submitBookingClasses() {
+
+        if (checkBookingClassesSubmitted()) {
+            List<PassengerEntity> passengers = new ArrayList<>();
+            List<FlightEntity> flights = new ArrayList<>();
+
+            for (int i = 0; i < adultNo + childNo + infantNo; i++) {
+                PassengerEntity passenger = new PassengerEntity();
+                TicketEntity ticket1 = null, ticket2 = null, ticket3 = null, ticket4 = null, ticket5 = null, ticket6 = null;
+                if (selectedDepartureDirectFlight()) {
+                    flights.add(departureDirectFlight);
+                    ticket1 = new TicketEntity(departureDirectFlight, departureDirectFlightBookingClass.getName(), departureDirectFlightBookingClass.getPrice(), passenger);
+                } else if (selectedDepartureTransferFlight()) {
+                    flights.add(departureTransferFlight1);
+                    ticket2 = new TicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
+                    flights.add(departureTransferFlight1);
+                    ticket3 = new TicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
+                }
+                if (selectedReturnDirectFlight()) {
+                    flights.add(returnDirectFlight);
+                    ticket4 = new TicketEntity(returnDirectFlight, returnDirectFlightBookingClass.getName(), returnDirectFlightBookingClass.getPrice(), passenger);
+                } else if (selectedReturnTransferFlight()) {
+                    flights.add(returnTransferFlight1);
+                    ticket5 = new TicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
+                    flights.add(returnTransferFlight1);
+                    ticket6 = new TicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
+                }
+
+                // add all tickets to list and set to passenger
+                List<TicketEntity> tickets = new ArrayList<>();
+                if (ticket1 != null) {
+                    tickets.add(ticket1);
+                }
+                if (ticket2 != null) {
+                    tickets.add(ticket2);
+                }
+                if (ticket3 != null) {
+                    tickets.add(ticket3);
+                }
+                if (ticket4 != null) {
+                    tickets.add(ticket4);
+                }
+                if (ticket5 != null) {
+                    tickets.add(ticket5);
+                }
+                if (ticket6 != null) {
+                    tickets.add(ticket6);
+                }
+                passenger.setTickets(tickets);
+
+                passengers.add(passenger);
+            }
+
+        }
+
     }
 
 }
