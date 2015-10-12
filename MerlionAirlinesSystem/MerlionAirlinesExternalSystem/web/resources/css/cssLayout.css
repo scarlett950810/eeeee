@@ -1,0 +1,126 @@
+body, .ui-widget, .ui-widget-content, ui-datatable-header, ui-widget-header, ui-corner-top{
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+#toolBox {
+    z-index: 1000 !important;
+}
+
+#toolBox ul li img {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 1000 !important;
+}
+
+#toolBox ul {
+    display: none !important;
+}
+
+#toolBox .openStack {
+    display: block !important;
+}
+
+.ui-stack .openStack li span {
+    display: none !important;
+    top: 10px !important;
+    right: 45px !important;
+    z-index: 1000 !important;
+}
+
+.layout, .ui-layout-unit,  .ui-layout-unit-content {
+    border: none !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+#layoutUnit_top .ui-widget-content {
+    background-color:#001F5F !important;
+}
+
+.ui-layout-resizer, .ui-layout-resizer-north, .ui-layout-resizer-open, .ui-layout-resizer-north-open{
+    height:0px !important;
+    display: none !important;
+}
+
+#layoutUnit_left, #layoutUnit_center{
+    position: absolute;
+    top: 70px !important;
+}
+
+.ui-datatable-scrollable-header-box, .ui-datatable-scrollable-body {
+    margin-right: 0px !important;
+}
+
+div.timeline-event {
+    border: none;
+}
+
+div.timeline-event-content {
+    margin: 1px;
+    border: 1px solid;
+    padding: 4px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+}
+
+div.timeline-event.timeline-event-range {
+    border-width: 0;
+}
+
+span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
+    display: none !important;
+    width: 0px !important;
+    height: 0px!important;
+}
+
+.ui-button.ui-widget.ui-button-icon-only.icon-only,
+.ui-state-default.icon-only, .ui-widget-content .ui-state-default.icon-only {
+    background: none !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    width: 25px;
+}
+
+.ui-state-default {
+    -webkit-box-shadow:none;
+    box-shadow: none;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: none;
+}
+
+.ui-paginator .ui-paginator-page,
+.ui-paginator .ui-paginator-first, 
+.ui-paginator .ui-paginator-prev,
+.ui-paginator .ui-paginator-next,
+.ui-paginator .ui-paginator-last,
+.ui-paginator select.ui-paginator-rpp-options {
+    line-height: 1 !important;
+    background: #ffffff;
+}
+
+.btn-sm, span.ui-button-text,
+.ui-button-text-only .ui-button-text {
+    padding: 0.1em 0;
+    text-shadow:none !important;
+}
+
+.ui-radiobutton-icon {
+    margin-top: -1px;
+    margin-left: 0px;
+}
+
+.ui-selectonemenu-filter-container, .ui-selectonemenu-panel .ui-selectonemenu-filter,
+.ui-selectlistbox-filter.ui-inputfield, .ui-selectonemenu .ui-selectonemenu-label {
+    width: 100%! important;
+}
+
+.div.timeline-event-content {
+    margin: 0px !important;
+    padding: 1px !important;
+}

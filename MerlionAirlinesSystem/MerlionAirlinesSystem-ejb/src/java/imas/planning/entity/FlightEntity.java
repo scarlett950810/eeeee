@@ -372,7 +372,6 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
         return o.departureDate.compareTo(this.departureDate);
 
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

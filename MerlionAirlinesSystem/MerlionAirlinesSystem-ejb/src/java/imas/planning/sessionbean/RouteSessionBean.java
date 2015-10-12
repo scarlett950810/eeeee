@@ -117,7 +117,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("spoke", spoke);
         RouteEntity route = (RouteEntity) query.getSingleResult();
         RouteEntity reverseRoute = route.getReverseRoute();
-        
+
         Query q = em.createQuery("SELECT a FROM FlightEntity a WHERE a.route = :route OR a.route = :reverseRoute");
         q.setParameter("route", route);
         q.setParameter("reverseRoute", reverseRoute);
@@ -134,7 +134,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     public List<RouteEntity> retrieveAllRoutes() {
         Query query = em.createQuery("SELECT a FROM RouteEntity a");
 
- //       System.out.println("Debug into retrieveAllRoute function");
+        //       System.out.println("Debug into retrieveAllRoute function");
         return (List<RouteEntity>) query.getResultList();
     }
 
@@ -167,10 +167,11 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         q.setParameter("name", destination);
         AirportEntity destinationAirportEntity = (AirportEntity) q.getSingleResult();
 
-        if(deleteRoute(originAirportEntity, destinationAirportEntity))
+        if (deleteRoute(originAirportEntity, destinationAirportEntity)) {
             return true;
-        else
+        } else {
             return false;
+        }
 
     }
 
@@ -233,7 +234,7 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
 
                             routesFiltered.add(route);
                             routes.set(routes.indexOf(routeIfReverse), new RouteEntity());
- //                   System.out.println("After remove");
+                            //                   System.out.println("After remove");
 
                         }
                     }
@@ -312,12 +313,22 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         route2.setFlightHours(hours);
     }
 
+    @Override
     public void saveReturnFlights(FlightEntity f) {
-        em.merge(f);
+        System.err.println("点点滴滴的");
+        Query q = em.createQuery("SELECT a FROM FlightEntity a WHERE a.id = :id");
+        q.setParameter("id", f.getId());
+       
+        if (q.getResultList().isEmpty()) {
+            System.err.println("no such flight");
+            System.err.println("f.getAircraft()"+f.getAircraft());
+            System.err.println("pilot"+f.getCabinCrews());
+            System.err.println("pilot"+f.getPilots());
+            em.persist(f);
+        }
 //        System.err.println("saveReturnflighs1");
 //        System.err.println("saveReturnflighs2");
-
-        //      System.err.println("saveReturnflighs3");
+//        System.err.println("saveReturnflighs3");
     }
 
     @Override

@@ -35,13 +35,13 @@ public class AccountActivationManagedBean implements Serializable {
     private UserProfileManagementSessionBeanLocal userProfileManagementSessionBean;
 
     private StaffEntity staff;
-    private boolean skip;
     private String staffNo;
     private String role;
     private StaffRole staffRole;
     private String originPassword;
     private String newPassword;
     private String newRepeatPassword;
+    private boolean passwordReset = true;
 
     public AccountActivationManagedBean() {
     }
@@ -83,12 +83,12 @@ public class AccountActivationManagedBean implements Serializable {
         this.staff = staff;
     }
 
-    public boolean isSkip() {
-        return skip;
+    public boolean isPasswordReset() {
+        return passwordReset;
     }
 
-    public void setSkip(boolean skip) {
-        this.skip = skip;
+    public void setPasswordReset(boolean passwordReset) {
+        this.passwordReset = passwordReset;
     }
 
     public String getStaffNo() {
@@ -140,7 +140,6 @@ public class AccountActivationManagedBean implements Serializable {
     }
 
     public void changePassword(ActionEvent event) throws IOException {
-        System.out.print("123");
         FacesContext fc = FacesContext.getCurrentInstance();
         if (userProfileManagementSessionBean.getOldPassword(staffNo, originPassword)) {
             System.out.print("old password correct");
@@ -158,6 +157,8 @@ public class AccountActivationManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect old password", "Contact admin."));
             System.out.print("here");
         }
+        passwordReset = false;
+        System.out.print(passwordReset);
     }
 
     public void activateAccount() throws IOException {

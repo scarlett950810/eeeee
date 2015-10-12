@@ -14,7 +14,7 @@ import javax.ejb.Singleton;
  * @author Scarlett
  */
 @Singleton
-public class SetPriceTimerSessionBean {
+public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     
     private int monthToDeparture;
 
@@ -22,6 +22,7 @@ public class SetPriceTimerSessionBean {
         return monthToDeparture;
     }
 
+    @Override
     public void setMonthToDeparture(int monthToDeparture) {
         this.monthToDeparture = monthToDeparture;
     }
@@ -29,9 +30,9 @@ public class SetPriceTimerSessionBean {
     @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
 
-    @Schedule(hour="*/1", persistent=false)
+    @Schedule(second="00", minute="*",hour="*", persistent=false)
     public void doWork(){
-        System.out.println("Set price timer run every 1 hour:");
+        System.out.println("Set price timer run every 1 minutes:");
         monthToDeparture = 12;
         seatsManagementSessionBean.autoPriceToDepartureAndUnpricedFlights(monthToDeparture);
     }

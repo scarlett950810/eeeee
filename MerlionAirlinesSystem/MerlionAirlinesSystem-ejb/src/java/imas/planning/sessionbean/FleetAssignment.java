@@ -331,7 +331,7 @@ public class FleetAssignment implements FleetAssignmentLocal {
         System.err.println("...."+(List<FlightEntity>)q.getResultList());
     
         
-        
+        System.err.println("");
         return (List<FlightEntity>)q.getResultList();
         
     }
