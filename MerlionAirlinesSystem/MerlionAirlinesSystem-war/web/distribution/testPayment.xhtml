@@ -26,10 +26,7 @@
     <ui:define name="centerPanel">
 
 
-        <form id="checkout" method="post" action="/checkout" >
-            <div id="payment-form"></div>
-            <input type="submit" value="Pay"></input>
-        </form>
+       <div id="paypal-container"></div>
 
         <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
         <script>
@@ -47,7 +44,7 @@
             console.log("aaaa" + clientToken);
 
             braintree.setup(clientToken, "dropin", {
-                container: "payment-form",
+                container: "paypal-container",
                 onPaymentMethodReceived: function (obj) {
 //    doSomethingWithTheNonce(obj.nonce);
                     console.log("nonce <br/>");
