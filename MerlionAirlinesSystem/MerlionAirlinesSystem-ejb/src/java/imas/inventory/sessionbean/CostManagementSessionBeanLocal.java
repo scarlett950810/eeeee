@@ -5,12 +5,11 @@
  */
 package imas.inventory.sessionbean;
 
-
 import imas.inventory.entity.CostPairEntity;
+import imas.planning.entity.RouteEntity;
 import java.util.List;
 import javax.ejb.Local;
 import org.primefaces.model.TreeNode;
-
 
 /**
  *
@@ -19,23 +18,24 @@ import org.primefaces.model.TreeNode;
 @Local
 public interface CostManagementSessionBeanLocal {
 
-    public List<CostPairEntity> createTable();
-    
+//    public List<CostPairEntity> createTable();
 //     public CostEntity getFisrtCostEntity() ;
-
-    public void writeList(List<CostPairEntity> list);
-
-    public TreeNode createRoot();
-
-    public List<CostPairEntity> getList();
-
+//    public void writeList(List<CostPairEntity> list);
     public List<CostPairEntity> correctList(List<CostPairEntity> list);
 
-    public void updateCost(String costName, Double costFigure);
+    public void updateCost(RouteEntity selectedRoute, String costName, Double costFigure);
 
     public Double getCostPerSeatPerMile();
 
-    public void updateShowRate(Double showRate);
+//    public void updateShowRate(Double showRate);
+    public void intiCostTable(RouteEntity selectedRoute);
 
-    
+    public TreeNode createRoot(List<CostPairEntity> list);
+
+//    public Double getCostPerSeatPerMile(RouteEntity SelectedRoute);
+
+    public Double getCostPerSeatPerMile(RouteEntity selectedRoute);
+
+    public List<CostPairEntity> getList(RouteEntity selectedRoute);
+
 }

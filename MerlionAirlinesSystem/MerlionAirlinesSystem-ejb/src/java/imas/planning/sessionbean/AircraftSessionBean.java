@@ -87,7 +87,7 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
         createSeats(newAircraft, PremiumEconomyClassColumnNo, startRow, PremiumEconomyClassRowNo, "Premium Economy Class");
         startRow = startRow + PremiumEconomyClassRowNo;
         createSeats(newAircraft, EconomyClassColumnNo, startRow, EconomyClassRowNo, "Economy Class");
-        System.out.println("seats created ");
+//        System.out.println("seats created ");
     }
 
     private void createSeats(AircraftEntity aircraft, int column, int startRow, int row, String seatClass) {

@@ -7,6 +7,7 @@ package imas.planning.entity;
 
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
+import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassEntity;
 import java.io.Serializable;
 import java.util.Date;
@@ -42,10 +43,10 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private FlightEntity reverseFlight;
     private Integer operatingYear;
     private String weekDay;
-    //booking classes
     @OneToMany(mappedBy = "flight")
     private List<BookingClassEntity> bookingClasses;
-    //ticket
+    @OneToMany(mappedBy = "flight")
+    private List<TicketEntity> tickets;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date actualDepartureDate;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -77,6 +78,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     @OneToMany(mappedBy = "flightRecords")
     private List<FlightRecordEntity> flightRecords;
 
+
     @ManyToMany(mappedBy = "cabinCrewFligths")
     private List<CabinCrewEntity> cabinCrews;
 
@@ -106,6 +108,14 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         this.aircraft = aircraft;
         this.route = route;
 
+    }
+
+    public List<TicketEntity> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<TicketEntity> tickets) {
+        this.tickets = tickets;
     }
 
     public Long getId() {
@@ -348,12 +358,10 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         FlightEntity other = (FlightEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        } else if (this.id == null && other.id == null) {
+            return this.arrivalDate.equals(other.arrivalDate) && this.departureDate.equals(other.departureDate) && this.flightNo.equals(other.flightNo) && this.route.equals(other.route); // return true or false
         }
-        else if(this.id == null && other.id == null)
-        {
-            return this.arrivalDate.equals(other.arrivalDate)&&this.departureDate.equals(other.departureDate)&&this.flightNo.equals(other.flightNo)&&this.route.equals(other.route); // return true or false
-        }
-        
+
         return true;
     }
 
@@ -364,7 +372,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         } else {
             return route.toString() + " at " + departureDate + " by " + aircraft.toString();
         }
-        
+
     }
 
     @Override

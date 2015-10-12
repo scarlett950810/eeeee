@@ -79,19 +79,19 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     @Override
     public Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String businessUnit, String division, String position, String location, String base, String workingStatus, List<String> aircraftTypeCapabilities, Boolean mileageLimit, Boolean isPilot, Boolean isCabinCrew) {
         String password = generatePassword();
-        System.out.print(staffNo);
-        System.out.print(name);
-        System.out.print(email);
-        System.out.print(contactNumber);
-        System.out.print(address);
-        System.out.print(gender);
-        System.out.print(businessUnit);
-        System.out.print(division);
-        System.out.print(position);
-        System.out.print(location);
-        System.out.print(base);
-        System.out.print(isPilot);
-        System.out.print(isCabinCrew);
+//        System.out.print(staffNo);
+//        System.out.print(name);
+//        System.out.print(email);
+//        System.out.print(contactNumber);
+//        System.out.print(address);
+//        System.out.print(gender);
+//        System.out.print(businessUnit);
+//        System.out.print(division);
+//        System.out.print(position);
+//        System.out.print(location);
+//        System.out.print(base);
+//        System.out.print(isPilot);
+//        System.out.print(isCabinCrew);
         String tempPassword;
         String salt = "";
         String letters = "0123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
