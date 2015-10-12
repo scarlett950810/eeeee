@@ -24,9 +24,13 @@
     </ui:define>
 
     <ui:define name="centerPanel">
+        <p:growl autoUpdate="true" globalOnly="true" />
+                
         <p:tabView id="tabView" activeIndex="#{flightLookupManagedBean.activeIndex}">
             <p:tab title="1 Search creiteria" class="panel panel-primary" disabled="#{flightLookupManagedBean.tab1Disabled}">
+                
                 <p:messages />
+                
                 <h:form>
                     <h:panelGrid columns="2" cellpadding="5">
 
@@ -67,7 +71,7 @@
                         <p:selectOneMenu id="seatClass" value="#{flightLookupManagedBean.seatClass}" required="true">
                             <f:selectItem itemValue="First Class" itemLabel="First Class"/>
                             <f:selectItem itemValue="Business Class" itemLabel="Business Class"/>
-                            <f:selectItem itemValue="Premuim Economy Class" itemLabel="Premuim Economy Class"/>
+                            <f:selectItem itemValue="Premium Economy Class" itemLabel="Premium Economy Class"/>
                             <f:selectItem itemValue="Economy Class" itemLabel="Economy Class"/>
                         </p:selectOneMenu>
 
@@ -128,7 +132,7 @@
                     <p:messages id="selectFlightTabMsg"/>
 
                     <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                        <h:outputText value="Show transfer options" />
+                        <h:outputText value="Show 1 stop transfer options" />
                         <p:selectBooleanCheckbox value="#{flightLookupManagedBean.showTransferOptions}">
                             <p:ajax update="selectFlightForm"/>
                         </p:selectBooleanCheckbox>
@@ -159,25 +163,27 @@
                                 </p:column>
 
                                 <p:column headerText="Lowest fare under #{flightLookupManagedBean.seatClass}">
-                                    <h:outputText value="#{flightLookupManagedBean.getLowestFare(flight)}" />
+                                    <h:outputText value="S$ #{flightLookupManagedBean.getLowestFare(flight)}" />
                                 </p:column>
 
                             </p:dataTable>
 
                         </c:if>
 
+                        <c:if test="#{not flightLookupManagedBean.departureHasDirectFlight}">
+                            <h:outputText value="No direct flights found." />
+                            <br/>
+                        </c:if>
+
                         <c:if test="#{flightLookupManagedBean.showTransferOptions}">
 
-                            <c:if test="#{not flightLookupManagedBean.departureHasDirectFlight}">
-                                <h:outputText value="No direct flights found." />
-                                <p:separator />
-                            </c:if>
+                            <p:separator />
 
                             <c:if test="#{flightLookupManagedBean.departureHasTransferFlight}">
 
                                 <c:forEach items="#{flightLookupManagedBean.departureTransferFlightCandidates}" var="transferFlight">
 
-                                    <h:outputText value="Transfer option:"/>
+                                    <h:outputText style="font-weight: bold;" value="Transfer option:"/>
 
                                     <p:dataTable value="#{transferFlight.flights1}" var="flight" 
                                                  rowKey="#{flight.id}" selection="#{flightLookupManagedBean.departureTransferFlight1}" selectionMode="single">
@@ -201,7 +207,7 @@
                                         </p:column>     
 
                                         <p:column headerText="Lowest fare under #{flightLookupManagedBean.seatClass}">
-                                            <h:outputText value="#{flightLookupManagedBean.getLowestFare(flight)}" />
+                                            <h:outputText value="S$ #{flightLookupManagedBean.getLowestFare(flight)}" />
                                         </p:column>
 
                                     </p:dataTable>
@@ -228,7 +234,7 @@
                                         </p:column>
 
                                         <p:column headerText="Lowest fare under #{flightLookupManagedBean.seatClass}">
-                                            <h:outputText value="#{flightLookupManagedBean.getLowestFare(flight)}" />
+                                            <h:outputText value="S$ #{flightLookupManagedBean.getLowestFare(flight)}" />
                                         </p:column>
 
                                     </p:dataTable>
@@ -238,6 +244,10 @@
 
                             </c:if>
 
+                            <c:if test="#{not flightLookupManagedBean.departureHasTransferFlight}">
+                                <h:outputText value="No transfer options flights found." />
+                                <br/>
+                            </c:if>
                         </c:if>
 
                     </p:panel>
@@ -269,7 +279,7 @@
                                     </p:column>
 
                                     <p:column headerText="Lowest fare under #{flightLookupManagedBean.seatClass}">
-                                        <h:outputText value="#{flightLookupManagedBean.getLowestFare(flight)}" />
+                                        <h:outputText value="S$ #{flightLookupManagedBean.getLowestFare(flight)}" />
                                     </p:column>
 
                                 </p:dataTable>
@@ -278,71 +288,83 @@
 
                             <c:if test="#{not flightLookupManagedBean.returnHasDirectFlight}">
                                 <h:outputText value="No direct flights found." />
-                                <p:separator />
+                                <br/>
                             </c:if>
 
-                            <c:if test="#{flightLookupManagedBean.returnHasTransferFlight}">
+                            <c:if test="#{flightLookupManagedBean.showTransferOptions}">
 
-                                <c:forEach items="#{flightLookupManagedBean.returnTransferFlightCandidates}" var="transferFlight">
+                                <p:separator/>
 
-                                    <h:outputText value="Transfer option:"/>
+                                <c:if test="#{flightLookupManagedBean.returnHasTransferFlight}">
 
-                                    <p:dataTable value="#{transferFlight.flights1}" var="flight" 
-                                                 rowKey="#{flight.id}" selection="#{flightLookupManagedBean.returnTransferFlight1}" selectionMode="single">
-                                        <f:facet name="header">
-                                            #{transferFlight.route1}
-                                        </f:facet>
-                                        <p:column headerText="Departure Time">
-                                            <h:outputText value="#{flight.departureDate}" />
-                                        </p:column>
+                                    <c:forEach items="#{flightLookupManagedBean.returnTransferFlightCandidates}" var="transferFlight">
 
-                                        <p:column headerText="Arrival Time">
-                                            <h:outputText value="#{flight.arrivalDate}" />
-                                        </p:column>
+                                        <h:outputText style="font-weight: bold;" value="Transfer option:"/>
 
-                                        <p:column headerText="Duration (hours)">
-                                            <h:outputText value="#{flightLookupManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
-                                        </p:column>
+                                        <p:dataTable value="#{transferFlight.flights1}" var="flight" 
+                                                     rowKey="#{flight.id}" selection="#{flightLookupManagedBean.returnTransferFlight1}" selectionMode="single">
+                                            <f:facet name="header">
+                                                #{transferFlight.route1}
+                                            </f:facet>
+                                            <p:column headerText="Departure Time">
+                                                <h:outputText value="#{flight.departureDate}" />
+                                            </p:column>
 
-                                        <p:column headerText="Aircraft Type">
-                                            <h:outputText value="#{flight.aircraft.aircraftType}" />
-                                        </p:column>
+                                            <p:column headerText="Arrival Time">
+                                                <h:outputText value="#{flight.arrivalDate}" />
+                                            </p:column>
 
-                                        <p:column headerText="Lowest fare under #{flightLookupManagedBean.seatClass}">
-                                            <h:outputText value="#{flightLookupManagedBean.getLowestFare(flight)}" />
-                                        </p:column>
+                                            <p:column headerText="Duration (hours)">
+                                                <h:outputText value="#{flightLookupManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                            </p:column>
 
-                                    </p:dataTable>
+                                            <p:column headerText="Aircraft Type">
+                                                <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                            </p:column>
 
-                                    <p:dataTable value="#{transferFlight.flights2}" var="flight"
-                                                 rowKey="#{flight.id}" selection="#{flightLookupManagedBean.returnTransferFlight2}" selectionMode="single">
-                                        <f:facet name="header">
-                                            #{transferFlight.route2}
-                                        </f:facet>
-                                        <p:column headerText="Departure Time">
-                                            <h:outputText value="#{flight.departureDate}" />
-                                        </p:column>
+                                            <p:column headerText="Lowest fare under #{flightLookupManagedBean.seatClass}">
+                                                <h:outputText value="S$ #{flightLookupManagedBean.getLowestFare(flight)}" />
+                                            </p:column>
 
-                                        <p:column headerText="Arrival Time">
-                                            <h:outputText value="#{flight.arrivalDate}" />
-                                        </p:column>
+                                        </p:dataTable>
 
-                                        <p:column headerText="Duration (hours)">
-                                            <h:outputText value="#{flightLookupManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
-                                        </p:column>
+                                        <p:dataTable value="#{transferFlight.flights2}" var="flight"
+                                                     rowKey="#{flight.id}" selection="#{flightLookupManagedBean.returnTransferFlight2}" selectionMode="single">
+                                            <f:facet name="header">
+                                                #{transferFlight.route2}
+                                            </f:facet>
+                                            <p:column headerText="Departure Time">
+                                                <h:outputText value="#{flight.departureDate}" />
+                                            </p:column>
 
-                                        <p:column headerText="Aircraft Type">
-                                            <h:outputText value="#{flight.aircraft.aircraftType}" />
-                                        </p:column>
+                                            <p:column headerText="Arrival Time">
+                                                <h:outputText value="#{flight.arrivalDate}" />
+                                            </p:column>
 
-                                        <p:column headerText="Lowest fare under #{flightLookupManagedBean.seatClass}">
-                                            <h:outputText value="#{flightLookupManagedBean.getLowestFare(flight)}" />
-                                        </p:column>
+                                            <p:column headerText="Duration (hours)">
+                                                <h:outputText value="#{flightLookupManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                            </p:column>
 
-                                    </p:dataTable>
+                                            <p:column headerText="Aircraft Type">
+                                                <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                            </p:column>
 
+                                            <p:column headerText="Lowest fare under #{flightLookupManagedBean.seatClass}">
+                                                <h:outputText value="S$ #{flightLookupManagedBean.getLowestFare(flight)}" />
+                                            </p:column>
+
+                                        </p:dataTable>
+
+                                        <br/>
+                                    </c:forEach>
+
+                                </c:if>
+
+
+                                <c:if test="#{not flightLookupManagedBean.returnHasTransferFlight}">
+                                    <h:outputText value="No transfer options flights found." />
                                     <br/>
-                                </c:forEach>
+                                </c:if>
 
                             </c:if>
 
@@ -357,11 +379,17 @@
 
             <p:tab title="3 Select Booking Class" class="panel panel-primary" disabled="#{flightLookupManagedBean.tab3Disabled}">
 
-                <c:forEach items="#{flightLookupManagedBean.bookingClassCandidatesList}" var="bookingClassList">
-                    <h:form>
-                        <p:dataTable value="#{bookingClassList}" var="bookingClass" selectionMode="single" rowKey="#{bookingClass.id}">
+                <h:form>
+
+                    <c:if test="#{flightLookupManagedBean.selectedDepartureDirectFlight()}">
+
+                        <p:dataTable value="#{flightLookupManagedBean.departureDirectFlightBookingClassCandidates}" var="bookingClass" 
+                                     selectionMode="single" selection="#{flightLookupManagedBean.departureDirectFlightBookingClass}" rowKey="#{bookingClass.id}">
+
                             <f:facet name="header">
-                                #{bookingClassList.get(0).flight}
+                                #{flightLookupManagedBean.departureDirectFlightBookingClassCandidates.get(0).flight.route}:
+                                #{flightLookupManagedBean.departureDirectFlightBookingClassCandidates.get(0).flight.departureDate} 
+                                - #{flightLookupManagedBean.departureDirectFlightBookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
                             <p:column headerText="Booking Class Name" style="width: 20%">
@@ -372,16 +400,143 @@
                                 <h:outputText value="Rules associated with this booking class" />
                             </p:column>
 
-                            <p:column headerText="Price ($)" style="width: 15%">
-                                <h:outputText value="#{bookingClass.price}" />
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
                         </p:dataTable>
-                    </h:form>
-                </c:forEach>
+
+                    </c:if>
+
+                    <c:if test="#{flightLookupManagedBean.selectedDepartureTransferFlight()}">
+
+                        <p:dataTable value="#{flightLookupManagedBean.departureTransferFlight1BookingClassCandidates}" var="bookingClass" 
+                                     selectionMode="single" selection="#{flightLookupManagedBean.departureTransferFlight1BookingClass}" rowKey="#{bookingClass.id}">
+
+                            <f:facet name="header">
+                                #{flightLookupManagedBean.departureTransferFlight1BookingClassCandidates.get(0).flight.route}: 
+                                #{flightLookupManagedBean.departureTransferFlight1BookingClassCandidates.get(0).flight.departureDate} - 
+                                #{flightLookupManagedBean.departureTransferFlight1BookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="Rules associated with this booking class" />
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dataTable value="#{flightLookupManagedBean.departureTransferFlight2BookingClassCandidates}" var="bookingClass" 
+                                     selectionMode="single" selection="#{flightLookupManagedBean.departureTransferFlight2BookingClass}" rowKey="#{bookingClass.id}">
+
+                            <f:facet name="header">
+                                #{flightLookupManagedBean.departureTransferFlight2BookingClassCandidates.get(0).flight.route}: 
+                                #{flightLookupManagedBean.departureTransferFlight2BookingClassCandidates.get(0).flight.departureDate} - 
+                                #{flightLookupManagedBean.departureTransferFlight2BookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="Rules associated with this booking class" />
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </c:if>
+
+                    <c:if test="#{flightLookupManagedBean.selectedReturnDirectFlight()}">
+
+                        <p:dataTable value="#{flightLookupManagedBean.returnDirectFlightBookingClassCandidates}" var="bookingClass" 
+                                     selectionMode="single" selection="#{flightLookupManagedBean.returnDirectFlightBookingClass}" rowKey="#{bookingClass.id}">
+
+                            <f:facet name="header">
+                                #{flightLookupManagedBean.returnDirectFlightBookingClassCandidates.get(0).flight.route}: 
+                                #{flightLookupManagedBean.returnDirectFlightBookingClassCandidates.get(0).flight.departureDate} - 
+                                #{flightLookupManagedBean.returnDirectFlightBookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="Rules associated with this booking class" />
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </c:if>
+
+                    <c:if test="#{flightLookupManagedBean.selectedReturnTransferFlight()}">
+
+                        <p:dataTable value="#{flightLookupManagedBean.returnTransferFlight1BookingClassCandidates}" var="bookingClass" 
+                                     selectionMode="single" selection="#{flightLookupManagedBean.returnTransferFlight1BookingClass}" rowKey="#{bookingClass.id}">
+
+                            <f:facet name="header">
+                                #{flightLookupManagedBean.returnTransferFlight1BookingClassCandidates.get(0).flight.route}: 
+                                #{flightLookupManagedBean.returnTransferFlight1BookingClassCandidates.get(0).flight.departureDate} - 
+                                #{flightLookupManagedBean.returnTransferFlight1BookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="Rules associated with this booking class" />
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dataTable value="#{flightLookupManagedBean.returnTransferFlight2BookingClassCandidates}" var="bookingClass" 
+                                     selectionMode="single" selection="#{flightLookupManagedBean.returnTransferFlight2BookingClass}" rowKey="#{bookingClass.id}">
+
+                            <f:facet name="header">
+                                #{flightLookupManagedBean.returnTransferFlight2BookingClassCandidates.get(0).flight.route}: 
+                                #{flightLookupManagedBean.returnTransferFlight2BookingClassCandidates.get(0).flight.departureDate} - 
+                                #{flightLookupManagedBean.returnTransferFlight2BookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="Rules associated with this booking class" />
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </c:if>                    
+
+                    <p:commandButton class="btn-sm btn-primary" value="Proceed" actionListener="#{flightLookupManagedBean.submitBookingClasses()}"/>
+
+                </h:form>
 
             </p:tab>
 
         </p:tabView>
 
     </ui:define>
+
 </ui:composition>
