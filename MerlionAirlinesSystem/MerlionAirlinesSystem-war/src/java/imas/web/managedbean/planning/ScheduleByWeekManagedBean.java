@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -52,13 +53,14 @@ public class ScheduleByWeekManagedBean implements Serializable {
     private List<Date> departureDates;
     private List<FlightEntity> flightsGenerated;
     private Integer planningPeriod;
-@EJB
+    @EJB
     private FleetAssignmentCheckLocal assignmentCheckLocal;
     @EJB
     private AircraftSessionBeanLocal aircraftSessionBean;
-    
+
     @EJB
     private CrewSchedulingCheckLocal crewSchedulingCheckLocal;
+
     /**
      * Creates a new instance of ScheduleByWeekManagedBean
      */
@@ -85,10 +87,32 @@ public class ScheduleByWeekManagedBean implements Serializable {
 
     }
 
+    public Boolean checkFlightNo(List<FlightEntity> flights) {
+        for (FlightEntity f : flights) {
+            String flightNo = f.getFlightNo();
+            String returnFlightNo = f.getReverseFlight().getFlightNo();
+            int count = 0;
+            for (FlightEntity f1 : flights) {
+                String flightNoSecond = f1.getFlightNo();
+                String returnFlightNoSecond = f1.getReverseFlight().getFlightNo();
+                if ((flightNo.equals(flightNoSecond) || returnFlightNo.equals(returnFlightNoSecond)) && f.getDepartureDate().equals(f1.getDepartureDate())) {
+                    count++;
+                }
+            }
+            if(count>1)
+                return false;
+        }
+        return true;
+    }
+
     public void generateFlightsByWeek() throws IOException {
-        flightsGenerated = new ArrayList<FlightEntity>();
-        Date departureDateTemp = dateOperate;
-        Date startingDate = dateOperate;
+        if (!checkFlightNo(flights)) {
+            System.err.println("Enter generate flights by week! wrong" + flights.size());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Please take note of the duplicate flight number"));
+        } else {
+            flightsGenerated = new ArrayList<FlightEntity>();
+            Date departureDateTemp = dateOperate;
+            Date startingDate = dateOperate;
 //        SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
 //        String inputString1 = "31 12 " + yearSelected;
 
@@ -99,48 +123,47 @@ public class ScheduleByWeekManagedBean implements Serializable {
 //        System.err.println("diffdays:" + diffDays);
 //        Calendar cal = Calendar.getInstance();
 //        int days = (int) diffDays;
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(startingDate);
-        yearSelected = cal.get(Calendar.YEAR);
-        System.err.println("yearselected" + yearSelected);
-        cal.add(Calendar.YEAR, planningPeriod);
-        Date EndingDate = cal.getTime();
-        ArrayList<FlightEntity> flightsToTest = new ArrayList<>();
-        while (departureDateTemp.compareTo(EndingDate) <= 0) {
-            for (FlightEntity f : flights) {
-                FlightEntity f1 = new FlightEntity(yearSelected);
-                
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startingDate);
+            yearSelected = cal.get(Calendar.YEAR);
+            System.err.println("yearselected" + yearSelected);
+            cal.add(Calendar.YEAR, planningPeriod);
+            Date EndingDate = cal.getTime();
+            ArrayList<FlightEntity> flightsToTest = new ArrayList<>();
+            while (departureDateTemp.compareTo(EndingDate) <= 0) {
+                for (FlightEntity f : flights) {
+                    FlightEntity f1 = new FlightEntity(yearSelected);
 
-                //set the departure time of flight in the flights 
-                Date departureT = combineThreeDate(departureDateTemp, f.getWeekDay(), f.getDepartureDate());
-                f1.setDepartureDate(departureT);
-                cal.setTime(departureT);
-                cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
-                f1.setFlightNo(f.getFlightNo());
-                f1.setArrivalDate(cal.getTime());
-                f1.setReverseFlight(new FlightEntity(yearSelected));
-                f1.getReverseFlight().setFlightNo(f.getReverseFlight().getFlightNo());
-                f1.getReverseFlight().setRoute(routeSelected.getReverseRoute());
-                f1.setRoute(f.getRoute());
-                 departureT = combineThreeDate(departureDateTemp, f.getReverseFlight().getWeekDay(), f.getReverseFlight().getDepartureDate());
-               
-                f1.getReverseFlight().setDepartureDate(departureT);
-                cal.setTime(departureT);
-                cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
-                
-                f1.getReverseFlight().setArrivalDate(cal.getTime());
-                f1.getReverseFlight().setReverseFlight(f1);
+                    //set the departure time of flight in the flights 
+                    Date departureT = combineThreeDate(departureDateTemp, f.getWeekDay(), f.getDepartureDate());
+                    f1.setDepartureDate(departureT);
+                    cal.setTime(departureT);
+                    cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
+                    f1.setFlightNo(f.getFlightNo());
+                    f1.setArrivalDate(cal.getTime());
+                    f1.setReverseFlight(new FlightEntity(yearSelected));
+                    f1.getReverseFlight().setFlightNo(f.getReverseFlight().getFlightNo());
+                    f1.getReverseFlight().setRoute(routeSelected.getReverseRoute());
+                    f1.setRoute(f.getRoute());
+                    departureT = combineThreeDate(departureDateTemp, f.getReverseFlight().getWeekDay(), f.getReverseFlight().getDepartureDate());
+
+                    f1.getReverseFlight().setDepartureDate(departureT);
+                    cal.setTime(departureT);
+                    cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
+
+                    f1.getReverseFlight().setArrivalDate(cal.getTime());
+                    f1.getReverseFlight().setReverseFlight(f1);
 //                routeSession.saveReturnFlights(f1);
-                flightsToTest.add(f1);
-                flightsToTest.add(f1.getReverseFlight());
-                System.err.println("generatebyday" + f1);
+                    flightsToTest.add(f1);
+                    flightsToTest.add(f1.getReverseFlight());
+                    System.err.println("generatebyday" + f1);
+                }
+                System.err.println("before add one day");
+                cal.setTime(departureDateTemp);
+                cal.add(Calendar.DATE, 7);
+                departureDateTemp = cal.getTime();
+                System.err.println("departuredayafter add one day" + departureDateTemp);
             }
-            System.err.println("before add one day");
-            cal.setTime(departureDateTemp);
-            cal.add(Calendar.DATE, 7);
-            departureDateTemp = cal.getTime();
-            System.err.println("departuredayafter add one day" + departureDateTemp);
-        }
 
         List<FlightEntity> prevFlights = assignmentCheckLocal.getParticularPlanningPeriodFlights(planningPeriod, startingDate);
         List<FlightEntity> flightsCheck = new ArrayList<>();
@@ -187,15 +210,16 @@ List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
         }
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsToTest", flightsToTest);
 
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassigned", flightsUnassigned);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassignedPilot", flightsUnassignedPilot);
-      FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassignedCabinCrew", flightsUnassignedCabinCrew);
-      
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routeSelected", routeSelected);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("yearSelected", yearSelected);
-        ExternalContext ec = fc.getExternalContext();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassigned", flightsUnassigned);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassignedPilot", flightsUnassignedPilot);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassignedCabinCrew", flightsUnassignedCabinCrew);
+
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routeSelected", routeSelected);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("yearSelected", yearSelected);
+            ExternalContext ec = fc.getExternalContext();
 //        ec.redirect("planningDisplayFlightsGenerated.xhtml");
-        ec.redirect("planningFrequencyAvailabilityCheck.xhtml");
+            ec.redirect("planningFrequencyAvailabilityCheck.xhtml");
+        }
     }
 
     //ai got mininue and hour ...
@@ -286,16 +310,19 @@ List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
         flightEntity.setArrivalDate(halfHourBack);
         cal.add(Calendar.MINUTE, 60);
         flightEntity.getReverseFlight().setDepartureDate(cal.getTime());
-                cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
-                flightEntity.getReverseFlight().setArrivalDate(cal.getTime());
+        cal.add(Calendar.MINUTE, (int) (routeSelected.getFlightHours() * 60 + 0.5d));
+        flightEntity.getReverseFlight().setArrivalDate(cal.getTime());
     }
-    public String getTimeName(Date date){
-        if(date ==null)
+
+    public String getTimeName(Date date) {
+        if (date == null) {
             return "";
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         return dateFormat.format(date);
-        
+
     }
+
     public Integer countPlusOne() {
         count = count + 1;
         return count;

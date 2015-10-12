@@ -57,5 +57,7 @@ public interface RouteSessionBeanLocal {
     List<FlightEntity> retrieveAllFlightsGenerated(Integer year, RouteEntity route);
 
     void updateRouteTime(RouteEntity route, Double time);
+
+    Double getSpeed(Double range);
     
 }

@@ -5,6 +5,7 @@
  */
 package imas.distribution.sessionbean;
 
+import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +25,9 @@ import javax.persistence.Query;
  */
 @Stateless
 public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
+    
+    @EJB
+    private DistributionSessionBeanLocal distributionSessionBean;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -130,8 +135,19 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
         return after.getTime();
     }
     
+    // for a given flight and seatClass, return all bookingclass under that seat class which has available quota
     @Override
-    public double getLowestFareAvailable(FlightEntity flight, String SeatClass) {
-        return 0;
+    public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass) {
+        List<BookingClassEntity> allBookingClassesUnderFlight = flight.getBookingClasses();
+        List<BookingClassEntity> allBookingClassUnderFlightUnderSeatClass = new ArrayList<>();
+        
+        for (BookingClassEntity bookingClassEntity: allBookingClassesUnderFlight) {
+            if (bookingClassEntity.getSeatClass().equals(seatClass) && distributionSessionBean.getQuotaLeft(bookingClassEntity) > 0) {
+                allBookingClassUnderFlightUnderSeatClass.add(bookingClassEntity);
+            }
+        }
+        
+        return allBookingClassUnderFlightUnderSeatClass;
     }
+    
 }

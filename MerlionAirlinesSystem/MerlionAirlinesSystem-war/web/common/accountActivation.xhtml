@@ -32,10 +32,10 @@
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="79%" 
                           style="padding: 20px 15px !important">
-                <h:form>
+                <h:form id="activate">
                     <p:growl id="growl" showDetail="true"/>
 
-                    <p:wizard flowListener="#{accountActivationManagedBean.onFlowProcess}">
+                    <p:wizard flowListener="#{accountActivationManagedBean.onFlowProcess}" showStepStatus="false">
                         <p:tab id="staffInformation" title="">
                             <p:panel header="Staff Information">
                                 <p:messages id="editInformation"/>
@@ -68,9 +68,7 @@
                         </p:tab>
 
                         <p:tab id="resetPassword" title="">
-                            <p:panel header="Reset Password">
-
-
+                            <p:panel header="Reset Password" visible="#{accountActivationManagedBean.passwordReset}">
                                 <p:messages id="Msg" />
                                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
                                     <p:outputLabel for="originPassword" value="Please input your original password" />
@@ -85,10 +83,12 @@
                                     <p:password style="width:100%;" id="newRepeatPassword" value="#{accountActivationManagedBean.newRepeatPassword}" label="newRepeatPassword" required="true" requiredMessage="Please repeat the new password">
                                     </p:password>
                                 </h:panelGrid>
-                                <p:commandButton id="changePassword" style="margin-left: auto; margin-right: auto" value="Save" actionListener="#{accountActivationManagedBean.changePassword}" update="Msg" />
+                                <p:commandButton id="changePassword" style="margin-left: auto; margin-right: auto" value="Save" actionListener="#{accountActivationManagedBean.changePassword}" update="Msg"/>
 
 
                             </p:panel>
+
+                            
                         </p:tab>
 
                         <p:tab id="confirm" title="">

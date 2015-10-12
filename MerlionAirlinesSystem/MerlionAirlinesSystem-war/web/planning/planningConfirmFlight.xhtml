@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Planning - Add Flight (manually insert)</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Manage Aircraft</a></li>
+
+
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Manage Airport</a></li>
+                <li><a href="planningRoute.xhtml">Manage Route</a></li>
+                
+                <li class="sidebar-h1">Flight Planning</li>
+                <li><a href="planningFlightManagement.xhtml">Manage Flight</a></li>
+                <li><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+
+        <h:form>
+            <p:growl id="growl" showDetail="true"/>
+            <p:panel header="Flight created! Details shown below" class="panel panel-success">
+
+                <!--                <p:messages />-->
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel value="Route: #{flightManagedBean.route.originAirport.airportName} to #{flightManagedBean.route.destinationAirport.airportName}" />
+                    <br/>
+                    <p:outputLabel value="Flight number: #{flightManagedBean.flightNo}"/>
+                    <br/>
+                    <p:outputLabel value="Departure date: #{flightManagedBean.departureDate}"/>
+                    <br/>
+                    <p:outputLabel value="Arrival date: #{flightManagedBean.arrivalDate}"/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="Return flight number: #{flightManagedBean.returnFlightNo}"/>
+                    <br/>
+                    <p:outputLabel value="Departure date: #{flightManagedBean.departureDateR}"/>
+                    <br/>
+                    <p:outputLabel value="Arrival date: #{flightManagedBean.arrivalDateR}"/>
+                    <br/>
+                    <p:outputLabel value="Aircraft: #{flightManagedBean.aircraft.tailId}, #{flightManagedBean.aircraft.aircraftType.IATACode}"/>
+                    <br/>
+                    
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <p:link outcome="planningAddFlight.xhtml" value="Back"/>
+    </ui:define>
+
+</ui:composition>
+

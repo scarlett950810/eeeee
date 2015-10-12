@@ -9,8 +9,13 @@ import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftGroupEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.FlightEntity;
+import imas.planning.entity.MaintenanceScheduleEntity;
+import imas.planning.entity.RouteEntity;
 import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -82,7 +87,7 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
         createSeats(newAircraft, PremiumEconomyClassColumnNo, startRow, PremiumEconomyClassRowNo, "Premium Economy Class");
         startRow = startRow + PremiumEconomyClassRowNo;
         createSeats(newAircraft, EconomyClassColumnNo, startRow, EconomyClassRowNo, "Economy Class");
-        System.out.println("seats created ");
+//        System.out.println("seats created ");
     }
 
     private void createSeats(AircraftEntity aircraft, int column, int startRow, int row, String seatClass) {
@@ -141,6 +146,51 @@ public class AircraftSessionBean implements AircraftSessionBeanLocal {
         aircraftEntityToUpdate.setAirportHub(aircraftUpdated.getAirportHub());
         aircraftEntityToUpdate.setCurrentAirport(aircraftUpdated.getCurrentAirport());
         aircraftEntityToUpdate.setAircraftGroup(aircraftUpdated.getAircraftGroup());
+    }
+
+    @Override
+    public List<AircraftEntity> retrieveAvailableAircrafts(RouteEntity route, Date departureDate, Date arrivalDate) {
+        AirportEntity origin = route.getOriginAirport();
+        AirportEntity destination = route.getDestinationAirport();
+        List<AircraftEntity> aircrafts = getAircrafts();
+        List<AircraftEntity> availableAircrafts = new ArrayList<>();
+        Double hours = route.getFlightHours();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(departureDate);
+        cal.add(Calendar.MINUTE, (int) (route.getFlightHours() * 60 * 2 + 60 + 0.5d));
+        Date newArrivalDate = cal.getTime();
+        for(AircraftEntity a: aircrafts){
+            List<FlightEntity> flights = a.getFlights();
+            if(!a.getAirportHub().equals(origin)){
+                System.err.println(a+"not the correct hub");
+                continue;
+            }
+            Boolean conflict = false;    
+            for(FlightEntity f: flights){
+                Date tempDeparture = f.getDepartureDate();
+                Date tempArrival = f.getArrivalDate();
+                
+                if((tempDeparture.after(departureDate)&&tempDeparture.before(newArrivalDate))||(tempArrival.after(departureDate)&&tempArrival.before(newArrivalDate))||(tempDeparture.before(departureDate)&&tempArrival.after(newArrivalDate))){
+                    conflict = true; 
+                    break;
+                }
+                
+            }
+            List<MaintenanceScheduleEntity> maintenanceScheduleList = a.getMaintenances();
+            for(MaintenanceScheduleEntity m: maintenanceScheduleList){
+                Date mStart = m.getStartingTime();
+                Date mEnd = m.getEndingTime();
+                if((mStart.after(departureDate)&&mStart.before(newArrivalDate))||(mEnd.after(departureDate)&&mEnd.before(newArrivalDate))||(mStart.before(departureDate)&&mEnd.after(newArrivalDate))){
+                    conflict = true;
+                    break;
+                }
+            }
+            if(!conflict)
+                availableAircrafts.add(a);
+        }
+        
+    
+        return availableAircrafts;
     }
 
 }

@@ -11,6 +11,10 @@ import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import imas.inventory.sessionbean.CostManagementSessionBeanLocal;
+import imas.planning.entity.RouteEntity;
+import imas.planning.sessionbean.RouteSessionBeanLocal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
@@ -31,16 +35,90 @@ public class InventoryCostManagedBean implements Serializable {
 
     @EJB
     private CostManagementSessionBeanLocal costSession;
+    private RouteEntity selectedRoute;
+    private List<RouteEntity> routes;
     private List<CostPairEntity> costTable;
     private TreeNode root;
     private CostPairEntity selectedCost;
     private Double newCost;
     private int cellId = 0;
+    private boolean display = false;
+
+    @EJB
+    private RouteSessionBeanLocal routeSession;
 
     @PostConstruct
-    public void init() {
+    public void init()
+    {
 //        costTable = costSession.createTable();
-        root = costSession.createRoot();
+        List<CostPairEntity> list = new ArrayList<CostPairEntity>();
+        list.add(new CostPairEntity("Cost per seat per mile", 0.0,0));//0*
+        list.add(new CostPairEntity("Fixed cost per seat per mile", 0.0,1));//1*
+        list.add(new CostPairEntity("Flight distance per seat per day", 0.0,2));//2
+        list.add(new CostPairEntity("Fixed cost per seat", 0.0,3));//3*
+        list.add(new CostPairEntity("Operating cost per seat", 0.0,4));//4
+        list.add(new CostPairEntity("Other cost per seat", 0.0,5));//5
+        list.add(new CostPairEntity("Flight variable cost per seat per mile", 0.0,6));//6*
+        list.add(new CostPairEntity("Oil cost per seat per mile", 0.0,7));//7
+        list.add(new CostPairEntity("Crew cost per seat per mile", 0.0,8));//8
+        list.add(new CostPairEntity("Maintainence cost per seat per mile", 0.0,9));//9
+        list.add(new CostPairEntity("Tolls per seat per mile for take-off/landing", 0.0,10));//10
+        list.add(new CostPairEntity("Other variable cost per seat per mile", 0.0,11));//11
+        list.add(new CostPairEntity("Passenger cost per seat per mile", 0.0,12));//12*
+        list.add(new CostPairEntity("Show rate", 1.0,13));//13
+        list.add(new CostPairEntity("Average flight distance per passenger", 0.0,14));//14
+        list.add(new CostPairEntity("Average cost per passenger", 0.0,15));//15
+        list.add(new CostPairEntity("Sales cost per passenger", 0.0,16));//16
+        list.add(new CostPairEntity("Airport fee per passenger", 0.0,17));//17
+        list.add(new CostPairEntity("Check-in cost per passenger", 0.0,18));//18
+        list.add(new CostPairEntity("Meal cost per passenger", 0.0,19));//19
+        list.add(new CostPairEntity("Service cost per passenger", 0.0,20));//20
+        list.add(new CostPairEntity("First class service cost per passenger", 0.0,21));//21
+        list.add(new CostPairEntity("Delay cost per passenger", 0.0,22));//22
+        root = costSession.createRoot(list);
+    }
+
+    public RouteEntity getSelectedRoute() {
+        return selectedRoute;
+    }
+
+    public boolean isDisplay() {
+        return display;
+    }
+
+    public void setDisplay(boolean display) {
+        this.display = display;
+    }
+
+    public void setSelectedRoute(RouteEntity selectedRoute) {
+        this.selectedRoute = selectedRoute;
+    }
+
+    public List<RouteEntity> getRoutes() {
+        List<RouteEntity> routesAll = routeSession.retrieveAllRoutes();
+        routes = routeSession.filterRoutesToConnections(routesAll);
+        System.out.println("enter getconnectionsall");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routesRangeList", routes);
+        return routes;
+    }
+
+    public void setRoutes(List<RouteEntity> routes) {
+        this.routes = routes;
+    }
+
+    public void onRouteChange() {
+        display = true;
+        if (selectedRoute != null) {
+            System.out.print(selectedRoute);
+
+            if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null||selectedRoute.getCostPair().size()<23) {
+                costSession.intiCostTable(selectedRoute);
+            }
+            costTable=costSession.getList(selectedRoute);
+            root = costSession.createRoot(costTable);
+            System.out.print("111111111111111111");
+
+        }
     }
 
     public void updateCostActionListener(ActionEvent event) {
@@ -65,12 +143,13 @@ public class InventoryCostManagedBean implements Serializable {
             FacesMessage msg = new FacesMessage("Sorry", "Please Enter the new cost");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            costSession.updateCost(selectedCost.getCostType(), newCost);
-            root = costSession.createRoot();
+            costSession.updateCost(selectedRoute, selectedCost.getCostType(), newCost);
+            root = costSession.createRoot(selectedRoute.getCostPair());
             FacesMessage msg = new FacesMessage("Reminder", selectedCost.getCostType() + " has been changed to " + Double.toString(newCost));
             FacesContext.getCurrentInstance().addMessage(null, msg);
-
         }
+
+//        }
 //        System.out.println(costName);
 //        System.out.println(costFigure);
     }

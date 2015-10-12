@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Planning - Add Flight (manually insert)</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Manage Aircraft</a></li>
+
+
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Manage Airport</a></li>
+                <li><a href="planningRoute.xhtml">Manage Route</a></li>
+                
+                <li class="sidebar-h1">Flight Planning</li>
+                <li><a href="planningFlightManagement.xhtml">Manage Flight</a></li>
+                <li><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        
+        <h:form>
+            <p:growl id="growl" showDetail="false"/>
+            <p:panel header="Add Flight" class="panel panel-success">
+<!--                <p:messages />-->
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="flightNo" value="Flight Number" />
+                    <p:inputText style="width:100%;" id="flightNo" value="#{flightManagedBean.flightNo}" label="flightNo" required="true" requiredMessage="Please input flight number">
+                        <p:watermark for="flightNo" value="Please input flight number" />
+                    </p:inputText>
+                    
+                    <p:outputLabel for="returnFlightNo" value="Return Flight Number" />
+                    <p:inputText style="width:100%;" id="returnFlightNo" value="#{flightManagedBean.returnFlightNo}" label="returnFlightNo" required="true" requiredMessage="Please input return flight number">
+                        <p:watermark for="returnFlightNo" value="Please input return flight number" />
+                    </p:inputText>  
+                    
+                    <p:outputLabel value="Route " />
+                    <p:selectOneMenu id="route" value="#{flightManagedBean.route}" style="width:400px" required="true" requiredMessage="Please select route" converter="routeConverter">                        
+                        <p:ajax listener="#{flightManagedBean.onRouteChange()}" update="aircraft" />
+                        <f:selectItem itemLabel="Select Route" itemDisabled="true" />
+                        <f:selectItems value="#{scheduleDevelopmentManagedBean.connectionsAll}" var="connection" itemLabel="#{connection.returnRoutesName}" itemValue="#{connection}" />
+                    </p:selectOneMenu>
+                   
+                    
+                    
+                    
+                    
+                    
+                    <p:outputLabel value="Departure time " />
+                    <p:calendar id="departureDate" value="#{flightManagedBean.departureDate}" required="true" requiredMessage="Please select departure time" pattern="MM/dd/yyyy HH:mm">                                            
+                        <p:ajax event="dateSelect" listener="#{flightManagedBean.dateSelectListenerOneWay(event)}" update="arrivalDate departureDateR arrivalDateR aircraft" />                        
+                        <f:attribute name="departureD" value="#{flightManagedBean.departureDate}" />
+                    </p:calendar>
+                    
+                    <p:outputLabel value="Arrival time" />
+                    <h:outputText id="arrivalDate" value="#{flightManagedBean.getTimeName()}"/>
+                    
+                    
+                    
+                    
+                    <p:outputLabel value="Return departure time " />
+                    <p:calendar id="departureDateR" value="#{flightManagedBean.departureDateR}" required="true" requiredMessage="Please select return departure time" pattern="MM/dd/yyyy HH:mm">                                            
+                        <p:ajax event="dateSelect" listener="#{flightManagedBean.dateSelectListenerReturnWay(event)}" update="arrivalDateR aircraft" />     
+                        <f:attribute name="departureDR" value="#{flightManagedBean.departureDateR}" />
+                    </p:calendar>
+                    
+                    <p:outputLabel value="Return arrival time" />
+                    <h:outputText id="arrivalDateR" value="#{flightManagedBean.getReturnTimeName()}"/>
+                    
+                    <p:outputLabel value="Aircraft for this flight"/>
+                    <p:selectOneMenu id="aircraft" value="#{flightManagedBean.aircraft}" style="width:400px" required="true" requiredMessage="Please select aircraft" converter="aircraftConverter">                        
+                        <f:selectItem itemLabel="Select Aircraft" itemDisabled="true" />
+                        <f:selectItems value="#{flightManagedBean.aircrafts}" var="aircraft" itemLabel="tailId: #{aircraft.tailId}; aircraft type: #{aircraft.aircraftType.IATACode}" itemValue="#{aircraft}" />
+                    </p:selectOneMenu>
+                    
+                    <p:commandButton id="addFlight" value="confirm" actionListener="#{flightManagedBean.goAddCrew()}" update="growl"
+                                     class="btn-sm btn-success" />  
+
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        
+        <p:link outcome="planningHomePage.xhtml" value="Back"/>
+    </ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <title><ui:insert name="title">Welcome to Merlion Airline</ui:insert></title>
+        <ui:insert name="head"></ui:insert>
+        <style>
+            #loadingDiv {
+                box-shadow: none !important;
+                background: transparent !important;
+                border: none !important;
+            }
+            #layoutUnit_center{
+                top: 100px !important;
+            }
+            #layoutUnit_center .ui-widget-content{
+                background-color: transparent !important;
+            }
+
+            #layoutUnit_top .ui-widget-content{
+                background-color: #ffffff !important;
+            }
+            .ui-widget-content{
+                border: 0px;
+            }
+            ul {
+                text-align: center;
+                display: inline;
+                margin-left: 10%;
+                padding: 15px 4px 17px 0;
+                list-style: none;
+                -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+                -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+
+            }
+            ul li {
+                font: bold 12px/18px sans-serif;
+                display: inline-block;
+                margin-right: -4px;
+                position: relative;
+                padding: 15px 20px;
+                background: #fff;
+                cursor: pointer;
+                -webkit-transition: all 0.2s;
+                -moz-transition: all 0.2s;
+                -ms-transition: all 0.2s;
+                -o-transition: all 0.2s;
+                transition: all 0.2s;
+                width: 16.05%;
+                z-index: 10;
+            }
+            ul li:hover {
+                background: #555;
+                color: #fff;
+            }
+            ul li ul {
+                padding: 0;
+                position: absolute;
+                top: 48px;
+                left: 0;
+                width: 150px;
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+                display: none;
+                opacity: 0;
+                visibility: hidden;
+                -webkit-transiton: opacity 0.2s;
+                -moz-transition: opacity 0.2s;
+                -ms-transition: opacity 0.2s;
+                -o-transition: opacity 0.2s;
+                -transition: opacity 0.2s;
+            }
+            ul li ul li { 
+                background: #555; 
+                display: block; 
+                color: #fff;
+                text-shadow: 0 -1px 0 #000;
+                width: 120%;
+            }
+            ul li ul li:hover { background: #666; }
+            ul li:hover ul {
+                display: block;
+                opacity: 1;
+                visibility: visible;
+            }
+
+            #menubar{
+                background-color: white;
+                height: 20px;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+
+
+        <f:facet name="last">
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputStylesheet name="./css/simple-sidebar.css"/>
+            <h:outputScript name="./js/bootstrap.min.js"/>
+            <h:outputStylesheet name="./css/flaty.css"/>
+        </f:facet>
+
+
+
+        <p:layout fullPage="true">
+
+            <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
+                <a href="https://localhost:8081/MerlionAirlinesExternalSystem/index.xhtml">
+                    <p:graphicImage name="img/NEW_LOGO.png" height="100%" style="margin-left: 10%; margin-top: 10px; z-index: 9999"/>
+                </a>
+                <p:outputLabel value="Welcome" style="float: right; margin-top: 40px; margin-right: 10px; color: white"/>
+
+            </p:layoutUnit>
+
+            <p:layoutUnit id="layoutUnit_center" position="center" size="70%"
+                          style="background-color: #001F5F; margin-top: 20px;">
+                <div id="menubar">
+                    <ul>
+                        <li>Home</li>
+                        <li>
+                            Booking Management
+                            <ul>
+                                <a href="distribution/MakeBooking.xhtml"><li>Retrieve My Booking</li></a>
+                                <li>Web Check-in</li>
+                                <li>Flight Status</li>
+                            </ul>
+                        </li>
+                        <li>Frequent Flyer Program</li>
+                        <li>Special Offers</li>
+                        <li>Contact us</li>
+                    </ul>
+                </div>
+                <p:panel style="background-color: white !important; margin: 10px 10% 0 10%; height: auto;">
+                    <ui:insert name="main"></ui:insert>
+                </p:panel>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="5%" style="text-align: center;">
+                <p:outputLabel value="&copy;Merlion Airline"></p:outputLabel>
+            </p:layoutUnit>
+
+        </p:layout>
+
+        <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+
+        </p:ajaxStatus>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+        <p:dialog id="loadingDiv" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage name="./img/ajax-loader.gif" style="background: transparent;" />
+        </p:dialog>
+
+    </h:body>
+
+</html>

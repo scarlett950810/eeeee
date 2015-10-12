@@ -7,13 +7,13 @@ package imas.inventory.sessionbean;
 
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Scarlett
  */
-@Singleton
+@Stateless
 public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     
     private int monthToDeparture;
@@ -30,10 +30,18 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
 
-    @Schedule(second="00", minute="*",hour="*", persistent=false)
+    @Schedule(minute="00",hour="*", persistent=false)
     public void doWork(){
-        System.out.println("Set price timer run every 1 minutes:");
-        monthToDeparture = 12;
+        System.out.println("Set price timer run every 1 hour:");
+        /*
+        set price timer run very one hour
+        to detect flights within 13 months to departure but price not set yet,
+        booking classes would be create automatically for those flights.
+        
+        flights become available for booking 12 months before depature, 
+        thus staff from inventory have 1 month to manually adjust the price.
+        */
+        monthToDeparture = 13;
         seatsManagementSessionBean.autoPriceToDepartureAndUnpricedFlights(monthToDeparture);
     }
     
