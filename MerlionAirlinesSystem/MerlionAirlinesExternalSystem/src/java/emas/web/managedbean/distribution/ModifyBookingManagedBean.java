@@ -8,6 +8,7 @@ package emas.web.managedbean.distribution;
 import imas.distribution.entity.PNREntity;
 import imas.distribution.sessionbean.ModifyBookingSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -40,6 +41,7 @@ public class ModifyBookingManagedBean {
         referenceNumber = ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getParameter("referenceNumber");
         System.out.print(referenceNumber);
         PNR = modifyBookingSessionBean.retrievePNRRecord(referenceNumber);
+        
         
     }
 

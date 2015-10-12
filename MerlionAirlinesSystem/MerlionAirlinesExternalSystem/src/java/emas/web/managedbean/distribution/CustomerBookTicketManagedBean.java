@@ -51,6 +51,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private String postCode;
     private String email;
     private String contactNumber;
+    private List<List<String>> test = new ArrayList<>();
     
 
     public CustomerBookTicketManagedBean() {
@@ -60,7 +61,13 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void init() {
 //        passengers = makeBookingSessionBean.populateData();
 //          passengers.add(new PassengerEntity());
-        
+        for (int i=0; i< 10; i++){
+            List<String> test1 = new ArrayList<>();
+            for(int j=0; j< 6; j++){
+                test1.add(i+"," +j);
+            }
+            test.add(test1);
+        }
     }
 
     public void confirm() throws IOException {
@@ -75,6 +82,10 @@ public class CustomerBookTicketManagedBean implements Serializable {
         makeBookingSessionBean.generateItinerary(null, passengers, title, firstName, lastName, address, city, country, email, contactNumber, "paid");
 //        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?User=Howard");
         System.out.print("finished");
+    }
+    
+    public void selectSeat(){
+        System.out.print(firstName);
     }
     
     public void makeBooking() throws IOException{
@@ -180,6 +191,14 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     public void setFlights(List<FlightEntity> flights) {
         this.flights = flights;
+    }
+
+    public List<List<String>> getTest() {
+        return test;
+    }
+
+    public void setTest(List<List<String>> test) {
+        this.test = test;
     }
     
     

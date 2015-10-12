@@ -3,13 +3,31 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../templates/ClientSideTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="head"></ui:define>
-    
+
     <ui:define name="main">
         <h:form target="_blank">
             <p:commandButton action="#{customerBookTicketManagedBean.confirm()}" value="Confirm" ajax="false"></p:commandButton>
+        </h:form>
+
+        <h:form>
+            <p:selectOneRadio id="test" value="#{customerBookTicketManagedBean.firstName}">
+
+                <c:forEach items="#{customerBookTicketManagedBean.test}" var="collection" >
+                    
+                        <c:forEach items="#{collection}" var="test1" >
+                            <f:selectItem itemLabel="" itemValue="#{test1}" />
+                        </c:forEach>
+                        
+                </c:forEach>
+
+            </p:selectOneRadio>
+            
+            <p:commandButton actionListener="#{customerBookTicketManagedBean.selectSeat}" value="Select"></p:commandButton>
         </h:form>
     </ui:define>
 
