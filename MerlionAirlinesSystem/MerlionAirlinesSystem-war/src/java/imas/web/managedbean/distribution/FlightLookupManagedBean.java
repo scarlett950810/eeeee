@@ -887,7 +887,10 @@ public class FlightLookupManagedBean implements Serializable {
                 passengers.add(passenger);
             }
             
-            System.out.print(passengers);
+            for(int i=0; i<passengers.size(); i++){
+                PassengerEntity passenger = passengers.get(i);
+                System.out.print(passenger.getTickets());
+            }
 
         }
 
