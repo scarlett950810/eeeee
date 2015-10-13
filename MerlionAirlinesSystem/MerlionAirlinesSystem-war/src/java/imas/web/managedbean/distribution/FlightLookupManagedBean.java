@@ -106,6 +106,9 @@ public class FlightLookupManagedBean implements Serializable {
     private List<BookingClassEntity> returnTransferFlight1BookingClassCandidates;
     private List<BookingClassEntity> returnTransferFlight2BookingClassCandidates;
 
+    List<PassengerEntity> passengers = new ArrayList<>();
+    List<FlightEntity> flights = new ArrayList<>();
+
     @PostConstruct
     public void init() {
 
@@ -831,8 +834,6 @@ public class FlightLookupManagedBean implements Serializable {
     public void submitBookingClasses() {
 
         if (checkBookingClassesSubmitted()) {
-            List<PassengerEntity> passengers = new ArrayList<>();
-            List<FlightEntity> flights = new ArrayList<>();
 
             for (int i = 0; i < adultNo + childNo + infantNo; i++) {
                 PassengerEntity passenger = new PassengerEntity();
@@ -880,6 +881,8 @@ public class FlightLookupManagedBean implements Serializable {
 
                 passengers.add(passenger);
             }
+            
+            System.out.print(passengers);
 
         }
 
