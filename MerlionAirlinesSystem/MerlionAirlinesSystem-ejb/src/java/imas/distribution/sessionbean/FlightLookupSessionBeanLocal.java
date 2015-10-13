@@ -40,6 +40,6 @@ public interface FlightLookupSessionBeanLocal {
      * @param seatClass
      * @return
      */
-    public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass);
+    public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass, int totalPurchaseNo);
     
 }

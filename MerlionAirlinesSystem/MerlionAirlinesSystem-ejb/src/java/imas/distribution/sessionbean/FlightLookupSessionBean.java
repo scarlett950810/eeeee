@@ -25,7 +25,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
-    
+
     @EJB
     private DistributionSessionBeanLocal distributionSessionBean;
 
@@ -134,20 +134,21 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
         after.add(Calendar.DATE, daysToadd);
         return after.getTime();
     }
-    
+
     // for a given flight and seatClass, return all bookingclass under that seat class which has available quota
     @Override
-    public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass) {
+    public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass, int totalPurchaseNo) {
+        
         List<BookingClassEntity> allBookingClassesUnderFlight = flight.getBookingClasses();
         List<BookingClassEntity> allBookingClassUnderFlightUnderSeatClass = new ArrayList<>();
-        
-        for (BookingClassEntity bookingClassEntity: allBookingClassesUnderFlight) {
-            if (bookingClassEntity.getSeatClass().equals(seatClass) && distributionSessionBean.getQuotaLeft(bookingClassEntity) > 0) {
+
+        for (BookingClassEntity bookingClassEntity : allBookingClassesUnderFlight) {
+            if (bookingClassEntity.getSeatClass().equals(seatClass) && distributionSessionBean.getQuotaLeft(bookingClassEntity) > totalPurchaseNo) {
                 allBookingClassUnderFlightUnderSeatClass.add(bookingClassEntity);
             }
         }
-        
+
         return allBookingClassUnderFlightUnderSeatClass;
     }
-    
+
 }

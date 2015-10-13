@@ -7,6 +7,7 @@ package imas.web.managedbean.distribution;
 
 import imas.distribution.entity.PassengerEntity;
 import imas.distribution.entity.TicketEntity;
+import imas.distribution.sessionbean.DistributionSessionBeanLocal;
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.distribution.sessionbean.TransferFlight;
 import imas.inventory.entity.BookingClassEntity;
@@ -39,6 +40,9 @@ import org.primefaces.event.UnselectEvent;
 @ManagedBean
 @SessionScoped
 public class FlightLookupManagedBean implements Serializable {
+
+    @EJB
+    private DistributionSessionBeanLocal distributionSessionBean;
 
     @EJB
     private AircraftSessionBeanLocal aircraftSessionBean;
@@ -564,15 +568,44 @@ public class FlightLookupManagedBean implements Serializable {
         return hourNo + " hour " + minNo + " mins";
     }
 
-    public int getLowestFare(FlightEntity flight) {
-        List<BookingClassEntity> bcs = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass);
+    public String getLowestFare(FlightEntity flight) {
+        int totalPurchaseNo = adultNo + childNo + infantNo;
+        List<BookingClassEntity> bcs = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass, totalPurchaseNo);
+
         double lowestFare = Double.MAX_VALUE;
         for (BookingClassEntity bc : bcs) {
             if (bc.getPrice() < lowestFare) {
                 lowestFare = bc.getPrice();
             }
         }
-        return (int) lowestFare;
+        if (!flightSelectionDisabled(flight)) {
+            int lowestFareInt = (int) lowestFare;
+            return "S$" + Integer.toString(lowestFareInt);
+        } else {
+            return "Not enough quota left";
+        }
+
+    }
+
+    public boolean flightSelectionDisabled(FlightEntity flight) {
+        boolean flag = true;
+        int totalPurchaseNo = adultNo + childNo + infantNo;
+
+        List<BookingClassEntity> bcs = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass, totalPurchaseNo);
+
+        if (seatClass.equals("Economy Class")) {
+            for (BookingClassEntity bc : bcs) {
+                if (distributionSessionBean.getQuotaLeft(bc) >= totalPurchaseNo) {
+                    flag = false;
+                }
+            }
+        } else {
+            if (bcs.size() > 0) {
+                flag = false;
+            }
+        }
+
+        return flag;
     }
 
     private void fetchAllAirports() {
@@ -777,17 +810,18 @@ public class FlightLookupManagedBean implements Serializable {
 
     public void initSelectBookingClass() {
 
+        int totalPurchaseNo = adultNo + childNo + infantNo;
         List<List<BookingClassEntity>> bookingClassLists = new ArrayList<>();
 
         if (selectedDepartureDirectFlight()) {
             List<BookingClassEntity> bookingClassList
-                    = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureDirectFlight, seatClass);
+                    = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureDirectFlight, seatClass, totalPurchaseNo);
             departureDirectFlightBookingClassCandidates = bookingClassList;
         } else if (selectedDepartureTransferFlight()) {
             List<BookingClassEntity> bookingClassList1
-                    = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight1, seatClass);
+                    = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight1, seatClass, totalPurchaseNo);
             List<BookingClassEntity> bookingClassList2
-                    = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight2, seatClass);
+                    = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight2, seatClass, totalPurchaseNo);
             departureTransferFlight1BookingClassCandidates = bookingClassList1;
             departureTransferFlight2BookingClassCandidates = bookingClassList2;
         }
@@ -795,18 +829,23 @@ public class FlightLookupManagedBean implements Serializable {
         if (twoWay) {
             if (selectedReturnDirectFlight()) {
                 List<BookingClassEntity> bookingClassList
-                        = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnDirectFlight, seatClass);
+                        = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnDirectFlight, seatClass, totalPurchaseNo);
                 returnDirectFlightBookingClassCandidates = bookingClassList;
             } else if (selectedReturnTransferFlight()) {
                 List<BookingClassEntity> bookingClassList1
-                        = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight1, seatClass);
+                        = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight1, seatClass, totalPurchaseNo);
                 List<BookingClassEntity> bookingClassList2
-                        = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight2, seatClass);
+                        = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight2, seatClass, totalPurchaseNo);
                 returnTransferFlight1BookingClassCandidates = bookingClassList1;
                 returnTransferFlight2BookingClassCandidates = bookingClassList2;
             }
         }
 
+    }
+    
+    public boolean bookingClassSelectionDisabled (BookingClassEntity bc) {
+        int totalPurchaseNo = adultNo + childNo + infantNo;
+        return (distributionSessionBean.getQuotaLeft(bc) < totalPurchaseNo);
     }
 
     public boolean checkBookingClassesSubmitted() {
