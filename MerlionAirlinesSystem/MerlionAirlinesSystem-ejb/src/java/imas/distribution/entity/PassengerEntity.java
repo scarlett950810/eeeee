@@ -26,7 +26,7 @@ public class PassengerEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany
+    @OneToMany(mappedBy = "passenger")
     private List<TicketEntity> tickets;
     
     private String firstName;
@@ -41,6 +41,12 @@ public class PassengerEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date birthdate;
 
+    public PassengerEntity(String firstName, String lastName, String passportNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.passportNumber = passportNumber;
+    }
+        
     public Long getId() {
         return id;
     }

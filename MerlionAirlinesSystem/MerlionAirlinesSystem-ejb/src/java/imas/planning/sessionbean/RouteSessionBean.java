@@ -132,8 +132,6 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     @Override
     public List<RouteEntity> retrieveAllRoutes() {
         Query query = em.createQuery("SELECT a FROM RouteEntity a");
-
-        //       System.out.println("Debug into retrieveAllRoute function");
         return (List<RouteEntity>) query.getResultList();
     }
 

@@ -34,8 +34,7 @@ public class DistributionSessionBean implements DistributionSessionBeanLocal {
     public void makeBooking(BookingClassEntity bookingClass, int number) {
         
         for (int i = 0; i < number; i++) {
-            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getSeatClass(),
-                    bookingClass.getName(), bookingClass.getPrice());
+            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getName(), bookingClass.getPrice());
             entityManager.persist(ticketEntity);
         }
         
@@ -64,8 +63,7 @@ public class DistributionSessionBean implements DistributionSessionBeanLocal {
         List<TicketEntity> tickets = new ArrayList<>();
         
         for (int i = 0; i < number; i++) {
-            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getSeatClass(),
-                    bookingClass.getName(), bookingClass.getPrice());
+            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getName(), bookingClass.getPrice());
             tickets.add(ticketEntity);
         }
         
@@ -97,7 +95,7 @@ public class DistributionSessionBean implements DistributionSessionBeanLocal {
     @Override
     public int getQuotaLeft(BookingClassEntity bookingClassEntity) {
         Query queryForAllCurrentTicketsUnderBookingClass = entityManager.createQuery("SELECT t FROM TicketEntity t "
-                + "WHERE t.flight = : flight AND t.bookingClassName = :bookingClassName");
+                + "WHERE t.flight = :flight AND t.bookingClassName = :bookingClassName");
         queryForAllCurrentTicketsUnderBookingClass.setParameter("flight", bookingClassEntity.getFlight());
         queryForAllCurrentTicketsUnderBookingClass.setParameter("bookingClassName", bookingClassEntity.getName());
         List<TicketEntity> tickets = queryForAllCurrentTicketsUnderBookingClass.getResultList();
