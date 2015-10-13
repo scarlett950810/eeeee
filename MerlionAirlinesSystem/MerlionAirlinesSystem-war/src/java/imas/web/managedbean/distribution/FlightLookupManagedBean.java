@@ -49,7 +49,7 @@ public class FlightLookupManagedBean implements Serializable {
     @EJB
     private FlightLookupSessionBeanLocal flightLookupSessionBean;
 
-    private AirportEntity orginAirport;
+    private AirportEntity originAirport;
     private AirportEntity destinationAirport;
     private boolean twoWay;
     private Date departureDate;
@@ -65,7 +65,7 @@ public class FlightLookupManagedBean implements Serializable {
     private Date returnMaxDate;
 
     private List<AirportEntity> airportList;
-    private List<SelectItem> airportsByCountry;
+    private List<SelectItem> originAirportsByCountry;
     private List<SelectItem> destinationAirportsByCountry;
     private String returnDateDisplay;
 
@@ -275,12 +275,12 @@ public class FlightLookupManagedBean implements Serializable {
     public FlightLookupManagedBean() {
     }
 
-    public AirportEntity getOrginAirport() {
-        return orginAirport;
+    public AirportEntity getOriginAirport() {
+        return originAirport;
     }
 
-    public void setOrginAirport(AirportEntity orginAirport) {
-        this.orginAirport = orginAirport;
+    public void setOriginAirport(AirportEntity originAirport) {
+        this.originAirport = originAirport;
     }
 
     public AirportEntity getDestinationAirport() {
@@ -291,12 +291,12 @@ public class FlightLookupManagedBean implements Serializable {
         this.destinationAirport = destinationAirport;
     }
 
-    public List<SelectItem> getAirportsByCountry() {
-        return airportsByCountry;
+    public List<SelectItem> getOriginAirportsByCountry() {
+        return originAirportsByCountry;
     }
 
-    public void setAirportsByCountry(List<SelectItem> airportsByCountry) {
-        this.airportsByCountry = airportsByCountry;
+    public void setOriginAirportsByCountry(List<SelectItem> originAirportsByCountry) {
+        this.originAirportsByCountry = originAirportsByCountry;
     }
 
     /**
@@ -608,7 +608,7 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     private void fetchAllAirports() {
-        airportsByCountry = new ArrayList<>();
+        originAirportsByCountry = new ArrayList<>();
         List<String> countries = flightLookupSessionBean.getAllCountryNames();
         for (String country : countries) {
             SelectItemGroup group = new SelectItemGroup(country);
@@ -622,17 +622,15 @@ public class FlightLookupManagedBean implements Serializable {
                 selectItems[i] = selectItem;
             }
             group.setSelectItems(selectItems);
-            airportsByCountry.add(group);
+            originAirportsByCountry.add(group);
         }
 
-        destinationAirportsByCountry = airportsByCountry;
+        destinationAirportsByCountry = originAirportsByCountry;
     }
 
-    // obsoleted. 
-    // used to get airports that are linked by direct flight and update the dropdown list for destination.
-    // using this method user can only select direct flights.
-    private void fetchDestinationAirports(AirportEntity originAirport) {
-        destinationAirportsByCountry = new ArrayList<>();
+    private void updateOriginAirportList() {
+
+        originAirportsByCountry = new ArrayList<>();
         List<String> countries = flightLookupSessionBean.getAllCountryNames();
         for (String country : countries) {
             SelectItemGroup group = new SelectItemGroup(country);
@@ -644,20 +642,19 @@ public class FlightLookupManagedBean implements Serializable {
                 AirportEntity airport = airportsInCountry.get(i);
                 SelectItem selectItem = new SelectItem(airport, airport.toString());
 
-                
-                if (airport.equals(orginAirport) || (!flightLookupSessionBean.reachable(originAirport, airport))) {
+                if (airport.equals(destinationAirport) || (!flightLookupSessionBean.reachable(destinationAirport, airport))) {
                     selectItem.setDisabled(true);
                 }
 
                 selectItems[i] = selectItem;
             }
             group.setSelectItems(selectItems);
-            destinationAirportsByCountry.add(group);
+            originAirportsByCountry.add(group);
 
         }
+
     }
 
-    // remove orgin airport from destination airport list
     private void updateDestinationAirportList() {
 
         destinationAirportsByCountry = new ArrayList<>();
@@ -672,7 +669,7 @@ public class FlightLookupManagedBean implements Serializable {
                 AirportEntity airport = airportsInCountry.get(i);
                 SelectItem selectItem = new SelectItem(airport, airport.toString());
 
-                if (airport.equals(orginAirport)) {
+                if (airport.equals(originAirport) || (!flightLookupSessionBean.reachable(originAirport, airport))) {
                     selectItem.setDisabled(true);
                 }
 
@@ -686,9 +683,14 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public void onOriginChange() {
-        if (orginAirport != null) {
-            fetchDestinationAirports(orginAirport);
-//            updateDestinationAirportList();
+        if (originAirport != null) {
+            updateDestinationAirportList();
+        }
+    }
+
+    public void onDestinationChange() {
+        if (destinationAirport != null) {
+            updateOriginAirportList();
         }
     }
 
@@ -723,9 +725,16 @@ public class FlightLookupManagedBean implements Serializable {
 
     public void initSelectFlight() {
 
+        departureDirectFlight = null;
+        departureTransferFlight1 = null;
+        departureTransferFlight2 = null;
+        returnDirectFlight = null;
+        returnTransferFlight1 = null;
+        returnTransferFlight2 = null;
+
         // load departure flight data
         departureDirectRoute
-                = flightLookupSessionBean.getDirectRoute(orginAirport, destinationAirport);
+                = flightLookupSessionBean.getDirectRoute(originAirport, destinationAirport);
         if (departureDirectRoute != null) {
             departureDirectFlightCandidates
                     = flightLookupSessionBean.getAvailableFlights(departureDirectRoute, departureDate, flightLookupSessionBean.getDateAfterDays(departureDate, 1));
@@ -733,18 +742,18 @@ public class FlightLookupManagedBean implements Serializable {
         } else {
             departureHasDirectFlight = false;
         }
-        departureTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, departureDate);
+        departureTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(originAirport, destinationAirport, departureDate);
         departureHasTransferFlight = (departureTransferFlightCandidates.size() > 0);
 
         if (twoWay) {
             // loading return flight data
             returnDirectRoute
-                    = flightLookupSessionBean.getDirectRoute(destinationAirport, orginAirport);
+                    = flightLookupSessionBean.getDirectRoute(destinationAirport, originAirport);
             if (returnDirectRoute != null) {
                 returnDirectFlightCandidates
                         = flightLookupSessionBean.getAvailableFlights(returnDirectRoute, returnDate, flightLookupSessionBean.getDateAfterDays(returnDate, 1));
             }
-            returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, returnDate);
+            returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(originAirport, destinationAirport, returnDate);
             returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
 
         }
@@ -808,6 +817,13 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public void initSelectBookingClass() {
+
+        departureDirectFlightBookingClass = null;
+        departureTransferFlight1BookingClass = null;
+        departureTransferFlight2BookingClass = null;
+        returnDirectFlightBookingClass = null;
+        returnTransferFlight1BookingClass = null;
+        returnTransferFlight2BookingClass = null;
 
         int totalPurchaseNo = adultNo + childNo + infantNo;
         List<List<BookingClassEntity>> bookingClassLists = new ArrayList<>();

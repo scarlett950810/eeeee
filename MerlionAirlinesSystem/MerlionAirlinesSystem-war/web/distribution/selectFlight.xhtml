@@ -25,26 +25,27 @@
 
     <ui:define name="centerPanel">
         <p:growl autoUpdate="true" globalOnly="true" />
-                
+
         <p:tabView id="tabView" activeIndex="#{flightLookupManagedBean.activeIndex}">
             <p:tab title="1 Search creiteria" class="panel panel-primary" disabled="#{flightLookupManagedBean.tab1Disabled}">
-                
+
                 <p:messages />
-                
+
                 <h:form>
                     <h:panelGrid columns="2" cellpadding="5">
 
                         <p:outputLabel for="origin" value="From:" />
-                        <p:selectOneMenu id="origin" value="#{flightLookupManagedBean.orginAirport}" converter="airportConverter"
+                        <p:selectOneMenu id="origin" value="#{flightLookupManagedBean.originAirport}" converter="airportConverter"
                                          filter="true" filterMatchMode="contains" required="true" requiredMessage="Please specify departure airport">
                             <p:ajax listener="#{flightLookupManagedBean.onOriginChange}" update="destination" />
                             <f:selectItem itemLabel="Select Origin Airport" itemDisabled="true" />
-                            <f:selectItems value="#{flightLookupManagedBean.airportsByCountry}" />
+                            <f:selectItems value="#{flightLookupManagedBean.originAirportsByCountry}" />
                         </p:selectOneMenu>
 
                         <p:outputLabel for="destination" value="To:" />
                         <p:selectOneMenu id="destination" value="#{flightLookupManagedBean.destinationAirport}" converter="airportConverter"
                                          filter="true" filterMatchMode="contains" required="true" requiredMessage="Please specify return airport">
+                            <p:ajax listener="#{flightLookupManagedBean.onDestinationChange}" update="destination" />
                             <f:selectItem itemLabel="Select Destination Airport" itemDisabled="true" />
                             <f:selectItems value="#{flightLookupManagedBean.destinationAirportsByCountry}" />
                         </p:selectOneMenu>
@@ -139,7 +140,7 @@
                         </p:selectBooleanCheckbox>
                     </h:panelGrid>
 
-                    <p:panel header="Departure: #{flightLookupManagedBean.orginAirport} to #{flightLookupManagedBean.destinationAirport}" class="panel panel-primary">
+                    <p:panel header="Departure: #{flightLookupManagedBeanoriginAirportt} to #{flightLookupManagedBean.destinationAirport}" class="panel panel-primary">
 
                         <c:if test="#{flightLookupManagedBean.departureHasDirectFlight}">
 
@@ -149,7 +150,7 @@
                                          rowKey="#{flight.id}" selection="#{flightLookupManagedBean.departureDirectFlight}" 
                                          disabledSelection="#{flightLookupManagedBean.flightSelectionDisabled(flight)}">
                                 <p:column selectionMode="single" width="5%"/>
-                                
+
                                 <p:column headerText="Departure Time">
                                     <h:outputText value="#{flight.departureDate}" />
                                 </p:column>
@@ -258,7 +259,7 @@
 
                     <c:if test="#{flightLookupManagedBean.twoWay}">
 
-                        <p:panel header="Return: #{flightLookupManagedBean.destinationAirport} to #{flightLookupManagedBean.orginAirport}" class="panel panel-primary">
+                        <p:panel header="Return: #{flightLookupManagedBean.destinationAirport} to #{flightLookupManagedBeaoriginAirportrt}" class="panel panel-primary">
 
                             <c:if test="#{flightLookupManagedBean.returnHasDirectFlight}">
 
