@@ -31,7 +31,6 @@ import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.persistence.PostRemove;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
 
 /**
  *
@@ -629,36 +628,35 @@ public class FlightLookupManagedBean implements Serializable {
         destinationAirportsByCountry = airportsByCountry;
     }
 
-    /*    
-     // obsoleted. 
-     // used to get airports that are linked by direct flight and update the dropdown list for destination.
-     // using this method user can only select direct flights.
-     private void fetchDestinationAirports(AirportEntity origAirport) {
-     destinationAirportsByCountry = new ArrayList<>();
+    // obsoleted. 
+    // used to get airports that are linked by direct flight and update the dropdown list for destination.
+    // using this method user can only select direct flights.
+    private void fetchDestinationAirports(AirportEntity originAirport) {
+        destinationAirportsByCountry = new ArrayList<>();
+        List<String> countries = flightLookupSessionBean.getAllCountryNames();
+        for (String country : countries) {
+            SelectItemGroup group = new SelectItemGroup(country);
+            List<AirportEntity> airportsInCountry = flightLookupSessionBean.getAllAirportsInCountry(country);
 
-     List<AirportEntity> allDestinationAirports = flightLookupSessionBean.getAllDestinationAirports(origAirport);
-     List<String> allCountries = flightLookupSessionBean.getAllCountryNames();
-     for (String country : allCountries) {
-     List<AirportEntity> destinationAirportsInCountry = new ArrayList();
-     for (AirportEntity a : allDestinationAirports) {
-     if (a.getNationName().equals(country)) {
-     destinationAirportsInCountry.add(a);
-     }
-     }
-     if (!destinationAirportsInCountry.isEmpty()) {
-     SelectItemGroup group = new SelectItemGroup(country);
-     SelectItem[] selectItems = new SelectItem[destinationAirportsInCountry.size()];
-     for (int i = 0; i < destinationAirportsInCountry.size(); i++) {
-     AirportEntity airport = destinationAirportsInCountry.get(i);
-     SelectItem selectItem = new SelectItem(airport, airport.getAirportName() + " (" + airport.getAirportCode() + ")");
-     selectItems[i] = selectItem;
-     }
-     group.setSelectItems(selectItems);
-     destinationAirportsByCountry.add(group);
-     }
-     }
-     }
-     */
+            SelectItem[] selectItems = new SelectItem[airportsInCountry.size()];
+
+            for (int i = 0; i < airportsInCountry.size(); i++) {
+                AirportEntity airport = airportsInCountry.get(i);
+                SelectItem selectItem = new SelectItem(airport, airport.toString());
+
+                
+                if (airport.equals(orginAirport) || (!flightLookupSessionBean.reachable(originAirport, airport))) {
+                    selectItem.setDisabled(true);
+                }
+
+                selectItems[i] = selectItem;
+            }
+            group.setSelectItems(selectItems);
+            destinationAirportsByCountry.add(group);
+
+        }
+    }
+
     // remove orgin airport from destination airport list
     private void updateDestinationAirportList() {
 
@@ -689,7 +687,8 @@ public class FlightLookupManagedBean implements Serializable {
 
     public void onOriginChange() {
         if (orginAirport != null) {
-            updateDestinationAirportList();
+            fetchDestinationAirports(orginAirport);
+//            updateDestinationAirportList();
         }
     }
 
@@ -842,8 +841,8 @@ public class FlightLookupManagedBean implements Serializable {
         }
 
     }
-    
-    public boolean bookingClassSelectionDisabled (BookingClassEntity bc) {
+
+    public boolean bookingClassSelectionDisabled(BookingClassEntity bc) {
         int totalPurchaseNo = adultNo + childNo + infantNo;
         return (distributionSessionBean.getQuotaLeft(bc) < totalPurchaseNo);
     }
