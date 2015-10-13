@@ -142,7 +142,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
 //            System.out.println("tickets size = " + tickets.size());
             for (TicketEntity t : tickets) {
                 totalEconomyClassTickets = totalEconomyClassTickets + 1;
-                if (t.isIssued()) {
+                if (t.getIssued()) {
                     issuedEconomyClassTickets = issuedEconomyClassTickets + 1;
                 }
             }

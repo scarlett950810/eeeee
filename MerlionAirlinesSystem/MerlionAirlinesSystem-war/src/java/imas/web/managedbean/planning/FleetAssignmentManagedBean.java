@@ -30,7 +30,8 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "fleetAssignmentManagedBean")
 @ViewScoped
-public class FleetAssignmentManagedBean implements Serializable{
+public class FleetAssignmentManagedBean implements Serializable {
+
     private AircraftEntity aircraft;
     private List<AircraftEntity> aircraftsAll;
     private List<FlightEntity> flightsAll;
@@ -45,21 +46,20 @@ public class FleetAssignmentManagedBean implements Serializable{
     @EJB
     private TestFunctionsFAandCSLocal functionsFAandCSLocal;
     private Integer numOfUnassignedFlights;
-    private Boolean appearOrnot = true; 
+    private Boolean appearOrnot = true;
     private String color = "color: indianred";
+
     /**
      * Creates a new instance of FASetFrequency
      */
     public FleetAssignmentManagedBean() {
 
     }
-    
-     @PostConstruct
-    public void init()
-    {     
+
+    @PostConstruct
+    public void init() {
         numOfUnassignedFlights = fleetAssignment.getAllFlights().size();
-        if(numOfUnassignedFlights==0){
-            System.err.println("the num of UnassignedFligh is zero");
+        if (numOfUnassignedFlights == 0) {
             appearOrnot = false;
             color = "#999999";
         }
@@ -67,20 +67,21 @@ public class FleetAssignmentManagedBean implements Serializable{
 //         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("aircraftList", aircraftsAll);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("dateList", getAllPlanningPeirod());
  //       crewSchedulingSession.pilotScheduling(functionsFAandCSLocal.getAllFlights(), functionsFAandCSLocal.getAllPilots());
-        
+
     }
-    public void fleetAssignment() throws IOException{
+
+    public void fleetAssignment() throws IOException {
         System.err.println("hehehhee");
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        aircraftsAll = aircraftSessionBean.getAircrafts();  
-      //  System.err.println("planningPeriodStartingDate"+planningPeriodStartingDate.toString());
+        aircraftsAll = aircraftSessionBean.getAircrafts();
+        //  System.err.println("planningPeriodStartingDate"+planningPeriodStartingDate.toString());
         flightsAll = fleetAssignment.getAllFlights();
         System.err.println("finishflightsAll");
         flightsLeft = fleetAssignment.fleetAssignment(flightsAll, aircraftsAll);
         System.err.println("outof the optimization");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsLeft", flightsLeft);
- //       fleetAssignment.deleteUnassginedFlights(flightsLeft);
+        //       fleetAssignment.deleteUnassginedFlights(flightsLeft);
         ec.redirect("../operation/viewFlightSchedule.xhtml");
 
     }
@@ -125,30 +126,29 @@ public class FleetAssignmentManagedBean implements Serializable{
         this.numOfUnassignedFlights = numOfUnassignedFlights;
     }
 
-    public List<Date> getAllPlanningPeirod(){
+    public List<Date> getAllPlanningPeirod() {
         return fleetAssignment.getAllPlanningPeriodStartDateByYear();
     }
 
     public Date getPlanningPeriodStartingDate() {
-        System.err.println("enter...."+planningPeriodStartingDate);
+        System.err.println("enter...." + planningPeriodStartingDate);
         return planningPeriodStartingDate;
     }
 
     public void setPlanningPeriodStartingDate(Date planningPeriodStartingDate) {
         this.planningPeriodStartingDate = planningPeriodStartingDate;
     }
-    
-    public String getPlanningPeriodName(Date d){
+
+    public String getPlanningPeriodName(Date d) {
         SimpleDateFormat dateF = new SimpleDateFormat("dd-MM-yyyy");
         String dateStr = dateF.format(d);
 
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime(d);
         cal1.add(Calendar.YEAR, 1);
-        return dateStr + " to "+ dateF.format(cal1.getTime());
+        return dateStr + " to " + dateF.format(cal1.getTime());
     }
-    
-    
+
     public AircraftEntity getAircraft() {
         return aircraft;
     }
@@ -164,7 +164,5 @@ public class FleetAssignmentManagedBean implements Serializable{
     public void setAircraftsAll(List<AircraftEntity> aircraftsAll) {
         this.aircraftsAll = aircraftsAll;
     }
-    
-    
-    
+
 }

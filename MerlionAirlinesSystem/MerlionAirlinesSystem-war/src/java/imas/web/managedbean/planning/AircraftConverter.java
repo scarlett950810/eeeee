@@ -30,6 +30,7 @@ public class AircraftConverter  implements Converter {
                 
                 Long aircraftEntityId = Long.valueOf(Long.parseLong(value));
                 
+                System.err.println("PRINT"+aircraftEntities);
                 for(AircraftEntity aircraftEntity:aircraftEntities)
                 {
                     if(aircraftEntity.getId().equals(aircraftEntityId))

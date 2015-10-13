@@ -146,14 +146,6 @@ public class TicketEntity implements Serializable {
         this.passenger = passenger;
     }
 
-    public boolean isIssued() {
-        return issued;
-    }
-
-    public void setIssued(boolean issued) {
-        this.issued = issued;
-    }
-
     public Double getBaggageWeight() {
         return baggageWeight;
     }
@@ -240,7 +232,11 @@ public class TicketEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.inventory.entity.TicketEntity[ id=" + id + " ]";
+        return "Ticket: \n" + 
+                "    Flight: " + flight + "\n" +
+                "    BookingClass: " + bookingClassName + "\n" +
+                "    Price: " + price + "\n" +
+                "    Passenger" + passenger + "\n";
     }
 
 }

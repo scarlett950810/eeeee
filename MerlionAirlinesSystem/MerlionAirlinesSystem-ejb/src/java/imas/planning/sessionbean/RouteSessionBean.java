@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,6 +6,7 @@
  */
 package imas.planning.sessionbean;
 
+import imas.planning.entity.AircraftTypeEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
@@ -132,6 +134,8 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     @Override
     public List<RouteEntity> retrieveAllRoutes() {
         Query query = em.createQuery("SELECT a FROM RouteEntity a");
+
+        //       System.out.println("Debug into retrieveAllRoute function");
         return (List<RouteEntity>) query.getResultList();
     }
 
@@ -294,7 +298,17 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         query.setParameter("spoke", spoke);
         RouteEntity route2 = (RouteEntity) query.getSingleResult();
         route2.setDistance(distance);
-        Double speed = 497.097; // 497.097miles/hr
+        query = em.createQuery("SELECT a FROM AircraftTypeEntity a WHERE a.aircraftRange >=:distance");
+        query.setParameter("distance", distance);
+        List<AircraftTypeEntity> types = query.getResultList();
+        Double speed; // 497.097miles/hr
+        Double sum = 0.0;
+        for(AircraftTypeEntity t: types){
+            System.err.println("Get types"+t.getIATACode());
+            sum = sum+t.getCruisingSpeed();
+        }
+        speed = sum/types.size();    
+        System.err.println("Speed is "+speed);
         Double hours = distance / speed;
         route1.setFlightHours(hours);
         route2.setFlightHours(hours);
@@ -332,6 +346,21 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
     public void updateRouteTime(RouteEntity route, Double time) {
         RouteEntity r = em.find(RouteEntity.class, route.getId());
         r.setFlightHours(time);
+    }
+
+    @Override
+    public Double getSpeed(Double distance) {
+        Query query = em.createQuery("SELECT a FROM AircraftTypeEntity a WHERE a.aircraftRange >=:distance");
+        query.setParameter("distance", distance);
+        List<AircraftTypeEntity> types = query.getResultList();
+        Double speed; // 497.097miles/hr
+        Double sum = 0.0;
+        for(AircraftTypeEntity t: types){
+            System.err.println("Get types"+t.getIATACode());
+            sum = sum+t.getCruisingSpeed();
+        }
+        speed = sum/types.size();    
+        return speed;
     }
 
 }

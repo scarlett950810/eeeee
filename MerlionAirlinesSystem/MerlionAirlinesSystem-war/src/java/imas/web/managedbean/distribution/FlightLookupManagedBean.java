@@ -681,12 +681,14 @@ public class FlightLookupManagedBean implements Serializable {
 
     public void searchFlight() {
         initSelectFlight();
+        tab2Disabled = false;
         activeIndex = 1;
     }
 
     public void searchFromHomePage() throws IOException {
         initSelectFlight();
         activeIndex = 1;
+        tab2Disabled = false;
         FacesContext.getCurrentInstance().getExternalContext().redirect("selectFlight.xhtml");
     }
 
@@ -705,18 +707,21 @@ public class FlightLookupManagedBean implements Serializable {
         departureTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, departureDate);
         departureHasTransferFlight = (departureTransferFlightCandidates.size() > 0);
 
-        // loading return flight data
-        returnDirectRoute
-                = flightLookupSessionBean.getDirectRoute(destinationAirport, orginAirport);
-        if (returnDirectRoute != null) {
-            returnDirectFlightCandidates
-                    = flightLookupSessionBean.getAvailableFlights(returnDirectRoute, returnDate, flightLookupSessionBean.getDateAfterDays(returnDate, 1));
-        }
-        returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, returnDate);
-        returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
+        if (twoWay) {
+            // loading return flight data
+            returnDirectRoute
+                    = flightLookupSessionBean.getDirectRoute(destinationAirport, orginAirport);
+            if (returnDirectRoute != null) {
+                returnDirectFlightCandidates
+                        = flightLookupSessionBean.getAvailableFlights(returnDirectRoute, returnDate, flightLookupSessionBean.getDateAfterDays(returnDate, 1));
+            }
+            returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(orginAirport, destinationAirport, returnDate);
+            returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
 
-        showTransferOptions = true;
-        tab2Disabled = false;
+            showTransferOptions = true;
+            tab2Disabled = false;
+        }
+
     }
 
     public boolean selectedDepartureDirectFlight() {
