@@ -247,8 +247,7 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         Double latestShowRate = computeHistoricalShowRate();
         Integer economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
 
-        // to change to calling session bean.
-        Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile();
+        Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile(flight.getRoute());
         Double distance = flight.getRoute().getDistance();
         Double baseFare = costPerSeatPerMile * distance;
 
@@ -278,21 +277,13 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         List<FlightEntity> candidateFlights = new ArrayList<>();
         candidateFlights = q.getResultList();
 
-//        System.out.println("candidateFlights = " + candidateFlights);
         for (FlightEntity flight:candidateFlights) {
-//            System.out.println(flight.getBookingClasses());
             if (flight.getBookingClasses().isEmpty() && (flight.getAircraft() != null)) {
                 System.out.println("created booking classes for " + flight);
-//                System.out.println("before:");
-//                System.out.println(flight.getBookingClasses());
-                
                 // auto create all 9 booking classes
                 automaticallyCreateBookingClass(flight);
                 // auto create yield management rules
                 yieldManagementSessionBean.autoCreateRulesForFlight(flight);
-//                entityManager.refresh(flight);
-//                System.out.println("after:");
-//                System.out.println(flight.getBookingClasses());
             }
         }        
     }

@@ -30,8 +30,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @PersistenceContext
     private EntityManager em;
-    @EJB
-    private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
+    
     private Double showRate;
 
     @Override
@@ -99,7 +98,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         TreeNode L1CL2CL3E = new DefaultTreeNode(list.get(20), L1CL2C);
         TreeNode L1CL2CL3F = new DefaultTreeNode(list.get(21), L1CL2C);
         TreeNode L1CL2CL3G = new DefaultTreeNode(list.get(22), L1CL2C);
-//L1CL2CL3G.isExpanded()
+        //L1CL2CL3G.isExpanded()
         L1A.setExpanded(true);
         L1B.setExpanded(true);
         L1C.setExpanded(true);
@@ -150,7 +149,6 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         List<CostPairEntity> costTable;
         costTable = selectedRoute.getCostPair();
         Collections.sort(costTable);
-        System.out.print(costTable);
         return costTable;
     }
 
@@ -224,13 +222,6 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     public void setShowRate(Double showRate) {
         this.showRate = showRate;
-    }
-
-    @Override
-    public Double getCostPerSeatPerMile() {
-//        System.out.println("costManagementSessionBean.getCostPerSeatPerMile");
-//        System.out.println(".getCostFigure() = " + getList().get(0).getCostFigure());
-        return 1.0;
     }
 
     @Override

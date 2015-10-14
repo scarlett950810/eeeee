@@ -97,7 +97,7 @@ public class SeatsManagementManagedBean implements Serializable {
         Integer economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
 
         // to change to calling session bean.
-        Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile();
+        Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile(flight.getRoute());
         Double distance = flight.getRoute().getDistance();
         Double baseFare = costPerSeatPerMile * distance;
 //        System.out.println("baseFare = " + baseFare);
