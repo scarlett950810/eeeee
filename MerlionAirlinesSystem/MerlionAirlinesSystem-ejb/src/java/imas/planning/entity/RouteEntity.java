@@ -222,7 +222,7 @@ public class RouteEntity implements Serializable {
 
     @Override
     public String toString() {
-        return originAirport.toString() + " to " + destinationAirport.toString();
+        return "from " + originAirport.toString() + " to " + destinationAirport.toString();
     }
 
 }

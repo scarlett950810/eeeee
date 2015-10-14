@@ -163,12 +163,12 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
             Query queryFor1Destination = entityManager.createQuery("select r.destinationAirport from RouteEntity r where r.originAirport = :originAirport");
             queryFor1Destination.setParameter("originAirport", origin);
             List<AirportEntity> firstDestinationAirports = (List<AirportEntity>) queryFor1Destination.getResultList();
-            
+
             Query queryFor1Origin = entityManager.createQuery("select r.originAirport from RouteEntity r where r.destinationAirport = :destinationAirport");
             queryFor1Origin.setParameter("destinationAirport", destination);
             List<AirportEntity> firstOriginAirports = (List<AirportEntity>) queryFor1Origin.getResultList();
-            
-            for (AirportEntity a: firstOriginAirports) {
+
+            for (AirportEntity a : firstOriginAirports) {
                 if (firstDestinationAirports.contains(a)) {
                     return true;
                 }

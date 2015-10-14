@@ -24,7 +24,7 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        <p:growl autoUpdate="true" globalOnly="true" />
+        <p:growl id="growl" autoUpdate="true"/>
 
         <p:tabView id="tabView" activeIndex="#{flightLookupManagedBean.activeIndex}">
             <p:tab title="1 Search creiteria" class="panel panel-primary" disabled="#{flightLookupManagedBean.tab1Disabled}">
@@ -140,7 +140,12 @@
                         </p:selectBooleanCheckbox>
                     </h:panelGrid>
 
-                    <p:panel header="Departure: #{flightLookupManagedBeanoriginAirportt} to #{flightLookupManagedBean.destinationAirport}" class="panel panel-primary">
+                    <p:panel header="Departure: #{flightLookupManagedBean.originAirport} to #{flightLookupManagedBean.destinationAirport} on #{flightLookupManagedBean.getDate(flightLookupManagedBean.departureDate)}"
+                             class="panel panel-primary">
+
+                        <p:chart type="line" model="#{flightLookupManagedBean.departure7DayPricing}" style="height:300px;">
+                            <p:ajax event="itemSelect" listener="#{flightLookupManagedBean.select7DayPricing}" update="growl" />
+                        </p:chart>
 
                         <c:if test="#{flightLookupManagedBean.departureHasDirectFlight}">
 
@@ -168,7 +173,7 @@
                                 </p:column>
 
                                 <p:column headerText="Lowest fare under #{flightLookupManagedBean.seatClass}">
-                                    <h:outputText value="#{flightLookupManagedBean.getLowestFare(flight)}" />
+                                    <h:outputText value="#{flightLookupManagedBean.getLowestFareString(flight)}" />
                                 </p:column>
 
                             </p:dataTable>
@@ -259,7 +264,12 @@
 
                     <c:if test="#{flightLookupManagedBean.twoWay}">
 
-                        <p:panel header="Return: #{flightLookupManagedBean.destinationAirport} to #{flightLookupManagedBeaoriginAirportrt}" class="panel panel-primary">
+                        <p:panel header="Return: #{flightLookupManagedBean.destinationAirport} to #{flightLookupManagedBean.originAirport} on #{flightLookupManagedBean.getDate(flightLookupManagedBean.returnDate)}"
+                                 class="panel panel-primary">
+
+                            <p:chart type="line" model="#{flightLookupManagedBean.return7DayPricing}" style="height:300px;">
+                                <p:ajax event="itemSelect" listener="#{flightLookupManagedBean.select7DayPricing}" update="growl" />
+                            </p:chart>
 
                             <c:if test="#{flightLookupManagedBean.returnHasDirectFlight}">
 

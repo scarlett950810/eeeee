@@ -17,8 +17,11 @@ import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,7 +33,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.persistence.PostRemove;
+import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.CategoryAxis;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.LineChartModel;
 
 /**
  *
@@ -93,6 +102,8 @@ public class FlightLookupManagedBean implements Serializable {
     private boolean departureHasTransferFlight;
     private boolean returnHasDirectFlight;
     private boolean returnHasTransferFlight;
+    private LineChartModel departure7DayPricing; // 7 day lowest price for departure direct flight
+    private LineChartModel return7DayPricing; // 7 day lowest price for return direct flight
 
     private RouteEntity departureDirectRoute;
     private RouteEntity returnDirectRoute;
@@ -129,6 +140,10 @@ public class FlightLookupManagedBean implements Serializable {
         tab2Disabled = true;
         tab3Disabled = true;
 
+        departure7DayPricing = new LineChartModel();
+        return7DayPricing = new LineChartModel();
+        departureDate = flightLookupSessionBean.getDateAfterDays(new Date(), 60);
+        returnDate = flightLookupSessionBean.getDateAfterDays(departureDate, 7);
     }
 
     @PostRemove
@@ -561,13 +576,40 @@ public class FlightLookupManagedBean implements Serializable {
         this.returnTransferFlight2BookingClassCandidates = returnTransferFlight2BookingClassCandidates;
     }
 
+    public LineChartModel getDeparture7DayPricing() {
+        return departure7DayPricing;
+    }
+
+    public void setDeparture7DayPricing(LineChartModel departure7DayPricing) {
+        this.departure7DayPricing = departure7DayPricing;
+    }
+
+    public LineChartModel getReturn7DayPricing() {
+        return return7DayPricing;
+    }
+
+    public void setReturn7DayPricing(LineChartModel return7DayPricing) {
+        this.return7DayPricing = return7DayPricing;
+    }
+
     public String getUserFriendlyTime(double hours) {
         int hourNo = (int) hours;
         int minNo = (int) (60 * (hours - hourNo));
         return hourNo + " hour " + minNo + " mins";
     }
 
-    public String getLowestFare(FlightEntity flight) {
+    public String getLowestFareString(FlightEntity flight) {
+
+        if (getLowestFare(flight) != -1) {
+            return "S$" + getLowestFare(flight);
+        } else {
+            return "Not enough quota left";
+        }
+
+    }
+
+    // return lowest fare unlessnot enough quota then return -1
+    public int getLowestFare(FlightEntity flight) {
         int totalPurchaseNo = adultNo + childNo + infantNo;
         List<BookingClassEntity> bcs = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass, totalPurchaseNo);
 
@@ -579,9 +621,9 @@ public class FlightLookupManagedBean implements Serializable {
         }
         if (!flightSelectionDisabled(flight)) {
             int lowestFareInt = (int) lowestFare;
-            return "S$" + Integer.toString(lowestFareInt);
+            return lowestFareInt;
         } else {
-            return "Not enough quota left";
+            return -1;
         }
 
     }
@@ -712,12 +754,14 @@ public class FlightLookupManagedBean implements Serializable {
 
     public void searchFlight() {
         initSelectFlight();
+        init7DayPricing();
         tab2Disabled = false;
         activeIndex = 1;
     }
 
     public void searchFromHomePage() throws IOException {
         initSelectFlight();
+        init7DayPricing();
         activeIndex = 1;
         tab2Disabled = false;
         FacesContext.getCurrentInstance().getExternalContext().redirect("selectFlight.xhtml");
@@ -760,6 +804,162 @@ public class FlightLookupManagedBean implements Serializable {
         showTransferOptions = true;
         tab2Disabled = false;
 
+    }
+
+    public boolean flightsAvailableOnDate(AirportEntity flightsAvailableOnDate_originAirport, AirportEntity flightsAvailableOnDate_destinationAirport,
+            Date flightsAvailableOnDate_date, String seatClass, int totalPurchaseNo) {
+        RouteEntity flightsAvailableOnDate_directRoute;
+        List<FlightEntity> flightsAvailableOnDate_directFlightCandidates;
+        boolean flightsAvailableOnDate_hasAvailableDirectFlight = false;
+
+        // direct flight data
+        flightsAvailableOnDate_directRoute
+                = flightLookupSessionBean.getDirectRoute(flightsAvailableOnDate_originAirport, flightsAvailableOnDate_destinationAirport);
+        if (flightsAvailableOnDate_directRoute != null) {
+            flightsAvailableOnDate_directFlightCandidates
+                    = flightLookupSessionBean.getAvailableFlights(flightsAvailableOnDate_directRoute, flightsAvailableOnDate_date, flightLookupSessionBean.getDateAfterDays(flightsAvailableOnDate_date, 1));
+            if (flightsAvailableOnDate_directFlightCandidates.size() > 0) {
+                for (FlightEntity flight : flightsAvailableOnDate_directFlightCandidates) {
+                    // check if there is a single booking class in the particular flight fulfill the booking amount
+                    List<BookingClassEntity> bcs
+                            = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass, totalPurchaseNo);
+                    if (seatClass.equals("Economy Class")) {
+                        for (BookingClassEntity bc : bcs) {
+                            if (distributionSessionBean.getQuotaLeft(bc) >= totalPurchaseNo) {
+                                flightsAvailableOnDate_hasAvailableDirectFlight = true;
+                            }
+                        }
+                    } else {
+                        if (bcs.size() > 0) {
+                            flightsAvailableOnDate_hasAvailableDirectFlight = true;
+                        }
+                    }
+                }
+            }
+        } else {
+            flightsAvailableOnDate_hasAvailableDirectFlight = false;
+        }
+
+        return flightsAvailableOnDate_hasAvailableDirectFlight;
+    }
+
+    public int lowestFareOnDate(AirportEntity flightsAvailableOnDate_originAirport, AirportEntity flightsAvailableOnDate_destinationAirport,
+            Date flightsAvailableOnDate_date, String seatClass, int totalPurchaseNo) {
+        RouteEntity flightsAvailableOnDate_directRoute;
+        List<FlightEntity> flightsAvailableOnDate_directFlightCandidates;
+        int flightsAvailableOnDate_LowestFare = Integer.MAX_VALUE;
+
+        // direct flight data
+        flightsAvailableOnDate_directRoute
+                = flightLookupSessionBean.getDirectRoute(flightsAvailableOnDate_originAirport, flightsAvailableOnDate_destinationAirport);
+        if (flightsAvailableOnDate_directRoute != null) {
+            flightsAvailableOnDate_directFlightCandidates
+                    = flightLookupSessionBean.getAvailableFlights(flightsAvailableOnDate_directRoute, flightsAvailableOnDate_date, flightLookupSessionBean.getDateAfterDays(flightsAvailableOnDate_date, 1));
+            if (flightsAvailableOnDate_directFlightCandidates.size() > 0) {
+                for (FlightEntity flight : flightsAvailableOnDate_directFlightCandidates) {
+                    // check if there is a single booking class in the particular flight fulfill the booking amount
+                    List<BookingClassEntity> bcs
+                            = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass, totalPurchaseNo);
+                    if (seatClass.equals("Economy Class")) {
+                        for (BookingClassEntity bc : bcs) {
+                            if (distributionSessionBean.getQuotaLeft(bc) >= totalPurchaseNo && bc.getPrice() < flightsAvailableOnDate_LowestFare) {
+                                flightsAvailableOnDate_LowestFare = (int) bc.getPrice();
+                            }
+                        }
+                    } else {
+                        if (bcs.size() > 0) {
+                            for (BookingClassEntity bc : bcs) {
+                                if (bc.getPrice() < flightsAvailableOnDate_LowestFare) {
+                                    flightsAvailableOnDate_LowestFare = (int) bc.getPrice();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return flightsAvailableOnDate_LowestFare;
+    }
+
+    public void init7DayPricing() {
+
+        departure7DayPricing = new LineChartModel();
+        return7DayPricing = new LineChartModel();
+
+        int totalPurchaseAmount = adultNo + childNo + infantNo;
+
+        ArrayList<Integer> departureLowestFares = new ArrayList<>();
+        ChartSeries departure7DayFlightPriceData = new ChartSeries();
+        departure7DayFlightPriceData.setLabel("Lowest Fare");
+        for (int i = -3; i < 4; i++) {
+            Date date = flightLookupSessionBean.getDateAfterDays(departureDate, i);
+            if (flightsAvailableOnDate(originAirport, destinationAirport, date, seatClass, totalPurchaseAmount)) {
+                int lowestFare = lowestFareOnDate(originAirport, destinationAirport, date, seatClass, totalPurchaseAmount);
+                departure7DayFlightPriceData.set(getDate(date), lowestFare);
+                departureLowestFares.add(lowestFare);
+            } else {
+                departure7DayFlightPriceData.set(getDate(date), null);
+            }
+        }
+        departure7DayPricing.addSeries(departure7DayFlightPriceData);
+        departure7DayPricing.setTitle("Lowest Fare for Direct Flight " + departureDirectRoute + " in 7 Days");
+        departure7DayPricing.setLegendPosition("s");
+        departure7DayPricing.setShowPointLabels(false);
+        departure7DayPricing.getAxes().put(AxisType.X, new CategoryAxis("Date"));
+        Axis departureYAxis = departure7DayPricing.getAxis(AxisType.Y);
+        departureYAxis.setLabel("Price (S$)");
+        if (!departureLowestFares.isEmpty()) {
+            Collections.sort(departureLowestFares);
+            int minDepartureLowestFare = departureLowestFares.get(0);
+            int maxDepartureLowestFare = departureLowestFares.get(departureLowestFares.size() - 1);
+            departureYAxis.setMin((int) minDepartureLowestFare * 0.95);
+            departureYAxis.setMax((int) maxDepartureLowestFare * 1.05);
+        }
+
+        if (twoWay) {
+            ArrayList<Integer> returnLowestFares = new ArrayList<>();
+            ChartSeries return7DayFlightPriceData = new ChartSeries();
+            return7DayFlightPriceData.setLabel("Lowest Fare");
+            for (int i = -3; i < 4; i++) {
+                Date date = flightLookupSessionBean.getDateAfterDays(returnDate, i);
+                if (flightsAvailableOnDate(destinationAirport, originAirport, date, seatClass, totalPurchaseAmount)) {
+                    int lowestFare = lowestFareOnDate(destinationAirport, originAirport, date, seatClass, totalPurchaseAmount);
+                    return7DayFlightPriceData.set(getDate(date), lowestFare);
+                    returnLowestFares.add(lowestFare);
+                } else {
+                    return7DayFlightPriceData.set(getDate(date), null);
+                }
+            }
+            return7DayPricing.addSeries(return7DayFlightPriceData);
+            return7DayPricing.setTitle("Lowest Fare for Return Flight " + returnDirectRoute + " in 7 Days");
+            return7DayPricing.setLegendPosition("s");
+            return7DayPricing.setShowPointLabels(false);
+            return7DayPricing.getAxes().put(AxisType.X, new CategoryAxis("Date"));
+            Axis returnYAxis = return7DayPricing.getAxis(AxisType.Y);
+            returnYAxis.setLabel("Price (S$)");
+            if (!returnLowestFares.isEmpty()) {
+                Collections.sort(returnLowestFares);
+                int minReturnLowestFare = returnLowestFares.get(0);
+                int maxReturnLowestFare = returnLowestFares.get(returnLowestFares.size() - 1);
+                returnYAxis.setMin((int) minReturnLowestFare * 0.95);
+                returnYAxis.setMax((int) maxReturnLowestFare * 1.05);
+            }
+
+        }
+
+    }
+
+    public String getDate(Date date) {
+        DateFormat df = new SimpleDateFormat("MMM d, yyyy");
+        return df.format(date);
+    }
+
+    public void select7DayPricing(ItemSelectEvent event) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item selected",
+                "Item Index: " + event.getItemIndex() + ", Series Index:" + event.getSeriesIndex());
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public boolean selectedDepartureDirectFlight() {
@@ -893,25 +1093,32 @@ public class FlightLookupManagedBean implements Serializable {
             List<PassengerEntity> passengers = new ArrayList<>();
             List<FlightEntity> flights = new ArrayList<>();
 
+            if (selectedDepartureDirectFlight()) {
+                flights.add(departureDirectFlight);
+            } else if (selectedDepartureTransferFlight()) {
+                flights.add(departureTransferFlight1);
+                flights.add(departureTransferFlight1);
+            }
+            if (selectedReturnDirectFlight()) {
+                flights.add(returnDirectFlight);
+            } else if (selectedReturnTransferFlight()) {
+                flights.add(returnTransferFlight1);
+                flights.add(returnTransferFlight1);
+            }
+
             for (int i = 0; i < adultNo + childNo + infantNo; i++) {
                 PassengerEntity passenger = new PassengerEntity();
                 TicketEntity ticket1 = null, ticket2 = null, ticket3 = null, ticket4 = null, ticket5 = null, ticket6 = null;
                 if (selectedDepartureDirectFlight()) {
-                    flights.add(departureDirectFlight);
                     ticket1 = new TicketEntity(departureDirectFlight, departureDirectFlightBookingClass.getName(), departureDirectFlightBookingClass.getPrice(), passenger);
                 } else if (selectedDepartureTransferFlight()) {
-                    flights.add(departureTransferFlight1);
                     ticket2 = new TicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
-                    flights.add(departureTransferFlight1);
                     ticket3 = new TicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
                 }
                 if (selectedReturnDirectFlight()) {
-                    flights.add(returnDirectFlight);
                     ticket4 = new TicketEntity(returnDirectFlight, returnDirectFlightBookingClass.getName(), returnDirectFlightBookingClass.getPrice(), passenger);
                 } else if (selectedReturnTransferFlight()) {
-                    flights.add(returnTransferFlight1);
                     ticket5 = new TicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
-                    flights.add(returnTransferFlight1);
                     ticket6 = new TicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
                 }
 
