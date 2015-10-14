@@ -796,6 +796,9 @@ public class FlightLookupManagedBean implements Serializable {
             if (returnDirectRoute != null) {
                 returnDirectFlightCandidates
                         = flightLookupSessionBean.getAvailableFlights(returnDirectRoute, returnDate, flightLookupSessionBean.getDateAfterDays(returnDate, 1));
+                returnHasDirectFlight = (returnDirectFlightCandidates.size() > 0);
+            } else {
+                returnHasDirectFlight = false;
             }
             returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(originAirport, destinationAirport, returnDate);
             returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
