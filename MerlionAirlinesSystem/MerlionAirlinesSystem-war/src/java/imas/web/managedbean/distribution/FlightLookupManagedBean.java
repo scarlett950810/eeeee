@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -965,12 +966,42 @@ public class FlightLookupManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void onDepartureDirectFlightSelect(SelectEvent event) {
+        departureTransferFlight1 = null;
+        departureTransferFlight2 = null;
+    }
+
+    public void onDepartureTransferFlightSelect(SelectEvent event) {
+        departureDirectFlight = null;
+    }
+
+    public void onReturnDirectFlightSelect(SelectEvent event) {
+        returnTransferFlight1 = null;
+        returnTransferFlight2 = null;
+    }
+
+    public void onReturnTransferFlightSelect(SelectEvent event) {
+        returnDirectFlight = null;
+    }
+
     public boolean selectedDepartureDirectFlight() {
         return departureDirectFlight != null && departureTransferFlight1 == null && departureTransferFlight2 == null;
     }
 
     public boolean selectedDepartureTransferFlight() {
         return departureDirectFlight == null && departureTransferFlight1 != null && departureTransferFlight2 != null;
+    }
+
+    public boolean selectedDepartureTransferFlightTimeCheck() {
+        
+        if (departureTransferFlight1.getArrivalDate().after(departureTransferFlight2.getDepartureDate())) {
+            return false;
+        } else {
+            long diff = departureTransferFlight1.getArrivalDate().getTime() - departureTransferFlight2.getDepartureDate().getTime();
+            long diffInHour = TimeUnit.MILLISECONDS.toHours(diff);
+            return (diffInHour > 3);
+        }
+
     }
 
     public boolean selectedNoDepartureFlights() {
@@ -983,6 +1014,17 @@ public class FlightLookupManagedBean implements Serializable {
 
     public boolean selectedReturnTransferFlight() {
         return returnDirectFlight == null && returnTransferFlight1 != null && returnTransferFlight2 != null;
+    }
+
+    public boolean selectedReturnTransferFlightTimeCheck() {
+        if (returnTransferFlight1.getArrivalDate().after(returnTransferFlight2.getDepartureDate())) {
+            return false;
+        } else {
+            long diff = returnTransferFlight1.getArrivalDate().getTime() - returnTransferFlight2.getDepartureDate().getTime();
+            long diffInHour = TimeUnit.MILLISECONDS.toHours(diff);
+            return (diffInHour > 3);
+        }
+
     }
 
     public boolean selectedNoReturnFlights() {
@@ -1007,6 +1049,13 @@ public class FlightLookupManagedBean implements Serializable {
             flag = false;
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "For departure, please select one direct flight or a pair of transfer flights", ""));
+        } else if (selectedDepartureTransferFlight()) {
+            if (!selectedDepartureTransferFlightTimeCheck()) {
+                flag = false;
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "For departure transfer flights, "
+                                + "please make sure the first one arrives before the second one departure, and leave at least 3 hours in between.", ""));
+            }
         }
 
         if (twoWay) {
@@ -1014,6 +1063,13 @@ public class FlightLookupManagedBean implements Serializable {
                 flag = false;
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "For return, please select one direct flight or a pair of transfer flights", ""));
+            } else if (selectedReturnTransferFlight()) {
+                if (!selectedReturnTransferFlightTimeCheck()) {
+                    flag = false;
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR, "For return transfer flights, "
+                                    + "please make sure the first one arrives before the second one departure, leave at least 3 hours in between.", ""));
+                }
             }
         }
         return flag;

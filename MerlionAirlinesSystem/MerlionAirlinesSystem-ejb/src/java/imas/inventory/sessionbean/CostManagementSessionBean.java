@@ -30,7 +30,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @PersistenceContext
     private EntityManager em;
-    
+
     private Double showRate;
 
     @Override
@@ -152,7 +152,11 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         return costTable;
     }
 
+    @Override
     public void updateShowRate(RouteEntity selectedRoute, Double showRate) {
+        if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null || selectedRoute.getCostPair().size() < 23) {
+            intiCostTable(selectedRoute);
+        }
         List<CostPairEntity> costList = this.getList(selectedRoute);
         costList.get(13).setCostFigure(showRate);
         correctList(costList);
@@ -226,6 +230,9 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @Override
     public Double getCostPerSeatPerMile(RouteEntity selectedRoute) {
+        if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null || selectedRoute.getCostPair().size() < 23) {
+            intiCostTable(selectedRoute);
+        }
         List<CostPairEntity> costTable = this.getList(selectedRoute);
         return costTable.get(0).getCostFigure();
     }

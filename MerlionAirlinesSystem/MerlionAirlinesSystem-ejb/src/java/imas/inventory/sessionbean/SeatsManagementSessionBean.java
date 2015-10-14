@@ -9,6 +9,7 @@ import imas.inventory.entity.BookingClassEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -122,13 +123,14 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     // to change output into normal distribution model (mean and variance)
     // current approach: for all departured flights, total departured tickets / total tickets
     @Override
-    public double computeHistoricalShowRate() {
+    public double computeHistoricalShowRate(RouteEntity route) {
 //        System.out.println("Computing the latest historical show rate:");
         int totalEconomyClassTickets = 0;
         int issuedEconomyClassTickets = 0;
 
         // get all flights that has been departured.
-        Query queryForAllDeparturedFlights = entityManager.createQuery("SELECT f FROM FlightEntity f WHERE f.departured = :departured");
+        Query queryForAllDeparturedFlights = entityManager.createQuery("SELECT f FROM FlightEntity f WHERE f.route = :route AND f.departured = :departured");
+        queryForAllDeparturedFlights.setParameter("route", route);
         queryForAllDeparturedFlights.setParameter("departured", true);
         List<FlightEntity> allDeparturedFlights = (List<FlightEntity>) queryForAllDeparturedFlights.getResultList();
 
@@ -244,7 +246,8 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         Integer businessClassCapacity = getBusinessClassCapacity(flight);
         Integer premiumEconomyClassCapacity = getPremiumEconomyClassCapacity(flight);
         Integer economyClassCapacity = getEconomyClassCapacity(flight);
-        Double latestShowRate = computeHistoricalShowRate();
+        Double latestShowRate = computeHistoricalShowRate(flight.getRoute());
+        costSessionBean.updateShowRate(flight.getRoute(), latestShowRate);
         Integer economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
 
         Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile(flight.getRoute());

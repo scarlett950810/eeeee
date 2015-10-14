@@ -36,4 +36,6 @@ public interface CostManagementSessionBeanLocal {
 
     public List<CostPairEntity> getList(RouteEntity selectedRoute);
 
+    public void updateShowRate(RouteEntity selectedRoute, Double showRate);
+
 }
