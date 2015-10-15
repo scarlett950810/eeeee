@@ -133,19 +133,18 @@
 
                     <p:messages id="selectFlightTabMsg"/>
 
-                    <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
-                        
-                        <h:outputText value="Show 1 stop transfer options" />
-                        <p:selectBooleanCheckbox value="#{flightLookupManagedBean.showTransferOptions}">
+                    <div style="display: inline; width: 100%;">
+                        <h:outputText value="Show 1 stop transfer options"/>
+                        <p:selectBooleanCheckbox value="#{flightLookupManagedBean.showTransferOptions}" style="padding-left: 5px;">
                             <p:ajax update="selectFlightForm"/>
                         </p:selectBooleanCheckbox>
-                        
-                        <h:outputText value="Choosing transfer flight would deselect direct flight and vise versa." class="footnote" style="float: right"/>
-                        
-                    </h:panelGrid>
+
+                        <h:outputText value="Choosing transfer flight would deselect direct flight and vise versa." class="footnote" 
+                                      style="width: 50%; float: right"/>
+                    </div>
 
                     <p:panel header="Departure: #{flightLookupManagedBean.originAirport} to #{flightLookupManagedBean.destinationAirport} on #{flightLookupManagedBean.getDate(flightLookupManagedBean.departureDate)}"
-                             class="panel panel-primary">
+                             class="panel panel-primary" style="margin-top: 0.2%;">
 
                         <p:chart type="line" model="#{flightLookupManagedBean.departure7DayPricing}" style="height:300px;">
                             <p:ajax event="itemSelect" listener="#{flightLookupManagedBean.select7DayPricing}" update="growl" />
