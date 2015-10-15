@@ -30,7 +30,7 @@
             .ui-widget-content{
                 border: 0px;
             }
-            ul {
+            #menubar ul {
                 text-align: center;
                 display: inline;
                 margin-left: 10%;
@@ -41,7 +41,7 @@
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 
             }
-            ul li {
+            #menubar ul li {
                 font: bold 12px/18px sans-serif;
                 display: inline-block;
                 margin-right: -4px;
@@ -57,11 +57,11 @@
                 width: 16.05%;
                 z-index: 10;
             }
-            ul li:hover {
+            #menubar ul li:hover {
                 background: #555;
                 color: #fff;
             }
-            ul li ul {
+            #menubar ul li ul {
                 padding: 0;
                 position: absolute;
                 top: 48px;
@@ -79,15 +79,15 @@
                 -o-transition: opacity 0.2s;
                 -transition: opacity 0.2s;
             }
-            ul li ul li { 
+            #menubar ul li ul li { 
                 background: #555; 
                 display: block; 
                 color: #fff;
                 text-shadow: 0 -1px 0 #000;
                 width: 120%;
             }
-            ul li ul li:hover { background: #666; }
-            ul li:hover ul {
+            #menubar ul li ul li:hover { background: #666; }
+            #menubar ul li:hover ul {
                 display: block;
                 opacity: 1;
                 visibility: visible;
@@ -115,11 +115,11 @@
         <p:layout fullPage="true">
 
             <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
-                <a href="https://localhost:8081/MerlionAirlinesExternalSystem/index.xhtml">
+                <a href="https://localhost:8181/MerlionAirlinesExternalSystem/index.xhtml">
                     <p:graphicImage name="img/NEW_LOGO.png" height="100%" style="margin-left: 10%; margin-top: 10px; z-index: 9999"/>
                 </a>
                 <p:outputLabel value="Welcome" style="float: right; margin-top: 40px; margin-right: 10px; color: white"/>
-
+                
             </p:layoutUnit>
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="70%"
@@ -130,7 +130,7 @@
                         <li>
                             Booking Management
                             <ul>
-                                <a href="distribution/MakeBooking.xhtml"><li>Retrieve My Booking</li></a>
+                                <a href="distribution/makeBooking.xhtml"><li>Retrieve My Booking</li></a>
                                 <li>Web Check-in</li>
                                 <li>Flight Status</li>
                             </ul>
@@ -140,6 +140,9 @@
                         <li>Contact us</li>
                     </ul>
                 </div>
+                
+                <ui:insert name="banners"></ui:insert>
+                
                 <p:panel style="background-color: white !important; margin: 10px 10% 0 10%; height: auto;">
                     <ui:insert name="main"></ui:insert>
                 </p:panel>

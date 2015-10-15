@@ -63,7 +63,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private String lightningStrikers;//18
     private String nearAirCollisions;//19
     private String others;//20
-    private boolean departured;
+    private Boolean departured;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date estimateDepartureDate;//ture is delayed
 

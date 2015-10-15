@@ -19,6 +19,6 @@ public interface MakeBookingSessionBeanLocal {
 
     String generateItinerary(List<FlightEntity> flights, List<PassengerEntity> passengers, String title, String firstName, String lastName, String address, String city, String country, String email, String contactNumber, String status);
 
-    List<PassengerEntity> populateData();
+    List<List<SeatHelperClass>> fetchAllSeats(Long aircraftID, Long flightID, String seatClass);
     
 }

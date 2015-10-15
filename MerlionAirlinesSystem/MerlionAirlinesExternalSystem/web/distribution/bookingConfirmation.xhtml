@@ -7,7 +7,13 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <ui:define name="head"></ui:define>
+    <ui:define name="head">
+        <style>
+            #j_idt22 .ui-panelgrid .ui-panelgrid-cell{
+                border: none;
+            }
+        </style>
+    </ui:define>
 
     <ui:define name="main">
         <h:form target="_blank">
@@ -15,18 +21,23 @@
         </h:form>
 
         <h:form>
-            <p:selectOneRadio id="test" value="#{customerBookTicketManagedBean.firstName}">
 
-                <c:forEach items="#{customerBookTicketManagedBean.test}" var="collection" >
-                    
-                        <c:forEach items="#{collection}" var="test1" >
-                            <f:selectItem itemLabel="" itemValue="#{test1}" />
-                        </c:forEach>
-                        
-                </c:forEach>
+            <p:panelGrid>
+                <ui:repeat value="#{customerBookTicketManagedBean.test}" var="collection">
+                    <p:row>
+                        <p:outputLabel value=""
+                        <ui:repeat value="#{collection}" var="element">
+                            <p:column>
+                                <p:selectOneRadio>
+                                    <f:selectItem itemValue="#{element}" /> 
+                                </p:selectOneRadio>
+                            </p:column>
+                        </ui:repeat> 
+                    </p:row>
+                </ui:repeat>
+            </p:panelGrid>
 
-            </p:selectOneRadio>
-            
+
             <p:commandButton actionListener="#{customerBookTicketManagedBean.selectSeat}" value="Select"></p:commandButton>
         </h:form>
     </ui:define>

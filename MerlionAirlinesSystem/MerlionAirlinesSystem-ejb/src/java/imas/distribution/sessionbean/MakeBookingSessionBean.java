@@ -14,6 +14,7 @@ import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
 import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import javax.ejb.Stateless;
@@ -37,14 +38,14 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
         String referenceNumber = UUID.randomUUID().toString();
         referenceNumber = referenceNumber.replaceAll("-", "").substring(0, 8);
 
-        for(int i=0; i<passengers.size(); i++){
+        for (int i = 0; i < passengers.size(); i++) {
             entityManager.persist(passengers.get(i));
             List<TicketEntity> tickets = passengers.get(i).getTickets();
-            for(int j=0; j<tickets.size();j++){
+            for (int j = 0; j < tickets.size(); j++) {
                 entityManager.persist(tickets.get(j));
             }
         }
-        
+
         PNREntity PNR = new PNREntity(referenceNumber);
         PNR.setFlights(flights);
         PNR.setPassengers(passengers);
@@ -76,58 +77,48 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
     }
 
     @Override
-    public List<PassengerEntity> populateData() {
+    public List<List<SeatHelperClass>> fetchAllSeats(Long aircraftID, Long flightID, String seatClass) {
 
-        Query query = entityManager.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = 'CAN'");
-        List<AirportEntity> airports = (List<AirportEntity>) query.getResultList();
-
-        if (airports.isEmpty()) {
-            AirportEntity a2 = new AirportEntity(false, "Guangzhou", "Baiyun Airport", "CAN", "China");
-            AirportEntity a4 = new AirportEntity(true, "Singapore", "Changi Airport", "SGC", "Singapore");
-
-            entityManager.persist(a2);
-            entityManager.persist(a4);
-
-            RouteEntity r1 = new RouteEntity(a2, a4);
-            RouteEntity r2 = new RouteEntity(a4, a2);
-
-            entityManager.persist(r1);
-            entityManager.persist(r2);
-
-            FlightEntity f1 = new FlightEntity("ML3102", null, r1);
-            FlightEntity f2 = new FlightEntity("ML3104", null, r2);
-
-            entityManager.persist(f1);
-            entityManager.persist(f2);
-
-            BookingClassEntity b1 = new BookingClassEntity(f1, "Economy Class", "X", 167.5, 20);
-            BookingClassEntity b2 = new BookingClassEntity(f2, "Economy Class", "X", 167.5, 20);
-
-            entityManager.persist(b1);
-            entityManager.persist(b2);
-
-            SeatEntity s1 = new SeatEntity(null, null, "Economy Class");
-            SeatEntity s2 = new SeatEntity(null, null, "Economy Class");
-
-            entityManager.persist(s1);
-            entityManager.persist(s2);
-
-            TicketEntity t1 = new TicketEntity(f1,null,0);
-            TicketEntity t2 = new TicketEntity(f2,null,0);
-
-//        entityManager.persist(t1);
-//        entityManager.persist(t2);
-            List<TicketEntity> tickets = new ArrayList<>();
-            tickets.add(t1);
-            tickets.add(t2);
-
-            PassengerEntity p1 = new PassengerEntity(tickets);
-            List<PassengerEntity> passengers = new ArrayList<>();
-            passengers.add(p1);
-
-            return passengers;
-        } else {
+        Query query1 = entityManager.createQuery("SELECT s FROM SeatEntity s where s.aircraft.id = :aircraftID");
+        query1.setParameter("aircraftID", aircraftID);
+        
+        List<SeatEntity> seats = (List<SeatEntity>)query1.getResultList();
+        
+        Query query2 = entityManager.createQuery("SELECT t FROM TicketEntity t where t.flight.id = :flightID");
+        query2.setParameter("flightID", flightID);
+        
+        List<SeatEntity> occupiedSeats = (List<SeatEntity>)query2.getResultList();
+        
+        if(seats.isEmpty() == false){
+            List<List<SeatHelperClass>> allSeats = new ArrayList<>();
+            List<SeatHelperClass> seathelper = null;
+            
+            for (Iterator<SeatEntity> iterator = seats.iterator(); iterator.hasNext();) {
+                SeatEntity next = iterator.next();
+                SeatHelperClass temp = new SeatHelperClass();
+                if(next.getSeatNo().indexOf("A") != -1){
+                    if(seathelper != null){
+                        allSeats.add(seathelper);
+                    }
+                    seathelper = new ArrayList<>();
+                    temp.setSeatNumber(next.getSeatNo());
+                    temp.setEligible(next.getSeatClass().equals(seatClass));
+                    temp.setOccupied(occupiedSeats.contains(next));
+                    seathelper.add(temp);
+                }else{
+                    temp.setSeatNumber(next.getSeatNo());
+                    temp.setEligible(next.getSeatClass().equals(seatClass));
+                    temp.setOccupied(occupiedSeats.contains(next));
+                    seathelper.add(temp);
+                }
+                
+            }
+            
+            return allSeats;
+            
+        }else{
             return null;
         }
     }
+
 }
