@@ -23,29 +23,29 @@ public class CostEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private double costPerSeatPerMile;
-    private double fixedCostPerSeatPerMile;
-    private double flightDistancePerSeatPerDay;
-    private double fixedCostPerSeat;
-    private double operatingCostPerSeat;
-    private double otherCostPerSeat;
-    private double flightCostPerSeatPerMile;
-    private double fuelCostPerSeatPerMile;
-    private double crewCostPerSeatPerMile;
-    private double maintainenceCostPerSeatPerMile;
-    private double tollsPerSeatPerMileForTakeoffAndlanding;
-    private double otherVariableCostPerSeatPerMile;
-    private double passengerCostPerSeatPerMile;
-    private double showRate;
-    private double averageFlightDistancePerPassenger;
-    private double averageCostPerPassenger;
-    private double salesCostPerPassenger;
-    private double airportFeePerPassenger;
-    private double checkinCostPerPassenger;
-    private double mealCostPerPassenger;
-    private double serviceCostPerPassenger;
-    private double firstClassServiceCostPerPassenger;
-    private double delayCostPerPassenger;
+    private Double costPerSeatPerMile;
+    private Double fixedCostPerSeatPerMile;
+    private Double flightDistancePerSeatPerDay;
+    private Double fixedCostPerSeat;
+    private Double operatingCostPerSeat;
+    private Double otherCostPerSeat;
+    private Double flightCostPerSeatPerMile;
+    private Double fuelCostPerSeatPerMile;
+    private Double crewCostPerSeatPerMile;
+    private Double maintenanceCostPerSeatPerMile;
+    private Double tollsPerSeatPerMileForTakeoffAndlanding;
+    private Double otherVariableCostPerSeatPerMile;
+    private Double passengerCostPerSeatPerMile;
+    private Double showRate;
+    private Double averageFlightDistancePerPassenger;
+    private Double averageCostPerPassenger;
+    private Double salesCostPerPassenger;
+    private Double airportFeePerPassenger;
+    private Double checkinCostPerPassenger;
+    private Double mealCostPerPassenger;
+    private Double serviceCostPerPassenger;
+    private Double firstClassServiceCostPerPassenger;
+    private Double delayCostPerPassenger;
 
     public Long getId() {
         return id;
@@ -58,189 +58,189 @@ public class CostEntity implements Serializable {
     public CostEntity() {
     }
 
-    public double getOperatingCostPerSeat() {
+    public Double getOperatingCostPerSeat() {
         return operatingCostPerSeat;
     }
 
-    public void setOperatingCostPerSeat(double operatingCostPerSeat) {
+    public void setOperatingCostPerSeat(Double operatingCostPerSeat) {
         this.operatingCostPerSeat = operatingCostPerSeat;
     }
 
-    public double getOtherCostPerSeat() {
+    public Double getOtherCostPerSeat() {
         return otherCostPerSeat;
     }
 
-    public void setOtherCostPerSeat(double otherCostPerSeat) {
+    public void setOtherCostPerSeat(Double otherCostPerSeat) {
         this.otherCostPerSeat = otherCostPerSeat;
     }
 
-    public double getFlightDistancePerSeatPerDay() {
+    public Double getFlightDistancePerSeatPerDay() {
         return flightDistancePerSeatPerDay;
     }
 
-    public void setFlightDistancePerSeatPerDay(double flightDistancePerSeatPerDay) {
+    public void setFlightDistancePerSeatPerDay(Double flightDistancePerSeatPerDay) {
         this.flightDistancePerSeatPerDay = flightDistancePerSeatPerDay;
     }
 
-    public double getFixedCostPerSeat() {
+    public Double getFixedCostPerSeat() {
         return operatingCostPerSeat + otherCostPerSeat;
     }
 
-    public double getFixedCostPerSeatPerMile() {
+    public Double getFixedCostPerSeatPerMile() {
         return fixedCostPerSeat / (30 * flightDistancePerSeatPerDay);
     }
 
-    public double getFuelCostPerSeatPerMile() {
+    public Double getFuelCostPerSeatPerMile() {
         return fuelCostPerSeatPerMile;
     }
 
-    public void setFuelCostPerSeatPerMile(double fuelCostPerSeatPerMile) {
+    public void setFuelCostPerSeatPerMile(Double fuelCostPerSeatPerMile) {
         this.fuelCostPerSeatPerMile = fuelCostPerSeatPerMile;
     }
 
-    public double getCrewCostPerSeatPerMile() {
+    public Double getCrewCostPerSeatPerMile() {
         return crewCostPerSeatPerMile;
     }
 
-    public void setCrewCostPerSeatPerMile(double crewCostPerSeatPerMile) {
+    public void setCrewCostPerSeatPerMile(Double crewCostPerSeatPerMile) {
         this.crewCostPerSeatPerMile = crewCostPerSeatPerMile;
     }
 
-    public double getMaintainenceCostPerSeatPerMile() {
-        return maintainenceCostPerSeatPerMile;
+    public Double getMaintenanceCostPerSeatPerMile() {
+        return maintenanceCostPerSeatPerMile;
     }
 
-    public void setMaintainenceCostPerSeatPerMile(double maintainenceCostPerSeatPerMile) {
-        this.maintainenceCostPerSeatPerMile = maintainenceCostPerSeatPerMile;
+    public void setMaintenanceCostPerSeatPerMile(Double maintenanceCostPerSeatPerMile) {
+        this.maintenanceCostPerSeatPerMile = maintenanceCostPerSeatPerMile;
     }
 
-    public double getTollsPerSeatPerMileForTakeoffAndlanding() {
+    public Double getTollsPerSeatPerMileForTakeoffAndlanding() {
         return tollsPerSeatPerMileForTakeoffAndlanding;
     }
 
-    public void setTollsPerSeatPerMileForTakeoffAndlanding(double tollsPerSeatPerMileForTakeoffAndlanding) {
+    public void setTollsPerSeatPerMileForTakeoffAndlanding(Double tollsPerSeatPerMileForTakeoffAndlanding) {
         this.tollsPerSeatPerMileForTakeoffAndlanding = tollsPerSeatPerMileForTakeoffAndlanding;
     }
 
-    public double getOtherVariableCostPerSeatPerMile() {
+    public Double getOtherVariableCostPerSeatPerMile() {
         return otherVariableCostPerSeatPerMile;
     }
 
-    public void setOtherVariableCostPerSeatPerMile(double otherVariableCostPerSeatPerMile) {
+    public void setOtherVariableCostPerSeatPerMile(Double otherVariableCostPerSeatPerMile) {
         this.otherVariableCostPerSeatPerMile = otherVariableCostPerSeatPerMile;
     }
 
-    public double getFlightCostPerSeatPerMile() {
-        return fuelCostPerSeatPerMile + crewCostPerSeatPerMile + maintainenceCostPerSeatPerMile
+    public Double getFlightCostPerSeatPerMile() {
+        return fuelCostPerSeatPerMile + crewCostPerSeatPerMile + maintenanceCostPerSeatPerMile
                 + tollsPerSeatPerMileForTakeoffAndlanding + otherVariableCostPerSeatPerMile;
     }
 
-    public double getSalesCostPerPassenger() {
+    public Double getSalesCostPerPassenger() {
         return salesCostPerPassenger;
     }
 
-    public void setSalesCostPerPassenger(double salesCostPerPassenger) {
+    public void setSalesCostPerPassenger(Double salesCostPerPassenger) {
         this.salesCostPerPassenger = salesCostPerPassenger;
     }
 
-    public double getAirportFeePerPassenger() {
+    public Double getAirportFeePerPassenger() {
         return airportFeePerPassenger;
     }
 
-    public void setAirportFeePerPassenger(double airportFeePerPassenger) {
+    public void setAirportFeePerPassenger(Double airportFeePerPassenger) {
         this.airportFeePerPassenger = airportFeePerPassenger;
     }
 
-    public double getCheckinCostPerPassenger() {
+    public Double getCheckinCostPerPassenger() {
         return checkinCostPerPassenger;
     }
 
-    public void setCheckinCostPerPassenger(double checkinCostPerPassenger) {
+    public void setCheckinCostPerPassenger(Double checkinCostPerPassenger) {
         this.checkinCostPerPassenger = checkinCostPerPassenger;
     }
 
-    public double getMealCostPerPassenger() {
+    public Double getMealCostPerPassenger() {
         return mealCostPerPassenger;
     }
 
-    public void setMealCostPerPassenger(double mealCostPerPassenger) {
+    public void setMealCostPerPassenger(Double mealCostPerPassenger) {
         this.mealCostPerPassenger = mealCostPerPassenger;
     }
 
-    public double getServiceCostPerPassenger() {
+    public Double getServiceCostPerPassenger() {
         return serviceCostPerPassenger;
     }
 
-    public void setServiceCostPerPassenger(double serviceCostPerPassenger) {
+    public void setServiceCostPerPassenger(Double serviceCostPerPassenger) {
         this.serviceCostPerPassenger = serviceCostPerPassenger;
     }
 
-    public double getFirstClassServiceCostPerPassenger() {
+    public Double getFirstClassServiceCostPerPassenger() {
         return firstClassServiceCostPerPassenger;
     }
 
-    public void setFirstClassServiceCostPerPassenger(double firstClassServiceCostPerPassenger) {
+    public void setFirstClassServiceCostPerPassenger(Double firstClassServiceCostPerPassenger) {
         this.firstClassServiceCostPerPassenger = firstClassServiceCostPerPassenger;
     }
 
-    public double getDelayCostPerPassenger() {
+    public Double getDelayCostPerPassenger() {
         return delayCostPerPassenger;
     }
 
-    public void setDelayCostPerPassenger(double delayCostPerPassenger) {
+    public void setDelayCostPerPassenger(Double delayCostPerPassenger) {
         this.delayCostPerPassenger = delayCostPerPassenger;
     }
 
-    public double getAverageCostPerPassenger() {
+    public Double getAverageCostPerPassenger() {
         return salesCostPerPassenger + airportFeePerPassenger + checkinCostPerPassenger + mealCostPerPassenger
                 + serviceCostPerPassenger + firstClassServiceCostPerPassenger + delayCostPerPassenger;
     }
 
-    public double getPassengerCostPerSeatPerMile() {
+    public Double getPassengerCostPerSeatPerMile() {
         return averageCostPerPassenger * averageFlightDistancePerPassenger * averageCostPerPassenger;
     }
 
-    public double getShowRate() {
+    public Double getShowRate() {
         return showRate;
     }
 
-    public void setShowRate(double showRate) {
+    public void setShowRate(Double showRate) {
         this.showRate = showRate;
     }
 
-    public double getAverageFlightDistancePerPassenger() {
+    public Double getAverageFlightDistancePerPassenger() {
         return averageFlightDistancePerPassenger;
     }
 
-    public void setAverageFlightDistancePerPassenger(double averageFlightDistancePerPassenger) {
+    public void setAverageFlightDistancePerPassenger(Double averageFlightDistancePerPassenger) {
         this.averageFlightDistancePerPassenger = averageFlightDistancePerPassenger;
     }
 
-    public double getCostPerSeatPerMile() {
+    public Double getCostPerSeatPerMile() {
         return fixedCostPerSeatPerMile + flightCostPerSeatPerMile + passengerCostPerSeatPerMile;
     }
 
-    public void setCostPerSeatPerMile(double costPerSeatPerMile) {
+    public void setCostPerSeatPerMile(Double costPerSeatPerMile) {
         this.costPerSeatPerMile = costPerSeatPerMile;
     }
 
-    public void setFixedCostPerSeatPerMile(double fixedCostPerSeatPerMile) {
+    public void setFixedCostPerSeatPerMile(Double fixedCostPerSeatPerMile) {
         this.fixedCostPerSeatPerMile = fixedCostPerSeatPerMile;
     }
 
-    public void setFixedCostPerSeat(double fixedCostPerSeat) {
+    public void setFixedCostPerSeat(Double fixedCostPerSeat) {
         this.fixedCostPerSeat = fixedCostPerSeat;
     }
 
-    public void setFlightCostPerSeatPerMile(double flightCostPerSeatPerMile) {
+    public void setFlightCostPerSeatPerMile(Double flightCostPerSeatPerMile) {
         this.flightCostPerSeatPerMile = flightCostPerSeatPerMile;
     }
 
-    public void setPassengerCostPerSeatPerMile(double passengerCostPerSeatPerMile) {
+    public void setPassengerCostPerSeatPerMile(Double passengerCostPerSeatPerMile) {
         this.passengerCostPerSeatPerMile = passengerCostPerSeatPerMile;
     }
 
-    public void setAverageCostPerPassenger(double averageCostPerPassenger) {
+    public void setAverageCostPerPassenger(Double averageCostPerPassenger) {
         this.averageCostPerPassenger = averageCostPerPassenger;
     }
 
