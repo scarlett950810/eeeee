@@ -170,10 +170,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     public int getFirstClassCapacity(FlightEntity flight) {
         AircraftEntity a = flight.getAircraft();
 
-//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q.setParameter("aircraft", a);
-//        q.setParameter("seatClass", "First Class");
-//        return q.getResultList().size();
         int count = 0;
         for (SeatEntity seat : a.getSeats()) {
             if (seat.isFirstClass()) {
@@ -189,10 +185,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
 
         AircraftEntity a = flight.getAircraft();
 
-//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q.setParameter("aircraft", a);
-//        q.setParameter("seatClass", "Business Class");
-//        return q.getResultList().size();
         int count = 0;
         for (SeatEntity seat : a.getSeats()) {
             if (seat.isBusinessClass()) {
@@ -207,10 +199,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     public int getPremiumEconomyClassCapacity(FlightEntity flight) {
         AircraftEntity a = flight.getAircraft();
 
-//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q.setParameter("aircraft", a);
-//        q.setParameter("seatClass", "Premium Economy Class");
-//        return q.getResultList().size();
         int count = 0;
         for (SeatEntity seat : a.getSeats()) {
             if (seat.isPremiumEconomyClass()) {
@@ -225,10 +213,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     public int getEconomyClassCapacity(FlightEntity flight) {
         AircraftEntity a = flight.getAircraft();
 
-//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q.setParameter("aircraft", a);
-//        q.setParameter("seatClass", "Economy Class");
-//        return q.getResultList().size();
         int count = 0;
         for (SeatEntity seat : a.getSeats()) {
             if (seat.isEconomyClass()) {
