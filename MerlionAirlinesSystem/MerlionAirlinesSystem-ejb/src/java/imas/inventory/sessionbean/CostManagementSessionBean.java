@@ -30,8 +30,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @PersistenceContext
     private EntityManager em;
-    @EJB
-    private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
+
     private Double showRate;
 
     @Override
@@ -99,7 +98,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         TreeNode L1CL2CL3E = new DefaultTreeNode(list.get(20), L1CL2C);
         TreeNode L1CL2CL3F = new DefaultTreeNode(list.get(21), L1CL2C);
         TreeNode L1CL2CL3G = new DefaultTreeNode(list.get(22), L1CL2C);
-//L1CL2CL3G.isExpanded()
+        //L1CL2CL3G.isExpanded()
         L1A.setExpanded(true);
         L1B.setExpanded(true);
         L1C.setExpanded(true);
@@ -150,11 +149,14 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         List<CostPairEntity> costTable;
         costTable = selectedRoute.getCostPair();
         Collections.sort(costTable);
-        System.out.print(costTable);
         return costTable;
     }
 
+    @Override
     public void updateShowRate(RouteEntity selectedRoute, Double showRate) {
+        if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null || selectedRoute.getCostPair().size() < 23) {
+            intiCostTable(selectedRoute);
+        }
         List<CostPairEntity> costList = this.getList(selectedRoute);
         costList.get(13).setCostFigure(showRate);
         correctList(costList);
@@ -227,14 +229,10 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     }
 
     @Override
-    public Double getCostPerSeatPerMile() {
-//        System.out.println("costManagementSessionBean.getCostPerSeatPerMile");
-//        System.out.println(".getCostFigure() = " + getList().get(0).getCostFigure());
-        return 1.0;
-    }
-
-    @Override
     public Double getCostPerSeatPerMile(RouteEntity selectedRoute) {
+        if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null || selectedRoute.getCostPair().size() < 23) {
+            intiCostTable(selectedRoute);
+        }
         List<CostPairEntity> costTable = this.getList(selectedRoute);
         return costTable.get(0).getCostFigure();
     }

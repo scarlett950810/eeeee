@@ -6,6 +6,7 @@
 package imas.inventory.sessionbean;
 
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -16,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface SeatsManagementSessionBeanLocal {
 
-    public double computeHistoricalShowRate();
+    public double computeHistoricalShowRate(RouteEntity route);
 
     public int getFirstClassCapacity(FlightEntity flight);
 
