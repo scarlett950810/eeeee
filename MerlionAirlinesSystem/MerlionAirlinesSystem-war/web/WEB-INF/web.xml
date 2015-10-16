@@ -4,12 +4,10 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Production</param-value>
     </context-param>
-    
     <context-param>
         <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
         <param-value>6LdgaQwTAAAAANPeBIvREmpxSvPg8UrB8rdxJU4h</param-value>
     </context-param>
-
     <context-param>
         <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
         <param-value>6LdgaQwTAAAAALE-upTMXd80IWffdt7hzKrbdCqK</param-value>
@@ -32,15 +30,9 @@
             30
         </session-timeout>
     </session-config>
-    
-    
-    
-    
     <welcome-file-list>
         <welcome-file>common/common_login.xhtml</welcome-file>
     </welcome-file-list>
-    
-   
     <security-constraint>
         <display-name>SSL Protection</display-name>
         <web-resource-collection>
@@ -54,6 +46,22 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    
-    
+    <ejb-local-ref>
+        <ejb-ref-name>AppFlightLookup</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>webservice.AppFlightLookupLocal</local>
+        <ejb-link>MerlionAirlinesSystem-ejb.jar#AppFlightLookup</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>appFlightLookup</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>webservice.AppFlightLookupLocal</local>
+        <ejb-link>MerlionAirlinesSystem-ejb.jar#AppFlightLookup</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>AppFlightLookup1</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>webservice.AppFlightLookupLocal</local>
+        <ejb-link>MerlionAirlinesSystem-ejb.jar#AppFlightLookup</ejb-link>
+    </ejb-local-ref>
 </web-app>

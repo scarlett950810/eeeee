@@ -174,9 +174,9 @@ public class ScheduleManagedBean implements Serializable {
         List<AircraftEntity> aircrafts = aircraftSessionBean.getAircrafts();
         List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
         List<CabinCrewEntity> cabinCrews = crewSchedulingCheckLocal.retrieveAllCabinCrew();
-       // System.err.println("print out the result "+crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots));  
+       // System.err.println("print out the result "+crewSchedulingCheckLocal.pilotSchedulingCapacityCheck(flightsCheck, pilots));  
         
-        List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flightsCheck, aircrafts);
+        List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCapacityCheck(flightsCheck, aircrafts);
 
         for(FlightEntity f: flightsCheck){
             f.setAircraftFlight(null);
@@ -188,7 +188,7 @@ public class ScheduleManagedBean implements Serializable {
             f.setPilots(null);
             f.setCabinCrews(null);
         }
-        List<FlightEntity> flightsUnassignedPilot = crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots);
+        List<FlightEntity> flightsUnassignedPilot = crewSchedulingCheckLocal.pilotSchedulingCapacityCheck(flightsCheck, pilots);
         for(FlightEntity f: flightsCheck){
             f.setAircraftFlight(null);
             f.setPilots(null);
@@ -199,7 +199,7 @@ public class ScheduleManagedBean implements Serializable {
             f.setPilots(null);
             f.setCabinCrews(null);
         }
-        List<FlightEntity> flightsUnassignedCabinCrew = crewSchedulingCheckLocal.CabinCrewScheduling(flightsCheck, cabinCrews);
+        List<FlightEntity> flightsUnassignedCabinCrew = crewSchedulingCheckLocal.CabinCrewSchedulingCapacityCheck(flightsCheck, cabinCrews);
         
         FacesContext fc = FacesContext.getCurrentInstance();
         for(FlightEntity f: flightsCheck){

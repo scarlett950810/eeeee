@@ -57,7 +57,7 @@ public class FrequencyAvailabilityCheck implements Serializable{
 
         flightsUnassigned = (List<FlightEntity>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("flightsUnassigned");
         
-        if (flightsUnassigned.isEmpty()&&flightsUnassignedPilot.isEmpty()&&flightsUnassignedCabinCrew.isEmpty()) {
+        if ((flightsUnassigned.isEmpty()||flightsUnassigned.size()<= 2)&&flightsUnassignedPilot.isEmpty()&&flightsUnassignedCabinCrew.isEmpty()) {
             canSupport = true;
         } else {
            numOfUnassignedFlights = flightsUnassigned.size();

@@ -45,7 +45,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
 
     
     @Override
-    public List<FlightEntity> pilotScheduling(List<FlightEntity> flights, List<PilotEntity> pilots) {
+    public List<FlightEntity> pilotSchedulingCapacityCheck(List<FlightEntity> flights, List<PilotEntity> pilots) {
         System.err.println("enter pilotScheduling");
 
         flights = fleetAssignmentCheck(flights, aircraftSession.getAircrafts());
@@ -592,7 +592,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
     private int counter = 0;
 
     @Override
-    public List<FlightEntity> CabinCrewScheduling(List<FlightEntity> flights, List<CabinCrewEntity> cabinCrews) {
+    public List<FlightEntity> CabinCrewSchedulingCapacityCheck(List<FlightEntity> flights, List<CabinCrewEntity> cabinCrews) {
         System.err.println("enter cabinCrewSchduling");
         flights = fleetAssignmentCheck(flights, aircraftSession.getAircrafts());
 

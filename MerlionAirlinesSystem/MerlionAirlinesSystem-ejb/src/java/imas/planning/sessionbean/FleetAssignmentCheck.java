@@ -41,7 +41,7 @@ public class FleetAssignmentCheck implements FleetAssignmentCheckLocal {
         return (List<FlightEntity>) q.getResultList();
     }
     @Override
-    public List<FlightEntity> fleetAssignmentCheck(List<FlightEntity> flights, List<AircraftEntity> aircrafts) {
+    public List<FlightEntity> fleetAssignmentCapacityCheck(List<FlightEntity> flights, List<AircraftEntity> aircrafts) {
         for (AircraftEntity a : aircrafts) {
             if (!flights.isEmpty()) {
                 flights = oneAircraftAssignment(a, flights);

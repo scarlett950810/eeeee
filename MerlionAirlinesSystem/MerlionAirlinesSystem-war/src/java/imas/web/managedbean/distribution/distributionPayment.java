@@ -24,6 +24,8 @@ import javax.faces.view.ViewScoped;
 import org.jboss.weld.context.http.HttpRequestContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
+import spark.Route;
+import static spark.Spark.*;
 
 /*
  * @author ruicai
@@ -45,9 +47,7 @@ public class distributionPayment implements Serializable {
     @PostConstruct
     public void init() {
 
-
 // true
-
         System.err.println("跑到server了");
         BraintreeGateway gateway = new BraintreeGateway(
                 Environment.SANDBOX,
@@ -56,23 +56,35 @@ public class distributionPayment implements Serializable {
                 "e963d83cad870b038b698a868b41aae2"
         );
         String aCustomerId = "17901407";
-      
-        
+
         ClientTokenRequest clientTokenRequest = new ClientTokenRequest()
                 .customerId(aCustomerId);
         clientTokenRequest.merchantAccountId("5v38sr");
         clientToken = gateway.clientToken().generate(clientTokenRequest);
         System.err.println("token generated" + clientToken);
-        
-        
-//        TransactionRequest request = new TransactionRequest()
-//                .amount(new BigDecimal("100.00"))
-//                .paymentMethodNonce("fake-valid-nonce");
-//        System.err.println("chenggong");
-//        Result<Transaction> result = gateway.transaction().sale(request);
-//        System.err.println("result"+result);
 
         
+
+//       post("", new Route("/client_token") {
+//            @Override
+//            public Object handle(Request request, Response response) {
+//              return gateway.clientToken().generate();
+//            }
+//        });
+//       
+//       post("", new Route("/checkout") {
+//  @Override
+//  public Object handle(Request request, Response response) {
+//    String nonce = request.queryParams("payment_method_nonce");
+//    // Use payment method nonce here
+//  }
+//        });
+        TransactionRequest request = new TransactionRequest()
+                .amount(new BigDecimal("100.00"))
+                .paymentMethodNonce("fake-valid-nonce");
+        System.err.println("chenggong");
+        Result<Transaction> result = gateway.transaction().sale(request);
+        System.err.println("result"+result);
 //});
 //        TransactionRequest request = new TransactionRequest().
 //                amount(new BigDecimal("1000.00")).
@@ -83,22 +95,22 @@ public class distributionPayment implements Serializable {
 //
 ////        Result<Transaction> result = gateway.transaction().sale(request);
 ////
-////        if (result.isSuccess()) {
-////            Transaction transaction = result.getTarget();
-////            System.out.println("Success!: " + transaction.getId());
-////        } else if (result.getTransaction() != null) {
-////            Transaction transaction = result.getTransaction();
-////            System.out.println("Error processing transaction:");
-////            System.out.println("  Status: " + transaction.getStatus());
-////            System.out.println("  Code: " + transaction.getProcessorResponseCode());
-////            System.out.println("  Text: " + transaction.getProcessorResponseText());
-////        } else {
-////            for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
-////                System.out.println("Attribute: " + error.getAttribute());
-////                System.out.println("  Code: " + error.getCode());
-////                System.out.println("  Message: " + error.getMessage());
-////            }
-////        }
+        if (result.isSuccess()) {
+            Transaction transaction = result.getTarget();
+            System.out.println("Success!: " + transaction.getId());
+        } else if (result.getTransaction() != null) {
+            Transaction transaction = result.getTransaction();
+            System.out.println("Error processing transaction:");
+            System.out.println("  Status: " + transaction.getStatus());
+            System.out.println("  Code: " + transaction.getProcessorResponseCode());
+            System.out.println("  Text: " + transaction.getProcessorResponseText());
+        } else {
+            for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
+                System.out.println("Attribute: " + error.getAttribute());
+                System.out.println("  Code: " + error.getCode());
+                System.out.println("  Message: " + error.getMessage());
+            }
+        }
     }
 
     public String getClientToken() {
