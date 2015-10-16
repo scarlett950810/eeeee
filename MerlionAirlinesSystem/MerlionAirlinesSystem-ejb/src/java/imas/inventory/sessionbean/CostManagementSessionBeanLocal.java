@@ -25,8 +25,6 @@ public interface CostManagementSessionBeanLocal {
 
     public void updateCost(RouteEntity selectedRoute, String costName, Double costFigure);
 
-    public Double getCostPerSeatPerMile();
-
 //    public void updateShowRate(Double showRate);
     public void intiCostTable(RouteEntity selectedRoute);
 
@@ -37,5 +35,7 @@ public interface CostManagementSessionBeanLocal {
     public Double getCostPerSeatPerMile(RouteEntity selectedRoute);
 
     public List<CostPairEntity> getList(RouteEntity selectedRoute);
+
+    public void updateShowRate(RouteEntity selectedRoute, Double showRate);
 
 }

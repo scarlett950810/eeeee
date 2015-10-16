@@ -97,7 +97,7 @@ public class InventoryCostManagedBean implements Serializable {
     public List<RouteEntity> getRoutes() {
         List<RouteEntity> routesAll = routeSession.retrieveAllRoutes();
         routes = routeSession.filterRoutesToConnections(routesAll);
-        System.out.println("enter getconnectionsall");
+//        System.out.println("enter getconnectionsall");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routesRangeList", routes);
         return routes;
     }
@@ -111,12 +111,12 @@ public class InventoryCostManagedBean implements Serializable {
         if (selectedRoute != null) {
             System.out.print(selectedRoute);
 
-            if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null||selectedRoute.getCostPair().size()<23) {
+            if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null||selectedRoute.getCostPairs().size()<23) {
                 costSession.intiCostTable(selectedRoute);
             }
             costTable=costSession.getList(selectedRoute);
             root = costSession.createRoot(costTable);
-            System.out.print("111111111111111111");
+//            System.out.print("111111111111111111");
 
         }
     }
@@ -144,7 +144,7 @@ public class InventoryCostManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
             costSession.updateCost(selectedRoute, selectedCost.getCostType(), newCost);
-            root = costSession.createRoot(selectedRoute.getCostPair());
+            root = costSession.createRoot(selectedRoute.getCostPairs());
             FacesMessage msg = new FacesMessage("Reminder", selectedCost.getCostType() + " has been changed to " + Double.toString(newCost));
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

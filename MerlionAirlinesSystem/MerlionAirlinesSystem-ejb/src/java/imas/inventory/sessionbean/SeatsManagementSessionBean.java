@@ -7,8 +7,10 @@ package imas.inventory.sessionbean;
 
 import imas.inventory.entity.BookingClassEntity;
 import imas.distribution.entity.TicketEntity;
+import imas.inventory.entity.BookingClassRuleSetEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,7 +28,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLocal {
-    
+
     @EJB
     private YieldManagementSessionBeanLocal yieldManagementSessionBean;
 
@@ -58,77 +60,139 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         });
         return flightsWithoutBookingClass;
     }
-    
+
     @Override
     public void generateFirstClassBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        BookingClassEntity bookingClassEntity = new BookingClassEntity().FirstClassBookingClassEntity(flightToManage, price, quota);
-        bookingClassEntity.setFlight(flightToManage);
-        entityManager.persist(bookingClassEntity);
-        entityManager.flush();
-        
+        BookingClassEntity bc = new BookingClassEntity().FirstClassBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createFirstClassBookingClassRule(bc);
+        entityManager.persist(bcrs);
     }
 
     @Override
     public void generateBusinessClassBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().BusinessClassBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().BusinessClassBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+        
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createBusinessClassBookingClassRule(bc);
+        entityManager.persist(bcrs);
     }
 
     @Override
     public void generatePremiumEconomyClassBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().PremiumEconomyClassBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().PremiumEconomyClassBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+        
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createPremiumEconomyClassBookingClassRule(bc);
+        entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass1BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass1BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+        
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass1Rule(bc);
+        entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass2BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass2BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass2BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+        
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass2Rule(bc);
+        entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass3BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass3BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+        
+                
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass3Rule(bc);
+        entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass4BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass4BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass4BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+        
+                
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass4Rule(bc);
+        entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass5BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass5BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+                
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass5Rule(bc);
+        entityManager.persist(bcrs);
+    }
+
+    @Override
+    public void generateFirstClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
+        FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
+        BookingClassEntity bc = new BookingClassEntity().FirstClassAgencyBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+        
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createFirstClassAgencyBookingClassRule(bc);
+        entityManager.persist(bcrs);
+    }
+    
+    @Override
+    public void generateBusinessClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
+        FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
+        BookingClassEntity bc = new BookingClassEntity().BusinessClassAgencyBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+                
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createBusinessClassAgencyBookingClassRule(bc);
+        entityManager.persist(bcrs);
+    }
+
+    @Override
+    public void generatePremiumEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
+        FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
+        BookingClassEntity bc = new BookingClassEntity().PremiumEconomyClassAgencyBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+        
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createPremiumEconomyClassAgencyBookingClassRule(bc);
+        entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClassAgencyBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClassAgencyBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
+        
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassAgencyBookingClassRule(bc);
+        entityManager.persist(bcrs);
     }
 
-    // to be optimized
-    // to add smoothing constant, date, etc. in to input
-    // to change output into normal distribution model (mean and variance)
-    // current approach: for all departured flights, total departured tickets / total tickets
+    // for all departured flights, total departured tickets / total tickets
     @Override
-    public double computeHistoricalShowRate() {
+    public double computeHistoricalShowRate(RouteEntity route) {
 //        System.out.println("Computing the latest historical show rate:");
         int totalEconomyClassTickets = 0;
         int issuedEconomyClassTickets = 0;
 
         // get all flights that has been departured.
-        Query queryForAllDeparturedFlights = entityManager.createQuery("SELECT f FROM FlightEntity f WHERE f.departured = :departured");
+        Query queryForAllDeparturedFlights = entityManager.createQuery("SELECT f FROM FlightEntity f WHERE f.route = :route AND f.departured = :departured");
+        queryForAllDeparturedFlights.setParameter("route", route);
         queryForAllDeparturedFlights.setParameter("departured", true);
         List<FlightEntity> allDeparturedFlights = (List<FlightEntity>) queryForAllDeparturedFlights.getResultList();
 
@@ -168,10 +232,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     public int getFirstClassCapacity(FlightEntity flight) {
         AircraftEntity a = flight.getAircraft();
 
-//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q.setParameter("aircraft", a);
-//        q.setParameter("seatClass", "First Class");
-//        return q.getResultList().size();
         int count = 0;
         for (SeatEntity seat : a.getSeats()) {
             if (seat.isFirstClass()) {
@@ -187,10 +247,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
 
         AircraftEntity a = flight.getAircraft();
 
-//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q.setParameter("aircraft", a);
-//        q.setParameter("seatClass", "Business Class");
-//        return q.getResultList().size();
         int count = 0;
         for (SeatEntity seat : a.getSeats()) {
             if (seat.isBusinessClass()) {
@@ -205,10 +261,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     public int getPremiumEconomyClassCapacity(FlightEntity flight) {
         AircraftEntity a = flight.getAircraft();
 
-//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q.setParameter("aircraft", a);
-//        q.setParameter("seatClass", "Premium Economy Class");
-//        return q.getResultList().size();
         int count = 0;
         for (SeatEntity seat : a.getSeats()) {
             if (seat.isPremiumEconomyClass()) {
@@ -223,10 +275,6 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     public int getEconomyClassCapacity(FlightEntity flight) {
         AircraftEntity a = flight.getAircraft();
 
-//        Query q = entityManager.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q.setParameter("aircraft", a);
-//        q.setParameter("seatClass", "Economy Class");
-//        return q.getResultList().size();
         int count = 0;
         for (SeatEntity seat : a.getSeats()) {
             if (seat.isEconomyClass()) {
@@ -244,31 +292,40 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         Integer businessClassCapacity = getBusinessClassCapacity(flight);
         Integer premiumEconomyClassCapacity = getPremiumEconomyClassCapacity(flight);
         Integer economyClassCapacity = getEconomyClassCapacity(flight);
-        Double latestShowRate = computeHistoricalShowRate();
+        Double latestShowRate = computeHistoricalShowRate(flight.getRoute());
+        costSessionBean.updateShowRate(flight.getRoute(), latestShowRate);
         Integer economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
 
-        // to change to calling session bean.
-        Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile();
+        Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile(flight.getRoute());
         Double distance = flight.getRoute().getDistance();
         Double baseFare = costPerSeatPerMile * distance;
 
-        generateFirstClassBookingClassEntity(flight, 15 * baseFare, firstClassCapacity);
-        generateBusinessClassBookingClassEntity(flight, 6 * baseFare, businessClassCapacity);
-        generatePremiumEconomyClassBookingClassEntity(flight, 4 * baseFare, premiumEconomyClassCapacity);
+        int firstClassAgencyBCQuota = (int) 0.1 * firstClassCapacity;
+        int firstClassBCQuota = firstClassCapacity - firstClassAgencyBCQuota;
+        int businessClassAgencyBCQuota = (int) 0.1 * businessClassCapacity;
+        int businessClassBCQuota = businessClassCapacity - businessClassAgencyBCQuota;
+        int premiumEconomyClassAgencyBCQuota = (int) premiumEconomyClassCapacity;
+        int premiumEconomyClassBCQuota = premiumEconomyClassCapacity - premiumEconomyClassAgencyBCQuota;
 
-        // TODO: optimization of yield management.
+        generateFirstClassBookingClassEntity(flight, 15 * baseFare, firstClassBCQuota);
+        generateBusinessClassBookingClassEntity(flight, 6 * baseFare, businessClassBCQuota);
+        generatePremiumEconomyClassBookingClassEntity(flight, 4 * baseFare, premiumEconomyClassBCQuota);
         generateEconomyClass1BookingClassEntity(flight, 3 * baseFare, 0);
         generateEconomyClass2BookingClassEntity(flight, 2.5 * baseFare, (int) (0.3 * economyClassComputedOverbookingLevel));
         generateEconomyClass3BookingClassEntity(flight, 2 * baseFare, (int) (0.4 * economyClassComputedOverbookingLevel));
-        generateEconomyClassAgencyBookingClassEntity(flight, 1.5 * baseFare, (int) (0.1 * economyClassComputedOverbookingLevel));
         generateEconomyClass4BookingClassEntity(flight, 1.1 * baseFare, (int) (0.2 * economyClassComputedOverbookingLevel));
         generateEconomyClass5BookingClassEntity(flight, 0.8 * baseFare, 0);
+
+        generateFirstClassAgencyBookingClassEntity(flight, 15 * baseFare, firstClassAgencyBCQuota);
+        generateBusinessClassAgencyBookingClassEntity(flight, 6 * baseFare, businessClassAgencyBCQuota);
+        generateFirstClassAgencyBookingClassEntity(flight, 4 * baseFare, premiumEconomyClassAgencyBCQuota);
+        generateEconomyClassAgencyBookingClassEntity(flight, 1.5 * baseFare, (int) (0.1 * economyClassComputedOverbookingLevel));
 
     }
 
     @Override
     public void autoPriceToDepartureAndUnpricedFlights(int monthToDeparture) {
-            
+
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, monthToDeparture);
         Date endingDate = cal.getTime();
@@ -278,23 +335,15 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
         List<FlightEntity> candidateFlights = new ArrayList<>();
         candidateFlights = q.getResultList();
 
-//        System.out.println("candidateFlights = " + candidateFlights);
-        for (FlightEntity flight:candidateFlights) {
-//            System.out.println(flight.getBookingClasses());
+        for (FlightEntity flight : candidateFlights) {
             if (flight.getBookingClasses().isEmpty() && (flight.getAircraft() != null)) {
                 System.out.println("created booking classes for " + flight);
-//                System.out.println("before:");
-//                System.out.println(flight.getBookingClasses());
-                
-                // auto create all 9 booking classes
+                // auto create all 9 booking classes and associated booking class rules
                 automaticallyCreateBookingClass(flight);
                 // auto create yield management rules
                 yieldManagementSessionBean.autoCreateRulesForFlight(flight);
-//                entityManager.refresh(flight);
-//                System.out.println("after:");
-//                System.out.println(flight.getBookingClasses());
             }
-        }        
+        }
     }
 
 }

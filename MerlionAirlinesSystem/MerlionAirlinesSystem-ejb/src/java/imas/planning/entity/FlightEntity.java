@@ -9,7 +9,10 @@ import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassEntity;
+import imas.inventory.entity.BookingClassRuleSetEntity;
+import imas.inventory.entity.YieldManagementRuleEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -89,8 +92,15 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     @ManyToMany(mappedBy = "pilotFlights")
     private List<PilotEntity> pilots;
+    @OneToMany(mappedBy = "flight")
+    private List<BookingClassRuleSetEntity> bookingClassRuleSets;
+    
+    @OneToMany(mappedBy = "flight")
+    private List<YieldManagementRuleEntity> yieldManagementRules;
 
     public FlightEntity() {
+        this.bookingClassRuleSets = new ArrayList<>();
+        this.yieldManagementRules = new ArrayList<>();
 
     }
     //test
@@ -99,6 +109,8 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     }
 
     public FlightEntity(Integer yearSelected) {
+        this.bookingClassRuleSets = new ArrayList<>();
+        this.yieldManagementRules = new ArrayList<>();
         this.operatingYear = yearSelected;
 
     }
@@ -112,6 +124,8 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     }
 
     public FlightEntity(String flightNo, AircraftEntity aircraft, RouteEntity route) {
+        this.bookingClassRuleSets = new ArrayList<>();
+        this.yieldManagementRules = new ArrayList<>();
 
         this.flightNo = flightNo;
         this.aircraft = aircraft;
@@ -351,6 +365,30 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         this.bookingClasses = bookingClasses;
     }
 
+    public List<BookingClassRuleSetEntity> getBookingClassRuleSetEntities() {
+        return bookingClassRuleSets;
+    }
+
+    public void setBookingClassRuleSetEntities(List<BookingClassRuleSetEntity> bookingClassRuleSetEntities) {
+        this.bookingClassRuleSets = bookingClassRuleSetEntities;
+    }
+
+    public List<BookingClassRuleSetEntity> getBookingClassRuleSets() {
+        return bookingClassRuleSets;
+    }
+
+    public void setBookingClassRuleSets(List<BookingClassRuleSetEntity> bookingClassRuleSets) {
+        this.bookingClassRuleSets = bookingClassRuleSets;
+    }
+
+    public List<YieldManagementRuleEntity> getYieldManagementRules() {
+        return yieldManagementRules;
+    }
+
+    public void setYieldManagementRules(List<YieldManagementRuleEntity> yieldManagementRules) {
+        this.yieldManagementRules = yieldManagementRules;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

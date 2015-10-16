@@ -34,6 +34,12 @@ public class SeatEntity implements Serializable {
 
     }
 
+    public SeatEntity(AircraftEntity aircraft, String seatClass) {
+        this.aircraft = aircraft;
+        this.goodCondition = true;
+        this.seatClass = seatClass;
+    }
+    
     public SeatEntity(AircraftEntity aircraft, String seatNo, String seatClass) {
         this.aircraft = aircraft;
         this.seatNo = seatNo;

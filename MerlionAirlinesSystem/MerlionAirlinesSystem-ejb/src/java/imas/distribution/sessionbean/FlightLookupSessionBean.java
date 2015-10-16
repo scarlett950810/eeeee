@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @Stateless
 public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
-    
+
     @EJB
     private DistributionSessionBeanLocal distributionSessionBean;
 
@@ -137,20 +137,47 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
         after.add(Calendar.DATE, daysToadd);
         return after.getTime();
     }
-    
+
     // for a given flight and seatClass, return all bookingclass under that seat class which has available quota
     @Override
-    public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass) {
+    public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass, int totalPurchaseNo) {
+
         List<BookingClassEntity> allBookingClassesUnderFlight = flight.getBookingClasses();
         List<BookingClassEntity> allBookingClassUnderFlightUnderSeatClass = new ArrayList<>();
-        
-        for (BookingClassEntity bookingClassEntity: allBookingClassesUnderFlight) {
-            if (bookingClassEntity.getSeatClass().equals(seatClass) && distributionSessionBean.getQuotaLeft(bookingClassEntity) > 0) {
+
+        for (BookingClassEntity bookingClassEntity : allBookingClassesUnderFlight) {
+            if (bookingClassEntity.getSeatClass().equals(seatClass) && distributionSessionBean.getQuotaLeft(bookingClassEntity) > totalPurchaseNo) {
                 allBookingClassUnderFlightUnderSeatClass.add(bookingClassEntity);
             }
         }
-        
+
         return allBookingClassUnderFlightUnderSeatClass;
     }
-    
+
+    // return whether two airports are reachable within 1 stop of transfer.
+    @Override
+    public boolean reachable(AirportEntity origin, AirportEntity destination) {
+        Query queryForDirectRoute = entityManager.createQuery("select r from RouteEntity r where r.originAirport = :originAirport and r.destinationAirport = :destinationAirport");
+        queryForDirectRoute.setParameter("originAirport", origin);
+        queryForDirectRoute.setParameter("destinationAirport", destination);
+        if (queryForDirectRoute.getResultList().size() > 0) {
+            return true;
+        } else {
+            Query queryFor1Destination = entityManager.createQuery("select r.destinationAirport from RouteEntity r where r.originAirport = :originAirport");
+            queryFor1Destination.setParameter("originAirport", origin);
+            List<AirportEntity> firstDestinationAirports = (List<AirportEntity>) queryFor1Destination.getResultList();
+
+            Query queryFor1Origin = entityManager.createQuery("select r.originAirport from RouteEntity r where r.destinationAirport = :destinationAirport");
+            queryFor1Origin.setParameter("destinationAirport", destination);
+            List<AirportEntity> firstOriginAirports = (List<AirportEntity>) queryFor1Origin.getResultList();
+
+            for (AirportEntity a : firstOriginAirports) {
+                if (firstDestinationAirports.contains(a)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+    }
 }

@@ -46,14 +46,14 @@ public class RouteEntity implements Serializable {
     private Double popularity;
 
     @OneToMany(mappedBy="route")
-    private List<CostPairEntity> costPair;
+    private List<CostPairEntity> costPairs;
 
-    public List<CostPairEntity> getCostPair() {
-        return costPair;
+    public List<CostPairEntity> getCostPairs() {
+        return costPairs;
     }
 
-    public void setCostPair(List<CostPairEntity> costPair) {
-        this.costPair = costPair;
+    public void setCostPairs(List<CostPairEntity> costPairs) {
+        this.costPairs = costPairs;
     }
 
     public RouteEntity getReverseRoute() {
@@ -222,7 +222,7 @@ public class RouteEntity implements Serializable {
 
     @Override
     public String toString() {
-        return originAirport.toString() + " to " + destinationAirport.toString();
+        return "from " + originAirport.toString() + " to " + destinationAirport.toString();
     }
 
 }

@@ -30,7 +30,7 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     @EJB
     private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
 
-    @Schedule(minute="00",hour="*", persistent=false)
+    @Schedule(minute="36",hour="*", persistent=false)
     public void doWork(){
         System.out.println("Set price timer run every 1 hour:");
         /*

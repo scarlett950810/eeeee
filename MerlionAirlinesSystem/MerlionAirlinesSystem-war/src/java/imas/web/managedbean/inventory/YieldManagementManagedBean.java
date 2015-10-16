@@ -114,7 +114,7 @@ public class YieldManagementManagedBean implements Serializable {
 
     public void onFlightChange() {
         if (flight != null) {
-            List<YieldManagementRuleEntity> rules = rulesManagementSessionBean.getAllFlightRules(flight);
+            List<YieldManagementRuleEntity> rules = flight.getYieldManagementRules();
             for (YieldManagementRuleEntity r : rules) {
 //                System.out.println(r);
                 switch (r.getNumber()) {
