@@ -97,7 +97,7 @@ public class InventoryCostManagedBean implements Serializable {
     public List<RouteEntity> getRoutes() {
         List<RouteEntity> routesAll = routeSession.retrieveAllRoutes();
         routes = routeSession.filterRoutesToConnections(routesAll);
-        System.out.println("enter getconnectionsall");
+//        System.out.println("enter getconnectionsall");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routesRangeList", routes);
         return routes;
     }
@@ -116,7 +116,7 @@ public class InventoryCostManagedBean implements Serializable {
             }
             costTable=costSession.getList(selectedRoute);
             root = costSession.createRoot(costTable);
-            System.out.print("111111111111111111");
+//            System.out.print("111111111111111111");
 
         }
     }

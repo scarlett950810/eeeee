@@ -870,14 +870,16 @@ public class FlightLookupManagedBean implements Serializable {
                     if (seatClass.equals("Economy Class")) {
                         for (BookingClassEntity bc : bcs) {
                             if (distributionSessionBean.getQuotaLeft(bc) >= totalPurchaseNo && bc.getPrice() < flightsAvailableOnDate_LowestFare) {
-                                flightsAvailableOnDate_LowestFare = (int) bc.getPrice();
+                                double price = bc.getPrice();
+                                flightsAvailableOnDate_LowestFare = (int) price;
                             }
                         }
                     } else {
                         if (bcs.size() > 0) {
                             for (BookingClassEntity bc : bcs) {
                                 if (bc.getPrice() < flightsAvailableOnDate_LowestFare) {
-                                    flightsAvailableOnDate_LowestFare = (int) bc.getPrice();
+                                    double price = bc.getPrice();
+                                    flightsAvailableOnDate_LowestFare = (int) price;
                                 }
                             }
                         }
@@ -996,7 +998,7 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public boolean selectedDepartureTransferFlightTimeCheck() {
-        
+
         if (departureTransferFlight1.getArrivalDate().after(departureTransferFlight2.getDepartureDate())) {
             return false;
         } else {

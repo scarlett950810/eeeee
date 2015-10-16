@@ -9,6 +9,7 @@ import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassEntity;
+import imas.inventory.entity.BookingClassRuleSetEntity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -84,6 +85,8 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     @ManyToMany(mappedBy = "pilotFlights")
     private List<PilotEntity> pilots;
+    @OneToMany(mappedBy = "flight")
+    private List<BookingClassRuleSetEntity> bookingClassRuleSetEntities;
 
     public FlightEntity() {
 
@@ -340,6 +343,14 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     public void setBookingClasses(List<BookingClassEntity> bookingClasses) {
         this.bookingClasses = bookingClasses;
+    }
+
+    public List<BookingClassRuleSetEntity> getBookingClassRuleSetEntities() {
+        return bookingClassRuleSetEntities;
+    }
+
+    public void setBookingClassRuleSetEntities(List<BookingClassRuleSetEntity> bookingClassRuleSetEntities) {
+        this.bookingClassRuleSetEntities = bookingClassRuleSetEntities;
     }
 
     @Override

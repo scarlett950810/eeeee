@@ -51,4 +51,10 @@ public interface SeatsManagementSessionBeanLocal {
 
     public List<FlightEntity> getFlightsWithoutBookingClass();
 
+    public void generateBusinessClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
+
+    public void generateFirstClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
+
+    public void generatePremiumEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
+
 }
