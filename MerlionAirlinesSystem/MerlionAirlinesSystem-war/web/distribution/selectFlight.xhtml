@@ -451,7 +451,7 @@
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="Rules associated with this booking class" />
+                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.departureDirectFlight, bookingClass)}"/>
                             </p:column>
 
                             <p:column headerText="Price" style="width: 15%">
@@ -479,7 +479,7 @@
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="Rules associated with this booking class" />
+                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.departureTransferFlight1, bookingClass)}"/>
                             </p:column>
 
                             <p:column headerText="Price" style="width: 15%">
@@ -499,7 +499,7 @@
                             </f:facet>
 
                             <p:column headerText="Booking Class Name" style="width: 20%">
-                                <h:outputText value="#{bookingClass.name}" />
+                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.departureTransferFlight2, bookingClass)}"/>
                             </p:column>
 
                             <p:column headerText="Rules">
@@ -531,7 +531,7 @@
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="Rules associated with this booking class" />
+                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.returnDirectFlight, bookingClass)}"/>
                             </p:column>
 
                             <p:column headerText="Price" style="width: 15%">
@@ -559,7 +559,7 @@
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="Rules associated with this booking class" />
+                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.returnTransferFlight1, bookingClass)}"/>
                             </p:column>
 
                             <p:column headerText="Price" style="width: 15%">
@@ -583,7 +583,7 @@
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="Rules associated with this booking class" />
+                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.returnTransferFlight2, bookingClass)}"/>
                             </p:column>
 
                             <p:column headerText="Price" style="width: 15%">

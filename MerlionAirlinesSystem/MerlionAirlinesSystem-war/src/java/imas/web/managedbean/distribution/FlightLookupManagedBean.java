@@ -11,6 +11,7 @@ import imas.distribution.sessionbean.DistributionSessionBeanLocal;
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.distribution.sessionbean.TransferFlight;
 import imas.inventory.entity.BookingClassEntity;
+import imas.inventory.entity.BookingClassRuleSetEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
@@ -1078,7 +1079,7 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public void initSelectBookingClass() {
-
+        
         departureDirectFlightBookingClass = null;
         departureTransferFlight1BookingClass = null;
         departureTransferFlight2BookingClass = null;
@@ -1122,6 +1123,16 @@ public class FlightLookupManagedBean implements Serializable {
     public boolean bookingClassSelectionDisabled(BookingClassEntity bc) {
         int totalPurchaseNo = adultNo + childNo + infantNo;
         return (distributionSessionBean.getQuotaLeft(bc) < totalPurchaseNo);
+    }
+    
+    public BookingClassRuleSetEntity getBookingClassRule(FlightEntity flight, BookingClassEntity bookingClass) {
+        List<BookingClassRuleSetEntity> bcrss = flight.getBookingClassRuleSetEntities();
+        for (BookingClassRuleSetEntity bcrs: bcrss) {
+            if (bcrs.getBookingClassName().equals(bookingClass.getName())) {
+                return bcrs;
+            }
+        }
+        return null;
     }
 
     public boolean checkBookingClassesSubmitted() {

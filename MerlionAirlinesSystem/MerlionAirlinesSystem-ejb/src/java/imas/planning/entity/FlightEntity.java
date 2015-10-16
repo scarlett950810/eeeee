@@ -11,6 +11,7 @@ import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.entity.BookingClassRuleSetEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -86,7 +87,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     @ManyToMany(mappedBy = "pilotFlights")
     private List<PilotEntity> pilots;
     @OneToMany(mappedBy = "flight")
-    private List<BookingClassRuleSetEntity> bookingClassRuleSetEntities;
+    private List<BookingClassRuleSetEntity> bookingClassRuleSetEntities = new ArrayList<>();
 
     public FlightEntity() {
 

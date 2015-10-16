@@ -205,7 +205,11 @@ public class BookingClassRuleSetEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.inventory.entity.BookingClassRuleEntity[ id=" + id + " ]";
+        return "Change flight (more than 60 days to departure): You need to pay the price difference and " + changeFlightFeeForMoreThan60Days * 100 + "% of ticket price."
+                + "Change flight (less than 60 days to departure): You need to pay the price difference and " + changeFlightFeeForLessThan60Days * 100 + "% of ticket price."
+                + "Cancellation (more than 60 days to departure): You would get refund of " + cancellationRefundForMoreThan60Days * 100 + "% of ticket price."
+                + "Cancellation (less than 60 days to departure): You would get refund of " + cancellationRefundForLessThan60Days * 100 + "% of ticket price."
+                + "Mileage Accrual: " + mileageAccrual + " times.";
     }
     
 }

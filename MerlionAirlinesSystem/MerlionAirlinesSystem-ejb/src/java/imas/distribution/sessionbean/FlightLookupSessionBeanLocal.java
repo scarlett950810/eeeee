@@ -43,5 +43,5 @@ public interface FlightLookupSessionBeanLocal {
     public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass, int totalPurchaseNo);
 
     public boolean reachable(AirportEntity origin, AirportEntity destination);
-    
+
 }
