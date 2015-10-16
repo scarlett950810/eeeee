@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Web Check In
+    </ui:define>
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="main">
+        <ui:repeat value="#{customerBookTicketManagedBean.seatHelper}" var="row">
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="#{customerBookTicketManagedBean.seatHelper.indexOf(row)+1}"></p:outputLabel>
+                </p:column>
+                <ui:repeat value="#{row}" var="element">
+                    <p:column>
+                        <p:selectOneRadio value="#{element.selected}" disabled="#{!element.eligible}">
+                            <f:selectItem itemLabel="#{element.seatNumber}" itemValue="true" /> 
+                        </p:selectOneRadio>
+                    </p:column>
+                </ui:repeat> 
+            </p:row>
+        </ui:repeat>
+    </ui:define>
+
+</ui:composition>

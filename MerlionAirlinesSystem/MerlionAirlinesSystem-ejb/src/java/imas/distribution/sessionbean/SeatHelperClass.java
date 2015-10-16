@@ -5,6 +5,7 @@
  */
 package imas.distribution.sessionbean;
 
+import imas.distribution.entity.PassengerEntity;
 import java.util.Objects;
 
 /**
@@ -17,6 +18,7 @@ public class SeatHelperClass {
     private Boolean occupied;
     private Boolean eligible;
     private Boolean selected;
+    private PassengerEntity passenger;
 
     public SeatHelperClass() {
         this.selected = false;
@@ -58,6 +60,14 @@ public class SeatHelperClass {
 
     public void setSelected(Boolean selected) {
         this.selected = selected;
+    }
+
+    public PassengerEntity getPassenger() {
+        return passenger;
+    }
+
+    public void setPassenger(PassengerEntity passenger) {
+        this.passenger = passenger;
     }
 
     @Override

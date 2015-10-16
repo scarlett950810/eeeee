@@ -57,6 +57,12 @@
                     <h:outputText value="#{flight.arrivalDate}" />
                 </p:column>
             </p:dataTable>
+            
+            <br/>
+            
+            <p:outputLabel value="Total Price: S$#{customerBookTicketManagedBean.totalPrice}" style="font-size: 150%; color: red;"></p:outputLabel>
+            <br/>
+            <p:outputLabel value="(Includes taxes and surcharges)" />
         </p:panel>
 
         <h:form id="makeBooking">
@@ -186,25 +192,6 @@
                     </ui:repeat>
                 </p:tab>
 
-                <p:tab id="seatSelection" title="Seats Selection">
-                    <p:panelGrid>
-                        <ui:repeat value="#{customerBookTicketManagedBean.seatHelper}" var="row">
-                            <p:row>
-                                <p:column>
-                                    <p:outputLabel value="#{customerBookTicketManagedBean.seatHelper.indexOf(row)+1}"></p:outputLabel>
-                                </p:column>
-                                <ui:repeat value="#{row}" var="element">
-                                    <p:column>
-                                        <p:selectOneRadio value="#{element.selected}" disabled="#{!element.eligible}">
-                                            <f:selectItem itemLabel="#{element.seatNumber}" itemValue="true" /> 
-                                        </p:selectOneRadio>
-                                    </p:column>
-                                </ui:repeat> 
-                            </p:row>
-                        </ui:repeat>
-                    </p:panelGrid>
-                </p:tab>
-
                 <p:tab id="contactDetails" title="Contact Details">
                     <p:panel header="Contact Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
                         <h:panelGrid columns="2" columnClasses="label, value">
@@ -253,7 +240,7 @@
                     <p:panel header="Payment Details">
 
                         <h:panelGrid columns="2" columnClasses="label, value">
-
+                            <p:commandButton value="Confirm" actionListener="#{customerBookTicketManagedBean.confirm}"></p:commandButton>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>

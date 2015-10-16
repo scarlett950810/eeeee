@@ -232,22 +232,23 @@
         </script>
         
         <p:growl></p:growl>
-        <p:panel class="panel panel-primary" style="margin-top: 10%;">
+        <p:panel header="Flight Look up" class="panel panel-primary" style="margin-top: 10%;">
             <p:messages />
             <h:form style="z-index: 1; position: absolute; background-color:rgba(255, 255, 255, 0.6);">
                 <h:panelGrid columns="2" cellpadding="5">
 
                     <p:outputLabel for="origin" value="From:" />
-                    <p:selectOneMenu id="origin" value="#{customerBookTicketManagedBean.orginAirport}" converter="airportConverter"
+                    <p:selectOneMenu id="origin" value="#{customerBookTicketManagedBean.originAirport}" converter="airportConverter"
                                      filter="true" filterMatchMode="contains" required="true">
                         <p:ajax listener="#{customerBookTicketManagedBean.onOriginChange}" update="destination" />
                         <f:selectItem itemLabel="Select Origin Airport" itemDisabled="true" />
-                        <f:selectItems value="#{customerBookTicketManagedBean.airportsByCountry}" />
+                        <f:selectItems value="#{customerBookTicketManagedBean.originAirportsByCountry}" />
                     </p:selectOneMenu>
 
                     <p:outputLabel for="destination" value="To:" />
                     <p:selectOneMenu id="destination" value="#{customerBookTicketManagedBean.destinationAirport}" converter="airportConverter"
                                      filter="true" filterMatchMode="contains" required="true">
+                        <p:ajax listener="#{customerBookTicketManagedBean.onDestinationChange}" update="destination" />
                         <f:selectItem itemLabel="Select Destination Airport" itemDisabled="true" />
                         <f:selectItems value="#{customerBookTicketManagedBean.destinationAirportsByCountry}" />
                     </p:selectOneMenu>
@@ -269,7 +270,7 @@
                                 required="#{customerBookTicketManagedBean.twoWay}" mindate="#{customerBookTicketManagedBean.returnMinDate}" maxdate="#{customerBookTicketManagedBean.returnMaxDate}">
                         <p:ajax event="dateSelect" listener="#{customerBookTicketManagedBean.onReturnDateSelect}" update="departureDate" />
                     </p:calendar>
-
+                    
                     <h:outputLabel for="seatClass" value="Seat Class"/>
                     <p:selectOneMenu id="seatClass" value="#{customerBookTicketManagedBean.seatClass}" required="true">
                         <f:selectItem itemValue="First Class" itemLabel="First Class"/>
@@ -277,7 +278,7 @@
                         <f:selectItem itemValue="Premium Economy Class" itemLabel="Premium Economy Class"/>
                         <f:selectItem itemValue="Economy Class" itemLabel="Economy Class"/>
                     </p:selectOneMenu>
-
+                    
                 </h:panelGrid>
 
                 <h:panelGrid columns="6" cellpadding="5">
@@ -293,7 +294,7 @@
                         <f:selectItem itemValue="8" itemLabel="8"/>
                         <f:selectItem itemValue="9" itemLabel="9"/>
                     </p:selectOneMenu>
-
+                    
                     <h:outputLabel for="children" value="Children"/>                    
                     <p:selectOneMenu id="children" value="#{customerBookTicketManagedBean.childNo}" required="true">
                         <f:selectItem itemValue="0" itemLabel="0"/>
@@ -307,7 +308,7 @@
                         <f:selectItem itemValue="8" itemLabel="8"/>
                         <f:selectItem itemValue="9" itemLabel="9"/>
                     </p:selectOneMenu>
-
+                    
                     <h:outputLabel for="infant" value="Infant"/>                    
                     <p:selectOneMenu id="infant" value="#{customerBookTicketManagedBean.infantNo}" required="true">
                         <f:selectItem itemValue="0" itemLabel="0"/>
@@ -322,9 +323,9 @@
                         <f:selectItem itemValue="9" itemLabel="9"/>
                     </p:selectOneMenu> 
                 </h:panelGrid>
-
+                
                 <p:commandButton value="Search" class="btn-sm btn-primary" actionListener="#{customerBookTicketManagedBean.searchFromHomePage}" style="float: right" />
-
+            
             </h:form>
 
         </p:panel>
