@@ -19,8 +19,6 @@ public interface RulesManagementSessionBeanLocal {
 
     public List<FlightEntity> getAllFlights();
 
-    public List<YieldManagementRuleEntity> getAllFlightRules(FlightEntity flight);
-
     public void updateRule1(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule1);
 
     public void updateRule2(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule2);

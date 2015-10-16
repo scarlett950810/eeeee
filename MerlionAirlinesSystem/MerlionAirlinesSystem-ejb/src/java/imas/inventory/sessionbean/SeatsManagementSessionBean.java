@@ -64,111 +64,122 @@ public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLoc
     @Override
     public void generateFirstClassBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().FirstClassBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().FirstClassBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
 
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createFirstClassBookingClassRule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createFirstClassBookingClassRule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generateBusinessClassBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().BusinessClassBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().BusinessClassBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
         
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createBusinessClassBookingClassRule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createBusinessClassBookingClassRule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generatePremiumEconomyClassBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().PremiumEconomyClassBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().PremiumEconomyClassBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
         
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createPremiumEconomyClassBookingClassRule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createPremiumEconomyClassBookingClassRule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass1BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass1BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
         
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass1Rule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass1Rule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass2BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass2BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass2BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
         
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass2Rule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass2Rule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass3BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass3BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
         
                 
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass3Rule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass3Rule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass4BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass4BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass4BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
         
                 
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass4Rule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass4Rule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClass5BookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClass5BookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
                 
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass5Rule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassBookingClass5Rule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generateFirstClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().FirstClassAgencyBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().FirstClassAgencyBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
         
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createFirstClassAgencyBookingClassRule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createFirstClassAgencyBookingClassRule(bc);
         entityManager.persist(bcrs);
     }
     
     @Override
     public void generateBusinessClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().BusinessClassAgencyBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().BusinessClassAgencyBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
                 
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createBusinessClassAgencyBookingClassRule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createBusinessClassAgencyBookingClassRule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generatePremiumEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().PremiumEconomyClassAgencyBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().PremiumEconomyClassAgencyBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
         
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createPremiumEconomyClassAgencyBookingClassRule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createPremiumEconomyClassAgencyBookingClassRule(bc);
         entityManager.persist(bcrs);
     }
 
     @Override
     public void generateEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota) {
         FlightEntity flightToManage = entityManager.find(FlightEntity.class, flight.getId());
-        entityManager.persist(new BookingClassEntity().EconomyClassAgencyBookingClassEntity(flightToManage, price, quota));
+        BookingClassEntity bc = new BookingClassEntity().EconomyClassAgencyBookingClassEntity(flightToManage, price, quota);
+        entityManager.persist(bc);
         
-        
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassAgencyBookingClassRule(flight);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity().createEconomyClassAgencyBookingClassRule(bc);
         entityManager.persist(bcrs);
     }
 

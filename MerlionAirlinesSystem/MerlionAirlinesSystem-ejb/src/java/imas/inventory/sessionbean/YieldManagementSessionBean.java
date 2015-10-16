@@ -550,6 +550,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 //        B = 1 + np* (2-1)
         Double b = 1 + normalizedPopularity * (2 - 1);
         YieldManagementRuleEntity rule1 = new YieldManagementRuleEntity().YieldManagementRule1Entity(flight, a, b);
+        rule1.setFlight(flight);
         entityManager.persist(rule1);
     }
 
@@ -559,6 +560,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 //        B = 0.5+ np* (1.2-0.5)
         Double b = 0.5 + normalizedPopularity * (1.2 - 0.5);
         YieldManagementRuleEntity rule2 = new YieldManagementRuleEntity().YieldManagementRule2Entity(flight, a, b);
+        rule2.setFlight(flight);
         entityManager.persist(rule2);
     }
 
@@ -568,6 +570,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 //        B = 0.6+ np* (0.8-0.6)
         Double b = 0.6 + normalizedPopularity * (0.8 - 0.6);
         YieldManagementRuleEntity rule3 = new YieldManagementRuleEntity().YieldManagementRule3Entity(flight, a, b);
+        rule3.setFlight(flight);
         entityManager.persist(rule3);
     }
 
@@ -580,6 +583,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 //        C = 0.1 + np* (0.5-0.1)
         Double c = 0.1 + normalizedPopularity * (0.5 - 0.1);
         YieldManagementRuleEntity rule4 = new YieldManagementRuleEntity().YieldManagementRule4Entity(flight, a, b1, b2, c);
+        rule4.setFlight(flight);
         entityManager.persist(rule4);
     }
 

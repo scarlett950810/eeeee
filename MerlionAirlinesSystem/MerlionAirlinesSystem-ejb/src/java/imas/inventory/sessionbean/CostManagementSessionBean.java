@@ -63,7 +63,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setRoute(selectedRoute);
         }
-        selectedRoute.setCostPair(list);
+        selectedRoute.setCostPairs(list);
         em.merge(selectedRoute);
     }
 
@@ -125,7 +125,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     @Override
     public void updateCost(RouteEntity selectedRoute, String costName, Double costFigure) {
 
-        List<CostPairEntity> costList = selectedRoute.getCostPair();
+        List<CostPairEntity> costList = selectedRoute.getCostPairs();
         if (!costList.isEmpty()) {
             for (int i = 0; i < costList.size(); i++) {
                 if (costList.get(i).getCostType().equals(costName)) {
@@ -136,7 +136,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
             }
 
             costList = correctList(costList);
-            selectedRoute.setCostPair(costList);
+            selectedRoute.setCostPairs(costList);
             for (int i = 0; i < costList.size(); i++) {
                 em.merge(costList.get(i));
             }
@@ -147,14 +147,14 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     @Override
     public List<CostPairEntity> getList(RouteEntity selectedRoute) {
         List<CostPairEntity> costTable;
-        costTable = selectedRoute.getCostPair();
+        costTable = selectedRoute.getCostPairs();
         Collections.sort(costTable);
         return costTable;
     }
 
     @Override
     public void updateShowRate(RouteEntity selectedRoute, Double showRate) {
-        if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null || selectedRoute.getCostPair().size() < 23) {
+        if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null || selectedRoute.getCostPairs().size() < 23) {
             intiCostTable(selectedRoute);
         }
         List<CostPairEntity> costList = this.getList(selectedRoute);
@@ -230,7 +230,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @Override
     public Double getCostPerSeatPerMile(RouteEntity selectedRoute) {
-        if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null || selectedRoute.getCostPair().size() < 23) {
+        if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null || selectedRoute.getCostPairs().size() < 23) {
             intiCostTable(selectedRoute);
         }
         List<CostPairEntity> costTable = this.getList(selectedRoute);
