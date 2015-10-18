@@ -21,7 +21,7 @@ import javax.persistence.Query;
 @Stateless
 public class inventoryRevenueManagementSessionBean implements inventoryRevenueManagementSessionBeanLocal {
     @EJB
-    private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
+    private BookingClassesManagementSessionBeanLocal bookingClassesManagementSessionBean;
 
     @PersistenceContext
     private EntityManager em;
@@ -90,7 +90,7 @@ public class inventoryRevenueManagementSessionBean implements inventoryRevenueMa
 
     @Override
     public int checkSeatsCapacity(FlightEntity selectedFlight) {
-        return seatsManagementSessionBean.getEconomyClassCapacity(selectedFlight);
+        return bookingClassesManagementSessionBean.getEconomyClassCapacity(selectedFlight);
     }
 
     

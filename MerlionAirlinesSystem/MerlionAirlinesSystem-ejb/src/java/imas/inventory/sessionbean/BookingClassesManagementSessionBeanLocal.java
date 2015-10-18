@@ -15,7 +15,7 @@ import javax.ejb.Local;
  * @author Scarlett
  */
 @Local
-public interface SeatsManagementSessionBeanLocal {
+public interface BookingClassesManagementSessionBeanLocal {
 
     public double computeHistoricalShowRate(RouteEntity route);
 

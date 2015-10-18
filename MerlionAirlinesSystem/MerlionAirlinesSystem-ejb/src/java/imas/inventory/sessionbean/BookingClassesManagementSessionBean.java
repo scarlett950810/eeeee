@@ -27,7 +27,7 @@ import javax.persistence.Query;
  * @author Scarlett
  */
 @Stateless
-public class SeatsManagementSessionBean implements SeatsManagementSessionBeanLocal {
+public class BookingClassesManagementSessionBean implements BookingClassesManagementSessionBeanLocal {
 
     @EJB
     private YieldManagementSessionBeanLocal yieldManagementSessionBean;

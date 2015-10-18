@@ -47,13 +47,13 @@ public interface YieldManagementSessionBeanLocal {
     public BookingClassEntity getEconomyClass4(FlightEntity flight);
 
     public BookingClassEntity getEconomyClass5(FlightEntity flight);
-    
+
     public void runYieldManagementRule1(YieldManagementRuleEntity yieldManagementRuleEntity);
-    
+
     public void runYieldManagementRule2(YieldManagementRuleEntity yieldManagementRuleEntity);
-   
+
     public void runYieldManagementRule3(YieldManagementRuleEntity yieldManagementRuleEntity);
-    
+
     public void runYieldManagementRule4(YieldManagementRuleEntity yieldManagementRuleEntity);
 
     public void insertRules();
@@ -65,5 +65,5 @@ public interface YieldManagementSessionBeanLocal {
     public void disableYieldManagementRule(YieldManagementRuleEntity yieldManagementRuleEntity);
 
     public double getNormalizedPopularity(RouteEntity route);
-   
+
 }
