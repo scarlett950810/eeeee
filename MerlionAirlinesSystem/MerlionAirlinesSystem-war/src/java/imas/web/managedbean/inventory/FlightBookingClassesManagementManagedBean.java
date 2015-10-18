@@ -46,7 +46,7 @@ public class FlightBookingClassesManagementManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        this.pendingFlights = bookingClassesManagementSessionBean.getFlightsWithoutBookingClass();
+        this.pendingFlights = bookingClassesManagementSessionBean.getFlightCandidateToOpenForBooking();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("pendingFlights", this.pendingFlights);
 //        bookingClassesManagementSessionBean.insertData();
     }
@@ -72,15 +72,16 @@ public class FlightBookingClassesManagementManagedBean implements Serializable {
         this.pendingFlights = pendingFlights;
     }
 
-    public void automaticallyCreateBookingClassAndRules(FlightEntity flight) {
-        automaticallyCreateBookingClass(flight);
+    public void automaticallyCreateBookingClassAndYieldManagementRules(FlightEntity flight) {
+        createBookingClasses(flight);
         yieldManagementSessionBean.autoCreateRulesForFlight(flight);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful",
                 "Booking classes and rules for " + flight.getFlightNo() + " created."));
     }
 
-    public void automaticallyCreateBookingClass(FlightEntity flight) {
-
+    public void createBookingClasses(FlightEntity flight) {
+        bookingClassesManagementSessionBean.createBookingClassesAndYieldManagementRules(flight);
+/*
         System.out.println("");
         System.out.println("");
         System.out.println("");
@@ -101,8 +102,8 @@ public class FlightBookingClassesManagementManagedBean implements Serializable {
         Double distance = flight.getRoute().getDistance();
         Double baseFare = costPerSeatPerMile * distance;
 //        System.out.println("baseFare = " + baseFare);
-        bookingClassesManagementSessionBean.generateFirstClassBookingClassEntity(flight, 15 * baseFare, firstClassCapacity);
-        bookingClassesManagementSessionBean.generateBusinessClassBookingClassEntity(flight, 6 * baseFare, businessClassCapacity);
+        bookingClassesManagementSessionBean.generateFirstClassBookingClassEntityAndTAndC(flight, 15 * baseFare, firstClassCapacity);
+        bookingClassesManagementSessionBean.generateBusinessClassBookingClassEntityAndTAndC(flight, 6 * baseFare, businessClassCapacity);
         bookingClassesManagementSessionBean.generatePremiumEconomyClassBookingClassEntity(flight, 4 * baseFare, premiumEconomyClassCapacity);
 
         // TODO: optimization of yield management.
@@ -152,7 +153,7 @@ public class FlightBookingClassesManagementManagedBean implements Serializable {
         System.out.println("Economy Class 5:        quota = 0                                                  price = 0.8 * base fare = " + 0.8 * baseFare);
         System.out.println("=========================================================================");
         System.out.println("......Done");
-
+*/
         pendingFlights.remove(flight);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("pendingFlights", this.pendingFlights);
 

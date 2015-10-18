@@ -14,7 +14,6 @@ import imas.inventory.sessionbean.CostManagementSessionBeanLocal;
 import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
@@ -50,6 +49,10 @@ public class InventoryCostManagedBean implements Serializable {
     @PostConstruct
     public void init()
     {
+        List<RouteEntity> routesAll = routeSession.retrieveAllRoutes();
+        routes = routeSession.filterRoutesToConnections(routesAll);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routesRangeList", routes);
+        
 //        costTable = costSession.createTable();
         List<CostPairEntity> list = new ArrayList<CostPairEntity>();
         list.add(new CostPairEntity("Cost per seat per mile", 0.0,0));//0*
@@ -95,10 +98,6 @@ public class InventoryCostManagedBean implements Serializable {
     }
 
     public List<RouteEntity> getRoutes() {
-        List<RouteEntity> routesAll = routeSession.retrieveAllRoutes();
-        routes = routeSession.filterRoutesToConnections(routesAll);
-//        System.out.println("enter getconnectionsall");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routesRangeList", routes);
         return routes;
     }
 
@@ -112,9 +111,9 @@ public class InventoryCostManagedBean implements Serializable {
             System.out.print(selectedRoute);
 
             if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null||selectedRoute.getCostPairs().size()<23) {
-                costSession.intiCostTable(selectedRoute);
+                costSession.initCostTable(selectedRoute);
             }
-            costTable=costSession.getList(selectedRoute);
+            costTable=costSession.getCostPairList(selectedRoute);
             root = costSession.createRoot(costTable);
 //            System.out.print("111111111111111111");
 

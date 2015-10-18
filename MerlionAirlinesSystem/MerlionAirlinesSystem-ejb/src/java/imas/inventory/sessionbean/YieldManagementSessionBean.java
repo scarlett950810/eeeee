@@ -71,7 +71,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     public double getEconomyClassTotalCost(FlightEntity flight) {
 
         double costPerSeat = costManagementSessionBean.getCostPerSeatPerMile(flight.getRoute()) * flight.getRoute().getDistance();
-        int economyCapacity = bookingClassesManagementSessionBean.getEconomyClassCapacity(flight);
+        int economyCapacity = bookingClassesManagementSessionBean.getSeatClassCapacity(flight, "Economy Class");
 
         return costPerSeat * economyCapacity;
     }
@@ -365,7 +365,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
         Integer nowToDeparture = getFromNowToDepartureInDay(flight);
         Integer economyClassTicketSold = getTotalNumberOfSoldEconomyClassesTicket(flight);
-        Integer economyClassCapacity = bookingClassesManagementSessionBean.getEconomyClassCapacity(flight);
+        Integer economyClassCapacity = bookingClassesManagementSessionBean.getSeatClassCapacity(flight, "Economy Class");
         Double percentageSold = ((double) economyClassTicketSold / economyClassCapacity);
 
         if (nowToDeparture < yieldManagementRuleEntity.getTimeToDepartureInDaysParameter()

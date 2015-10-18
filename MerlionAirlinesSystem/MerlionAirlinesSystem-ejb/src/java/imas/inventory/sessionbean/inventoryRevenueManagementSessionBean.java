@@ -90,7 +90,7 @@ public class inventoryRevenueManagementSessionBean implements inventoryRevenueMa
 
     @Override
     public int checkSeatsCapacity(FlightEntity selectedFlight) {
-        return bookingClassesManagementSessionBean.getEconomyClassCapacity(selectedFlight);
+        return bookingClassesManagementSessionBean.getSeatClassCapacity(selectedFlight, "Economy Class");
     }
 
     

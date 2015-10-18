@@ -42,7 +42,7 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
         thus staff from inventory have 1 month to manually adjust the price.
         */
         monthToDeparture = 13;
-        bookingClassesManagementSessionBean.autoPriceToDepartureAndUnpricedFlights(monthToDeparture);
+        bookingClassesManagementSessionBean.autoPriceFlightsNeedToBePriced(monthToDeparture);
     }
     
 }

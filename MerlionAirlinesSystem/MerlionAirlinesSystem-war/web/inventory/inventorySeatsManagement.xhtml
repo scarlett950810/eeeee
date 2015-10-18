@@ -49,8 +49,8 @@
                 </p:column>
                 
                 <p:column headerText="Auto Create Booking Class (Booking Class, Price, Quota)"  style="width: 15%">
-                    <p:commandButton ajax="false" value="Create" class="btn-sm btn-success" 
-                                     action="#{flightBookingClassesManagementManagedBean.automaticallyCreateBookingClassAndRules(flight)}" /> 
+                    <p:commandButton value="Create" class="btn-sm btn-success" update="@form"
+                                     actionListener="#{flightBookingClassesManagementManagedBean.automaticallyCreateBookingClassAndYieldManagementRules(flight)}" /> 
                 </p:column>
 
             </p:dataTable>

@@ -67,13 +67,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        fetchFlights();
-//        System.out.print("managed bean called");
-    }
-
-    public void fetchFlights() {
         flightList = distributionSessionBean.getAllAvailableFlights();
-        System.out.print(flightList);
     }
 
     public List<FlightEntity> getFlightList() {
