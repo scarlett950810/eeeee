@@ -5,7 +5,7 @@
  */
 package imas.web.managedbean.inventory;
 
-import imas.distribution.sessionbean.DistributionSessionBeanLocal;
+import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.inventory.entity.YieldManagementRuleEntity;
 import imas.inventory.sessionbean.RulesManagementSessionBeanLocal;
 import imas.inventory.sessionbean.YieldManagementSessionBeanLocal;
@@ -36,8 +36,8 @@ public class YieldManagementManagedBean implements Serializable {
     private RulesManagementSessionBeanLocal rulesManagementSessionBean;
 
     @EJB
-    private DistributionSessionBeanLocal distributionSessionBean;
-
+    private FlightLookupSessionBeanLocal flightLookupSessionBean;
+    
     private List<FlightEntity> flights;
     private YieldManagementRuleEntity rule1;
     private YieldManagementRuleEntity rule2;
@@ -54,9 +54,8 @@ public class YieldManagementManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        this.flights = distributionSessionBean.getAllAvailableFlights();
+        this.flights = flightLookupSessionBean.getAllSellingFlights();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", this.flights);
-//        yieldManagementSessionBean.insertRules();
     }
 
     @PostRemove

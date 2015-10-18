@@ -5,7 +5,7 @@
  */
 package imas.web.managedbean.inventory;
 
-import imas.distribution.sessionbean.DistributionSessionBeanLocal;
+import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.sessionbean.inventoryRevenueManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
@@ -31,12 +31,12 @@ import org.primefaces.model.chart.HorizontalBarChartModel;
 @ManagedBean
 @SessionScoped
 public class InventoryRevenueManagementManagedBean implements Serializable {
+    
     @EJB
-    private DistributionSessionBeanLocal distributionSessionBean;
-
+    private FlightLookupSessionBeanLocal flightLookupSessionBean;
+    
     @EJB
     private inventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
-    
     
     private List<FlightEntity> flightList;
     private List<FlightEntity> fliteredFlight;
@@ -67,7 +67,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        flightList = distributionSessionBean.getAllAvailableFlights();
+        flightList = flightLookupSessionBean.getAllSellingFlights();
     }
 
     public List<FlightEntity> getFlightList() {

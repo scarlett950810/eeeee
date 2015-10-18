@@ -5,7 +5,7 @@
  */
 package imas.web.managedbean.distribution;
 
-import imas.distribution.sessionbean.DistributionSessionBeanLocal;
+import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.sessionbean.RulesManagementSessionBeanLocal;
 import imas.inventory.sessionbean.inventoryRevenueManagementSessionBeanLocal;
@@ -30,7 +30,7 @@ import javax.persistence.PostRemove;
 public class DistributionBuyTicketsManagedBean implements Serializable {
 
     @EJB
-    private DistributionSessionBeanLocal distributionSessionBean;
+    private FlightLookupSessionBeanLocal flightLookupSessionBean;
 
     @EJB
     private inventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
@@ -59,7 +59,7 @@ public class DistributionBuyTicketsManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        flights = distributionSessionBean.getAllAvailableFlights();
+        flights = flightLookupSessionBean.getAllSellingFlights();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", flights);
     }
 
@@ -147,7 +147,7 @@ public class DistributionBuyTicketsManagedBean implements Serializable {
     }
 
     public int bookingClassQuotaLeft(BookingClassEntity bookingClass) {
-        return distributionSessionBean.getQuotaLeft(bookingClass);
+        return flightLookupSessionBean.getQuotaLeft(bookingClass);
     }
 
     public void purchase() {
@@ -159,7 +159,7 @@ public class DistributionBuyTicketsManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_FATAL, "Booking failed:", "Purchase amount is more than available quota."));
         } else {
-            distributionSessionBean.makeBooking(bookingClass, purchaseAmount);
+            flightLookupSessionBean.makeBooking(bookingClass, purchaseAmount);
             bookingClasses = inventoryRevenueManagementSessionBean.fetchBookingClass(flight.getId());
             List<BookingClassEntity> availableBookingClassEntities = new ArrayList();
             for (BookingClassEntity bc : bookingClasses) {

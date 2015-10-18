@@ -48,7 +48,6 @@ public class FlightBookingClassesManagementManagedBean implements Serializable {
     public void init() {
         this.pendingFlights = bookingClassesManagementSessionBean.getFlightCandidateToOpenForBooking();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("pendingFlights", this.pendingFlights);
-//        bookingClassesManagementSessionBean.insertData();
     }
 
     @PostRemove

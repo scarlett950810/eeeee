@@ -28,12 +28,6 @@ public class RulesManagementSessionBean implements RulesManagementSessionBeanLoc
     private EntityManager entityManager;
     
     @Override
-    public List<FlightEntity> getAllFlights() {
-        Query queryForAllFlights = entityManager.createQuery("SELECT f FROM FlightEntity f");
-        return queryForAllFlights.getResultList();        
-    }
-    
-    @Override
     public void updateRule1(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule1) {
         Query queryForRule = entityManager.createQuery("SELECT r FROM YieldManagementRuleEntity r"
                 + " WHERE r.flight = :flight AND r.number = :number");
