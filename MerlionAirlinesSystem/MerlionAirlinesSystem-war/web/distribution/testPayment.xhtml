@@ -25,34 +25,10 @@
 
     <ui:define name="centerPanel">
 
+        #{distributionRestPayment.restPay()}
+       
 
-       <div id="paypal-container"></div>
-
-        <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
-        <script>
-            // We generated a client token for you so you can test out this code
-            // immediately. In a production-ready integration, you will need to
-            // generate a client token on your server (see section below).
-            //                    braintree.setup(clientToken, "dropin", {
-            //                    container: "payment-form"
-            //                    }); 
-
-
-
-
-            var clientToken = "#{distributionPayment.clientToken}"
-            console.log("aaaa" + clientToken);
-
-            braintree.setup(clientToken, "dropin", {
-                container: "paypal-container",
-                onPaymentMethodReceived: function (obj) {
-//    doSomethingWithTheNonce(obj.nonce);
-                    console.log("nonce <br/>");
-                    console.log(obj.nonce);
-                }
-
-            });
-        </script>
+       
         
         
 

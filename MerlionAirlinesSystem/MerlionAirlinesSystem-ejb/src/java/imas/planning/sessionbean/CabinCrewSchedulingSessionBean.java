@@ -173,6 +173,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         earliestDep = earliestFlight.getArrivalDate();
         if (earliestFlight.getCabinCrews().size() >= getFlightCapacity(earliestFlight)) {
             flightsAvai.remove(earliestFlight);
+           
         }
 
         FlightEntity flightAssigned = earliestFlight;
