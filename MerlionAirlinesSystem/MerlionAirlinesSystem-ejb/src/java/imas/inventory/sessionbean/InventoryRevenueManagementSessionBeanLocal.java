@@ -15,11 +15,7 @@ import javax.ejb.Local;
  * @author Howard
  */
 @Local
-public interface inventoryRevenueManagementSessionBeanLocal {
-
-    List<FlightEntity> fetchFlight();
-
-    List<BookingClassEntity> fetchBookingClass(Long flightID);
+public interface InventoryRevenueManagementSessionBeanLocal {
 
     Integer computeSoldSeats(Long bookingClassID);
 

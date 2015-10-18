@@ -159,6 +159,6 @@ public class FlightBookingClassesManagementManagedBean implements Serializable {
     }
 
     public Integer getDaysToDeparture(FlightEntity flight) {
-        return yieldManagementSessionBean.getFromNowToDepartureInDay(flight);
+        return yieldManagementSessionBean.getFlightFromNowToDepartureInDay(flight);
     }
 }

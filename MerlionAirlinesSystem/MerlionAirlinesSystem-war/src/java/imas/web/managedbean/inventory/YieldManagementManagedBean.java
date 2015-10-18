@@ -226,7 +226,7 @@ public class YieldManagementManagedBean implements Serializable {
 
     public String getFlightPopularity() {
         if (flight != null) {
-            double np = yieldManagementSessionBean.getNormalizedPopularity(flight.getRoute());
+            double np = yieldManagementSessionBean.getRouteNormalizedPopularity(flight.getRoute());
 
             if (np > 0.8) {
                 return "Very Popular";

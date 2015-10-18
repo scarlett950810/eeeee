@@ -7,7 +7,6 @@ package imas.inventory.sessionbean;
 
 import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.FlightEntity;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,41 +18,13 @@ import javax.persistence.Query;
  * @author Howard
  */
 @Stateless
-public class inventoryRevenueManagementSessionBean implements inventoryRevenueManagementSessionBeanLocal {
+public class InventoryRevenueManagementSessionBean implements InventoryRevenueManagementSessionBeanLocal {
+    
     @EJB
     private BookingClassesManagementSessionBeanLocal bookingClassesManagementSessionBean;
 
     @PersistenceContext
     private EntityManager em;
-    
-    @Override
-    public List<FlightEntity> fetchFlight() {
-        
-        Query query = em.createQuery("SELECT f FROM FlightEntity f");
-        
-        List<FlightEntity> flights = (List<FlightEntity>)query.getResultList();
-        if(flights.isEmpty()){
-            return null;
-        }else{
-            return flights;
-            
-        }
-    }
-
-    @Override
-    public List<BookingClassEntity> fetchBookingClass(Long flightID) {
-        Query query = em.createQuery("SELECT b FROM BookingClassEntity b WHERE b.flight.id =:flightID ORDER BY b.price DESC");
-        query.setParameter("flightID", flightID);
-        
-        List<BookingClassEntity> bookingClassList = (List<BookingClassEntity>)query.getResultList();
-        if(bookingClassList.isEmpty()){
-            System.out.print("The flight is not associated with any booking class.");
-            return null;
-        }else{
-            System.out.print("get");
-            return bookingClassList;
-        }
-    }
 
     @Override
     public Integer computeSoldSeats(Long bookingClassID) {

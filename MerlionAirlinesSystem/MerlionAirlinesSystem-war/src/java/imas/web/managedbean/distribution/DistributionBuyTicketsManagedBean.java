@@ -8,7 +8,7 @@ package imas.web.managedbean.distribution;
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.sessionbean.RulesManagementSessionBeanLocal;
-import imas.inventory.sessionbean.inventoryRevenueManagementSessionBeanLocal;
+import imas.inventory.sessionbean.InventoryRevenueManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class DistributionBuyTicketsManagedBean implements Serializable {
     private FlightLookupSessionBeanLocal flightLookupSessionBean;
 
     @EJB
-    private inventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
+    private InventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
 
     @EJB
     private RulesManagementSessionBeanLocal rulesManagementSessionBean;
@@ -119,7 +119,7 @@ public class DistributionBuyTicketsManagedBean implements Serializable {
     }
 
     public void refreshBookingClassseAndAvailableBookingClasses() {
-        bookingClasses = inventoryRevenueManagementSessionBean.fetchBookingClass(flight.getId());
+        bookingClasses = flight.getBookingClasses();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", bookingClasses);
         List<BookingClassEntity> availableBookingClassEntities = new ArrayList();
         for (BookingClassEntity bc : bookingClasses) {
@@ -133,7 +133,7 @@ public class DistributionBuyTicketsManagedBean implements Serializable {
 
     public void onFlightChange() {
         if (flight != null) {
-            bookingClasses = inventoryRevenueManagementSessionBean.fetchBookingClass(flight.getId());
+            bookingClasses = flight.getBookingClasses();
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", bookingClasses);
             List<BookingClassEntity> availableBookingClassEntities = new ArrayList();
             for (BookingClassEntity bc : bookingClasses) {
@@ -160,7 +160,7 @@ public class DistributionBuyTicketsManagedBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_FATAL, "Booking failed:", "Purchase amount is more than available quota."));
         } else {
             flightLookupSessionBean.makeBooking(bookingClass, purchaseAmount);
-            bookingClasses = inventoryRevenueManagementSessionBean.fetchBookingClass(flight.getId());
+            bookingClasses = flight.getBookingClasses();
             List<BookingClassEntity> availableBookingClassEntities = new ArrayList();
             for (BookingClassEntity bc : bookingClasses) {
                 if (bookingClassQuotaLeft(bc) > 0) {
