@@ -33,7 +33,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     private CostManagementSessionBeanLocal costManagementSessionBean;
 
     @EJB
-    private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
+    private BookingClassesManagementSessionBeanLocal bookingClassesManagementSessionBean;
 
     // TODO: after a new flight is set to departured, re-compute the route popularity
     @Override
@@ -71,7 +71,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     public double getEconomyClassTotalCost(FlightEntity flight) {
 
         double costPerSeat = costManagementSessionBean.getCostPerSeatPerMile(flight.getRoute()) * flight.getRoute().getDistance();
-        int economyCapacity = seatsManagementSessionBean.getEconomyClassCapacity(flight);
+        int economyCapacity = bookingClassesManagementSessionBean.getEconomyClassCapacity(flight);
 
         return costPerSeat * economyCapacity;
     }
@@ -365,7 +365,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
 
         Integer nowToDeparture = getFromNowToDepartureInDay(flight);
         Integer economyClassTicketSold = getTotalNumberOfSoldEconomyClassesTicket(flight);
-        Integer economyClassCapacity = seatsManagementSessionBean.getEconomyClassCapacity(flight);
+        Integer economyClassCapacity = bookingClassesManagementSessionBean.getEconomyClassCapacity(flight);
         Double percentageSold = ((double) economyClassTicketSold / economyClassCapacity);
 
         if (nowToDeparture < yieldManagementRuleEntity.getTimeToDepartureInDaysParameter()

@@ -28,7 +28,7 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
     }
 
     @EJB
-    private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
+    private BookingClassesManagementSessionBeanLocal bookingClassesManagementSessionBean;
 
     @Schedule(minute="36",hour="*", persistent=false)
     public void doWork(){
@@ -42,7 +42,7 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
         thus staff from inventory have 1 month to manually adjust the price.
         */
         monthToDeparture = 13;
-        seatsManagementSessionBean.autoPriceToDepartureAndUnpricedFlights(monthToDeparture);
+        bookingClassesManagementSessionBean.autoPriceToDepartureAndUnpricedFlights(monthToDeparture);
     }
     
 }
