@@ -70,7 +70,14 @@ public class AccountActivationManagedBean implements Serializable {
         }
     }
 
-    public String onFlowProcess(FlowEvent event) {
+    public String onFlowProcess(FlowEvent event) throws IOException {
+        
+        if(event.getOldStep().equals("resetPassword"))
+        {
+            System.err.println("resetPassword");
+            changePassword();
+        }
+        
         return event.getNewStep();
 
     }
@@ -139,7 +146,7 @@ public class AccountActivationManagedBean implements Serializable {
         this.newRepeatPassword = newRepeatPassword;
     }
 
-    public void changePassword(ActionEvent event) throws IOException {
+    public void changePassword() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         if (userProfileManagementSessionBean.getOldPassword(staffNo, originPassword)) {
             System.out.print("old password correct");

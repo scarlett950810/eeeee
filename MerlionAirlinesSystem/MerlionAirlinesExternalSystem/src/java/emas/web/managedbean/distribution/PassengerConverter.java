@@ -5,7 +5,7 @@
  */
 package emas.web.managedbean.distribution;
 
-import imas.planning.entity.AirportEntity;
+import imas.distribution.entity.PassengerEntity;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,8 +18,8 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Howard
  */
-@FacesConverter(value = "airportConverter")
-public class AirportConverter implements Converter {
+@FacesConverter(value = "passengerConverter")
+public class PassengerConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
@@ -27,34 +27,27 @@ public class AirportConverter implements Converter {
         if (value != null && value.trim().length() > 0) {
             try {
                 
-                List<AirportEntity> airportEntities = (List<AirportEntity>)fc.getExternalContext().getSessionMap().get("airportList");
+                List<PassengerEntity> passengerEntities = (List<PassengerEntity>)fc.getExternalContext().getSessionMap().get("passengerList");
                 
 //                System.out.println("airportEntities in converter = " + airportEntities);
                 
-                Long airportEntityId = Long.valueOf(Long.parseLong(value));
+                Long passengerEntityId = Long.valueOf(Long.parseLong(value));
                 
-                for(AirportEntity airportEntity:airportEntities)
+                for(PassengerEntity passengerEntity:passengerEntities)
                 {
 //                    System.err.println("airportEntity: " + airportEntity.getAirportName());
                     
-                    if(airportEntity.getId().equals(airportEntityId))
+                    if(passengerEntity.getId().equals(passengerEntityId))
                     {
-                        return airportEntity;
+                        return passengerEntity;
                     }
                 }
                 
                 return null;
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid airport."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid passenger."));
             }
         } else {
-//            AirportEntity newAirportEntity = new AirportEntity();
-//            newAirportEntity.setId(0l);
-//            newAirportEntity.setAirportName("");
-//            newAirportEntity.setAirportCode("");
-//            newAirportEntity.setCityName("");
-//            return newAirportEntity;
-            
             return null;
         }
     }
@@ -63,7 +56,7 @@ public class AirportConverter implements Converter {
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
 //        System.out.println("converter getAsString object = " + object);
         if (object != null) {    
-            return String.valueOf(((AirportEntity) object).getId());
+            return String.valueOf(((PassengerEntity) object).getId());
         } else {
             return "";
         }

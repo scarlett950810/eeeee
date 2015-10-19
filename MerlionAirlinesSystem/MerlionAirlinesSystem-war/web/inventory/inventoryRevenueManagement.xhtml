@@ -28,7 +28,10 @@
         <h:form>
             <p:dataTable id="flightList" var="flight" value="#{inventoryRevenueManagementManagedBean.flightList}" rowKey="#{flight.id}"
                          widgetVar="flightTable" emptyMessage="No flight found with given criteria" filteredValue="#{inventoryRevenueManagementManagedBean.fliteredFlight}" 
-                         selection="#{inventoryRevenueManagementManagedBean.selectedFlight}" selectionMode="single">
+                         selection="#{inventoryRevenueManagementManagedBean.selectedFlight}" selectionMode="single"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
                 <f:facet name="header">
                     Merlion Airline Flight List
                 </f:facet>

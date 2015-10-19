@@ -8,6 +8,7 @@ package imas.distribution.entity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,7 +37,7 @@ public class TicketEntity implements Serializable {
     @ManyToOne
     private SeatEntity seat;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private FlightEntity flight;
 
     private String bookingClassName; // booking class Name. 
@@ -49,7 +50,7 @@ public class TicketEntity implements Serializable {
     private PassengerEntity passenger;
     private Double price;
     private Boolean boarded;
-    private Boolean issued; // if the ticket is issued at the check in counter
+    private Boolean issued; // if the ticket is issued at either the check in counter or web check-in
 
     public TicketEntity() {
     }

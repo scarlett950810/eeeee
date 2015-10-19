@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package emas.web.managedbean.distribution;
+package emas.web.managedbean.departure;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +26,7 @@ import net.sf.jasperreports.engine.JasperRunManager;
  * @author Howard
  */
 @WebServlet(name = "ReportController", urlPatterns = {"/ReportController", "/ReportController?*"})
-public class ReportController extends HttpServlet {
+public class BoardingPassController extends HttpServlet {
 
     @Resource(name = "merlionAirlineDataSource")
     private DataSource merlionAirlineDataSource;
@@ -34,11 +34,11 @@ public class ReportController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        generateItinerary(request, response);
+        generateBoardingPass(request, response);
 
     }
 
-    private void generateItinerary(HttpServletRequest request, HttpServletResponse response) {
+    private void generateBoardingPass(HttpServletRequest request, HttpServletResponse response) {
         try {
             String referenceNumber = request.getParameter("referenceNumber");
             InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream("/jasperReports/FlightItinerary.jasper");
