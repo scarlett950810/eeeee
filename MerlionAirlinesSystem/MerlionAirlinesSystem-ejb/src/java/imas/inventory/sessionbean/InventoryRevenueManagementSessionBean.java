@@ -63,7 +63,5 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
     public int checkSeatsCapacity(FlightEntity selectedFlight) {
         return bookingClassesManagementSessionBean.getSeatClassCapacity(selectedFlight, "Economy Class");
     }
-
-    
     
 }

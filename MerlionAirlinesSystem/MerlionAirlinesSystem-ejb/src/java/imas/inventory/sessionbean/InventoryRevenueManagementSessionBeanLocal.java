@@ -5,9 +5,7 @@
  */
 package imas.inventory.sessionbean;
 
-import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.FlightEntity;
-import java.util.List;
 import javax.ejb.Local;
 
 /**

@@ -34,6 +34,10 @@ public class InventoryCostManagedBean implements Serializable {
 
     @EJB
     private CostManagementSessionBeanLocal costSession;
+    
+    @EJB
+    private RouteSessionBeanLocal routeSession;
+    
     private RouteEntity selectedRoute;
     private List<RouteEntity> routes;
     private List<CostPairEntity> costTable;
@@ -43,8 +47,6 @@ public class InventoryCostManagedBean implements Serializable {
     private int cellId = 0;
     private boolean display = false;
 
-    @EJB
-    private RouteSessionBeanLocal routeSession;
 
     @PostConstruct
     public void init()

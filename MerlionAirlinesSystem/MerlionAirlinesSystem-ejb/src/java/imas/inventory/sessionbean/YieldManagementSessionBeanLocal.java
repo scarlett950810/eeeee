@@ -41,6 +41,6 @@ public interface YieldManagementSessionBeanLocal {
 
     public double getRouteNormalizedPopularity(RouteEntity route);
 
-    public void autoCreateRulesForFlight(FlightEntity flight);
+    public void createYieldManagementRulesForFlight(FlightEntity flight);
 
 }

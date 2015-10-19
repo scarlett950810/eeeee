@@ -275,7 +275,7 @@ public class BookingClassesManagementSessionBean implements BookingClassesManage
     */
     
     @Override
-    public void createBookingClassesAndYieldManagementRules(FlightEntity flight) {
+    public void createBookingClassesAndTAndCs(FlightEntity flight) {
 
         Integer firstClassCapacity = getSeatClassCapacity(flight, "First Class");
         Integer businessClassCapacity = getSeatClassCapacity(flight, "Business Class");
@@ -328,9 +328,9 @@ public class BookingClassesManagementSessionBean implements BookingClassesManage
             if (flight.getBookingClasses().isEmpty() && (flight.getAircraft() != null)) {
                 System.out.println("created booking classes for " + flight);
                 // auto create all 12 booking classes and associated booking class rules
-                createBookingClassesAndYieldManagementRules(flight);
+                createBookingClassesAndTAndCs(flight);
                 // auto create yield management rules
-                yieldManagementSessionBean.autoCreateRulesForFlight(flight);
+                yieldManagementSessionBean.createYieldManagementRulesForFlight(flight);
             }
         }
     }

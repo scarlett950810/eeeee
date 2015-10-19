@@ -5,7 +5,6 @@
  */
 package imas.web.managedbean.inventory;
 
-import imas.inventory.sessionbean.CostManagementSessionBeanLocal;
 import imas.inventory.sessionbean.BookingClassesManagementSessionBeanLocal;
 import imas.inventory.sessionbean.YieldManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
@@ -32,9 +31,6 @@ public class FlightBookingClassesManagementManagedBean implements Serializable {
 
     @EJB
     private BookingClassesManagementSessionBeanLocal bookingClassesManagementSessionBean;
-
-    @EJB
-    private CostManagementSessionBeanLocal costSessionBean;
 
     private List<FlightEntity> pendingFlights;
 
@@ -73,13 +69,13 @@ public class FlightBookingClassesManagementManagedBean implements Serializable {
 
     public void automaticallyCreateBookingClassAndYieldManagementRules(FlightEntity flight) {
         createBookingClasses(flight);
-        yieldManagementSessionBean.autoCreateRulesForFlight(flight);
+        yieldManagementSessionBean.createYieldManagementRulesForFlight(flight);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful",
                 "Booking classes and rules for " + flight.getFlightNo() + " created."));
     }
 
     public void createBookingClasses(FlightEntity flight) {
-        bookingClassesManagementSessionBean.createBookingClassesAndYieldManagementRules(flight);
+        bookingClassesManagementSessionBean.createBookingClassesAndTAndCs(flight);
 /*
         System.out.println("");
         System.out.println("");

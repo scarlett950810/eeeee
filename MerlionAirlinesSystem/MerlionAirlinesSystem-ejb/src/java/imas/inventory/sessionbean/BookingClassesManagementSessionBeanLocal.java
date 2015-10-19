@@ -57,7 +57,7 @@ public interface BookingClassesManagementSessionBeanLocal {
 
     public List<FlightEntity> getFlightCandidateToOpenForBooking();
 
-    public void createBookingClassesAndYieldManagementRules(FlightEntity flight);
+    public void createBookingClassesAndTAndCs(FlightEntity flight);
 
     public void autoPriceFlightsNeedToBePriced(int monthToDeparture);
 

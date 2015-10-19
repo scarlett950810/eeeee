@@ -35,6 +35,7 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
     @PersistenceContext
     private EntityManager entityManager;
     
+    /*
     @Override
     public void makeBooking(BookingClassEntity bookingClass, int number) {
         
@@ -62,7 +63,7 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
             }                
         }
     }
-    
+    */
     @Override
     public List<TicketEntity> createTicketEntitiesWithoutPersisting(BookingClassEntity bookingClass, int number) {
         List<TicketEntity> tickets = new ArrayList<>();

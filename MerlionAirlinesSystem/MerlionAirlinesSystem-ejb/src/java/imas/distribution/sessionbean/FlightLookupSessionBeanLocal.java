@@ -24,8 +24,6 @@ public interface FlightLookupSessionBeanLocal {
     // a flight would be availble for selling until counter closed
     public List<FlightEntity> getAllSellingFlights();
 
-    public void makeBooking(BookingClassEntity bookingClass, int number);
-
     public int getQuotaLeft(BookingClassEntity bookingClassEntity);
 
     public List<TicketEntity> createTicketEntitiesWithoutPersisting(BookingClassEntity bookingClass, int number);

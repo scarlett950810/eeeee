@@ -417,8 +417,8 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
     }
 
     @Override
-    public void autoCreateRulesForFlight(FlightEntity flight) {
-//        System.out.println("autoCreateRulesForFlight");
+    public void createYieldManagementRulesForFlight(FlightEntity flight) {
+//        System.out.println("createYieldManagementRulesForFlight");
         updateAllRoutePopularity();
 
         Double normalizedPopularity = getRouteNormalizedPopularity(flight.getRoute());
