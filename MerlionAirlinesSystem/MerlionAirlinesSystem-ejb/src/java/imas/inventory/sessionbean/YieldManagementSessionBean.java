@@ -53,7 +53,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
             List<TicketEntity> tickets = queryForAllTicketsUnderFlight.getResultList();
 
             if (tickets.isEmpty()) {
-                return 0.5;
+                return 1.0;
             }
 
             for (TicketEntity t : tickets) {
@@ -64,7 +64,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
             return totalRevenue / (totalSeatNo * routeDistance);
 
         }
-        return 0.5;
+        return 1.0;
     }
 
     @Override
