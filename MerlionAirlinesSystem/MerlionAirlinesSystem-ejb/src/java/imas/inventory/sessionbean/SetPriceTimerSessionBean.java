@@ -14,24 +14,13 @@ import javax.ejb.Stateless;
  * @author Scarlett
  */
 @Stateless
-public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
+public class SetPriceTimerSessionBean {
     
-    private int monthToDeparture;
-
-    public int getMonthToDeparture() {
-        return monthToDeparture;
-    }
-
-    @Override
-    public void setMonthToDeparture(int monthToDeparture) {
-        this.monthToDeparture = monthToDeparture;
-    }
-
     @EJB
-    private SeatsManagementSessionBeanLocal seatsManagementSessionBean;
+    private BookingClassesManagementSessionBeanLocal bookingClassesManagementSessionBean;
 
-    @Schedule(minute="00",hour="*", persistent=false)
-    public void doWork(){
+    @Schedule(minute="36",hour="*", persistent=false)
+    public void detectFlightsToSetPrice(){
         System.out.println("Set price timer run every 1 hour:");
         /*
         set price timer run very one hour
@@ -41,8 +30,7 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
         flights become available for booking 12 months before depature, 
         thus staff from inventory have 1 month to manually adjust the price.
         */
-        monthToDeparture = 13;
-        seatsManagementSessionBean.autoPriceToDepartureAndUnpricedFlights(monthToDeparture);
+        bookingClassesManagementSessionBean.autoPriceFlightsNeedToBePriced(13);
     }
     
 }

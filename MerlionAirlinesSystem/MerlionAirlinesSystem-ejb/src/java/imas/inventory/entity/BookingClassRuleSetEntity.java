@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -26,7 +27,8 @@ public class BookingClassRuleSetEntity implements Serializable {
     
     @ManyToOne
     private FlightEntity flight;
-    private String bookingClassName;
+    @OneToOne(mappedBy = "bookingClassRuleSet")
+    private BookingClassEntity bookingClass;
     
     private Double changeFlightFeeForMoreThan60Days;    // percentage of origin price
     private Double changeFlightFeeForLessThan60Days;    // percentage of origin price
@@ -37,9 +39,9 @@ public class BookingClassRuleSetEntity implements Serializable {
     public BookingClassRuleSetEntity() {
     }
 
-    public BookingClassRuleSetEntity(String bookingClassName, Double changeFlightFeeForMoreThan60Days, Double changeFlightFeeForLessThan60Days, 
+    public BookingClassRuleSetEntity(BookingClassEntity bookingClass, Double changeFlightFeeForMoreThan60Days, Double changeFlightFeeForLessThan60Days, 
             Double cancellationRefundForMoreThan60Days, Double cancellationRefundForLessThan60Days, Double mileageAccrual) {
-        this.bookingClassName = bookingClassName;
+        this.bookingClass = bookingClass;
         this.changeFlightFeeForMoreThan60Days = changeFlightFeeForMoreThan60Days;
         this.changeFlightFeeForLessThan60Days = changeFlightFeeForLessThan60Days;
         this.cancellationRefundForMoreThan60Days = cancellationRefundForMoreThan60Days;
@@ -47,75 +49,75 @@ public class BookingClassRuleSetEntity implements Serializable {
         this.mileageAccrual = mileageAccrual;
     }
     
-    public BookingClassRuleSetEntity createFirstClassBookingClassRule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("First Class", 0.0, 0.05, 1.0, 0.8, 1.5);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createFirstClassBookingClassRule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.0, 0.05, 1.0, 0.8, 1.5);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createFirstClassAgencyBookingClassRule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("First Class Agency", 0.0, 0.05, 1.0, 0.8, 1.5);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createFirstClassAgencyBookingClassRule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.0, 0.05, 1.0, 0.8, 1.5);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createBusinessClassBookingClassRule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Business Class", 0.0, 0.05, 1.0, 0.8, 1.0);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createBusinessClassBookingClassRule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.0, 0.05, 1.0, 0.8, 1.0);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createBusinessClassAgencyBookingClassRule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Business Class Agency", 0.0, 0.05, 1.0, 0.8, 1.0);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createBusinessClassAgencyBookingClassRule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.0, 0.05, 1.0, 0.8, 1.0);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createPremiumEconomyClassBookingClassRule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Premium Economy Class", 0.05, 0.10, 0.8, 0.6, 0.5);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createPremiumEconomyClassBookingClassRule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.05, 0.10, 0.8, 0.6, 0.5);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createPremiumEconomyClassAgencyBookingClassRule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Premium Economy Class Agency", 0.05, 0.10, 0.8, 0.6, 0.5);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createPremiumEconomyClassAgencyBookingClassRule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.05, 0.10, 0.8, 0.6, 0.5);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createEconomyClassBookingClass1Rule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Full Service Economy", 0.1, 0.2, 0.6, 0.4, 0.0);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createEconomyClassBookingClass1Rule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.1, 0.2, 0.6, 0.4, 0.0);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createEconomyClassBookingClass2Rule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Economy Plus", 0.2, 0.4, 0.2, 0.2, 0.0);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createEconomyClassBookingClass2Rule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.2, 0.4, 0.2, 0.2, 0.0);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createEconomyClassBookingClass3Rule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Standard Economy", 0.4, 0.8, 0.0, 0.0, 0.0);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createEconomyClassBookingClass3Rule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.4, 0.8, 0.0, 0.0, 0.0);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createEconomyClassBookingClass4Rule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Economy Save", 0.6, 1.0, 0.0, 0.0, 0.0);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createEconomyClassBookingClass4Rule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 0.6, 1.0, 0.0, 0.0, 0.0);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createEconomyClassBookingClass5Rule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Economy Super Save", 1.0, 0.0, 0.0, 0.0, 0.0);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createEconomyClassBookingClass5Rule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 1.0, 0.0, 0.0, 0.0, 0.0);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
-    public BookingClassRuleSetEntity createEconomyClassAgencyBookingClassRule(FlightEntity flight) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity("Economy Class Agency", 1.0, 1.0, 0.0, 0.0, 0.0);
-        bcrs.setFlight(flight);
+    public BookingClassRuleSetEntity createEconomyClassAgencyBookingClassRule(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 1.0, 1.0, 0.0, 0.0, 0.0);
+        bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }
     
@@ -135,12 +137,12 @@ public class BookingClassRuleSetEntity implements Serializable {
         this.flight = flight;
     }
 
-    public String getBookingClassName() {
-        return bookingClassName;
+    public BookingClassEntity getBookingClass() {
+        return bookingClass;
     }
 
-    public void setBookingClassName(String bookingClassName) {
-        this.bookingClassName = bookingClassName;
+    public void setBookingClass(BookingClassEntity bookingClass) {
+        this.bookingClass = bookingClass;
     }
 
     public Double getChangeFlightFeeForMoreThan60Days() {
@@ -205,7 +207,11 @@ public class BookingClassRuleSetEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.inventory.entity.BookingClassRuleEntity[ id=" + id + " ]";
+        return "Change flight (more than 60 days to departure): You need to pay the price difference and " + changeFlightFeeForMoreThan60Days * 100 + "% of ticket price."
+                + "Change flight (less than 60 days to departure): You need to pay the price difference and " + changeFlightFeeForLessThan60Days * 100 + "% of ticket price."
+                + "Cancellation (more than 60 days to departure): You would get refund of " + cancellationRefundForMoreThan60Days * 100 + "% of ticket price."
+                + "Cancellation (less than 60 days to departure): You would get refund of " + cancellationRefundForLessThan60Days * 100 + "% of ticket price."
+                + "Mileage Accrual: " + mileageAccrual + " times.";
     }
     
 }

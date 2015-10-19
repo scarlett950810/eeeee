@@ -34,7 +34,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     private Double showRate;
 
     @Override
-    public void intiCostTable(RouteEntity selectedRoute) {
+    public void initCostTable(RouteEntity selectedRoute) {
         List<CostPairEntity> list = new ArrayList<CostPairEntity>();
         list.add(new CostPairEntity("Cost per seat per mile", 0.134, 0));//0*
         list.add(new CostPairEntity("Fixed cost per seat per mile", 0.0554, 1));//1*
@@ -63,7 +63,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setRoute(selectedRoute);
         }
-        selectedRoute.setCostPair(list);
+        selectedRoute.setCostPairs(list);
         em.merge(selectedRoute);
     }
 
@@ -125,7 +125,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     @Override
     public void updateCost(RouteEntity selectedRoute, String costName, Double costFigure) {
 
-        List<CostPairEntity> costList = selectedRoute.getCostPair();
+        List<CostPairEntity> costList = selectedRoute.getCostPairs();
         if (!costList.isEmpty()) {
             for (int i = 0; i < costList.size(); i++) {
                 if (costList.get(i).getCostType().equals(costName)) {
@@ -136,7 +136,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
             }
 
             costList = correctList(costList);
-            selectedRoute.setCostPair(costList);
+            selectedRoute.setCostPairs(costList);
             for (int i = 0; i < costList.size(); i++) {
                 em.merge(costList.get(i));
             }
@@ -145,19 +145,19 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     }
 
     @Override
-    public List<CostPairEntity> getList(RouteEntity selectedRoute) {
+    public List<CostPairEntity> getCostPairList(RouteEntity selectedRoute) {
         List<CostPairEntity> costTable;
-        costTable = selectedRoute.getCostPair();
+        costTable = selectedRoute.getCostPairs();
         Collections.sort(costTable);
         return costTable;
     }
 
     @Override
     public void updateShowRate(RouteEntity selectedRoute, Double showRate) {
-        if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null || selectedRoute.getCostPair().size() < 23) {
-            intiCostTable(selectedRoute);
+        if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null || selectedRoute.getCostPairs().size() < 23) {
+            initCostTable(selectedRoute);
         }
-        List<CostPairEntity> costList = this.getList(selectedRoute);
+        List<CostPairEntity> costList = this.getCostPairList(selectedRoute);
         costList.get(13).setCostFigure(showRate);
         correctList(costList);
         for (int i = 0; i < costList.size(); i++) {
@@ -230,10 +230,10 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @Override
     public Double getCostPerSeatPerMile(RouteEntity selectedRoute) {
-        if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null || selectedRoute.getCostPair().size() < 23) {
-            intiCostTable(selectedRoute);
+        if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null || selectedRoute.getCostPairs().size() < 23) {
+            initCostTable(selectedRoute);
         }
-        List<CostPairEntity> costTable = this.getList(selectedRoute);
+        List<CostPairEntity> costTable = this.getCostPairList(selectedRoute);
         return costTable.get(0).getCostFigure();
     }
 

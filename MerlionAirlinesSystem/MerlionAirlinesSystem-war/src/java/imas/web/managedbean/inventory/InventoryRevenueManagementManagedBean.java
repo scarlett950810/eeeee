@@ -5,9 +5,9 @@
  */
 package imas.web.managedbean.inventory;
 
-import imas.distribution.sessionbean.DistributionSessionBeanLocal;
+import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.inventory.entity.BookingClassEntity;
-import imas.inventory.sessionbean.inventoryRevenueManagementSessionBeanLocal;
+import imas.inventory.sessionbean.InventoryRevenueManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.io.IOException;
 import java.io.Serializable;
@@ -31,12 +31,12 @@ import org.primefaces.model.chart.HorizontalBarChartModel;
 @ManagedBean
 @SessionScoped
 public class InventoryRevenueManagementManagedBean implements Serializable {
-    @EJB
-    private DistributionSessionBeanLocal distributionSessionBean;
-
-    @EJB
-    private inventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
     
+    @EJB
+    private FlightLookupSessionBeanLocal flightLookupSessionBean;
+    
+    @EJB
+    private InventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
     
     private List<FlightEntity> flightList;
     private List<FlightEntity> fliteredFlight;
@@ -67,13 +67,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        fetchFlights();
-//        System.out.print("managed bean called");
-    }
-
-    public void fetchFlights() {
-        flightList = distributionSessionBean.getAllAvailableFlights();
-        System.out.print(flightList);
+        flightList = flightLookupSessionBean.getAllSellingFlights();
     }
 
     public List<FlightEntity> getFlightList() {
@@ -110,7 +104,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     public void viewBookingClass() throws IOException {
         
-        bookingClassList = inventoryRevenueManagementSessionBean.fetchBookingClass(selectedFlight.getId());
+        bookingClassList = selectedFlight.getBookingClasses();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", bookingClassList);
         economyClassSeats = inventoryRevenueManagementSessionBean.checkSeatsCapacity(selectedFlight);
         close = true;
@@ -159,7 +153,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         inventoryRevenueManagementSessionBean.updateBookingClassQuota(economyOne.getId(), economyOneQuota);
         inventoryRevenueManagementSessionBean.updateBookingClassQuota(economyTwo.getId(), economyTwoQuota);
         inventoryRevenueManagementSessionBean.updateBookingClassQuota(economyThree.getId(), economyThreeQuota);
-        bookingClassList = inventoryRevenueManagementSessionBean.fetchBookingClass(selectedFlight.getId());
+        bookingClassList = selectedFlight.getBookingClasses();
         System.out.print("update quota method called");
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
@@ -208,7 +202,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     public void updatePricing() throws IOException {
         inventoryRevenueManagementSessionBean.updateBookingClassPricing(bookingClass.getId(), newPricing);
-        bookingClassList = inventoryRevenueManagementSessionBean.fetchBookingClass(selectedFlight.getId());
+        bookingClassList = selectedFlight.getBookingClasses();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", bookingClassList);
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();

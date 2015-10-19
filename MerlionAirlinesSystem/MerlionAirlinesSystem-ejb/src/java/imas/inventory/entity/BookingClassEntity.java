@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -40,6 +41,8 @@ public class BookingClassEntity implements Serializable {
     private Integer quota;
     
     private boolean isAgencyBookingClass;
+    @OneToOne
+    private BookingClassRuleSetEntity bookingClassRuleSet;
 
     public BookingClassEntity() {
     }
@@ -215,6 +218,14 @@ public class BookingClassEntity implements Serializable {
 
     public void setIsAgencyBookingClass(boolean isAgencyBookingClass) {
         this.isAgencyBookingClass = isAgencyBookingClass;
+    }
+
+    public BookingClassRuleSetEntity getBookingClassRuleSet() {
+        return bookingClassRuleSet;
+    }
+
+    public void setBookingClassRuleSet(BookingClassRuleSetEntity bookingClassRuleSet) {
+        this.bookingClassRuleSet = bookingClassRuleSet;
     }
 
     @Override

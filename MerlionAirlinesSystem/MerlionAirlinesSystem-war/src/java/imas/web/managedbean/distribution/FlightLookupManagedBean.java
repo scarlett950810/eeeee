@@ -7,10 +7,10 @@ package imas.web.managedbean.distribution;
 
 import imas.distribution.entity.PassengerEntity;
 import imas.distribution.entity.TicketEntity;
-import imas.distribution.sessionbean.DistributionSessionBeanLocal;
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.distribution.sessionbean.TransferFlight;
 import imas.inventory.entity.BookingClassEntity;
+import imas.inventory.entity.BookingClassRuleSetEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
@@ -51,13 +51,10 @@ import org.primefaces.model.chart.LineChartModel;
 public class FlightLookupManagedBean implements Serializable {
 
     @EJB
-    private DistributionSessionBeanLocal distributionSessionBean;
-
+    private FlightLookupSessionBeanLocal flightLookupSessionBean;
+    
     @EJB
     private AircraftSessionBeanLocal aircraftSessionBean;
-
-    @EJB
-    private FlightLookupSessionBeanLocal flightLookupSessionBean;
 
     private AirportEntity originAirport;
     private AirportEntity destinationAirport;
@@ -640,7 +637,7 @@ public class FlightLookupManagedBean implements Serializable {
 
         if (seatClass.equals("Economy Class")) {
             for (BookingClassEntity bc : bcs) {
-                if (distributionSessionBean.getQuotaLeft(bc) >= totalPurchaseNo) {
+                if (flightLookupSessionBean.getQuotaLeft(bc) >= totalPurchaseNo) {
                     flag = false;
                 }
             }
@@ -832,7 +829,7 @@ public class FlightLookupManagedBean implements Serializable {
                             = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass, totalPurchaseNo);
                     if (seatClass.equals("Economy Class")) {
                         for (BookingClassEntity bc : bcs) {
-                            if (distributionSessionBean.getQuotaLeft(bc) >= totalPurchaseNo) {
+                            if (flightLookupSessionBean.getQuotaLeft(bc) >= totalPurchaseNo) {
                                 flightsAvailableOnDate_hasAvailableDirectFlight = true;
                             }
                         }
@@ -869,7 +866,7 @@ public class FlightLookupManagedBean implements Serializable {
                             = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass, totalPurchaseNo);
                     if (seatClass.equals("Economy Class")) {
                         for (BookingClassEntity bc : bcs) {
-                            if (distributionSessionBean.getQuotaLeft(bc) >= totalPurchaseNo && bc.getPrice() < flightsAvailableOnDate_LowestFare) {
+                            if (flightLookupSessionBean.getQuotaLeft(bc) >= totalPurchaseNo && bc.getPrice() < flightsAvailableOnDate_LowestFare) {
                                 double price = bc.getPrice();
                                 flightsAvailableOnDate_LowestFare = (int) price;
                             }
@@ -1081,7 +1078,7 @@ public class FlightLookupManagedBean implements Serializable {
     }
 
     public void initSelectBookingClass() {
-
+        
         departureDirectFlightBookingClass = null;
         departureTransferFlight1BookingClass = null;
         departureTransferFlight2BookingClass = null;
@@ -1124,7 +1121,17 @@ public class FlightLookupManagedBean implements Serializable {
 
     public boolean bookingClassSelectionDisabled(BookingClassEntity bc) {
         int totalPurchaseNo = adultNo + childNo + infantNo;
-        return (distributionSessionBean.getQuotaLeft(bc) < totalPurchaseNo);
+        return (flightLookupSessionBean.getQuotaLeft(bc) < totalPurchaseNo);
+    }
+    
+    public BookingClassRuleSetEntity getBookingClassRule(FlightEntity flight, BookingClassEntity bookingClass) {
+        List<BookingClassRuleSetEntity> bcrss = flight.getBookingClassRuleSetEntities();
+        for (BookingClassRuleSetEntity bcrs: bcrss) {
+            if (bcrs.getBookingClass().equals(bookingClass.getName())) {
+                return bcrs;
+            }
+        }
+        return null;
     }
 
     public boolean checkBookingClassesSubmitted() {

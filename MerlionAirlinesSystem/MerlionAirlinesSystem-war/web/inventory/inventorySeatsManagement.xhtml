@@ -15,9 +15,9 @@
         
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li><a href="inventorySeatsManagement.xhtml">Create booking class</a></li>                     
-                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>     
-                <li><a href="inventoryRulesManagement.xhtml">Manage Rules</a></li>
+                <li><a href="inventorySeatsManagement.xhtml">Open flight for booking</a></li>                     
+                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>
+                <li><a href="inventoryRulesManagement.xhtml">Manage Yield Management Rules</a></li>
                 <li><a href="inventoryRevenueManagement.xhtml">Manage Revenue</a></li>
 
             </ul>
@@ -27,7 +27,7 @@
     <ui:define name="centerPanel">
 
         <h:form>
-            <p:dataTable id="pendingFlights" value="#{seatsManagementManagedBean.pendingFlights}" var="flight"
+            <p:dataTable id="pendingFlights" value="#{flightBookingClassesManagementManagedBean.pendingFlights}" var="flight"
                          paginator="true" 
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="15, 30, 50" rows="15" class="panel-primary">
@@ -45,12 +45,12 @@
                 </p:column>
                 
                 <p:column headerText="Time to Departure (day)"  style="width: 15%">
-                    <h:outputText value="#{seatsManagementManagedBean.getDaysToDeparture(flight)}" />
+                    <h:outputText value="#{flightBookingClassesManagementManagedBean.getDaysToDeparture(flight)}" />
                 </p:column>
                 
                 <p:column headerText="Auto Create Booking Class (Booking Class, Price, Quota)"  style="width: 15%">
-                    <p:commandButton ajax="false" value="Create" class="btn-sm btn-success" 
-                                     action="#{seatsManagementManagedBean.automaticallyCreateBookingClassAndRules(flight)}" /> 
+                    <p:commandButton value="Create" class="btn-sm btn-success" update="@form"
+                                     actionListener="#{flightBookingClassesManagementManagedBean.automaticallyCreateBookingClassAndYieldManagementRules(flight)}" /> 
                 </p:column>
 
             </p:dataTable>
