@@ -43,6 +43,7 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
             entityManager.persist(passengers.get(i));
             List<TicketEntity> tickets = passengers.get(i).getTickets();
             for (int j = 0; j < tickets.size(); j++) {
+                tickets.get(j).setReferenceNumber(referenceNumber);
                 entityManager.persist(tickets.get(j));
             }
         }
@@ -80,70 +81,7 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
         return referenceNumber;
     }
 
-    @Override
-    public List<List<SeatHelperClass>> fetchAllSeats(Long aircraftID, Long flightID, String bookingClass) {
-
-        Query query1 = entityManager.createQuery("SELECT s FROM SeatEntity s where s.aircraft.id = :aircraftID");
-        query1.setParameter("aircraftID", aircraftID);
-        
-        List<SeatEntity> seats = (List<SeatEntity>)query1.getResultList();
-        
-        Query query2 = entityManager.createQuery("SELECT t FROM TicketEntity t where t.flight.id = :flightID");
-        query2.setParameter("flightID", flightID);
-        
-        List<SeatEntity> occupiedSeats = (List<SeatEntity>)query2.getResultList();
-        
-        String seatClass;
-        
-        // Input bookingClass can be one of the following
-        // First Class, Business Class, Premium Economy Class,
-        // Full Service Economy, Economy Plus, Standard Economy, Economy Save, Economy Super Save
-        // Economy Class Agency
-        
-        //Seat Class can be one of the following
-        //First Class, Business Class, Premium Economy Class, Economy Class
-        
-        if(bookingClass.equals("First Class")){
-            seatClass = "First Class";
-        }else if(bookingClass.equals("Business Class")){
-            seatClass = "Business Class";
-        }else if(bookingClass.equals("Premium Economy Class")){
-            seatClass = "Premium Economy Class";
-        }else{
-            seatClass = "Economy Class";
-        }
-        
-        if(seats.isEmpty() == false){
-            List<List<SeatHelperClass>> allSeats = new ArrayList<>();
-            List<SeatHelperClass> seathelper = null;
-            
-            for (Iterator<SeatEntity> iterator = seats.iterator(); iterator.hasNext();) {
-                SeatEntity next = iterator.next();
-                SeatHelperClass temp = new SeatHelperClass();
-                if(next.getSeatNo().indexOf("A") != -1){
-                    if(seathelper != null){
-                        allSeats.add(seathelper);
-                    }
-                    seathelper = new ArrayList<>();
-                    temp.setSeatNumber(next.getSeatNo());
-                    temp.setEligible(next.getSeatClass().equals(seatClass));
-                    temp.setOccupied(occupiedSeats.contains(next));
-                    seathelper.add(temp);
-                }else{
-                    temp.setSeatNumber(next.getSeatNo());
-                    temp.setEligible(next.getSeatClass().equals(seatClass));
-                    temp.setOccupied(occupiedSeats.contains(next));
-                    seathelper.add(temp);
-                }
-                
-            }
-            
-            return allSeats;
-            
-        }else{
-            return null;
-        }
-    }
+    
 
     @Override
     public List<TicketEntity> retrieveCheckInTicket(String passportNumber, String referenceNumber) {

@@ -5,8 +5,8 @@
  */
 package imas.distribution.sessionbean;
 
-import imas.distribution.entity.PNREntity;
 import imas.distribution.entity.TicketEntity;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -15,12 +15,12 @@ import javax.ejb.Local;
  * @author Howard
  */
 @Local
-public interface ModifyBookingSessionBeanLocal {
+public interface WebCheckInSessionBeanLocal {
 
-    PNREntity retrievePNRRecord(String referenceNumber);
+    List<TicketEntity> getCheckInTicket(String passportNumber, String referenceNumber);
+    
+    List<List<SeatHelperClass>> fetchAllSeats(Long aircraftID, Long flightID, String bookingClass);
 
-    List<TicketEntity> getTicketList(String referenceNumber, String passportNumber);
-
-    void flushModification(TicketEntity ticket);
+    void completeWebCheckIn(List<List<SeatHelperClass>> seatHelper, TicketEntity ticket);
     
 }

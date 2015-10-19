@@ -147,7 +147,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private String postCode;
     private String email;
     private String contactNumber;
-    private double totalPrice = 0; 
+    private double totalPrice = 0;
 
     public CustomerBookTicketManagedBean() {
     }
@@ -224,7 +224,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
 //        contactNumber = "314324243";
         String referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
         FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?referenceNumber=" + referenceNumber);
-        
+
 //        FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
     }
 
@@ -953,14 +953,16 @@ public class CustomerBookTicketManagedBean implements Serializable {
                     if (seatClass.equals("Economy Class")) {
                         for (BookingClassEntity bc : bcs) {
                             if (distributionSessionBean.getQuotaLeft(bc) >= totalPurchaseNo && bc.getPrice() < flightsAvailableOnDate_LowestFare) {
-                                flightsAvailableOnDate_LowestFare = (int) bc.getPrice();
+                                double price = bc.getPrice();
+                                flightsAvailableOnDate_LowestFare = (int) price;
                             }
                         }
                     } else {
                         if (bcs.size() > 0) {
                             for (BookingClassEntity bc : bcs) {
                                 if (bc.getPrice() < flightsAvailableOnDate_LowestFare) {
-                                    flightsAvailableOnDate_LowestFare = (int) bc.getPrice();
+                                    double price = bc.getPrice();
+                                    flightsAvailableOnDate_LowestFare = (int) price;
                                 }
                             }
                         }
@@ -1295,7 +1297,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
                 passengers.add(passenger);
             }
-            
+
 //            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("passengerList", passengers);
             FacesContext.getCurrentInstance().getExternalContext().redirect("makeBooking.xhtml");
 

@@ -50,7 +50,7 @@ public class TicketEntity implements Serializable {
     private PassengerEntity passenger;
     private Double price;
     private Boolean boarded;
-    private Boolean issued; // if the ticket is issued at the check in counter
+    private Boolean issued; // if the ticket is issued at either the check in counter or web check-in
 
     public TicketEntity() {
     }

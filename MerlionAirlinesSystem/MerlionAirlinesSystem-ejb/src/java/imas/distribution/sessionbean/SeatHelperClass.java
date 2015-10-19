@@ -15,9 +15,9 @@ import java.util.Objects;
 public class SeatHelperClass {
     
     private String seatNumber;
-    private Boolean occupied;
-    private Boolean eligible;
-    private Boolean selected;
+    private boolean occupied;
+    private boolean eligible;
+    private boolean selected;
     private PassengerEntity passenger;
 
     public SeatHelperClass() {
@@ -38,27 +38,27 @@ public class SeatHelperClass {
         this.seatNumber = seatNumber;
     }
 
-    public Boolean getOccupied() {
+    public boolean isOccupied() {
         return occupied;
     }
 
-    public void setOccupied(Boolean occupied) {
+    public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
 
-    public Boolean getEligible() {
+    public boolean isEligible() {
         return eligible;
     }
 
-    public void setEligible(Boolean eligible) {
+    public void setEligible(boolean eligible) {
         this.eligible = eligible;
     }
 
-    public Boolean getSelected() {
+    public boolean isSelected() {
         return selected;
     }
 
-    public void setSelected(Boolean selected) {
+    public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
