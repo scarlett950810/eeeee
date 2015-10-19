@@ -18,7 +18,10 @@ import javax.ejb.Local;
 public interface BookingClassesManagementSessionBeanLocal {
 
     public double computeHistoricalShowRate(RouteEntity route);
+    
+    public int getSeatClassCapacity(FlightEntity flight, String seatClass);
 
+/*
     public int getFirstClassCapacity(FlightEntity flight);
 
     public int getBusinessClassCapacity(FlightEntity flight);
@@ -26,35 +29,36 @@ public interface BookingClassesManagementSessionBeanLocal {
     public int getPremiumEconomyClassCapacity(FlightEntity flight);
 
     public int getEconomyClassCapacity(FlightEntity flight);
+    
+    public void generateFirstClassBookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void generateFirstClassBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateBusinessClassBookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void generateBusinessClassBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generatePremiumEconomyClassBookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void generatePremiumEconomyClassBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateEconomyClass1BookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClass1BookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateEconomyClass2BookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClass2BookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateEconomyClass3BookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClass3BookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateEconomyClass4BookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClass4BookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateEconomyClass5BookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClass5BookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateFirstClassAgencyBookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void generateEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void generateBusinessClassAgencyBookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void automaticallyCreateBookingClass(FlightEntity flight);
+    public void generatePremiumEconomyClassAgencyBookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
 
-    public void autoPriceToDepartureAndUnpricedFlights(int monthToDeparture);
+    public void generateEconomyClassAgencyBookingClassEntityAndTAndC(FlightEntity flight, double price, int quota);
+*/
 
-    public List<FlightEntity> getFlightsWithoutBookingClass();
+    public List<FlightEntity> getFlightCandidateToOpenForBooking();
 
-    public void generateBusinessClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void createBookingClassesAndTAndCs(FlightEntity flight);
 
-    public void generateFirstClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
-
-    public void generatePremiumEconomyClassAgencyBookingClassEntity(FlightEntity flight, double price, int quota);
+    public void autoPriceFlightsNeedToBePriced(int monthToDeparture);
 
 }

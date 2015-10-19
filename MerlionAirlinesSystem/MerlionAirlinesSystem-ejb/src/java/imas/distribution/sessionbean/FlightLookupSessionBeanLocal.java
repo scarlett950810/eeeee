@@ -5,6 +5,7 @@
  */
 package imas.distribution.sessionbean;
 
+import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
@@ -19,6 +20,15 @@ import javax.ejb.Local;
  */
 @Local
 public interface FlightLookupSessionBeanLocal {
+    
+    // a flight would be availble for selling until counter closed
+    public List<FlightEntity> getAllSellingFlights();
+
+    public int getQuotaLeft(BookingClassEntity bookingClassEntity);
+
+    public List<TicketEntity> createTicketEntitiesWithoutPersisting(BookingClassEntity bookingClass, int number);
+
+    public void runYieldManagementsRulesOnFlight(FlightEntity flight);
 
     public List<String> getAllCountryNames();
 
@@ -38,6 +48,7 @@ public interface FlightLookupSessionBeanLocal {
      *
      * @param flight
      * @param seatClass
+     * @param totalPurchaseNo
      * @return
      */
     public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass, int totalPurchaseNo);

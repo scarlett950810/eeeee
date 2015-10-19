@@ -15,9 +15,9 @@
         
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li><a href="inventorySeatsManagement.xhtml">Create booking class</a></li>                     
-                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>     
-                <li><a href="inventoryRulesManagement.xhtml">Manage Rules</a></li>
+                <li><a href="inventorySeatsManagement.xhtml">Open flight for booking</a></li>                     
+                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>
+                <li><a href="inventoryRulesManagement.xhtml">Manage Yield Management Rules</a></li>
                 <li><a href="inventoryRevenueManagement.xhtml">Manage Revenue</a></li>
 
             </ul>
@@ -49,8 +49,8 @@
                 </p:column>
                 
                 <p:column headerText="Auto Create Booking Class (Booking Class, Price, Quota)"  style="width: 15%">
-                    <p:commandButton ajax="false" value="Create" class="btn-sm btn-success" 
-                                     action="#{flightBookingClassesManagementManagedBean.automaticallyCreateBookingClassAndRules(flight)}" /> 
+                    <p:commandButton value="Create" class="btn-sm btn-success" update="@form"
+                                     actionListener="#{flightBookingClassesManagementManagedBean.automaticallyCreateBookingClassAndYieldManagementRules(flight)}" /> 
                 </p:column>
 
             </p:dataTable>

@@ -71,6 +71,9 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private String lightningStrikers;//18
     private String nearAirCollisions;//19
     private String others;//20
+    // web check in open and close is purely decide by how much time to departure. web check in opens 24 hours before and closes 1 hour before departure.
+    // counter open is purely decided by how much time to departure. counter 
+    private boolean counterCheckInClosed;
     private boolean departured;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date estimateDepartureDate;//ture is delayed
@@ -101,6 +104,8 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     public FlightEntity() {
         this.bookingClassRuleSets = new ArrayList<>();
         this.yieldManagementRules = new ArrayList<>();
+        this.counterCheckInClosed = false;
+        this.departured = false;
 
     }
     //test
@@ -111,7 +116,21 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     public FlightEntity(Integer yearSelected) {
         this.bookingClassRuleSets = new ArrayList<>();
         this.yieldManagementRules = new ArrayList<>();
+        this.counterCheckInClosed = false;
+        this.departured = false;
         this.operatingYear = yearSelected;
+
+    }
+    
+    public FlightEntity(String flightNo, AircraftEntity aircraft, RouteEntity route) {
+        this.bookingClassRuleSets = new ArrayList<>();
+        this.yieldManagementRules = new ArrayList<>();
+        this.counterCheckInClosed = false;
+        this.departured = false;
+
+        this.flightNo = flightNo;
+        this.aircraft = aircraft;
+        this.route = route;
 
     }
 
@@ -121,16 +140,6 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     public void setOperatingYear(Integer operatingYear) {
         this.operatingYear = operatingYear;
-    }
-
-    public FlightEntity(String flightNo, AircraftEntity aircraft, RouteEntity route) {
-        this.bookingClassRuleSets = new ArrayList<>();
-        this.yieldManagementRules = new ArrayList<>();
-
-        this.flightNo = flightNo;
-        this.aircraft = aircraft;
-        this.route = route;
-
     }
 
     public List<TicketEntity> getTickets() {
@@ -355,6 +364,14 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     public void setDepartured(boolean departured) {
         this.departured = departured;
+    }
+
+    public boolean isCounterCheckInClosed() {
+        return counterCheckInClosed;
+    }
+
+    public void setCounterCheckInClosed(boolean counterCheckInClosed) {
+        this.counterCheckInClosed = counterCheckInClosed;
     }
 
     public List<BookingClassEntity> getBookingClasses() {
