@@ -3,22 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningDisplayFlightsGenerated.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/systemAdmin/systemAdminAddStaff.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningEditDeleteAircraft.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/common/UserProfileManagedBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/planning/AirportManagedBean.java</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/systemAdmin/ViewStaffManagedBean.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/common/AccountActivationManagedBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/common/LoginManagedBean.java</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/common/accountActivation.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/templates/DefaultTemplate.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/operation/operationCrewCheckIn.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/systemAdmin/AddStaffManagedBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/inventory/SeatsManagementManagedBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/common/ErrorHandlingManagedBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/operation/CrewCheckInManagedBean.java</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/distribution/flightLookup.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/systemAdmin/systemAdminViewStaff.xhtml</file>
-            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/planning/planningHomePage.xhtml</file>
+            <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/web/distribution/selectFlight.xhtml</file>
             <file>file:/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/distribution/FlightLookupManagedBean.java</file>
         </group>
     </open-files>
