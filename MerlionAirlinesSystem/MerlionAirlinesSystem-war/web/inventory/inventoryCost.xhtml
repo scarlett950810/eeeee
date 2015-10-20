@@ -52,7 +52,7 @@
                         Fixed cost per seat per mile
                     </f:facet>
                     <p:column headerText="Cost Type" style="width: 50%">
-                        <h:outputText value="#{costPair.costType}"/>
+                        <h:outputText value="#{costPair.rank} #{costPair.costType}"/>
                     </p:column>
                     <p:column headerText="Cost ($)" style="width: 30%">
                         <h:outputText value="#{costPair.costFigure}"/>
