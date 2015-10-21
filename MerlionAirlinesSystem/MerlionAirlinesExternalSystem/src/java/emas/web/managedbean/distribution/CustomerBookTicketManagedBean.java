@@ -880,7 +880,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         } else {
             departureHasDirectFlight = false;
         }
-        departureTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(originAirport, destinationAirport, departureDate);
+        departureTransferFlightCandidates = flightLookupSessionBean.getTransferFlights(originAirport, destinationAirport, departureDate);
         departureHasTransferFlight = (departureTransferFlightCandidates.size() > 0);
 
         if (twoWay) {
@@ -894,7 +894,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
             } else {
                 returnHasDirectFlight = false;
             }
-            returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(originAirport, destinationAirport, returnDate);
+            returnTransferFlightCandidates = flightLookupSessionBean.getTransferFlights(originAirport, destinationAirport, returnDate);
             returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
 
         }
