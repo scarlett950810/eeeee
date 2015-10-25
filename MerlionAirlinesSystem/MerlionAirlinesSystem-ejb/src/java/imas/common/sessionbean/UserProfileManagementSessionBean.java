@@ -119,7 +119,7 @@ public class UserProfileManagementSessionBean implements UserProfileManagementSe
         
         if (staffs.isEmpty()) {
             System.out.println("The staff does not exist");
-            return "hahaha";
+            return null;
         } else {
             StaffEntity staff = staffs.get(0);
             //staff.setWorking(true);

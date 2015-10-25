@@ -8,7 +8,7 @@ package emas.web.managedbean.distribution;
 import imas.distribution.entity.PNREntity;
 import imas.distribution.entity.TicketEntity;
 import imas.distribution.sessionbean.ModifyBookingSessionBeanLocal;
-import imas.distribution.sessionbean.WebCheckInSessionBeanLocal;
+import imas.departure.sessionbean.WebCheckInSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.io.IOException;
 import java.util.ArrayList;

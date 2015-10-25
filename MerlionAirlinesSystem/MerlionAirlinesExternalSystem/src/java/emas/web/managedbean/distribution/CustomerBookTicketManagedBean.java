@@ -5,11 +5,12 @@
  */
 package emas.web.managedbean.distribution;
 
+import imas.common.sessionbean.AccountManagementSessionBeanLocal;
 import imas.distribution.entity.PassengerEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.distribution.sessionbean.MakeBookingSessionBeanLocal;
-import imas.distribution.sessionbean.SeatHelperClass;
+import imas.departure.sessionbean.SeatHelperClass;
 import imas.distribution.sessionbean.TransferFlight;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.entity.BookingClassRuleSetEntity;
@@ -69,7 +70,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     @EJB
     private FlightLookupSessionBeanLocal flightLookupSessionBean;
-
+    
     private AirportEntity originAirport;
     private AirportEntity destinationAirport;
     private boolean twoWay;

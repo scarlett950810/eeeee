@@ -21,4 +21,10 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
+    <ejb-local-ref>
+        <ejb-ref-name>CustomerFeedbackSessionBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>imas.crm.sessionbean.CustomerFeedbackSessionBeanLocal</local>
+        <ejb-link>MerlionAirlinesSystem-ejb.jar#CustomerFeedbackSessionBean</ejb-link>
+    </ejb-local-ref>
 </web-app>

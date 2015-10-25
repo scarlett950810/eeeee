@@ -119,30 +119,32 @@
                     <p:graphicImage name="img/NEW_LOGO.png" height="100%" style="margin-left: 10%; margin-top: 10px; z-index: 9999"/>
                 </a>
                 <p:outputLabel value="Welcome" style="float: right; margin-top: 40px; margin-right: 10px; color: white"/>
-                
+
             </p:layoutUnit>
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="70%"
                           style="background-color: #001F5F; margin-top: 20px;">
                 <div id="menubar">
-                    <ul>
-                        <li>Home</li>
-                        <li>
-                            Booking Management
-                            <ul>
-                                <a href="distribution/makeBooking.xhtml"><li>Retrieve My Booking</li></a>
-                                <li>Web Check-in</li>
-                                <li>Flight Status</li>
-                            </ul>
-                        </li>
-                        <li>Frequent Flyer Program</li>
-                        <li>Special Offers</li>
-                        <li>Contact us</li>
-                    </ul>
+                    <h:form>
+                        <ul>
+                            <li>Home</li>
+                            <li>
+                                Booking Management
+                                <ul>
+                                    <a href="/distribution/makeBooking.xhtml"><li>Retrieve My Booking</li></a>
+                                    <li>Web Check-in</li>
+                                    <li>Flight Status</li>
+                                </ul>
+                            </li>
+                            <li>Frequent Flyer Program</li>
+                            <li>Special Offers</li>
+                            <a href="CRM/crmCustomerFeedback.xhtml"><li>Contact us</li></a>
+                        </ul>
+                    </h:form>
                 </div>
-                
+
                 <ui:insert name="banners"></ui:insert>
-                
+
                 <p:panel style="background-color: white !important; margin: 10px 10% 0 10%; height: auto;">
                     <ui:insert name="main"></ui:insert>
                 </p:panel>

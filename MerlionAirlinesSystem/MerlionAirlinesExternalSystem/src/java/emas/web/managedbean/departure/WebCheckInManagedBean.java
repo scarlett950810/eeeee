@@ -6,8 +6,8 @@
 package emas.web.managedbean.departure;
 
 import imas.distribution.entity.TicketEntity;
-import imas.distribution.sessionbean.SeatHelperClass;
-import imas.distribution.sessionbean.WebCheckInSessionBeanLocal;
+import imas.departure.sessionbean.SeatHelperClass;
+import imas.departure.sessionbean.WebCheckInSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.io.IOException;
 import java.util.ArrayList;
