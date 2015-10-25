@@ -239,9 +239,9 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
     
     public BookingClassRuleSetEntity getBookingClassRule(FlightEntity flight, BookingClassEntity bookingClass) {
-        List<BookingClassRuleSetEntity> bcrss = flight.getBookingClassRuleSetEntities();
+        List<BookingClassRuleSetEntity> bcrss = (List<BookingClassRuleSetEntity>) flight.getBookingClassRuleSetEntities();
         for (BookingClassRuleSetEntity bcrs: bcrss) {
-            if (bcrs.getBookingClass().getName().equals(bookingClass.getName())) {
+            if (bcrs.getBookingClass().equals(bookingClass)) {
                 return bcrs;
             }
         }
