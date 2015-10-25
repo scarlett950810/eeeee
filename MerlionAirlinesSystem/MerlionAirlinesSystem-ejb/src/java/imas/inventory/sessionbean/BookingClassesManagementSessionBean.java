@@ -214,8 +214,8 @@ public class BookingClassesManagementSessionBean implements BookingClassesManage
 //            System.out.println("Up to now,");
 //            System.out.println("in total " + totalEconomyClassTickets + " tickets are sold;");
             double showRate = 1.0 * issuedEconomyClassTickets / totalEconomyClassTickets;
-//            System.out.println("in total " + issuedEconomyClassTickets + " of them showed up.");
-//            System.out.println("Latest show rate = " + showRate);
+            System.out.println("in total " + issuedEconomyClassTickets + " of them showed up.");
+            System.out.println("Latest show rate = " + showRate);
             return showRate;
         } else {
             // no historical records available
@@ -294,6 +294,7 @@ public class BookingClassesManagementSessionBean implements BookingClassesManage
         Integer premiumEconomyClassCapacity = getSeatClassCapacity(flight, "Premium Economy Class");
         Integer economyClassCapacity = getSeatClassCapacity(flight, "Economy Class");
         Double latestShowRate = computeHistoricalShowRate(flight.getRoute());
+//        System.out.println("latestShowRate = " + latestShowRate);
         costSessionBean.updateShowRate(flight.getRoute(), latestShowRate);
         Integer economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
 
@@ -301,6 +302,9 @@ public class BookingClassesManagementSessionBean implements BookingClassesManage
         Double distance = flight.getRoute().getDistance();
         Double baseFare = costPerSeatPerMile * distance;
 
+//        System.out.println("costPerSeatPerMile = " + costPerSeatPerMile);
+//        System.out.println("baseFare = " + baseFare);
+        
         int firstClassAgencyBCQuota = (int) 0.1 * firstClassCapacity;
         int firstClassBCQuota = firstClassCapacity - firstClassAgencyBCQuota;
         int businessClassAgencyBCQuota = (int) 0.1 * businessClassCapacity;

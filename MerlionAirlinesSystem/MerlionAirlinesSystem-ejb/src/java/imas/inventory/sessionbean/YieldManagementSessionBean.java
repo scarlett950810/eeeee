@@ -18,6 +18,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.joda.time.*;
 
 /**
  *
@@ -350,7 +351,7 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
             BookingClassEntity economyClass3 = new BookingClassEntity();
             BookingClassEntity economyClass4 = new BookingClassEntity();
             BookingClassEntity economyClass5 = new BookingClassEntity();
-            
+
             List<BookingClassEntity> bookingClasses = flight.getBookingClasses();
             for (BookingClassEntity bce : bookingClasses) {
                 if (bce.isEconomyClass1BookingClassEntity()) {
@@ -499,6 +500,41 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         YieldManagementRuleEntity yieldManagementRuleEntityToUpdate
                 = entityManager.find(YieldManagementRuleEntity.class, yieldManagementRuleEntity.getId());
         yieldManagementRuleEntityToUpdate.setEnabled(false);
+    }
+
+    @Override
+    public String getFlightFromNowToDepartureString(FlightEntity flight) {
+        DateTime departureTime = new DateTime(flight.getDepartureDate().getTime());
+        DateTime now = new DateTime();
+        Period period = new Period(now, departureTime);
+        int years = period.getYears();
+        int months = period.getMonths();
+        int days = 7 * period.getWeeks() + period.getDays();
+        
+        String res = "";
+        if (years > 0) {
+            if (years > 1) {
+                res = res + years + " years ";
+            } else {
+                res = "1 year ";
+            }
+        }
+        if (months > 0) {
+            if (months > 1) {
+                res = res + months + " months ";
+            } else {
+                res = res + "1 month ";
+            }
+        }
+        if (days > 0) {
+            if (days > 1) {
+                res = res + days + " days";
+            } else {
+                res = res + "1 day";
+            }
+        }
+        
+        return res;
     }
 
 }

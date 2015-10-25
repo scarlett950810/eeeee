@@ -787,7 +787,7 @@ public class FlightLookupManagedBean implements Serializable {
         } else {
             departureHasDirectFlight = false;
         }
-        departureTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(originAirport, destinationAirport, departureDate);
+        departureTransferFlightCandidates = flightLookupSessionBean.getTransferFlights(originAirport, destinationAirport, departureDate);
         departureHasTransferFlight = (departureTransferFlightCandidates.size() > 0);
 
         if (twoWay) {
@@ -801,7 +801,7 @@ public class FlightLookupManagedBean implements Serializable {
             } else {
                 returnHasDirectFlight = false;
             }
-            returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(originAirport, destinationAirport, returnDate);
+            returnTransferFlightCandidates = flightLookupSessionBean.getTransferFlights(originAirport, destinationAirport, returnDate);
             returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
 
         }
@@ -849,6 +849,7 @@ public class FlightLookupManagedBean implements Serializable {
 
     public int lowestFareOnDate(AirportEntity flightsAvailableOnDate_originAirport, AirportEntity flightsAvailableOnDate_destinationAirport,
             Date flightsAvailableOnDate_date, String seatClass, int totalPurchaseNo) {
+        
         RouteEntity flightsAvailableOnDate_directRoute;
         List<FlightEntity> flightsAvailableOnDate_directFlightCandidates;
         int flightsAvailableOnDate_LowestFare = Integer.MAX_VALUE;

@@ -27,3 +27,7 @@ hs_err_pid*
 /MerlionAirlinesSystem/MerlionAirlinesExternalSystem/build/
 /MerlionAirlinesSystem/MerlionAirlinesExternalSystem/dist/
 /MerlionAirlinesSystem/MerlionAirlinesExternalSystem/nbproject/
+/MerlionAirlinesSystem/MerlionAirlinesExternalSystem/build.xml
+/MerlionAirlinesSystem/MerlionAirlinesSystem-war/build.xml
+/MerlionAirlinesSystem/build.xml
+/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/build.xml

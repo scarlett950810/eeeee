@@ -51,10 +51,10 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
 
     @Override
     public void updateBookingClassPricing(Long bookingClassID, Double newPrice) {
-        Query query = em.createQuery("SELECT b FROM BookingClassEntity b WHERE b.id = :bookingClassID");
-        query.setParameter("bookingClassID", bookingClassID);
+        Query queryForBookingClass = em.createQuery("SELECT b FROM BookingClassEntity b WHERE b.id = :bookingClassID");
+        queryForBookingClass.setParameter("bookingClassID", bookingClassID);
         
-        BookingClassEntity bookingClass = (BookingClassEntity) query.getSingleResult();
+        BookingClassEntity bookingClass = (BookingClassEntity) queryForBookingClass.getSingleResult();
         bookingClass.setPrice(newPrice);
         System.out.print("pricing changed");
     }

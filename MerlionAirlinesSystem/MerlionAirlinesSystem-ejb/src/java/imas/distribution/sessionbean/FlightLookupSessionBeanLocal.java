@@ -38,7 +38,7 @@ public interface FlightLookupSessionBeanLocal {
 
     public List<FlightEntity> getAvailableFlights(RouteEntity route, Date lowerBound, Date upperBound);
 
-    public List<TransferFlight> getTransferRoutes(AirportEntity origin, AirportEntity destination, Date departureDate);
+    public List<TransferFlight> getTransferFlights(AirportEntity origin, AirportEntity destination, Date departureDate);
 
     public RouteEntity getDirectRoute(AirportEntity origin, AirportEntity destination);
 
