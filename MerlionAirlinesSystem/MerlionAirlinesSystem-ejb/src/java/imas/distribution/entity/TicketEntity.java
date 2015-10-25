@@ -27,10 +27,10 @@ public class TicketEntity implements Serializable {
     private Long id;
     private Double baggageWeight;
     private Double actualBaggageWeight;
-    private Boolean premiumMeal;
-    private Boolean exclusiveService;
+    private Boolean premiumMeal = Boolean.FALSE;
+    private Boolean exclusiveService = Boolean.FALSE;
     private Boolean insurance;
-    private Boolean flightWiFi;
+    private Boolean flightWiFi = Boolean.FALSE;
     private String referenceNumber;
 
     @ManyToOne

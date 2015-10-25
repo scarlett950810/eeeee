@@ -48,6 +48,7 @@ public class DelayManagementSessionBean implements DelayManagementSessionBeanLoc
                 Date nextTime = nextFlight.getDepartureDate();
                 if (readyTime.after(nextTime)) {
                     nextFlight.setEstimateDepartureDate(readyTime);
+                    em.merge(nextFlight);
 //                    System.out.print("delay!!!!!!!!");
                 }
                 break;

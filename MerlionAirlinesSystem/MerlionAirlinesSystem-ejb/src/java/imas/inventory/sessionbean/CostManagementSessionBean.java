@@ -127,6 +127,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     public void updateCost(RouteEntity selectedRoute, String costName, Double costFigure) {
 
         List<CostPairEntity> costList = selectedRoute.getCostPair();
+        Collections.sort(costList);
         if (!costList.isEmpty()) {
             for (int i = 0; i < costList.size(); i++) {
                 if (costList.get(i).getCostType().equals(costName)) {
@@ -150,7 +151,8 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         List<CostPairEntity> costTable;
         costTable = selectedRoute.getCostPair();
         Collections.sort(costTable);
-        System.out.print(costTable);
+        for (int i=1; i<costTable.size();i++)
+        System.out.print(costTable.get(i).getCostType());
         return costTable;
     }
 

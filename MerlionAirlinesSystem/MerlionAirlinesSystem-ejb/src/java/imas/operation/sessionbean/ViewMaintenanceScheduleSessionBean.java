@@ -48,43 +48,43 @@ public class ViewMaintenanceScheduleSessionBean implements ViewMaintenanceSchedu
     private String maintenanceName;
     private ScheduleEvent event = new DefaultScheduleEvent();
 
-    @EJB
-    private AircraftSessionBeanLocal aircraftSessionBean;
+//    @EJB
+//    private AircraftSessionBeanLocal aircraftSessionBean;
 
     @Override
     public void create() {
-        AircraftTypeEntity at1 = new AircraftTypeEntity("A980", (double) 10,  (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 20);
-        em.persist(at1);
-
-        AirportEntity a1 = new AirportEntity(false, "Shijiazhuang", "ZD Airport", "SJZ", "China");
-        AirportEntity a2 = new AirportEntity(true, "Guangzhou", "Baiyun Airport", "CAN", "China");
-        AirportEntity a3 = new AirportEntity(true, "Beijing", "BJ International Airport", "BJIA", "China");
-
-        em.persist(a1);
-        em.persist(a2);
-        em.persist(a3);
-
-        AircraftGroupEntity ag1 = new AircraftGroupEntity("A980");
-        em.persist(ag1);
-         aircraftSessionBean.addAircraft("001", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a2, a1, 4, 5, 4, 6, 6, 10, 7, 50, (double) 30);
-        aircraftSessionBean.addAircraft("002", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a3, a2, 4, 5, 4, 6, 6, 30, 7, 30, (double) 35);
-        aircraftSessionBean.addAircraft("003", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a3, a2, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
-
-        Query queryForAircraft = em.createQuery("select at from AircraftEntity at");
-        AircraftEntity ac1 = (AircraftEntity) queryForAircraft.getResultList().get(0);
-        AircraftEntity ac2 = (AircraftEntity) queryForAircraft.getResultList().get(1);
-
-        MaintenanceScheduleEntity ms1 = new MaintenanceScheduleEntity();
-        ms1.setAircraft(ac1);
-        Date currentDate = new Date();
-        Date pastDate = new Date(currentDate.getTime() + (1000 * 60 * 60 * 24));
-        ms1.setStartingTime(currentDate);
-        ms1.setEndingTime(pastDate);
-        ms1.setMaintenanceType("repair");
-        MaintenanceScheduleEntity ms2 = new MaintenanceScheduleEntity();
-        ms2.setAircraft(ac2);
-        em.persist(ms1);
-        em.persist(ms2);
+//        AircraftTypeEntity at1 = new AircraftTypeEntity("A980", (double) 10,  (double) 100000, (double) 200, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 20);
+//        em.persist(at1);
+//
+//        AirportEntity a1 = new AirportEntity(false, "Shijiazhuang", "ZD Airport", "SJZ", "China");
+//        AirportEntity a2 = new AirportEntity(true, "Guangzhou", "Baiyun Airport", "CAN", "China");
+//        AirportEntity a3 = new AirportEntity(true, "Beijing", "BJ International Airport", "BJIA", "China");
+//
+//        em.persist(a1);
+//        em.persist(a2);
+//        em.persist(a3);
+//
+//        AircraftGroupEntity ag1 = new AircraftGroupEntity("A980");
+//        em.persist(ag1);
+//         aircraftSessionBean.addAircraft("001", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a2, a1, 4, 5, 4, 6, 6, 10, 7, 50, (double) 30);
+//        aircraftSessionBean.addAircraft("002", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a3, a2, 4, 5, 4, 6, 6, 30, 7, 30, (double) 35);
+//        aircraftSessionBean.addAircraft("003", at1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a3, a2, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
+//
+//        Query queryForAircraft = em.createQuery("select at from AircraftEntity at");
+//        AircraftEntity ac1 = (AircraftEntity) queryForAircraft.getResultList().get(0);
+//        AircraftEntity ac2 = (AircraftEntity) queryForAircraft.getResultList().get(1);
+//
+//        MaintenanceScheduleEntity ms1 = new MaintenanceScheduleEntity();
+//        ms1.setAircraft(ac1);
+//        Date currentDate = new Date();
+//        Date pastDate = new Date(currentDate.getTime() + (1000 * 60 * 60 * 24));
+//        ms1.setStartingTime(currentDate);
+//        ms1.setEndingTime(pastDate);
+//        ms1.setMaintenanceType("repair");
+//        MaintenanceScheduleEntity ms2 = new MaintenanceScheduleEntity();
+//        ms2.setAircraft(ac2);
+//        em.persist(ms1);
+//        em.persist(ms2);
     }
 
     @Override
