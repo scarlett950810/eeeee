@@ -43,4 +43,6 @@ public interface YieldManagementSessionBeanLocal {
 
     public void createYieldManagementRulesForFlight(FlightEntity flight);
 
+    public String getFlightFromNowToDepartureString(FlightEntity flight);
+
 }

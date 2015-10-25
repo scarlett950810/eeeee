@@ -382,5 +382,12 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         return horizontalBarModel;
     }
     
+    public void editYieldManagementRules() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSellingFlightToManage", selectedFlight);
+        
+    }
     
+    public void editTermsAndConditions() {
+        
+    }
 }

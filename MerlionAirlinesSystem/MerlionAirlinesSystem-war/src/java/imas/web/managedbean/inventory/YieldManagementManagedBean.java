@@ -16,17 +16,17 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
 
 /**
  *
  * @author Scarlett
  */
-@Named(value = "yieldManagementManagedBean")
-@ViewScoped
+@Named
+@SessionScoped
 public class YieldManagementManagedBean implements Serializable {
 
     @EJB
@@ -56,11 +56,13 @@ public class YieldManagementManagedBean implements Serializable {
     public void init() {
         this.flights = flightLookupSessionBean.getAllSellingFlights();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", this.flights);
+        this.flight = (FlightEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedSellingFlightToManage");
     }
 
     @PostRemove
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("allFlights");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSellingFlightToManage");
     }
 
     public FlightEntity getFlight() {

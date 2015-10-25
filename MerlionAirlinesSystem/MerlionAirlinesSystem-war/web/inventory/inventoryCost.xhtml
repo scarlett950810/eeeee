@@ -22,11 +22,11 @@
 
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">                  
-                <li><a href="inventorySeatsManagement.xhtml">Open Flight for Booking</a></li>                     
-                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>
-                <li><a href="inventoryRulesManagement.xhtml">Manage Yield Management Rules</a></li>
-                <li><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="inventoryCost.xhtml">Manage Cost</a></li>
+                <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Open Flight for Sale</a></li>                     
+                <li class="sidebar-h1"><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
+                <li class="sidebar-h1"><a href="#">Revenue Dashboard</a></li>
             </ul>
         </div>
     </ui:define>
@@ -52,7 +52,7 @@
                         Fixed cost per seat per mile
                     </f:facet>
                     <p:column headerText="Cost Type" style="width: 50%">
-                        <h:outputText value="#{costPair.rank} #{costPair.costType}"/>
+                        <h:outputText value="#{costPair.costType}"/>
                     </p:column>
                     <p:column headerText="Cost ($)" style="width: 30%">
                         <h:outputText value="#{costPair.costFigure}"/>
