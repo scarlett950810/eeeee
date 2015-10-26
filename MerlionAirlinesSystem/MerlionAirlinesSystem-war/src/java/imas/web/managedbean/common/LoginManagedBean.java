@@ -158,7 +158,7 @@ public class LoginManagedBean {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.invalidateSession();
 
-        ec.redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
+        ec.redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/common_login.xhtml");
 
         FacesContext.getCurrentInstance().addMessage(
                 null,
@@ -198,7 +198,7 @@ public class LoginManagedBean {
         FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
         try {
-            ec.redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml");
+            ec.redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/common_landing.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(LoginManagedBean.class.getName()).log(Level.SEVERE, null, ex);
         }

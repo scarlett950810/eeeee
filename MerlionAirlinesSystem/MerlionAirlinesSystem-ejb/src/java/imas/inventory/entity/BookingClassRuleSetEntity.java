@@ -110,7 +110,7 @@ public class BookingClassRuleSetEntity implements Serializable {
     }
     
     public BookingClassRuleSetEntity createEconomyClassBookingClass5Rule(BookingClassEntity bookingClass) {
-        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 1.0, 0.0, 0.0, 0.0, 0.0);
+        BookingClassRuleSetEntity bcrs = new BookingClassRuleSetEntity(bookingClass, 1.0, 1.0, 0.0, 0.0, 0.0);
         bcrs.setFlight(bookingClass.getFlight());
         return bcrs;
     }

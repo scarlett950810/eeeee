@@ -6,7 +6,6 @@
 package imas.inventory.sessionbean;
 
 import imas.inventory.entity.YieldManagementRuleEntity;
-import imas.planning.entity.FlightEntity;
 import javax.ejb.Local;
 
 /**
@@ -16,12 +15,12 @@ import javax.ejb.Local;
 @Local
 public interface RulesManagementSessionBeanLocal {
 
-    public void updateRule1(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule1);
+    public void updateRule1(YieldManagementRuleEntity yieldManagementRule1);
 
-    public void updateRule2(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule2);
+    public void updateRule2(YieldManagementRuleEntity yieldManagementRule2);
 
-    public void updateRule3(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule3);
+    public void updateRule3(YieldManagementRuleEntity yieldManagementRule3);
 
-    public void updateRule4(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule4);
+    public void updateRule4(YieldManagementRuleEntity yieldManagementRule4);
     
 }

@@ -16,8 +16,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.PostRemove;
 
@@ -26,7 +26,7 @@ import javax.persistence.PostRemove;
  * @author Scarlett
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class YieldManagementManagedBean implements Serializable {
 
     @EJB
@@ -37,7 +37,7 @@ public class YieldManagementManagedBean implements Serializable {
 
     @EJB
     private FlightLookupSessionBeanLocal flightLookupSessionBean;
-    
+
     private List<FlightEntity> flights;
     private YieldManagementRuleEntity rule1;
     private YieldManagementRuleEntity rule2;
@@ -56,7 +56,10 @@ public class YieldManagementManagedBean implements Serializable {
     public void init() {
         this.flights = flightLookupSessionBean.getAllSellingFlights();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", this.flights);
-        this.flight = (FlightEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedSellingFlightToManage");
+        if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedSellingFlightToManage") != null) {
+            this.flight = (FlightEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedSellingFlightToManage");
+            onFlightChange();
+        }
     }
 
     @PostRemove
@@ -154,7 +157,7 @@ public class YieldManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage("rule1",
                     new FacesMessage(FacesMessage.SEVERITY_FATAL, "Update Failed:", "Total revenue to total cost parameter must be more than 1.0"));
         } else {
-            rulesManagementSessionBean.updateRule1(flight, rule1);
+            rulesManagementSessionBean.updateRule1(rule1);
             FacesContext.getCurrentInstance().addMessage("rule1",
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful:", "Rule 1 updated."));
         }
@@ -175,7 +178,7 @@ public class YieldManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage("rule2",
                     new FacesMessage(FacesMessage.SEVERITY_FATAL, "Update Failed:", "Total revenue to total cost parameter must be more than 0.5"));
         } else {
-            rulesManagementSessionBean.updateRule2(flight, rule2);
+            rulesManagementSessionBean.updateRule2(rule2);
             FacesContext.getCurrentInstance().addMessage("rule2",
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful:", "Rule 2 updated."));
         }
@@ -195,7 +198,7 @@ public class YieldManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage("rule3",
                     new FacesMessage(FacesMessage.SEVERITY_FATAL, "Update Failed:", "Total percentage sold parameter must be more than 0.5"));
         } else {
-            rulesManagementSessionBean.updateRule3(flight, rule3);
+            rulesManagementSessionBean.updateRule3(rule3);
             FacesContext.getCurrentInstance().addMessage("rule3",
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful:", "Rule 3 updated."));
         }
@@ -215,7 +218,7 @@ public class YieldManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage("rule4",
                     new FacesMessage(FacesMessage.SEVERITY_FATAL, "Update Failed:", "Economy class 2 remaining quota parameter must be between 5 to 12"));
         } else {
-            rulesManagementSessionBean.updateRule4(flight, rule4);
+            rulesManagementSessionBean.updateRule4(rule4);
             FacesContext.getCurrentInstance().addMessage("rule4",
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful:", "Rule 4 updated."));
         }

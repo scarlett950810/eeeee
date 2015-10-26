@@ -33,17 +33,17 @@ public class ErrorHandlingManagedBean implements Serializable {
     }
 
     public void noLoginRedirection() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/common_login.xhtml");
 
     }
 
     public void noAccessRedirection() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/common_landing.xhtml");
 
     }
 
     public void noAccessActivationRedirection() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/common_landing.xhtml");
 
     }
 
@@ -53,7 +53,7 @@ public class ErrorHandlingManagedBean implements Serializable {
         if (staffNo == null) {
 //            System.out.print("staff number is null");
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/noLoginErrorPage.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/noLoginErrorPage.xhtml");
 
             } catch (IOException ex) {
                 System.out.print(ex);
@@ -65,7 +65,7 @@ public class ErrorHandlingManagedBean implements Serializable {
 //            System.out.print(role.getAccessRight());
             if (!role.getAccessRight().contains(FacesContext.getCurrentInstance().getViewRoot().getViewId()) && !role.getAccessRight().contains("all")) {
                 try {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/noAccessErrorPage.xhtml");
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/noAccessErrorPage.xhtml");
                 } catch (IOException ex) {
                     System.out.print(ex);
                 }

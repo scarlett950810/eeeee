@@ -6,13 +6,10 @@
 package imas.inventory.sessionbean;
 
 import imas.inventory.entity.YieldManagementRuleEntity;
-import imas.planning.entity.FlightEntity;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
@@ -20,80 +17,67 @@ import javax.persistence.Query;
  */
 @Stateless
 public class RulesManagementSessionBean implements RulesManagementSessionBeanLocal {
-    
+
     @EJB
     private YieldManagementSessionBeanLocal yieldManagementSessionBean;
 
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     @Override
-    public void updateRule1(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule1) {
-        Query queryForRule = entityManager.createQuery("SELECT r FROM YieldManagementRuleEntity r"
-                + " WHERE r.flight = :flight AND r.number = :number");
-        queryForRule.setParameter("flight", flight);
-        queryForRule.setParameter("number", 1);
-        YieldManagementRuleEntity ruleToUpdate = (YieldManagementRuleEntity) queryForRule.getSingleResult();
+    public void updateRule1(YieldManagementRuleEntity yieldManagementRule1) {
+
+        YieldManagementRuleEntity ruleToUpdate = (YieldManagementRuleEntity) entityManager.find(YieldManagementRuleEntity.class, yieldManagementRule1.getId());
         ruleToUpdate.setTimeToDepartureInDaysParameter(yieldManagementRule1.getTimeToDepartureInDaysParameter());
         ruleToUpdate.setTotalRevenueToTotalCostParameter(yieldManagementRule1.getTotalRevenueToTotalCostParameter());
         ruleToUpdate.setEnabled(yieldManagementRule1.isEnabled());
-        
+
         if (yieldManagementRule1.isEnabled()) {
             yieldManagementSessionBean.runYieldManagementRule1(ruleToUpdate);
         }
-        
+
     }
-    
+
     @Override
-    public void updateRule2(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule2) {
-        Query queryForRule = entityManager.createQuery("SELECT r FROM YieldManagementRuleEntity r"
-                + " WHERE r.flight = :flight AND r.number = :number");
-        queryForRule.setParameter("flight", flight);
-        queryForRule.setParameter("number", 2);
-        YieldManagementRuleEntity ruleToUpdate = (YieldManagementRuleEntity) queryForRule.getSingleResult();
+    public void updateRule2(YieldManagementRuleEntity yieldManagementRule2) {
+
+        YieldManagementRuleEntity ruleToUpdate = (YieldManagementRuleEntity) entityManager.find(YieldManagementRuleEntity.class, yieldManagementRule2.getId());
         ruleToUpdate.setTimeToDepartureInDaysParameter(yieldManagementRule2.getTimeToDepartureInDaysParameter());
         ruleToUpdate.setTotalRevenueToTotalCostParameter(yieldManagementRule2.getTotalRevenueToTotalCostParameter());
         ruleToUpdate.setEnabled(yieldManagementRule2.isEnabled());
-        
+
         if (yieldManagementRule2.isEnabled()) {
             yieldManagementSessionBean.runYieldManagementRule2(ruleToUpdate);
         }
     }
-    
+
     @Override
-    public void updateRule3(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule3) {
-        Query queryForRule = entityManager.createQuery("SELECT r FROM YieldManagementRuleEntity r"
-                + " WHERE r.flight = :flight AND r.number = :number");
-        queryForRule.setParameter("flight", flight);
-        queryForRule.setParameter("number", 3);
-        YieldManagementRuleEntity ruleToUpdate = (YieldManagementRuleEntity) queryForRule.getSingleResult();
+    public void updateRule3(YieldManagementRuleEntity yieldManagementRule3) {
+
+        YieldManagementRuleEntity ruleToUpdate = (YieldManagementRuleEntity) entityManager.find(YieldManagementRuleEntity.class, yieldManagementRule3.getId());
         ruleToUpdate.setTimeToDepartureInDaysParameter(yieldManagementRule3.getTimeToDepartureInDaysParameter());
         ruleToUpdate.setPercentageSoldParameter(yieldManagementRule3.getPercentageSoldParameter());
         ruleToUpdate.setEnabled(yieldManagementRule3.isEnabled());
-        
+
         if (yieldManagementRule3.isEnabled()) {
             yieldManagementSessionBean.runYieldManagementRule3(ruleToUpdate);
         }
     }
-    
+
     @Override
-    public void updateRule4(FlightEntity flight, YieldManagementRuleEntity yieldManagementRule4) {
-        Query queryForRule = entityManager.createQuery("SELECT r FROM YieldManagementRuleEntity r"
-                + " WHERE r.flight = :flight AND r.number = :number");
-        queryForRule.setParameter("flight", flight);
-        queryForRule.setParameter("number", 4);
-        YieldManagementRuleEntity ruleToUpdate = (YieldManagementRuleEntity) queryForRule.getSingleResult();
-//        ruleToUpdate = yieldManagementRule4;
+    public void updateRule4(YieldManagementRuleEntity yieldManagementRule4) {
+
+        YieldManagementRuleEntity ruleToUpdate = (YieldManagementRuleEntity) entityManager.find(YieldManagementRuleEntity.class, yieldManagementRule4);
         ruleToUpdate.setTimeToDepartureInDaysParameter(yieldManagementRule4.getTimeToDepartureInDaysParameter());
         ruleToUpdate.setEconomyClass1RemainingQuotaParameter(yieldManagementRule4.getEconomyClass1RemainingQuotaParameter());
         ruleToUpdate.setEconomyClass2RemainingQuotaParameter(yieldManagementRule4.getEconomyClass2RemainingQuotaParameter());
         ruleToUpdate.setChangeEconomyClass3and4and5To1Or2PercentageParameter(yieldManagementRule4.getChangeEconomyClass3and4and5To1Or2PercentageParameter());
         ruleToUpdate.setEnabled(yieldManagementRule4.isEnabled());
-        
+
         if (yieldManagementRule4.isEnabled()) {
             yieldManagementSessionBean.runYieldManagementRule4(ruleToUpdate);
         }
-        
+
     }
-    
+
 }

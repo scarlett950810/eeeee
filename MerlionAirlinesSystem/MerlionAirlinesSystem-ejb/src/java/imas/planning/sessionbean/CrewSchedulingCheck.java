@@ -1067,7 +1067,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
             aircraft.setFlights(new ArrayList<FlightEntity>());
             aircraft.getFlights().add(earliestFlight);
         }
-        earliestFlight.setAircraftFlight(aircraft);
+        earliestFlight.setAircraft(aircraft);
         earliestDep = earliestFlight.getArrivalDate();
         //       System.err.println("4");
 
@@ -1161,7 +1161,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
 
                 } else {
                     aircraft.getFlights().add(flightAssigned);
-                    flightAssigned.setAircraftFlight(aircraft);
+                    flightAssigned.setAircraft(aircraft);
                     flightsAvai.remove(flightAssigned);
                     flightsAssigned.add(flightAssigned);
                     flightsAll.remove(flightAssigned);

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,8 +43,10 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private String flightNo;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date departureDate;
+    private String departureDateConverted;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date arrivalDate;
+    private String arrivalDateConverted;
     @OneToOne(cascade = CascadeType.PERSIST)
     private FlightEntity reverseFlight;
     private Integer operatingYear;
@@ -74,6 +75,8 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     // counter open is purely decided by how much time to departure. counter 
     private boolean counterCheckInClosed;
     private boolean departured;
+    private Double costPerSeatPerMile;
+    
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date estimateDepartureDate;//ture is delayed
 
@@ -348,10 +351,10 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         return aircraft;
     }
 
-    public void setAircraftFlight(AircraftEntity aircraft) {
+    public void setAircraft(AircraftEntity aircraft) {
         this.aircraft = aircraft;
     }
-
+    
     public boolean isDepartured() {
         return departured;
     }
@@ -398,6 +401,14 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     public void setYieldManagementRules(List<YieldManagementRuleEntity> yieldManagementRules) {
         this.yieldManagementRules = yieldManagementRules;
+    }
+
+    public Double getCostPerSeatPerMile() {
+        return costPerSeatPerMile;
+    }
+
+    public void setCostPerSeatPerMile(Double costPerSeatPerMile) {
+        this.costPerSeatPerMile = costPerSeatPerMile;
     }
 
     @Override
@@ -466,6 +477,22 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         } else {
             return this.convertTimezone(this.departureDate, this.route.getOriginAirport().getNationName()).toString();
         }
+    }
+
+    public void setDepartureDateConverted(String departureDateConverted) {
+        this.departureDateConverted = departureDateConverted;
+    }
+
+    public String getArrivalDateConverted() {
+        if (departureDate == null) {
+            return "";
+        } else {
+            return this.convertTimezone(this.actualArrivalDate, this.route.getDestinationAirport().getNationName()).toString();
+        }
+    }
+    
+    public void setArrivalDateConverted(String arrivalDateConverted) {
+        this.arrivalDateConverted = arrivalDateConverted;
     }
 
 }

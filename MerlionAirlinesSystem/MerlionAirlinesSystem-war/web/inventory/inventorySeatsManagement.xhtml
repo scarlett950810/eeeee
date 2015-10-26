@@ -43,7 +43,7 @@
                 </p:column>
                 
                 <p:column headerText="Departure Time"  style="width: 18%" filterBy="#{flight.departureDate}" filterMatchMode="contains">
-                    <h:outputText value="#{flight.departureDate}" />
+                    <h:outputText value="#{flight.departureDateConverted}" />
                 </p:column>
                 
                 <p:column headerText="To"  style="width: 18%" filterBy="#{flight.route.destinationAirport.airportName} (#{flight.route.destinationAirport.cityName})" filterMatchMode="contains">
