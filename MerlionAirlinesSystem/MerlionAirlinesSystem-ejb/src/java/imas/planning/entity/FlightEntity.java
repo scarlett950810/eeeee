@@ -28,6 +28,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  *
@@ -76,7 +78,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private boolean counterCheckInClosed;
     private boolean departured;
     private Double costPerSeatPerMile;
-    
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date estimateDepartureDate;//ture is delayed
 
@@ -354,7 +356,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     public void setAircraft(AircraftEntity aircraft) {
         this.aircraft = aircraft;
     }
-    
+
     public boolean isDepartured() {
         return departured;
     }
@@ -451,31 +453,30 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     }
 
-    private Date convertTimezone(Date date, String countryName) {
+    private String convertTimezone(Date date, String countryName) {
+        
         DateTime original = new DateTime(date.getTime());
+        DateTimeZone dtz = DateTimeZone.getDefault();
+        original.withZone(dtz);
 
         Set<String> tzIds = DateTimeZone.getAvailableIDs();
-        DateTimeZone dtz = DateTimeZone.getDefault();
-
-        System.out.println("tzIds = " + tzIds);
         for (String timeZoneId : tzIds) {
-            if (timeZoneId.startsWith(countryName)) {
+            if (timeZoneId.contains(countryName)) {
                 dtz = DateTimeZone.forID(timeZoneId);
-                System.out.println("dtz = " + dtz);
                 break;
             }
         }
-        DateTime dt = original.withZone(dtz);
-        System.out.println("dt = " + dt);
-        return dt.toDate();
+        DateTime dt = original.toDateTime(dtz);
+        DateTimeFormatter dtfOut = DateTimeFormat.forPattern("MMM dd yyyy HH:mm:ss zzz");
+        return dtfOut.print(dt);
 
     }
-    
+
     public String getDepartureDateConverted() {
         if (departureDate == null) {
             return "";
         } else {
-            return this.convertTimezone(this.departureDate, this.route.getOriginAirport().getNationName()).toString();
+            return this.convertTimezone(this.departureDate, this.route.getOriginAirport().getNationName());
         }
     }
 
@@ -487,10 +488,10 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         if (departureDate == null) {
             return "";
         } else {
-            return this.convertTimezone(this.actualArrivalDate, this.route.getDestinationAirport().getNationName()).toString();
+            return this.convertTimezone(this.actualArrivalDate, this.route.getDestinationAirport().getNationName());
         }
     }
-    
+
     public void setArrivalDateConverted(String arrivalDateConverted) {
         this.arrivalDateConverted = arrivalDateConverted;
     }

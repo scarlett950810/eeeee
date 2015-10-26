@@ -158,7 +158,7 @@ public class LoginManagedBean {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.invalidateSession();
 
-        ec.redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/common_login.xhtml");
+        ec.redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_login.xhtml");
 
         FacesContext.getCurrentInstance().addMessage(
                 null,
