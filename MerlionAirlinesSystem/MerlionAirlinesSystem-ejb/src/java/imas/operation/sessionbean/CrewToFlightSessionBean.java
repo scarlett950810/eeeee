@@ -98,25 +98,34 @@ public class CrewToFlightSessionBean implements CrewToFlightSessionBeanLocal {
     public List<CabinCrewEntity> retrieveAvailableCabinCrew(RouteEntity route, Date departureDate, Date arrivalDate) {
         AirportEntity airport = route.getOriginAirport();
         List<CabinCrewEntity> cabinCrewList = retrieveAllCabinCrew();
+        System.err.println("Call retrieve all cabin crew");
         List<CabinCrewEntity> selectedCabinCrewList = new ArrayList<>();
         for (CabinCrewEntity c : cabinCrewList) {
+            System.err.println("Print airport code"+airport.getAirportCode());
+            System.err.println("Print airport base"+c.getBase().getAirportCode());
             if (c.getBase().equals(airport)) {
+                System.err.println("Step 1");
                 continue;
             }
             List<FlightEntity> flights = c.getCabinCrewFlights();
             Boolean conflict = false;
+            System.err.println("Step 2");
             for (FlightEntity f : flights) {
+                System.err.println("Step 3");
                 Date tempDeparture = f.getDepartureDate();
                 Date tempArrival = f.getArrivalDate();
                 if ((tempDeparture.after(departureDate) && tempDeparture.before(arrivalDate)) || (tempArrival.after(departureDate) && tempArrival.before(arrivalDate)) || (tempDeparture.before(departureDate) && tempArrival.after(arrivalDate))) {
                     conflict = true;
                     break;
                 }
+                System.err.println("Step 4");
             }
+            System.err.println("Step 5");
             if (!conflict) {
                 selectedCabinCrewList.add(c);
             }
         }
+        System.err.println("Finish get crew list");
         return selectedCabinCrewList;
     }
 
