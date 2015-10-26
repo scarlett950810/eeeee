@@ -14,6 +14,8 @@ import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
 import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import javax.ejb.Stateless;
@@ -32,19 +34,20 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
     private EntityManager entityManager;
 
     @Override
-    public String generateItinerary(List<FlightEntity> flights, List<PassengerEntity> passengers, String title, String firstName, String lastName, String address, String city, String country, String email, String contactNumber, String status) {
+    public String generateItinerary(List<FlightEntity> flights, List<PassengerEntity> passengers, String title, String firstName, String lastName, String address, String city, String country, String email, String contactNumber, String zipCode, String status, double totalPrice) {
 
         String referenceNumber = UUID.randomUUID().toString();
         referenceNumber = referenceNumber.replaceAll("-", "").substring(0, 8);
 
-        for(int i=0; i<passengers.size(); i++){
+        for (int i = 0; i < passengers.size(); i++) {
             entityManager.persist(passengers.get(i));
             List<TicketEntity> tickets = passengers.get(i).getTickets();
-            for(int j=0; j<tickets.size();j++){
+            for (int j = 0; j < tickets.size(); j++) {
+                tickets.get(j).setReferenceNumber(referenceNumber);
                 entityManager.persist(tickets.get(j));
             }
         }
-        
+
         PNREntity PNR = new PNREntity(referenceNumber);
         PNR.setFlights(flights);
         PNR.setPassengers(passengers);
@@ -56,6 +59,8 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
         PNR.setAddress(address);
         PNR.setCity(city);
         PNR.setNation(country);
+        PNR.setZipCode(zipCode);
+        PNR.setTotalPrice(totalPrice);
         PNR.setStatus(status);
 
         System.out.print(referenceNumber);
@@ -71,63 +76,38 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
         System.out.print(status);
 
         entityManager.persist(PNR);
+        System.out.print("13");
 
         return referenceNumber;
     }
 
+    
+
     @Override
-    public List<PassengerEntity> populateData() {
-
-        Query query = entityManager.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = 'CAN'");
-        List<AirportEntity> airports = (List<AirportEntity>) query.getResultList();
-
-        if (airports.isEmpty()) {
-            AirportEntity a2 = new AirportEntity(false, "Guangzhou", "Baiyun Airport", "CAN", "China");
-            AirportEntity a4 = new AirportEntity(true, "Singapore", "Changi Airport", "SGC", "Singapore");
-
-            entityManager.persist(a2);
-            entityManager.persist(a4);
-
-            RouteEntity r1 = new RouteEntity(a2, a4);
-            RouteEntity r2 = new RouteEntity(a4, a2);
-
-            entityManager.persist(r1);
-            entityManager.persist(r2);
-
-            FlightEntity f1 = new FlightEntity("ML3102", null, r1);
-            FlightEntity f2 = new FlightEntity("ML3104", null, r2);
-
-            entityManager.persist(f1);
-            entityManager.persist(f2);
-
-            BookingClassEntity b1 = new BookingClassEntity(f1, "Economy Class", "X", 167.5, 20);
-            BookingClassEntity b2 = new BookingClassEntity(f2, "Economy Class", "X", 167.5, 20);
-
-            entityManager.persist(b1);
-            entityManager.persist(b2);
-
-            SeatEntity s1 = new SeatEntity(null, null, "Economy Class");
-            SeatEntity s2 = new SeatEntity(null, null, "Economy Class");
-
-            entityManager.persist(s1);
-            entityManager.persist(s2);
-
-            TicketEntity t1 = new TicketEntity(f1,null,0);
-            TicketEntity t2 = new TicketEntity(f2,null,0);
-
-//        entityManager.persist(t1);
-//        entityManager.persist(t2);
-            List<TicketEntity> tickets = new ArrayList<>();
-            tickets.add(t1);
-            tickets.add(t2);
-
-            PassengerEntity p1 = new PassengerEntity(tickets);
-            List<PassengerEntity> passengers = new ArrayList<>();
-            passengers.add(p1);
-
-            return passengers;
-        } else {
-            return null;
+    public List<TicketEntity> retrieveCheckInTicket(String passportNumber, String referenceNumber) {
+        Query query = entityManager.createQuery("SELECT t FROM TicketEntity t where t.referenceNumber = :referenceNumber AND t.passenger.passportNumber = :passportNumber");
+        query.setParameter("referenceNumber", referenceNumber);
+        query.setParameter("passportNumber", passportNumber);
+        
+        List<TicketEntity> tickets = (List<TicketEntity>)query.getResultList();
+        TicketEntity ticket;
+        int flag;
+        Date currentDate = new Date();
+        
+        for(int i=0; i<tickets.size(); i++){
+            ticket = tickets.get(i);
+            
+            if(ticket.getFlight().getDepartureDate().before(currentDate)){
+                tickets.remove(ticket);
+            }else{
+                if(currentDate.getTime() - ticket.getFlight().getDepartureDate().getTime() > 259200000){
+                    tickets.remove(ticket);
+                }
+            }
         }
+        
+        return tickets;
     }
+
+    
 }

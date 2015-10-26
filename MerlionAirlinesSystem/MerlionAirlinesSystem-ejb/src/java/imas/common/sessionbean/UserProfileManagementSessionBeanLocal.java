@@ -21,5 +21,9 @@ public interface UserProfileManagementSessionBeanLocal {
     void updateEmail(String staffNo, String newEmail);
 
     void updateContact(String staffNo, String contactNumber);
+
+    void updateWorking(String staffNo);
+
+    String getWorkingMessage(String staffNo);
     
 }

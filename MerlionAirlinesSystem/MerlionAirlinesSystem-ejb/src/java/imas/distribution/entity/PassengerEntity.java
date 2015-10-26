@@ -150,7 +150,7 @@ public class PassengerEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.distribution.entity.PassengerEntity[ id=" + id + " ]";
+        return "Passenger " + title + " " + firstName + " " + lastName + " (" + passportNumber + ")" ;
     }
     
 }

@@ -57,11 +57,7 @@ public class PilotEntity extends StaffEntity implements Serializable {
     public void setAircraftTypeCapabilities(List<String> aircraftTypeCapabilities) {
         this.aircraftTypeCapabilities = aircraftTypeCapabilities;
     }
- 
-
-
-   
-
+    
     public List<FlightEntity> getPilotFlights() {
         return pilotFlights;
     }

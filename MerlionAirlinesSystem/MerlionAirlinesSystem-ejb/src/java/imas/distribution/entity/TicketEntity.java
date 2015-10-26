@@ -8,6 +8,7 @@ package imas.distribution.entity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,16 +28,16 @@ public class TicketEntity implements Serializable {
     private Long id;
     private Double baggageWeight;
     private Double actualBaggageWeight;
-    private Boolean premiumMeal = Boolean.FALSE;
-    private Boolean exclusiveService = Boolean.FALSE;
+    private Boolean premiumMeal;
+    private Boolean exclusiveService;
     private Boolean insurance;
-    private Boolean flightWiFi = Boolean.FALSE;
+    private Boolean flightWiFi;
     private String referenceNumber;
 
     @ManyToOne
     private SeatEntity seat;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private FlightEntity flight;
 
     private String bookingClassName; // booking class Name. 
@@ -49,7 +50,7 @@ public class TicketEntity implements Serializable {
     private PassengerEntity passenger;
     private Double price;
     private Boolean boarded;
-    private Boolean issued; // if the ticket is issued at the check in counter
+    private Boolean issued; // if the ticket is issued at either the check in counter or web check-in
 
     public TicketEntity() {
     }
@@ -146,14 +147,6 @@ public class TicketEntity implements Serializable {
         this.passenger = passenger;
     }
 
-    public boolean isIssued() {
-        return issued;
-    }
-
-    public void setIssued(boolean issued) {
-        this.issued = issued;
-    }
-
     public Double getBaggageWeight() {
         return baggageWeight;
     }
@@ -240,7 +233,11 @@ public class TicketEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.inventory.entity.TicketEntity[ id=" + id + " ]";
+        return "Ticket: \n" + 
+                "    Flight: " + flight + "\n" +
+                "    BookingClass: " + bookingClassName + "\n" +
+                "    Price: " + price + "\n" +
+                "    Passenger" + passenger + "\n";
     }
 
 }

@@ -5,7 +5,7 @@
  */
 package imas.web.managedbean.inventory;
 
-import imas.distribution.sessionbean.DistributionSessionBeanLocal;
+import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.inventory.entity.YieldManagementRuleEntity;
 import imas.inventory.sessionbean.RulesManagementSessionBeanLocal;
 import imas.inventory.sessionbean.YieldManagementSessionBeanLocal;
@@ -16,17 +16,17 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
 
 /**
  *
  * @author Scarlett
  */
-@Named(value = "yieldManagementManagedBean")
-@ViewScoped
+@Named
+@SessionScoped
 public class YieldManagementManagedBean implements Serializable {
 
     @EJB
@@ -36,8 +36,8 @@ public class YieldManagementManagedBean implements Serializable {
     private RulesManagementSessionBeanLocal rulesManagementSessionBean;
 
     @EJB
-    private DistributionSessionBeanLocal distributionSessionBean;
-
+    private FlightLookupSessionBeanLocal flightLookupSessionBean;
+    
     private List<FlightEntity> flights;
     private YieldManagementRuleEntity rule1;
     private YieldManagementRuleEntity rule2;
@@ -54,14 +54,15 @@ public class YieldManagementManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        this.flights = distributionSessionBean.getAllAvailableFlights();
+        this.flights = flightLookupSessionBean.getAllSellingFlights();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", this.flights);
-//        yieldManagementSessionBean.insertRules();
+        this.flight = (FlightEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedSellingFlightToManage");
     }
 
     @PostRemove
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("allFlights");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedSellingFlightToManage");
     }
 
     public FlightEntity getFlight() {
@@ -114,7 +115,7 @@ public class YieldManagementManagedBean implements Serializable {
 
     public void onFlightChange() {
         if (flight != null) {
-            List<YieldManagementRuleEntity> rules = rulesManagementSessionBean.getAllFlightRules(flight);
+            List<YieldManagementRuleEntity> rules = flight.getYieldManagementRules();
             for (YieldManagementRuleEntity r : rules) {
 //                System.out.println(r);
                 switch (r.getNumber()) {
@@ -227,7 +228,7 @@ public class YieldManagementManagedBean implements Serializable {
 
     public String getFlightPopularity() {
         if (flight != null) {
-            double np = yieldManagementSessionBean.getNormalizedPopularity(flight.getRoute());
+            double np = yieldManagementSessionBean.getRouteNormalizedPopularity(flight.getRoute());
 
             if (np > 0.8) {
                 return "Very Popular";

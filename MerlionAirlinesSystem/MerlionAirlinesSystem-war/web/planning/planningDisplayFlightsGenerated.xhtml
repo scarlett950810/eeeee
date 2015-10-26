@@ -22,9 +22,12 @@
                 <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
                 <li><a href="planningAirport.xhtml">Manage Airport</a></li>
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
-
-                <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
-                <li class="sidebar-h1"><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                
+                <li class="sidebar-h1">Flight Planning</li>
+                <li><a href="planningFlightManagement.xhtml">Manage Flight</a></li>
+                <li><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                
             </ul>
         </div>
     </ui:define>
@@ -33,7 +36,7 @@
         
         <h:form>
             <p:dataTable var="flight" value="#{flightsDisplayManagedBean.flightsGenerated}" widgetVar="flightsTable"
-                         emptyMessage="No cars found with given criteria" filteredValue="#{flightsDisplayManagedBean.flightsFiltered}"
+                         emptyMessage="No flight found with given criteria" filteredValue="#{flightsDisplayManagedBean.flightsFiltered}"
                          class="panel-primary" paginator="true" 
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="15, 30, 50" rows="15">

@@ -22,9 +22,12 @@
                 <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
                 <li><a href="planningAirport.xhtml">Manage Airport</a></li>
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
-
-                <li class="sidebar-h1"><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
-                <li class="sidebar-h1"><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                
+                <li class="sidebar-h1">Flight Planning</li>
+                <li><a href="planningFlightManagement.xhtml">Manage Flight</a></li>
+                <li><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+                
             </ul>
         </div>
     </ui:define>
@@ -37,7 +40,8 @@
                 <h:outputText value="Select a route and its return route for frequency setting"/>
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel value="Routes seleted: " />
-                    <p:selectOneMenu id="routesSelected" value="#{scheduleDevelopmentManagedBean.routeSelected}" style="width:400px" converter="routeConverter">
+                    <p:selectOneMenu id="routesSelected" value="#{scheduleDevelopmentManagedBean.routeSelected}" converter="routeConverter"
+                                     required="true" requiredMessage="Please select route.">
                         <p:ajax event="change" update="popup"/>
 
                         <f:selectItem itemLabel="Select Route" itemDisabled="true" />
@@ -46,20 +50,21 @@
                     </p:selectOneMenu>
                 </h:panelGrid>
 
-                <h:outputText value="Choose a planning period"/>
+                <h:outputText value="Choose a planning period. "/>
 
                 <p:growl id="msgs" showDetail="true" />
-                <h:outputText value="You are only allowed to choose the period after one year according to regulations"/>
+                <h:outputText value="You are only allowed to choose the period after one year from now"/>
 
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="popup" value="Starting Date: " />
-                    <p:calendar id="popup" value="#{scheduleDevelopmentManagedBean.date}" mindate="#{scheduleDevelopmentManagedBean.minDate}"/>
-
+                    <p:calendar id="popup" value="#{scheduleDevelopmentManagedBean.date}" mindate="#{scheduleDevelopmentManagedBean.minDate}"
+                                required="true" requiredMessage="Please put in starting date."/>
                 </h:panelGrid>
 
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="planningPeriod" value="Planning Period: " />
-                    <p:selectOneMenu id="planningPeriod" value="#{scheduleDevelopmentManagedBean.planningPeiord}" style="width:400px">
+                    <p:selectOneMenu id="planningPeriod" value="#{scheduleDevelopmentManagedBean.planningPeiord}"
+                                     required="true" requiredMessage="Please put in planning period.">
                         <p:ajax event="change" update="endDate" process="@this popup endDate"/>
                         <f:selectItem itemLabel="Select Planning Period" itemDisabled="true" />
                         <f:selectItems value="#{scheduleDevelopmentManagedBean.years}" var="year" itemLabel="#{year} year" itemValue="#{year}" />
@@ -75,16 +80,17 @@
             <p:panel header="Set Frequency for route" style="margin-bottom: 15px"  class="panel panel-success">
                 <h:panelGrid columns="2"  cellpadding="7">            
                     <p:outputLabel for="iteration" value="Choose Iteration Period: " />
-                    <p:selectOneRadio id="iteration" value="#{scheduleDevelopmentManagedBean.iterationPeriod}">
+                    <p:selectOneRadio id="iteration" value="#{scheduleDevelopmentManagedBean.iterationPeriod}" required="true" requiredMessage="Please select iteration period.">
                         <f:selectItem itemLabel="Day" itemValue="Day"/>
                         <f:selectItem itemLabel="Week" itemValue="Week" />
                     </p:selectOneRadio>
                     <p:outputLabel for="time" value="Input flight times per period: " style="font-weight:bold" />
-                    <p:inputText id="time" value="#{scheduleDevelopmentManagedBean.flightTimes}" />
+                    <p:inputText id="time" value="#{scheduleDevelopmentManagedBean.flightTimes}"
+                                 required="true" requiredMessage="Please put in flight times per period."/>
                 </h:panelGrid>
             </p:panel>
             <p:commandButton value="Submit" actionListener="#{scheduleDevelopmentManagedBean.setFrequencyFinished}" icon="ui-icon-check" 
-                             class="btn-sm btn-success" />
+                             class="btn-sm btn-success"/>
 
         </h:form>
     </ui:define>

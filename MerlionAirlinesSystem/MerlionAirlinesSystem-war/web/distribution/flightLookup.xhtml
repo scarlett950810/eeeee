@@ -30,16 +30,17 @@
                 <h:panelGrid columns="2" cellpadding="5">
 
                     <p:outputLabel for="origin" value="From:" />
-                    <p:selectOneMenu id="origin" value="#{flightLookupManagedBean.orginAirport}" converter="airportConverter"
+                    <p:selectOneMenu id="origin" value="#{flightLookupManagedBean.originAirport}" converter="airportConverter"
                                      filter="true" filterMatchMode="contains" required="true">
                         <p:ajax listener="#{flightLookupManagedBean.onOriginChange}" update="destination" />
                         <f:selectItem itemLabel="Select Origin Airport" itemDisabled="true" />
-                        <f:selectItems value="#{flightLookupManagedBean.airportsByCountry}" />
+                        <f:selectItems value="#{flightLookupManagedBean.originAirportsByCountry}" />
                     </p:selectOneMenu>
 
                     <p:outputLabel for="destination" value="To:" />
                     <p:selectOneMenu id="destination" value="#{flightLookupManagedBean.destinationAirport}" converter="airportConverter"
                                      filter="true" filterMatchMode="contains" required="true">
+                        <p:ajax listener="#{flightLookupManagedBean.onDestinationChange}" update="destination" />
                         <f:selectItem itemLabel="Select Destination Airport" itemDisabled="true" />
                         <f:selectItems value="#{flightLookupManagedBean.destinationAirportsByCountry}" />
                     </p:selectOneMenu>
@@ -66,7 +67,7 @@
                     <p:selectOneMenu id="seatClass" value="#{flightLookupManagedBean.seatClass}" required="true">
                         <f:selectItem itemValue="First Class" itemLabel="First Class"/>
                         <f:selectItem itemValue="Business Class" itemLabel="Business Class"/>
-                        <f:selectItem itemValue="Premuim Economy Class" itemLabel="Premuim Economy Class"/>
+                        <f:selectItem itemValue="Premium Economy Class" itemLabel="Premium Economy Class"/>
                         <f:selectItem itemValue="Economy Class" itemLabel="Economy Class"/>
                     </p:selectOneMenu>
                     
