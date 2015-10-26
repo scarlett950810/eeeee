@@ -488,7 +488,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         if (departureDate == null) {
             return "";
         } else {
-            return this.convertTimezone(this.actualArrivalDate, this.route.getDestinationAirport().getNationName());
+            return this.convertTimezone(this.arrivalDate, this.route.getDestinationAirport().getNationName());
         }
     }
 

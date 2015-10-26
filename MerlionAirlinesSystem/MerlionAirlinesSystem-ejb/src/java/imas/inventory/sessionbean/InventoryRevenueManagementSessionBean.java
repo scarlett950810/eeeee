@@ -5,8 +5,12 @@
  */
 package imas.inventory.sessionbean;
 
+import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -63,5 +67,44 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
     public int checkSeatsCapacity(FlightEntity selectedFlight) {
         return bookingClassesManagementSessionBean.getSeatClassCapacity(selectedFlight, "Economy Class");
     }
+    
+    @Override
+    public Double getFlightTotalRevenue(FlightEntity flight) {
+        Double totalRevenue = 0.0;
+        List<TicketEntity> tickets = flight.getTickets();
+        for (TicketEntity ticket: tickets) {
+            totalRevenue = totalRevenue + ticket.getPrice();
+        }
+        
+        return totalRevenue;
+    }
+    
+    /**
+     *
+     * @param route
+     * @param from
+     * @param to
+     * @return
+     */
+    @Override
+    public Double getRouteTotalRevenueDuringDuration(RouteEntity route, Date from, Date to) {
+        Query query = em.createQuery("SELECT f FROM FlightEntity f WHERE f.route = :route AND f.departureDate > :from AND f.departureDate < :to");
+        query.setParameter("route", route);
+        query.setParameter("from", from);
+        query.setParameter("to", to);
+        List<FlightEntity> flights = query.getResultList();
+        Double totalRevenue = 0.0;
+        for (FlightEntity f: flights) {
+            totalRevenue = totalRevenue + getFlightTotalRevenue(f);
+        }
+        
+        return totalRevenue;
+    }
+    
+    @Override
+    public Double getFlightTotalCost(FlightEntity flight) {
+        return flight.getCostPerSeatPerMile() * flight.getRoute().getDistance() * flight.getAircraft().getSeats().size();
+    }
+    
     
 }

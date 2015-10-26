@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <style>
+            #all tbody, #all table, #all table tr, #all table tr td {
+                border: none !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Inventory Revenue Management</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="inventoryCost.xhtml">Manage Cost</a></li>
+                <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Open Flight for Sale</a></li>                     
+                <li class="sidebar-h1"><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
+                <li class="sidebar-h1"><a href="inventoryRevenueDashboard.xhtml">Revenue Dashboard</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+
+        <p:panel class="panel panel-primary" header="Overall Revenue and Profit Summary">
+
+            <h:form id="all">
+                <h:panelGrid columns="4" cellpadding="5" class="panel-success">
+                    <p:outputLabel for="allfromDate" value="From:" />
+                    <p:calendar id="allfromDate" value="#{inventoryRevenueSummaryManagedBean.allFromDate}" required="true"
+                                maxdate="#{inventoryRevenueSummaryManagedBean.allFromMaxDate}">
+                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onAllFromDateSelect}" update="@form" />
+                    </p:calendar>
+
+                    <p:outputLabel for="allToDate" value="To:" />
+                    <p:calendar id="allToDate" value="#{inventoryRevenueSummaryManagedBean.allToDate}" required="true"
+                                maxdate="#{inventoryRevenueSummaryManagedBean.today}">
+                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onAllToDateSelect}" update="@form" />
+                    </p:calendar>
+                </h:panelGrid>
+
+                <p:panelGrid columns="2">
+                    <p:chart type="pie" model="#{inventoryRevenueSummaryManagedBean.allByRoutePieModel}" style="width:45%;"/>
+                </p:panelGrid>
+
+            </h:form>
+
+        </p:panel>
+
+        <p:panel class="panel panel-primary" header="Route Revenue and Profit Details">
+
+            <h:form>
+                <h:panelGrid columns="6" cellpadding="5" class="panel-primary">
+                    <p:outputLabel value="Route:" for="route"/>
+
+                    <p:selectOneMenu id="route" value="#{inventoryRevenueSummaryManagedBean.selectedRoute}" converter="routeConverterForAllRoutes">
+                        <p:ajax listener="#{inventoryRevenueSummaryManagedBean.onRouteChange()}" update="@form"/>
+                        <f:selectItem itemLabel="Select Route" itemDisabled="true"/>
+                        <f:selectItems value="#{inventoryRevenueSummaryManagedBean.routeList}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="routeFromDate" value="From:" />
+                    <p:calendar id="routeFromDate" value="#{inventoryRevenueSummaryManagedBean.routeFromDate}" required="true"
+                                maxdate="#{inventoryRevenueSummaryManagedBean.routeFromMaxDate}">
+                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onRouteFromDateSelect}" update="@form"/>
+                    </p:calendar>
+
+                    <p:outputLabel for="routeToDate" value="To:" />
+                    <p:calendar id="routeToDate" value="#{inventoryRevenueSummaryManagedBean.routeToDate}" required="true"
+                                maxdate="#{inventoryRevenueSummaryManagedBean.today}">
+                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onRouteToDateSelect}" update="@form"/>
+                    </p:calendar>
+                </h:panelGrid>
+            </h:form>
+
+        </p:panel>
+
+    </ui:define>
+
+</ui:composition>
