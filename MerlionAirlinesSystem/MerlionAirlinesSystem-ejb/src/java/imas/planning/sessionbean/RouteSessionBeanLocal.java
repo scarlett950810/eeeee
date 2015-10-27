@@ -59,5 +59,7 @@ public interface RouteSessionBeanLocal {
     void updateRouteTime(RouteEntity route, Double time);
 
     Double getSpeed(Double range);
+
+    RouteEntity getRouteForPreference();
     
 }

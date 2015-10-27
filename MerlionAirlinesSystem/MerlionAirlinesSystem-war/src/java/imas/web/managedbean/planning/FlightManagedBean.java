@@ -358,15 +358,22 @@ public class FlightManagedBean implements Serializable {
 
     public void createFlight() {
         FlightEntity f = new FlightEntity();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(departureDate);
+        Integer opYear = cal.get(Calendar.YEAR);
+        f.setOperatingYear(opYear);
         f.setDepartureDate(departureDate);
         f.setArrivalDate(arrivalDate);
         f.setAircraftFlight(aircraft);
         f.setFlightNo(flightNo);
         f.setCabinCrews(selectedCabinCrewList);
         f.setPilots(selectedPilots);
-        f.setRoute(route);
+        f.setRoute(route);        
         
         FlightEntity returnF = new FlightEntity();
+        cal.setTime(departureDateR);
+        Integer opYearR = cal.get(Calendar.YEAR);
+        returnF.setOperatingYear(opYearR);
         returnF.setDepartureDate(departureDateR);
         returnF.setArrivalDate(arrivalDateR);
         returnF.setFlightNo(returnFlightNo);
