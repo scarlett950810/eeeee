@@ -119,7 +119,7 @@ public class UserProfileManagementSessionBean implements UserProfileManagementSe
         
         if (staffs.isEmpty()) {
             System.out.println("The staff does not exist");
-            return "hahaha";
+            return null;
         } else {
             StaffEntity staff = staffs.get(0);
             //staff.setWorking(true);
@@ -131,5 +131,22 @@ public class UserProfileManagementSessionBean implements UserProfileManagementSe
         }
 
     }
+
+    @Override
+    public void setSequrityQuestion(String staffNo, String answer) {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+        
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        if (staffs.isEmpty()) {
+            
+        } else {
+            StaffEntity staff = staffs.get(0);
+            staff.setSequrityQuestionAnswer(answer);
+        }
+        System.out.println("end");
+    }
+    
+    
 
 }

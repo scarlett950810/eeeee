@@ -27,6 +27,14 @@
                 border: none;
             }
         </style>
+
+        <script type="text/javascript">
+
+            function Redirect() {
+                window.open("bookingConfirmation.xhtml", "_blank");
+            }
+
+        </script>
     </ui:define>
 
     <ui:define name="main">
@@ -50,22 +58,22 @@
                 </p:column>
 
                 <p:column>
-                    <h:outputText value="#{flight.route.originAirport.cityName} (#{flight.route.originAirport.airportCode})" />
+                    <h:outputText value="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" />
                 </p:column>
 
                 <p:column>
                     <h:outputText value="#{flight.arrivalDate}" />
                 </p:column>
             </p:dataTable>
-            
+
             <br/>
-            
+
             <p:outputLabel value="Total Price: S$#{customerBookTicketManagedBean.totalPrice}" style="font-size: 150%; color: red;"></p:outputLabel>
             <br/>
             <p:outputLabel value="(Includes taxes and surcharges)" />
         </p:panel>
 
-        <h:form id="makeBooking">
+        <h:form id="makeBooking" target="_blank">
 
             <p:growl id="growl" sticky="true" showDetail="true"/>
 
@@ -240,7 +248,7 @@
                     <p:panel header="Payment Details">
 
                         <h:panelGrid columns="2" columnClasses="label, value">
-                            <p:commandButton value="Confirm" actionListener="#{customerBookTicketManagedBean.confirm}"></p:commandButton>
+                            <p:commandButton value="Confirm" actionListener="#{customerBookTicketManagedBean.confirm}" onclick="Redirect();"></p:commandButton>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>

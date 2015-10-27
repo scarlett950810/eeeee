@@ -216,7 +216,6 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
             return (List<RouteEntity>) q.getResultList();
         }
         return new ArrayList<RouteEntity>();
-
     }
 
     @Override
