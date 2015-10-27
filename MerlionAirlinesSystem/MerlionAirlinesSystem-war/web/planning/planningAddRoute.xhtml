@@ -22,12 +22,12 @@
                 <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
                 <li><a href="planningAirport.xhtml">Manage Airport</a></li>
                 <li><a href="planningRoute.xhtml">Manage Route</a></li>
-                
+
                 <li class="sidebar-h1">Flight Planning</li>
                 <li><a href="planningFlightManagement.xhtml">Manage Flight</a></li>
                 <li><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
                 <li><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
-                
+
             </ul>
         </div>
     </ui:define>
@@ -84,6 +84,54 @@
                     var spokeMarker;
                     var distance; // distance in mile
 
+                    function adjustView() {
+                        console.log("adjustview called");
+                        console.log("hubMarker position = " + hubMarker.getPosition());
+                        console.log("spokeMarker position = " + spokeMarker.getPosition());
+
+                        if (hubMarker.getPosition() !== undefined && spokeMarker.getPosition() !== undefined) {
+
+                            var bounds = new google.maps.LatLngBounds();
+
+                            bounds.extend(hubMarker.getPosition());
+                            bounds.extend(spokeMarker.getPosition());
+
+                            map.fitBounds(bounds);
+                        }
+
+                    }
+
+                    // calculate distance according to latitute and longitude of two airports
+                    function updateDistance() {
+                        console.log("updateDistance called");
+                        if (hubMarker.getPosition() !== undefined && spokeMarker.getPosition() !== undefined) {
+                            var lat1 = hubMarker.getPosition().lat();
+                            var lon1 = hubMarker.getPosition().lng();
+                            var lat2 = spokeMarker.getPosition().lat();
+                            var lon2 = spokeMarker.getPosition().lng();
+
+                            var R = 6371; // Radius of the earth in km
+                            var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+                            var dLon = deg2rad(lon2 - lon1);
+                            var a =
+                                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                                    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                                    Math.sin(dLon / 2) * Math.sin(dLon / 2)
+                                    ;
+                            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                            var distanceInKm = R * c; // Distance in km
+                            distance = distanceInKm / 1.609344; // convert km into miles
+                            distance = Math.round(distance * 100) / 100; // round to 2 decimal
+
+                            $('#addRouteForm\\:directDistance').html(distance);
+                        }
+
+                    }
+
+                    function deg2rad(deg) {
+                        return deg * (Math.PI / 180);
+                    }
+
                     function updateHub() {
                         var hub = $('#addRouteForm\\:hub_input').val();
                         hubMarker.setMap(map);
@@ -92,8 +140,10 @@
 
                     function doUpdateHub() {
                         updateHub();
-                        setTimeout(adjustView(), 3000);
-                        setTimeout(updateDistance(), 3000);
+                        setTimeout(function () {
+                            adjustView();
+                            updateDistance();
+                        }, 500);
                     }
 
                     function updateSpoke() {
@@ -104,8 +154,10 @@
 
                     function doUpdateSpoke() {
                         updateSpoke();
-                        setTimeout(adjustView(), 3000);
-                        setTimeout(updateDistance(), 3000);
+                        setTimeout(function () {
+                            adjustView();
+                            updateDistance();
+                        }, 500);
                     }
                     function initialize() {
 
@@ -149,52 +201,6 @@
                         });
                     }
 
-                    function adjustView() {
-                        console.log("adjustview called");
-                        console.log("hubMarker position = " + hubMarker.getPosition());
-                        console.log("spokeMarker position = " + spokeMarker.getPosition());
-
-                        if (hubMarker.getPosition() !== undefined && spokeMarker.getPosition() !== undefined) {
-
-                            var bounds = new google.maps.LatLngBounds();
-//                            console.log(bounds);
-                            bounds.extend(hubMarker.getPosition());
-                            bounds.extend(spokeMarker.getPosition());
-
-                            map.fitBounds(bounds);
-                        }
-
-                    }
-
-                    // calculate distance according to latitute and longitude of two airports
-                    function updateDistance() {
-                        if (hubMarker.getPosition() !== undefined && spokeMarker.getPosition() !== undefined) {
-                            var lat1 = hubMarker.getPosition().lat();
-                            var lon1 = hubMarker.getPosition().lng();
-                            var lat2 = spokeMarker.getPosition().lat();
-                            var lon2 = spokeMarker.getPosition().lng();
-
-                            var R = 6371; // Radius of the earth in km
-                            var dLat = deg2rad(lat2 - lat1);  // deg2rad below
-                            var dLon = deg2rad(lon2 - lon1);
-                            var a =
-                                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                                    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-                                    Math.sin(dLon / 2) * Math.sin(dLon / 2)
-                                    ;
-                            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                            var distanceInKm = R * c; // Distance in km
-                            distance = distanceInKm / 1.609344; // convert km into miles
-                            distance = Math.round(distance * 100) / 100; // round to 2 decimal
-
-                            $('#addRouteForm\\:directDistance').html(distance);
-                        }
-
-                    }
-
-                    function deg2rad(deg) {
-                        return deg * (Math.PI / 180);
-                    }
                     //]]>
                 </script>
 

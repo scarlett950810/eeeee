@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.web.managedbean.distribution;
+package emas.web.managedbean.distribution;
 
 import imas.planning.entity.AirportEntity;
 import java.util.List;

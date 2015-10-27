@@ -21,21 +21,19 @@ public interface CostManagementSessionBeanLocal {
 //    public List<CostPairEntity> createTable();
 //     public CostEntity getFisrtCostEntity() ;
 //    public void writeList(List<CostPairEntity> list);
+    
+    public List<CostPairEntity> getCostPairList(RouteEntity selectedRoute);
+    
     public List<CostPairEntity> correctList(List<CostPairEntity> list);
-
-    public void updateCost(RouteEntity selectedRoute, String costName, Double costFigure);
-
-    public Double getCostPerSeatPerMile();
-
-//    public void updateShowRate(Double showRate);
-    public void intiCostTable(RouteEntity selectedRoute);
 
     public TreeNode createRoot(List<CostPairEntity> list);
 
-//    public Double getCostPerSeatPerMile(RouteEntity SelectedRoute);
+    public void initCostTable(RouteEntity selectedRoute);
+
+    public void updateCost(RouteEntity selectedRoute, String costName, Double costFigure);
+
+    public void updateShowRate(RouteEntity selectedRoute, Double showRate);
 
     public Double getCostPerSeatPerMile(RouteEntity selectedRoute);
-
-    public List<CostPairEntity> getList(RouteEntity selectedRoute);
 
 }

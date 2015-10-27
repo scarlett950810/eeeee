@@ -9,15 +9,21 @@ import imas.departure.sessionbean.PassengerCheckInSessionBeanLocal;
 import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 /**
  *
@@ -35,7 +41,13 @@ public class PassengerCheckInManagedBean implements Serializable {
     private FlightEntity flight;
     private boolean display = false;
     private List<TicketEntity> tickets;
+    private List<TicketEntity> issuedTickets = new ArrayList<TicketEntity>();
     private TicketEntity selectedTicket;
+    private TicketEntity issuedSelectedTicket;
+    private List<TicketEntity> selectedTickets = new ArrayList<TicketEntity>();
+    private Double actualBaggageWeight;
+    private Boolean issued;
+    private Boolean boarded;
 
     @PostConstruct
     public void init() {
@@ -47,6 +59,31 @@ public class PassengerCheckInManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", comingFlights);
     }
 
+    public void update() {
+        passengerCheckInSessionBean.update(selectedTicket, actualBaggageWeight, issued);
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        requestContext.execute("PF('ticketDialog').hide()");
+        tickets = flight.getTickets();
+    }
+
+    public void updateNew() {
+        for (int i = 0; i < selectedTickets.size(); i++) {
+            passengerCheckInSessionBean.update(selectedTickets.get(i));
+             System.out.print(selectedTickets.get(i));
+             System.out.print("new new");
+        }
+//        passengerCheckInSessionBean.update(issuedSelectedTicket);
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        requestContext.execute("PF('ticketDialog').hide()");
+        tickets = flight.getTickets();
+        issuedTickets = new ArrayList<TicketEntity>();
+        for (int i = 0; i < tickets.size(); i++) {
+            if (tickets.get(i).getIssued() == Boolean.TRUE) {
+                issuedTickets.add(tickets.get(i));
+            }
+        }
+    }
+
     public void onFlightChange() {
         if (flight != null) {
 
@@ -54,19 +91,42 @@ public class PassengerCheckInManagedBean implements Serializable {
                 passengerCheckInSessionBean.intiFFF(flight);
             }
             tickets = flight.getTickets();
-            System.out.print(flight);
+//            System.out.print(flight);
             display = true;
-            System.out.print(display);
+//            System.out.print(display);
+
+        }
+    }
+
+    public void onFlightChangeNew() {
+        if (flight != null) {
+
+            if (flight.getTickets().isEmpty() || flight.getTickets() == null) {
+                passengerCheckInSessionBean.intiFFF(flight);
+            }
+            tickets = flight.getTickets();
+            issuedTickets = new ArrayList<TicketEntity>();
+            for (int i = 0; i < tickets.size(); i++) {
+                if (tickets.get(i).getIssued() == Boolean.TRUE) {
+                    issuedTickets.add(tickets.get(i));
+                }
+            }
+
+            display = true;
 
         }
     }
 
     public void updateFlightReportActionListener(ActionEvent event) {
         selectedTicket = (TicketEntity) event.getComponent().getAttributes().get("ticket");
+        actualBaggageWeight = selectedTicket.getActualBaggageWeight();
+        issued = selectedTicket.getIssued();
+
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("PF('ticketDialog').show()");
 
     }
+
 
     public List<FlightEntity> getComingFlights() {
         return comingFlights;
@@ -122,6 +182,54 @@ public class PassengerCheckInManagedBean implements Serializable {
 
     public void setSelectedTicket(TicketEntity selectedTicket) {
         this.selectedTicket = selectedTicket;
+    }
+
+    public Double getActualBaggageWeight() {
+        return actualBaggageWeight;
+    }
+
+    public void setActualBaggageWeight(Double actualBaggageWeight) {
+        this.actualBaggageWeight = actualBaggageWeight;
+    }
+
+    public Boolean getIssued() {
+        return issued;
+    }
+
+    public void setIssued(Boolean issued) {
+        this.issued = issued;
+    }
+
+    public List<TicketEntity> getIssuedTickets() {
+        return issuedTickets;
+    }
+
+    public void setIssuedTickets(List<TicketEntity> issuedTickets) {
+        this.issuedTickets = issuedTickets;
+    }
+
+    public TicketEntity getIssuedSelectedTicket() {
+        return issuedSelectedTicket;
+    }
+
+    public void setIssuedSelectedTicket(TicketEntity issuedSelectedTicket) {
+        this.issuedSelectedTicket = issuedSelectedTicket;
+    }
+
+    public Boolean getBoarded() {
+        return boarded;
+    }
+
+    public void setBoarded(Boolean boarded) {
+        this.boarded = boarded;
+    }
+
+    public List<TicketEntity> getSelectedTickets() {
+        return selectedTickets;
+    }
+
+    public void setSelectedTickets(List<TicketEntity> selectedTickets) {
+        this.selectedTickets = selectedTickets;
     }
 
 }

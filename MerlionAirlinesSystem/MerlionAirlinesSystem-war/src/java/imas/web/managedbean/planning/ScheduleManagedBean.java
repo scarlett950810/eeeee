@@ -166,40 +166,53 @@ public class ScheduleManagedBean implements Serializable {
                 System.err.println("departuredayafter add one day" + departureDateTemp);
             }
 
-            List<FlightEntity> prevFlights = fleetAssignment.getAllFlights();
-            List<FlightEntity> flightsCheck = new ArrayList<>();
-            flightsCheck.addAll(prevFlights);
-            flightsCheck.addAll(flightsToTest);
-            List<AircraftEntity> aircrafts = aircraftSessionBean.getAircrafts();
-            List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
-            List<CabinCrewEntity> cabinCrews = crewSchedulingCheckLocal.retrieveAllCabinCrew();
-            // System.err.println("print out the result "+crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots));  
-            List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flights, aircrafts);
-            for (FlightEntity f : flightsToTest) {
-                f.setAircraftFlight(null);
-                f.setPilots(null);
-                f.setCabinCrews(null);
-            }
-            List<FlightEntity> flightsUnassignedPilot = crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots);
-            System.err.println("after pilotscheduling");
-            for (FlightEntity f : flightsToTest) {
-                f.setAircraftFlight(null);
-                f.setPilots(null);
-                f.setCabinCrews(null);
-            }
-            List<FlightEntity> flightsUnassignedCabinCrew = crewSchedulingCheckLocal.CabinCrewScheduling(flightsCheck, cabinCrews);
+        List<FlightEntity> prevFlights = fleetAssignment.getAllFlights();
+        List<FlightEntity> flightsCheck = new ArrayList<>();
+        flightsCheck.addAll(prevFlights);
+       
+        flightsCheck.addAll(flightsToTest);
+        List<AircraftEntity> aircrafts = aircraftSessionBean.getAircrafts();
+        List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
+        List<CabinCrewEntity> cabinCrews = crewSchedulingCheckLocal.retrieveAllCabinCrew();
+       // System.err.println("print out the result "+crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots));  
+        
+        List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flightsCheck, aircrafts);
 
-            FacesContext fc = FacesContext.getCurrentInstance();
-            for (FlightEntity f : flightsToTest) {
-                f.setAircraftFlight(null);
-                f.setPilots(null);
-                f.setCabinCrews(null);
-            }
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsToTest", flightsToTest);
-
-            //List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCheck(flights, aircrafts);
-            //FacesContext fc = FacesContext.getCurrentInstance();
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsToTest", flightsToTest);
+        for(FlightEntity f: flightsCheck){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        for(FlightEntity f: flightsToTest){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        List<FlightEntity> flightsUnassignedPilot = crewSchedulingCheckLocal.pilotScheduling(flightsCheck, pilots);
+        for(FlightEntity f: flightsCheck){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        for(FlightEntity f: flightsToTest){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        List<FlightEntity> flightsUnassignedCabinCrew = crewSchedulingCheckLocal.CabinCrewScheduling(flightsCheck, cabinCrews);
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        for(FlightEntity f: flightsCheck){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        for(FlightEntity f: flightsToTest){
+            f.setAircraftFlight(null);
+            f.setPilots(null);
+            f.setCabinCrews(null);
+        }
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsToTest", flightsToTest);
 
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassigned", flightsUnassigned);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("flightsUnassignedPilot", flightsUnassignedPilot);

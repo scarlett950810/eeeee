@@ -14,11 +14,10 @@
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <!--<li><a href="inventorySeatsManagement.xhtml">Manu create booking class</a></li>-->                     
-                <li><a href="inventoryCost.xhtml">Manage Cost</a></li>
-                <li><a href="inventoryRulesManagement.xhtml">Manage Rules</a></li>
-                <li><a href="inventoryRevenueManagement.xhtml">Manage Revenue</a></li>
-
+                <li class="sidebar-h1"><a href="inventoryCost.xhtml">Manage Cost</a></li>
+                <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Open Flight for Sale</a></li>                     
+                <li class="sidebar-h1"><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
+                <li class="sidebar-h1"><a href="#">Revenue Dashboard</a></li>
             </ul>
         </div>
     </ui:define>
@@ -27,7 +26,9 @@
         
         <p:chart type="bar" model="#{inventoryRevenueManagementManagedBean.horizontalBarModel}" style="height:300px"/>
 
-        <p:dataTable var="bookingClasses" value="#{inventoryRevenueManagementManagedBean.bookingClassList}" style="margin-top: 50px;">
+        <br/>
+        
+        <p:dataTable var="bookingClasses" value="#{inventoryRevenueManagementManagedBean.bookingClassList}">
             <p:column headerText="Seat Classes">
                 <h:outputText value="#{bookingClasses.seatClass}" />
             </p:column>
@@ -36,28 +37,36 @@
                 <h:outputText value="#{bookingClasses.name}" />
             </p:column>
 
-            <p:column headerText="Price">
+            <p:column headerText="Price" width="15%">
                 <h:outputText value="#{bookingClasses.price}" />
             </p:column>
 
-            <p:column headerText="Total Quota">
+            <p:column headerText="Total Quota" width="15%">
                 <h:outputText value="#{bookingClasses.quota}" />
             </p:column>
 
-            <p:column headerText="Sold Number">
+            <p:column headerText="Sold Number" width="15%">
                 <h:outputText value="#{inventoryRevenueManagementManagedBean.getSoldSeats(bookingClasses.id)}" />
             </p:column>
 
-            <p:column headerText="Available Quota">
+            <p:column headerText="Available Quota" width="15%">
                 <h:outputText value="#{bookingClasses.quota - inventoryRevenueManagementManagedBean.getSoldSeats(bookingClasses.id)}" />
             </p:column>
 
-
         </p:dataTable>
+
+        <br/>
+
         <h:form>
-            <p:commandButton value="Return" actionListener="#{inventoryRevenueManagementManagedBean.returnBack}" style="margin-top: 20px" class="btn-sm btn-default"/>
-            <p:commandButton value="Edit Economy Booking Class Ratio" onclick="PF('editBox').show();" style="margin-top: 20px; float: right" class="btn-sm btn-success"/>
-            <p:commandButton value="Edit Booking Class Pricing" onclick="PF('changePrice').show();" style="margin-top: 20px; float: right" class="btn-sm btn-success"/>
+            <p:commandButton value="Return" actionListener="#{inventoryRevenueManagementManagedBean.returnBack}" class="btn-sm btn-default"/>            
+            <p:commandButton value="Edit Yield Management Rules" style="float: right; margin-right: 1%;" class="btn-sm btn-success" 
+                             actionListener="#{inventoryRevenueManagementManagedBean.editYieldManagementRules()}"/>
+            <p:commandButton value="Edit Terms and Conditions" style="float: right; margin-right: 1%;" class="btn-sm btn-success" 
+                             actionListener="#{inventoryRevenueManagementManagedBean.editTermsAndConditions()}"/>            
+            <p:commandButton value="Edit Economy Booking Class Ratio" onclick="PF('editBox').show();" style="float: right; margin-right: 1%;" 
+                             class="btn-sm btn-success"/>
+            <p:commandButton value="Edit Booking Class Pricing" onclick="PF('changePrice').show();" style="float: right; margin-right: 1%;" 
+                             class="btn-sm btn-success"/>
         </h:form>
 
 

@@ -40,8 +40,8 @@ public class PilotCrewScheduling implements Serializable{
     private Date planningPeriodStartingDate;
     @EJB
     private CrewSchedulingSessionBeanLocal crewSchedulingSession;
-    @EJB
-    private TestFunctionsFAandCSLocal functionsFAandCSLocal;
+//    @EJB
+//    private TestFunctionsFAandCSLocal functionsFAandCSLocal;
 
     /**
      * Creates a new instance of PilotCrewScheduling
@@ -121,12 +121,12 @@ public class PilotCrewScheduling implements Serializable{
         this.planningPeriodStartingDate = planningPeriodStartingDate;
     }
 
-    public TestFunctionsFAandCSLocal getFunctionsFAandCSLocal() {
-        return functionsFAandCSLocal;
-    }
-
-    public void setFunctionsFAandCSLocal(TestFunctionsFAandCSLocal functionsFAandCSLocal) {
-        this.functionsFAandCSLocal = functionsFAandCSLocal;
-    }
-    
+//    public TestFunctionsFAandCSLocal getFunctionsFAandCSLocal() {
+//        return functionsFAandCSLocal;
+//    }
+//
+//    public void setFunctionsFAandCSLocal(TestFunctionsFAandCSLocal functionsFAandCSLocal) {
+//        this.functionsFAandCSLocal = functionsFAandCSLocal;
+//    }
+//    
 }

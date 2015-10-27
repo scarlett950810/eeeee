@@ -132,3 +132,7 @@ span.ui-growl-image.ui-growl-image-error, span.ui-messages-error-icon {
 .ui-tabs .ui-tabs-nav {
     background: none !important;
 }
+
+.ui-datatable .ui-column-filter {
+    width: 100% !important;
+}

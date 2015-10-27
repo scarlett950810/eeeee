@@ -14,7 +14,6 @@ import imas.inventory.sessionbean.CostManagementSessionBeanLocal;
 import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
@@ -35,21 +34,26 @@ public class InventoryCostManagedBean implements Serializable {
 
     @EJB
     private CostManagementSessionBeanLocal costSession;
+    
+    @EJB
+    private RouteSessionBeanLocal routeSession;
+    
     private RouteEntity selectedRoute;
     private List<RouteEntity> routes;
     private List<CostPairEntity> costTable;
     private TreeNode root;
     private CostPairEntity selectedCost;
     private Double newCost;
-    private int cellId = 0;
     private boolean display = false;
 
-    @EJB
-    private RouteSessionBeanLocal routeSession;
 
     @PostConstruct
     public void init()
     {
+        List<RouteEntity> routesAll = routeSession.retrieveAllRoutes();
+        routes = routeSession.filterRoutesToConnections(routesAll);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routesRangeList", routes);
+        
 //        costTable = costSession.createTable();
         List<CostPairEntity> list = new ArrayList<CostPairEntity>();
         list.add(new CostPairEntity("Cost per seat per mile", 0.0,0));//0*
@@ -95,10 +99,6 @@ public class InventoryCostManagedBean implements Serializable {
     }
 
     public List<RouteEntity> getRoutes() {
-        List<RouteEntity> routesAll = routeSession.retrieveAllRoutes();
-        routes = routeSession.filterRoutesToConnections(routesAll);
-        System.out.println("enter getconnectionsall");
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routesRangeList", routes);
         return routes;
     }
 
@@ -111,12 +111,12 @@ public class InventoryCostManagedBean implements Serializable {
         if (selectedRoute != null) {
             System.out.print(selectedRoute);
 
-            if (selectedRoute.getCostPair().isEmpty() || selectedRoute.getCostPair() == null||selectedRoute.getCostPair().size()<23) {
-                costSession.intiCostTable(selectedRoute);
+            if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null||selectedRoute.getCostPairs().size()<23) {
+                costSession.initCostTable(selectedRoute);
             }
-            costTable=costSession.getList(selectedRoute);
+            costTable=costSession.getCostPairList(selectedRoute);
             root = costSession.createRoot(costTable);
-            System.out.print("111111111111111111");
+//            System.out.print("111111111111111111");
 
         }
     }
@@ -144,7 +144,7 @@ public class InventoryCostManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
             costSession.updateCost(selectedRoute, selectedCost.getCostType(), newCost);
-            root = costSession.createRoot(selectedRoute.getCostPair());
+            root = costSession.createRoot(selectedRoute.getCostPairs());
             FacesMessage msg = new FacesMessage("Reminder", selectedCost.getCostType() + " has been changed to " + Double.toString(newCost));
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -181,14 +181,5 @@ public class InventoryCostManagedBean implements Serializable {
     public void setSelectedCost(CostPairEntity selectedCost) {
         this.selectedCost = selectedCost;
     }
-
-    public int getCellId() {
-        cellId++;
-        return cellId;
-    }
-
-    public void setCellId(int cellId) {
-        this.cellId = cellId;
-    }
-
+    
 }
