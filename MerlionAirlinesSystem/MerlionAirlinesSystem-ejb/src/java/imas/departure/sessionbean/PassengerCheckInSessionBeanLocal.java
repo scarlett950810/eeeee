@@ -5,6 +5,7 @@
  */
 package imas.departure.sessionbean;
 
+import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -19,5 +20,9 @@ public interface PassengerCheckInSessionBeanLocal {
     public List<FlightEntity> fetchComingFlights(String base);
 
     public void intiFFF(FlightEntity flight);
-    
+
+    public void update(TicketEntity ticket, Double actualBaggageWeight, Boolean issued);
+
+    public void update(TicketEntity ticket);
+
 }

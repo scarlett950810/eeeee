@@ -7,13 +7,7 @@ package imas.operation.sessionbean;
 
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
-import imas.inventory.entity.BookingClassEntity;
-import imas.planning.entity.AircraftEntity;
-import imas.planning.entity.AircraftGroupEntity;
-import imas.planning.entity.AircraftTypeEntity;
-import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
-import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.AircraftGroupSessionBeanLocal;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
