@@ -31,8 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 public class ModifyBookingManagedBean {
 
     @EJB
-    private WebCheckInSessionBeanLocal webCheckInSessionBean;
-    @EJB
     private ModifyBookingSessionBeanLocal modifyBookingSessionBean;
 
     private String referenceNumber;
@@ -55,21 +53,27 @@ public class ModifyBookingManagedBean {
         tickets = modifyBookingSessionBean.getTicketList(referenceNumber, passportNumber);
         if (tickets == null) {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Sorry, this flight does not exist or has expired", ""));
+            context.addMessage(null, new FacesMessage("Sorry, the reference number or passport number is invalid or the flight has expired", ""));
         } else {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticketList", tickets);
             FacesContext.getCurrentInstance().getExternalContext().redirect("modifyBookingTicketResult.xhtml");
         }
     }
 
+    public void upgradePremiumService(){
+        System.out.print(ticket.getBaggageWeight()+","+ticket.getExclusiveService()+","+ticket.getFlightWiFi()+","+ticket.getInsurance()+","+ticket.getPremiumMeal());
+    }
+    
     public void completeModifyBooking() {
-        
+        modifyBookingSessionBean.flushModification(ticket);
         referenceNumber = null;
         passportNumber = null;
+        flight = null;
+        tickets = null;
+        ticket = null;
     }
 
     public void startModifyBooking() throws IOException {
-
         FacesContext.getCurrentInstance().getExternalContext().redirect("modifyBooking.xhtml");
 
     }

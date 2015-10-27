@@ -79,19 +79,6 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     @Override
     public Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, String gender, String businessUnit, String division, String position, String location, String base, String workingStatus, List<String> aircraftTypeCapabilities, Boolean mileageLimit, Boolean isPilot, Boolean isCabinCrew) {
         String password = generatePassword();
-//        System.out.print(staffNo);
-//        System.out.print(name);
-//        System.out.print(email);
-//        System.out.print(contactNumber);
-//        System.out.print(address);
-//        System.out.print(gender);
-//        System.out.print(businessUnit);
-//        System.out.print(division);
-//        System.out.print(position);
-//        System.out.print(location);
-//        System.out.print(base);
-//        System.out.print(isPilot);
-//        System.out.print(isCabinCrew);
         String tempPassword;
         String salt = "";
         String letters = "0123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
@@ -427,5 +414,71 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
 
         staff.getRole().setAccessRight(accessRight);
     }
+
+    @Override
+    public boolean forgetPassword(String staffNo) {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+
+        if (staffs.isEmpty()) {
+            return false;
+        } else {
+            StaffEntity staff = staffs.get(0);
+
+            String token = UUID.randomUUID().toString();
+            token = token.replaceAll("-", "").substring(0, 8);
+            staff.setToken(token);
+            System.out.println(token);
+            String content = "Dear " + staff.getDisplayName() + ", " + "<br><br>A password reset request has been made on your account, please use the link below to reset your password.<br><br>https://localhost:8181/MerlionAirlinesSystem-war/common/passwordReset.xhtml?token=" + token + "<br><br>Thank you.<br><br>Merlion Airline HR Manager";
+            EmailManager.run(staff.getEmail(), "Merlion Airlines - Reset Password", content);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean checkSecurityAnswer(String staffNo, String answer) {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        StaffEntity staff = staffs.get(0);
+        if(staff.getSequrityQuestionAnswer().toLowerCase().equals(answer.toLowerCase())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public StaffEntity getStaffBasedOnToken(String token) {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.token = :token");
+        query.setParameter("token", token);
+
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        if(staffs.isEmpty()){
+            return null;
+        }else{
+            return staffs.get(0);
+        }
+    }
+
+    @Override
+    public void resetPassword(String password, String staffNo) {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        StaffEntity staff = staffs.get(0);
+        staff.setPassword(password);
+        staff.setToken(null);
+    }
+    
+    
+    
+    
+    
+    
 
 }

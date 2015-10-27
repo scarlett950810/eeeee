@@ -14,12 +14,13 @@
     </ui:define>
 
     <ui:define name="main">
-        <p:panel header="Modify Booking" style="margin-top: 5%; font-size: 30px;">
-            <p:outputLabel value="Reference Number: "></p:outputLabel>
-            <p:outputLabel value="#{modifyBookingManagedBean.referenceNumber}"></p:outputLabel>
+        <p:panel header="Modify Booking" style="margin-top: 5%; font-size: 200%; text-align: center;">
+            <h:outputText value="Reference Number: " style="font-size: 50%;"></h:outputText>
+            <h:outputText value="#{modifyBookingManagedBean.referenceNumber}" style="font-size: 50%;"></h:outputText>
         </p:panel>
-        <p:panel header="Flight Information Details" style="border: 2px #000000 groove">
-            <h:panelGrid columns="2">
+
+        <p:panel header="Flight Information Details" style="border: 2px #000000 groove; width: 60%; margin-left: auto; margin-right: auto">
+            <p:panelGrid columns="2" layout="grid">
                 <h:outputLabel value="Flight No." />
                 <h:outputLabel value="#{modifyBookingManagedBean.ticket.flight.flightNo}" />
 
@@ -35,69 +36,116 @@
                 <h:outputLabel value="" />
                 <h:outputLabel value="#{modifyBookingManagedBean.ticket.flight.arrivalDate}" />
 
+                <h:outputLabel value="" />
+                <p:commandButton value="Change Flight"></p:commandButton>
 
-                <p:panel header="Premium Services" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+            </p:panelGrid>
+            <p:panel header="Premium Services" style="margin-top: 5%; border: #000000 2px solid; height: auto">
 
-                    <h:panelGrid columns="2" style="display: inline-block;">
-                        <h:outputText value="Extra Check-in Baggage: " />
-                        <h:outputText value="" />
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Baggage Weight: " />
+                    <c:choose>
+                        <c:when test="#{modifyBookingManagedBean.ticket.baggageWeight==-1}">
+                            <h:outputLabel value="No Check-in Baggage" />
+                        </c:when>
+                        <c:otherwise>
+                            <h:outputLabel value="#{modifyBookingManagedBean.ticket.baggageWeight} kg" />
+                        </c:otherwise>
+                    </c:choose>
 
-                        <h:outputText value="#{modifyBookingManagedBean.ticket.flight.route.originAirport.airportCode}-#{modifyBookingManagedBean.ticket.flight.route.destinationAirport.airportCode}" />
-                        <p:selectOneMenu value="#{ticket.baggageWeight}" style="width: 100%" required="true">
-                            <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
-                            <f:selectItem itemLabel="No Extra Baggage" itemValue="-1" />
-                            <f:selectItem itemLabel="Extra 10kg" itemValue="10.0" />
-                            <f:selectItem itemLabel="Extra 25kg" itemValue="25.0" />
-                            <f:selectItem itemLabel="Extra 50kg" itemValue="50.0" />
-                        </p:selectOneMenu>
+                    <h:outputLabel value="Premium Meal: " />
+                    <c:choose>
+                        <c:when test="#{modifyBookingManagedBean.ticket.premiumMeal} == false">
+                            <h:outputLabel value="No" />
+                        </c:when>
+                        <c:otherwise>
+                            <h:outputLabel value="Yes" />
+                        </c:otherwise>
+                    </c:choose>
 
-                        <h:outputText value="Enjoy Premium Meal In Flight: " />
-                        <h:outputText value="" />
+                    <h:outputLabel value="Exclusive Airport Service: " />
+                    <c:choose>
+                        <c:when test="#{modifyBookingManagedBean.ticket.exclusiveService} == false">
+                            <h:outputLabel value="No" />
+                        </c:when>
+                        <c:otherwise>
+                            <h:outputLabel value="Yes" />
+                        </c:otherwise>
+                    </c:choose>
 
+                    <h:outputLabel value="Insurance: " />
+                    <c:choose>
+                        <c:when test="#{modifyBookingManagedBean.ticket.insurance} == false">
+                            <h:outputLabel value="No" />
+                        </c:when>
+                        <c:otherwise>
+                            <h:outputLabel value="Yes" />
+                        </c:otherwise>
+                    </c:choose>
 
-                        <h:outputText value="#{modifyBookingManagedBean.ticket.flight.route.originAirport.airportCode}-#{modifyBookingManagedBean.ticket.flight.route.destinationAirport.airportCode}" />
-                        <p:selectOneRadio id="premiumMeal" value="#{ticket.premiumMeal}" style="margin-left: auto; margin-right: auto">
-                            <f:selectItem itemLabel="Yes" itemValue="true" />
-                            <f:selectItem itemLabel="No" itemValue="false" />
-                        </p:selectOneRadio>
+                    <h:outputLabel value="Flight Wi-Fi: " />
+                    <c:choose>
+                        <c:when test="#{modifyBookingManagedBean.ticket.flightWiFi} == false">
+                            <h:outputLabel value="No" />
+                        </c:when>
+                        <c:otherwise>
+                            <h:outputLabel value="Yes" />
+                        </c:otherwise>
+                    </c:choose>
 
-                        <h:outputText value="Enjoy Exclusive Service: " />
-                        <h:outputText value="(including special check-in counter, exclusive lounge and priority boarding)" style="font-size: small"/>
+                    <h:outputLabel value="" />
+                    <p:commandButton value="Upgrade Service" onclick="PF('upgradeService').show();"></p:commandButton>
+                </h:panelGrid>
+            </p:panel>
 
-
-                        <h:outputText value="#{modifyBookingManagedBean.ticket.flight.route.originAirport.airportCode}-#{modifyBookingManagedBean.ticket.flight.route.destinationAirport.airportCode}" />
-                        <p:selectOneRadio id="service" value="#{ticket.exclusiveService}" style="margin-left: auto; margin-right: auto">
-                            <f:selectItem itemLabel="Yes" itemValue="true" />
-                            <f:selectItem itemLabel="No" itemValue="false" />
-                        </p:selectOneRadio>
-
-                        <h:outputText value="Enjoy In-flight WIFI: " />
-                        <h:outputText value="" />
-
-
-                        <h:outputText value="#{modifyBookingManagedBean.ticket.flight.route.originAirport.airportCode}-#{modifyBookingManagedBean.ticket.flight.route.destinationAirport.airportCode}" />
-                        <p:selectOneRadio id="wifi" value="#{ticket.flightWiFi}" style="margin-left: auto; margin-right: auto">
-                            <f:selectItem itemLabel="Yes" itemValue="true" />
-                            <f:selectItem itemLabel="No" itemValue="false" />
-                        </p:selectOneRadio>
-
-                        <h:outputText value="Enjoy Affordable Insurance: " />
-                        <h:outputText value="" />
-
-
-                        <h:outputText value="#{modifyBookingManagedBean.ticket.flight.route.originAirport.airportCode}-#{modifyBookingManagedBean.ticket.flight.route.destinationAirport.airportCode}" />
-                        <p:selectOneRadio id="insurance" value="#{ticket.insurance}" style="margin-left: auto; margin-right: auto">
-                            <f:selectItem itemLabel="Yes" itemValue="true" />
-                            <f:selectItem itemLabel="No" itemValue="false" />
-                        </p:selectOneRadio>
-                    </h:panelGrid>
-                </p:panel>
-            </h:panelGrid>
-
-            <h:form>
-                <p:commandButton actionListener="#{modifyBookingManagedBean.completeModifyBooking}" value="Confirm"></p:commandButton>
+            <h:form style="text-align: center">
+                <p:commandButton actionListener="#{modifyBookingManagedBean.completeModifyBooking}" value="Confirm" style="margin-top: 5%"></p:commandButton>
             </h:form>
         </p:panel>
+        <h:form>
+            <p:dialog header="Upgrade Premium Service" widgetVar="upgradeService" style="background-color: white !important">
+
+                <h:panelGrid columns="2" style="display: inline-block;">
+                    <h:outputText value="Extra Check-in Baggage: " />
+                    <p:selectOneMenu value="#{modifyBookingManagedBean.ticket.baggageWeight}" style="width: 100%">
+                        <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="No Extra Baggage" itemValue="-1" itemDisabled="#{modifyBookingManagedBean.ticket.baggageWeight}>=-1" />
+                        <f:selectItem itemLabel="Extra 10kg" itemValue="10.0" itemDisabled="#{modifyBookingManagedBean.ticket.baggageWeight}>=10" />
+                        <f:selectItem itemLabel="Extra 25kg" itemValue="25.0" itemDisabled="#{modifyBookingManagedBean.ticket.baggageWeight}>=-25"/>
+                        <f:selectItem itemLabel="Extra 50kg" itemValue="50.0" itemDisabled="#{modifyBookingManagedBean.ticket.baggageWeight}>=50"/>
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Enjoy Premium Meal In Flight: " />
+                    <p:selectOneRadio value="#{modifyBookingManagedBean.ticket.premiumMeal}" style="margin-left: auto; margin-right: auto">
+                        <f:selectItem itemLabel="Yes" itemValue="true" />
+                        <f:selectItem itemLabel="No" itemValue="false" />
+                    </p:selectOneRadio>
+
+                    <h:outputText value="Enjoy Exclusive Service: " />
+                    <p:selectOneRadio value="#{modifyBookingManagedBean.ticket.exclusiveService}" style="margin-left: auto; margin-right: auto">
+                        <f:selectItem itemLabel="Yes" itemValue="true" />
+                        <f:selectItem itemLabel="No" itemValue="false" />
+                    </p:selectOneRadio>
+
+                    <h:outputText value="Enjoy In-flight WIFI: " />
+                    <p:selectOneRadio value="#{modifyBookingManagedBean.ticket.flightWiFi}" style="margin-left: auto; margin-right: auto">
+                        <f:selectItem itemLabel="Yes" itemValue="true" />
+                        <f:selectItem itemLabel="No" itemValue="false" />
+                    </p:selectOneRadio>
+
+                    <h:outputText value="Enjoy Affordable Insurance: " />
+                    <p:selectOneRadio value="#{modifyBookingManagedBean.ticket.insurance}" style="margin-left: auto; margin-right: auto">
+                        <f:selectItem itemLabel="Yes" itemValue="true" />
+                        <f:selectItem itemLabel="No" itemValue="false" />
+                    </p:selectOneRadio>
+
+                    <h:outputLabel value="" />
+                    <p:commandButton value="Confirm" style="margin-top: 5%" actionListener="#{modifyBookingManagedBean.upgradePremiumService}"></p:commandButton>
+
+                </h:panelGrid>
+
+            </p:dialog>
+        </h:form>
     </ui:define>
 
 </ui:composition>

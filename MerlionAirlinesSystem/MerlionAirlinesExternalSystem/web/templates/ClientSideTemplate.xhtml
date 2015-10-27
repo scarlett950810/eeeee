@@ -97,6 +97,9 @@
                 background-color: white;
                 height: 20px;
             }
+            .ui-selectonemenu .ui-selectonemenu-label{
+                background-color: transparent;
+            }
         </style>
     </h:head>
 
@@ -127,18 +130,18 @@
                 <div id="menubar">
                     <h:form>
                         <ul>
-                            <li>Home</li>
+                            <a href="https://localhost:8181/MerlionAirlinesExternalSystem/index.xhtml"><li>Home</li></a>
                             <li>
                                 Booking Management
                                 <ul>
-                                    <a href="/distribution/makeBooking.xhtml"><li>Retrieve My Booking</li></a>
-                                    <li>Web Check-in</li>
+                                    <a href="https://localhost:8181/MerlionAirlinesExternalSystem/distribution/modifyBookingHome.xhtml"><li>Retrieve My Booking</li></a>
+                                    <a href="https://localhost:8181/MerlionAirlinesExternalSystem/departure/webCheckInHome.xhtml"><li>Web Check-in</li></a>
                                     <li>Flight Status</li>
                                 </ul>
                             </li>
                             <li>Frequent Flyer Program</li>
                             <li>Special Offers</li>
-                            <a href="CRM/crmCustomerFeedback.xhtml"><li>Contact us</li></a>
+                            <a href="https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmCustomerFeedback.xhtml"><li>Contact us</li></a>
                         </ul>
                     </h:form>
                 </div>
@@ -148,11 +151,15 @@
                 <p:panel style="background-color: white !important; margin: 10px 10% 0 10%; height: auto;">
                     <ui:insert name="main"></ui:insert>
                 </p:panel>
+                
+                <p:panel style="text-align: center; margin-top: 10%">
+                    <p:outputLabel value="&copy;Merlion Airline"></p:outputLabel>
+                </p:panel>
             </p:layoutUnit>
 
-            <p:layoutUnit position="south" size="5%" style="text-align: center;">
+<!--            <p:layoutUnit position="south" size="5%" style="text-align: center;">
                 <p:outputLabel value="&copy;Merlion Airline"></p:outputLabel>
-            </p:layoutUnit>
+            </p:layoutUnit>-->
 
         </p:layout>
 

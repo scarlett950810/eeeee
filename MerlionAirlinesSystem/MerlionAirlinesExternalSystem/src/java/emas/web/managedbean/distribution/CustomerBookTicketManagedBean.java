@@ -146,6 +146,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private String email;
     private String contactNumber;
     private double totalPrice = 0;
+    private String referenceNumber;
 
     public CustomerBookTicketManagedBean() {
     }
@@ -220,10 +221,8 @@ public class CustomerBookTicketManagedBean implements Serializable {
 //        country = "Singapore";
 //        email = "howe0819@gmail.com";
 //        contactNumber = "314324243";
-        String referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
+        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
         FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?referenceNumber=" + referenceNumber);
-
-//        FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
     }
 
     public void makeBooking() throws IOException {
@@ -1408,4 +1407,14 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
+    }
+    
+    
 }

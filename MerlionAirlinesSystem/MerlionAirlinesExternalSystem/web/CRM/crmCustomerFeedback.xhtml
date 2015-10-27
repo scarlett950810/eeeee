@@ -42,13 +42,13 @@
 
         <h:form style="margin-top: 10%">
 
-            <h:outputLabel value="Leave us a feedback"></h:outputLabel>
+            <h:outputLabel value="Leave us a feedback" style="font-size: 150%"></h:outputLabel>
             <p:panelGrid columns="2">
                 <p:outputLabel value="Title: "></p:outputLabel>
-                <p:inputText value="#{customerFeedbackManagedBean.title}"></p:inputText>
+                <p:inputText value="#{customerFeedbackManagedBean.title}" rendered="true"></p:inputText>
 
                 <p:outputLabel value="Feedback Type: "></p:outputLabel>
-                <p:selectOneMenu value="#{customerFeedbackManagedBean.feedbackType}" style="display: inline-block">
+                <p:selectOneMenu value="#{customerFeedbackManagedBean.feedbackType}" style="display: inline-block" rendered="true">
                     <f:selectItem itemLabel="Select One" noSelectionOption="true"/>
                     <f:selectItem itemLabel="General Enquiry" itemValue="general enquiry" />
                     <f:selectItem itemLabel="Ticketing Office" itemValue="ticketing office" />
@@ -57,7 +57,7 @@
                 </p:selectOneMenu>
                 
                 <p:outputLabel value="Your email: "></p:outputLabel>
-                <p:inputText value="#{customerFeedbackManagedBean.customerEmail}"></p:inputText>
+                <p:inputText value="#{customerFeedbackManagedBean.customerEmail}" required="true"></p:inputText>
             </p:panelGrid>
             <br></br>
 

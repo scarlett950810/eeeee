@@ -6,10 +6,12 @@
 package emas.web.managedbean.CRM;
 
 import imas.crm.sessionbean.CustomerFeedbackSessionBeanLocal;
+import java.io.IOException;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -35,8 +37,12 @@ public class CustomerFeedbackManagedBean implements Serializable{
     
     
     
-    public void createFeedback(){
+    public void createFeedback() throws IOException{
         customerFeedbackSessionBean.createFeedback(feedback, title, feedbackType, customerEmail);
+        feedback = null;
+        title = null;
+        feedback = null;
+        customerEmail = null;
     }
 
     public String getFeedback() {

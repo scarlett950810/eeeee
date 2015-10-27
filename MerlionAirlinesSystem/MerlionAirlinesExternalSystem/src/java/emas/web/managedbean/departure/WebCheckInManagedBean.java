@@ -10,24 +10,25 @@ import imas.departure.sessionbean.SeatHelperClass;
 import imas.departure.sessionbean.WebCheckInSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.inject.Named;
 import org.primefaces.event.FlowEvent;
 
 /**
  *
  * @author Howard
  */
-@ManagedBean
+@Named
 @SessionScoped
-public class WebCheckInManagedBean {
+public class WebCheckInManagedBean implements Serializable {
 
     @EJB
     private WebCheckInSessionBeanLocal webCheckInSessionBean;
@@ -52,13 +53,18 @@ public class WebCheckInManagedBean {
         }
     }
 
-    public void completeWebCheckIn(){
-        webCheckInSessionBean.completeWebCheckIn(seatHelper, ticket);
-        referenceNumber = null;
-        passportNumber = null;
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("ticketList");
+    public void completeWebCheckIn() throws IOException {
+        if (currentSeat != null) {
+            webCheckInSessionBean.completeWebCheckIn(seatHelper, ticket);
+            System.err.println(ticket);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticket", ticket);
+            referenceNumber = null;
+            passportNumber = null;
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("ticketList");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("../BoardingPassController");
+        }
     }
-    
+
     public void startWebCheckIn() throws IOException {
         Date currentDate = new Date();
 //        if (ticket.getFlight().getDepartureDate().getTime() - currentDate.getTime() > 259200000) {
@@ -68,8 +74,8 @@ public class WebCheckInManagedBean {
 //            FacesContext context = FacesContext.getCurrentInstance();
 //            context.addMessage(null, new FacesMessage("Web Check-in is now closed for" + ticket.getFlight().getFlightNo(), ""));
 //        } else {
-            seatHelper = webCheckInSessionBean.fetchAllSeats(ticket.getFlight().getAircraft().getId(), ticket.getFlight().getId(), ticket.getBookingClassName());
-            FacesContext.getCurrentInstance().getExternalContext().redirect("webCheckInSelectSeat.xhtml");
+        seatHelper = webCheckInSessionBean.fetchAllSeats(ticket.getFlight().getAircraft().getId(), ticket.getFlight().getId(), ticket.getBookingClassName());
+        FacesContext.getCurrentInstance().getExternalContext().redirect("webCheckInSelectSeat.xhtml");
 //        }
     }
 
@@ -77,11 +83,14 @@ public class WebCheckInManagedBean {
         return event.getNewStep();
     }
 
-    public void onChangeSeat(AjaxBehaviorEvent event){
-        currentSeat = (SeatHelperClass)event.getComponent().getAttributes().get("element");
-        System.out.print(currentSeat);
+    public void onChangeSeat(SeatHelperClass seatHelperClass) {
+        if (currentSeat != null) {
+            currentSeat.setSelected(false);
+        }
+        currentSeat = seatHelperClass;
+//        System.out.print(seatHelperClass);
     }
-    
+
     public WebCheckInManagedBean() {
     }
 
@@ -131,6 +140,14 @@ public class WebCheckInManagedBean {
 
     public void setTickets(List<TicketEntity> tickets) {
         this.tickets = tickets;
+    }
+
+    public SeatHelperClass getCurrentSeat() {
+        return currentSeat;
+    }
+
+    public void setCurrentSeat(SeatHelperClass currentSeat) {
+        this.currentSeat = currentSeat;
     }
 
 }
