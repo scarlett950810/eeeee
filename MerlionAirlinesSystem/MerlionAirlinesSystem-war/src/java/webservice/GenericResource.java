@@ -95,6 +95,9 @@ public class GenericResource {
             FlightEntity f1 = new FlightEntity();
             f1.setId(f.getId());
             f1.setFlightNo(f.getFlightNo());
+            f1.setDepartureDate(f.getDepartureDate());
+            f1.setArrivalDate(f.getArrivalDate());
+            
             test.add(f1);
             
         }

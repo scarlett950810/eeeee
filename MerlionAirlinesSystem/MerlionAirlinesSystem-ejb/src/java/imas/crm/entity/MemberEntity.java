@@ -33,6 +33,8 @@ public class MemberEntity implements Serializable {
     String email;
     String pinNumber;
     Double mileage;
+    
+    
     public Long getId() {
         return id;
     }
