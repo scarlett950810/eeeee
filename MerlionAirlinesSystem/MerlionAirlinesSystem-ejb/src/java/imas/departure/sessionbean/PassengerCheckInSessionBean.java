@@ -51,7 +51,7 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
                     comingFlights.add(flights.get(i));
                 }
             }
-            Collections.sort(flights);
+            Collections.sort(comingFlights);
             return comingFlights;
         }
     }
