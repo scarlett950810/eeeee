@@ -179,11 +179,10 @@ public class FlightManagedBean implements Serializable {
     }
 
     public List<PilotEntity> getPilots() {
-        System.err.println("enter get pilots" + route + aircraft + departureDate + arrivalDate);
-        //pilots = crewToFlightSession.retrieveAllPilots();
+        System.err.println("enter get pilots" + route + aircraft + departureDate + arrivalDate);        
         pilots = crewToFlightSession.retreiveAvailablePilot(aircraft, route, departureDate, arrivalDate);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("pilotList", pilots);
-        //ystem.err.println("Pilots are"+pilots.get(0).getDisplayName());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("pilotList", pilots);        
+        System.err.println("Complete get pilots in managed bean");
         return pilots;
     }
 
@@ -222,6 +221,7 @@ public class FlightManagedBean implements Serializable {
         cabinCrewList = crewToFlightSession.retrieveAvailableCabinCrew(route, departureDate, arrivalDate);
         System.err.println("PRINTHAHA" + cabinCrewList);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cabinCrewList", cabinCrewList);
+        System.err.println("complete get cabin crew in managed bean");
         return cabinCrewList;
     }
 
@@ -358,15 +358,22 @@ public class FlightManagedBean implements Serializable {
 
     public void createFlight() {
         FlightEntity f = new FlightEntity();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(departureDate);
+        Integer opYear = cal.get(Calendar.YEAR);
+        f.setOperatingYear(opYear);
         f.setDepartureDate(departureDate);
         f.setArrivalDate(arrivalDate);
         f.setAircraftFlight(aircraft);
         f.setFlightNo(flightNo);
         f.setCabinCrews(selectedCabinCrewList);
         f.setPilots(selectedPilots);
-        f.setRoute(route);
+        f.setRoute(route);        
         
         FlightEntity returnF = new FlightEntity();
+        cal.setTime(departureDateR);
+        Integer opYearR = cal.get(Calendar.YEAR);
+        returnF.setOperatingYear(opYearR);
         returnF.setDepartureDate(departureDateR);
         returnF.setArrivalDate(arrivalDateR);
         returnF.setFlightNo(returnFlightNo);

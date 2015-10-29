@@ -8,6 +8,7 @@ package imas.web.managedbean.departure;
 import imas.departure.sessionbean.PassengerCheckInSessionBeanLocal;
 import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,18 +60,28 @@ public class PassengerCheckInManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", comingFlights);
     }
 
-    public void update() {
-        passengerCheckInSessionBean.update(selectedTicket, actualBaggageWeight, issued);
-        RequestContext requestContext = RequestContext.getCurrentInstance();
-        requestContext.execute("PF('ticketDialog').hide()");
+    public void update() throws IOException {
+        if (actualBaggageWeight == null) {
+            actualBaggageWeight = 0.0;
+        }
+        System.out.print(actualBaggageWeight);
+        int result = passengerCheckInSessionBean.update(selectedTicket, actualBaggageWeight);
+        System.out.print(result);
+      
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticket", selectedTicket);
+              
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../BoardingPassController");
+  
+//        RequestContext requestContext = RequestContext.getCurrentInstance();
+//        requestContext.execute("PF('ticketDialog').hide()");
         tickets = flight.getTickets();
     }
 
     public void updateNew() {
         for (int i = 0; i < selectedTickets.size(); i++) {
             passengerCheckInSessionBean.update(selectedTickets.get(i));
-             System.out.print(selectedTickets.get(i));
-             System.out.print("new new");
+            System.out.print(selectedTickets.get(i));
+            System.out.print("new new");
         }
 //        passengerCheckInSessionBean.update(issuedSelectedTicket);
         RequestContext requestContext = RequestContext.getCurrentInstance();
@@ -126,7 +137,6 @@ public class PassengerCheckInManagedBean implements Serializable {
         requestContext.execute("PF('ticketDialog').show()");
 
     }
-
 
     public List<FlightEntity> getComingFlights() {
         return comingFlights;
