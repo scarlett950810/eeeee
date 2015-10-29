@@ -5,6 +5,7 @@
  */
 package imas.web.managedbean.inventory;
 
+import imas.inventory.sessionbean.CostManagementSessionBeanLocal;
 import imas.inventory.sessionbean.InventoryRevenueManagementSessionBeanLocal;
 import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -19,8 +21,14 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.persistence.PostRemove;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.BarChartSeries;
 import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.PieChartModel;
+import org.primefaces.model.chart.LegendPlacement;
+import org.primefaces.model.chart.LineChartSeries;
+import org.primefaces.model.chart.LinearAxis;
 
 /**
  *
@@ -29,7 +37,10 @@ import org.primefaces.model.chart.PieChartModel;
 @Named(value = "inventoryRevenueSummaryManagedBean")
 @ViewScoped
 public class InventoryRevenueSummaryManagedBean implements Serializable {
-    
+
+    @EJB
+    private CostManagementSessionBeanLocal costManagementSessionBean;
+
     @EJB
     private InventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
 
@@ -52,22 +63,25 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        
+
         routeToMinDate = this.getToday();
         routeToDate = this.getToday();
         routeFromDate = addDays(routeToDate, -365);
         topXOnly = 10;
-        routeList = routeSession.retrieveAllRoutes();
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routeList", routeList);
-        routeDetailsByTimelineCombinedModel = new CartesianChartModel();
-        routeDetailsByBookingClassCombinedModel = new CartesianChartModel();
+        this.routeList = routeSession.retrieveAllRoutes();
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routeList", this.routeList);
+        routeDetailsByTimelineCombinedModel = new BarChartModel();
+        routeDetailsByBookingClassCombinedModel = new BarChartModel();
+
+        selectedRoute = routeList.get(0);
+        updateRouteGraphs();
     }
 
     @PostRemove
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("routeList");
     }
-    
+
     public int getTopXOnly() {
         return topXOnly;
     }
@@ -126,12 +140,16 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
 
     public void onRouteFromDateSelect(SelectEvent event) {
         routeToMinDate = routeFromDate;
-        updateRouteGraphs();
+        if (selectedRoute != null) {
+            updateRouteGraphs();
+        }
     }
 
     public void onRouteToDateSelect(SelectEvent event) {
         routeFromMaxDate = routeToDate;
-        updateRouteGraphs();
+        if (selectedRoute != null) {
+            updateRouteGraphs();
+        }
     }
 
     public Date getToday() {
@@ -166,11 +184,76 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
         return c.getTime();
     }
 
+    private Date addMonths(Date original, int monthNo) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(original);
+        c.add(Calendar.MONTH, monthNo);
+
+        return c.getTime();
+    }
+
     public void onRouteChange() {
         updateRouteGraphs();
     }
 
     public void updateRouteGraphs() {
+        routeDetailsByTimelineCombinedModel = new BarChartModel();
+        routeDetailsByTimelineCombinedModel.setTitle("Revenue, Cost and Profit Margin by Month for" + selectedRoute.getRouteName());
+        routeDetailsByTimelineCombinedModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+        routeDetailsByTimelineCombinedModel.setLegendPosition("e");
+        routeDetailsByTimelineCombinedModel.setShowPointLabels(true);
+        routeDetailsByTimelineCombinedModel.setMouseoverHighlight(false);
 
+        BarChartSeries revenueSeries = new BarChartSeries();
+        revenueSeries.setLabel("Revenue");
+        BarChartSeries costSeries = new BarChartSeries();
+        costSeries.setLabel("Cost");
+        LineChartSeries profitMarginSeries = new LineChartSeries();
+        profitMarginSeries.setLabel("Profit Margin");
+
+        Date start = routeFromDate;
+        Date end;
+        while (start.before(routeToDate)) {
+            end = addMonths(start, 1);
+            if (end.after(routeToDate)) {
+                end = routeToDate;
+            }
+
+            double revenue = inventoryRevenueManagementSessionBean.getRouteTotalRevenueDuringDuration(selectedRoute, start, end);
+            double cost = inventoryRevenueManagementSessionBean.getRouteTotalCostDuringDuration(selectedRoute, start, end);
+
+            // fill in randon data
+            // to be removed later
+            Random random = new Random();
+            double totalFlightNo = ((routeToDate.getTime() - routeFromDate.getTime()) / (60 * 60 * 1000 * 24 * (0.5 + random.nextDouble())));
+            double totalSeatNo = 20 * (1.5 + 2 * random.nextDouble());
+            cost = costManagementSessionBean.getCostPerSeatPerMile(selectedRoute) * selectedRoute.getDistance() * totalFlightNo * totalSeatNo;
+            revenue = (0.5 + random.nextDouble()) * 3 * cost;
+            // random numerb end
+
+            double pm = (revenue - cost) / revenue;
+            revenueSeries.set(start, revenue);
+            costSeries.set(start, cost);
+            profitMarginSeries.set(start, pm);
+
+            start = end;
+        }
+
+        routeDetailsByTimelineCombinedModel.addSeries(revenueSeries);
+        revenueSeries.setYaxis(AxisType.Y);
+        routeDetailsByTimelineCombinedModel.addSeries(costSeries);
+        costSeries.setYaxis(AxisType.Y3);
+        routeDetailsByTimelineCombinedModel.addSeries(profitMarginSeries);
+        profitMarginSeries.setYaxis(AxisType.Y2);
+
+        Axis yAxis = routeDetailsByTimelineCombinedModel.getAxis(AxisType.Y);
+        yAxis.setLabel("SG $");
+        yAxis.setMin(0);
+        Axis y2Axis = new LinearAxis("Ratio");
+        y2Axis.setMin(0);
+        routeDetailsByTimelineCombinedModel.getAxes().put(AxisType.Y2, y2Axis);
+        routeDetailsByTimelineCombinedModel.getAxes().put(AxisType.Y3, y2Axis);
+        
     }
+
 }

@@ -106,5 +106,20 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
         return flight.getCostPerSeatPerMile() * flight.getRoute().getDistance() * flight.getAircraft().getSeats().size();
     }
     
+    @Override
+    public Double getRouteTotalCostDuringDuration(RouteEntity route, Date from, Date to) {
+        Query query = em.createQuery("SELECT f FROM FlightEntity f WHERE f.route = :route AND f.departureDate > :from AND f.departureDate < :to");
+        query.setParameter("route", route);
+        query.setParameter("from", from);
+        query.setParameter("to", to);
+        List<FlightEntity> flights = query.getResultList();
+        Double totalCost = 0.0;
+        for (FlightEntity f: flights) {
+            totalCost = totalCost + getFlightTotalCost(f);
+        }
+        
+        return totalCost;
+    }
+    
     
 }

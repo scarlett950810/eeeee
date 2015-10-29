@@ -391,4 +391,9 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSellingFlightToManage", selectedFlight);
         FacesContext.getCurrentInstance().getExternalContext().redirect("inventoryTermsAndConditionsManagement.xhtml");
     }
+    
+    public void setAllFlightYearsBack(int year) {
+        flightLookupSessionBean.setAllFlightYearsBack(year);
+    }
+    
 }

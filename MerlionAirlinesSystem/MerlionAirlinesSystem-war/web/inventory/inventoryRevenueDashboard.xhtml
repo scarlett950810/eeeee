@@ -28,39 +28,15 @@
 
     <ui:define name="centerPanel">
 
-        <p:panel class="panel panel-primary" header="Overall Revenue and Profit Summary">
-
-            <h:form id="all">
-                <h:panelGrid columns="4" cellpadding="5" class="panel-success">
-                    <p:outputLabel for="allfromDate" value="From:" />
-                    <p:calendar id="allfromDate" value="#{inventoryRevenueSummaryManagedBean.allFromDate}" required="true"
-                                maxdate="#{inventoryRevenueSummaryManagedBean.allFromMaxDate}">
-                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onAllFromDateSelect}" update="@form" />
-                    </p:calendar>
-
-                    <p:outputLabel for="allToDate" value="To:" />
-                    <p:calendar id="allToDate" value="#{inventoryRevenueSummaryManagedBean.allToDate}" required="true"
-                                maxdate="#{inventoryRevenueSummaryManagedBean.today}">
-                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onAllToDateSelect}" update="@form" />
-                    </p:calendar>
-                </h:panelGrid>
-
-                <p:panelGrid columns="2">
-                    <p:chart type="pie" model="#{inventoryRevenueSummaryManagedBean.allByRoutePieModel}" style="width:45%;"/>
-                </p:panelGrid>
-
-            </h:form>
-
-        </p:panel>
-
         <p:panel class="panel panel-primary" header="Route Revenue and Profit Details">
 
-            <h:form>
+            <h:form id="routeRevenue">
                 <h:panelGrid columns="6" cellpadding="5" class="panel-primary">
                     <p:outputLabel value="Route:" for="route"/>
 
-                    <p:selectOneMenu id="route" value="#{inventoryRevenueSummaryManagedBean.selectedRoute}" converter="routeConverterForAllRoutes">
-                        <p:ajax listener="#{inventoryRevenueSummaryManagedBean.onRouteChange()}" update="@form"/>
+                    <p:selectOneMenu id="route" value="#{inventoryRevenueSummaryManagedBean.selectedRoute}" 
+                                     converter="routeConverterForAllRoutes">
+                        <p:ajax listener="#{inventoryRevenueSummaryManagedBean.onRouteChange()}" update="routeRevenue:graphByTimeline"/>
                         <f:selectItem itemLabel="Select Route" itemDisabled="true"/>
                         <f:selectItems value="#{inventoryRevenueSummaryManagedBean.routeList}"/>
                     </p:selectOneMenu>
@@ -76,6 +52,10 @@
                         <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onRouteToDateSelect}" update="@form"/>
                     </p:calendar>
                 </h:panelGrid>
+                
+                <p:chart id="graphByTimeline" type="bar" model="#{inventoryRevenueSummaryManagedBean.routeDetailsByTimelineCombinedModel}"
+                         style="width:80%;"/>
+            
             </h:form>
 
         </p:panel>

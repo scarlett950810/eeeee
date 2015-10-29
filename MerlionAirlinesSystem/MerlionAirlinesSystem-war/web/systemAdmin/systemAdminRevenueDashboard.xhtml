@@ -16,7 +16,17 @@
     <ui:define name="title">Revenue Dashboard</ui:define>
 
     <ui:define name="menubar">
-        
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1">Account Management</li>
+                <li><a href="systemAdminAddStaff.xhtml">Add Airline Staff</a></li>
+                <li><a href="systemAdminViewStaff.xhtml">View Airline Staff</a></li>
+                <!--                <li><a href="">Membership Customers</a></li>
+                                <li><a href="">Travel Agencies</a></li>-->
+                <li class="sidebar-h1"><a href="systemAdminSendAnnouncement.xhtml">Send Announcement</a></li>
+                <li class="sidebar-h1"><a href="systemAdminRevenueDashboard.xhtml">Revenue Dashboard</a></li>
+            </ul>
+        </div>
     </ui:define>
 
     <ui:define name="centerPanel">
@@ -38,10 +48,10 @@
                     </p:calendar>
                 </h:panelGrid>
 
-                <p:panelGrid columns="2">
-                    <p:chart type="pie" model="#{systemAdminDashBoardManagedBean.allByRoutePieModel}" style="width:45%;"/>
-                </p:panelGrid>
 
+                <p:chart type="pie" model="#{systemAdminDashBoardManagedBean.allByRoutePieModel}" style="width:50%;"/>
+
+                <p:chart type="bar" model="#{systemAdminDashBoardManagedBean.allDetailsByRouteCombinedModel}" style="width:50%;"/>
             </h:form>
 
         </p:panel>
