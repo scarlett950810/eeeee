@@ -40,7 +40,9 @@ public class ReportController extends HttpServlet {
 
     private void generateItinerary(HttpServletRequest request, HttpServletResponse response) {
         try {
+//            String referenceNumber = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
             String referenceNumber = request.getParameter("referenceNumber");
+            
             InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream("/jasperReports/FlightItinerary.jasper");
             
             response.setContentType("application/pdf");

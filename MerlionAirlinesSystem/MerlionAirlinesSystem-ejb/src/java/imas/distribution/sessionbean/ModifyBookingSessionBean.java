@@ -61,6 +61,7 @@ public class ModifyBookingSessionBean implements ModifyBookingSessionBeanLocal {
     @Override
     public void flushModification(TicketEntity ticket) {
         entityManager.merge(ticket);
+        System.out.print("success");
     }
     
     
