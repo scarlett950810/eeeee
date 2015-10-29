@@ -21,7 +21,9 @@
 
 
         <p:outputLabel value="Congratulations! You Have Successfully Made the Booking" style="margin-top: 7%; font-size: 150%;"></p:outputLabel>
-
+        <br></br>
+        <p:outputLabel value="Reference Number: #{customerBookTicketManagedBean.referenceNumber}"></p:outputLabel>
+        
         <p:panel header="Flight Information" style="margin-top: 5%; border: #000000 2px solid; height: auto">
             <p:dataTable value="#{customerBookTicketManagedBean.flights}" var="flight" style="border: none;">
                 <p:column headerText="Flight No.">

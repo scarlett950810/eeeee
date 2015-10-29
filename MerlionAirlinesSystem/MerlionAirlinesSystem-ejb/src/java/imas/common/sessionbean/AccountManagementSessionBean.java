@@ -444,9 +444,13 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
         StaffEntity staff = staffs.get(0);
+        System.out.print(staff.getSequrityQuestionAnswer().toLowerCase());
+        System.out.print(answer.toLowerCase());
         if(staff.getSequrityQuestionAnswer().toLowerCase().equals(answer.toLowerCase())){
+            System.out.println("true");
             return true;
         }else{
+            System.out.println("false");
             return false;
         }
     }

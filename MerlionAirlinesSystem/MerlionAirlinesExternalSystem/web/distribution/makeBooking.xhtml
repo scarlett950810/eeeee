@@ -70,7 +70,7 @@
             <p:outputLabel value="(Includes taxes and surcharges)" />
         </p:panel>
 
-        <h:form id="makeBooking" target="_blank">
+        <h:form id="makeBooking">
 
             <p:growl id="growl" sticky="true" showDetail="true"/>
 
@@ -245,7 +245,7 @@
                     <p:panel header="Payment Details">
 
                         <h:panelGrid columns="2" columnClasses="label, value">
-                            <p:commandButton value="Confirm"  onclick="Redirect();"></p:commandButton>
+                            <p:commandButton value="Proceed to payment"  onclick="Redirect();"></p:commandButton>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>

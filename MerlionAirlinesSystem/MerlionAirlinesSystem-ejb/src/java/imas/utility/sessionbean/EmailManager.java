@@ -79,7 +79,7 @@ public class EmailManager {
         }
     }//run
 
-    public static boolean runBookingConfirmation(String addressedTo, String subject, String flight, String passenger) {
+    public static boolean runBookingConfirmation(String addressedTo, String subject, String flight, String passenger, String referenceNumber) {
 
         //String toAddress = "winexpress.noreply@gmail.com"; // set the email address to send to
         String recipients = addressedTo.trim(); // trim the recipients address to avoid space
@@ -140,7 +140,8 @@ public class EmailManager {
                     + "</head>"
                     + "<body>"
                     + "<img src=\"http://i.imgsafe.org/260c51a.png\" width=\"200px\">"
-                    + "<h2>Booking Confirmation</h3><br><br><br><h3"
+                    + "<h3>Booking Confirmation</h3><br><br><br>"
+                    + "<h2>Reference Number: " + referenceNumber
                     + "<table>"
                     + "  <tr>"
                     + "    <th>Flight No</th>"

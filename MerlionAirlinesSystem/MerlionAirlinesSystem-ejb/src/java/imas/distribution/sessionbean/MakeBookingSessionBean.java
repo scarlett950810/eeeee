@@ -82,7 +82,7 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
                     + passengerEntity.getPassportNumber() + "</td><td>" + passengerEntity.getNationality() + "</td></tr>";
         }
         
-        EmailManager.runBookingConfirmation(email, "Merlion Airlines|Itineary for your upcoming flight", flight, passenger);
+        EmailManager.runBookingConfirmation(email, "Merlion Airlines|Itineary for your upcoming flight", flight, passenger, referenceNumber);
 
         return referenceNumber;
     }
