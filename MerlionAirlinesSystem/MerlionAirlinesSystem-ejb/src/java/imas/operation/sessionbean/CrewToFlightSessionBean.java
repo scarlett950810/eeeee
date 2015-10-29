@@ -165,7 +165,7 @@ public class CrewToFlightSessionBean implements CrewToFlightSessionBeanLocal {
 //        f.setCabinCrews(null);
 //        f.setPilots(null);
 //        f.setRoute(null);
-//        f.setAircraftFlight(null);
+//        f.setAircraft(null);
         System.err.println("prepare to reomve");
         em.remove(f);
         em.remove(returnFlight);

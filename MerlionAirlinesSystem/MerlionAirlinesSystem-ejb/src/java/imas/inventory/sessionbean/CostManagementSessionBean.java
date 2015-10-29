@@ -60,11 +60,23 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         list.add(new CostPairEntity("First class service cost per passenger", 0.308, 21));//21
         list.add(new CostPairEntity("Delay cost per passenger", 0.0389, 22));//22
         list = correctList(list);
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).setRoute(selectedRoute);
+        
+        RouteEntity route = em.find(RouteEntity.class, selectedRoute.getId());
+        List<CostPairEntity> costPairList = new ArrayList<>();
+        for (CostPairEntity costPair: list) {
+            costPair.setRoute(route);
+            em.persist(costPair);
+            costPairList = route.getCostPairs();
+            costPairList.add(costPair);
+            route.setCostPairs(costPairList);
+            em.merge(route);
         }
-        selectedRoute.setCostPairs(list);
-        em.merge(selectedRoute);
+        
+        em.flush();
+        
+        System.out.println("route.getcostpair = " + route.getCostPairs());
+//        route.setCostPairs(list);
+//        em.merge(route);
     }
 
     @Override
@@ -130,11 +142,13 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @Override
     public List<CostPairEntity> getCostPairList(RouteEntity selectedRoute) {
-        List<CostPairEntity> costTable;
-        costTable = selectedRoute.getCostPairs();
-        for (int i = 1; i < costTable.size(); i++) {
-            System.out.print(costTable.get(i).getCostType());
-        }
+        RouteEntity route = em.find(RouteEntity.class, selectedRoute.getId());
+        em.refresh(route);
+        List<CostPairEntity> costTable = route.getCostPairs();
+//        System.out.println("costTable = " + costTable);
+//        for (int i = 1; i < costTable.size(); i++) {
+//            System.out.print(costTable.get(i).getCostType());
+//        }
         Collections.sort(costTable);
 //        for (int i = 1; i < costTable.size(); i++) {
 //            System.out.print(costTable.get(i).getCostType());
@@ -144,14 +158,23 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @Override
     public void updateShowRate(RouteEntity selectedRoute, Double showRate) {
+        if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null || selectedRoute.getCostPairs().size() < 23) {
+            initCostTable(selectedRoute);
+        }
         List<CostPairEntity> costList = getCostPairList(selectedRoute);
+
+//        System.out.print("trytyrtytrty");
+//        System.out.print(costList);
         if (costList.size() == 23) {
+            System.out.print(costList.get(12).getCostType());
+            System.out.print(costList.get(13).getCostType());
             costList.get(13).setCostFigure(showRate);
             correctList(costList);
-            for (int i = 0; i < costList.size(); i++) {
-                em.merge(costList.get(i));
+            for (CostPairEntity cpe: costList) {
+                CostPairEntity cpeManaged = em.find(CostPairEntity.class, cpe.getId());
+                cpe.setCostFigure(cpe.getCostFigure());
             }
-            em.merge(selectedRoute);
+//            em.merge(selectedRoute);
         }
     }
 
@@ -193,10 +216,14 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 
     @Override
     public Double getCostPerSeatPerMile(RouteEntity selectedRoute) {
-        if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null || selectedRoute.getCostPairs().size() < 23) {
-            initCostTable(selectedRoute);
+        RouteEntity route = em.find(RouteEntity.class, selectedRoute.getId());
+        em.refresh(route);
+//        System.out.println("route.getCostPairs() = " + route.getCostPairs());
+        if (route.getCostPairs().isEmpty() || route.getCostPairs() == null || route.getCostPairs().size() < 23) {
+            initCostTable(route);
         }
-        List<CostPairEntity> costTable = this.getCostPairList(selectedRoute);
+        List<CostPairEntity> costTable = getCostPairList(route);
+//        System.out.println("costTable = " + costTable);
         return costTable.get(0).getCostFigure();
     }
 
