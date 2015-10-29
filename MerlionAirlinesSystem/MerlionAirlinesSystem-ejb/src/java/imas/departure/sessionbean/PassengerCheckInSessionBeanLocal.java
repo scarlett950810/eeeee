@@ -21,7 +21,7 @@ public interface PassengerCheckInSessionBeanLocal {
 
     public void intiFFF(FlightEntity flight);
 
-    public void update(TicketEntity ticket, Double actualBaggageWeight, Boolean issued);
+    public int update(TicketEntity ticket, Double actualBaggageWeight);
 
     public void update(TicketEntity ticket);
 
