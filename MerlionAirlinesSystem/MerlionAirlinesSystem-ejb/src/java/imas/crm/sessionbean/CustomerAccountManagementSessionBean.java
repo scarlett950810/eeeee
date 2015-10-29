@@ -5,6 +5,7 @@
  */
 package imas.crm.sessionbean;
 
+import imas.crm.entity.MemberEntity;
 import javax.ejb.Stateless;
 
 /**
@@ -14,6 +15,11 @@ import javax.ejb.Stateless;
 @Stateless
 public class CustomerAccountManagementSessionBean implements CustomerAccountManagementSessionBeanLocal {
 
+    @Override
+    public void createCustomer(MemberEntity newCustomer) {
+    }
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
 }

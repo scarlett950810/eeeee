@@ -5,6 +5,7 @@
  */
 package imas.crm.sessionbean;
 
+import imas.crm.entity.MemberEntity;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +14,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface CustomerAccountManagementSessionBeanLocal {
+
+    void createCustomer(MemberEntity newCustomer);
     
 }
