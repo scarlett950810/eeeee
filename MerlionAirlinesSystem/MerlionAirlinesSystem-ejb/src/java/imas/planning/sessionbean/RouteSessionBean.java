@@ -216,7 +216,6 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
             return (List<RouteEntity>) q.getResultList();
         }
         return new ArrayList<RouteEntity>();
-
     }
 
     @Override
@@ -361,6 +360,14 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         }
         speed = sum/types.size();    
         return speed;
+    }
+
+    @Override
+    public RouteEntity getRouteForPreference() { // for demo trial, deleted later
+        List<RouteEntity> routes = retrieveAllRoutes();
+        if(routes.isEmpty())
+            return null;
+        return routes.get(0);
     }
 
 }

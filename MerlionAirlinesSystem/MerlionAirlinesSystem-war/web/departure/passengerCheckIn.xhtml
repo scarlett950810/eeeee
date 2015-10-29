@@ -10,9 +10,9 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li><a href="timeManagement.xhtml">Time Management</a></li>                     
-                <li><a href="delayManagement.xhtml">Delay Management</a></li>        
+                <li><a href="delayManagement.xhtml">Delay Management</a></li>         
                 <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
-                <li><a href="#"></a></li>
+                <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
             </ul>
         </div>
     </ui:define>
@@ -25,7 +25,7 @@
                 <p:outputLabel for="comingFlight" value="Flight No: " />
                 <p:selectOneMenu id="comingFlight" value="#{passengerCheckInManagedBean.flight}" panelStyle="width:180px" required="true" requiredMessage="Please input flight No."
                                  effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"  converter="flightConverter">
-                    <p:ajax update="comingFlight:" listener="#{passengerCheckInManagedBean.onFlightChange()}" />
+                    <p:ajax update="comingFlight" listener="#{passengerCheckInManagedBean.onFlightChange()}" />
                     <f:selectItem itemLabel="Please select" itemDisabled="true"/>
                     <f:selectItems value="#{passengerCheckInManagedBean.comingFlights}" var="flight" itemLabel="#{flight.flightNo} #{flight.route.originAirport.cityName}-#{flight.route.destinationAirport.cityName},#{flight.departureDate.toLocaleString()}" itemValue="#{flight}" />
                 </p:selectOneMenu> 
@@ -34,8 +34,8 @@
             <p:panel id="passenger" visible="#{passengerCheckInManagedBean.display}"
                      header="#{passengerCheckInManagedBean.flight.flightNo} #{passengerCheckInManagedBean.flight.route.originAirport.cityName} - #{passengerCheckInManagedBean.flight.route.destinationAirport.cityName}"
                      class="panel panel-success">
-                <p:dataTable var="ticket" value="#{passengerCheckInManagedBean.tickets}" widgetVar="ticketTable"
-                             emptyMessage="No tickets found with given criteria" filteredValue="#{passengerCheckInManagedBean.filteredFlights}">
+                <p:dataTable  var="ticket" value="#{passengerCheckInManagedBean.tickets}" widgetVar="ticketTable"
+                              emptyMessage="No tickets found with given criteria" filteredValue="#{passengerCheckInManagedBean.filteredFlights}">
 
                     <f:facet name="header">
                         <p:outputPanel>
@@ -99,22 +99,30 @@
                         <h:outputLabel  value="Passport Expiry Date:"/>
                         <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.passenger.passportExpiry}" />      
                         <h:outputLabel  value="Seat Class:"/>
-                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.seat.seatClass}" />
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.bookingClassName}" />
                         <h:outputLabel  value="Seat No:"/>
                         <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.seat.seatNo}" />
                         <h:outputLabel  value="Baggage Weight Limit"/>
                         <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.baggageWeight}" />
                         <h:outputLabel  for="actualWeight" value="Actual Weight"/>
-                        <p:inputText id="actualWeight" value="#{passengerCheckInManagedBean.selectedTicket.actualBaggageWeight}"/>
-                        
+                        <p:inputText id="actualWeight" value="#{passengerCheckInManagedBean.actualBaggageWeight}"/>
+                     
+
+
                     </p:panelGrid>
+
+                    <p:commandButton value="Submit" actionListener="#{passengerCheckInManagedBean.update}"
+                                     icon="ui-icon-check" class="btn-sm btn-success" style="margin-top: 15px;" update="comingFlight">
+                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes btn-success" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no btn-danger" icon="ui-icon-close" />
+                    </p:confirmDialog>
                 </p:outputPanel>
+
             </h:form>
         </p:dialog>
-
-
-
-
-
     </ui:define>
 </ui:composition>

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imas.distribution.sessionbean;
+package imas.departure.sessionbean;
 
 import imas.distribution.entity.PassengerEntity;
 import java.util.Objects;

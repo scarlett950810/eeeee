@@ -41,6 +41,7 @@ public class AccountActivationManagedBean implements Serializable {
     private String originPassword;
     private String newPassword;
     private String newRepeatPassword;
+    private String securityAnswer;
     private boolean passwordReset = true;
 
     public AccountActivationManagedBean() {
@@ -71,13 +72,13 @@ public class AccountActivationManagedBean implements Serializable {
     }
 
     public String onFlowProcess(FlowEvent event) throws IOException {
-        
-        if(event.getOldStep().equals("resetPassword"))
-        {
-            System.err.println("resetPassword");
+
+        if (event.getOldStep().equals("resetPassword")) {
             changePassword();
+        }else if(event.getOldStep().equals("setSecurityAnswer")){
+            userProfileManagementSessionBean.setSequrityQuestion(staffNo, securityAnswer);
         }
-        
+
         return event.getNewStep();
 
     }
@@ -146,6 +147,14 @@ public class AccountActivationManagedBean implements Serializable {
         this.newRepeatPassword = newRepeatPassword;
     }
 
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
+    }
+
     public void changePassword() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         if (userProfileManagementSessionBean.getOldPassword(staffNo, originPassword)) {
@@ -166,6 +175,14 @@ public class AccountActivationManagedBean implements Serializable {
         }
         passwordReset = false;
         System.out.print(passwordReset);
+    }
+
+    public void setSecurityQuestionAnswer() {
+        System.out.println(securityAnswer);
+        userProfileManagementSessionBean.setSequrityQuestion(staffNo, securityAnswer);
+//        FacesContext fc = FacesContext.getCurrentInstance();
+//        FacesMessage msg = new FacesMessage("Success", "you have set the security answer");
+//        fc.addMessage(null, msg);
     }
 
     public void activateAccount() throws IOException {

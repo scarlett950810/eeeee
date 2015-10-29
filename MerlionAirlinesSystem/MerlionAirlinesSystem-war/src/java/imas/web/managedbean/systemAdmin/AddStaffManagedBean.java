@@ -129,7 +129,7 @@ public class AddStaffManagedBean implements Serializable {
                 ExternalContext ec = fc.getExternalContext();
                 ec.redirect("systemAdminHome.xhtml");
             } else {
-                FacesMessage msg = new FacesMessage("Warning", name + " is already in the system");
+                FacesMessage msg = new FacesMessage("Warning", "This staff No or this email is already in the system");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
         }

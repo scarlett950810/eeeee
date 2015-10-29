@@ -40,6 +40,8 @@ public class LoginManagedBean {
     private String email;
     private Integer loginAttempts = 0;
     private StaffEntity staff;
+    private String staffNo;
+    private String securityAnswer;
 
     /**
      * Creates a new instance of LoginManagedBean
@@ -174,14 +176,14 @@ public class LoginManagedBean {
     }
 
     public void forgetPassword() throws IOException {
-        if (accountManagementSessionBean.checkEmailExistence(email)) {
-            accountManagementSessionBean.resetStaffPassword(email);
+        boolean result = accountManagementSessionBean.forgetPassword(staffNo);
+        if (result == false) {
+            FacesMessage msg = new FacesMessage("Sorry", "Your staff No. is not invalid");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }else{
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             ec.redirect("common_login.xhtml");
-        } else {
-            FacesMessage msg = new FacesMessage("Sorry", "Please enter the correct email address associated with your account.");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
 
     }
@@ -198,10 +200,28 @@ public class LoginManagedBean {
         FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
         try {
-            ec.redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/common_landing.xhtml");
+            ec.redirect("https://localhost:8181/MerlionAirlinesSystem-war/common/common_landing.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(LoginManagedBean.class.getName()).log(Level.SEVERE, null, ex);
         }
             
     }
+
+    public StaffEntity getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffEntity staff) {
+        this.staff = staff;
+    }
+
+    public String getStaffNo() {
+        return staffNo;
+    }
+
+    public void setStaffNo(String staffNo) {
+        this.staffNo = staffNo;
+    }
+    
+    
 }

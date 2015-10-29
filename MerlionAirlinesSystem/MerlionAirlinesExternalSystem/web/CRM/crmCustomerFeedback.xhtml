@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Contact Us
+    </ui:define>
+
+    <ui:define name="head">
+        <style>
+            .ui-panelgrid .ui-panelgrid-cell{
+                border: none;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="main">
+        <p:panel header="Contact Us" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+
+            <p:panelGrid columns="3" style="border-bottom: #000000 1px solid" layout="grid">
+                <h:outputLabel value="Reservation and Ticketing Office"></h:outputLabel>
+                <h:outputText value="Telephone: +65 9888 8888 &lt;br/&gt; Fax: +65 9123 3456 &lt;br/&gt; Operating Hours: &lt;br/&gt; Monday to Saturday: 8.30am - 6.00pm &lt;br/&gt; Sunday: 9.30am - 5.00pm" escape="false"></h:outputText>
+                <h:outputText value="Address: 2 Orchard Turn &lt;br/&gt; #10-10 ION Orchard Singapore 238801 &lt;br/&gt; (Above Orchard MRT station)" escape="false"></h:outputText>
+            </p:panelGrid>
+
+            <p:panelGrid columns="3" style="border-bottom: #000000 1px solid" layout="grid">
+                <h:outputLabel value="Customer Services"></h:outputLabel>
+                <h:outputText value="Telephone: +65 9999 9999 &lt;br/&gt; Fax: +65 9654 3456 &lt;br/&gt; Operating Hours: &lt;br/&gt; Monday to Saturday: 8.30am - 6.00pm &lt;br/&gt; Sunday: 9.30am - 5.00pm" escape="false"></h:outputText>
+                <h:outputText value="Address: 2 Orchard Turn &lt;br/&gt; #10-05 ION Orchard Singapore 238801 &lt;br/&gt; (Above Orchard MRT station)" escape="false"></h:outputText>
+            </p:panelGrid>
+
+            <p:panelGrid columns="3" style="border-bottom: #000000 1px solid" layout="grid">
+                <h:outputLabel value="Office at Singapore Changi Airport"></h:outputLabel>
+                <h:outputText value="Telephone: +65 9079 8833 &lt;br/&gt; Fax: +65 9154 0428 &lt;br/&gt; Operating Hours: &lt;br/&gt; Monday to Saturday: 8.30am - 6.00pm &lt;br/&gt; Sunday: 9.30am - 5.00pm" escape="false"></h:outputText>
+                <h:outputText value="Address: Level 2, #10-03 &lt;br/&gt; Changi Airport Terminal 2" escape="false"></h:outputText>
+            </p:panelGrid>
+        </p:panel>
+
+        <h:form style="margin-top: 10%">
+
+            <h:outputLabel value="Leave us a feedback" style="font-size: 150%"></h:outputLabel>
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Title: "></p:outputLabel>
+                <p:inputText value="#{customerFeedbackManagedBean.title}" rendered="true"></p:inputText>
+
+                <p:outputLabel value="Feedback Type: "></p:outputLabel>
+                <p:selectOneMenu value="#{customerFeedbackManagedBean.feedbackType}" style="display: inline-block" rendered="true">
+                    <f:selectItem itemLabel="Select One" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="General Enquiry" itemValue="general enquiry" />
+                    <f:selectItem itemLabel="Ticketing Office" itemValue="ticketing office" />
+                    <f:selectItem itemLabel="Customer Service" itemValue="customer service" />
+                    <f:selectItem itemLabel="Membereship Service" itemValue="membership service" />
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Your email: "></p:outputLabel>
+                <p:inputText value="#{customerFeedbackManagedBean.customerEmail}" required="true"></p:inputText>
+            </p:panelGrid>
+            <br></br>
+
+
+            <p:inputTextarea value="#{customerFeedbackManagedBean.feedback}"></p:inputTextarea>
+            <br></br>
+
+            <p:commandButton actionListener="#{customerFeedbackManagedBean.createFeedback}" value="Submit" style="width: 15%"></p:commandButton>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

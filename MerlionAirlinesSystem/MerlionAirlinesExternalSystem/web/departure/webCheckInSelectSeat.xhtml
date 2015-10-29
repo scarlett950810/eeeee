@@ -24,6 +24,14 @@
                 border: none;
             }
         </style>
+        
+        <script type="text/javascript">
+
+            function Redirect() {
+                window.open("webCheckInStatus.xhtml", "_blank");
+            }
+
+        </script>
     </ui:define>
 
     <ui:define name="main">
@@ -118,10 +126,10 @@
                                     </p:column>
                                     <ui:repeat value="#{row}" var="element">
                                         <p:column>
-                                            <p:selectOneRadio value="#{element.selected}" disabled="#{!element.eligible}">
+                                            <p:selectOneRadio value="#{element.selected}" disabled="#{!element.eligible || element.occupied}">
                                                 <f:selectItem itemLabel="#{element.seatNumber}" itemValue="true" /> 
-                                                <p:ajax update="@form" event="click" listener="#{webCheckInManagedBean.onChangeSeat}">
-                                                    <f:attribute name="element" value="#{element}" />
+                                                <p:ajax update="@form" listener="#{webCheckInManagedBean.onChangeSeat(element)}">
+                                                    
                                                 </p:ajax>
                                             </p:selectOneRadio>
                                         </p:column>
@@ -135,7 +143,7 @@
 
                 <p:tab id="confirm">
                     <p:panel header="Confirmation" style="margin-top: 5%; border: #000000 2px solid; height: auto">
-                        <p:commandButton value="Submit" actionListener="#{webCheckInManagedBean.completeWebCheckIn}" process="@this"/>
+                        <p:commandButton value="Submit" actionListener="#{webCheckInManagedBean.completeWebCheckIn}" process="@this" onclick="Redirect();"/>
                     </p:panel>
                 </p:tab>
             </p:wizard>
