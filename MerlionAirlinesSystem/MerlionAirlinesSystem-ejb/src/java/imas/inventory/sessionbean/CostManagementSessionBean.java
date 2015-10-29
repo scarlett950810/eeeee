@@ -145,13 +145,14 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     @Override
     public void updateShowRate(RouteEntity selectedRoute, Double showRate) {
         List<CostPairEntity> costList = getCostPairList(selectedRoute);
-        costList.get(13).setCostFigure(showRate);
-        correctList(costList);
-        for (int i = 0; i < costList.size(); i++) {
-            em.merge(costList.get(i));
+        if (costList.size() == 23) {
+            costList.get(13).setCostFigure(showRate);
+            correctList(costList);
+            for (int i = 0; i < costList.size(); i++) {
+                em.merge(costList.get(i));
+            }
+            em.merge(selectedRoute);
         }
-        em.merge(selectedRoute);
-
     }
 
     public static double round(double value, int places) {
