@@ -67,13 +67,11 @@ public class PassengerCheckInManagedBean implements Serializable {
         System.out.print(actualBaggageWeight);
         int result = passengerCheckInSessionBean.update(selectedTicket, actualBaggageWeight);
         System.out.print(result);
-      
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticket", selectedTicket);
-              
-        FacesContext.getCurrentInstance().getExternalContext().redirect("../BoardingPassController");
-  
-//        RequestContext requestContext = RequestContext.getCurrentInstance();
-//        requestContext.execute("PF('ticketDialog').hide()");
+
+    //    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticket", selectedTicket);
+  //     FacesContext.getCurrentInstance().getExternalContext().redirect("../BoardingPassController");
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        requestContext.execute("PF('ticketDialog').hide()");
         tickets = flight.getTickets();
     }
 

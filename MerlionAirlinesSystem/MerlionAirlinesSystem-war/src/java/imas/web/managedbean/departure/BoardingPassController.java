@@ -71,7 +71,7 @@ public class BoardingPassController extends HttpServlet {
 
             System.out.print("5555555555555");
             System.out.print(ticket.getReferenceNumber());
-            parameters.put("IMAGEPATH", "https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/NEW_LOGO.png");
+            parameters.put("IMAGEPATH", "https://localhost:8181/MerlionAirlinesSystem-war/resources/img/NEW_LOGO.png");
             parameters.put("referenceNumber", ticket.getReferenceNumber());
             System.out.print("66666");
             parameters.put("name", ticket.getPassenger().getTitle() + " " + ticket.getPassenger().getFirstName() + " " + ticket.getPassenger().getLastName());

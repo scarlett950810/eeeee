@@ -14,10 +14,11 @@
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-              <li><a href="timeManagement.xhtml">Time Management</a></li>                     
+                <li><a href="timeManagement.xhtml">Time Management</a></li>                     
                 <li><a href="delayManagement.xhtml">Delay Management</a></li>         
                 <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
                 <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
+                <li><a href="passengerService.xhtml">Passenger Service</a></li>
             </ul>
         </div>
     </ui:define>
@@ -29,7 +30,7 @@
             <p:dataTable var="flight" value="#{delayManagementManagedBean.delayFlights}" sortMode="multiple" rows="15"
                          paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="15,30,50">
-                
+
                 <f:facet name="header">
                     Delay Flights
                 </f:facet>
@@ -48,16 +49,16 @@
                 <p:column headerText="Departure Time" sortBy="#{flight.departureDate}">
                     <h:outputText value="#{flight.departureDate}" />
                 </p:column>
-               
+
                 <p:column headerText="Arrive Time" sortBy="#{flight.arrivalDate}">
                     <h:outputText value="#{flight.arrivalDate}" />
                 </p:column>
-                
+
                 <p:column headerText="Estimate Departure Time" sortBy="#{flight.estimateDepartureDate}">
                     <h:outputText value="#{flight.estimateDepartureDate}" />
                 </p:column>
-                
-                
+
+
             </p:dataTable>
 
 

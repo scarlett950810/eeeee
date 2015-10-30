@@ -15,6 +15,7 @@
                 <li><a href="delayManagement.xhtml">Delay Management</a></li>         
                 <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
                 <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
+                <li><a href="passengerService.xhtml">Passenger Service</a></li>
             </ul>
         </div>
     </ui:define>
@@ -23,11 +24,11 @@
         <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
 
         <h:form id="comingFlight">
-
+            <p:messages autoUpdate="true" />
             <p:focus context="comingFlight"/>
             <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;" class="panel-success">
-                <p:outputLabel for="comingFlight" value="Flight No: " />
-                <p:selectOneMenu id="comingFlight" value="#{timeManagementManagedBean.flight}" panelStyle="width:180px" required="true" requiredMessage="Please input flight No."
+                <p:outputLabel for="comeFlight" value="Flight No: " />
+                <p:selectOneMenu id="comeFlight" value="#{timeManagementManagedBean.flight}" panelStyle="width:180px" required="true" requiredMessage="Please input flight No."
                                  effect="fade" style="width:300px" filter="true" filterMatchMode="startsWith"  converter="flightConverter">
                     <p:ajax update="comingFlight:time" listener="#{timeManagementManagedBean.onFlightChange()}" />
                     <f:selectItem itemLabel="Please select" itemDisabled="true"/>
@@ -52,9 +53,10 @@
                 <br/> 
                 <p:outputLabel value="6.Actual Departure Time: #{timeManagementManagedBean.flight.actualDepartureDate.toString()} "/> 
                 <br/>
+
                 <p:commandButton value="Update" update="time" actionListener="#{timeManagementManagedBean.updateActualDepartureTime}"
                                  icon="ui-icon-check" class="btn-sm btn-success" style="margin-top: 15px;">
-                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+<!--                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />-->
                 </p:commandButton>
 
                 <br/>
@@ -62,20 +64,20 @@
                 <br/> 
                 <p:outputLabel value="8.Actual Arrive Time: #{timeManagementManagedBean.flight.actualArrivalDate.toString()} "/> 
                 <br/>
-                <p:commandButton value="Arrive" update="time" actionListener="#{timeManagementManagedBean.updateActualArriveTime()}"
+                <p:commandButton value="Arrive" update="time" actionListener="#{timeManagementManagedBean.updateActualArriveTime}"
                                  icon="ui-icon-check" class="btn-sm btn-success" style="margin-top: 15px;">
-                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+<!--                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />-->
                 </p:commandButton>
 
                 <br/>
 
-                <p:confirmDialog global="Arrive" showEffect="fade" hideEffect="fade">
+<!--                <p:confirmDialog global="Arrive" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes btn-success" icon="ui-icon-check" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no btn-danger" icon="ui-icon-close" />
-                </p:confirmDialog>
+                </p:confirmDialog>-->
+
 
             </p:panel>
-
 
         </h:form>
     </ui:define>

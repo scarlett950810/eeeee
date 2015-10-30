@@ -435,8 +435,8 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     @Override
     public int compareTo(FlightEntity o) {
-
-        return o.departureDate.compareTo(this.departureDate);
+        return this.departureDate.compareTo(o.departureDate);
+   //     return o.departureDate.compareTo(this.departureDate);
 
     }
 
