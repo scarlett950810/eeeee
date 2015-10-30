@@ -28,51 +28,51 @@ import javax.persistence.Query;
  */
 @Stateless
 public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
-    
+
     @EJB
     private YieldManagementSessionBeanLocal yieldManagementSessionBean;
 
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     /*
-    @Override
-    public void makeBooking(BookingClassEntity bookingClass, int number) {
+     @Override
+     public void makeBooking(BookingClassEntity bookingClass, int number) {
         
-        for (int i = 0; i < number; i++) {
-            TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getName(), bookingClass.getPrice());
-            entityManager.persist(ticketEntity);
-        }
+     for (int i = 0; i < number; i++) {
+     TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getName(), bookingClass.getPrice());
+     entityManager.persist(ticketEntity);
+     }
         
-        Query queryForRules = entityManager.createQuery("SELECT r FROM YieldManagementRuleEntity r WHERE r.flight = :flight");
-        queryForRules.setParameter("flight", bookingClass.getFlight());
+     Query queryForRules = entityManager.createQuery("SELECT r FROM YieldManagementRuleEntity r WHERE r.flight = :flight");
+     queryForRules.setParameter("flight", bookingClass.getFlight());
         
-        List<YieldManagementRuleEntity> rules = queryForRules.getResultList();
+     List<YieldManagementRuleEntity> rules = queryForRules.getResultList();
         
-        for (YieldManagementRuleEntity rule: rules) {
-            if (rule.isEnabled()) {
-                if (rule.isRule1()) {
-                    yieldManagementSessionBean.runYieldManagementRule1(rule);
-                } else if (rule.isRule2()) {
-                    yieldManagementSessionBean.runYieldManagementRule2(rule);
-                } else if (rule.isRule3()) {
-                    yieldManagementSessionBean.runYieldManagementRule3(rule);
-                } else if (rule.isRule4()) {
-                    yieldManagementSessionBean.runYieldManagementRule4(rule);
-                }
-            }                
-        }
-    }
-    */
+     for (YieldManagementRuleEntity rule: rules) {
+     if (rule.isEnabled()) {
+     if (rule.isRule1()) {
+     yieldManagementSessionBean.runYieldManagementRule1(rule);
+     } else if (rule.isRule2()) {
+     yieldManagementSessionBean.runYieldManagementRule2(rule);
+     } else if (rule.isRule3()) {
+     yieldManagementSessionBean.runYieldManagementRule3(rule);
+     } else if (rule.isRule4()) {
+     yieldManagementSessionBean.runYieldManagementRule4(rule);
+     }
+     }                
+     }
+     }
+     */
     @Override
     public List<TicketEntity> createTicketEntitiesWithoutPersisting(BookingClassEntity bookingClass, int number) {
         List<TicketEntity> tickets = new ArrayList<>();
-        
+
         for (int i = 0; i < number; i++) {
             TicketEntity ticketEntity = new TicketEntity(bookingClass.getFlight(), bookingClass.getName(), bookingClass.getPrice());
             tickets.add(ticketEntity);
         }
-        
+
         return tickets;
     }
 
@@ -80,10 +80,10 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
     public void runYieldManagementsRulesOnFlight(FlightEntity flight) {
         Query queryForRules = entityManager.createQuery("SELECT r FROM YieldManagementRuleEntity r WHERE r.flight = :flight");
         queryForRules.setParameter("flight", flight);
-        
+
         List<YieldManagementRuleEntity> rules = queryForRules.getResultList();
-        
-        for (YieldManagementRuleEntity rule: rules) {
+
+        for (YieldManagementRuleEntity rule : rules) {
             if (rule.isEnabled()) {
                 if (rule.isRule1()) {
                     yieldManagementSessionBean.runYieldManagementRule1(rule);
@@ -94,10 +94,10 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
                 } else if (rule.isRule4()) {
                     yieldManagementSessionBean.runYieldManagementRule4(rule);
                 }
-            }                
+            }
         }
     }
-    
+
     @Override
     public int getQuotaLeft(BookingClassEntity bookingClassEntity) {
         Query queryForAllCurrentTicketsUnderBookingClass = entityManager.createQuery("SELECT t FROM TicketEntity t "
@@ -112,21 +112,21 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
     @Override
     public List<FlightEntity> getAllSellingFlights() {
         List<FlightEntity> allAvailableFlights = new ArrayList();
-        
+
         Query queryForAllAvailableFlights = entityManager.createQuery("SELECT f FROM FlightEntity f WHERE f.departureDate > :departureDate AND f.counterCheckInClosed = :counterCheckInClosed");
         queryForAllAvailableFlights.setParameter("departureDate", new Date());
         queryForAllAvailableFlights.setParameter("counterCheckInClosed", false);
         List<FlightEntity> allUndeparturedFlights = queryForAllAvailableFlights.getResultList();
-        
-        for (FlightEntity flight: allUndeparturedFlights) {
-            
+
+        for (FlightEntity flight : allUndeparturedFlights) {
+
             Query queryForBookingClasses = entityManager.createQuery("SELECT bc FROM BookingClassEntity bc WHERE bc.flight = :flight");
             queryForBookingClasses.setParameter("flight", flight);
             if (queryForBookingClasses.getResultList().size() > 0) {
                 allAvailableFlights.add(flight);
             }
         }
-        
+
         return allAvailableFlights;
     }
 
@@ -275,4 +275,20 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
         }
 
     }
+
+    @Override
+    public void setAllFlightYearsBack(int year) {
+        Query queryForAllFlights = entityManager.createQuery("SELECT f FROM FlightEntity f");
+        List<FlightEntity> allFlights = queryForAllFlights.getResultList();
+        for (FlightEntity f : allFlights) {
+            f.setDepartured(true);
+            Date originalDate = f.getDepartureDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(originalDate);
+            calendar.add(Calendar.YEAR, -3);
+            Date newDate = calendar.getTime();
+            f.setDepartureDate(newDate);
+        }
+    }
+
 }

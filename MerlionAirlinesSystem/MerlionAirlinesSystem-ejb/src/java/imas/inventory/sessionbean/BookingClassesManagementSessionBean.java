@@ -294,12 +294,18 @@ public class BookingClassesManagementSessionBean implements BookingClassesManage
         Integer premiumEconomyClassCapacity = getSeatClassCapacity(flight, "Premium Economy Class");
         Integer economyClassCapacity = getSeatClassCapacity(flight, "Economy Class");
         Double latestShowRate = computeHistoricalShowRate(flight.getRoute());
-//        System.out.println("latestShowRate = " + latestShowRate);
+        System.out.println("latestShowRate = " + latestShowRate);
+        System.out.println("route = " + flight.getRoute());
         costSessionBean.updateShowRate(flight.getRoute(), latestShowRate);
         Integer economyClassComputedOverbookingLevel = (int) (economyClassCapacity / latestShowRate);
 
         Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile(flight.getRoute());
+        System.out.println("costPerSeatPerMile = " + costPerSeatPerMile);
+        FlightEntity flightManaged = entityManager.find(FlightEntity.class, flight.getId());
+//        flightManaged.setCostPerSeatPerMile(costPerSeatPerMile);
+//        System.out.println("costSessionBean.getCostPerSeatPerMile(flight.getRoute()) = " + costSessionBean.getCostPerSeatPerMile(flight.getRoute()));
         Double distance = flight.getRoute().getDistance();
+        System.out.println("distance = " + distance);
         Double baseFare = costPerSeatPerMile * distance;
 
 //        System.out.println("costPerSeatPerMile = " + costPerSeatPerMile);
