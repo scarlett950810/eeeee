@@ -5,6 +5,7 @@
  */
 package imas.inventory.entity;
 
+import imas.inventory.sessionbean.CostManagementSessionBean;
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -199,7 +200,7 @@ public class BookingClassEntity implements Serializable {
     }
 
     public Double getPrice() {
-        return round(price, 2);
+        return CostManagementSessionBean.round(price, 2) ;
     }
 
     public void setPrice(Double price) {

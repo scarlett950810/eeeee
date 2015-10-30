@@ -7,9 +7,13 @@ package emas.web.managedbean.CRM;
 
 import imas.crm.entity.MemberEntity;
 import imas.crm.sessionbean.CustomerAccountManagementSessionBeanLocal;
+import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -22,11 +26,10 @@ import javax.persistence.Temporal;
  *
  * @author wutong
  */
-@Named(value = "addMemberAccountManagedBean")
+@Named(value = "updateCustomerProfileManagedBean")
 @ViewScoped
-public class AddMemberAccountManagedBean implements Serializable {
-
-    private String title;
+public class updateCustomerProfileManagedBean implements Serializable {
+private String title;
     private String lastName;
     private String firstName;
     private String gender;
@@ -47,9 +50,18 @@ public class AddMemberAccountManagedBean implements Serializable {
     /**
      * Creates a new instance of AddMemberAccountManagedBean
      */
-    public AddMemberAccountManagedBean() {
+    public updateCustomerProfileManagedBean() {
     }
+    
+    @PostConstruct
+    public void init() {
+        System.out.println("init()");
 
+       
+        email = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginUserEmail");
+        
+       
+    }
     public String getTitle() {
         return title;
     }
@@ -154,7 +166,9 @@ public class AddMemberAccountManagedBean implements Serializable {
         this.answer = answer;
     }
     
-   
+   public void save(){
+       customerAccountManagementSession.updateCustomer(title, lastName, firstName, email, gender, nationality, securityQuestion, answer, birthdate, contactNumber);
+   }
 
     public void create() throws IOException {
         System.err.println("Enter create account page");
@@ -188,11 +202,5 @@ public class AddMemberAccountManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
-
-    public void goLogin() throws IOException {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        ec.redirect("crmCustomerLogin.xhtml");
-    }
-
+    
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -281,13 +282,31 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
         Query queryForAllFlights = entityManager.createQuery("SELECT f FROM FlightEntity f");
         List<FlightEntity> allFlights = queryForAllFlights.getResultList();
         for (FlightEntity f : allFlights) {
+            
+            List<BookingClassEntity> bcs = f.getBookingClasses();
+            for (BookingClassEntity bc: bcs) {
+                int quota = bc.getQuota();
+                Random r = new Random();
+                for (int i = 0; i < quota * r.nextDouble(); i++) {
+                    TicketEntity t = new TicketEntity(f, bc.getName(), bc.getPrice());
+                    entityManager.persist(t);
+                }
+            }
+            
             f.setDepartured(true);
             Date originalDate = f.getDepartureDate();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(originalDate);
-            calendar.add(Calendar.YEAR, -3);
+            calendar.add(Calendar.YEAR, -year);
             Date newDate = calendar.getTime();
             f.setDepartureDate(newDate);
+            
+            Date originalArrival = f.getArrivalDate();
+            Calendar calendarArrival = Calendar.getInstance();
+            calendar.setTime(originalArrival);
+            calendar.add(Calendar.YEAR, -year);
+            Date newArrival = calendarArrival.getTime();
+            f.setArrivalDate(newArrival);
         }
     }
 

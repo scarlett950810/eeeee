@@ -68,6 +68,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         flightList = flightLookupSessionBean.getAllSellingFlights();
+//        flightLookupSessionBean.setAllFlightYearsBack(0);
     }
 
     public List<FlightEntity> getFlightList() {

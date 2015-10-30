@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="head">
+        head
+    </ui:define>
+
+    <ui:define name="main">
+        <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" style="margin-top: 50px"/>
+        <h:form id="externalLoginForm">
+<!--            <p:focus context="internalLoginForm"/>-->
+            <h:panelGrid id ="loginPG" columns="2" cellpadding="5" style="margin-bottom: 10px; color: black">
+                <p:outputLabel for="email" value="Registered Email: " />
+                <p:inputText style="width: 50%" id="email" value="#{externalLoginManagedBean.email}" label="email" required="true" requiredMessage="Please input your email">
+                    <p:watermark for="email" value="e-mail address for registration" />
+                </p:inputText>                       
+
+                <p:outputLabel for="pin" value="Password: "  />
+                <p:password style="width: 50%" id="pin" value="#{externalLoginManagedBean.pin}" label="pin" requiredMessage="Please enter your PIN"/><br/><br/>                   
+
+                <p:commandButton id="externalLogin"  update="messages"  value="Log In" actionListener="#{externalLoginManagedBean.doLogin()}" 
+                                 style="width: 100px; color: black;"/>
+
+            </h:panelGrid>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

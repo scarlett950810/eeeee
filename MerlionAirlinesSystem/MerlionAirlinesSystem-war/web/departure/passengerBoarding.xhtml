@@ -13,6 +13,7 @@
                 <li><a href="delayManagement.xhtml">Delay Management</a></li>         
                 <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
                 <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
+                <li><a href="passengerService.xhtml">Passenger Service</a></li>
             </ul>
         </div>
     </ui:define>
@@ -45,7 +46,7 @@
                     </f:facet>
 
                     <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-                    <p:column filterBy="#{issuedTicket.seat.seatNo}" headerText="Seat No" footerText="contains" filterMatchMode="contains" style="width:8%; text-align: center"  >
+                    <p:column filterBy="#{issuedTicket}" headerText="Seat No" footerText="contains" filterMatchMode="contains" style="width:8%; text-align: center"  >
                         <h:outputText value="#{issuedTicket.seat.seatNo}" />
                     </p:column>
 
@@ -65,7 +66,7 @@
                     </f:facet>
                 </p:dataTable>
 
-                
+
             </p:panel>
         </h:form>
     </ui:define>

@@ -10,6 +10,7 @@ import imas.inventory.sessionbean.InventoryRevenueManagementSessionBeanLocal;
 import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -224,17 +225,22 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
 
             // fill in randon data
             // to be removed later
+            /*
             Random random = new Random();
             double totalFlightNo = ((routeToDate.getTime() - routeFromDate.getTime()) / (60 * 60 * 1000 * 24 * (0.5 + random.nextDouble())));
             double totalSeatNo = 20 * (1.5 + 2 * random.nextDouble());
             cost = costManagementSessionBean.getCostPerSeatPerMile(selectedRoute) * selectedRoute.getDistance() * totalFlightNo * totalSeatNo;
-            revenue = (0.5 + random.nextDouble()) * 3 * cost;
+            revenue = (0.5 + random.nextDouble()) * 1.8 * cost;
+            */
             // random numerb end
-
+            
             double pm = (revenue - cost) / revenue;
-            revenueSeries.set(start, revenue);
-            costSeries.set(start, cost);
-            profitMarginSeries.set(start, pm);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM");
+            String label = simpleDateFormat.format(start);
+
+            revenueSeries.set(label, revenue);
+            costSeries.set(label, cost);
+            profitMarginSeries.set(label, pm);
 
             start = end;
         }
@@ -250,7 +256,7 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
         yAxis.setLabel("SG $");
         yAxis.setMin(0);
         Axis y2Axis = new LinearAxis("Ratio");
-        y2Axis.setMin(0);
+        y2Axis.setMin(-0.5);
         routeDetailsByTimelineCombinedModel.getAxes().put(AxisType.Y2, y2Axis);
         routeDetailsByTimelineCombinedModel.getAxes().put(AxisType.Y3, y2Axis);
         
