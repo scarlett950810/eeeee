@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Operation - Fill In Open </ui:define>
+ <p:layoutUnit id="layoutUnit_left" position="west" size="15%" resizable="false" collapsible="false">
+                <ui:insert name="menubar">
+                    <div id="sidebar-wrapper">
+                        <ul class="sidebar-nav">
+                            <li class="sidebar-h1">Aircraft Management </li> 
+                            <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
+                            <li><a href="operationDisplayFlights.xhtml">Flight Display </a></li> 
+
+                            <li class="sidebar-h1">Flight Management </li>
+                            <li><a href="operationFillInOpenSeat.xhtml">Fill In Open Seat</a></li>  
+                            <li><a href="operationCrewCheckIn.xhtml"> Crew Check-in </a></li> 
+                            <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
+                            <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
+                            <li class="sidebar-h1">Staff Management</li> 
+                            <li><a href="operationCabinCrewScheduling.xhtml">Cabin Crew Schedule</a></li> 
+                            <li><a href="operationPilotCrewScheduling.xhtml"> Pilot Schedule </a></li>
+                            <li><a href="retrieveDuty.xhtml"> Retrieve Duty </a></li>
+                        </ul>
+                    </div>
+                </ui:insert>
+            </p:layoutUnit>
+    <ui:define name="centerPanel">
+
+        <h:form id="selectedFlight">
+
+            <p:focus context="selectedFlight"/>
+<!--            <p:messages autoUpdate="true" />-->
+
+            <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;" class="panel-success">
+
+                <p:outputLabel for="selectFlight" value="Flight No: " />
+                <p:selectOneMenu id="selectFlight" value="#{fillInOpenSeatManagedBean.flight}" panelStyle="width:180px" required="true" requiredMessage="Please input flight No."
+                                 effect="fade" style="width:500px" filter="true" filterMatchMode="startsWith"
+                                 converter="flightConverter">
+                    <p:ajax listener="#{fillInOpenSeatManagedBean.onFlightChange()}" update=":selectedFlight:position "   />
+                    <f:selectItem itemLabel="Please select" itemDisabled="true"/>
+                    <f:selectItems value="#{fillInOpenSeatManagedBean.flights}" var="flight" itemLabel="#{flight.flightNo} #{flight.route.originAirport.cityName}-#{flight.route.destinationAirport.cityName},#{flight.departureDate.toLocaleString()}" itemValue="#{flight}" />
+                </p:selectOneMenu> 
+
+                <p:outputLabel for="position" value="Position: " />
+                <p:selectOneMenu id="position" value="#{fillInOpenSeatManagedBean.position}"   >
+                    <p:ajax listener="#{fillInOpenSeatManagedBean.onPositionChange}" update="name pilot crew" />
+                    <f:selectItem itemLabel="Select Position" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{fillInOpenSeatManagedBean.positions}" />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="name" value="Name:" />
+                <p:selectOneMenu id="name" value="#{fillInOpenSeatManagedBean.name}"  >
+                    <p:ajax listener="#{fillInOpenSeatManagedBean.onNameChange()}" update="pilot crew" />
+                    <f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{fillInOpenSeatManagedBean.names}" />
+                </p:selectOneMenu>
+            </h:panelGrid>
+
+            <p:panel id="pilot" visible="#{fillInOpenSeatManagedBean.displayPilot}"
+                     header="#{fillInOpenSeatManagedBean.position} - #{fillInOpenSeatManagedBean.name}" class="panel panel-success">
+                <p:outputLabel value="#{fillInOpenSeatManagedBean.position} - #{fillInOpenSeatManagedBean.name}"/>
+                <br/>
+                <br/>
+                <p:dataTable id="pilotTable" var="pilot" value="#{fillInOpenSeatManagedBean.availablePilots}" selection="#{fillInOpenSeatManagedBean.selectedPilot}" 
+                             rowKey="#{pilot.staffNo}" >
+                    <f:facet name="header">
+                        Pilot List
+                    </f:facet>
+                    <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                    <p:column headerText="Pilot ID">
+                        <h:outputText value="#{pilot.staffNo}" />
+                    </p:column>
+                    <p:column headerText="Pilot Name">
+                        <h:outputText value="#{pilot.displayName}" />
+                    </p:column>
+                    <p:column headerText="Working Status">
+                        <h:outputText value=" #{pilot.working? 'True': 'False'}" />
+                    </p:column>
+                </p:dataTable>
+                 <br/>
+                <br/>
+                <p:commandButton  update=":selectedFlight:position, :selectedFlight:name , :selectedFlight:pilot" value="Pilot Fill In" actionListener="#{fillInOpenSeatManagedBean.doPilotFillIn()}" icon="ui-icon-check"  />
+                
+            </p:panel>
+
+            <p:panel id="crew" visible="#{fillInOpenSeatManagedBean.displayCabinCrew}"
+                     header="#{fillInOpenSeatManagedBean.position} - #{fillInOpenSeatManagedBean.name}" class="panel panel-success">
+                <p:outputLabel value="#{fillInOpenSeatManagedBean.position} - #{fillInOpenSeatManagedBean.name}"/>
+                <br/>
+                <br/>
+                <p:dataTable id="crewTable" var="crew" value="#{fillInOpenSeatManagedBean.availableCrews}" selection="#{fillInOpenSeatManagedBean.selectedCrew}" 
+                             rowKey="#{crew.staffNo}" >
+                    <f:facet name="header">
+                        Cabin Crew List
+                    </f:facet>
+                    <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                    <p:column headerText="Cabin Crew ID">
+                        <h:outputText value="#{crew.staffNo}" />
+                    </p:column>
+                    <p:column headerText="Cabin Crew Name">
+                        <h:outputText value="#{crew.displayName}" />
+                    </p:column>
+                    <p:column headerText="Working Status">
+                        <h:outputText value=" #{crew.working? 'True': 'False'}"  />
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton  update=":selectedFlight:position, :selectedFlight:name , :selectedFlight:pilot" value="Crew Fill In" actionListener="#{fillInOpenSeatManagedBean.doCrewFillIn()}" icon="ui-icon-check"  />
+                
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

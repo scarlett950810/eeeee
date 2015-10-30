@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -25,7 +26,7 @@ import javax.faces.view.ViewScoped;
 @Named(value = "timeManagementManagedBean")
 @ViewScoped
 public class TimeManagementManagedBean implements Serializable {
-    
+
     @EJB
     TimeManagementSessionBeanLocal timeManagementSessionBean;
     @EJB
@@ -44,17 +45,17 @@ public class TimeManagementManagedBean implements Serializable {
     private Date boardingStartTime;
     private Date boradingCloseTime;
     private boolean display = false;
-    
+
     @PostConstruct
     public void init() {
         fetchFlights();
     }
-    
+
     public void fetchFlights() {
         comingFlights = timeManagementSessionBean.fetchComingFlights(base);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", comingFlights);
     }
-    
+
     public void onFlightChange() {
         if (flight != null) {
 //            departureTime = flight.getDepartureDate();
@@ -65,17 +66,18 @@ public class TimeManagementManagedBean implements Serializable {
             checkInCloseTime = new Date(flight.getDepartureDate().getTime() - (1000 * 60 * 30));
             boardingStartTime = new Date(flight.getDepartureDate().getTime() - (1000 * 60 * 60));
             boradingCloseTime = new Date(flight.getDepartureDate().getTime() - (1000 * 60 * 5));
-            
+
             display = true;
             System.out.print(flight);
-            
+
         }
     }
-    
+
     public void updateActualDepartureTime() {
+        System.out.print("afsdfssdf");
         int result = timeManagementSessionBean.updateActualDepartureTime(flight);
         if (result == 1) {
-            
+
             FacesMessage msg = new FacesMessage("Reminder", "Actual departure time for " + flight.getFlightNo() + " has been udated");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
@@ -83,13 +85,13 @@ public class TimeManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    
-    public void updateActualArriveTime() {
+
+    public void updateActualArriveTime(ActionEvent event) {
         if (flight.getActualDepartureDate() == null) {
             FacesMessage msg = new FacesMessage("Sorry", flight.getFlightNo() + " doesn't have actual departure time");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            
+
             int result = timeManagementSessionBean.updateActualArriveTime(flight);
             if (result == 1) {
                 delayManagementSessionBean.fetchDelayFlights(flight);
@@ -100,87 +102,87 @@ public class TimeManagementManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
         }
-        
+
     }
-    
+
     public Date getCheckInStartTime() {
         return checkInStartTime;
     }
-    
+
     public void setCheckInStartTime(Date checkInStartTime) {
         this.checkInStartTime = checkInStartTime;
     }
-    
+
     public Date getCheckInCloseTime() {
         return checkInCloseTime;
     }
-    
+
     public void setCheckInCloseTime(Date checkInCloseTime) {
         this.checkInCloseTime = checkInCloseTime;
     }
-    
+
     public Date getBoardingStartTime() {
         return boardingStartTime;
     }
-    
+
     public void setBoardingStartTime(Date boardingStartTime) {
         this.boardingStartTime = boardingStartTime;
     }
-    
+
     public Date getBoradingCloseTime() {
         return boradingCloseTime;
     }
-    
+
     public void setBoradingCloseTime(Date boradingCloseTime) {
         this.boradingCloseTime = boradingCloseTime;
     }
-    
+
     public boolean isDisplay() {
         return display;
     }
-    
+
     public void setDisplay(boolean display) {
         this.display = display;
     }
-    
+
     public String getBase() {
         return base;
     }
-    
+
     public void setBase(String base) {
         this.base = base;
     }
-    
+
     public List<FlightEntity> getComingFlights() {
         return comingFlights;
     }
-    
+
     public void setComingFlights(List<FlightEntity> comingFlights) {
         this.comingFlights = comingFlights;
     }
-    
+
     public List<FlightEntity> getFlyingFlights() {
         return flyingFlights;
     }
-    
+
     public void setFlyingFlights(List<FlightEntity> flyingFlights) {
         this.flyingFlights = flyingFlights;
     }
-    
+
     public List<FlightEntity> getUnprocessFlights() {
         return unprocessFlights;
     }
-    
+
     public void setUnprocessFlights(List<FlightEntity> unprocessFlights) {
         this.unprocessFlights = unprocessFlights;
     }
-    
+
     public FlightEntity getFlight() {
         return flight;
     }
-    
+
     public void setFlight(FlightEntity flight) {
         this.flight = flight;
     }
-    
+
 }

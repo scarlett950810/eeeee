@@ -219,29 +219,29 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         airportSessionBean.addAirport(a20);
 
         System.out.println("Airports added");
-        
+
         for (int i = 0; i < 10; i++) {
 
-        aircraftSessionBean.addAircraft("001" + i, aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 10, 7, 50, (double) 30);
-        aircraftSessionBean.addAircraft("002" + i, aircraftType1, (double) 22000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 35);
-        aircraftSessionBean.addAircraft("003" + i, aircraftType1, (double) 23000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
-        aircraftSessionBean.addAircraft("004" + i, aircraftType2, (double) 30000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("005" + i, aircraftType2, (double) 30000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("006" + i, aircraftType2, (double) 30000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
-        aircraftSessionBean.addAircraft("007" + i, aircraftType3, (double) 32000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("008" + i, aircraftType3, (double) 29000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("009" + i, aircraftType3, (double) 28000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
-        aircraftSessionBean.addAircraft("010" + i, aircraftType4, (double) 10000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 65);
-        aircraftSessionBean.addAircraft("011" + i, aircraftType4, (double) 12000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 37);
-        aircraftSessionBean.addAircraft("012" + i, aircraftType4, (double) 12000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 0, 0, 4, 6, 6, 30, 7, 50, (double) 51);
-        aircraftSessionBean.addAircraft("013" + i, aircraftType5, (double) 14000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
-        aircraftSessionBean.addAircraft("014" + i, aircraftType5, (double) 13000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
-        aircraftSessionBean.addAircraft("015" + i, aircraftType5, (double) 18000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
-            
+            aircraftSessionBean.addAircraft("001" + i, aircraftType1, (double) 20000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 10, 7, 50, (double) 30);
+            aircraftSessionBean.addAircraft("002" + i, aircraftType1, (double) 22000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 35);
+            aircraftSessionBean.addAircraft("003" + i, aircraftType1, (double) 23000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
+            aircraftSessionBean.addAircraft("004" + i, aircraftType2, (double) 30000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
+            aircraftSessionBean.addAircraft("005" + i, aircraftType2, (double) 30000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
+            aircraftSessionBean.addAircraft("006" + i, aircraftType2, (double) 30000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
+            aircraftSessionBean.addAircraft("007" + i, aircraftType3, (double) 32000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
+            aircraftSessionBean.addAircraft("008" + i, aircraftType3, (double) 29000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
+            aircraftSessionBean.addAircraft("009" + i, aircraftType3, (double) 28000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 30);
+            aircraftSessionBean.addAircraft("010" + i, aircraftType4, (double) 10000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 65);
+            aircraftSessionBean.addAircraft("011" + i, aircraftType4, (double) 12000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 37);
+            aircraftSessionBean.addAircraft("012" + i, aircraftType4, (double) 12000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a8, a8, 0, 0, 4, 6, 6, 30, 7, 50, (double) 51);
+            aircraftSessionBean.addAircraft("013" + i, aircraftType5, (double) 14000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a4, a4, 4, 5, 4, 6, 6, 30, 7, 30, (double) 50);
+            aircraftSessionBean.addAircraft("014" + i, aircraftType5, (double) 13000000, (double) 1000000, (double) 19000000, (double) 18, (double) 0, "All is well", a8, a8, 4, 5, 4, 6, 6, 30, 7, 30, (double) 47);
+            aircraftSessionBean.addAircraft("015" + i, aircraftType5, (double) 18000000, (double) 1000000, (double) 19000000, (double) 20, (double) 0, "All is well", a4, a4, 0, 0, 4, 6, 6, 30, 7, 50, (double) 42);
+
         }
-        
+
         System.out.println("150 aircrafts added");
-        
+
         List<String> l1 = new ArrayList<String>();
         l1.add("A380");
         l1.add("A880");
@@ -292,7 +292,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         l10.add("B700");
 
         System.out.println("List of aircraft types created for pilot scheduling testing");
-        
+
         for (int i = 0; i < 10; i++) {
 
             PilotEntity p1 = new PilotEntity("p" + i + "001", "Tom", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
@@ -325,6 +325,15 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
             PilotEntity p28 = new PilotEntity("p" + i + "028", "Yi Fu", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
             PilotEntity p29 = new PilotEntity("p" + i + "029", "Franklin", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l9, null, true);
             PilotEntity p30 = new PilotEntity("p" + i + "030", "Zens", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
+
+            p30.setWorking(Boolean.TRUE);
+            p30.setWorkingStatus("available");
+            p29.setWorking(Boolean.TRUE);
+            p29.setWorkingStatus("available");
+            p28.setWorking(Boolean.TRUE);
+            p28.setWorkingStatus("available");
+            p27.setWorking(Boolean.TRUE);
+            p27.setWorkingStatus("available");
 
             entityManager.persist(p1);
             entityManager.persist(p2);
