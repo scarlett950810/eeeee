@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package emas.web.managedbean.distribution;
+package imas.web.managedbean.distribution;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,7 +50,7 @@ public class ReportController extends HttpServlet {
             response.setContentType("application/pdf");
             ServletOutputStream outputStream = response.getOutputStream();
             HashMap parameters = new HashMap();
-            parameters.put("IMAGEPATH", "https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/NEW_LOGO.png");
+            parameters.put("IMAGEPATH", "https://localhost:8181/MerlionAirlinesSystem-war/resources/img/NEW_LOGO.png");
             parameters.put("referenceNumber", referenceNumber);
             parameters.put("passengerName", passengerName);
             parameters.put("passportNumber", passportNumber);

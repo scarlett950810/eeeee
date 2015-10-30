@@ -286,7 +286,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         DecimalFormat df = new DecimalFormat("0.00");
         String priceFormat = df.format(totalPrice);
         System.out.println(priceFormat);
-        item.setPrice("2");
+        item.setPrice(priceFormat);
         item.setQuantity("1");
         item.setCurrency("SGD");
         
@@ -412,8 +412,8 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void afterPay() throws IOException{
         referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
 //        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?referenceNumber=" + referenceNumber);
-        RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "\")");
-        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle()+" "+passengers.get(0).getFirstName()+" "+passengers.get(0).getLastName());
+        RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber+ "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName()+" "+passengers.get(0).getLastName()+"\")");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("bookingConfirmation.xhtml");
     }
 
     public void makeBooking() throws IOException {
