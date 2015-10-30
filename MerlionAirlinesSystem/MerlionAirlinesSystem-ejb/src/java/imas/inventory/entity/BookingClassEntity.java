@@ -5,6 +5,7 @@
  */
 package imas.inventory.entity;
 
+import imas.inventory.sessionbean.CostManagementSessionBean;
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -197,7 +198,7 @@ public class BookingClassEntity implements Serializable {
     }
 
     public Double getPrice() {
-        return price;
+        return CostManagementSessionBean.round(price, 2) ;
     }
 
     public void setPrice(Double price) {

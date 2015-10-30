@@ -261,7 +261,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         String clientSecret = "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR";
         System.err.println("test");
 
-        OAuthTokenCredential tokenCredential = Payment.initConfig(new File("/Users/wutong/Desktop/eeeee/MerlionAirlinesSystem/MerlionAirlinesExternalSystem/src/java/emas/web/managedbean/distribution/sdk_config.properties"));
+        OAuthTokenCredential tokenCredential = Payment.initConfig(new File("sdk_config.properties"));
         System.err.println("test");
 //        OAuthTokenCredential tokenCredential
 //                = new OAuthTokenCredential("AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io", "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR");
@@ -286,7 +286,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         DecimalFormat df = new DecimalFormat("0.00");
         String priceFormat = df.format(totalPrice);
         System.out.println(priceFormat);
-        item.setPrice("2");
+        item.setPrice(priceFormat);
         item.setQuantity("1");
         item.setCurrency("SGD");
         
