@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        CRM - confirm your account creation
+    </ui:define>
+
+    <ui:define name="head">
+        head
+    </ui:define>
+
+    <ui:define name="main">
+        <h2 style="text-align: center; margin-top: 200px; margin-bottom: 100px;">
+            Thank you for creating an account with us!
+        </h2>
+
+        <h:form  style="text-align: center;">
+            <p:commandButton actionListener="#{addMemberAccountManagedBean.goLogin()}" value="Login to Enjoy Exclusive Services" style="width: 15%"></p:commandButton>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

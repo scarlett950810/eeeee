@@ -191,6 +191,8 @@ public class FlightManagedBean implements Serializable {
     }
 
     public List<FlightEntity> getFlights() {
+        flights = crewToFlightSession.retrieveAllFlights();
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", flights);
         return flights;
     }
 
