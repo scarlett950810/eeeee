@@ -17,7 +17,7 @@
                 <li class="sidebar-h1"><a href="inventoryCost.xhtml">Manage Cost</a></li>
                 <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Open Flight for Sale</a></li>                     
                 <li class="sidebar-h1"><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
-                <li class="sidebar-h1"><a href="#">Revenue Dashboard</a></li>
+                <li class="sidebar-h1"><a href="inventoryRevenueDashboard.xhtml">Revenue Dashboard</a></li>
             </ul>
         </div>
     </ui:define>
@@ -43,7 +43,7 @@
                 </p:column>
                 
                 <p:column headerText="Departure Time"  style="width: 18%" filterBy="#{flight.departureDate}" filterMatchMode="contains">
-                    <h:outputText value="#{flight.departureDate}" />
+                    <h:outputText value="#{flight.departureDateConverted}"/>
                 </p:column>
                 
                 <p:column headerText="To"  style="width: 18%" filterBy="#{flight.route.destinationAirport.airportName} (#{flight.route.destinationAirport.cityName})" filterMatchMode="contains">
@@ -51,7 +51,7 @@
                 </p:column>
                 
                 <p:column headerText="Arrival Time"  style="width: 18%" filterBy="#{flight.arrivalDate}" filterMatchMode="contains">
-                    <h:outputText value="#{flight.arrivalDate}" />
+                    <h:outputText value="#{flight.arrivalDateConverted}" />
                 </p:column>
                 
                 <p:column headerText="Time to Departure"  style="width: 14%">

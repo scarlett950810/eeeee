@@ -148,7 +148,7 @@ public class FleetAssignmentCheck implements FleetAssignmentCheckLocal {
             aircraft.setFlights(new ArrayList<FlightEntity>());
             aircraft.getFlights().add(earliestFlight);
         }
-        earliestFlight.setAircraftFlight(aircraft);
+        earliestFlight.setAircraft(aircraft);
         earliestDep = earliestFlight.getArrivalDate();
         //       System.err.println("4");
 
@@ -240,7 +240,7 @@ public class FleetAssignmentCheck implements FleetAssignmentCheckLocal {
 
                 } else {
                     aircraft.getFlights().add(flightAssigned);
-                    flightAssigned.setAircraftFlight(aircraft);
+                    flightAssigned.setAircraft(aircraft);
                     flightsAvai.remove(flightAssigned);
                     flightsAll.remove(flightAssigned);
 

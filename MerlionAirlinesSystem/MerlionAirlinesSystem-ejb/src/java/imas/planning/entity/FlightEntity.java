@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +28,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  *
@@ -44,8 +45,10 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private String flightNo;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date departureDate;
+    private String departureDateConverted;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date arrivalDate;
+    private String arrivalDateConverted;
     @OneToOne(cascade = CascadeType.PERSIST)
     private FlightEntity reverseFlight;
     private Integer operatingYear;
@@ -74,6 +77,8 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     // counter open is purely decided by how much time to departure. counter 
     private boolean counterCheckInClosed;
     private boolean departured;
+    private Double costPerSeatPerMile;
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date estimateDepartureDate;//ture is delayed
 
@@ -348,7 +353,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         return aircraft;
     }
 
-    public void setAircraftFlight(AircraftEntity aircraft) {
+    public void setAircraft(AircraftEntity aircraft) {
         this.aircraft = aircraft;
     }
 
@@ -400,6 +405,14 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         this.yieldManagementRules = yieldManagementRules;
     }
 
+    public Double getCostPerSeatPerMile() {
+        return costPerSeatPerMile;
+    }
+
+    public void setCostPerSeatPerMile(Double costPerSeatPerMile) {
+        this.costPerSeatPerMile = costPerSeatPerMile;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -435,37 +448,52 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     @Override
     public int compareTo(FlightEntity o) {
-
-        return o.departureDate.compareTo(this.departureDate);
+        return this.departureDate.compareTo(o.departureDate);
+   //     return o.departureDate.compareTo(this.departureDate);
 
     }
 
-    private Date convertTimezone(Date date, String countryName) {
+    private String convertTimezone(Date date, String countryName) {
+        
         DateTime original = new DateTime(date.getTime());
+        DateTimeZone dtz = DateTimeZone.getDefault();
+        original.withZone(dtz);
 
         Set<String> tzIds = DateTimeZone.getAvailableIDs();
-        DateTimeZone dtz = DateTimeZone.getDefault();
-
-        System.out.println("tzIds = " + tzIds);
         for (String timeZoneId : tzIds) {
-            if (timeZoneId.startsWith(countryName)) {
+            if (timeZoneId.contains(countryName)) {
                 dtz = DateTimeZone.forID(timeZoneId);
-                System.out.println("dtz = " + dtz);
                 break;
             }
         }
-        DateTime dt = original.withZone(dtz);
-        System.out.println("dt = " + dt);
-        return dt.toDate();
+        DateTime dt = original.toDateTime(dtz);
+        DateTimeFormatter dtfOut = DateTimeFormat.forPattern("MMM dd yyyy HH:mm:ss zzz");
+        return dtfOut.print(dt);
 
     }
-    
+
     public String getDepartureDateConverted() {
         if (departureDate == null) {
             return "";
         } else {
-            return this.convertTimezone(this.departureDate, this.route.getOriginAirport().getNationName()).toString();
+            return this.convertTimezone(this.departureDate, this.route.getOriginAirport().getNationName());
         }
+    }
+
+    public void setDepartureDateConverted(String departureDateConverted) {
+        this.departureDateConverted = departureDateConverted;
+    }
+
+    public String getArrivalDateConverted() {
+        if (departureDate == null) {
+            return "";
+        } else {
+            return this.convertTimezone(this.arrivalDate, this.route.getDestinationAirport().getNationName());
+        }
+    }
+
+    public void setArrivalDateConverted(String arrivalDateConverted) {
+        this.arrivalDateConverted = arrivalDateConverted;
     }
 
 }

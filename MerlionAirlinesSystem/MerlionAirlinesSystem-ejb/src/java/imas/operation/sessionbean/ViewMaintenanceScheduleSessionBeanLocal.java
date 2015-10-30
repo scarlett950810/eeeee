@@ -5,9 +5,6 @@
  */
 package imas.operation.sessionbean;
 
-import imas.planning.entity.AircraftEntity;
-import imas.planning.entity.MaintenanceScheduleEntity;
-import java.util.List;
 import java.util.Map;
 import javax.ejb.Local;
 import org.primefaces.model.ScheduleModel;

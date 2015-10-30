@@ -366,7 +366,7 @@ public class FlightManagedBean implements Serializable {
         f.setOperatingYear(opYear);
         f.setDepartureDate(departureDate);
         f.setArrivalDate(arrivalDate);
-        f.setAircraftFlight(aircraft);
+        f.setAircraft(aircraft);
         f.setFlightNo(flightNo);
         f.setCabinCrews(selectedCabinCrewList);
         f.setPilots(selectedPilots);
@@ -379,7 +379,7 @@ public class FlightManagedBean implements Serializable {
         returnF.setDepartureDate(departureDateR);
         returnF.setArrivalDate(arrivalDateR);
         returnF.setFlightNo(returnFlightNo);
-        returnF.setAircraftFlight(aircraft);
+        returnF.setAircraft(aircraft);
         returnF.setCabinCrews(selectedCabinCrewList);
         returnF.setPilots(selectedPilots);
         returnF.setRoute(route.getReverseRoute());

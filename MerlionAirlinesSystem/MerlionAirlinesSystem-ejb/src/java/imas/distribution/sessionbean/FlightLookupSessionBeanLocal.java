@@ -55,4 +55,6 @@ public interface FlightLookupSessionBeanLocal {
 
     public boolean reachable(AirportEntity origin, AirportEntity destination);
 
+    public void setAllFlightYearsBack(int year);
+
 }
