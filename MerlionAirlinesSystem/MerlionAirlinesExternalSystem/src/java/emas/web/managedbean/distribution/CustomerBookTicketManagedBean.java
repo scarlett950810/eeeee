@@ -414,7 +414,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
 //        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?referenceNumber=" + referenceNumber);
         RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber+ "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName()+" "+passengers.get(0).getLastName()+"\")");
-        FacesContext.getCurrentInstance().getExternalContext().redirect("bookingConfirmation.xhtml");
+//        FacesContext.getCurrentInstance().getExternalContext().redirect("bookingConfirmation.xhtml");
     }
 
     public void makeBooking() throws IOException {
