@@ -197,7 +197,7 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
 
     // the staying time of transfer would not exceed 24 hours.
     @Override
-    public List<TransferFlight> getTransferRoutes(AirportEntity origin, AirportEntity destination, Date departureDate) {
+    public List<TransferFlight> getTransferFlights(AirportEntity origin, AirportEntity destination, Date departureDate) {
         List<TransferFlight> transferFlights = new ArrayList<>();
         List<AirportEntity> directDestinations = getAllDestinationAirports(origin);
         for (AirportEntity directDestination : directDestinations) {

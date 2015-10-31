@@ -44,4 +44,12 @@ public interface AccountManagementSessionBeanLocal {
 
     void assignAccessRight(String staffNo, String businessUnit, String division, String position);
 
+    boolean forgetPassword(String staffNo);
+
+    boolean checkSecurityAnswer(String staffNo, String answer);
+
+    StaffEntity getStaffBasedOnToken(String token);
+
+    void resetPassword(String password, String staffNo);
+
 }

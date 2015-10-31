@@ -40,24 +40,22 @@ public class ReportController extends HttpServlet {
 
     private void generateItinerary(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String userName = request.getParameter("User");
-            System.out.print("here we go!" + userName);
+//            String referenceNumber = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+            String referenceNumber = request.getParameter("referenceNumber");
+            
             InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream("/jasperReports/FlightItinerary.jasper");
-            System.out.print("1");
+            
             response.setContentType("application/pdf");
-            System.out.print("2");
             ServletOutputStream outputStream = response.getOutputStream();
-            System.out.print(outputStream);
             HashMap parameters = new HashMap();
-            System.out.print("5");
             parameters.put("IMAGEPATH", "https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/NEW_LOGO.png");
-            parameters.put("STAFFNAME", userName);
-            System.out.print("6");
+            parameters.put("referenceNumber", referenceNumber);
+            parameters.put("passengerName", "Howard");
+            parameters.put("passportNumber", "G12345678");
+//            JasperRunManager.runReportToPdf(reportStream, parameters, merlionAirlineDataSource.getConnection());
             JasperRunManager.runReportToPdfStream(reportStream, outputStream,
                     parameters, merlionAirlineDataSource.getConnection());
-            System.out.print("7");
             outputStream.flush();
-            System.out.print("8");
 
         } catch (JRException jrex) {
             System.out.println("********** Jasperreport Exception");

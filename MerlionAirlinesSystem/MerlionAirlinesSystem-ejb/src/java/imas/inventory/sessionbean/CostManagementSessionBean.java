@@ -105,27 +105,11 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         return root;
     }
 
-//    @Override
-//    public void writeList(List<CostPairEntity> list) {
-//        for (int i = 0; i < list.size(); i++) {
-//            em.merge(list.get(i));
-//        }
-//    }
-//    @Override
-//    public List<CostPairEntity> getList() {
-//        Query query;
-//        query = em.createQuery("SELECT c FROM CostPairEntity c");
-//        List<CostPairEntity> list = query.getResultList();
-//        if (list == null || list.isEmpty() || list.size() < 23) {
-//            return createTable();
-//        } else {
-//            return list;
-//        }
-//    }
     @Override
     public void updateCost(RouteEntity selectedRoute, String costName, Double costFigure) {
 
         List<CostPairEntity> costList = selectedRoute.getCostPairs();
+        Collections.sort(costList);
         if (!costList.isEmpty()) {
             for (int i = 0; i < costList.size(); i++) {
                 if (costList.get(i).getCostType().equals(costName)) {
@@ -148,16 +132,19 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
     public List<CostPairEntity> getCostPairList(RouteEntity selectedRoute) {
         List<CostPairEntity> costTable;
         costTable = selectedRoute.getCostPairs();
+        for (int i = 1; i < costTable.size(); i++) {
+            System.out.print(costTable.get(i).getCostType());
+        }
         Collections.sort(costTable);
+//        for (int i = 1; i < costTable.size(); i++) {
+//            System.out.print(costTable.get(i).getCostType());
+//        }
         return costTable;
     }
 
     @Override
     public void updateShowRate(RouteEntity selectedRoute, Double showRate) {
-        if (selectedRoute.getCostPairs().isEmpty() || selectedRoute.getCostPairs() == null || selectedRoute.getCostPairs().size() < 23) {
-            initCostTable(selectedRoute);
-        }
-        List<CostPairEntity> costList = this.getCostPairList(selectedRoute);
+        List<CostPairEntity> costList = getCostPairList(selectedRoute);
         costList.get(13).setCostFigure(showRate);
         correctList(costList);
         for (int i = 0; i < costList.size(); i++) {
@@ -166,32 +153,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         em.merge(selectedRoute);
 
     }
-//        List<CostPairEntity> costList = (List<CostPairEntity>) query.getResultList();
-//
-//        if (!costList.isEmpty()) {
-//            //get show rate
-//
-//            costList.get(13).setCostFigure(showRate);
-//            costList = correctList(costList);
-//            writeList(costList);
-//
-//        }
-//    }
 
-//    @Override
-//    public void updateShowRate(Selected Route, Double showRate) {
-////        Query query = em.createQuery("SELECT c FROM CostPairEntit ");
-////        List<CostPairEntity> costList = (List<CostPairEntity>) query.getResultList();
-////
-////        if (!costList.isEmpty()) {
-////            //get show rate
-////
-////            costList.get(13).setCostFigure(showRate);
-////            costList = correctList(costList);
-////            writeList(costList);
-////
-////        }
-////    }
     public static double round(double value, int places) {
         if (places < 0) {
             throw new IllegalArgumentException();

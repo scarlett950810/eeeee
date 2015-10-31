@@ -1,0 +1,595 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Distribution - Select Flight</ui:define>
+
+    <ui:define name="main">
+        <p:growl id="growl" autoUpdate="true"/>
+
+        <p:tabView id="tabView" activeIndex="#{customerBookTicketManagedBean.activeIndex}">
+            <p:tab title="1 Search creiteria" class="panel panel-primary" disabled="#{customerBookTicketManagedBean.tab1Disabled}">
+
+                <p:messages />
+
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="5">
+
+                        <p:outputLabel for="origin" value="From:" />
+                        <p:selectOneMenu id="origin" value="#{customerBookTicketManagedBean.originAirport}" converter="airportConverter"
+                                         filter="true" filterMatchMode="contains" required="true" requiredMessage="Please specify departure airport">
+                            <p:ajax listener="#{customerBookTicketManagedBean.onOriginChange}" update="destination" />
+                            <f:selectItem itemLabel="Select Origin Airport" itemDisabled="true" />
+                            <f:selectItems value="#{customerBookTicketManagedBean.originAirportsByCountry}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="destination" value="To:" />
+                        <p:selectOneMenu id="destination" value="#{customerBookTicketManagedBean.destinationAirport}" converter="airportConverter"
+                                         filter="true" filterMatchMode="contains" required="true" requiredMessage="Please specify return airport">
+                            <p:ajax listener="#{customerBookTicketManagedBean.onDestinationChange}" update="destination" />
+                            <f:selectItem itemLabel="Select Destination Airport" itemDisabled="true" />
+                            <f:selectItems value="#{customerBookTicketManagedBean.destinationAirportsByCountry}" />
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Return"/>
+                        <p:selectBooleanCheckbox value="#{customerBookTicketManagedBean.twoWay}">
+                            <p:ajax update="returnDate returnDateLabel"/>
+                        </p:selectBooleanCheckbox>
+
+                        <p:outputLabel for="departureDate" value="Select Departure Date" />
+                        <p:calendar id="departureDate" value="#{customerBookTicketManagedBean.departureDate}" required="true" requiredMessage="Please specify departure date"
+                                    mindate="#{customerBookTicketManagedBean.departureMinDate}" maxdate="#{customerBookTicketManagedBean.departureMaxDate}">
+                            <p:ajax event="dateSelect" listener="#{customerBookTicketManagedBean.onDepartureDateSelect}" update="returnDate" />
+                        </p:calendar>
+
+                        <p:outputLabel style="#{customerBookTicketManagedBean.returnDateDisplay}" id="returnDateLabel" for="returnDate"
+                                       value="Select Return Date" />
+                        <p:calendar style="#{customerBookTicketManagedBean.returnDateDisplay}" id="returnDate" value="#{customerBookTicketManagedBean.returnDate}"
+                                    required="#{customerBookTicketManagedBean.twoWay}" requiredMessage="Please specify return date" 
+                                    mindate="#{customerBookTicketManagedBean.returnMinDate}" maxdate="#{customerBookTicketManagedBean.returnMaxDate}">
+                            <p:ajax event="dateSelect" listener="#{customerBookTicketManagedBean.onReturnDateSelect}" update="departureDate" />
+                        </p:calendar>
+
+                        <h:outputLabel for="seatClass" value="Seat Class"/>                    
+                        <p:selectOneMenu id="seatClass" value="#{customerBookTicketManagedBean.seatClass}" required="true">
+                            <f:selectItem itemValue="First Class" itemLabel="First Class"/>
+                            <f:selectItem itemValue="Business Class" itemLabel="Business Class"/>
+                            <f:selectItem itemValue="Premium Economy Class" itemLabel="Premium Economy Class"/>
+                            <f:selectItem itemValue="Economy Class" itemLabel="Economy Class"/>
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="6" cellpadding="5">
+                        <h:outputLabel for="adult" value="Adult"/>                    
+                        <p:selectOneMenu id="adult" value="#{customerBookTicketManagedBean.adultNo}" required="true">
+                            <f:selectItem itemValue="1" itemLabel="1"/>
+                            <f:selectItem itemValue="2" itemLabel="2"/>
+                            <f:selectItem itemValue="3" itemLabel="3"/>
+                            <f:selectItem itemValue="4" itemLabel="4"/>
+                            <f:selectItem itemValue="5" itemLabel="5"/>
+                            <f:selectItem itemValue="6" itemLabel="6"/>
+                            <f:selectItem itemValue="7" itemLabel="7"/>
+                            <f:selectItem itemValue="8" itemLabel="8"/>
+                            <f:selectItem itemValue="9" itemLabel="9"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel for="children" value="Children"/>                    
+                        <p:selectOneMenu id="children" value="#{customerBookTicketManagedBean.childNo}" required="true">
+                            <f:selectItem itemValue="0" itemLabel="0"/>
+                            <f:selectItem itemValue="1" itemLabel="1"/>
+                            <f:selectItem itemValue="2" itemLabel="2"/>
+                            <f:selectItem itemValue="3" itemLabel="3"/>
+                            <f:selectItem itemValue="4" itemLabel="4"/>
+                            <f:selectItem itemValue="5" itemLabel="5"/>
+                            <f:selectItem itemValue="6" itemLabel="6"/>
+                            <f:selectItem itemValue="7" itemLabel="7"/>
+                            <f:selectItem itemValue="8" itemLabel="8"/>
+                            <f:selectItem itemValue="9" itemLabel="9"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel for="infant" value="Infant"/>                    
+                        <p:selectOneMenu id="infant" value="#{customerBookTicketManagedBean.infantNo}" required="true">
+                            <f:selectItem itemValue="0" itemLabel="0"/>
+                            <f:selectItem itemValue="1" itemLabel="1"/>
+                            <f:selectItem itemValue="2" itemLabel="2"/>
+                            <f:selectItem itemValue="3" itemLabel="3"/>
+                            <f:selectItem itemValue="4" itemLabel="4"/>
+                            <f:selectItem itemValue="5" itemLabel="5"/>
+                            <f:selectItem itemValue="6" itemLabel="6"/>
+                            <f:selectItem itemValue="7" itemLabel="7"/>
+                            <f:selectItem itemValue="8" itemLabel="8"/>
+                            <f:selectItem itemValue="9" itemLabel="9"/>
+                        </p:selectOneMenu> 
+                    </h:panelGrid>
+
+                    <p:commandButton value="Search" class="btn-sm btn-primary" actionListener="#{customerBookTicketManagedBean.searchFlight}"
+                                     update="tabView" />
+                </h:form>
+            </p:tab>
+
+            <p:tab id="selectFlightTab" title="2 Select Flight" class="panel panel-primary" disabled="#{customerBookTicketManagedBean.tab2Disabled}">
+
+                <h:form id="selectFlightForm">
+
+                    <p:messages id="selectFlightTabMsg"/>
+
+                    <div style="display: inline; width: 100%;">
+                        <h:outputText value="Show 1 stop transfer options"/>
+                        <p:selectBooleanCheckbox value="#{customerBookTicketManagedBean.showTransferOptions}" style="padding-left: 5px;">
+                            <p:ajax update="selectFlightForm"/>
+                        </p:selectBooleanCheckbox>
+
+                        <h:outputText value="Choosing transfer flight would deselect direct flight and vise versa." class="footnote" 
+                                      style="width: 50%; float: right"/>
+                    </div>
+
+                    <p:panel header="Departure: #{customerBookTicketManagedBean.originAirport} to #{customerBookTicketManagedBean.destinationAirport} on #{customerBookTicketManagedBean.getDate(customerBookTicketManagedBean.departureDate)}"
+                             class="panel panel-primary" style="margin-top: 0.2%;">
+
+                        <p:chart type="line" model="#{customerBookTicketManagedBean.departure7DayPricing}" style="height:300px;">
+                            <p:ajax event="itemSelect" listener="#{customerBookTicketManagedBean.select7DayPricing}" update="growl" />
+                        </p:chart>
+
+                        <c:if test="#{customerBookTicketManagedBean.departureHasDirectFlight}">
+
+                            <p:outputLabel for="departureDirect" value="Direct flight:" />
+
+                            <p:dataTable id="departureDirect" value="#{customerBookTicketManagedBean.departureDirectFlightCandidates}" var="flight"
+                                         rowKey="#{flight.id}" selection="#{customerBookTicketManagedBean.departureDirectFlight}" 
+                                         disabledSelection="#{customerBookTicketManagedBean.flightSelectionDisabled(flight)}">
+
+                                <p:ajax event="rowSelectRadio" listener="#{customerBookTicketManagedBean.onDepartureDirectFlightSelect}" update="@form"/>
+
+                                <p:column selectionMode="single" width="5%"/>
+
+                                <p:column headerText="Departure Time">
+                                    <h:outputText value="#{flight.departureDate}" />
+                                </p:column>
+
+                                <p:column headerText="Arrival Time">
+                                    <h:outputText value="#{flight.arrivalDate}" />
+                                </p:column>
+
+                                <p:column headerText="Duration (hours)">
+                                    <h:outputText value="#{customerBookTicketManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                </p:column>
+
+                                <p:column headerText="Aircraft Type">
+                                    <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                </p:column>
+
+                                <p:column headerText="Lowest fare under #{customerBookTicketManagedBean.seatClass}">
+                                    <h:outputText value="#{customerBookTicketManagedBean.getLowestFareString(flight)}" />
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </c:if>
+
+                        <c:if test="#{not customerBookTicketManagedBean.departureHasDirectFlight}">
+                            <h:outputText value="No direct flights found." />
+                            <br/>
+                        </c:if>
+
+                        <c:if test="#{customerBookTicketManagedBean.showTransferOptions}">
+
+                            <p:separator />
+
+                            <c:if test="#{customerBookTicketManagedBean.departureHasTransferFlight}">
+
+                                <c:forEach items="#{customerBookTicketManagedBean.departureTransferFlightCandidates}" var="transferFlight">
+
+                                    <h:outputText style="font-weight: bold;" value="Transfer option:"/>
+
+                                    <p:dataTable value="#{transferFlight.flights1}" var="flight" 
+                                                 rowKey="#{flight.id}" selection="#{customerBookTicketManagedBean.departureTransferFlight1}"
+                                                 disabledSelection="#{customerBookTicketManagedBean.flightSelectionDisabled(flight)}">
+
+                                        <p:ajax event="rowSelectRadio" listener="#{customerBookTicketManagedBean.onDepartureTransferFlightSelect}" update="@form"/>
+
+                                        <p:column selectionMode="single" width="5%"/>
+
+                                        <f:facet name="header">
+                                            #{transferFlight.route1}
+                                        </f:facet>
+
+                                        <p:column headerText="Departure Time">
+                                            <h:outputText value="#{flight.departureDate}" />
+                                        </p:column>
+
+                                        <p:column headerText="Arrival Time">
+                                            <h:outputText value="#{flight.arrivalDate}" />
+                                        </p:column>
+
+                                        <p:column headerText="Duration (hours)">
+                                            <h:outputText value="#{customerBookTicketManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                        </p:column>
+
+                                        <p:column headerText="Aircraft Type">
+                                            <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                        </p:column>     
+
+                                        <p:column headerText="Lowest fare under #{customerBookTicketManagedBean.seatClass}">
+                                            <h:outputText value="#{customerBookTicketManagedBean.getLowestFareString(flight)}" />
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                    <p:dataTable value="#{transferFlight.flights2}" var="flight"
+                                                 rowKey="#{flight.id}" selection="#{customerBookTicketManagedBean.departureTransferFlight2}"
+                                                 disabledSelection="#{customerBookTicketManagedBean.flightSelectionDisabled(flight)}">
+
+                                        <p:ajax event="rowSelectRadio" listener="#{customerBookTicketManagedBean.onDepartureTransferFlightSelect}" update="@form"/>
+
+                                        <p:column selectionMode="single" width="5%"/>
+
+                                        <f:facet name="header">
+                                            #{transferFlight.route2}
+                                        </f:facet>
+                                        <p:column headerText="Departure Time">
+                                            <h:outputText value="#{flight.departureDate}" />
+                                        </p:column>
+
+                                        <p:column headerText="Arrival Time">
+                                            <h:outputText value="#{flight.arrivalDate}" />
+                                        </p:column>
+
+                                        <p:column headerText="Duration (hours)">
+                                            <h:outputText value="#{customerBookTicketManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                        </p:column>
+
+                                        <p:column headerText="Aircraft Type">
+                                            <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                        </p:column>
+
+                                        <p:column headerText="Lowest fare under #{customerBookTicketManagedBean.seatClass}">
+                                            <h:outputText value="#{customerBookTicketManagedBean.getLowestFareString(flight)}" />
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                    <br/>
+                                </c:forEach>
+
+                            </c:if>
+
+                            <c:if test="#{not customerBookTicketManagedBean.departureHasTransferFlight}">
+                                <h:outputText value="No transfer options flights found." />
+                                <br/>
+                            </c:if>
+                        </c:if>
+
+                    </p:panel>
+
+                    <c:if test="#{customerBookTicketManagedBean.twoWay}">
+
+                        <p:panel header="Return: #{customerBookTicketManagedBean.destinationAirport} to #{customerBookTicketManagedBean.originAirport} on #{customerBookTicketManagedBean.getDate(customerBookTicketManagedBean.returnDate)}"
+                                 class="panel panel-primary">
+
+                            <p:chart type="line" model="#{customerBookTicketManagedBean.return7DayPricing}" style="height:300px;">
+                                <p:ajax event="itemSelect" listener="#{customerBookTicketManagedBean.select7DayPricing}" update="growl" />
+                            </p:chart>
+
+                            <c:if test="#{customerBookTicketManagedBean.returnHasDirectFlight}">
+
+                                <p:outputLabel for="returnDirect" value="Direct flight:" />                    
+
+                                <p:dataTable id="returnDirect" value="#{customerBookTicketManagedBean.returnDirectFlightCandidates}" var="flight"
+                                             rowKey="#{flight.id}" selection="#{customerBookTicketManagedBean.returnDirectFlight}"
+                                             disabledSelection="#{customerBookTicketManagedBean.flightSelectionDisabled(flight)}">
+
+                                    <p:ajax event="rowSelectRadio" listener="#{customerBookTicketManagedBean.onReturnDirectFlightSelect}" update="@form"/>
+
+                                    <p:column selectionMode="single" width="5%"/>
+
+                                    <p:column headerText="Departure Time">
+                                        <h:outputText value="#{flight.departureDate}" />
+                                    </p:column>
+
+                                    <p:column headerText="Arrival Time">
+                                        <h:outputText value="#{flight.arrivalDate}" />
+                                    </p:column>
+
+                                    <p:column headerText="Duration (hours)">
+                                        <h:outputText value="#{customerBookTicketManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                    </p:column>
+
+                                    <p:column headerText="Aircraft Type">
+                                        <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                    </p:column>
+
+                                    <p:column headerText="Lowest fare under #{customerBookTicketManagedBean.seatClass}">
+                                        <h:outputText value="#{customerBookTicketManagedBean.getLowestFareString(flight)}" />
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </c:if>
+
+                            <c:if test="#{not customerBookTicketManagedBean.returnHasDirectFlight}">
+                                <h:outputText value="No direct flights found." />
+                                <br/>
+                            </c:if>
+
+                            <c:if test="#{customerBookTicketManagedBean.showTransferOptions}">
+
+                                <p:separator/>
+
+                                <c:if test="#{customerBookTicketManagedBean.returnHasTransferFlight}">
+
+                                    <c:forEach items="#{customerBookTicketManagedBean.returnTransferFlightCandidates}" var="transferFlight">
+
+                                        <h:outputText style="font-weight: bold;" value="Transfer option:"/>
+
+                                        <p:dataTable value="#{transferFlight.flights1}" var="flight" 
+                                                     rowKey="#{flight.id}" selection="#{customerBookTicketManagedBean.returnTransferFlight1}"
+                                                     disabledSelection="#{customerBookTicketManagedBean.flightSelectionDisabled(flight)}">
+
+                                            <p:ajax event="rowSelectRadio" listener="#{customerBookTicketManagedBean.onReturnTransferFlightSelect}" update="@form"/>
+
+                                            <p:column selectionMode="single" width="5%"/>
+
+                                            <f:facet name="header">
+                                                #{transferFlight.route1}
+                                            </f:facet>
+                                            <p:column headerText="Departure Time">
+                                                <h:outputText value="#{flight.departureDate}" />
+                                            </p:column>
+
+                                            <p:column headerText="Arrival Time">
+                                                <h:outputText value="#{flight.arrivalDate}" />
+                                            </p:column>
+
+                                            <p:column headerText="Duration (hours)">
+                                                <h:outputText value="#{customerBookTicketManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                            </p:column>
+
+                                            <p:column headerText="Aircraft Type">
+                                                <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                            </p:column>
+
+                                            <p:column headerText="Lowest fare under #{customerBookTicketManagedBean.seatClass}">
+                                                <h:outputText value="#{customerBookTicketManagedBean.getLowestFareString(flight)}" />
+                                            </p:column>
+
+                                        </p:dataTable>
+
+                                        <p:dataTable value="#{transferFlight.flights2}" var="flight"
+                                                     rowKey="#{flight.id}" selection="#{customerBookTicketManagedBean.returnTransferFlight2}"
+                                                     disabledSelection="#{customerBookTicketManagedBean.flightSelectionDisabled(flight)}">
+
+                                            <p:ajax event="rowSelectRadio" listener="#{customerBookTicketManagedBean.onReturnTransferFlightSelect}" update="@form"/>
+
+                                            <p:column selectionMode="single" width="5%"/>
+
+                                            <f:facet name="header">
+                                                #{transferFlight.route2}
+                                            </f:facet>
+                                            <p:column headerText="Departure Time">
+                                                <h:outputText value="#{flight.departureDate}" />
+                                            </p:column>
+
+                                            <p:column headerText="Arrival Time">
+                                                <h:outputText value="#{flight.arrivalDate}" />
+                                            </p:column>
+
+                                            <p:column headerText="Duration (hours)">
+                                                <h:outputText value="#{customerBookTicketManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                                            </p:column>
+
+                                            <p:column headerText="Aircraft Type">
+                                                <h:outputText value="#{flight.aircraft.aircraftType}" />
+                                            </p:column>
+
+                                            <p:column headerText="Lowest fare under #{customerBookTicketManagedBean.seatClass}">
+                                                <h:outputText value="#{customerBookTicketManagedBean.getLowestFareString(flight)}" />
+                                            </p:column>
+
+                                        </p:dataTable>
+
+                                        <br/>
+                                    </c:forEach>
+
+                                </c:if>
+
+
+                                <c:if test="#{not customerBookTicketManagedBean.returnHasTransferFlight}">
+                                    <h:outputText value="No transfer options flights found." />
+                                    <br/>
+                                </c:if>
+
+                            </c:if>
+
+                        </p:panel>
+
+                    </c:if>
+
+                    <p:commandButton value="Select Booking Class" class="btn-sm btn-primary" 
+                                     actionListener="#{customerBookTicketManagedBean.submitFlightsToSelectBookingClasses}" update="tabView" />
+                </h:form>
+            </p:tab>
+
+            <p:tab title="3 Select Booking Class" class="panel panel-primary" disabled="#{customerBookTicketManagedBean.tab3Disabled}">
+
+                <h:form>
+
+                    <c:if test="#{customerBookTicketManagedBean.selectedDepartureDirectFlight()}">
+
+                        <p:dataTable value="#{customerBookTicketManagedBean.departureDirectFlightBookingClassCandidates}" var="bookingClass" 
+                                     selection="#{customerBookTicketManagedBean.departureDirectFlightBookingClass}" rowKey="#{bookingClass.id}" 
+                                     disabledSelection="#{customerBookTicketManagedBean.bookingClassSelectionDisabled(bookingClass)}">
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{customerBookTicketManagedBean.departureDirectFlightBookingClassCandidates.get(0).flight.route}:
+                                #{customerBookTicketManagedBean.departureDirectFlightBookingClassCandidates.get(0).flight.departureDate} 
+                                - #{customerBookTicketManagedBean.departureDirectFlightBookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.departureDirectFlight, bookingClass)}"/>
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </c:if>
+
+                    <c:if test="#{customerBookTicketManagedBean.selectedDepartureTransferFlight()}">
+
+                        <p:dataTable value="#{customerBookTicketManagedBean.departureTransferFlight1BookingClassCandidates}" var="bookingClass" 
+                                     selection="#{customerBookTicketManagedBean.departureTransferFlight1BookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{customerBookTicketManagedBean.bookingClassSelectionDisabled(bookingClass)}">
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{customerBookTicketManagedBean.departureTransferFlight1BookingClassCandidates.get(0).flight.route}: 
+                                #{customerBookTicketManagedBean.departureTransferFlight1BookingClassCandidates.get(0).flight.departureDate} - 
+                                #{customerBookTicketManagedBean.departureTransferFlight1BookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.departureTransferFlight1, bookingClass)}"/>
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dataTable value="#{customerBookTicketManagedBean.departureTransferFlight2BookingClassCandidates}" var="bookingClass" 
+                                     selection="#{customerBookTicketManagedBean.departureTransferFlight2BookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{customerBookTicketManagedBean.bookingClassSelectionDisabled(bookingClass)}">
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{customerBookTicketManagedBean.departureTransferFlight2BookingClassCandidates.get(0).flight.route}: 
+                                #{customerBookTicketManagedBean.departureTransferFlight2BookingClassCandidates.get(0).flight.departureDate} - 
+                                #{customerBookTicketManagedBean.departureTransferFlight2BookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.departureTransferFlight2, bookingClass)}"/>
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="Rules associated with this booking class" />
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </c:if>
+
+                    <c:if test="#{customerBookTicketManagedBean.selectedReturnDirectFlight()}">
+
+                        <p:dataTable value="#{customerBookTicketManagedBean.returnDirectFlightBookingClassCandidates}" var="bookingClass" 
+                                     selection="#{customerBookTicketManagedBean.returnDirectFlightBookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{customerBookTicketManagedBean.bookingClassSelectionDisabled(bookingClass)}">
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{customerBookTicketManagedBean.returnDirectFlightBookingClassCandidates.get(0).flight.route}: 
+                                #{customerBookTicketManagedBean.returnDirectFlightBookingClassCandidates.get(0).flight.departureDate} - 
+                                #{customerBookTicketManagedBean.returnDirectFlightBookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.returnDirectFlight, bookingClass)}"/>
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </c:if>
+
+                    <c:if test="#{customerBookTicketManagedBean.selectedReturnTransferFlight()}">
+
+                        <p:dataTable value="#{customerBookTicketManagedBean.returnTransferFlight1BookingClassCandidates}" var="bookingClass" 
+                                     selection="#{customerBookTicketManagedBean.returnTransferFlight1BookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{customerBookTicketManagedBean.bookingClassSelectionDisabled(bookingClass)}">
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{customerBookTicketManagedBean.returnTransferFlight1BookingClassCandidates.get(0).flight.route}: 
+                                #{customerBookTicketManagedBean.returnTransferFlight1BookingClassCandidates.get(0).flight.departureDate} - 
+                                #{customerBookTicketManagedBean.returnTransferFlight1BookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.returnTransferFlight1, bookingClass)}"/>
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dataTable value="#{customerBookTicketManagedBean.returnTransferFlight2BookingClassCandidates}" var="bookingClass" 
+                                     selection="#{customerBookTicketManagedBean.returnTransferFlight2BookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{customerBookTicketManagedBean.bookingClassSelectionDisabled(bookingClass)}">
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{customerBookTicketManagedBean.returnTransferFlight2BookingClassCandidates.get(0).flight.route}: 
+                                #{customerBookTicketManagedBean.returnTransferFlight2BookingClassCandidates.get(0).flight.departureDate} - 
+                                #{customerBookTicketManagedBean.returnTransferFlight2BookingClassCandidates.get(0).flight.arrivalDate}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name" style="width: 20%">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Rules">
+                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.returnTransferFlight2, bookingClass)}"/>
+                            </p:column>
+
+                            <p:column headerText="Price" style="width: 15%">
+                                <h:outputText value="S$ #{bookingClass.price}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </c:if>                    
+
+                    <p:commandButton class="btn-sm btn-primary" value="Proceed" actionListener="#{customerBookTicketManagedBean.submitBookingClasses()}"/>
+
+                </h:form>
+
+            </p:tab>
+
+        </p:tabView>
+
+    </ui:define>
+
+</ui:composition>

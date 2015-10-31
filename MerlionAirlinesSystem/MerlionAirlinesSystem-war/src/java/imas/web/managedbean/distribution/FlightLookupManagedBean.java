@@ -118,6 +118,9 @@ public class FlightLookupManagedBean implements Serializable {
     private List<BookingClassEntity> returnTransferFlight1BookingClassCandidates;
     private List<BookingClassEntity> returnTransferFlight2BookingClassCandidates;
 
+    List<PassengerEntity> passengers = new ArrayList<>();
+    List<FlightEntity> flights = new ArrayList<>();
+
     @PostConstruct
     public void init() {
 
@@ -784,7 +787,7 @@ public class FlightLookupManagedBean implements Serializable {
         } else {
             departureHasDirectFlight = false;
         }
-        departureTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(originAirport, destinationAirport, departureDate);
+        departureTransferFlightCandidates = flightLookupSessionBean.getTransferFlights(originAirport, destinationAirport, departureDate);
         departureHasTransferFlight = (departureTransferFlightCandidates.size() > 0);
 
         if (twoWay) {
@@ -798,7 +801,7 @@ public class FlightLookupManagedBean implements Serializable {
             } else {
                 returnHasDirectFlight = false;
             }
-            returnTransferFlightCandidates = flightLookupSessionBean.getTransferRoutes(originAirport, destinationAirport, returnDate);
+            returnTransferFlightCandidates = flightLookupSessionBean.getTransferFlights(originAirport, destinationAirport, returnDate);
             returnHasTransferFlight = (returnTransferFlightCandidates.size() > 0);
 
         }
@@ -846,6 +849,7 @@ public class FlightLookupManagedBean implements Serializable {
 
     public int lowestFareOnDate(AirportEntity flightsAvailableOnDate_originAirport, AirportEntity flightsAvailableOnDate_destinationAirport,
             Date flightsAvailableOnDate_date, String seatClass, int totalPurchaseNo) {
+        
         RouteEntity flightsAvailableOnDate_directRoute;
         List<FlightEntity> flightsAvailableOnDate_directFlightCandidates;
         int flightsAvailableOnDate_LowestFare = Integer.MAX_VALUE;
@@ -1122,9 +1126,9 @@ public class FlightLookupManagedBean implements Serializable {
     }
     
     public BookingClassRuleSetEntity getBookingClassRule(FlightEntity flight, BookingClassEntity bookingClass) {
-        List<BookingClassRuleSetEntity> bcrss = flight.getBookingClassRuleSetEntities();
+        List<BookingClassRuleSetEntity> bcrss = (List<BookingClassRuleSetEntity>) flight.getBookingClassRuleSetEntities();
         for (BookingClassRuleSetEntity bcrs: bcrss) {
-            if (bcrs.getBookingClass().equals(bookingClass.getName())) {
+            if (bcrs.getBookingClass().equals(bookingClass)) {
                 return bcrs;
             }
         }
@@ -1158,8 +1162,6 @@ public class FlightLookupManagedBean implements Serializable {
     public void submitBookingClasses() {
 
         if (checkBookingClassesSubmitted()) {
-            List<PassengerEntity> passengers = new ArrayList<>();
-            List<FlightEntity> flights = new ArrayList<>();
 
             if (selectedDepartureDirectFlight()) {
                 flights.add(departureDirectFlight);
@@ -1214,7 +1216,7 @@ public class FlightLookupManagedBean implements Serializable {
 
                 passengers.add(passenger);
             }
-
+            
         }
 
     }

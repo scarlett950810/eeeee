@@ -45,6 +45,10 @@ public class StaffEntity implements Serializable {
     private String address;
 
     private String gender;
+    
+    private String token;
+    
+    private String sequrityQuestionAnswer;
 
     @OneToOne
     private AirportEntity base;
@@ -209,6 +213,21 @@ public class StaffEntity implements Serializable {
         this.role = role;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getSequrityQuestionAnswer() {
+        return sequrityQuestionAnswer;
+    }
+
+    public void setSequrityQuestionAnswer(String sequrityQuestionAnswer) {
+        this.sequrityQuestionAnswer = sequrityQuestionAnswer;
+    }
 //    public List<OrganizationUnit> getOrganizationUnit() {
 //        return organizationUnit;
 //    }

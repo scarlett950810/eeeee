@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="head">
+        <style>
+            .label{
+                color: #000000;
+                font-size: 100%;
+                vertical-align: middle;
+
+            }
+            
+            .ui-panelgrid .ui-panelgrid-cell{
+                border: none;
+            }
+        </style>
+        
+        <script type="text/javascript">
+
+            function Redirect() {
+                window.open("webCheckInStatus.xhtml", "_blank");
+            }
+
+        </script>
+    </ui:define>
+
+    <ui:define name="main">
+        <h:form>
+            <p:wizard flowListener="#{webCheckInManagedBean.onFlowProcess}" showStepStatus="false">
+                <p:tab id="flightDetail">
+
+                    <p:panel header="Flight Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Flight No." />
+                            <h:outputLabel value="#{webCheckInManagedBean.ticket.flight.flightNo}" />
+
+
+                            <h:outputLabel value="Departure" />
+                            <h:outputLabel value="#{webCheckInManagedBean.ticket.flight.route.originAirport.cityName}(#{webCheckInManagedBean.ticket.flight.route.originAirport.airportCode})" />
+                            <h:outputLabel value="" />
+                            <h:outputLabel value="#{webCheckInManagedBean.ticket.flight.departureDate}" />
+
+
+                            <h:outputLabel value="Arrival" />
+                            <h:outputLabel value="#{webCheckInManagedBean.ticket.flight.route.destinationAirport.cityName}(#{webCheckInManagedBean.ticket.flight.route.destinationAirport.airportCode})" />
+                            <h:outputLabel value="" />
+                            <h:outputLabel value="#{webCheckInManagedBean.ticket.flight.arrivalDate}" />
+
+
+                            <p:panel header="Premium Services" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+
+                                <h:panelGrid columns="2" columnClasses="label, value">
+                                    <h:outputLabel value="Baggage Weight: " />
+                                    <c:choose>
+                                        <c:when test="#{webCheckInManagedBean.ticket.baggageWeight==-1}">
+                                            <h:outputLabel value="No Check-in Baggage" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h:outputLabel value="#{webCheckInManagedBean.ticket.baggageWeight} kg" />
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h:outputLabel value="Premium Meal: " />
+                                    <c:choose>
+                                        <c:when test="#{webCheckInManagedBean.ticket.premiumMeal} == false">
+                                            <h:outputLabel value="No" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h:outputLabel value="Yes" />
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h:outputLabel value="Exclusive Airport Service: " />
+                                    <c:choose>
+                                        <c:when test="#{webCheckInManagedBean.ticket.exclusiveService} == false">
+                                            <h:outputLabel value="No" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h:outputLabel value="Yes" />
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h:outputLabel value="Insurance: " />
+                                    <c:choose>
+                                        <c:when test="#{webCheckInManagedBean.ticket.insurance} == false">
+                                            <h:outputLabel value="No" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h:outputLabel value="Yes" />
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h:outputLabel value="Flight Wi-Fi: " />
+                                    <c:choose>
+                                        <c:when test="#{webCheckInManagedBean.ticket.flightWiFi} == false">
+                                            <h:outputLabel value="No" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h:outputLabel value="Yes" />
+                                        </c:otherwise>
+                                    </c:choose>
+                                </h:panelGrid>
+                            </p:panel>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="seatSelection">
+                    <p:panel header="Seat Selection" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+                        <p:panelGrid>
+                            <ui:repeat value="#{webCheckInManagedBean.seatHelper}" var="row">
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="#{webCheckInManagedBean.seatHelper.indexOf(row)+1}"></p:outputLabel>
+                                    </p:column>
+                                    <ui:repeat value="#{row}" var="element">
+                                        <p:column>
+                                            <p:selectOneRadio value="#{element.selected}" disabled="#{!element.eligible || element.occupied}">
+                                                <f:selectItem itemLabel="#{element.seatNumber}" itemValue="true" /> 
+                                                <p:ajax update="@form" listener="#{webCheckInManagedBean.onChangeSeat(element)}">
+                                                    
+                                                </p:ajax>
+                                            </p:selectOneRadio>
+                                        </p:column>
+                                    </ui:repeat> 
+                                </p:row>
+                            </ui:repeat>
+                        </p:panelGrid>
+
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="confirm">
+                    <p:panel header="Confirmation" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+                        <p:commandButton value="Submit" actionListener="#{webCheckInManagedBean.completeWebCheckIn}" process="@this" onclick="Redirect();"/>
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

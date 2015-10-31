@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TimeZone;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -89,7 +91,6 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     @OneToMany(mappedBy = "flightRecords")
     private List<FlightRecordEntity> flightRecords;
 
-
     @ManyToMany(mappedBy = "cabinCrewFligths")
     private List<CabinCrewEntity> cabinCrews;
 
@@ -97,7 +98,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private List<PilotEntity> pilots;
     @OneToMany(mappedBy = "flight")
     private List<BookingClassRuleSetEntity> bookingClassRuleSets;
-    
+
     @OneToMany(mappedBy = "flight")
     private List<YieldManagementRuleEntity> yieldManagementRules;
 
@@ -121,7 +122,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         this.operatingYear = yearSelected;
 
     }
-    
+
     public FlightEntity(String flightNo, AircraftEntity aircraft, RouteEntity route) {
         this.bookingClassRuleSets = new ArrayList<>();
         this.yieldManagementRules = new ArrayList<>();
@@ -405,7 +406,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     public void setYieldManagementRules(List<YieldManagementRuleEntity> yieldManagementRules) {
         this.yieldManagementRules = yieldManagementRules;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -444,6 +445,34 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
         return o.departureDate.compareTo(this.departureDate);
 
+    }
+
+    private Date convertTimezone(Date date, String countryName) {
+        DateTime original = new DateTime(date.getTime());
+
+        Set<String> tzIds = DateTimeZone.getAvailableIDs();
+        DateTimeZone dtz = DateTimeZone.getDefault();
+
+        System.out.println("tzIds = " + tzIds);
+        for (String timeZoneId : tzIds) {
+            if (timeZoneId.startsWith(countryName)) {
+                dtz = DateTimeZone.forID(timeZoneId);
+                System.out.println("dtz = " + dtz);
+                break;
+            }
+        }
+        DateTime dt = original.withZone(dtz);
+        System.out.println("dt = " + dt);
+        return dt.toDate();
+
+    }
+    
+    public String getDepartureDateConverted() {
+        if (departureDate == null) {
+            return "";
+        } else {
+            return this.convertTimezone(this.departureDate, this.route.getOriginAirport().getNationName()).toString();
+        }
     }
 
 }

@@ -40,7 +40,7 @@ public class PNREntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     private List<PassengerEntity> passengers;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<FlightEntity> flights;
 
     public Long getId() {

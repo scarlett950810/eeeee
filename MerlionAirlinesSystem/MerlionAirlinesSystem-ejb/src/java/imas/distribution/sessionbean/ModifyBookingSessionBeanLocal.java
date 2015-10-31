@@ -6,6 +6,8 @@
 package imas.distribution.sessionbean;
 
 import imas.distribution.entity.PNREntity;
+import imas.distribution.entity.TicketEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,5 +18,9 @@ import javax.ejb.Local;
 public interface ModifyBookingSessionBeanLocal {
 
     PNREntity retrievePNRRecord(String referenceNumber);
+
+    List<TicketEntity> getTicketList(String referenceNumber, String passportNumber);
+
+    void flushModification(TicketEntity ticket);
     
 }

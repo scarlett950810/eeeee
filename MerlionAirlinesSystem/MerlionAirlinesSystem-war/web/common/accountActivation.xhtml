@@ -13,6 +13,9 @@
             .label {
                 color: #000;
             }
+            .ui-wizard-nav-back {
+                visibility: hidden;
+            }
         </style>
     </h:head>
 
@@ -35,7 +38,7 @@
                 <h:form id="activate">
                     <p:growl id="growl" showDetail="true"/>
 
-                    <p:wizard flowListener="#{accountActivationManagedBean.onFlowProcess}" showStepStatus="false">
+                    <p:wizard flowListener="#{accountActivationManagedBean.onFlowProcess}" showStepStatus="false" widgetVar="wizard1">
                         <p:tab id="staffInformation" title="">
                             <p:panel header="Staff Information">
                                 <p:messages id="editInformation"/>
@@ -83,23 +86,37 @@
                                     <p:password style="width:100%;" id="newRepeatPassword" value="#{accountActivationManagedBean.newRepeatPassword}" label="newRepeatPassword" required="true" requiredMessage="Please repeat the new password">
                                     </p:password>
                                 </h:panelGrid>
-                                <p:commandButton id="changePassword" style="margin-left: auto; margin-right: auto" value="Save" actionListener="#{accountActivationManagedBean.changePassword}" update="Msg"/>
-
+<!--                                <p:commandButton id="changePassword" style="margin-left: auto; margin-right: auto" value="Save" actionListener="{accountActivationManagedBean.changePassword}" update="resetPassword" ajax="false"/>-->
 
                             </p:panel>
-
                             
+                        </p:tab>
+                        
+                        <p:tab id="setSecurityAnswer" title="">
+                            <p:panel header="Set Security Question">
+                                
+                                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                                    <h:outputText value="Please input your answer for security question(for user validation in the future)"></h:outputText>
+                                    <br></br>
+                                    
+                                    <p:outputLabel for="securityAnswer" value="What is your favourite color?" />
+                                    <p:inputText style="width:100%;" id="securityAnswer" value="#{accountActivationManagedBean.securityAnswer}" label="answer" required="true" requiredMessage="Please input the answer for security question">
+                                    </p:inputText>
+                                </h:panelGrid>
+                                
+                            </p:panel>
                         </p:tab>
 
                         <p:tab id="confirm" title="">
                             <p:panel header="Activate Account">
 
-                                <h:outputText> You are not at the last step to activate your account! </h:outputText>
+                                <h:outputText> You are now at the last step to activate your account! </h:outputText>
 
                                 <p:commandButton value="Activate" actionListener="#{accountActivationManagedBean.activateAccount()}" update="growl" process="@this" style="margin-right: auto; margin-left: auto;"/>
                             </p:panel>
                         </p:tab>
                     </p:wizard>
+                    
                 </h:form>
 
             </p:layoutUnit>    

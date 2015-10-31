@@ -59,11 +59,11 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
     @Override
     public void intiFFF(FlightEntity flight) {
         flight.setTickets(null);
-        PassengerEntity p1 = new PassengerEntity("li"+flight.getFlightNo(), "hao", "12334441");
-        PassengerEntity p2 = new PassengerEntity("li2"+flight.getFlightNo(), "hao2", "12334442");
-        PassengerEntity p3 = new PassengerEntity("li3"+flight.getFlightNo(), "hao3", "12334443");
-        PassengerEntity p4 = new PassengerEntity("li4"+flight.getFlightNo(), "hao4", "12334444");
-        PassengerEntity p5 = new PassengerEntity("li5"+flight.getFlightNo(), "hao5", "12334445");
+        PassengerEntity p1 = new PassengerEntity("li" + flight.getFlightNo(), "hao", "12334441");
+        PassengerEntity p2 = new PassengerEntity("li2" + flight.getFlightNo(), "hao2", "12334442");
+        PassengerEntity p3 = new PassengerEntity("li3" + flight.getFlightNo(), "hao3", "12334443");
+        PassengerEntity p4 = new PassengerEntity("li4" + flight.getFlightNo(), "hao4", "12334444");
+        PassengerEntity p5 = new PassengerEntity("li5" + flight.getFlightNo(), "hao5", "12334445");
         em.persist(p1);
         em.persist(p2);
         em.persist(p3);
@@ -74,6 +74,21 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
         TicketEntity t3 = new TicketEntity(flight, "First", 1000.0, p3);
         TicketEntity t4 = new TicketEntity(flight, "First", 1000.0, p4);
         TicketEntity t5 = new TicketEntity(flight, "First", 1000.0, p5);
+        t1.setFlightWiFi(Boolean.FALSE);
+        t2.setFlightWiFi(Boolean.FALSE);
+        t3.setFlightWiFi(Boolean.FALSE);
+        t4.setFlightWiFi(Boolean.FALSE);
+        t5.setFlightWiFi(Boolean.FALSE);
+        t1.setPremiumMeal(Boolean.FALSE);
+        t2.setPremiumMeal(Boolean.FALSE);
+        t3.setPremiumMeal(Boolean.FALSE);
+        t4.setPremiumMeal(Boolean.FALSE);
+        t5.setPremiumMeal(Boolean.FALSE);
+        t1.setExclusiveService(Boolean.FALSE);
+        t2.setExclusiveService(Boolean.FALSE);
+        t3.setExclusiveService(Boolean.FALSE);
+        t4.setExclusiveService(Boolean.FALSE);
+        t5.setExclusiveService(Boolean.FALSE);
         em.persist(t1);
         em.persist(t2);
         em.persist(t3);
@@ -87,6 +102,22 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
         newList.add(t5);
         flight.setTickets(newList);
         em.merge(flight);
+    }
+
+    @Override
+    public void update(TicketEntity ticket, Double actualBaggageWeight, Boolean issued) {
+        ticket.setActualBaggageWeight(actualBaggageWeight);
+        ticket.setIssued(issued);
+        em.merge(ticket);
+//        System.out.print(ticket);
+//        System.out.print("shi shi shi");
+    }
+
+    @Override
+    public void update(TicketEntity ticket) {
+        System.out.print(ticket);
+        ticket.setBoarded(Boolean.TRUE);
+        em.merge(ticket);
     }
 
 }

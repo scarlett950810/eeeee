@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="head">
+        <style>
+            #j_idt22 .ui-panelgrid .ui-panelgrid-cell{
+                border: none;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="main">
+        <p:outputLabel value="Congratulations! You Have Successfully Made the Booking" style="margin-top: 7%; font-size: 150%;"></p:outputLabel>
+        
+        <p:panel header="Flight Information" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+            <p:dataTable value="#{customerBookTicketManagedBean.flights}" var="flight" style="border: none;">
+                <p:column headerText="Flight No.">
+                    <h:outputText value="#{flight.flightNo}" />
+                </p:column>
+
+                <p:column headerText="Departure City">
+                    <h:outputText value="#{flight.route.originAirport.cityName} (#{flight.route.originAirport.airportCode})" />
+                </p:column>
+
+                <p:column headerText="Departure Time">
+                    <h:outputText value="#{flight.departureDate}" />
+                </p:column>
+
+                <p:column headerText="Arrival City">
+                    <h:outputText value="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" />
+                </p:column>
+
+                <p:column headerText="Arrival Time">
+                    <h:outputText value="#{flight.arrivalDate}" />
+                </p:column>
+            </p:dataTable>
+            
+            <p:dataTable value="#{customerBookTicketManagedBean.passengers}" var="passenger" style="border: none;">
+                <p:column headerText="Name">
+                    <h:outputText value="#{passenger.title} #{passenger.firstName} #{passenger.lastName}" />
+                </p:column>
+
+                <p:column headerText="Nationality">
+                    <h:outputText value="#{passenger.nationality}" />
+                </p:column>
+
+                <p:column headerText="Passport Number">
+                    <h:outputText value="#{passenger.passportNumber}" />
+                </p:column>
+
+            </p:dataTable>
+            
+            <p:outputLabel value="A confirmation Email has been sent to #{customerBookTicketManagedBean.email}"></p:outputLabel>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

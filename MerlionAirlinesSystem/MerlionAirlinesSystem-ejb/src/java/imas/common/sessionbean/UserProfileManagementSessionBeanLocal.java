@@ -25,5 +25,7 @@ public interface UserProfileManagementSessionBeanLocal {
     void updateWorking(String staffNo);
 
     String getWorkingMessage(String staffNo);
+
+    void setSequrityQuestion(String staffNo, String answer);
     
 }
