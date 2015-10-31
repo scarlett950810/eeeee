@@ -40,11 +40,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.persistence.PostRemove;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperRunManager;
+
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.event.SelectEvent;

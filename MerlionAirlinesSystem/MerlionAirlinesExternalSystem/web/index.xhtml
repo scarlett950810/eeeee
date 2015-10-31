@@ -238,7 +238,7 @@
                 <h:panelGrid columns="2" cellpadding="5">
 
                     <p:outputLabel for="origin" value="From:" />
-                    <p:selectOneMenu id="origin" value="#{customerBookTicketManagedBean.originAirport}" converter="airportConverter"
+                    <p:selectOneMenu id="origin" value="#{customerBookTicketManagedBean.originAirport}" converter="apConverter"
                                      filter="true" filterMatchMode="contains" required="true">
                         <p:ajax listener="#{customerBookTicketManagedBean.onOriginChange}" update="destination" />
                         <f:selectItem itemLabel="Select Origin Airport" itemDisabled="true" />
@@ -246,7 +246,7 @@
                     </p:selectOneMenu>
 
                     <p:outputLabel for="destination" value="To:" />
-                    <p:selectOneMenu id="destination" value="#{customerBookTicketManagedBean.destinationAirport}" converter="airportConverter"
+                    <p:selectOneMenu id="destination" value="#{customerBookTicketManagedBean.destinationAirport}" converter="apConverter"
                                      filter="true" filterMatchMode="contains" required="true">
                         <p:ajax listener="#{customerBookTicketManagedBean.onDestinationChange}" update="destination" />
                         <f:selectItem itemLabel="Select Destination Airport" itemDisabled="true" />

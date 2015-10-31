@@ -676,9 +676,20 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
             c84.setBase(a4);
             c85.setBase(a4);
             c86.setBase(a4);
+            c87.setBase(a4);
+            c88.setBase(a4);
+            c89.setBase(a4);
+            c90.setBase(a4);
+            c91.setBase(a4);
+            c92.setBase(a4);
+            c93.setBase(a4);
+            c94.setBase(a4);
+            c95.setBase(a4);
+            c96.setBase(a4);
             c97.setBase(a4);
             c98.setBase(a4);
             c99.setBase(a4);
+           
             c100.setBase(a8);
 
         }

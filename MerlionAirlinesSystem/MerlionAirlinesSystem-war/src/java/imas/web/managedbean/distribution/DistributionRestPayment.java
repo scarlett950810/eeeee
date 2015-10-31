@@ -69,7 +69,7 @@ public class DistributionRestPayment implements Serializable {
         String clientSecret = "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR";
         System.err.println("test");
 
-        OAuthTokenCredential tokenCredential = Payment.initConfig(new File("/Users/ruicai/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesSystem-war/src/java/imas/web/managedbean/distribution/sdk_config.properties"));
+        OAuthTokenCredential tokenCredential = Payment.initConfig(new File("sdk_config.properties"));
         System.err.println("test");
 //        OAuthTokenCredential tokenCredential
 //                = new OAuthTokenCredential("AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io", "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR");
@@ -91,7 +91,7 @@ public class DistributionRestPayment implements Serializable {
         System.err.println("test2");
         Item item = new Item();
         item.setName("AIRLINE_TICKET");
-        item.setPrice("2");
+        item.setPrice("5000000");
         item.setQuantity("1");
         item.setCurrency("SGD");
         
@@ -125,7 +125,7 @@ public class DistributionRestPayment implements Serializable {
         
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
-//        transaction.setItemList(itemList);
+        transaction.setItemList(itemList);
         transaction.setDescription("This is the payment transaction description.");
         System.err.println("test6");
 
@@ -209,6 +209,7 @@ public class DistributionRestPayment implements Serializable {
         
         Links link = approvalLink.get(1);
         System.err.println("getHref:"+link.getHref());
+        
         
 //        System.err.println("payment created: " + createdPayment);
 //        Map<String, String> sdkConfig = new HashMap<>();

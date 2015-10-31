@@ -6,9 +6,11 @@
 package webservice;
 
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
+import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.RouteEntity;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -46,6 +48,8 @@ public class GenericResource {
     @EJB
     FlightLookupSessionBeanLocal flightLookup;
     
+   
+    
     @Context
     private UriInfo context;
     
@@ -58,7 +62,7 @@ public class GenericResource {
     @GET
     @Path(value = "getOneWayFlightsByRouteDate")
     @Produces("application/json")
-    public List<FlightEntity> getOneWayFlightsByRouteDate(@QueryParam("origin") String origin, @QueryParam("destination") String destination,@QueryParam("departureD") String departureD) throws ParseException 
+    public List<TicketFlightEntity> getOneWayFlightsByRouteDate(@QueryParam("origin") String origin, @QueryParam("destination") String destination,@QueryParam("departureD") String departureD,@QueryParam("bcName") String bcName) throws ParseException 
     {
         System.err.println("Server running: getOneWayflightsby route and date execute");
         System.err.println("destination"+destination +"origin"+origin+"departure"+departureD);
@@ -90,16 +94,53 @@ public class GenericResource {
         
         flights = flightLookup.getAvailableFlights(route, depD, highB);
         System.err.println("flights"+flights);
-        List<FlightEntity> test = new ArrayList<FlightEntity>();
+         SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("d MMM yyyy HH:mm");
+         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("EEE MMM d yyyy");
+         SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("h:mm a");
+         
+        List<TicketFlightEntity> test = new ArrayList<>();
         for(FlightEntity f: flights){
-            FlightEntity f1 = new FlightEntity();
+            List<BookingClassEntity> bcs = new ArrayList<>();
+            if(!bcName.equals("All Classes")){
+             bcs = flightLookup.getAvailableBookingClassUnderFlightUnderSeatClass(f, bcName, 1);
+            }else{
+                List<BookingClassEntity> bcs1 = flightLookup.getAvailableBookingClassUnderFlightUnderSeatClass(f, "First Class", 1);
+                List<BookingClassEntity> bcs2 = flightLookup.getAvailableBookingClassUnderFlightUnderSeatClass(f, "Business Class", 1);
+                List<BookingClassEntity> bcs3 = flightLookup.getAvailableBookingClassUnderFlightUnderSeatClass(f, "Premium Economy Class", 1);
+                List<BookingClassEntity> bcs4 = flightLookup.getAvailableBookingClassUnderFlightUnderSeatClass(f, "Economy Class", 1);
+                bcs = bcs1;
+                bcs.addAll(bcs2);
+                bcs.addAll(bcs3);
+                bcs.addAll(bcs4);
+            }
+            for(BookingClassEntity bc: bcs){
+            TicketFlightEntity f1 = new TicketFlightEntity();
             f1.setId(f.getId());
             f1.setFlightNo(f.getFlightNo());
-            f1.setDepartureDate(f.getDepartureDate());
-            f1.setArrivalDate(f.getArrivalDate());
-            
+            f1.setDepartureDate(simpleDateFormat1.format(f.getDepartureDate()));
+            f1.setArrivalDate(simpleDateFormat1.format(f.getArrivalDate()));
+             DecimalFormat df = new DecimalFormat("0.0");
+             
+            f1.setPrice(bc.getPrice());
+            f1.setBookingClassName(bc.getSeatClass());
+            f1.setOrigin(origin);
+            f1.setDestination(destination);
+            f1.setOriAirportName(originA.getAirportName());
+            f1.setOriAirportCode(originA.getAirportCode());
+            f1.setDesAirportName(destinationA.getAirportName());
+            f1.setDesAirportCode(destinationA.getAirportCode());
+            f1.setAircraftTailN(f.getAircraft().getAircraftType().getIATACode());
+            f1.setDepDayWE(simpleDateFormat2.format(f.getDepartureDate()));
+            f1.setDepTimeE(simpleDateFormat3.format(f.getDepartureDate()));
+            f1.setAriDayWE(simpleDateFormat2.format(f.getArrivalDate()));
+            f1.setAriTimeE(simpleDateFormat3.format(f.getArrivalDate()));
+            long diff = f.getArrivalDate().getTime() - f.getDepartureDate().getTime();
+            double diff1 = diff / (60 * 60 * 1000) % 24;
+ 
+            String timeD = df.format(diff1);
+            f1.setTimeDuration(timeD);
             test.add(f1);
-            
+            }
         }
         
         
