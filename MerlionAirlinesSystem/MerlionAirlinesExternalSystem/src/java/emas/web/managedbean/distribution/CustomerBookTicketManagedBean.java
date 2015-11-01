@@ -1052,6 +1052,16 @@ public class CustomerBookTicketManagedBean implements Serializable {
         tab2Disabled = false;
         FacesContext.getCurrentInstance().getExternalContext().redirect("./distribution/selectFlight.xhtml");
     }
+    
+//    public void searchFromModifyBooking() throws IOException{
+//        initSelectFlight();
+//        init7DayPricing();
+//        activeIndex = 0;
+//        tab1Disabled = false;
+//        tab2Disabled = true;
+//        tab3Disabled = true;
+//        FacesContext.getCurrentInstance().getExternalContext().redirect("./distribution/selectFlight.xhtml");
+//    }
 
     public void initSelectFlight() {
 
