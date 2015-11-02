@@ -5,12 +5,15 @@
  */
 package imas.crm.entity;
 
+import imas.distribution.entity.TicketEntity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
@@ -23,19 +26,25 @@ public class MemberEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    String lastName;
-    String firstName;
-    String title;
+    private String memberID;
+    private String lastName;
+    private String firstName;
+    private String title;
     @Temporal(javax.persistence.TemporalType.DATE)
-    Date birthDate;
-    String gender;
-    String nationality;
-    String email;
-    String pinNumber;
-    Double mileage;
-    String securityQuestion;
-    String answer;
-    String contactNumber;
+    private Date birthDate;
+    private String gender;
+    private String nationality;
+    private String email;
+    private String pinNumber;
+    private Double mileage;
+    private Integer sequrityQuestionIndex;
+    private String sequrityQuestionanswer;
+    private String contactNumber;
+    private String token;
+    private Boolean activationStatus;
+    
+    @OneToMany
+    private List<TicketEntity> ticketList;
 
     public Long getId() {
         return id;
@@ -146,20 +155,12 @@ public class MemberEntity implements Serializable {
         this.mileage = mileage;
     }
 
-    public String getSecurityQuestion() {
-        return securityQuestion;
+    public String getSequrityQuestionanswer() {
+        return sequrityQuestionanswer;
     }
 
-    public void setSecurityQuestion(String securityQuestion) {
-        this.securityQuestion = securityQuestion;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setSequrityQuestionanswer(String sequrityQuestionanswer) {
+        this.sequrityQuestionanswer = sequrityQuestionanswer;
     }
 
     public String getContactNumber() {
@@ -168,6 +169,46 @@ public class MemberEntity implements Serializable {
 
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
+    }
+
+    public List<TicketEntity> getTicketList() {
+        return ticketList;
+    }
+
+    public void setTicketList(List<TicketEntity> ticketList) {
+        this.ticketList = ticketList;
+    }
+
+    public Integer getSequrityQuestionIndex() {
+        return sequrityQuestionIndex;
+    }
+
+    public void setSequrityQuestionIndex(Integer sequrityQuestionIndex) {
+        this.sequrityQuestionIndex = sequrityQuestionIndex;
+    }
+
+    public String getMemberID() {
+        return memberID;
+    }
+
+    public void setMemberID(String memberID) {
+        this.memberID = memberID;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Boolean getActivationStatus() {
+        return activationStatus;
+    }
+
+    public void setActivationStatus(Boolean activationStatus) {
+        this.activationStatus = activationStatus;
     }
     
 }

@@ -6,9 +6,11 @@
 package imas.crm.sessionbean;
 
 import imas.crm.entity.MemberEntity;
+import imas.utility.sessionbean.EmailManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,7 +29,13 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
     
     @Override
     public void createCustomer(MemberEntity newCustomer) {
+        String token = UUID.randomUUID().toString();
+        token = token.replaceAll("-", "").substring(0, 8);
+        newCustomer.setToken(token);
         em.persist(newCustomer);
+        EmailManager.runMemberActivationEmail(newCustomer.getEmail(), newCustomer.getTitle()+ " "+ newCustomer.getFirstName() + " " + 
+                newCustomer.getLastName(), "https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberActivation.xhtml?token="+token);
+        EmailManager.run(newCustomer.getEmail(), "Welcome to MerFlion | Fly more with Merlion and get more benefits", "");
     }
 
     // Add business logic below. (Right-click in editor and choose
@@ -63,7 +71,7 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
     }
 
     @Override
-    public void updateCustomer(String title, String lastName, String firstName, String email, String gender, String nationality, String securityQuestion, String answer, Date birthdate, String contactNumber) {
+    public void updateCustomer(String title, String lastName, String firstName, String email, String gender, String nationality, int securityQuestionIndex, String answer, Date birthdate, String contactNumber) {
         Query query = em.createQuery("SELECT a FROM MemberEntity a WHERE a.email = :email");
         query.setParameter("email", email);
         MemberEntity member = new MemberEntity();
@@ -76,8 +84,8 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
             
             member.setGender(gender);
             member.setNationality(nationality);
-            member.setSecurityQuestion(securityQuestion);
-            member.setAnswer(answer);
+            member.setSequrityQuestionIndex(securityQuestionIndex);
+            member.setSequrityQuestionanswer(answer);
             member.setBirthDate(birthdate);
         
             member.setContactNumber(contactNumber);

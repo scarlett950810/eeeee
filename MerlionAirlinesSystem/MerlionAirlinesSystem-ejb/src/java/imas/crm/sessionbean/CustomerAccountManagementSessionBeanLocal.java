@@ -22,6 +22,6 @@ public interface CustomerAccountManagementSessionBeanLocal {
 
     Boolean checkValidity(String email, String pin);
 
-    void updateCustomer(String title, String lastName, String firstName, String email, String gender, String nationality, String securityQuestion, String answer, Date birthdate, String contactNumber);
+    void updateCustomer(String title, String lastName, String firstName, String email, String gender, String nationality, int securityQuestion, String answer, Date birthdate, String contactNumber);
     
 }
