@@ -91,6 +91,39 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
             member.setContactNumber(contactNumber);
         
     }
+
+    @Override
+    public boolean checkSequrityAnswer(int questionIndex, String answer, String memberID) {
+        Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
+        query.setParameter("memberID", memberID);
+        
+        List<MemberEntity> members = (List<MemberEntity>)query.getResultList();
+        if(members.isEmpty()){
+            return false;
+        }else{
+            MemberEntity member = members.get(0);
+            if(member.getSequrityQuestionIndex()== questionIndex && member.getSequrityQuestionanswer().toLowerCase().equals(answer.toLowerCase())){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public void resetPIN(String memberID, String newPIN) {
+        Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
+        query.setParameter("memberID", memberID);
+        
+        List<MemberEntity> members = (List<MemberEntity>)query.getResultList();
+        if(members.isEmpty()){
+            System.out.print("This member does not exist");
+        }else{
+            MemberEntity member = members.get(0);
+            member.setPinNumber(newPIN);
+            System.out.print(newPIN);
+        }
+    }
     
     
     

@@ -86,9 +86,18 @@
                 <p:panelGrid columns="3"  layout="grid">
                     
                     <h:outputText value="Create 6-character PIN" />   
-                    <p:password style="width: 50%" id="pin" value="#{addMemberAccountManagedBean.pin}" label="pin" requiredMessage="Please enter your PIN"/><br/><br/>                
+                    <p:password style="width: 50%" id="pin" value="#{addMemberAccountManagedBean.pin}" label="pin" requiredMessage="Please enter your PIN">
+                        <f:validateLength minimum="6" />
+                    </p:password>
+                    
+                    <br/><br/>                
+                    
                     <h:outputText value="Confirm 6-character PIN" />                
-                    <p:password style="width: 50%" id="confirmPin" value="#{addMemberAccountManagedBean.confirmPin}" label="confirmPin" requiredMessage="Please confirm your PIN"/><br/>
+                    <p:password style="width: 50%" id="confirmPin" value="#{addMemberAccountManagedBean.confirmPin}" label="confirmPin" requiredMessage="Please confirm your PIN">
+                        <f:validateLength minimum="6" />
+                    </p:password>
+                    
+                    <br/>
 
                     <h:outputText value="Security question"/>
                     <p:selectOneMenu value="#{addMemberAccountManagedBean.securityQuestionIndex}" style="width: 50%" required="true" label="securityQuestion">
