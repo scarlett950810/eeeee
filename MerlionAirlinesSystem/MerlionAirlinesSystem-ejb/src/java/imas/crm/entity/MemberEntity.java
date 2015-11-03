@@ -34,7 +34,11 @@ public class MemberEntity implements Serializable {
     private Date birthDate;
     private String gender;
     private String nationality;
+    private String passportNumber;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date passportExpiryDate;
     private String email;
+    private String address;
     private String pinNumber;
     private Double mileage;
     private Integer sequrityQuestionIndex;
@@ -210,5 +214,28 @@ public class MemberEntity implements Serializable {
     public void setActivationStatus(Boolean activationStatus) {
         this.activationStatus = activationStatus;
     }
-    
+
+    public String getPassportNumber() {
+        return passportNumber;
+    }
+
+    public void setPassportNumber(String passportNumber) {
+        this.passportNumber = passportNumber;
+    }
+
+    public Date getPassportExpiryDate() {
+        return passportExpiryDate;
+    }
+
+    public void setPassportExpiryDate(Date passportExpiryDate) {
+        this.passportExpiryDate = passportExpiryDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
