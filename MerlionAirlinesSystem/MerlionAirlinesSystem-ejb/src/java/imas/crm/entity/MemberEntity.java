@@ -79,7 +79,7 @@ public class MemberEntity implements Serializable {
     }
 
     public MemberEntity(){
-        
+        this.mileage = 0.0;
     }
     
     @Override

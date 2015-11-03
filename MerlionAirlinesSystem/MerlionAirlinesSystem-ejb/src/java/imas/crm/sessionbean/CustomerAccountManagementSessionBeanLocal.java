@@ -20,7 +20,7 @@ public interface CustomerAccountManagementSessionBeanLocal {
 
     Boolean checkDuplicateAccount(String email);
 
-    Boolean checkValidity(String email, String pin);
+    MemberEntity checkValidity(String memberID, String pin);
 
     void updateCustomer(String title, String lastName, String firstName, String email, String gender, String nationality, int securityQuestion, String answer, Date birthdate, String contactNumber);
 

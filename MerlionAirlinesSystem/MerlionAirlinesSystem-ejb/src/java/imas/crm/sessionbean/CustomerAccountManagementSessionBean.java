@@ -22,52 +22,48 @@ import javax.persistence.Query;
  */
 @Stateless
 public class CustomerAccountManagementSessionBean implements CustomerAccountManagementSessionBeanLocal {
+
     @PersistenceContext
     private EntityManager em;
-    
-    
-    
+
     @Override
     public void createCustomer(MemberEntity newCustomer) {
         String token = UUID.randomUUID().toString();
         token = token.replaceAll("-", "").substring(0, 8);
         newCustomer.setToken(token);
         em.persist(newCustomer);
-        EmailManager.runMemberActivationEmail(newCustomer.getEmail(), newCustomer.getTitle()+ " "+ newCustomer.getFirstName() + " " + 
-                newCustomer.getLastName(), "https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberActivation.xhtml?token="+token);
+        EmailManager.runMemberActivationEmail(newCustomer.getEmail(), newCustomer.getTitle() + " " + newCustomer.getFirstName() + " "
+                + newCustomer.getLastName(), "https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberActivation.xhtml?token=" + token);
         EmailManager.run(newCustomer.getEmail(), "Welcome to MerFlion | Fly more with Merlion and get more benefits", "");
     }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
     @Override
     public Boolean checkDuplicateAccount(String email) {
         return true;
     }
 
     @Override
-    public Boolean checkValidity(String email, String pin) {
-        System.err.println("ENTER"+email+pin);
-        Query query = em.createQuery("SELECT a FROM MemberEntity a WHERE a.email = :email");
-        query.setParameter("email", email);
+    public MemberEntity checkValidity(String memberID, String pin) {
+
+        Query query = em.createQuery("SELECT a FROM MemberEntity a WHERE a.memberID = :memberID");
+        query.setParameter("memberID", memberID);
         MemberEntity member = new MemberEntity();
         List<MemberEntity> memberList = new ArrayList<>();
         memberList = query.getResultList();
-        
-        
-        System.err.println("Enter method"+memberList.size());
-        if(memberList.isEmpty()) return false;
-        member = memberList.get(0);
-        
-        System.err.println("email"+member.getEmail());
-        System.err.println("password"+member.getPinNumber());
-        String correctPin = member.getPinNumber();
-        if(pin.equals(correctPin)){
-            System.err.println("pin and email matches");
-            return true;
+
+        if (memberList.isEmpty()) {
+            return null;
+        } else {
+            member = memberList.get(0);
+            String correctPin = member.getPinNumber();
+            if (pin.equals(correctPin)) {
+                return member;
+            } else {
+                return null;
+            }
         }
-        return false;        
     }
 
     @Override
@@ -77,54 +73,54 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
         MemberEntity member = new MemberEntity();
         List<MemberEntity> memberList = new ArrayList<>();
         memberList = query.getResultList();
-         member = memberList.get(0);
-         member.setTitle(title);
-            member.setLastName(lastName);
-            member.setFirstName(firstName);
-            
-            member.setGender(gender);
-            member.setNationality(nationality);
-            member.setSequrityQuestionIndex(securityQuestionIndex);
-            member.setSequrityQuestionanswer(answer);
-            member.setBirthDate(birthdate);
-        
-            member.setContactNumber(contactNumber);
-        
+        member = memberList.get(0);
+        member.setTitle(title);
+        member.setLastName(lastName);
+        member.setFirstName(firstName);
+
+        member.setGender(gender);
+        member.setNationality(nationality);
+        member.setSequrityQuestionIndex(securityQuestionIndex);
+        member.setSequrityQuestionanswer(answer);
+        member.setBirthDate(birthdate);
+
+        member.setContactNumber(contactNumber);
+
     }
 
     @Override
-    public boolean checkSequrityAnswer(int questionIndex, String answer, String memberID) {
+    public boolean checkSequrityAnswer(int questionIndex, String answer, String memberID
+    ) {
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
-        
-        List<MemberEntity> members = (List<MemberEntity>)query.getResultList();
-        if(members.isEmpty()){
+
+        List<MemberEntity> members = (List<MemberEntity>) query.getResultList();
+        if (members.isEmpty()) {
             return false;
-        }else{
+        } else {
             MemberEntity member = members.get(0);
-            if(member.getSequrityQuestionIndex()== questionIndex && member.getSequrityQuestionanswer().toLowerCase().equals(answer.toLowerCase())){
+            if (member.getSequrityQuestionIndex() == questionIndex && member.getSequrityQuestionanswer().toLowerCase().equals(answer.toLowerCase())) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
     }
 
     @Override
-    public void resetPIN(String memberID, String newPIN) {
+    public void resetPIN(String memberID, String newPIN
+    ) {
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
-        
-        List<MemberEntity> members = (List<MemberEntity>)query.getResultList();
-        if(members.isEmpty()){
+
+        List<MemberEntity> members = (List<MemberEntity>) query.getResultList();
+        if (members.isEmpty()) {
             System.out.print("This member does not exist");
-        }else{
+        } else {
             MemberEntity member = members.get(0);
             member.setPinNumber(newPIN);
             System.out.print(newPIN);
         }
     }
-    
-    
-    
+
 }
