@@ -174,6 +174,7 @@ public class SystemAdminDashBoardManagedBean implements Serializable {
         profitMarginSeries.setLabel("Profit Margin");
 
         List<RouteEntity> routeList = routeSession.retrieveAllRoutes();
+        int count = 1;
         for (RouteEntity route : routeList) {
 
             String routeName = route.getRouteName();
@@ -183,19 +184,23 @@ public class SystemAdminDashBoardManagedBean implements Serializable {
             
             // fill in randon data
             // to be removed later
+            /*
             Random random = new Random();
-            double totalFlightNo = ((allToDate.getTime() - allFromDate.getTime()) / (60 * 60 * 1000 * 24 * (0.5 + random.nextDouble())));
-            double totalSeatNo = 20 * (1.5 + 2 * random.nextDouble());
+            double totalFlightNo = ((allToDate.getTime() - allFromDate.getTime()) / (60 * 60 * 1000 * 24 * (0.9 + 0.2 * random.nextDouble())));
+            double totalSeatNo = 5 * (1.5 + 0.5 * random.nextDouble()) + 15;
             cost = costManagementSessionBean.getCostPerSeatPerMile(route) * route.getDistance() * totalFlightNo * totalSeatNo;
             revenue = (0.5 + random.nextDouble()) * 3 * cost;
+                    */
             // random numerb end
 
             
             double pm = (revenue - cost) / revenue;
-            allByRoutePieModel.set(routeName, revenue);
-            revenueSeries.set(routeName, revenue);
-            costSeries.set(routeName, cost);
-            profitMarginSeries.set(routeName, pm);
+            allByRoutePieModel.set(count + " " + routeName, revenue);
+            revenueSeries.set(count, revenue);
+            costSeries.set(count, cost);
+            profitMarginSeries.set(count, pm);
+            
+            count++;
         }
         
         allDetailsByRouteCombinedModel.addSeries(revenueSeries);

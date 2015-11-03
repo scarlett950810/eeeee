@@ -7,6 +7,7 @@ package imas.web.managedbean.common;
 
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.AccountManagementSessionBeanLocal;
+import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,6 +36,8 @@ public class PasswordResetManagedBean implements Serializable{
     private String newPassword;
     private String repeatNewPassword;
     private StaffEntity staff;
+    private boolean resetPassed;
+    private int questionIndex;
     
     /**
      * Creates a new instance of PasswordResetManagedBean
@@ -43,22 +46,23 @@ public class PasswordResetManagedBean implements Serializable{
         
     }
 
-    @PostConstruct
-    public void init() {
+    public void checkUser() throws IOException{
         HttpServletRequest req = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         token = req.getParameter("token");
         System.out.println(token);
         staff = accountManagementSessionBean.getStaffBasedOnToken(token);
         if(staff == null){
-            System.out.print("Staff in null");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("noAccessErrorPage");
         }
         questionPassed = false;
-
+        resetPassed = false;
+        staffNo = staff.getStaffNo();
     }
     
     public void resetPassword(){
         if(newPassword.equals(repeatNewPassword)){
             accountManagementSessionBean.resetStaffPassword(newPassword);
+            resetPassed = true;
         }else{
             FacesMessage msg = new FacesMessage("Sorry", "Please repeat your new password again");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -66,9 +70,14 @@ public class PasswordResetManagedBean implements Serializable{
     }
     
     public void answerSequrityQuestion(){
-        boolean answerCorrect = accountManagementSessionBean.checkSecurityAnswer(staffNo, token);
+        boolean answerCorrect = accountManagementSessionBean.checkSecurityAnswer(staffNo, securityAnswer, questionIndex);
         if(answerCorrect){
             questionPassed = true;
+        }else{
+            FacesMessage msg = new FacesMessage("Sorry, your security answer is incorrect", "Your security answer is incorrect");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            questionPassed = false;
+            System.out.print(questionPassed);
         }
     }
     
@@ -118,6 +127,30 @@ public class PasswordResetManagedBean implements Serializable{
 
     public void setRepeatNewPassword(String repeatNewPassword) {
         this.repeatNewPassword = repeatNewPassword;
+    }
+
+    public StaffEntity getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffEntity staff) {
+        this.staff = staff;
+    }
+
+    public boolean isResetPassed() {
+        return resetPassed;
+    }
+
+    public void setResetPassed(boolean resetPassed) {
+        this.resetPassed = resetPassed;
+    }
+
+    public int getQuestionIndex() {
+        return questionIndex;
+    }
+
+    public void setQuestionIndex(int questionIndex) {
+        this.questionIndex = questionIndex;
     }
     
     

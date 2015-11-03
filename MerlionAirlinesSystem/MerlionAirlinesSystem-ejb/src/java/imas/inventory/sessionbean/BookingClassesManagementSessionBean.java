@@ -302,7 +302,7 @@ public class BookingClassesManagementSessionBean implements BookingClassesManage
         Double costPerSeatPerMile = costSessionBean.getCostPerSeatPerMile(flight.getRoute());
         System.out.println("costPerSeatPerMile = " + costPerSeatPerMile);
         FlightEntity flightManaged = entityManager.find(FlightEntity.class, flight.getId());
-//        flightManaged.setCostPerSeatPerMile(costPerSeatPerMile);
+        flightManaged.setCostPerSeatPerMile(costPerSeatPerMile);
 //        System.out.println("costSessionBean.getCostPerSeatPerMile(flight.getRoute()) = " + costSessionBean.getCostPerSeatPerMile(flight.getRoute()));
         Double distance = flight.getRoute().getDistance();
         System.out.println("distance = " + distance);

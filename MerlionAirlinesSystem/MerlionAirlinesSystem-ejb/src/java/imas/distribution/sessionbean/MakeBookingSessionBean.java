@@ -13,6 +13,7 @@ import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
 import imas.planning.entity.SeatEntity;
+import imas.utility.sessionbean.EmailManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -63,51 +64,53 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
         PNR.setTotalPrice(totalPrice);
         PNR.setStatus(status);
 
-        System.out.print(referenceNumber);
-        System.out.print(passengers);
-        System.out.print(title);
-        System.out.print(firstName);
-        System.out.print(lastName);
-        System.out.print(email);
-        System.out.print(contactNumber);
-        System.out.print(address);
-        System.out.print(city);
-        System.out.print(country);
-        System.out.print(status);
-
         entityManager.persist(PNR);
-        System.out.print("13");
+
+        String flight = "";
+        for (int i = 0; i < flights.size(); i++) {
+            FlightEntity flightEntity = flights.get(i);
+            flight = flight + "<tr><td>" + flightEntity.getFlightNo() + "</td><td>" + flightEntity.getRoute().getOriginAirport().getCityName() + "," + flightEntity.getRoute().getOriginAirport().getAirportCode()
+                    + "</td><td>" + flightEntity.getDepartureDate() + "</td><td>" + flightEntity.getRoute().getDestinationAirport().getCityName() + "," + flightEntity.getRoute().getDestinationAirport().getAirportCode() + "</td><td>" 
+                    + flightEntity.getArrivalDate() + "</td></tr>";
+
+        }
+        
+        String passenger = "";
+        for(int j=0; j<passengers.size(); j++){
+            PassengerEntity passengerEntity = passengers.get(j);
+            passenger = passenger + "<tr><td>" + passengerEntity.getTitle() + " " + passengerEntity.getFirstName() + " " + passengerEntity.getLastName() + "</td><td>" 
+                    + passengerEntity.getPassportNumber() + "</td><td>" + passengerEntity.getNationality() + "</td></tr>";
+        }
+        
+        EmailManager.runBookingConfirmation(email, "Merlion Airlines|Itineary for your upcoming flight", flight, passenger, referenceNumber);
 
         return referenceNumber;
     }
-
-    
 
     @Override
     public List<TicketEntity> retrieveCheckInTicket(String passportNumber, String referenceNumber) {
         Query query = entityManager.createQuery("SELECT t FROM TicketEntity t where t.referenceNumber = :referenceNumber AND t.passenger.passportNumber = :passportNumber");
         query.setParameter("referenceNumber", referenceNumber);
         query.setParameter("passportNumber", passportNumber);
-        
-        List<TicketEntity> tickets = (List<TicketEntity>)query.getResultList();
+
+        List<TicketEntity> tickets = (List<TicketEntity>) query.getResultList();
         TicketEntity ticket;
         int flag;
         Date currentDate = new Date();
-        
-        for(int i=0; i<tickets.size(); i++){
+
+        for (int i = 0; i < tickets.size(); i++) {
             ticket = tickets.get(i);
-            
-            if(ticket.getFlight().getDepartureDate().before(currentDate)){
+
+            if (ticket.getFlight().getDepartureDate().before(currentDate)) {
                 tickets.remove(ticket);
-            }else{
-                if(currentDate.getTime() - ticket.getFlight().getDepartureDate().getTime() > 259200000){
+            } else {
+                if (currentDate.getTime() - ticket.getFlight().getDepartureDate().getTime() > 259200000) {
                     tickets.remove(ticket);
                 }
             }
         }
-        
+
         return tickets;
     }
 
-    
 }

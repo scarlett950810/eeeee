@@ -38,6 +38,12 @@ public class ModifyBookingManagedBean {
     private TicketEntity ticket;
     private List<TicketEntity> tickets;
     private String passportNumber;
+    private double extraBaggageWeight;
+    private boolean premiumMeal;
+    private boolean insurance;
+    private boolean exclusiveService;
+    private boolean flightWifi;
+    private double extraPrice;
 
     /**
      * Creates a new instance of ModifyBookingManagedBean
@@ -61,19 +67,33 @@ public class ModifyBookingManagedBean {
     }
 
     public void upgradePremiumService(){
-        System.out.print(ticket.getBaggageWeight()+","+ticket.getExclusiveService()+","+ticket.getFlightWiFi()+","+ticket.getInsurance()+","+ticket.getPremiumMeal());
+        System.out.print(extraBaggageWeight + "," + premiumMeal + "," + insurance + "," + exclusiveService + "," + flightWifi);
     }
     
-    public void completeModifyBooking() {
+    public void completeModifyBooking() throws IOException {
+        ticket.setBaggageWeight(extraBaggageWeight);
+        ticket.setPremiumMeal(premiumMeal);
+        ticket.setInsurance(insurance);
+        ticket.setExclusiveService(exclusiveService);
+        ticket.setFlightWiFi(flightWifi);
+        
         modifyBookingSessionBean.flushModification(ticket);
         referenceNumber = null;
         passportNumber = null;
         flight = null;
         tickets = null;
         ticket = null;
+        FacesContext.getCurrentInstance().getExternalContext().redirect("https://localhost:8181/MerlionAirlinesExternalSystem/index.xhtml");
     }
 
     public void startModifyBooking() throws IOException {
+        extraBaggageWeight = ticket.getBaggageWeight();
+        premiumMeal = ticket.getPremiumMeal();
+        insurance = ticket.getInsurance();
+        exclusiveService = ticket.getExclusiveService();
+        flightWifi = ticket.getFlightWiFi();
+        System.out.print(extraBaggageWeight + "," + premiumMeal + "," + insurance + "," + exclusiveService + "," + flightWifi);
+    
         FacesContext.getCurrentInstance().getExternalContext().redirect("modifyBooking.xhtml");
 
     }
@@ -118,4 +138,51 @@ public class ModifyBookingManagedBean {
         this.passportNumber = passportNumber;
     }
 
+    public double getExtraBaggageWeight() {
+        return extraBaggageWeight;
+    }
+
+    public void setExtraBaggageWeight(double extraBaggageWeight) {
+        this.extraBaggageWeight = extraBaggageWeight;
+    }
+
+    public boolean isPremiumMeal() {
+        return premiumMeal;
+    }
+
+    public void setPremiumMeal(boolean premiumMeal) {
+        this.premiumMeal = premiumMeal;
+    }
+
+    public boolean isInsurance() {
+        return insurance;
+    }
+
+    public void setInsurance(boolean insurance) {
+        this.insurance = insurance;
+    }
+
+    public boolean isExclusiveService() {
+        return exclusiveService;
+    }
+
+    public void setExclusiveService(boolean exclusiveService) {
+        this.exclusiveService = exclusiveService;
+    }
+
+    public boolean isFlightWifi() {
+        return flightWifi;
+    }
+
+    public void setFlightWifi(boolean flightWifi) {
+        this.flightWifi = flightWifi;
+    }
+
+    public double getExtraPrice() {
+        return extraPrice;
+    }
+
+    public void setExtraPrice(double extraPrice) {
+        this.extraPrice = extraPrice;
+    }
 }

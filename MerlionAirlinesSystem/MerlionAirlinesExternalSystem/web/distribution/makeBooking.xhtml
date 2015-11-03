@@ -70,7 +70,42 @@
             <p:outputLabel value="(Includes taxes and surcharges)" />
         </p:panel>
 
-        <h:form id="makeBooking" target="_blank">
+        <p:panel visible="#{!externalLoginManagedBean.login}">
+            <p:outputLabel value="Log in as a Merflion member to redeem your mileage"></p:outputLabel>
+            <br></br>
+            <p:growl id="loginStatus"></p:growl>
+            <h:form style="text-align: center">
+                <p:panelGrid columns="2">
+                    <h:outputText value="Member ID: " />
+                    <p:inputText value="#{externalLoginManagedBean.memberID}" rendered="true" required="Please enter member ID"></p:inputText>
+
+                    <h:outputText value="PIN: " />
+                    <p:inputText value="#{externalLoginManagedBean.pin}" rendered="true" required="Please enter PIN"></p:inputText>
+
+                </p:panelGrid>
+                <br></br>
+
+                <p:commandButton value="Log In" actionListener="#{externalLoginManagedBean.doLogin}" style="width: 50%" update="loginStatus"></p:commandButton>
+            </h:form>
+
+        </p:panel>
+
+        <p:panel visible="#{externalLoginManagedBean.login}">
+            <p:outputLabel value="Merlion Member: #{externalLoginManagedBean.member.title} #{externalLoginManagedBean.member.firstName} #{externalLoginManagedBean.member.lastName}"></p:outputLabel>
+            <br></br>
+
+            <h:outputText value="Mileage: #{externalLoginManagedBean.member.mileage}"></h:outputText>
+            <br></br>
+            <br></br>
+
+            <h:outputText value="You can redeem the following benefits with your mileage:"></h:outputText>
+<!--            <p:selectOneRadio value="{radioView.city}"  layout="pageDirection">
+                <f:selectItem value="{radioView.cities}" itemLabel="{city}" itemValue="{city}"/>
+            </p:selectOneRadio>-->
+
+        </p:panel>
+
+        <h:form id="makeBooking">
 
             <p:growl id="growl" sticky="true" showDetail="true"/>
 
@@ -245,7 +280,7 @@
                     <p:panel header="Payment Details">
 
                         <h:panelGrid columns="2" columnClasses="label, value">
-                            <p:commandButton value="Confirm"  onclick="Redirect();"></p:commandButton>
+                            <p:commandButton value="Proceed to payment"  onclick="Redirect();"></p:commandButton>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>

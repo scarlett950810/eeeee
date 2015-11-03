@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="head">
+        <style>
+            .ui-panelgrid .ui-panelgrid-cell{
+                border: none;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="main">
+        <h:form>
+            <p:growl id="status"></p:growl>
+            <p:panel header="Reset your PIN" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="MerFlion Membership Number"></p:outputLabel>
+                    <p:inputText value="#{resetPINManagedBean.memberID}" rendered="true" requiredMessage="Please input your Merflion membership number"></p:inputText>
+
+                    <p:outputLabel value="Please answer the security question"></p:outputLabel>
+                    <p:selectOneMenu value="#{resetPINManagedBean.securityQuestionIndex}" style="width: 100%" required="true" label="securityQuestion">
+                        <f:selectItem itemLabel="Select security question" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="In what city were you born?" itemValue="0" />
+                        <f:selectItem itemLabel="What is the name of your first pet?" itemValue="1" />
+                        <f:selectItem itemLabel="What is your mother's name or maiden name?" itemValue="2" />
+                        <f:selectItem itemLabel="What is your father's name or middle name?" itemValue="3" />
+                        <f:selectItem itemLabel="What is your favorite color?" itemValue="4" />
+                        <f:selectItem itemLabel="What is the brand of your first car?" itemValue="5" />
+                    </p:selectOneMenu>
+
+                    <br></br>
+                    <p:inputText value="#{resetPINManagedBean.securityAnswer}" rendered="true" requiredMessage="Please answer the scurity question"></p:inputText>
+                </p:panelGrid>
+
+                <p:commandButton value="Submit" actionListener="#{resetPINManagedBean.checkSequrityAnswer}" update="resetPIN, status"></p:commandButton>
+
+                <p:panel id="resetPIN" visible="#{resetPINManagedBean.questionPassed}">
+                    
+
+                    <p:outputLabel for="password1" value="Please input your new PIN">
+                    </p:outputLabel>
+
+                    <p:inputText id="password1" value="#{resetPINManagedBean.password}" rendered="true">
+                       
+                    </p:inputText>
+                    
+
+                    <p:outputLabel for="password2" value="Please repeat your new PIN"></p:outputLabel>
+                    <p:inputText id="password2" value="#{resetPINManagedBean.repeatPassword}" rendered="true">
+                        
+                    </p:inputText>
+                    
+                    
+                    <p:commandButton value="Confirm" actionListener="#{resetPINManagedBean.resetPIN}" update="status"></p:commandButton>
+                </p:panel>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -43,6 +43,7 @@ public class AccountActivationManagedBean implements Serializable {
     private String newRepeatPassword;
     private String securityAnswer;
     private boolean passwordReset = true;
+    private int questionIndex;
 
     public AccountActivationManagedBean() {
     }
@@ -76,7 +77,7 @@ public class AccountActivationManagedBean implements Serializable {
         if (event.getOldStep().equals("resetPassword")) {
             changePassword();
         }else if(event.getOldStep().equals("setSecurityAnswer")){
-            userProfileManagementSessionBean.setSequrityQuestion(staffNo, securityAnswer);
+            userProfileManagementSessionBean.setSequrityQuestion(staffNo, securityAnswer, questionIndex);
         }
 
         return event.getNewStep();
@@ -155,6 +156,14 @@ public class AccountActivationManagedBean implements Serializable {
         this.securityAnswer = securityAnswer;
     }
 
+    public int getQuestionIndex() {
+        return questionIndex;
+    }
+
+    public void setQuestionIndex(int questionIndex) {
+        this.questionIndex = questionIndex;
+    }
+    
     public void changePassword() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         if (userProfileManagementSessionBean.getOldPassword(staffNo, originPassword)) {
@@ -179,7 +188,7 @@ public class AccountActivationManagedBean implements Serializable {
 
     public void setSecurityQuestionAnswer() {
         System.out.println(securityAnswer);
-        userProfileManagementSessionBean.setSequrityQuestion(staffNo, securityAnswer);
+        userProfileManagementSessionBean.setSequrityQuestion(staffNo, securityAnswer, questionIndex);
 //        FacesContext fc = FacesContext.getCurrentInstance();
 //        FacesMessage msg = new FacesMessage("Success", "you have set the security answer");
 //        fc.addMessage(null, msg);
