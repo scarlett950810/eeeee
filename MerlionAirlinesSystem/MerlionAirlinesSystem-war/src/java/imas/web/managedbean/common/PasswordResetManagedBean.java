@@ -37,6 +37,7 @@ public class PasswordResetManagedBean implements Serializable{
     private String repeatNewPassword;
     private StaffEntity staff;
     private boolean resetPassed;
+    private int questionIndex;
     
     /**
      * Creates a new instance of PasswordResetManagedBean
@@ -69,7 +70,7 @@ public class PasswordResetManagedBean implements Serializable{
     }
     
     public void answerSequrityQuestion(){
-        boolean answerCorrect = accountManagementSessionBean.checkSecurityAnswer(staffNo, securityAnswer);
+        boolean answerCorrect = accountManagementSessionBean.checkSecurityAnswer(staffNo, securityAnswer, questionIndex);
         if(answerCorrect){
             questionPassed = true;
         }else{
@@ -143,4 +144,14 @@ public class PasswordResetManagedBean implements Serializable{
     public void setResetPassed(boolean resetPassed) {
         this.resetPassed = resetPassed;
     }
+
+    public int getQuestionIndex() {
+        return questionIndex;
+    }
+
+    public void setQuestionIndex(int questionIndex) {
+        this.questionIndex = questionIndex;
+    }
+    
+    
 }

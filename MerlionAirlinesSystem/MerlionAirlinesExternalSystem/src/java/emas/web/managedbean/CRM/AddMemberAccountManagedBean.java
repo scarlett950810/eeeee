@@ -10,6 +10,7 @@ import imas.crm.sessionbean.CustomerAccountManagementSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -38,7 +39,7 @@ public class AddMemberAccountManagedBean implements Serializable {
     private String contactNumber;
     private String pin;
     private String confirmPin;
-    private String securityQuestion;
+    private int securityQuestionIndex;
     private String answer;
     private MemberEntity member;
     @EJB
@@ -138,12 +139,20 @@ public class AddMemberAccountManagedBean implements Serializable {
         this.confirmPin = confirmPin;
     }
 
-    public String getSecurityQuestion() {
-        return securityQuestion;
+    public int getSecurityQuestionIndex() {
+        return securityQuestionIndex;
     }
 
-    public void setSecurityQuestion(String securityQuestion) {
-        this.securityQuestion = securityQuestion;
+    public void setSecurityQuestionIndex(int securityQuestionIndex) {
+        this.securityQuestionIndex = securityQuestionIndex;
+    }
+
+    public MemberEntity getMember() {
+        return member;
+    }
+
+    public void setMember(MemberEntity member) {
+        this.member = member;
     }
 
     public String getAnswer() {
@@ -153,8 +162,6 @@ public class AddMemberAccountManagedBean implements Serializable {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
-    
-   
 
     public void create() throws IOException {
         System.err.println("Enter create account page");
@@ -166,6 +173,8 @@ public class AddMemberAccountManagedBean implements Serializable {
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Please input the same pin number twice");
 
         } else {
+            String memberID = UUID.randomUUID().toString();
+            memberID = "M" + memberID.replaceAll("-", "").substring(0, 8);
             member = new MemberEntity();
             member.setTitle(title);
             member.setLastName(lastName);
@@ -173,11 +182,12 @@ public class AddMemberAccountManagedBean implements Serializable {
             member.setEmail(email);
             member.setGender(gender);
             member.setNationality(nationality);
-            member.setSecurityQuestion(securityQuestion);
-            member.setAnswer(answer);
+            member.setSequrityQuestionIndex(securityQuestionIndex);
+            member.setSequrityQuestionanswer(answer);
             member.setBirthDate(birthdate);
             member.setPinNumber(pin);
             member.setContactNumber(contactNumber);
+            member.setMemberID(memberID);
             customerAccountManagementSession.createCustomer(member);
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Added successfully", "");
 

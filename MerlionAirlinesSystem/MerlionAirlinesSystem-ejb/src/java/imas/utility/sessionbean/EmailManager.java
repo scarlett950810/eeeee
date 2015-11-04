@@ -186,6 +186,69 @@ public class EmailManager {
             return false;
         }
     }//run
+    
+    public static void runMemberActivationEmail(String addressedTo, String name, String activationLink){
+        
+        //String toAddress = "winexpress.noreply@gmail.com"; // set the email address to send to
+        String recipients = addressedTo.trim(); // trim the recipients address to avoid space
+        //String contentType = "text/plain"; // set content type -- only plain text
+        String fromAddress = "lihao0426@gmail.com";
+        String smtpHost = "smtp.gmail.com"; // set the mailbox to send from 
+        int smtpPort = 587; // set port
+        String username = "lihao0426@gmail.com"; // mailbox address
+        String password = "howe0819!"; // *password*
+
+        try {
+            //Address recipient = new InternetAddress(addressedTo.trim());
+            //Address[] recipients = {recipient};
+            Properties props = System.getProperties(); //
+            props.put("mail.smtp.starttls.enable", "true");
+//            Session session = Session.getDefaultInstance(props);
+            Session session = Session.getInstance(props, new GMailAuthenticator(username, password));
+
+            MimeMessage message = new MimeMessage(session); // set message type
+
+            //message.setFrom(new InternetAddress(toAddress));
+            message.setRecipients(Message.RecipientType.TO, recipients);
+            message.setFrom(new InternetAddress(fromAddress));
+            //message.setRecipients(Message.RecipientType.TO, toAddress);
+            //message.setReplyTo(InternetAddress.parse(recipients, false));
+            message.setSubject("Welcome to MerFlion | Fly more with Merlion and get more benefits");
+
+            // This mail has 2 part, the BODY and the embedded image
+            MimeMultipart multipart = new MimeMultipart("related");
+
+            // first part (the html)
+            BodyPart messageBodyPart = new MimeBodyPart();
+            String htmlText = "<body>" + "<img src=\"http://i.imgsafe.org/260c51a.png\" width=\"200px\" /> "
+                    + "<h1 style=\"float: right\">Welcome to the Merflion Member Club</h1><br><br><br>"
+                    + "<p>Dear " + name + "</p>" + "<p>A very warm welcome to you for being part of this family "
+                    + "and we look forward to serving you to your best satisfaction.<br> We have over 170 "
+                    + "choices of destination all over the world and we have the newest and safeest aircrafts "
+                    + "in the world. With you being a member of Merflion Member Club, you can accuumalate "
+                    + "mileages every time you fly with Merflion Airlines and enjoy exclusive benefits.</p>" 
+                    + "<br>" + "<p>Please click the activation below to activate your account:</p>" + "<br>"
+                    + activationLink + "<br>" + "<h3>Your sincerely</h3>" + "<h4>Merlion Airlines</h4>" + "</body>";
+
+            messageBodyPart.setContent(htmlText, "text/html");
+            // add it
+            multipart.addBodyPart(messageBodyPart);
+
+            message.setContent(multipart);
+            message.setSentDate(new Date());
+
+            Transport transport = session.getTransport("smtp"); // set protocol
+            transport.connect(smtpHost, smtpPort, username, password); // connect mail server
+            transport.sendMessage(message, message.getAllRecipients()); // send email
+            transport.close(); // close connection
+        } catch (MessagingException messagingException) {
+            System.out.print(messagingException);
+
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+    }//run
+    
 
     public static void runMarketingEmail(String addressedTo, String subject, String content) {
 

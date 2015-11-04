@@ -438,15 +438,13 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     }
 
     @Override
-    public boolean checkSecurityAnswer(String staffNo, String answer) {
+    public boolean checkSecurityAnswer(String staffNo, String answer, int questionIndex) {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
         StaffEntity staff = staffs.get(0);
-        System.out.print(staff.getSequrityQuestionAnswer().toLowerCase());
-        System.out.print(answer.toLowerCase());
-        if(staff.getSequrityQuestionAnswer().toLowerCase().equals(answer.toLowerCase())){
+        if(staff.getSequrityQuestionAnswer().toLowerCase().equals(answer.toLowerCase()) && staff.getSequrityQuestionIndex() == questionIndex){
             System.out.println("true");
             return true;
         }else{

@@ -41,7 +41,7 @@ private String title;
     private String contactNumber;
     private String pin;
     private String confirmPin;
-    private String securityQuestion;
+    private int securityQuestionIndex;
     private String answer;
     private MemberEntity member;
     @EJB
@@ -56,11 +56,7 @@ private String title;
     @PostConstruct
     public void init() {
         System.out.println("init()");
-
-       
-        email = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginUserEmail");
-        
-       
+        email = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginUserEmail");      
     }
     public String getTitle() {
         return title;
@@ -150,12 +146,20 @@ private String title;
         this.confirmPin = confirmPin;
     }
 
-    public String getSecurityQuestion() {
-        return securityQuestion;
+    public int getSecurityQuestionIndex() {
+        return securityQuestionIndex;
     }
 
-    public void setSecurityQuestion(String securityQuestion) {
-        this.securityQuestion = securityQuestion;
+    public void setSecurityQuestionIndex(int securityQuestionIndex) {
+        this.securityQuestionIndex = securityQuestionIndex;
+    }
+
+    public MemberEntity getMember() {
+        return member;
+    }
+
+    public void setMember(MemberEntity member) {
+        this.member = member;
     }
 
     public String getAnswer() {
@@ -167,7 +171,7 @@ private String title;
     }
     
    public void save(){
-       customerAccountManagementSession.updateCustomer(title, lastName, firstName, email, gender, nationality, securityQuestion, answer, birthdate, contactNumber);
+       customerAccountManagementSession.updateCustomer(title, lastName, firstName, email, gender, nationality, securityQuestionIndex, answer, birthdate, contactNumber);
    }
 
     public void create() throws IOException {
@@ -187,8 +191,8 @@ private String title;
             member.setEmail(email);
             member.setGender(gender);
             member.setNationality(nationality);
-            member.setSecurityQuestion(securityQuestion);
-            member.setAnswer(answer);
+            member.setSequrityQuestionIndex(securityQuestionIndex);
+            member.setSequrityQuestionanswer(answer);
             member.setBirthDate(birthdate);
             member.setPinNumber(pin);
             member.setContactNumber(contactNumber);

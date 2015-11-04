@@ -23,16 +23,16 @@ import javax.persistence.Query;
  */
 @Stateless
 public class InventoryRevenueManagementSessionBean implements InventoryRevenueManagementSessionBeanLocal {
-
+    
     @EJB
     private CostManagementSessionBeanLocal costManagementSessionBean;
-
+    
     @EJB
     private BookingClassesManagementSessionBeanLocal bookingClassesManagementSessionBean;
-
+    
     @PersistenceContext
     private EntityManager em;
-
+    
     @Override
     public Integer computeSoldSeats(Long bookingClassID) {
         BookingClassEntity bookingClass = em.find(BookingClassEntity.class, bookingClassID);
@@ -40,46 +40,57 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
                 + "WHERE t.flight = :flight AND t.bookingClassName = :bookingClassName");
         query.setParameter("flight", bookingClass.getFlight());
         query.setParameter("bookingClassName", bookingClass.getName());
-
+        
         Integer soldSeats = ((Long) query.getSingleResult()).intValue();
-        System.out.print(soldSeats);
+//        System.out.print(soldSeats);
         return soldSeats;
     }
-
+    
     @Override
     public void updateBookingClassQuota(Long bookingClassID, Integer quota) {
         Query query = em.createQuery("SELECT b FROM BookingClassEntity b WHERE b.id = :bookingClassID");
         query.setParameter("bookingClassID", bookingClassID);
-
+        
         BookingClassEntity bookingClass = (BookingClassEntity) query.getSingleResult();
         bookingClass.setQuota(quota);
         System.out.print("update success");
     }
-
+    
     @Override
     public void updateBookingClassPricing(Long bookingClassID, Double newPrice) {
         Query queryForBookingClass = em.createQuery("SELECT b FROM BookingClassEntity b WHERE b.id = :bookingClassID");
         queryForBookingClass.setParameter("bookingClassID", bookingClassID);
-
+        
         BookingClassEntity bookingClass = (BookingClassEntity) queryForBookingClass.getSingleResult();
         bookingClass.setPrice(newPrice);
         System.out.print("pricing changed");
     }
-
+    
     @Override
     public int checkSeatsCapacity(FlightEntity selectedFlight) {
         return bookingClassesManagementSessionBean.getSeatClassCapacity(selectedFlight, "Economy Class");
     }
-
+    
     @Override
     public Double getFlightTotalRevenue(FlightEntity flight) {
-        Double totalRevenue = 0.0;
-        List<TicketEntity> tickets = flight.getTickets();
-        for (TicketEntity ticket : tickets) {
-            totalRevenue = totalRevenue + ticket.getPrice();
+        
+        FlightEntity flightManaged = em.find(FlightEntity.class, flight.getId());
+        em.refresh(flightManaged);
+        
+        if (flightManaged.getRevenue() != null) {
+            return flightManaged.getRevenue();
+        } else {
+            Double totalRevenue = 0.0;
+            List<TicketEntity> tickets = flightManaged.getTickets();
+            for (TicketEntity ticket : tickets) {
+                totalRevenue = totalRevenue + ticket.getPrice();
+            }
+            flightManaged.setRevenue(totalRevenue);
+            em.flush();
+            
+            return totalRevenue;
         }
-
-        return totalRevenue;
+        
     }
 
     /**
@@ -100,10 +111,10 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
         for (FlightEntity f : flights) {
             totalRevenue = totalRevenue + getFlightTotalRevenue(f);
         }
-
+        
         return totalRevenue;
     }
-
+    
     @Override
     public Double getFlightTotalCost(FlightEntity flight) {
         double costPerSeatPerMile;
@@ -117,9 +128,11 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
 //        double costPerSeatPerMile = costManagementSessionBean.getCostPerSeatPerMile(flight.getRoute());
         return costPerSeatPerMile * flight.getRoute().getDistance() * flight.getAircraft().getSeats().size();
     }
-
+    
     @Override
     public Double getRouteTotalCostDuringDuration(RouteEntity route, Date from, Date to) {
+//        System.out.println("getRouteTotalCostDuringDuration");
+//        System.out.println(route + " " + from + " " + to);
         Query query = em.createQuery("SELECT f FROM FlightEntity f WHERE f.route = :route AND f.departureDate > :from AND f.departureDate < :to");
         query.setParameter("route", route);
         query.setParameter("from", from);
@@ -129,8 +142,8 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
         for (FlightEntity f : flights) {
             totalCost = totalCost + getFlightTotalCost(f);
         }
-
+        
         return totalCost;
     }
-
+    
 }

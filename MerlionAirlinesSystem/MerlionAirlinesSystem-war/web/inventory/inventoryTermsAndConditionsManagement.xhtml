@@ -5,7 +5,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:pe="http://primefaces.org/ui/extensions">
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="head">
 
     </ui:define>
@@ -16,8 +17,11 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-h1"><a href="inventoryCost.xhtml">Manage Cost</a></li>
-                <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Open Flight for Sale</a></li>                     
+                <li class="sidebar-h1">Open Flight for Sale</li>
+                <li><a href="inventoryOpenForSaleTimerManagement.xhtml">Automatically</a></li>
+                <li><a href="inventorySeatsManagement.xhtml">Manually</a></li>
                 <li class="sidebar-h1"><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
+                <li class="sidebar-h1"><a href="inventoryManagePromotion.xhtml">Manage Promotion</a></li>
                 <li class="sidebar-h1"><a href="inventoryRevenueDashboard.xhtml">Revenue Dashboard</a></li>
             </ul>
         </div>
@@ -25,6 +29,8 @@
 
     <ui:define name="centerPanel">
         <h:form id="editTnC">
+            <p:commandButton value="Return" actionListener="#{inventoryTnCManagementManagedBean.returnBack}" class="btn-sm btn-default"/>            
+
             <h:panelGrid columns="2" cellpadding="5" class="panel-success">
                 <p:outputLabel for="selectFlight" value="Select a Flight" />
                 <p:selectOneMenu id="selectFlight" value="#{inventoryTnCManagementManagedBean.flight}"
@@ -46,31 +52,35 @@
             </h:panelGrid>
 
             <br/>
+            
+            <c:if test="#{inventoryTnCManagementManagedBean.BCSelected}">
 
-            <h:panelGrid columns="3" cellpadding="5">
-                <h:outputText value="Change Flight Fee (&gt; 60 days):"/>
-                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.changeFlightFeeForMoreThan60Days}"/>
-                <h:outputText value="of original price."/>
+                <h:panelGrid columns="3" cellpadding="5">
+                    <h:outputText value="Change Flight Fee (&gt; 60 days):"/>
+                    <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.changeFlightFeeForMoreThan60Days}"/>
+                    <h:outputText value="of original price."/>
 
-                <h:outputText value="Change Flight Fee (&lt;= 60 days):"/>
-                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.changeFlightFeeForLessThan60Days}"/>
-                <h:outputText value="of original price."/>
+                    <h:outputText value="Change Flight Fee (&lt;= 60 days):"/>
+                    <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.changeFlightFeeForLessThan60Days}"/>
+                    <h:outputText value="of original price."/>
 
-                <h:outputText value="Cancellation Refund (&gt; 60 days):"/>
-                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.cancellationRefundForMoreThan60Days}"/>
-                <h:outputText value="of original price."/>
+                    <h:outputText value="Cancellation Refund (&gt; 60 days):"/>
+                    <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.cancellationRefundForMoreThan60Days}"/>
+                    <h:outputText value="of original price."/>
 
-                <h:outputText value="Cancellation Refund (&lt;= 60 days):"/>
-                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.cancellationRefundForLessThan60Days}"/>
-                <h:outputText value="of original price."/>
+                    <h:outputText value="Cancellation Refund (&lt;= 60 days):"/>
+                    <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.cancellationRefundForLessThan60Days}"/>
+                    <h:outputText value="of original price."/>
 
-                <h:outputText value="Mileage Accrual:"/>
-                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.mileageAccrual}"/>
-                <h:outputText value="times of flying distance."/>
+                    <h:outputText value="Mileage Accrual:"/>
+                    <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.mileageAccrual}"/>
+                    <h:outputText value="times of flying distance."/>
 
-                <p:commandButton value="Update" actionListener="#{inventoryTnCManagementManagedBean.update()}"
-                                 update="@form" class="btn-sm btn-success"/>
-            </h:panelGrid> 
+                    <p:commandButton value="Update" actionListener="#{inventoryTnCManagementManagedBean.update()}"
+                                     update="@form" class="btn-sm btn-success"/>
+                </h:panelGrid>
+
+            </c:if>
 
         </h:form>
 
