@@ -438,7 +438,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -468,7 +468,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -494,7 +494,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -524,7 +524,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -554,7 +554,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -580,7 +580,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -592,7 +592,16 @@
 
                         </p:dataTable>
 
-                    </c:if>                    
+                    </c:if>
+
+                    <c:if test="#{customerBookTicketManagedBean.memberLoggedIn()}">
+
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel for="prmoCode" value="Apply Promo Code:"/>
+                            <p:inputText id="prmoCode" value="#{customerBookTicketManagedBean.promoCode}"/>
+                        </h:panelGrid>
+                        
+                    </c:if>
 
                     <p:commandButton class="btn-sm btn-primary" value="Proceed" actionListener="#{customerBookTicketManagedBean.submitBookingClasses()}"/>
 

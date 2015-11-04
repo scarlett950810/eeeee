@@ -47,6 +47,7 @@ import com.paypal.base.rest.PayPalRESTException;
 import java.util.ArrayList;
 import java.util.List;
 import com.paypal.api.payments.*;
+import imas.crm.entity.MemberEntity;
 import java.io.File;
 import java.io.Serializable;
 import java.io.IOException;
@@ -134,6 +135,9 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private List<BookingClassEntity> returnTransferFlight1BookingClassCandidates;
     private List<BookingClassEntity> returnTransferFlight2BookingClassCandidates;
 
+    private MemberEntity loggedInMember;
+    private String promoCode;
+    
     List<PassengerEntity> passengers = new ArrayList<>();
     List<FlightEntity> flights = new ArrayList<>();
 
@@ -833,6 +837,31 @@ public class CustomerBookTicketManagedBean implements Serializable {
         this.return7DayPricing = return7DayPricing;
     }
 
+    public MemberEntity getLoggedInMember() {
+        return loggedInMember;
+    }
+
+    public void setLoggedInMember(MemberEntity loggedInMember) {
+        this.loggedInMember = loggedInMember;
+    }
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
+    }
+
+    public boolean memberLoggedIn() {
+        if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID") != null) {
+            loggedInMember = (MemberEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID");
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public String getUserFriendlyTime(double hours) {
         int hourNo = (int) hours;
         int minNo = (int) (60 * (hours - hourNo));

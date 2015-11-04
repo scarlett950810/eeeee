@@ -449,7 +449,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -458,7 +458,7 @@
                                 <p:commandButton icon="ui-icon-comment" 
                                                  actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
-                            
+
                         </p:dataTable>
 
                     </c:if>
@@ -488,7 +488,7 @@
                                 <p:commandButton icon="ui-icon-comment" 
                                                  actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
-                            
+
                         </p:dataTable>
 
                         <p:dataTable value="#{flightLookupManagedBean.departureTransferFlight2BookingClassCandidates}" var="bookingClass" 
@@ -505,7 +505,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.departureTransferFlight2, bookingClass)}"/>
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -534,7 +534,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -543,7 +543,7 @@
                                 <p:commandButton icon="ui-icon-comment" 
                                                  actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
-                            
+
                         </p:dataTable>
 
                     </c:if>
@@ -564,7 +564,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
@@ -573,7 +573,7 @@
                                 <p:commandButton icon="ui-icon-comment" 
                                                  actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
-                            
+
                         </p:dataTable>
 
                         <p:dataTable value="#{flightLookupManagedBean.returnTransferFlight2BookingClassCandidates}" var="bookingClass" 
@@ -590,7 +590,7 @@
                             <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}"/>
                             </p:column>
-                            
+
                             <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}"/>
                             </p:column>
@@ -602,7 +602,12 @@
 
                         </p:dataTable>
 
-                    </c:if>                    
+                    </c:if>
+
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="prmoCode" value="Apply Promo Code:"/>
+                        <p:inputText id="prmoCode" value="#{flightLookupManagedBean.promoCode}"/>
+                    </h:panelGrid>
 
                     <p:commandButton class="btn-sm btn-primary" value="Proceed" actionListener="#{flightLookupManagedBean.submitBookingClasses()}"/>
 

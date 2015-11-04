@@ -5,6 +5,7 @@
  */
 package imas.inventory.entity;
 
+import imas.crm.entity.MemberEntity;
 import imas.distribution.entity.TicketEntity;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
@@ -36,6 +38,8 @@ public class PromotionEntity implements Serializable {
     private double waiveAmount;
     @OneToMany(mappedBy = "promotion")
     private List<TicketEntity> tickets;
+    @ManyToMany(mappedBy = "promotionEntities")
+    private List<MemberEntity> members;
 
     public PromotionEntity() {
     }
