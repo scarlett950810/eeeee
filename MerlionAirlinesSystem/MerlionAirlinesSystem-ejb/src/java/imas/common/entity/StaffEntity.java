@@ -6,6 +6,7 @@
 package imas.common.entity;
 
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.RouteEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,6 +77,13 @@ public class StaffEntity implements Serializable {
 
     @OneToOne
     private StaffRole role;
+    
+    @OneToMany
+    private List<RouteEntity> preferredRoutes;
+    
+    private String preferredDay;
+    
+    private String seniority;
 
     public StaffEntity() {
     }
@@ -276,6 +284,31 @@ public class StaffEntity implements Serializable {
 
     public void setWorking(Boolean working) {
         this.working = working;
+    }
+
+    public List<RouteEntity> getPreferredRoutes() {
+        return preferredRoutes;
+    }
+
+    public void setPreferredRoutes(List<RouteEntity> preferredRoutes) {
+        this.preferredRoutes = preferredRoutes;
+    }
+
+    public String getPreferredDay() {
+        if(preferredDay==null) return null;
+        return this.preferredDay;
+    }
+
+    public void setPreferredDay(String preferredDay) {
+        this.preferredDay = preferredDay;
+    }
+
+    public String getSeniority() {
+        return seniority;
+    }
+
+    public void setSeniority(String seniority) {
+        this.seniority = seniority;
     }
 
     @Override

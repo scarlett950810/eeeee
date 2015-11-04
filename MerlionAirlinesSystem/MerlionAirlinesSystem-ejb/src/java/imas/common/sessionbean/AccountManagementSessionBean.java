@@ -11,6 +11,7 @@ import imas.common.entity.StaffEntity;
 import imas.common.entity.StaffRole;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import imas.utility.sessionbean.EmailManager;
 import static java.lang.Boolean.TRUE;
 import java.security.SecureRandom;
@@ -475,6 +476,18 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         StaffEntity staff = staffs.get(0);
         staff.setPassword(password);
         staff.setToken(null);
+    }
+
+    @Override
+    public void updatePreference(List<RouteEntity> selectedRoutes, String selectedDay, String staffNo) {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
+        query.setParameter("staffNumber", staffNo);
+
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        StaffEntity staff = staffs.get(0);
+        
+        staff.setPreferredDay(selectedDay);
+        staff.setPreferredRoutes(selectedRoutes);
     }
     
     

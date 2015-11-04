@@ -6,6 +6,9 @@
 package imas.crm.sessionbean;
 
 import imas.crm.entity.MemberEntity;
+import imas.distribution.entity.TicketEntity;
+import imas.planning.entity.FlightEntity;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -24,7 +27,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     
     @Override
     public MemberEntity getMember(String memberID) {
-        memberID = "M1fa07306";
+        memberID = "M1e571164";
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
         
@@ -46,7 +49,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
     @Override
     public boolean resetPassword(String oldPassword, String newPassword, String memberID) {
-        memberID = "M1fa07306";
+        memberID = "M1e571164";
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
         
@@ -66,6 +69,18 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
             
         }
         
+    }
+
+    @Override
+    public List<TicketEntity> getMemberTickets(String memberID) {
+        memberID = "M1e571164";
+        Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
+        query.setParameter("memberID", memberID);
+        List<MemberEntity> members = (List<MemberEntity>)query.getResultList();
+        MemberEntity member = members.get(0);
+        //List<FlightEntity> flights = new ArrayList<>();
+        List<TicketEntity> tickets = member.getTicketList();
+        return tickets;
     }
 
     

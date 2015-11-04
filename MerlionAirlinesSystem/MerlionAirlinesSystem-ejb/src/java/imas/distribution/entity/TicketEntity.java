@@ -33,6 +33,7 @@ public class TicketEntity implements Serializable {
     private Boolean insurance;
     private Boolean flightWiFi;
     private String referenceNumber;
+    private Double mileage;
 
     @ManyToOne
     private SeatEntity seat;
@@ -209,6 +210,14 @@ public class TicketEntity implements Serializable {
 
     public void setIssued(Boolean issued) {
         this.issued = issued;
+    }
+
+    public Double getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(Double mileage) {
+        this.mileage = mileage;
     }
 
     @Override
