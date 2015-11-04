@@ -126,7 +126,7 @@
                                     </p:column>
                                     <ui:repeat value="#{row}" var="element">
                                         <p:column>
-                                            <p:selectOneRadio value="#{element.selected}" disabled="#{!element.eligible || element.occupied}">
+                                            <p:selectOneRadio value="#{element.selected}" disabled="#{!element.eligible || element.occupied}" style="background-image: url('../resources/img/seat_icon.png');">
                                                 <f:selectItem itemLabel="#{element.seatNumber}" itemValue="true" /> 
                                                 <p:ajax update="@form" listener="#{webCheckInManagedBean.onChangeSeat(element)}">
                                                     

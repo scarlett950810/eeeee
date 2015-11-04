@@ -8,6 +8,8 @@ package imas.inventory.entity;
 import imas.inventory.sessionbean.CostManagementSessionBean;
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -202,7 +204,7 @@ public class BookingClassEntity implements Serializable {
     }
 
     public void setPrice(Double price) {
-        this.price = price;
+        this.price = round(price, 2);
     }
 
     public Integer getQuota() {
@@ -252,6 +254,16 @@ public class BookingClassEntity implements Serializable {
     @Override
     public String toString() {
         return "imas.inventory.entity.bookingClassEntity[ id=" + id + " ]";
+    }
+    
+    private static Double round(Double value, int places) {
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
     
 }

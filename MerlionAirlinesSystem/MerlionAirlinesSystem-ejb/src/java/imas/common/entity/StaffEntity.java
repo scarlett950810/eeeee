@@ -49,6 +49,8 @@ public class StaffEntity implements Serializable {
     private String token;
     
     private String sequrityQuestionAnswer;
+    
+    private Integer sequrityQuestionIndex;
 
     @OneToOne
     private AirportEntity base;
@@ -228,13 +230,15 @@ public class StaffEntity implements Serializable {
     public void setSequrityQuestionAnswer(String sequrityQuestionAnswer) {
         this.sequrityQuestionAnswer = sequrityQuestionAnswer;
     }
-//    public List<OrganizationUnit> getOrganizationUnit() {
-//        return organizationUnit;
-//    }
-//
-//    public void setOrganizationUnit(List<OrganizationUnit> organizationUnit) {
-//        this.organizationUnit = organizationUnit;
-//    }
+
+    public Integer getSequrityQuestionIndex() {
+        return sequrityQuestionIndex;
+    }
+
+    public void setSequrityQuestionIndex(Integer sequrityQuestionIndex) {
+        this.sequrityQuestionIndex = sequrityQuestionIndex;
+    }
+
     public List<Date> getLoginAttempt() {
         return loginAttempt;
     }

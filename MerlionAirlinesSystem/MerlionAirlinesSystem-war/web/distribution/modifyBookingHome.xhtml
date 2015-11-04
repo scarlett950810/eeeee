@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">
+       
+    </ui:define>
+
+    <ui:define name="head">
+        <style>
+            .label{
+                color: #000000;
+                font-size: 100%;
+                vertical-align: middle;
+                
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <p:outputLabel value="Modify Booking" style="font-size: 150%; margin-top: 5%"></p:outputLabel>
+        <p:messages />
+        <h:form>
+            <p:growl id="growl"/>  
+            <p:panel header="Retrieve Your Flight" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+                <h:panelGrid columns="2" style="display: inline-block;">
+                    <h:outputText value="Booking Reference"></h:outputText>
+                    <p:inputText value="#{modifyBookingManagedBean.referenceNumber}" required="true" />
+                    
+                    
+                    <h:outputText value="Passport Number"></h:outputText>
+                    <p:inputText value="#{modifyBookingManagedBean.passportNumber}" required="true" />
+                    
+                    <p:commandButton value="Retrieve Flight" actionListener="#{modifyBookingManagedBean.seachTicket}" update="growl"></p:commandButton>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

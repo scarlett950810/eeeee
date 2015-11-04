@@ -39,6 +39,12 @@ public class WebCheckInSessionBean implements WebCheckInSessionBeanLocal {
         if (tickets.isEmpty()) {
             return null;
         } else {
+            for(int i=0; i<tickets.size(); i++){
+                TicketEntity ticket = tickets.get(i);
+                if(ticket.getIssued()==true){
+                    tickets.remove(ticket);
+                }
+            }
             return tickets;
         }
     }
@@ -113,7 +119,6 @@ public class WebCheckInSessionBean implements WebCheckInSessionBeanLocal {
         for (int i = 0; i < seatHelper.size(); i++) {
             for (int j = 0; j < seatHelper.get(i).size(); j++) {
                 seat = seatHelper.get(i).get(j);
-                System.out.print(seat.getSeatNumber() + ", " + seat.isSelected());
                 if (seat.isSelected() == true) {
                     Query query = entityManager.createQuery("SELECT s FROM SeatEntity s where s.aircraft.id = :aircraftID AND s.seatNo = :seatNo");
                     query.setParameter("aircraftID", ticket.getFlight().getAircraft().getId());
@@ -121,6 +126,7 @@ public class WebCheckInSessionBean implements WebCheckInSessionBeanLocal {
                     
                     List<SeatEntity> seats = (List<SeatEntity>)query.getResultList();
                     ticket.setSeat(seats.get(0));
+                    ticket.setIssued(TRUE);
                     
                 }
             }

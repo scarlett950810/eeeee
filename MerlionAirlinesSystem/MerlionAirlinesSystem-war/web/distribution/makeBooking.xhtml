@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../templates/ClientSideTemplate.xhtml"
+                template="./../templates/DefaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -31,17 +31,28 @@
         <script type="text/javascript">
 
             function Redirect() {
-                window.location.assign("#{customerBookTicketManagedBean.confirm()}")
+                window.location.assign("#{flightLookupManagedBean.confirm()}")
 //                window.open("");
             }
 
         </script>
     </ui:define>
+    
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="https://localhost:8181/MerlionAirlinesSystem-war/distribution/flightLookup.xhtml">Flight Look up</a></li>                     
+                <li class="sidebar-h1"><a href="#">Modify Booking</a></li>         
+                <li class="sidebar-h1"><a href="#">Process Payment</a></li>
+                <li><a href="#"></a></li>
+            </ul>
+        </div>
+    </ui:define>
 
-    <ui:define name="main">
+    <ui:define name="centerPanel">
         <p:panel header="Flight Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
 
-            <p:dataTable value="#{customerBookTicketManagedBean.flights}" var="flight" style="border: none;">
+            <p:dataTable value="#{flightLookupManagedBean.flights}" var="flight" style="border: none;">
                 <p:column headerText="Flight No.">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
@@ -65,57 +76,22 @@
 
             <br/>
 
-            <p:outputLabel value="Total Price: S$#{customerBookTicketManagedBean.totalPrice}" style="font-size: 150%; color: red;"></p:outputLabel>
+            <p:outputLabel value="Total Price: S$#{flightLookupManagedBean.totalPrice}" style="font-size: 150%; color: red;"></p:outputLabel>
             <br/>
             <p:outputLabel value="(Includes taxes and surcharges)" />
-        </p:panel>
-
-        <p:panel visible="#{!externalLoginManagedBean.login}">
-            <p:outputLabel value="Log in as a Merflion member to redeem your mileage"></p:outputLabel>
-            <br></br>
-            <p:growl id="loginStatus"></p:growl>
-            <h:form style="text-align: center">
-                <p:panelGrid columns="2">
-                    <h:outputText value="Member ID: " />
-                    <p:inputText value="#{externalLoginManagedBean.memberID}" rendered="true" required="Please enter member ID"></p:inputText>
-
-                    <h:outputText value="PIN: " />
-                    <p:inputText value="#{externalLoginManagedBean.pin}" rendered="true" required="Please enter PIN"></p:inputText>
-
-                </p:panelGrid>
-                <br></br>
-
-                <p:commandButton value="Log In" actionListener="#{externalLoginManagedBean.doLogin}" style="width: 50%" update="loginStatus"></p:commandButton>
-            </h:form>
-
-        </p:panel>
-
-        <p:panel visible="#{externalLoginManagedBean.login}">
-            <p:outputLabel value="Merlion Member: #{externalLoginManagedBean.member.title} #{externalLoginManagedBean.member.firstName} #{externalLoginManagedBean.member.lastName}"></p:outputLabel>
-            <br></br>
-
-            <h:outputText value="Mileage: #{externalLoginManagedBean.member.mileage}"></h:outputText>
-            <br></br>
-            <br></br>
-
-            <h:outputText value="You can redeem the following benefits with your mileage:"></h:outputText>
-<!--            <p:selectOneRadio value="{radioView.city}"  layout="pageDirection">
-                <f:selectItem value="{radioView.cities}" itemLabel="{city}" itemValue="{city}"/>
-            </p:selectOneRadio>-->
-
         </p:panel>
 
         <h:form id="makeBooking">
 
             <p:growl id="growl" sticky="true" showDetail="true"/>
 
-            <p:wizard flowListener="#{customerBookTicketManagedBean.onFlowProcess}" nextLabel="Continue" showStepStatus="false">
+            <p:wizard flowListener="#{flightLookupManagedBean.onFlowProcess}" nextLabel="Continue" showStepStatus="false">
 
 
                 <p:tab id="passengerInformation" title="Passengers Information">
 
                     <!--                    <p:messages />-->
-                    <ui:repeat value="#{customerBookTicketManagedBean.passengers}" var="passenger">
+                    <ui:repeat value="#{flightLookupManagedBean.passengers}" var="passenger">
                         <p:panel header="Passenger" style="margin-top: 5%; border: #000000 2px solid; height: auto">
                             <h:panelGrid columns="2" columnClasses="label, value" style="display: inline-block;">
                                 <h:outputText value="Title " />
@@ -236,7 +212,7 @@
                     <p:panel header="Contact Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
                         <h:panelGrid columns="2" columnClasses="label, value">
                             <h:outputText value="Title " />
-                            <p:selectOneMenu value="#{customerBookTicketManagedBean.title}" style="width: 100%" required="true" label="title">
+                            <p:selectOneMenu value="#{flightLookupManagedBean.title}" style="width: 100%" required="true" label="title">
                                 <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
                                 <f:selectItem itemLabel="Dr" itemValue="Dr" />
                                 <f:selectItem itemLabel="Mdm" itemValue="Mdm" />
@@ -249,28 +225,28 @@
                             </p:selectOneMenu>
 
                             <h:outputText value="First / given name (as in passport) " />
-                            <p:inputText value="#{customerBookTicketManagedBean.firstName}" required="true" label="firstName"/>
+                            <p:inputText value="#{flightLookupManagedBean.firstName}" required="true" label="firstName"/>
 
                             <h:outputText value="Family name (as in passport) " />
-                            <p:inputText value="#{customerBookTicketManagedBean.lastName}" required="true" label="familyName"/>
+                            <p:inputText value="#{flightLookupManagedBean.lastName}" required="true" label="familyName"/>
 
                             <h:outputText value="Street Address " />
-                            <p:inputText value="#{customerBookTicketManagedBean.address}" required="true" label="streetAddress"/>
+                            <p:inputText value="#{flightLookupManagedBean.address}" required="true" label="streetAddress"/>
 
                             <h:outputText value="City " />
-                            <p:inputText value="#{customerBookTicketManagedBean.city}" required="true" label="city"/>
+                            <p:inputText value="#{flightLookupManagedBean.city}" required="true" label="city"/>
 
                             <h:outputText value="Country " />
-                            <p:inputText value="#{customerBookTicketManagedBean.country}" required="true" label="country"/>
+                            <p:inputText value="#{flightLookupManagedBean.country}" required="true" label="country"/>
 
                             <h:outputText value="Post code " />
-                            <p:inputText value="#{customerBookTicketManagedBean.postCode}" required="true" label="postCode"/>
+                            <p:inputText value="#{flightLookupManagedBean.postCode}" required="true" label="postCode"/>
 
                             <h:outputText value="Contact number" />
-                            <p:inputText value="#{customerBookTicketManagedBean.contactNumber}" required="true" label="contactNumber"/>
+                            <p:inputText value="#{flightLookupManagedBean.contactNumber}" required="true" label="contactNumber"/>
 
                             <h:outputText value="Email address" />
-                            <p:inputText value="#{customerBookTicketManagedBean.email}" required="true" label="emailAddress"/>
+                            <p:inputText value="#{flightLookupManagedBean.email}" required="true" label="emailAddress"/>
 
                         </h:panelGrid>
                     </p:panel>

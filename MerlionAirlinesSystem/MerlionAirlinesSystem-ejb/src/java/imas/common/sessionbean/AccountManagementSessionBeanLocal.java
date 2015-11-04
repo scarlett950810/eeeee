@@ -46,7 +46,7 @@ public interface AccountManagementSessionBeanLocal {
 
     boolean forgetPassword(String staffNo);
 
-    boolean checkSecurityAnswer(String staffNo, String answer);
+    boolean checkSecurityAnswer(String staffNo, String answer, int questionIndex);
 
     StaffEntity getStaffBasedOnToken(String token);
 
