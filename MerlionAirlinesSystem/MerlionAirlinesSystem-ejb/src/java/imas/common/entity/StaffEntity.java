@@ -6,6 +6,7 @@
 package imas.common.entity;
 
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.RouteEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,6 +50,8 @@ public class StaffEntity implements Serializable {
     private String token;
     
     private String sequrityQuestionAnswer;
+    
+    private Integer sequrityQuestionIndex;
 
     @OneToOne
     private AirportEntity base;
@@ -74,6 +77,13 @@ public class StaffEntity implements Serializable {
 
     @OneToOne
     private StaffRole role;
+    
+    @OneToMany
+    private List<RouteEntity> preferredRoutes;
+    
+    private String preferredDay;
+    
+    private String seniority;
 
     public StaffEntity() {
     }
@@ -228,13 +238,15 @@ public class StaffEntity implements Serializable {
     public void setSequrityQuestionAnswer(String sequrityQuestionAnswer) {
         this.sequrityQuestionAnswer = sequrityQuestionAnswer;
     }
-//    public List<OrganizationUnit> getOrganizationUnit() {
-//        return organizationUnit;
-//    }
-//
-//    public void setOrganizationUnit(List<OrganizationUnit> organizationUnit) {
-//        this.organizationUnit = organizationUnit;
-//    }
+
+    public Integer getSequrityQuestionIndex() {
+        return sequrityQuestionIndex;
+    }
+
+    public void setSequrityQuestionIndex(Integer sequrityQuestionIndex) {
+        this.sequrityQuestionIndex = sequrityQuestionIndex;
+    }
+
     public List<Date> getLoginAttempt() {
         return loginAttempt;
     }
@@ -272,6 +284,30 @@ public class StaffEntity implements Serializable {
 
     public void setWorking(Boolean working) {
         this.working = working;
+    }
+
+    public List<RouteEntity> getPreferredRoutes() {
+        return preferredRoutes;
+    }
+
+    public void setPreferredRoutes(List<RouteEntity> preferredRoutes) {
+        this.preferredRoutes = preferredRoutes;
+    }
+
+    public String getPreferredDay() {
+        return preferredDay;
+    }
+
+    public void setPreferredDay(String preferredDay) {
+        this.preferredDay = preferredDay;
+    }
+
+    public String getSeniority() {
+        return seniority;
+    }
+
+    public void setSeniority(String seniority) {
+        this.seniority = seniority;
     }
 
     @Override
