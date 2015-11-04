@@ -5,15 +5,10 @@
  */
 package emas.web.managedbean.distribution;
 
-import com.paypal.api.payments.Payment;
-import com.paypal.base.rest.OAuthTokenCredential;
-import com.paypal.base.rest.PayPalRESTException;
-import imas.common.sessionbean.AccountManagementSessionBeanLocal;
 import imas.distribution.entity.PassengerEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.distribution.sessionbean.MakeBookingSessionBeanLocal;
-import imas.departure.sessionbean.SeatHelperClass;
 import imas.distribution.sessionbean.TransferFlight;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.entity.BookingClassRuleSetEntity;
@@ -21,35 +16,20 @@ import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.persistence.PostRemove;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperRunManager;
-import org.jboss.logging.Logger.Level;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.event.SelectEvent;
@@ -58,12 +38,7 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.paypal.api.payments.Address;
 import com.paypal.api.payments.Amount;
-import com.paypal.api.payments.Details;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.Transaction;
@@ -71,26 +46,14 @@ import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import com.paypal.api.payments.*;
-import com.paypal.base.Constants;
-import com.paypal.base.rest.APIContext;
-import com.paypal.base.rest.PayPalResource;
+import imas.crm.entity.MemberEntity;
 import java.io.File;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import org.slf4j.Logger;
-import com.sun.faces.facelets.util.Path;
-import static com.sun.faces.facelets.util.Path.context;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -108,7 +71,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     @EJB
     private FlightLookupSessionBeanLocal flightLookupSessionBean;
-    
+
     private AirportEntity originAirport;
     private AirportEntity destinationAirport;
     private boolean twoWay;
@@ -172,6 +135,9 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private List<BookingClassEntity> returnTransferFlight1BookingClassCandidates;
     private List<BookingClassEntity> returnTransferFlight2BookingClassCandidates;
 
+    private MemberEntity loggedInMember;
+    private String promoCode;
+    
     List<PassengerEntity> passengers = new ArrayList<>();
     List<FlightEntity> flights = new ArrayList<>();
 
@@ -261,13 +227,13 @@ public class CustomerBookTicketManagedBean implements Serializable {
         String clientSecret = "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR";
         System.err.println("test");
 
-        OAuthTokenCredential tokenCredential = Payment.initConfig(new File("/Users/Howard/Documents/eeeee/MerlionAirlinesSystem/MerlionAirlinesExternalSystem/src/java/emas/web/managedbean/distribution/sdk_config.properties"));
+        OAuthTokenCredential tokenCredential = Payment.initConfig(new File("sdk_config.properties"));
         System.err.println("test");
 //        OAuthTokenCredential tokenCredential
 //                = new OAuthTokenCredential("AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io", "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR");
         System.err.println("test1");
         String accessToken = tokenCredential.getAccessToken();
-      //  String accessToken = new OAuthTokenCredential(clientID, clientSecret).getAccessToken();
+        //  String accessToken = new OAuthTokenCredential(clientID, clientSecret).getAccessToken();
 
 //APIContext apiContext = new APIContext(accessToken, requestId);
 //Payment payment = new Payment();
@@ -289,7 +255,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         item.setPrice(priceFormat);
         item.setQuantity("1");
         item.setCurrency("SGD");
-        
+
         ItemList itemList = new ItemList();
         List<Item> items = new ArrayList<Item>();
         items.add(item);
@@ -312,12 +278,12 @@ public class CustomerBookTicketManagedBean implements Serializable {
         System.err.println("test4");
 
         Amount amount = new Amount();
-        
+
 //        amount.setDetails(details);
         System.err.println("test5");
         amount.setCurrency(item.getCurrency());
         amount.setTotal(item.getPrice());
-        
+
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
         transaction.setItemList(itemList);
@@ -334,7 +300,6 @@ public class CustomerBookTicketManagedBean implements Serializable {
 //        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
 //        fundingInstruments.add(fundingInstrument);
 //        System.err.println("test9");
-
         Payer payer = new Payer();
 //        payer.setFundingInstruments(fundingInstruments);
         payer.setPaymentMethod("paypal");
@@ -349,7 +314,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         urls.setReturnUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/bookingConfirmation.xhtml");
         urls.setCancelUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/makeBooking.xhtml");
         payment.setRedirectUrls(urls);
-        
+
 //        Address billingAddress = new Address();
 //        billingAddress.setLine1("52 N Main ST");
 //        billingAddress.setCity("Johnstown");
@@ -397,20 +362,18 @@ public class CustomerBookTicketManagedBean implements Serializable {
 //        payment.setIntent("sale");
 //        payment.setPayer(payer);
 //        payment.setTransactions(transactions);
-
         Payment createdPayment = payment.create(accessToken);
         System.err.println("test12345");
         List<Links> approvalLink = createdPayment.getLinks();
-        
+
         Links link = approvalLink.get(1);
         approvalLinkStr = link.getHref();
-        
-        System.err.println("getHref:"+link.getHref());
+
+        System.err.println("getHref:" + link.getHref());
         return approvalLinkStr;
-        }
-    
-    public void afterPay() throws IOException{
-        System.out.print("after pay called");
+    }
+
+    public void afterPay() throws IOException {
         referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
 //        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?referenceNumber=" + referenceNumber);
         RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber+ "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName()+" "+passengers.get(0).getLastName()+"\")");
@@ -429,15 +392,11 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
     }
-    
-    public BookingClassRuleSetEntity getBookingClassRule(FlightEntity flight, BookingClassEntity bookingClass) {
-        List<BookingClassRuleSetEntity> bcrss = (List<BookingClassRuleSetEntity>) flight.getBookingClassRuleSetEntities();
-        for (BookingClassRuleSetEntity bcrs: bcrss) {
-            if (bcrs.getBookingClass().equals(bookingClass)) {
-                return bcrs;
-            }
-        }
-        return null;
+
+    public void showBCRules(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bookingClassRuleSet = bookingClass.getBookingClassRuleSet();
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, bookingClass.getName(), bookingClassRuleSet.toString());
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
 
     public FlightEntity getDepartureDirectFlight() {
@@ -878,6 +837,31 @@ public class CustomerBookTicketManagedBean implements Serializable {
         this.return7DayPricing = return7DayPricing;
     }
 
+    public MemberEntity getLoggedInMember() {
+        return loggedInMember;
+    }
+
+    public void setLoggedInMember(MemberEntity loggedInMember) {
+        this.loggedInMember = loggedInMember;
+    }
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
+    }
+
+    public boolean memberLoggedIn() {
+        if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID") != null) {
+            loggedInMember = (MemberEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID");
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public String getUserFriendlyTime(double hours) {
         int hourNo = (int) hours;
         int minNo = (int) (60 * (hours - hourNo));
@@ -1159,6 +1143,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
                     // check if there is a single booking class in the particular flight fulfill the booking amount
                     List<BookingClassEntity> bcs
                             = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass, totalPurchaseNo);
+                    bcs = filterNonAgencyBookingClasses(bcs);
                     if (seatClass.equals("Economy Class")) {
                         for (BookingClassEntity bc : bcs) {
                             if (flightLookupSessionBean.getQuotaLeft(bc) >= totalPurchaseNo && bc.getPrice() < flightsAvailableOnDate_LowestFare) {
@@ -1181,6 +1166,16 @@ public class CustomerBookTicketManagedBean implements Serializable {
         }
 
         return flightsAvailableOnDate_LowestFare;
+    }
+    
+    private List<BookingClassEntity> filterNonAgencyBookingClasses (List<BookingClassEntity> originalBCList) {
+        List<BookingClassEntity> nonAgencyBCList = new ArrayList<>();
+        for (BookingClassEntity bc : originalBCList) {
+            if (!bc.isAgencyBookingClass()) {
+                nonAgencyBCList.add(bc);
+            }
+        }
+        return nonAgencyBCList;
     }
 
     public void init7DayPricing() {
@@ -1387,28 +1382,28 @@ public class CustomerBookTicketManagedBean implements Serializable {
         if (selectedDepartureDirectFlight()) {
             List<BookingClassEntity> bookingClassList
                     = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureDirectFlight, seatClass, totalPurchaseNo);
-            departureDirectFlightBookingClassCandidates = bookingClassList;
+            departureDirectFlightBookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList);
         } else if (selectedDepartureTransferFlight()) {
             List<BookingClassEntity> bookingClassList1
                     = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight1, seatClass, totalPurchaseNo);
             List<BookingClassEntity> bookingClassList2
                     = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight2, seatClass, totalPurchaseNo);
-            departureTransferFlight1BookingClassCandidates = bookingClassList1;
-            departureTransferFlight2BookingClassCandidates = bookingClassList2;
+            departureTransferFlight1BookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList1);
+            departureTransferFlight2BookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList2);
         }
 
         if (twoWay) {
             if (selectedReturnDirectFlight()) {
                 List<BookingClassEntity> bookingClassList
                         = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnDirectFlight, seatClass, totalPurchaseNo);
-                returnDirectFlightBookingClassCandidates = bookingClassList;
+                returnDirectFlightBookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList);
             } else if (selectedReturnTransferFlight()) {
                 List<BookingClassEntity> bookingClassList1
                         = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight1, seatClass, totalPurchaseNo);
                 List<BookingClassEntity> bookingClassList2
                         = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight2, seatClass, totalPurchaseNo);
-                returnTransferFlight1BookingClassCandidates = bookingClassList1;
-                returnTransferFlight2BookingClassCandidates = bookingClassList2;
+                returnTransferFlight1BookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList1);
+                returnTransferFlight2BookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList2);
             }
         }
 
@@ -1617,6 +1612,5 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void setReferenceNumber(String referenceNumber) {
         this.referenceNumber = referenceNumber;
     }
-    
-    
+
 }

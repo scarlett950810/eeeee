@@ -136,6 +136,8 @@ public class FlightLookupManagedBean implements Serializable {
     private List<BookingClassEntity> returnDirectFlightBookingClassCandidates;
     private List<BookingClassEntity> returnTransferFlight1BookingClassCandidates;
     private List<BookingClassEntity> returnTransferFlight2BookingClassCandidates;
+    
+    private String promoCode;
 
     List<PassengerEntity> passengers = new ArrayList<>();
     List<FlightEntity> flights = new ArrayList<>();
@@ -1368,10 +1370,16 @@ public class FlightLookupManagedBean implements Serializable {
         }
 
     }
-
+    
     public boolean bookingClassSelectionDisabled(BookingClassEntity bc) {
         int totalPurchaseNo = adultNo + childNo + infantNo;
         return (flightLookupSessionBean.getQuotaLeft(bc) < totalPurchaseNo);
+    }
+    
+    public void showBCRules(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bookingClassRuleSet = bookingClass.getBookingClassRuleSet();
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, bookingClass.getName(), bookingClassRuleSet.toString());         
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
 
     public boolean checkBookingClassesSubmitted() {
@@ -1571,6 +1579,14 @@ public class FlightLookupManagedBean implements Serializable {
 
     public void setReferenceNumber(String referenceNumber) {
         this.referenceNumber = referenceNumber;
+    }
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
     }
 
 }
