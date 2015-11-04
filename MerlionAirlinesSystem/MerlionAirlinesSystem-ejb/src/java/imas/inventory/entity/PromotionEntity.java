@@ -5,12 +5,15 @@
  */
 package imas.inventory.entity;
 
+import imas.distribution.entity.TicketEntity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
@@ -31,6 +34,8 @@ public class PromotionEntity implements Serializable {
     private boolean discount;
     private double discountRate;
     private double waiveAmount;
+    @OneToMany(mappedBy = "promotion")
+    private List<TicketEntity> tickets;
 
     public PromotionEntity() {
     }
@@ -111,6 +116,14 @@ public class PromotionEntity implements Serializable {
         this.waiveAmount = waiveAmount;
     }
 
+    public List<TicketEntity> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<TicketEntity> tickets) {
+        this.tickets = tickets;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -125,10 +138,7 @@ public class PromotionEntity implements Serializable {
             return false;
         }
         PromotionEntity other = (PromotionEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
