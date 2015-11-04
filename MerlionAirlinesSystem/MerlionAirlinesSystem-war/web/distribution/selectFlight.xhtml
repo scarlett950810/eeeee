@@ -446,17 +446,19 @@
                                 - #{flightLookupManagedBean.departureDirectFlightBookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.departureDirectFlight, bookingClass)}"/>
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
-
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
+                            
                         </p:dataTable>
 
                     </c:if>
@@ -474,17 +476,19 @@
                                 #{flightLookupManagedBean.departureTransferFlight1BookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
                             </p:column>
 
-                            <p:column headerText="Rules">
-                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.departureTransferFlight1, bookingClass)}"/>
-                            </p:column>
-
-                            <p:column headerText="Price" style="width: 15%">
+                            <p:column headerText="Price">
                                 <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
+
+                            <p:column headerText="Rules">
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
+                            </p:column>
+                            
                         </p:dataTable>
 
                         <p:dataTable value="#{flightLookupManagedBean.departureTransferFlight2BookingClassCandidates}" var="bookingClass" 
@@ -498,16 +502,17 @@
                                 #{flightLookupManagedBean.departureTransferFlight2BookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.departureTransferFlight2, bookingClass)}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="Rules associated with this booking class" />
-                            </p:column>
-
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
                         </p:dataTable>
 
@@ -526,17 +531,19 @@
                                 #{flightLookupManagedBean.returnDirectFlightBookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.returnDirectFlight, bookingClass)}"/>
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
-
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
+                            
                         </p:dataTable>
 
                     </c:if>
@@ -554,17 +561,19 @@
                                 #{flightLookupManagedBean.returnTransferFlight1BookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.returnTransferFlight1, bookingClass)}"/>
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
-
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
+                            
                         </p:dataTable>
 
                         <p:dataTable value="#{flightLookupManagedBean.returnTransferFlight2BookingClassCandidates}" var="bookingClass" 
@@ -578,17 +587,19 @@
                                 #{flightLookupManagedBean.returnTransferFlight2BookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
-                                <h:outputText value="#{bookingClass.name}" />
+                            <p:column headerText="Booking Class Name">
+                                <h:outputText value="#{bookingClass.name}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}"/>
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="#{flightLookupManagedBean.getBookingClassRule(flightLookupManagedBean.returnTransferFlight2, bookingClass)}"/>
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{flightLookupManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
 
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
                         </p:dataTable>
 
                     </c:if>                    

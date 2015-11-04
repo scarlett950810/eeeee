@@ -108,7 +108,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     @EJB
     private FlightLookupSessionBeanLocal flightLookupSessionBean;
-    
+
     private AirportEntity originAirport;
     private AirportEntity destinationAirport;
     private boolean twoWay;
@@ -267,7 +267,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
 //                = new OAuthTokenCredential("AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io", "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR");
         System.err.println("test1");
         String accessToken = tokenCredential.getAccessToken();
-      //  String accessToken = new OAuthTokenCredential(clientID, clientSecret).getAccessToken();
+        //  String accessToken = new OAuthTokenCredential(clientID, clientSecret).getAccessToken();
 
 //APIContext apiContext = new APIContext(accessToken, requestId);
 //Payment payment = new Payment();
@@ -289,7 +289,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         item.setPrice(priceFormat);
         item.setQuantity("1");
         item.setCurrency("SGD");
-        
+
         ItemList itemList = new ItemList();
         List<Item> items = new ArrayList<Item>();
         items.add(item);
@@ -312,12 +312,12 @@ public class CustomerBookTicketManagedBean implements Serializable {
         System.err.println("test4");
 
         Amount amount = new Amount();
-        
+
 //        amount.setDetails(details);
         System.err.println("test5");
         amount.setCurrency(item.getCurrency());
         amount.setTotal(item.getPrice());
-        
+
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
         transaction.setItemList(itemList);
@@ -334,7 +334,6 @@ public class CustomerBookTicketManagedBean implements Serializable {
 //        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
 //        fundingInstruments.add(fundingInstrument);
 //        System.err.println("test9");
-
         Payer payer = new Payer();
 //        payer.setFundingInstruments(fundingInstruments);
         payer.setPaymentMethod("paypal");
@@ -349,7 +348,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         urls.setReturnUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/bookingConfirmation.xhtml");
         urls.setCancelUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/makeBooking.xhtml");
         payment.setRedirectUrls(urls);
-        
+
 //        Address billingAddress = new Address();
 //        billingAddress.setLine1("52 N Main ST");
 //        billingAddress.setCity("Johnstown");
@@ -397,19 +396,18 @@ public class CustomerBookTicketManagedBean implements Serializable {
 //        payment.setIntent("sale");
 //        payment.setPayer(payer);
 //        payment.setTransactions(transactions);
-
         Payment createdPayment = payment.create(accessToken);
         System.err.println("test12345");
         List<Links> approvalLink = createdPayment.getLinks();
-        
+
         Links link = approvalLink.get(1);
         approvalLinkStr = link.getHref();
-        
-        System.err.println("getHref:"+link.getHref());
+
+        System.err.println("getHref:" + link.getHref());
         return approvalLinkStr;
-        }
-    
-    public void afterPay() throws IOException{
+    }
+
+    public void afterPay() throws IOException {
         referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
 //        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?referenceNumber=" + referenceNumber);
         RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "\")");
@@ -427,15 +425,11 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
     }
-    
-    public BookingClassRuleSetEntity getBookingClassRule(FlightEntity flight, BookingClassEntity bookingClass) {
-        List<BookingClassRuleSetEntity> bcrss = (List<BookingClassRuleSetEntity>) flight.getBookingClassRuleSetEntities();
-        for (BookingClassRuleSetEntity bcrs: bcrss) {
-            if (bcrs.getBookingClass().equals(bookingClass)) {
-                return bcrs;
-            }
-        }
-        return null;
+
+    public void showBCRules(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bookingClassRuleSet = bookingClass.getBookingClassRuleSet();
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, bookingClass.getName(), bookingClassRuleSet.toString());
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
 
     public FlightEntity getDepartureDirectFlight() {
@@ -1605,6 +1599,5 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void setReferenceNumber(String referenceNumber) {
         this.referenceNumber = referenceNumber;
     }
-    
-    
+
 }

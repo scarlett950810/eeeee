@@ -28,37 +28,55 @@
 
     <ui:define name="centerPanel">
 
-        <p:panel class="panel panel-primary" header="Route Revenue and Profit Details">
-
             <h:form id="routeRevenue">
-                <h:panelGrid columns="6" cellpadding="5" class="panel-primary">
+                <h:panelGrid columns="6" cellpadding="5" class="panel-primary" style="position: fixed; z-index: 9999; background-color: #ffffff" width="76%">
                     <p:outputLabel value="Route:" for="route"/>
-
                     <p:selectOneMenu id="route" value="#{inventoryRevenueSummaryManagedBean.selectedRoute}" 
                                      converter="routeConverterForAllRoutes">
-                        <p:ajax listener="#{inventoryRevenueSummaryManagedBean.onRouteChange()}" update="routeRevenue:graphByTimeline"/>
+                        <p:ajax listener="#{inventoryRevenueSummaryManagedBean.onRouteChange()}" 
+                                update="routeRevenue:graphByTimeline routeRevenue:table"/>
                         <f:selectItem itemLabel="Select Route" itemDisabled="true"/>
                         <f:selectItems value="#{inventoryRevenueSummaryManagedBean.routeList}"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="routeFromDate" value="From:" />
                     <p:calendar id="routeFromDate" value="#{inventoryRevenueSummaryManagedBean.routeFromDate}" required="true"
                                 maxdate="#{inventoryRevenueSummaryManagedBean.routeFromMaxDate}">
-                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onRouteFromDateSelect}" update="@form"/>
+                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onRouteFromDateSelect}" 
+                                update="routeRevenue:graphByTimeline routeRevenue:table"/>
                     </p:calendar>
 
                     <p:outputLabel for="routeToDate" value="To:" />
                     <p:calendar id="routeToDate" value="#{inventoryRevenueSummaryManagedBean.routeToDate}" required="true"
                                 maxdate="#{inventoryRevenueSummaryManagedBean.today}">
-                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onRouteToDateSelect}" update="@form"/>
+                        <p:ajax event="dateSelect" listener="#{inventoryRevenueSummaryManagedBean.onRouteToDateSelect}" 
+                                update="routeRevenue:graphByTimeline routeRevenue:table"/>
                     </p:calendar>
                 </h:panelGrid>
                 
-                <p:chart id="graphByTimeline" type="bar" model="#{inventoryRevenueSummaryManagedBean.routeDetailsByTimelineCombinedModel}"
-                         style="width:80%;"/>
-            
-            </h:form>
+                <br/>
+                <br/>
 
-        </p:panel>
+                <p:chart id="graphByTimeline" type="bar" model="#{inventoryRevenueSummaryManagedBean.routeDetailsByTimelineCombinedModel}"
+                         style="width:100%;"/>
+                
+                <p:dataTable id="table" value="#{inventoryRevenueSummaryManagedBean.tableData}" var="rowData"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             paginator="true" rows="12" rowsPerPageTemplate="12,24,36">
+                    <p:column headerText="Month">
+                        <h:outputText value="#{rowData[0]}" />
+                    </p:column>
+                    <p:column headerText="Total Cost (S$)">
+                        <h:outputText value="#{rowData[1]}" />
+                    </p:column>
+                    <p:column headerText="Total Revenue (S$)">
+                        <h:outputText value="#{rowData[2]}" />
+                    </p:column>
+                    <p:column headerText="Profit Margin (%)">
+                        <h:outputText value="#{rowData[3]}" />
+                    </p:column>
+                </p:dataTable>
+                
+            </h:form>
 
     </ui:define>
 

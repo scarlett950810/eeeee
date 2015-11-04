@@ -74,7 +74,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         
         em.flush();
         
-        System.out.println("route.getcostpair = " + route.getCostPairs());
+//        System.out.println("route.getcostpair = " + route.getCostPairs());
 //        route.setCostPairs(list);
 //        em.merge(route);
     }
@@ -125,7 +125,7 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
         if (!costList.isEmpty()) {
             for (int i = 0; i < costList.size(); i++) {
                 if (costList.get(i).getCostType().equals(costName)) {
-                    System.out.print(i);
+//                    System.out.print(i);
                     costList.get(i).setCostFigure(costFigure);
                     break;
                 }
@@ -166,8 +166,8 @@ public class CostManagementSessionBean implements CostManagementSessionBeanLocal
 //        System.out.print("trytyrtytrty");
 //        System.out.print(costList);
         if (costList.size() == 23) {
-            System.out.print(costList.get(12).getCostType());
-            System.out.print(costList.get(13).getCostType());
+//            System.out.print(costList.get(12).getCostType());
+//            System.out.print(costList.get(13).getCostType());
             costList.get(13).setCostFigure(showRate);
             correctList(costList);
             for (CostPairEntity cpe: costList) {

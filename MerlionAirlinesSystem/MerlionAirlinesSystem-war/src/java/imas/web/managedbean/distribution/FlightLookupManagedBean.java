@@ -34,6 +34,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.persistence.PostRemove;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.chart.Axis;
@@ -1119,20 +1120,16 @@ public class FlightLookupManagedBean implements Serializable {
         }
 
     }
-
+    
     public boolean bookingClassSelectionDisabled(BookingClassEntity bc) {
         int totalPurchaseNo = adultNo + childNo + infantNo;
         return (flightLookupSessionBean.getQuotaLeft(bc) < totalPurchaseNo);
     }
     
-    public BookingClassRuleSetEntity getBookingClassRule(FlightEntity flight, BookingClassEntity bookingClass) {
-        List<BookingClassRuleSetEntity> bcrss = (List<BookingClassRuleSetEntity>) flight.getBookingClassRuleSetEntities();
-        for (BookingClassRuleSetEntity bcrs: bcrss) {
-            if (bcrs.getBookingClass().equals(bookingClass)) {
-                return bcrs;
-            }
-        }
-        return null;
+    public void showBCRules(BookingClassEntity bookingClass) {
+        BookingClassRuleSetEntity bookingClassRuleSet = bookingClass.getBookingClassRuleSet();
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, bookingClass.getName(), bookingClassRuleSet.toString());         
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
 
     public boolean checkBookingClassesSubmitted() {

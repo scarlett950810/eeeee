@@ -435,17 +435,19 @@
                                 - #{customerBookTicketManagedBean.departureDirectFlightBookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.departureDirectFlight, bookingClass)}"/>
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{customerBookTicketManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
 
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
                         </p:dataTable>
 
                     </c:if>
@@ -463,17 +465,19 @@
                                 #{customerBookTicketManagedBean.departureTransferFlight1BookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.departureTransferFlight1, bookingClass)}"/>
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{customerBookTicketManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
 
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
                         </p:dataTable>
 
                         <p:dataTable value="#{customerBookTicketManagedBean.departureTransferFlight2BookingClassCandidates}" var="bookingClass" 
@@ -487,17 +491,19 @@
                                 #{customerBookTicketManagedBean.departureTransferFlight2BookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
-                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.departureTransferFlight2, bookingClass)}"/>
+                            <p:column headerText="Booking Class Name">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="Rules associated with this booking class" />
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{customerBookTicketManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
 
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
                         </p:dataTable>
 
                     </c:if>
@@ -515,17 +521,19 @@
                                 #{customerBookTicketManagedBean.returnDirectFlightBookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.returnDirectFlight, bookingClass)}"/>
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{customerBookTicketManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
 
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
                         </p:dataTable>
 
                     </c:if>
@@ -543,17 +551,19 @@
                                 #{customerBookTicketManagedBean.returnTransferFlight1BookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.returnTransferFlight1, bookingClass)}"/>
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{customerBookTicketManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
 
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
                         </p:dataTable>
 
                         <p:dataTable value="#{customerBookTicketManagedBean.returnTransferFlight2BookingClassCandidates}" var="bookingClass" 
@@ -567,17 +577,19 @@
                                 #{customerBookTicketManagedBean.returnTransferFlight2BookingClassCandidates.get(0).flight.arrivalDate}
                             </f:facet>
 
-                            <p:column headerText="Booking Class Name" style="width: 20%">
+                            <p:column headerText="Booking Class Name">
                                 <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+                            
+                            <p:column headerText="Price">
+                                <h:outputText value="S$ #{bookingClass.price}" />
                             </p:column>
 
                             <p:column headerText="Rules">
-                                <h:outputText value="#{customerBookTicketManagedBean.getBookingClassRule(customerBookTicketManagedBean.returnTransferFlight2, bookingClass)}"/>
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{customerBookTicketManagedBean.showBCRules(bookingClass)}"/>
                             </p:column>
 
-                            <p:column headerText="Price" style="width: 15%">
-                                <h:outputText value="S$ #{bookingClass.price}" />
-                            </p:column>
                         </p:dataTable>
 
                     </c:if>                    

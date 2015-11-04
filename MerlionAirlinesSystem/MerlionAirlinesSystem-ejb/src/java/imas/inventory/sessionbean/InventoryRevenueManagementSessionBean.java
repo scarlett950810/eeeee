@@ -42,7 +42,7 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
         query.setParameter("bookingClassName", bookingClass.getName());
 
         Integer soldSeats = ((Long) query.getSingleResult()).intValue();
-        System.out.print(soldSeats);
+//        System.out.print(soldSeats);
         return soldSeats;
     }
 
@@ -120,6 +120,8 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
 
     @Override
     public Double getRouteTotalCostDuringDuration(RouteEntity route, Date from, Date to) {
+        System.out.println("getRouteTotalCostDuringDuration");
+        System.out.println(route + " " + from + " " + to);
         Query query = em.createQuery("SELECT f FROM FlightEntity f WHERE f.route = :route AND f.departureDate > :from AND f.departureDate < :to");
         query.setParameter("route", route);
         query.setParameter("from", from);
