@@ -15,8 +15,11 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-h1"><a href="inventoryCost.xhtml">Manage Cost</a></li>
-                <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Open Flight for Sale</a></li>                     
+                <li class="sidebar-h1">Open Flight for Sale</li>
+                <li><a href="inventoryOpenForSaleTimerManagement.xhtml">Automatically</a></li>
+                <li><a href="inventorySeatsManagement.xhtml">Manually</a></li>
                 <li class="sidebar-h1"><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
+                <li class="sidebar-h1"><a href="inventoryManagePromotion.xhtml">Manage Promotion</a></li>
                 <li class="sidebar-h1"><a href="inventoryRevenueDashboard.xhtml">Revenue Dashboard</a></li>
             </ul>
         </div>
@@ -25,6 +28,8 @@
     <ui:define name="centerPanel">
 
         <h:form id="formChangeRouteGroup">
+            <p:commandButton value="Return" actionListener="#{yieldManagementManagedBean.returnBack}" class="btn-sm btn-default"/>            
+            
             <h:panelGrid columns="2" cellpadding="5" class="panel-success">
                 <p:outputLabel for="selectFlight" value="Select a Flight to Manage its Rules:" />
                 <p:selectOneMenu id="selectFlight" value="#{yieldManagementManagedBean.flight}"

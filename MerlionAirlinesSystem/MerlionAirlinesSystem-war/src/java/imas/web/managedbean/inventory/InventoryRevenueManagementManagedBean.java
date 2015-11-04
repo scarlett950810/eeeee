@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SlideEndEvent;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -31,13 +32,13 @@ import org.primefaces.model.chart.HorizontalBarChartModel;
 @ManagedBean
 @SessionScoped
 public class InventoryRevenueManagementManagedBean implements Serializable {
-    
+
     @EJB
     private FlightLookupSessionBeanLocal flightLookupSessionBean;
-    
+
     @EJB
     private InventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
-    
+
     private List<FlightEntity> flightList;
     private List<FlightEntity> fliteredFlight;
     private FlightEntity selectedFlight;
@@ -59,7 +60,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     private int economyFourQuota;
     private int economyFiveQuota;
     private int economyAgencyQuota;
-    
+
     private HorizontalBarChartModel horizontalBarModel;
 
     public InventoryRevenueManagementManagedBean() {
@@ -103,25 +104,25 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     }
 
     public void viewBookingClass() throws IOException {
-        
+
         bookingClassList = selectedFlight.getBookingClasses();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", bookingClassList);
         economyClassSeats = inventoryRevenueManagementSessionBean.checkSeatsCapacity(selectedFlight);
         close = true;
         createHorizontalBarModel();
-        
+
         for (BookingClassEntity bookingClassList1 : bookingClassList) {
-            if(bookingClassList1.isEconomyClass1BookingClassEntity()){
+            if (bookingClassList1.isEconomyClass1BookingClassEntity()) {
                 economyOne = bookingClassList1;
-            }else if(bookingClassList1.isEconomyClass2BookingClassEntity()){
+            } else if (bookingClassList1.isEconomyClass2BookingClassEntity()) {
                 economyTwo = bookingClassList1;
-            }else if(bookingClassList1.isEconomyClass3BookingClassEntity()){
+            } else if (bookingClassList1.isEconomyClass3BookingClassEntity()) {
                 economyThree = bookingClassList1;
-            }else if(bookingClassList1.isEconomyClass4BookingClassEntity()){
+            } else if (bookingClassList1.isEconomyClass4BookingClassEntity()) {
                 economyFour = bookingClassList1;
-            }else if(bookingClassList1.isEconomyClass5BookingClassEntity()){
+            } else if (bookingClassList1.isEconomyClass5BookingClassEntity()) {
                 economyFive = bookingClassList1;
-            }else if(bookingClassList1.isEconomyClassAgencyBookingClassEntity()){
+            } else if (bookingClassList1.isEconomyClassAgencyBookingClassEntity()) {
                 economyAgency = bookingClassList1;
             }
         }
@@ -132,7 +133,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         economyFourQuota = economyFour.getQuota();
         economyFiveQuota = economyFive.getQuota();
         economyAgencyQuota = economyAgency.getQuota();
-        
+
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("inventoryBookingClassManagement.xhtml");
@@ -258,15 +259,15 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     public void onSlideEndThree(SlideEndEvent event) {
         economyThreeQuota = event.getValue();
     }
-    
+
     public void onSlideEndFour(SlideEndEvent event) {
         economyFourQuota = event.getValue();
     }
-    
+
     public void onSlideEndFive(SlideEndEvent event) {
         economyFiveQuota = event.getValue();
     }
-    
+
     public void onSlideEndAgency(SlideEndEvent event) {
         economyAgencyQuota = event.getValue();
     }
@@ -343,57 +344,54 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         this.economyAgencyQuota = economyAgencyQuota;
     }
 
-    
     private void createHorizontalBarModel() {
         horizontalBarModel = new HorizontalBarChartModel();
- 
-        
+
         ChartSeries sold = new ChartSeries();
         ChartSeries unSold = new ChartSeries();
         sold.setLabel("Sold");
         unSold.setLabel("Unsold");
-        for(int i=bookingClassList.size()-1; i>=0 ; i--){
+        for (int i = bookingClassList.size() - 1; i >= 0; i--) {
             int temp = inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClassList.get(i).getId());
             int quota = bookingClassList.get(i).getQuota();
             sold.set(bookingClassList.get(i).getName(), temp);
             unSold.set(bookingClassList.get(i).getName(), quota - temp);
         }
- 
- 
+
         horizontalBarModel.addSeries(sold);
         horizontalBarModel.addSeries(unSold);
-         
+
         horizontalBarModel.setTitle("Booking Class Ticket Sales Condition");
         horizontalBarModel.setLegendPosition("e");
         horizontalBarModel.setStacked(true);
         horizontalBarModel.setAnimate(true);
-         
+
         Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
         xAxis.setLabel("Number of Tickets");
         xAxis.setMin(0);
         xAxis.setMax(200);
         xAxis.setTickCount(21);
-         
+
         Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Types of Booking Classes");        
+        yAxis.setLabel("Types of Booking Classes");
     }
 
     public HorizontalBarChartModel getHorizontalBarModel() {
         return horizontalBarModel;
     }
-    
+
     public void editYieldManagementRules() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSellingFlightToManage", selectedFlight);
         FacesContext.getCurrentInstance().getExternalContext().redirect("inventoryRulesManagement.xhtml");
     }
-    
+
     public void editTermsAndConditions() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSellingFlightToManage", selectedFlight);
         FacesContext.getCurrentInstance().getExternalContext().redirect("inventoryTermsAndConditionsManagement.xhtml");
     }
-    
+
     public void setAllFlightYearsBack(boolean departured, int year) {
         flightLookupSessionBean.setAllFlightYearsBack(departured, year);
     }
-    
+
 }

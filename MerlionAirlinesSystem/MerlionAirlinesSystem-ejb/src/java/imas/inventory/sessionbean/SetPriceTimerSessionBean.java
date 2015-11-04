@@ -46,7 +46,7 @@ public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
         flights become available for booking 12 months before depature, 
         thus staff from inventory have 1 month to manually adjust the price.
         */
-        bookingClassesManagementSessionBean.autoPriceFlightsNeedToBePriced(5);
+        bookingClassesManagementSessionBean.autoPriceFlightsNeedToBePriced(monthsToDeparture);
     }
     
 }
