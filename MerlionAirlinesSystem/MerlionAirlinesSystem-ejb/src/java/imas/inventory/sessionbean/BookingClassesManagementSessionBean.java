@@ -331,11 +331,11 @@ public class BookingClassesManagementSessionBean implements BookingClassesManage
 
 //        System.out.println("costPerSeatPerMile = " + costPerSeatPerMile);
 //        System.out.println("baseFare = " + baseFare);
-        int firstClassAgencyBCQuota = (int) 0.1 * firstClassCapacity;
+        int firstClassAgencyBCQuota = (int) (0.1 * firstClassCapacity);
         int firstClassBCQuota = firstClassCapacity - firstClassAgencyBCQuota;
-        int businessClassAgencyBCQuota = (int) 0.1 * businessClassCapacity;
+        int businessClassAgencyBCQuota = (int) (0.1 * businessClassCapacity);
         int businessClassBCQuota = businessClassCapacity - businessClassAgencyBCQuota;
-        int premiumEconomyClassAgencyBCQuota = (int) premiumEconomyClassCapacity;
+        int premiumEconomyClassAgencyBCQuota = (int) (0.1 * premiumEconomyClassCapacity);
         int premiumEconomyClassBCQuota = premiumEconomyClassCapacity - premiumEconomyClassAgencyBCQuota;
 
         generateFirstClassBookingClassEntityAndTAndC(flight, 15 * baseFare, firstClassBCQuota);

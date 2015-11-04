@@ -1114,6 +1114,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
                     // check if there is a single booking class in the particular flight fulfill the booking amount
                     List<BookingClassEntity> bcs
                             = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(flight, seatClass, totalPurchaseNo);
+                    bcs = filterNonAgencyBookingClasses(bcs);
                     if (seatClass.equals("Economy Class")) {
                         for (BookingClassEntity bc : bcs) {
                             if (flightLookupSessionBean.getQuotaLeft(bc) >= totalPurchaseNo && bc.getPrice() < flightsAvailableOnDate_LowestFare) {
@@ -1136,6 +1137,16 @@ public class CustomerBookTicketManagedBean implements Serializable {
         }
 
         return flightsAvailableOnDate_LowestFare;
+    }
+    
+    private List<BookingClassEntity> filterNonAgencyBookingClasses (List<BookingClassEntity> originalBCList) {
+        List<BookingClassEntity> nonAgencyBCList = new ArrayList<>();
+        for (BookingClassEntity bc : originalBCList) {
+            if (!bc.isAgencyBookingClass()) {
+                nonAgencyBCList.add(bc);
+            }
+        }
+        return nonAgencyBCList;
     }
 
     public void init7DayPricing() {
@@ -1342,28 +1353,28 @@ public class CustomerBookTicketManagedBean implements Serializable {
         if (selectedDepartureDirectFlight()) {
             List<BookingClassEntity> bookingClassList
                     = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureDirectFlight, seatClass, totalPurchaseNo);
-            departureDirectFlightBookingClassCandidates = bookingClassList;
+            departureDirectFlightBookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList);
         } else if (selectedDepartureTransferFlight()) {
             List<BookingClassEntity> bookingClassList1
                     = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight1, seatClass, totalPurchaseNo);
             List<BookingClassEntity> bookingClassList2
                     = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(departureTransferFlight2, seatClass, totalPurchaseNo);
-            departureTransferFlight1BookingClassCandidates = bookingClassList1;
-            departureTransferFlight2BookingClassCandidates = bookingClassList2;
+            departureTransferFlight1BookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList1);
+            departureTransferFlight2BookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList2);
         }
 
         if (twoWay) {
             if (selectedReturnDirectFlight()) {
                 List<BookingClassEntity> bookingClassList
                         = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnDirectFlight, seatClass, totalPurchaseNo);
-                returnDirectFlightBookingClassCandidates = bookingClassList;
+                returnDirectFlightBookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList);
             } else if (selectedReturnTransferFlight()) {
                 List<BookingClassEntity> bookingClassList1
                         = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight1, seatClass, totalPurchaseNo);
                 List<BookingClassEntity> bookingClassList2
                         = flightLookupSessionBean.getAvailableBookingClassUnderFlightUnderSeatClass(returnTransferFlight2, seatClass, totalPurchaseNo);
-                returnTransferFlight1BookingClassCandidates = bookingClassList1;
-                returnTransferFlight2BookingClassCandidates = bookingClassList2;
+                returnTransferFlight1BookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList1);
+                returnTransferFlight2BookingClassCandidates = filterNonAgencyBookingClasses(bookingClassList2);
             }
         }
 

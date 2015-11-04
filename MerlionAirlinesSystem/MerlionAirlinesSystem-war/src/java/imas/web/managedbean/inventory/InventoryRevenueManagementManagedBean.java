@@ -18,7 +18,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SlideEndEvent;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -68,6 +67,10 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        flightList = flightLookupSessionBean.getAllSellingFlights();
+    }
+    
+    public void refresh() {
         flightList = flightLookupSessionBean.getAllSellingFlights();
     }
 

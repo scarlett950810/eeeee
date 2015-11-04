@@ -78,6 +78,7 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     private boolean counterCheckInClosed;
     private boolean departured;
     private Double costPerSeatPerMile;
+    private Double revenue;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date estimateDepartureDate;//ture is delayed
@@ -411,6 +412,16 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
     public void setCostPerSeatPerMile(Double costPerSeatPerMile) {
         this.costPerSeatPerMile = costPerSeatPerMile;
+    }
+
+    public Double getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(Double revenue) {
+        if (isDepartured()) {
+            this.revenue = revenue;
+        }
     }
 
     @Override
