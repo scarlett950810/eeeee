@@ -221,6 +221,8 @@ public class TicketEntity implements Serializable {
 
     public void setMileage(Double mileage) {
         this.mileage = mileage;
+    }
+    
     public PromotionEntity getPromotion() {
         return promotion;
     }
