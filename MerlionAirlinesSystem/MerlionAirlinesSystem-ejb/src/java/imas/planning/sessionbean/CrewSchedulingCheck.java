@@ -130,7 +130,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
             System.err.println("1st assign job start");
             Calendar cal = Calendar.getInstance();
             cal.setTime(earliestDep);
-            cal.add(Calendar.YEAR, 1);
+            cal.add(Calendar.YEAR, 50);
             earliestDep = cal.getTime();
 
             for (FlightEntity f : flightsAvai) {
@@ -374,7 +374,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
         if (pilot.getPilotFlights() == null || pilot.getPilotFlights().isEmpty()) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(earliestDep);
-            cal.add(Calendar.YEAR, 1);
+            cal.add(Calendar.YEAR, 50);
             earliestDep = cal.getTime();
             System.err.println("before getBase");
             for (FlightEntity f : flightsAvai) {
@@ -647,7 +647,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
             System.err.println("1st assign job start");
             Calendar cal = Calendar.getInstance();
             cal.setTime(earliestDep);
-            cal.add(Calendar.YEAR, 1);
+            cal.add(Calendar.YEAR, 50);
             earliestDep = cal.getTime();
 
             for (FlightEntity f : flightsAvai) {
@@ -996,7 +996,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
         if (aircraft.getFlights() == null || aircraft.getFlights().isEmpty()) {
             System.err.println("1st assign job start");
             cal.setTime(earliestDep);
-            cal.add(Calendar.YEAR, 1);
+            cal.add(Calendar.YEAR, 50);
             earliestDep = cal.getTime();
 
             for (FlightEntity f : flightsAvai) {
@@ -1067,7 +1067,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
             aircraft.setFlights(new ArrayList<FlightEntity>());
             aircraft.getFlights().add(earliestFlight);
         }
-        earliestFlight.setAircraftFlight(aircraft);
+        earliestFlight.setAircraft(aircraft);
         earliestDep = earliestFlight.getArrivalDate();
         //       System.err.println("4");
 
@@ -1092,47 +1092,110 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
 //            System.err.println("earliestDep"+earliestDep);
             findNextFlight = false;
             Date findSoonest = null;
-            for (FlightEntity f : flightsAvai) {
-
-                if (currentLoc.equals(aircraft.getAirportHub())) {
-                    if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
-                        findSoonest = f.getDepartureDate();
-                        flightAssigned = f;
-                        findNextFlight = true;
-                    }
-                } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
-                    findSoonest = f.getDepartureDate();
-                    flightAssigned = f;
-                    findNextFlight = true;
+            Double flyingHoursAC = calculateMaintenanceHours(aircraft, mtAcc);
+             boolean findHub = false;
+                if(flyingHoursAC >= 70){
                     
-                }
+                    
+                for (FlightEntity f : flightsAvai) {
 
-            }
+                    if (currentLoc.equals(aircraft.getAirportHub())) {
+                        if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 ) {
+                            flightAssigned = f;
+                            findSoonest = f.getDepartureDate();
+                            findHub = true;
+                             findNextFlight = true;
+                        }
+                    } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 ) {
+                        flightAssigned = f;
+                        findSoonest = f.getDepartureDate();
+                        findHub = true;
+                         findNextFlight = true;
+                    }
+
+                }
+                    if(!findHub)
+                    {
+                         for (FlightEntity f : flightsAvai) {
+
+                    
+                        if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 ) {
+                            flightAssigned = f;
+                            findSoonest = f.getDepartureDate();
+                          
+                             findNextFlight = true;
+                        }
+                        }
+                        
+                    }                
+                }else{
+                    
+                         for (FlightEntity f : flightsAvai) {
+
+                    
+                        if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) >0) {
+                            flightAssigned = f;
+                            findSoonest = f.getDepartureDate();
+                             findNextFlight = true;
+                           
+                        }
+                        }
+                        
+                }
+            
+             
             //find a suitable flight
             if (findSoonest == null) {
                 findNextFlight = false;
             } else {
-
+                
+                
+                if(flyingHoursAC >= 70){
+                    
+                   if(findHub){
                 for (FlightEntity f : flightsAvai) {
 
                     if (currentLoc.equals(aircraft.getAirportHub())) {
                         if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
                             flightAssigned = f;
                             findSoonest = f.getDepartureDate();
-                            findNextFlight = true;
+                            
                         }
                     } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(aircraft.getAirportHub().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
                         flightAssigned = f;
                         findSoonest = f.getDepartureDate();
-                        findNextFlight = true;
+                        
                     }
 
                 }
-            }
-            //find the nearest flight
-//         System.err.println("7");
+                   }else
+                   {
+                    
+                         for (FlightEntity f : flightsAvai) {
 
-            Double flyingHoursAC = calculateMaintenanceHours(aircraft, mtAcc);
+                    
+                        if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
+                            flightAssigned = f;
+                            findSoonest = f.getDepartureDate();
+                           
+                        }
+                        }
+                        
+                    }                
+                }else{
+                    
+                         for (FlightEntity f : flightsAvai) {
+
+                    
+                        if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
+                            flightAssigned = f;
+                            findSoonest = f.getDepartureDate();
+                           
+                        }
+                        }
+                        
+                }
+            }
             //         System.err.println("7.1 flyingHours"+flyingHoursAC);
 
             if (findNextFlight) {
@@ -1161,7 +1224,7 @@ public class CrewSchedulingCheck implements CrewSchedulingCheckLocal {
 
                 } else {
                     aircraft.getFlights().add(flightAssigned);
-                    flightAssigned.setAircraftFlight(aircraft);
+                    flightAssigned.setAircraft(aircraft);
                     flightsAvai.remove(flightAssigned);
                     flightsAssigned.add(flightAssigned);
                     flightsAll.remove(flightAssigned);

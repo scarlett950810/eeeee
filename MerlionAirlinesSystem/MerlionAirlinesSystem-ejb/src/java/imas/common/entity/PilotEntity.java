@@ -6,6 +6,7 @@
 package imas.common.entity;
 
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,9 @@ public class PilotEntity extends StaffEntity implements Serializable {
     @ManyToMany
     private List<FlightEntity> pilotFlights;
     private Boolean mileageLimit; // 5000 --> false; 10000--> true
+//    private String seniority; //A,B,C,D
+//    private String preferredDay;
+//    private RouteEntity preferredRoute;
 // change
 
     public PilotEntity() {
@@ -73,6 +77,30 @@ public class PilotEntity extends StaffEntity implements Serializable {
     public void setMileageLimit(Boolean mileageLimit) {
         this.mileageLimit = mileageLimit;
     }
+
+//    public String getSeniority() {
+//        return seniority;
+//    }
+//
+//    public void setSeniority(String seniority) {
+//        this.seniority = seniority;
+//    }
+//
+//    public String getPreferredDay() {
+//        return preferredDay;
+//    }
+//
+//    public void setPreferredDay(String preferredDay) {
+//        this.preferredDay = preferredDay;
+//    }
+//
+//    public RouteEntity getPreferredRoute() {
+//        return preferredRoute;
+//    }
+//
+//    public void setPreferredRoute(RouteEntity preferredRoute) {
+//        this.preferredRoute = preferredRoute;
+//    }
 
 }
 

@@ -362,4 +362,12 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         return speed;
     }
 
+    @Override
+    public RouteEntity getRouteForPreference() { // for demo trial, deleted later
+        List<RouteEntity> routes = retrieveAllRoutes();
+        if(routes.isEmpty())
+            return null;
+        return routes.get(0);
+    }
+
 }

@@ -8,6 +8,7 @@ package imas.departure.sessionbean;
 import imas.distribution.entity.PassengerEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.SeatEntity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -51,7 +52,7 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
                     comingFlights.add(flights.get(i));
                 }
             }
-            Collections.sort(flights);
+            Collections.sort(comingFlights);
             return comingFlights;
         }
     }
@@ -64,16 +65,21 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
         PassengerEntity p3 = new PassengerEntity("li3" + flight.getFlightNo(), "hao3", "12334443");
         PassengerEntity p4 = new PassengerEntity("li4" + flight.getFlightNo(), "hao4", "12334444");
         PassengerEntity p5 = new PassengerEntity("li5" + flight.getFlightNo(), "hao5", "12334445");
+        p1.setTitle("MR");
+        p2.setTitle("MR");
+        p3.setTitle("MR");
+        p4.setTitle("MR");
+        p5.setTitle("MR");
         em.persist(p1);
         em.persist(p2);
         em.persist(p3);
         em.persist(p4);
         em.persist(p5);
-        TicketEntity t1 = new TicketEntity(flight, "First", 1000.0, p1);
-        TicketEntity t2 = new TicketEntity(flight, "First", 1000.0, p2);
-        TicketEntity t3 = new TicketEntity(flight, "First", 1000.0, p3);
-        TicketEntity t4 = new TicketEntity(flight, "First", 1000.0, p4);
-        TicketEntity t5 = new TicketEntity(flight, "First", 1000.0, p5);
+        TicketEntity t1 = new TicketEntity(flight, "First Class", 1000.0, p1);
+        TicketEntity t2 = new TicketEntity(flight, "First Class", 1000.0, p2);
+        TicketEntity t3 = new TicketEntity(flight, "First Class", 1000.0, p3);
+        TicketEntity t4 = new TicketEntity(flight, "First Class", 1000.0, p4);
+        TicketEntity t5 = new TicketEntity(flight, "First Class", 1000.0, p5);
         t1.setFlightWiFi(Boolean.FALSE);
         t2.setFlightWiFi(Boolean.FALSE);
         t3.setFlightWiFi(Boolean.FALSE);
@@ -89,6 +95,11 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
         t3.setExclusiveService(Boolean.FALSE);
         t4.setExclusiveService(Boolean.FALSE);
         t5.setExclusiveService(Boolean.FALSE);
+        t1.setReferenceNumber("AAAAAAAAAAAA");
+        t2.setReferenceNumber("BBBBBBBBBBBB");
+        t3.setReferenceNumber("CCCCCCCCCCCC");
+        t4.setReferenceNumber("DDDDDDDDDDDD");
+        t5.setReferenceNumber("EEEEEEEEEEEE");
         em.persist(t1);
         em.persist(t2);
         em.persist(t3);
@@ -104,11 +115,79 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
         em.merge(flight);
     }
 
+    public int seatAllocation(TicketEntity ticket) {
+        FlightEntity flight = ticket.getFlight();
+        Long aircraftID = flight.getAircraft().getId();
+        String seatClass;
+        if (ticket.getBookingClassName().equals("First Class")) {
+            seatClass = "First Class";
+        } else if (ticket.getBookingClassName().equals("Business Class")) {
+            seatClass = "Business Class";
+        } else if (ticket.getBookingClassName().equals("Premium Economy Class")) {
+            seatClass = "Premium Economy Class";
+        } else {
+            seatClass = "Economy Class";
+        }
+
+        //all seats
+        Query query1 = em.createQuery("SELECT s FROM SeatEntity s where s.aircraft.id = :aircraftID");
+        query1.setParameter("aircraftID", aircraftID);
+        List<SeatEntity> seats = (List<SeatEntity>) query1.getResultList();
+        System.out.print(seats);
+        //occupied
+        Query query2 = em.createQuery("SELECT t.seat FROM TicketEntity t where t.flight = :flight AND t.seat.seatClass=:seatClass");
+        query2.setParameter("flight", flight);
+        query2.setParameter("seatClass", seatClass);
+        List<SeatEntity> occupiedSeats = (List<SeatEntity>) query2.getResultList();
+        System.out.print(occupiedSeats);
+        //same class seat
+        Query query3 = em.createQuery("SELECT s FROM SeatEntity s where s.aircraft.id = :aircraftID AND s.seatClass=:seatClass");
+        query3.setParameter("aircraftID", aircraftID);
+        query3.setParameter("seatClass", seatClass);
+        List<SeatEntity> sameSeats = (List<SeatEntity>) query3.getResultList();
+        System.out.print(sameSeats);
+
+        if (occupiedSeats.size() < sameSeats.size()) {
+            for (int i = 0; i < sameSeats.size(); i++) {
+                if (!occupiedSeats.contains(sameSeats.get(i))) {
+                    ticket.setSeat(sameSeats.get(i));
+                    return 1;
+                }
+            }
+        } else {
+            for (int i = 0; i < seats.size(); i++) {
+                if (!occupiedSeats.contains(seats.get(i))) {
+                    if (seatClass.equals("Economy Class")) {
+                        ticket.setSeat(seats.get(i));
+                        return 2;
+                    } else if (seatClass.equals("Premium Economy Class") && (seats.get(i).isBusinessClass() || seats.get(i).isFirstClass())) {
+                        ticket.setSeat(seats.get(i));
+                        return 2;
+                    } else if (seatClass.equals("Business Class") && (seats.get(i).isFirstClass())) {
+                        ticket.setSeat(seats.get(i));
+                        return 2;
+                    } else {
+                        return 3;
+                    }
+                }
+            }
+
+        }
+        return 3;
+    }
+
     @Override
-    public void update(TicketEntity ticket, Double actualBaggageWeight, Boolean issued) {
+    public int update(TicketEntity ticket, Double actualBaggageWeight) {
         ticket.setActualBaggageWeight(actualBaggageWeight);
-        ticket.setIssued(issued);
+        ticket.setIssued(Boolean.TRUE);
+        int result = 1;//has seat or same  1, upgrade 2, no seat 3
+        if (ticket.getSeat() == null) {
+            System.out.print("WQDWWWQQWQWW");
+            result = seatAllocation(ticket);
+        }
+
         em.merge(ticket);
+        return result;
 //        System.out.print(ticket);
 //        System.out.print("shi shi shi");
     }

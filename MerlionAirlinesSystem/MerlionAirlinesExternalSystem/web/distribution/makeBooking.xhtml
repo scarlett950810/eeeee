@@ -31,7 +31,8 @@
         <script type="text/javascript">
 
             function Redirect() {
-                window.open("bookingConfirmation.xhtml", "_blank");
+                window.location.assign("#{customerBookTicketManagedBean.confirm()}")
+//                window.open("");
             }
 
         </script>
@@ -41,27 +42,23 @@
         <p:panel header="Flight Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
 
             <p:dataTable value="#{customerBookTicketManagedBean.flights}" var="flight" style="border: none;">
-                <p:column>
+                <p:column headerText="Flight No.">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
 
-                <p:column>
+                <p:column headerText="Departure City">
                     <h:outputText value="#{flight.route.originAirport.cityName} (#{flight.route.originAirport.airportCode})" />
                 </p:column>
 
-                <p:column>
+                <p:column headerText="Departure Date">
                     <h:outputText value="#{flight.departureDate}" />
                 </p:column>
 
-                <p:column>
-                    <h:outputText value="to" />
-                </p:column>
-
-                <p:column>
+                <p:column headerText="Arrival City">
                     <h:outputText value="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" />
                 </p:column>
 
-                <p:column>
+                <p:column headerText="Arrival Date">
                     <h:outputText value="#{flight.arrivalDate}" />
                 </p:column>
             </p:dataTable>
@@ -73,7 +70,7 @@
             <p:outputLabel value="(Includes taxes and surcharges)" />
         </p:panel>
 
-        <h:form id="makeBooking" target="_blank">
+        <h:form id="makeBooking">
 
             <p:growl id="growl" sticky="true" showDetail="true"/>
 
@@ -248,7 +245,7 @@
                     <p:panel header="Payment Details">
 
                         <h:panelGrid columns="2" columnClasses="label, value">
-                            <p:commandButton value="Confirm" actionListener="#{customerBookTicketManagedBean.confirm}" onclick="Redirect();"></p:commandButton>
+                            <p:commandButton value="Proceed to payment"  onclick="Redirect();"></p:commandButton>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>

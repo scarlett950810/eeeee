@@ -18,22 +18,20 @@ import org.primefaces.model.TreeNode;
 @Local
 public interface CostManagementSessionBeanLocal {
 
-//    public List<CostPairEntity> createTable();
-//     public CostEntity getFisrtCostEntity() ;
-//    public void writeList(List<CostPairEntity> list);
-    
-    public List<CostPairEntity> getCostPairList(RouteEntity selectedRoute);
-    
-    public List<CostPairEntity> correctList(List<CostPairEntity> list);
+    public void initCostTable(RouteEntity selectedRoute);
 
     public TreeNode createRoot(List<CostPairEntity> list);
-
-    public void initCostTable(RouteEntity selectedRoute);
 
     public void updateCost(RouteEntity selectedRoute, String costName, Double costFigure);
 
     public void updateShowRate(RouteEntity selectedRoute, Double showRate);
 
+    public List<CostPairEntity> correctList(List<CostPairEntity> list);
+
+    public List<CostPairEntity> getCostPairList(RouteEntity selectedRoute);
+
     public Double getCostPerSeatPerMile(RouteEntity selectedRoute);
+
+
 
 }

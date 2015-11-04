@@ -17,14 +17,14 @@
                 <li class="sidebar-h1"><a href="inventoryCost.xhtml">Manage Cost</a></li>
                 <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Open Flight for Sale</a></li>                     
                 <li class="sidebar-h1"><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
-                <li class="sidebar-h1"><a href="#">Revenue Dashboard</a></li>
+                <li class="sidebar-h1"><a href="inventoryRevenueDashboard.xhtml">Revenue Dashboard</a></li>
             </ul>
         </div>
     </ui:define>
 
     <ui:define name="centerPanel">
         
-        <p:chart type="bar" model="#{inventoryRevenueManagementManagedBean.horizontalBarModel}" style="height:300px"/>
+        <p:chart type="bar" model="#{inventoryRevenueManagementManagedBean.horizontalBarModel}" style="width: 98%"/>
 
         <br/>
         
@@ -38,7 +38,7 @@
             </p:column>
 
             <p:column headerText="Price" width="15%">
-                <h:outputText value="#{bookingClasses.price}" />
+                <h:outputText value="$ #{bookingClasses.price}" />
             </p:column>
 
             <p:column headerText="Total Quota" width="15%">
@@ -55,7 +55,6 @@
 
         </p:dataTable>
 
-        <br/>
 
         <h:form>
             <p:commandButton value="Return" actionListener="#{inventoryRevenueManagementManagedBean.returnBack}" class="btn-sm btn-default"/>            
@@ -68,8 +67,6 @@
             <p:commandButton value="Edit Booking Class Pricing" onclick="PF('changePrice').show();" style="float: right; margin-right: 1%;" 
                              class="btn-sm btn-success"/>
         </h:form>
-
-
 
         <p:dialog id="dialogEditEconomy" header="Edit Economy Booking Class Ratio" widgetVar="editBox" minHeight="40">
             <p:ajax update="dialogEditEconomy" event="close" listener="#{inventoryRevenueManagementManagedBean.closeQuotaForm}" />    

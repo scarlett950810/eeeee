@@ -13,6 +13,7 @@
                 <li><a href="delayManagement.xhtml">Delay Management</a></li>         
                 <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
                 <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
+                <li><a href="passengerService.xhtml">Passenger Service</a></li>
             </ul>
         </div>
     </ui:define>
@@ -99,15 +100,14 @@
                         <h:outputLabel  value="Passport Expiry Date:"/>
                         <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.passenger.passportExpiry}" />      
                         <h:outputLabel  value="Seat Class:"/>
-                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.seat.seatClass}" />
+                        <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.bookingClassName}" />
                         <h:outputLabel  value="Seat No:"/>
                         <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.seat.seatNo}" />
                         <h:outputLabel  value="Baggage Weight Limit"/>
                         <h:outputText value="#{passengerCheckInManagedBean.selectedTicket.baggageWeight}" />
                         <h:outputLabel  for="actualWeight" value="Actual Weight"/>
                         <p:inputText id="actualWeight" value="#{passengerCheckInManagedBean.actualBaggageWeight}"/>
-                        <h:outputLabel value="Issue Status"/>
-                        <p:selectBooleanCheckbox value="#{passengerCheckInManagedBean.issued}"/>
+
 
 
                     </p:panelGrid>

@@ -38,12 +38,12 @@ public class ErrorHandlingManagedBean implements Serializable {
     }
 
     public void noAccessRedirection() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/common_landing.xhtml");
 
     }
 
     public void noAccessActivationRedirection() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/MerlionAirlinesSystem-war/common/common_landing.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8181/MerlionAirlinesSystem-war/common/common_landing.xhtml");
 
     }
 

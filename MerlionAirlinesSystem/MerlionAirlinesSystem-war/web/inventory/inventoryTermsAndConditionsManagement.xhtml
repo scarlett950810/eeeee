@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="title">Manage Terms and Conditions</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="inventoryCost.xhtml">Manage Cost</a></li>
+                <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Open Flight for Sale</a></li>                     
+                <li class="sidebar-h1"><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
+                <li class="sidebar-h1"><a href="inventoryRevenueDashboard.xhtml">Revenue Dashboard</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <h:form id="editTnC">
+            <h:panelGrid columns="2" cellpadding="5" class="panel-success">
+                <p:outputLabel for="selectFlight" value="Select a Flight" />
+                <p:selectOneMenu id="selectFlight" value="#{inventoryTnCManagementManagedBean.flight}"
+                                 converter="flightConverter" filter="true" filterMatchMode="contains">
+                    <p:ajax listener="#{inventoryTnCManagementManagedBean.onFlightChange()}" update="@form"/>
+                    <f:selectItem itemLabel="Select Flight" itemDisabled="true" />
+                    <f:selectItems value="#{inventoryTnCManagementManagedBean.flights}" var="flight" 
+                                   itemLabel="#{flight.flightNo} - #{flight.route.originAirport.airportName} to #{flight.route.destinationAirport.airportName}, departure at #{flight.departureDate}" itemValue="#{flight}" />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="selectBookingClass" value="Select a Booking Class to Manage its Terms and Conditions" />
+                <p:selectOneMenu id="selectBookingClass" value="#{inventoryTnCManagementManagedBean.bookingClass}"
+                                 converter="bookingClassConverter" filter="true" filterMatchMode="contains">
+                    <p:ajax listener="#{inventoryTnCManagementManagedBean.onBookingClassChange()}" update="@form"/>
+                    <f:selectItem itemLabel="Select Booking Class" itemDisabled="true" />
+                    <f:selectItems value="#{inventoryTnCManagementManagedBean.bookingClasses}" var="bc" 
+                                   itemLabel="#{bc.name}" itemValue="#{bc}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+
+            <br/>
+
+            <h:panelGrid columns="3" cellpadding="5">
+                <h:outputText value="Change Flight Fee (&gt; 60 days):"/>
+                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.changeFlightFeeForMoreThan60Days}"/>
+                <h:outputText value="of original price."/>
+
+                <h:outputText value="Change Flight Fee (&lt;= 60 days):"/>
+                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.changeFlightFeeForLessThan60Days}"/>
+                <h:outputText value="of original price."/>
+
+                <h:outputText value="Cancellation Refund (&gt; 60 days):"/>
+                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.cancellationRefundForMoreThan60Days}"/>
+                <h:outputText value="of original price."/>
+
+                <h:outputText value="Cancellation Refund (&lt;= 60 days):"/>
+                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.cancellationRefundForLessThan60Days}"/>
+                <h:outputText value="of original price."/>
+
+                <h:outputText value="Mileage Accrual:"/>
+                <p:inputText value="#{inventoryTnCManagementManagedBean.bookingClassRuleSet.mileageAccrual}"/>
+                <h:outputText value="times of flying distance."/>
+
+                <p:commandButton value="Update" actionListener="#{inventoryTnCManagementManagedBean.update()}"
+                                 update="@form" class="btn-sm btn-success"/>
+            </h:panelGrid> 
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

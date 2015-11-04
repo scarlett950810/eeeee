@@ -16,7 +16,11 @@
     </ui:define>
 
     <ui:define name="main">
+        #{customerBookTicketManagedBean.afterPay()}
+
         <p:outputLabel value="Congratulations! You Have Successfully Made the Booking" style="margin-top: 7%; font-size: 150%;"></p:outputLabel>
+        <br></br>
+        <p:outputLabel value="Reference Number: #{customerBookTicketManagedBean.referenceNumber}"></p:outputLabel>
         
         <p:panel header="Flight Information" style="margin-top: 5%; border: #000000 2px solid; height: auto">
             <p:dataTable value="#{customerBookTicketManagedBean.flights}" var="flight" style="border: none;">
@@ -40,7 +44,7 @@
                     <h:outputText value="#{flight.arrivalDate}" />
                 </p:column>
             </p:dataTable>
-            
+
             <p:dataTable value="#{customerBookTicketManagedBean.passengers}" var="passenger" style="border: none;">
                 <p:column headerText="Name">
                     <h:outputText value="#{passenger.title} #{passenger.firstName} #{passenger.lastName}" />
@@ -55,7 +59,7 @@
                 </p:column>
 
             </p:dataTable>
-            
+
             <p:outputLabel value="A confirmation Email has been sent to #{customerBookTicketManagedBean.email}"></p:outputLabel>
         </p:panel>
     </ui:define>

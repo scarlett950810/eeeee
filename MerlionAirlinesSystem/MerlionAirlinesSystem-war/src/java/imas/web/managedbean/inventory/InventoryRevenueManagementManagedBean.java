@@ -68,6 +68,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         flightList = flightLookupSessionBean.getAllSellingFlights();
+//        flightLookupSessionBean.setAllFlightYearsBack(0);
     }
 
     public List<FlightEntity> getFlightList() {
@@ -382,12 +383,18 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         return horizontalBarModel;
     }
     
-    public void editYieldManagementRules() {
+    public void editYieldManagementRules() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSellingFlightToManage", selectedFlight);
-        
+        FacesContext.getCurrentInstance().getExternalContext().redirect("inventoryRulesManagement.xhtml");
     }
     
-    public void editTermsAndConditions() {
-        
+    public void editTermsAndConditions() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedSellingFlightToManage", selectedFlight);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("inventoryTermsAndConditionsManagement.xhtml");
     }
+    
+    public void setAllFlightYearsBack(int year) {
+        flightLookupSessionBean.setAllFlightYearsBack(year);
+    }
+    
 }

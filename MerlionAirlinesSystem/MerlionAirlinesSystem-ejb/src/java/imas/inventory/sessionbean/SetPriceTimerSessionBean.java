@@ -19,7 +19,7 @@ public class SetPriceTimerSessionBean {
     @EJB
     private BookingClassesManagementSessionBeanLocal bookingClassesManagementSessionBean;
 
-    @Schedule(minute="25",hour="*", persistent=false)
+    @Schedule(minute="10",hour="*", persistent=false)
     public void detectFlightsToSetPrice(){
         System.out.println("Set price timer run every 1 hour:");
         /*

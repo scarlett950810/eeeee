@@ -175,23 +175,23 @@ List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
         List<FlightEntity> flightsUnassigned = assignmentCheckLocal.fleetAssignmentCapacityCheck(flightsCheck, aircrafts);
 
         for(FlightEntity f: flightsCheck){
-            f.setAircraftFlight(null);
+            f.setAircraft(null);
             f.setPilots(null);
             f.setCabinCrews(null);
         }
         for(FlightEntity f: flightsToTest){
-            f.setAircraftFlight(null);
+            f.setAircraft(null);
             f.setPilots(null);
             f.setCabinCrews(null);
         }
         List<FlightEntity> flightsUnassignedPilot = crewSchedulingCheckLocal.pilotSchedulingCapacityCheck(flightsCheck, pilots);
         for(FlightEntity f: flightsCheck){
-            f.setAircraftFlight(null);
+            f.setAircraft(null);
             f.setPilots(null);
             f.setCabinCrews(null);
         }
         for(FlightEntity f: flightsToTest){
-            f.setAircraftFlight(null);
+            f.setAircraft(null);
             f.setPilots(null);
             f.setCabinCrews(null);
         }
@@ -199,12 +199,12 @@ List<PilotEntity> pilots = crewSchedulingCheckLocal.retriveAllPilots();
         
         FacesContext fc = FacesContext.getCurrentInstance();
         for(FlightEntity f: flightsCheck){
-            f.setAircraftFlight(null);
+            f.setAircraft(null);
             f.setPilots(null);
             f.setCabinCrews(null);
         }
         for(FlightEntity f: flightsToTest){
-            f.setAircraftFlight(null);
+            f.setAircraft(null);
             f.setPilots(null);
             f.setCabinCrews(null);
         }

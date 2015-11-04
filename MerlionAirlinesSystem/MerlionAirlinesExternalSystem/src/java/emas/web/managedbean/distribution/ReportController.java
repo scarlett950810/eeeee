@@ -42,6 +42,8 @@ public class ReportController extends HttpServlet {
         try {
 //            String referenceNumber = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
             String referenceNumber = request.getParameter("referenceNumber");
+            String passengerName = request.getParameter("passengerName");
+            String passportNumber = request.getParameter("passportNumber");
             
             InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream("/jasperReports/FlightItinerary.jasper");
             
@@ -50,8 +52,8 @@ public class ReportController extends HttpServlet {
             HashMap parameters = new HashMap();
             parameters.put("IMAGEPATH", "https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/NEW_LOGO.png");
             parameters.put("referenceNumber", referenceNumber);
-            parameters.put("passengerName", "Howard");
-            parameters.put("passportNumber", "G12345678");
+            parameters.put("passengerName", passengerName);
+            parameters.put("passportNumber", passportNumber);
 //            JasperRunManager.runReportToPdf(reportStream, parameters, merlionAirlineDataSource.getConnection());
             JasperRunManager.runReportToPdfStream(reportStream, outputStream,
                     parameters, merlionAirlineDataSource.getConnection());

@@ -6,6 +6,8 @@
 package imas.inventory.sessionbean;
 
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
+import java.util.Date;
 import javax.ejb.Local;
 
 /**
@@ -22,5 +24,13 @@ public interface InventoryRevenueManagementSessionBeanLocal {
     void updateBookingClassPricing(Long bookingClassID, Double newPrice);
 
     int checkSeatsCapacity(FlightEntity selectedFlight);
+
+    public Double getFlightTotalRevenue(FlightEntity flight);
+
+    public Double getFlightTotalCost(FlightEntity flight);
+
+    public Double getRouteTotalRevenueDuringDuration(RouteEntity route, Date from, Date to);
+
+    public Double getRouteTotalCostDuringDuration(RouteEntity route, Date from, Date to);
     
 }
