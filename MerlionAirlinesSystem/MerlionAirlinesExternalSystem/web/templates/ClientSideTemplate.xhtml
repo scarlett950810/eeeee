@@ -100,6 +100,16 @@
             .ui-selectonemenu .ui-selectonemenu-label{
                 background-color: transparent;
             }
+            .ui-panelgrid .ui-panelgrid-cell{
+                border: none;
+            }
+            .profileIcon {
+                background-image: url(../resources/img/profile.png)
+            }
+            .logoutIcon {
+                background-image: url(../resources/img/logout.png)
+            }
+
         </style>
     </h:head>
 
@@ -117,11 +127,32 @@
 
         <p:layout fullPage="true">
 
-            <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
+            <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70" style="display: inline-block">
+
                 <a href="https://localhost:8181/MerlionAirlinesExternalSystem/index.xhtml">
-                    <p:graphicImage name="img/NEW_LOGO.png" height="100%" style="margin-left: 10%; margin-top: 10px; z-index: 9999"/>
+                    <p:graphicImage name="img/NEW_LOGO.png" height="100%" style="width: 15%; margin-left: 10%; margin-top: 10px; z-index: 9999"/>
                 </a>
-                <p:outputLabel value="Welcome" style="float: right; margin-top: 40px; margin-right: 10px; color: white"/>
+
+                <!--                <p:panel visible="" style="float: right; margin-top: 40px; margin-right: 5%; color: #001F5F">
+            
+                </p:panel>-->
+
+                <!--<p:outputLabel value="{externalLoginManagedBean.login}"></p:outputLabel>-->
+
+                <p:panel id="top1" visible="#{externalLoginManagedBean.login}" style="display: inline-block; margin-left: 60%;">
+                    <h:form>
+                        <p:outputLabel value="Welcome, #{externalLoginManagedBean.member.title} #{externalLoginManagedBean.member.firstName} #{externalLoginManagedBean.member.lastName}"></p:outputLabel>
+                        <!--                        <p:commandLink actionListener="{externalLoginManagedBean.viewProfile}">
+                                                    <h:graphicImage name="profile.png" />
+                                                </p:commandLink>-->
+                        <h:commandButton image="https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/profile.png" actionListener="#{externalLoginManagedBean.viewProfile}"></h:commandButton>
+                        <!--                        <p:commandLink actionListener="{externalLoginManagedBean.doLogout}" update="top1">
+                                                    <h:graphicImage name="logout.png" />
+                                                </p:commandLink>-->
+                        <h:commandButton image="https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/logout.png" actionListener="#{externalLoginManagedBean.doLogout}"></h:commandButton>
+
+                    </h:form>
+                </p:panel>
 
             </p:layoutUnit>
 
@@ -139,7 +170,7 @@
                                     <li>Flight Status</li>
                                 </ul>
                             </li>
-                            <li>Frequent Flyer Program</li>
+                            <a href="https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmHomePage.xhtml"><li>Frequent Flyer Program</li></a>
                             <li>Special Offers</li>
                             <a href="https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmCustomerFeedback.xhtml"><li>Contact us</li></a>
                         </ul>
@@ -151,15 +182,15 @@
                 <p:panel style="background-color: white !important; margin: 10px 10% 0 10%; height: auto;">
                     <ui:insert name="main"></ui:insert>
                 </p:panel>
-                
+
                 <p:panel style="text-align: center; margin-top: 10%">
                     <p:outputLabel value="&copy;Merlion Airline"></p:outputLabel>
                 </p:panel>
             </p:layoutUnit>
 
-<!--            <p:layoutUnit position="south" size="5%" style="text-align: center;">
-                <p:outputLabel value="&copy;Merlion Airline"></p:outputLabel>
-            </p:layoutUnit>-->
+            <!--            <p:layoutUnit position="south" size="5%" style="text-align: center;">
+                            <p:outputLabel value="&copy;Merlion Airline"></p:outputLabel>
+                        </p:layoutUnit>-->
 
         </p:layout>
 

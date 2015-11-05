@@ -17,7 +17,8 @@ public class CustomerFeedbackSessionBean implements CustomerFeedbackSessionBeanL
 
     @Override
     public void createFeedback(String content, String title, String feedbackType, String customerEmail) {
-        EmailManager.run("A0119509@u.nus.edu", "From "+ customerEmail + ": " + title, content);
+        EmailManager.run("cairui0112@gmail.com", "From " + customerEmail + ": " + title , content);
+//        EmailManager.run("A0119509@u.nus.edu", "From "+ customerEmail + ": " + title, content);
     }
 
     

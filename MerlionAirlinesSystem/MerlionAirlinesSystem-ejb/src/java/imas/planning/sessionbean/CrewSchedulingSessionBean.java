@@ -103,7 +103,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
             System.err.println("1st assign job start");
             Calendar cal = Calendar.getInstance();
             cal.setTime(earliestDep);
-            cal.add(Calendar.YEAR, 1);
+            cal.add(Calendar.YEAR, 50);
             earliestDep = cal.getTime();
 
             for (FlightEntity f : flightsAvai) {
@@ -347,7 +347,7 @@ public class CrewSchedulingSessionBean implements CrewSchedulingSessionBeanLocal
         if (pilot.getPilotFlights() == null || pilot.getPilotFlights().isEmpty()) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(earliestDep);
-            cal.add(Calendar.YEAR, 1);
+            cal.add(Calendar.YEAR, 50);
             earliestDep = cal.getTime();
             System.err.println("before getBase");
             for (FlightEntity f : flightsAvai) {

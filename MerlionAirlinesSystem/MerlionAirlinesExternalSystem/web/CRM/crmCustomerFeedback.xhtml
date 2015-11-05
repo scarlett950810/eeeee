@@ -41,7 +41,7 @@
         </p:panel>
 
         <h:form style="margin-top: 10%">
-
+            <p:growl id="status"></p:growl>
             <h:outputLabel value="Leave us a feedback" style="font-size: 150%"></h:outputLabel>
             <p:panelGrid columns="2">
                 <p:outputLabel value="Title: "></p:outputLabel>
@@ -65,7 +65,7 @@
             <p:inputTextarea value="#{customerFeedbackManagedBean.feedback}"></p:inputTextarea>
             <br></br>
 
-            <p:commandButton actionListener="#{customerFeedbackManagedBean.createFeedback}" value="Submit" style="width: 15%"></p:commandButton>
+            <p:commandButton actionListener="#{customerFeedbackManagedBean.createFeedback}" value="Submit" style="width: 15%" update="status"></p:commandButton>
         </h:form>
     </ui:define>
 

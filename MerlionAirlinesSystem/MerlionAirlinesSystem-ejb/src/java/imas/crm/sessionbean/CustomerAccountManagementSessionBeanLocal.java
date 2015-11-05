@@ -6,6 +6,7 @@
 package imas.crm.sessionbean;
 
 import imas.crm.entity.MemberEntity;
+import java.util.Date;
 import javax.ejb.Local;
 
 /**
@@ -16,5 +17,15 @@ import javax.ejb.Local;
 public interface CustomerAccountManagementSessionBeanLocal {
 
     void createCustomer(MemberEntity newCustomer);
+
+    Boolean checkDuplicateAccount(String email);
+
+    MemberEntity checkValidity(String memberID, String pin);
+
+    void updateCustomer(String title, String lastName, String firstName, String email, String gender, String nationality, int securityQuestion, String answer, Date birthdate, String contactNumber);
+
+    boolean checkSequrityAnswer(int questionIndex, String answer, String memberID);
+
+    void resetPIN(String memberID, String newPIN);
     
 }

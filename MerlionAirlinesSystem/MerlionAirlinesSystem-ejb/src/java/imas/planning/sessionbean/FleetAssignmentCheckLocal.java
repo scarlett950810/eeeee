@@ -18,7 +18,7 @@ import javax.ejb.Local;
 @Local
 public interface FleetAssignmentCheckLocal {
 
-    List<FlightEntity> fleetAssignmentCheck(List<FlightEntity> flights, List<AircraftEntity> aircrafts);
+    List<FlightEntity> fleetAssignmentCapacityCheck(List<FlightEntity> flights, List<AircraftEntity> aircrafts);
 
     List<FlightEntity> oneAircraftAssignment(AircraftEntity aircraft, List<FlightEntity> flights);
     Double calculateMaintenanceHours(AircraftEntity aircraft, Date mtAcc);

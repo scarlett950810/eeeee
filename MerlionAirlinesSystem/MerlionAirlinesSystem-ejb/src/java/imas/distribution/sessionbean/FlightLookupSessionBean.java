@@ -5,6 +5,7 @@
  */
 package imas.distribution.sessionbean;
 
+import imas.crm.entity.MemberEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.entity.YieldManagementRuleEntity;
@@ -16,16 +17,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author Scarlett
  */
+
 @Stateless
 public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
 
@@ -277,18 +282,119 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
     }
 
     @Override
-    public void setAllFlightYearsBack(int year) {
+    public void setAllFlightYearsBack(boolean departured, int year) {
         Query queryForAllFlights = entityManager.createQuery("SELECT f FROM FlightEntity f");
         List<FlightEntity> allFlights = queryForAllFlights.getResultList();
         for (FlightEntity f : allFlights) {
-            f.setDepartured(true);
+
+            f.setDepartured(departured);
+
             Date originalDate = f.getDepartureDate();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(originalDate);
-            calendar.add(Calendar.YEAR, -3);
+            calendar.add(Calendar.YEAR, -year);
             Date newDate = calendar.getTime();
             f.setDepartureDate(newDate);
+
+            Date originalArrival = f.getArrivalDate();
+            Calendar calendarArrival = Calendar.getInstance();
+            calendarArrival.setTime(originalArrival);
+            calendarArrival.add(Calendar.YEAR, -year);
+            Date newArrival = calendarArrival.getTime();
+            f.setArrivalDate(newArrival);
         }
     }
 
+    @Override
+    public void addTicketsToAllDeparturedFlights() {
+        Query queryForAllDeparturedFlights = entityManager.createQuery("SELECT f FROM FlightEntity f WHERE f.departured = :departured");
+        queryForAllDeparturedFlights.setParameter("departured", true);
+        List<FlightEntity> allFlights = queryForAllDeparturedFlights.getResultList();
+
+        int count = 0;
+        for (FlightEntity f : allFlights) {
+            if (f.getTickets().isEmpty()) {
+                if (count < 1000) {
+                    count++;
+                } else {
+                    break;
+                }
+
+                List<BookingClassEntity> bcs = f.getBookingClasses();
+                for (BookingClassEntity bc : bcs) {
+                    int quota = bc.getQuota();
+                    Random r = new Random();
+                    for (int i = 0; i < quota * (0.2 + 0.8 * r.nextDouble()); i++) {
+                        TicketEntity t = new TicketEntity(f, bc.getName(), bc.getPrice());
+                        entityManager.persist(t);
+                    }
+                }
+
+                System.out.println(count + " tickets generated for " + f);
+            }
+        }
+        entityManager.flush();
+    }
+
+    @Override
+    public void deleteAllFlights() {
+        Query queryForAllFlights = entityManager.createQuery("SELECT f FROM FlightEntity f");
+        List<FlightEntity> allFlights = queryForAllFlights.getResultList();
+        for (FlightEntity f : allFlights) {
+            f.setReverseFlight(null);
+//            f.getReverseFlight().setReverseFlight(null);
+            entityManager.remove(f);
+        }
+    }
+
+    @Override
+    public void randomSetTicketsIssued() {
+        Random r = new Random();
+
+        Query queryForAllTickets = entityManager.createQuery("SELECT t FROM TicketEntity t WHERE t.id >= 1480000");
+        List<TicketEntity> allTickets = queryForAllTickets.getResultList();
+
+        int count = 0;
+        for (TicketEntity t : allTickets) {
+//            if (count < 1000) {
+                    count++;
+//                } else {
+//                    break;
+//                }
+            System.out.println(count);
+            if (r.nextDouble() < 0.94) {
+                t.setIssued(true);
+            } else {
+                t.setIssued(false);
+            }
+        }
+        entityManager.flush();
+    }
+
+//    public void randomAssignMembersToTickets() {
+//        Random r = new Random();
+//
+//        Query queryForAllMembers = entityManager.createQuery("SELECT m FROM MemberEntity m");
+//        List<MemberEntity> allMembers = queryForAllMembers.getResultList();
+//        int totalMember = allMembers.size();
+//
+//        Query queryForAllTickets = entityManager.createQuery("SELECT t FROM TicketEntity t");
+//        List<TicketEntity> allTickets = queryForAllTickets.getResultList();
+//
+//        for (TicketEntity t : allTickets) {
+//            if (r.nextDouble() < 0.65) {
+//                int memberNo = (int) r.nextDouble() * totalMember;
+//                MemberEntity m = allMembers.get(memberNo);
+//                entityManager.refresh(m);
+//                t.setMember(m);
+//                entityManager.merge(t);
+//
+//                List<TicketEntity> originalTicketsOfMembers = m.getTickets();
+//                originalTicketsOfMembers.add(t);
+//                m.setTickets(originalTicketsOfMembers);
+//                entityManager.merge(m);
+//            }
+//        }
+//
+//    }
 }

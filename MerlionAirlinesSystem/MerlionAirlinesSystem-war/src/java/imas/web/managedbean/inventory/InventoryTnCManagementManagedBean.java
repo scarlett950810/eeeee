@@ -10,6 +10,7 @@ import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.entity.BookingClassRuleSetEntity;
 import imas.inventory.sessionbean.TnCManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -40,6 +41,7 @@ public class InventoryTnCManagementManagedBean implements Serializable {
     private BookingClassEntity bookingClass;
     private List<BookingClassEntity> bookingClasses;
     private BookingClassRuleSetEntity bookingClassRuleSet;
+    private boolean BCSelected;
     
     public InventoryTnCManagementManagedBean() {
     }
@@ -100,6 +102,14 @@ public class InventoryTnCManagementManagedBean implements Serializable {
     public void setBookingClassRuleSet(BookingClassRuleSetEntity bookingClassRuleSet) {
         this.bookingClassRuleSet = bookingClassRuleSet;
     }
+
+    public boolean isBCSelected() {
+        return (flight != null && bookingClass != null);
+    }
+
+    public void setBCSelected(boolean BCSelected) {
+        this.BCSelected = BCSelected;
+    }
     
     public void onFlightChange() {
         if (flight != null) {
@@ -119,6 +129,10 @@ public class InventoryTnCManagementManagedBean implements Serializable {
         if (bookingClassRuleSet != null) {
             tnCManagementSessionBean.updateTnC(bookingClassRuleSet);
         }
+    }
+    
+    public void returnBack() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("inventoryBookingClassManagement.xhtml");
     }
     
 }

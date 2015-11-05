@@ -5,8 +5,11 @@
  */
 package imas.inventory.entity;
 
+import imas.inventory.sessionbean.CostManagementSessionBean;
 import imas.planning.entity.FlightEntity;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,7 +43,7 @@ public class BookingClassEntity implements Serializable {
     
     private Integer quota;
     
-    private boolean isAgencyBookingClass;
+    private boolean agencyBookingClass;
     @OneToOne
     private BookingClassRuleSetEntity bookingClassRuleSet;
 
@@ -61,7 +64,7 @@ public class BookingClassEntity implements Serializable {
         this.name = name;
         this.price = price;
         this.quota = quota;
-        this.isAgencyBookingClass = isAgencyBookingClass;
+        this.agencyBookingClass = isAgencyBookingClass;
     }
     
     public BookingClassEntity FirstClassBookingClassEntity(FlightEntity flight, Double price, Integer quota) {
@@ -197,11 +200,11 @@ public class BookingClassEntity implements Serializable {
     }
 
     public Double getPrice() {
-        return price;
+        return CostManagementSessionBean.round(price, 2) ;
     }
 
     public void setPrice(Double price) {
-        this.price = price;
+        this.price = round(price, 2);
     }
 
     public Integer getQuota() {
@@ -212,12 +215,12 @@ public class BookingClassEntity implements Serializable {
         this.quota = quota;
     }    
 
-    public boolean isIsAgencyBookingClass() {
-        return isAgencyBookingClass;
+    public boolean isAgencyBookingClass() {
+        return agencyBookingClass;
     }
 
-    public void setIsAgencyBookingClass(boolean isAgencyBookingClass) {
-        this.isAgencyBookingClass = isAgencyBookingClass;
+    public void setAgencyBookingClass(boolean agencyBookingClass) {
+        this.agencyBookingClass = agencyBookingClass;
     }
 
     public BookingClassRuleSetEntity getBookingClassRuleSet() {
@@ -251,6 +254,16 @@ public class BookingClassEntity implements Serializable {
     @Override
     public String toString() {
         return "imas.inventory.entity.bookingClassEntity[ id=" + id + " ]";
+    }
+    
+    private static Double round(Double value, int places) {
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
     
 }

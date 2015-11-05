@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="head">
+        head
+    </ui:define>
+
+    <ui:define name="main">
+        <p:tabView dynamic="true">
+        Welcome back!
+        <p:tab title="Account Summary">
+        </p:tab>
+        <p:tab title="My Booking">
+        </p:tab>
+        <p:tab title="My Profile">
+            <h:form style="margin-top: 10%">
+                <p:growl id="msgs" showDetail="true" />
+                <!--            <p:panel header="" style="margin-top: 5%; border: #000000 2px solid; height: auto">-->
+                <h:outputLabel value="Edit Your Account" style="font-size: 150%"></h:outputLabel><br/><br/><br/>
+                <p:panelGrid columns="3" style="border-bottom: #000000 1px solid" layout="grid">                
+                    <h:outputLabel value="Personal Details"></h:outputLabel>
+                    <h:outputText value="Title " />
+                    <p:selectOneMenu value="#{updateCustomerProfileManagedBean.title}" style="width: 50%" required="true" label="title">
+                        <f:selectItem itemLabel="Select your title" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Dr" itemValue="Dr" />
+                        <f:selectItem itemLabel="Mdm" itemValue="Mdm" />
+                        <f:selectItem itemLabel="Miss" itemValue="Miss" />
+                        <f:selectItem itemLabel="Mr" itemValue="Mr" />
+                        <f:selectItem itemLabel="Mrs" itemValue="Mrs" />
+                        <f:selectItem itemLabel="Ms" itemValue="Ms" />
+                        <f:selectItem itemLabel="Mstr" itemValue="Mstr" />
+                        <f:selectItem itemLabel="Prof" itemValue="Prof" />
+                    </p:selectOneMenu><br/>
+
+                    <h:outputText value="First/Given name" />                
+                    <p:inputText style="width: 50%" id="firstName" value="#{updateCustomerProfileManagedBean.firstName}" label="firstName" required="true" requiredMessage="Please input your first name">
+                        <p:watermark for="firstName" value="in full, per passport" />
+                    </p:inputText><br/>
+
+                    <h:outputText value="Last/Family name" />                
+                    <p:inputText style="width: 50%" id="lastName" value="#{updateCustomerProfileManagedBean.lastName}" label="lastName" required="true" requiredMessage="Please input your last name">
+                        <p:watermark for="lastName" value="in full, per passport" />
+                    </p:inputText><br/>
+
+                    <h:outputText value="Gender" />
+                    <p:selectOneMenu value="#{updateCustomerProfileManagedBean.gender}" style="width: 50%" required="true" label="gender">
+                        <f:selectItem itemLabel="Select your gender" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Male" itemValue="Male" />
+                        <f:selectItem itemLabel="Female" itemValue="Female" />
+                    </p:selectOneMenu><br/>
+
+                    <h:outputText value="Birth date " />
+                    <p:calendar value="#{updateCustomerProfileManagedBean.birthdate}" navigator="true" pattern="yyyy-MM-dd" required="true" yearRange="c-100:c">
+                    </p:calendar><br/>
+
+                    <h:outputText value="Nationality" />                
+                    <p:inputText style="width: 50%" id="nationality" value="#{updateCustomerProfileManagedBean.nationality}" label="nationality" required="true" requiredMessage="Please input your nationality">
+                        <p:watermark for="nationality" value="in full, per passport" />
+                    </p:inputText><br/>
+
+                </p:panelGrid><br/>
+
+                <p:panelGrid columns="3" style="border-bottom: #000000 1px solid" layout="grid">
+                    <h:outputLabel value="Contact information"></h:outputLabel>
+                    
+                    
+
+                    <h:outputText value="Contact number" />                
+                    <p:inputText style="width: 50%" id="contactNumber" value="#{updateCustomerProfileManagedBean.contactNumber}" label="contactNumber" required="true" requiredMessage="Please input your contact number">
+                        <p:watermark for="contactNumber" value="add country and area code" />
+                    </p:inputText><br/>
+                </p:panelGrid>
+
+                
+                <br/>
+                <p:commandButton actionListener="#{updateCustomerProfileManagedBean.save()}" update="msgs" value="Update" style="width: 15%"></p:commandButton>
+                <br/>
+            </h:form>
+        </p:tab>
+        </p:tabView>
+
+    </ui:define>
+
+</ui:composition>

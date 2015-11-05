@@ -10,12 +10,14 @@ import imas.inventory.entity.YieldManagementRuleEntity;
 import imas.inventory.sessionbean.RulesManagementSessionBeanLocal;
 import imas.inventory.sessionbean.YieldManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -246,6 +248,12 @@ public class YieldManagementManagedBean implements Serializable {
             return "";
         }
 
+    }
+
+    public void returnBack() throws IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("inventoryBookingClassManagement.xhtml");
     }
 
 }

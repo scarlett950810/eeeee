@@ -5,6 +5,7 @@
  */
 package imas.distribution.entity;
 
+import imas.inventory.entity.PromotionEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
 import java.io.Serializable;
@@ -33,6 +34,7 @@ public class TicketEntity implements Serializable {
     private Boolean insurance;
     private Boolean flightWiFi;
     private String referenceNumber;
+    private Double mileage;
 
     @ManyToOne
     private SeatEntity seat;
@@ -51,6 +53,8 @@ public class TicketEntity implements Serializable {
     private Double price;
     private Boolean boarded;
     private Boolean issued; // if the ticket is issued at either the check in counter or web check-in
+    @ManyToOne
+    private PromotionEntity promotion;
 
     public TicketEntity() {
     }
@@ -209,6 +213,22 @@ public class TicketEntity implements Serializable {
 
     public void setIssued(Boolean issued) {
         this.issued = issued;
+    }
+
+    public Double getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(Double mileage) {
+        this.mileage = mileage;
+    }
+    
+    public PromotionEntity getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(PromotionEntity promotion) {
+        this.promotion = promotion;
     }
 
     @Override

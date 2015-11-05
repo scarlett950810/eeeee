@@ -133,7 +133,7 @@ public class UserProfileManagementSessionBean implements UserProfileManagementSe
     }
 
     @Override
-    public void setSequrityQuestion(String staffNo, String answer) {
+    public void setSequrityQuestion(String staffNo, String answer, int questionIndex) {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
         
@@ -143,8 +143,8 @@ public class UserProfileManagementSessionBean implements UserProfileManagementSe
         } else {
             StaffEntity staff = staffs.get(0);
             staff.setSequrityQuestionAnswer(answer);
+            staff.setSequrityQuestionIndex(questionIndex);
         }
-        System.out.println("end");
     }
     
     

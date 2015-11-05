@@ -428,6 +428,8 @@ public class YieldManagementSessionBean implements YieldManagementSessionBeanLoc
         createRule2(flight, normalizedPopularity);
         createRule3(flight, normalizedPopularity);
         createRule4(flight, normalizedPopularity);
+        
+        entityManager.flush();
     }
 
     @Override

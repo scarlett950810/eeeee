@@ -7,6 +7,7 @@ package imas.common.sessionbean;
 
 import imas.common.entity.StaffEntity;
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.RouteEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -46,10 +47,12 @@ public interface AccountManagementSessionBeanLocal {
 
     boolean forgetPassword(String staffNo);
 
-    boolean checkSecurityAnswer(String staffNo, String answer);
+    boolean checkSecurityAnswer(String staffNo, String answer, int questionIndex);
 
     StaffEntity getStaffBasedOnToken(String token);
 
     void resetPassword(String password, String staffNo);
+
+    void updatePreference(List<RouteEntity> selectedRoutes, String selectedDay, String staffNo);
 
 }
