@@ -21,7 +21,7 @@
 
             <br></br>
 
-            <p:tabView>
+            <p:tabView id="tabViewMain" activeIndex="#{memberProfileManagedBean.index}">
                 <p:tab title="Account Summary">
                     <h:panelGrid columns="2" cellpadding="10">
                         <p:graphicImage name="demo/images/godfather/godfather1.jpg" />
@@ -108,14 +108,16 @@
                             <br></br>
                         </p:panel>
 
-                        <h:form style="text-align: center">
-                            <p:commandButton actionListener="#{memberProfileManagedBean.editProfile}" value="Edit" style="width: 20%; margin-top: 3%"></p:commandButton>
+                        <h:form id="form1" style="text-align: center">
+                            <p:commandButton actionListener="#{memberProfileManagedBean.editProfile}" value="Edit" style="width: 20%; margin-top: 3%" update=":tabViewMain:profile"></p:commandButton>
                         </h:form>
 
                     </p:panel>
 
                     <p:panel style="margin-top: 5%; border: #000000 2px solid; height: auto" visible="#{memberProfileManagedBean.edit}">
-                        <h:form>
+                        <p:messages autoUpdate="true" />
+                        
+                        <h:form id="formMain">
                             <p:panel style="border-bottom: 2px #000000 solid">
                                 <p:outputLabel value="Title and last / family name"></p:outputLabel>
                                 <br></br>
@@ -170,13 +172,13 @@
                                 <p:outputLabel value="Address"></p:outputLabel>
                                 <br></br>
                                 <p:inputText value="#{memberProfileManagedBean.address}" style="width: 30%"></p:inputText>
-                                <br></br>
+                                <br></br> 
                                 <br></br>
                             </p:panel>
 
 
-                            <p:commandButton actionListener="#{memberProfileManagedBean.save}" value="Save" style="width: 20%; margin-top: 3%"></p:commandButton>
-                            <p:commandButton actionListener="#{memberProfileManagedBean.cancel}" value="Cancel" style="width: 20%; margin-top: 3%"></p:commandButton>
+                            <p:commandButton actionListener="#{memberProfileManagedBean.save}" value="Save" style="width: 20%; margin-top: 3%" update=":tabViewMain"></p:commandButton>
+                            <p:commandButton actionListener="#{memberProfileManagedBean.cancel}" value="Cancel" style="width: 20%; margin-top: 3%" update=":tabViewMain"></p:commandButton>
                         </h:form>
 
                     </p:panel>
