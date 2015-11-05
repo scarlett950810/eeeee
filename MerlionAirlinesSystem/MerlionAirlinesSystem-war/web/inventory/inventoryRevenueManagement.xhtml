@@ -15,8 +15,11 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-h1"><a href="inventoryCost.xhtml">Manage Cost</a></li>
-                <li class="sidebar-h1"><a href="inventorySeatsManagement.xhtml">Open Flight for Sale</a></li>                     
+                <li class="sidebar-h1">Open Flight for Sale</li>
+                <li><a href="inventoryOpenForSaleTimerManagement.xhtml">Automatically</a></li>
+                <li><a href="inventorySeatsManagement.xhtml">Manually</a></li>
                 <li class="sidebar-h1"><a href="inventoryRevenueManagement.xhtml">Manage Selling Flights</a></li>
+                <li class="sidebar-h1"><a href="inventoryManagePromotion.xhtml">Manage Promotion</a></li>
                 <li class="sidebar-h1"><a href="inventoryRevenueDashboard.xhtml">Revenue Dashboard</a></li>
             </ul>
         </div>
@@ -25,6 +28,10 @@
     <ui:define name="centerPanel">
         
         <h:form>
+            
+            <p:commandButton value="Refresh List" class="btn-sm btn-default"
+                             actionListener="#{inventoryRevenueManagementManagedBean.refresh}" update="@form"/>
+            
             <p:dataTable id="flightList" var="flight" value="#{inventoryRevenueManagementManagedBean.flightList}" rowKey="#{flight.id}"
                          widgetVar="flightTable" emptyMessage="No flight found with given criteria" filteredValue="#{inventoryRevenueManagementManagedBean.fliteredFlight}" 
                          selection="#{inventoryRevenueManagementManagedBean.selectedFlight}" selectionMode="single"
@@ -61,7 +68,9 @@
                 </f:facet>
 
             </p:dataTable>
+            
         </h:form>
+        
     </ui:define>
 
 </ui:composition>

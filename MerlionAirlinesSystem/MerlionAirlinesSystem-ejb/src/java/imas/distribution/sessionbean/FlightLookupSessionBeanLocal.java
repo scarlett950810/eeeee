@@ -55,6 +55,12 @@ public interface FlightLookupSessionBeanLocal {
 
     public boolean reachable(AirportEntity origin, AirportEntity destination);
 
-    public void setAllFlightYearsBack(int year);
+    public void setAllFlightYearsBack(boolean departured, int year);
+
+    public void deleteAllFlights();
+
+    public void addTicketsToAllDeparturedFlights();
+
+    public void randomSetTicketsIssued();
 
 }

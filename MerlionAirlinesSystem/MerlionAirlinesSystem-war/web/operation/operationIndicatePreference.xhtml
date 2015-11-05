@@ -33,9 +33,9 @@
     <ui:define name="centerPanel">
         <p:panel header="Current Preference" class="panel panel-success">
             <h:panelGrid columns="1" cellpadding="5" style="margin-bottom: 10px; min-width: 500px;">
-                <h:outputLabel value="Your current preferred day to start working: "/><h:outputText value="Wednesday, Thursday, Friday, Saturday"/>
+                <h:outputLabel value="Your current preferred day to start working: "/><h:outputText value="#{indicatePreferenceManagedBean.currentDay}"/>
                 <br/>
-                <h:outputLabel value="Your current preferred route to work: "/><h:outputText value="#{indicatePreferenceManagedBean.route}"/>
+                <h:outputLabel value="Your current preferred route to work: "/><h:outputText value="#{indicatePreferenceManagedBean.routeString}" escape="false"/>
             </h:panelGrid>
         </p:panel>
 
@@ -52,15 +52,18 @@
                         <f:selectItems value="#{indicatePreferenceManagedBean.dayList}" />
                     </p:selectOneMenu><br/>
 
-                    <h:outputText value="Please select your preferred route shown below. The system will try to arrange duties with your preferred route before assigning other flights."/>                                        
-                    <p:selectOneMenu id="route" value="#{indicatePreferenceManagedBean.route}" style="width:400px" converter="routeConverter">                                                
-                        <f:selectItem itemLabel="Select Your Preferred Route" itemDisabled="true" />
-                        <f:selectItems value="#{scheduleDevelopmentManagedBean.connectionsAll}" var="connection" itemLabel="#{connection.returnRoutesName}" itemValue="#{connection}" />
-                    </p:selectOneMenu>
+                    <h:outputText value="Please select your preferred route (maximum 3) shown below. The system will try to arrange duties with your preferred route before assigning other flights."/>                                        
                     
+                    <p:selectManyMenu id="routes" value="#{indicatePreferenceManagedBean.selectedRoutes}" converter="routeConverter"
+                                      var="r" filter="true" filterMatchMode="contains" showCheckbox="true">
+                        <f:selectItems value="#{scheduleDevelopmentManagedBean.connectionsAll}" itemLabel="#{connection.returnRoutesName}" itemValue="#{connection}" />
+                        <p:column>
+                            <h:outputText value="#{r}" />
+                        </p:column>
+                    </p:selectManyMenu>
                     <br/>
-                    
-                    <p:commandButton id="addAircraftType" value="Update Preference" actionListener="#{indicatePreferenceManagedBean.update()}" 
+
+                    <p:commandButton id="addAircraftType" value="Update Preference" actionListener="#{indicatePreferenceManagedBean.update()}" update="growl"
                                      class="btn-sm btn-success" />
                 </h:panelGrid>
             </p:panel>

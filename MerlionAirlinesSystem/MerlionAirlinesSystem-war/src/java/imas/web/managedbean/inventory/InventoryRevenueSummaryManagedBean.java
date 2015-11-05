@@ -5,16 +5,18 @@
  */
 package imas.web.managedbean.inventory;
 
+import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
+import imas.inventory.sessionbean.CostManagementSessionBean;
 import imas.inventory.sessionbean.CostManagementSessionBeanLocal;
 import imas.inventory.sessionbean.InventoryRevenueManagementSessionBeanLocal;
 import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -40,9 +42,6 @@ import org.primefaces.model.chart.LinearAxis;
 public class InventoryRevenueSummaryManagedBean implements Serializable {
 
     @EJB
-    private CostManagementSessionBeanLocal costManagementSessionBean;
-
-    @EJB
     private InventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
 
     @EJB
@@ -58,6 +57,7 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
     private Date today;
     private CartesianChartModel routeDetailsByTimelineCombinedModel;
     private CartesianChartModel routeDetailsByBookingClassCombinedModel;
+    private List<String[]> tableData;
 
     public InventoryRevenueSummaryManagedBean() {
     }
@@ -68,14 +68,18 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
         routeToMinDate = this.getToday();
         routeToDate = this.getToday();
         routeFromDate = addDays(routeToDate, -365);
+        routeFromMaxDate = routeToDate;
         topXOnly = 10;
         this.routeList = routeSession.retrieveAllRoutes();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routeList", this.routeList);
         routeDetailsByTimelineCombinedModel = new BarChartModel();
         routeDetailsByBookingClassCombinedModel = new BarChartModel();
 
-        selectedRoute = routeList.get(0);
-        updateRouteGraphs();
+        if (!routeList.isEmpty()) {
+            selectedRoute = routeList.get(0);
+            updateGraphAndTable();
+        }
+
     }
 
     @PostRemove
@@ -142,14 +146,16 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
     public void onRouteFromDateSelect(SelectEvent event) {
         routeToMinDate = routeFromDate;
         if (selectedRoute != null) {
-            updateRouteGraphs();
+            System.out.println("from date changed");
+            updateGraphAndTable();
         }
     }
 
     public void onRouteToDateSelect(SelectEvent event) {
         routeFromMaxDate = routeToDate;
         if (selectedRoute != null) {
-            updateRouteGraphs();
+            System.out.println("to date changed");
+            updateGraphAndTable();
         }
     }
 
@@ -177,6 +183,14 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
         this.routeDetailsByBookingClassCombinedModel = routeDetailsByBookingClassCombinedModel;
     }
 
+    public List<String[]> getTableData() {
+        return tableData;
+    }
+
+    public void setTableData(List<String[]> tableData) {
+        this.tableData = tableData;
+    }
+
     private Date addDays(Date original, int dayNo) {
         Calendar c = Calendar.getInstance();
         c.setTime(original);
@@ -194,16 +208,22 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
     }
 
     public void onRouteChange() {
-        updateRouteGraphs();
+        if (selectedRoute != null) {
+            updateGraphAndTable();
+        }
     }
 
-    public void updateRouteGraphs() {
+    public void updateGraphAndTable() {
+        
+        tableData = new ArrayList<>();
+        
         routeDetailsByTimelineCombinedModel = new BarChartModel();
-        routeDetailsByTimelineCombinedModel.setTitle("Revenue, Cost and Profit Margin by Month for" + selectedRoute.getRouteName());
+        routeDetailsByTimelineCombinedModel.setTitle("Revenue, Cost and Profit Margin by Month for " + selectedRoute.getRouteName());
         routeDetailsByTimelineCombinedModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
         routeDetailsByTimelineCombinedModel.setLegendPosition("e");
-        routeDetailsByTimelineCombinedModel.setShowPointLabels(true);
+        routeDetailsByTimelineCombinedModel.setShowPointLabels(false);
         routeDetailsByTimelineCombinedModel.setMouseoverHighlight(false);
+        routeDetailsByTimelineCombinedModel.setAnimate(true);
 
         BarChartSeries revenueSeries = new BarChartSeries();
         revenueSeries.setLabel("Revenue");
@@ -214,6 +234,7 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
 
         Date start = routeFromDate;
         Date end;
+        System.out.println("selected route = " + selectedRoute);
         while (start.before(routeToDate)) {
             end = addMonths(start, 1);
             if (end.after(routeToDate)) {
@@ -223,24 +244,24 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
             double revenue = inventoryRevenueManagementSessionBean.getRouteTotalRevenueDuringDuration(selectedRoute, start, end);
             double cost = inventoryRevenueManagementSessionBean.getRouteTotalCostDuringDuration(selectedRoute, start, end);
 
-            // fill in randon data
-            // to be removed later
-            /*
-            Random random = new Random();
-            double totalFlightNo = ((routeToDate.getTime() - routeFromDate.getTime()) / (60 * 60 * 1000 * 24 * (0.5 + random.nextDouble())));
-            double totalSeatNo = 20 * (1.5 + 2 * random.nextDouble());
-            cost = costManagementSessionBean.getCostPerSeatPerMile(selectedRoute) * selectedRoute.getDistance() * totalFlightNo * totalSeatNo;
-            revenue = (0.5 + random.nextDouble()) * 1.8 * cost;
-            */
-            // random numerb end
-            
-            double pm = (revenue - cost) / revenue;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM");
+            double pm = 0.0;
+            if (cost > 0) {
+                pm = (revenue - cost) / revenue;
+            }
+             
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM YYYY");
             String label = simpleDateFormat.format(start);
 
+            String[] rowData = new String[4];
+            rowData[0] = label;
+            rowData[1] = Double.toString(CostManagementSessionBean.round(cost, 2));
+            rowData[2] = Double.toString(CostManagementSessionBean.round(revenue, 2));
+            rowData[3] = Double.toString(CostManagementSessionBean.round(pm * 100,2)) + "%";
+            tableData.add(rowData);
+            
             revenueSeries.set(label, revenue);
             costSeries.set(label, cost);
-            profitMarginSeries.set(label, pm);
+            profitMarginSeries.set(label, pm * 100);
 
             start = end;
         }
@@ -255,11 +276,11 @@ public class InventoryRevenueSummaryManagedBean implements Serializable {
         Axis yAxis = routeDetailsByTimelineCombinedModel.getAxis(AxisType.Y);
         yAxis.setLabel("SG $");
         yAxis.setMin(0);
-        Axis y2Axis = new LinearAxis("Ratio");
+        Axis y2Axis = new LinearAxis("%");
         y2Axis.setMin(-0.5);
         routeDetailsByTimelineCombinedModel.getAxes().put(AxisType.Y2, y2Axis);
         routeDetailsByTimelineCombinedModel.getAxes().put(AxisType.Y3, y2Axis);
-        
+
     }
 
 }

@@ -43,7 +43,7 @@ public class BookingClassEntity implements Serializable {
     
     private Integer quota;
     
-    private boolean isAgencyBookingClass;
+    private boolean agencyBookingClass;
     @OneToOne
     private BookingClassRuleSetEntity bookingClassRuleSet;
 
@@ -64,7 +64,7 @@ public class BookingClassEntity implements Serializable {
         this.name = name;
         this.price = price;
         this.quota = quota;
-        this.isAgencyBookingClass = isAgencyBookingClass;
+        this.agencyBookingClass = isAgencyBookingClass;
     }
     
     public BookingClassEntity FirstClassBookingClassEntity(FlightEntity flight, Double price, Integer quota) {
@@ -215,12 +215,12 @@ public class BookingClassEntity implements Serializable {
         this.quota = quota;
     }    
 
-    public boolean isIsAgencyBookingClass() {
-        return isAgencyBookingClass;
+    public boolean isAgencyBookingClass() {
+        return agencyBookingClass;
     }
 
-    public void setIsAgencyBookingClass(boolean isAgencyBookingClass) {
-        this.isAgencyBookingClass = isAgencyBookingClass;
+    public void setAgencyBookingClass(boolean agencyBookingClass) {
+        this.agencyBookingClass = agencyBookingClass;
     }
 
     public BookingClassRuleSetEntity getBookingClassRuleSet() {
