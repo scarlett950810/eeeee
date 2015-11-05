@@ -47,6 +47,12 @@ public class RouteEntity implements Serializable {
 
     @OneToMany(mappedBy="route")
     private List<CostPairEntity> costPairs;
+    
+    private Double totalPassengers;
+    private Double marketShare;
+    private Double additionalTraffic;
+    private Double avgFare;
+    private Double proratedFare;
 
     public List<CostPairEntity> getCostPairs() {
         return costPairs;
@@ -205,6 +211,46 @@ public class RouteEntity implements Serializable {
 
     public void setPopularity(Double popularity) {
         this.popularity = popularity;
+    }
+
+    public Double getTotalPassengers() {
+        return totalPassengers;
+    }
+
+    public void setTotalPassengers(Double totalPassengers) {
+        this.totalPassengers = totalPassengers;
+    }
+
+    public Double getMarketShare() {
+        return marketShare;
+    }
+
+    public void setMarketShare(Double marketShare) {
+        this.marketShare = marketShare;
+    }
+
+    public Double getAdditionalTraffic() {
+        return additionalTraffic;
+    }
+
+    public void setAdditionalTraffic(Double additionalTraffic) {
+        this.additionalTraffic = additionalTraffic;
+    }
+
+    public Double getAvgFare() {
+        return avgFare;
+    }
+
+    public void setAvgFare(Double avgFare) {
+        this.avgFare = avgFare;
+    }
+
+    public Double getProratedFare() {
+        return proratedFare;
+    }
+
+    public void setProratedFare(Double proratedFare) {
+        this.proratedFare = proratedFare;
     }
 
     @Override

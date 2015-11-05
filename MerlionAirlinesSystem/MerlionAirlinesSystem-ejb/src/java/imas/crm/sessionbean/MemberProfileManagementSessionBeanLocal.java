@@ -6,6 +6,9 @@
 package imas.crm.sessionbean;
 
 import imas.crm.entity.MemberEntity;
+import imas.distribution.entity.TicketEntity;
+import imas.planning.entity.FlightEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -20,5 +23,7 @@ public interface MemberProfileManagementSessionBeanLocal {
     void updateProfile(MemberEntity member);
 
     boolean resetPassword(String oldPassword, String newPassword, String memberID);
+
+    List<TicketEntity> getMemberTickets(String memberID);
     
 }

@@ -295,7 +295,8 @@ public class StaffEntity implements Serializable {
     }
 
     public String getPreferredDay() {
-        return preferredDay;
+        if(preferredDay==null) return null;
+        return this.preferredDay;
     }
 
     public void setPreferredDay(String preferredDay) {

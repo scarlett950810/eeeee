@@ -53,13 +53,19 @@
                     </p:selectOneMenu><br/>
 
                     <h:outputText value="Please select your preferred route shown below. The system will try to arrange duties with your preferred route before assigning other flights."/>                                        
-                    <p:selectOneMenu id="route" value="#{indicatePreferenceManagedBean.route}" style="width:400px" required="true" requiredMessage="Please select route" converter="routeConverter">                                                
-                        <f:selectItem itemLabel="Select Your Preferred Route" itemDisabled="true" />
-                        <f:selectItems value="#{scheduleDevelopmentManagedBean.connectionsAll}" var="connection" itemLabel="#{connection.returnRoutesName}" itemValue="#{connection}" />
-                    </p:selectOneMenu>
                     
+
+                    <p:selectManyMenu id="routes" value="#{indicatePreferenceManagedBean.selectedRoutes}" converter="routeonverter"
+                                      var="r" filter="true" filterMatchMode="contains" showCheckbox="true">
+                        <f:selectItems value="#{scheduleDevelopmentManagedBean.connectionsAll}" itemLabel="#{connection.returnRoutesName}" itemValue="#{connection}" />
+                        <p:column>
+                            <h:outputText value="#{r.toString}" />
+                        </p:column>
+                        
+                    </p:selectManyMenu>
+
                     <br/>
-                    
+
                     <p:commandButton id="addAircraftType" value="Confirm" actionListener="#{aircraftTypeManagedBean.save}" update="growl"
                                      class="btn-sm btn-success" />
                 </h:panelGrid>

@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -50,6 +51,11 @@ public class RouteManagedBean implements Serializable {
     private List<RouteEntity> filteredRoutes;
     private String routeDelete;
     private RouteEntity route;
+    private Double totalPassengers;
+    private Double marketShare;
+    private Double additionalTraffic;
+    private Double avgFare;
+    private Double proratedFare;
 
     @PostConstruct
     public void init() {
@@ -84,8 +90,48 @@ public class RouteManagedBean implements Serializable {
 
     }
 
+    public Double getTotalPassengers() {
+        return totalPassengers;
+    }
+
+    public void setTotalPassengers(Double totalPassengers) {
+        this.totalPassengers = totalPassengers;
+    }
+
+    public Double getMarketShare() {
+        return marketShare;
+    }
+
+    public void setMarketShare(Double marketShare) {
+        this.marketShare = marketShare;
+    }
+
+    public Double getAdditionalTraffic() {
+        return additionalTraffic;
+    }
+
+    public void setAdditionalTraffic(Double additionalTraffic) {
+        this.additionalTraffic = additionalTraffic;
+    }
+
+    public Double getAvgFare() {
+        return avgFare;
+    }
+
+    public void setAvgFare(Double avgFare) {
+        this.avgFare = avgFare;
+    }
+
+    public Double getProratedFare() {
+        return proratedFare;
+    }
+
+    public void setProratedFare(Double proratedFare) {
+        this.proratedFare = proratedFare;
+    }
+
     public List<RouteEntity> getRoutes() {
-   //     routes = getUpdatedRoutes();
+        //     routes = getUpdatedRoutes();
         return routes;
     }
 
@@ -110,24 +156,24 @@ public class RouteManagedBean implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) throws IOException {
-        routeSession.updateRouteInfo(((RouteEntity) event.getObject()));        
+        routeSession.updateRouteInfo(((RouteEntity) event.getObject()));
         FacesMessage msg = new FacesMessage("Route Edited", ((RouteEntity) event.getObject()).getId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        ec.redirect("planningRoute.xhtml");
-        
+        ec.redirect("planningRouteCreation.xhtml");
+
     }
 
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Edit Cancelled", ((RouteEntity) event.getObject()).getRouteName());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
-    public List<RouteEntity> getUpdatedRoutes(){
+
+    public List<RouteEntity> getUpdatedRoutes() {
         routes = routeSession.retrieveAllRoutes();
         return routes;
-        
+
     }
 
 //    public void updateRoutesInfo(){
@@ -203,30 +249,38 @@ public class RouteManagedBean implements Serializable {
     public void setFilteredRoutes(List<RouteEntity> filteredRoutes) {
         this.filteredRoutes = filteredRoutes;
     }
-    
 
-    public void generateRoutes() {
+    public Double getExpectedProfit() {
+        if (totalPassengers == null || additionalTraffic == null || marketShare == null || avgFare == null || proratedFare == null) {
+            //System.err.println(totalPassengers+additionalTraffic+marketShare+avgFare+proratedFare);
+            System.err.println("Some variables are null");
+            return 0.0;
+        }
+        return calculateRevenue();
+    }
+
+    public void generateRoutes() throws IOException {
         FacesMessage msg;
         if (hub.equals(spoke)) {
-            msg = new FacesMessage("Unsuccessful", "Connecting two same airports not allowed");
-        } else if (routeSession.availabilityCheck(distance)) {//add availability check function 在session bean里implement
-            if (!routeSession.connectHubSpoke(hub, spoke)) {
-                msg = new FacesMessage("Unsuccessful", "This route has been added");
-            } else {
-                routeSession.AddDistToRoute(hub, spoke, distance);
-                msg = new FacesMessage("Successful", "Added the route " + hub + "-->" + spoke + " successfully");
-                //System.err.println("hehe");
-            }
+            msg = new FacesMessage("Failed", "Connecting two same airports not allowed");
+        } else if (!routeSession.checkRouteByStringName(hub, spoke)) {
+            msg = new FacesMessage("Failed", "This route has been added");
+        } else if (!routeSession.availabilityCheck(distance)) {
+            msg = new FacesMessage("Failed", "After checking the aircraft capability, route added has exceeded the maximum range of current fleet");
         } else {
-            if (!routeSession.checkRouteByStringName(hub, spoke)) {
-                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "This route has been added");
-                
-            } else {
-                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "After checking the aircraft capability, route added has exceeded the maximum range of current fleet");
-                
-                //System.err.println("haha");
-            }
+            FacesContext fc = FacesContext.getCurrentInstance();
+            Double revenue = calculateRevenue();
+            ExternalContext ec = fc.getExternalContext();
+            System.err.println("Inputs already: " + hub + spoke + distance + revenue);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("hubAdded", hub);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("spokeAdded", spoke);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("distAdded", distance);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("revenue", revenue);
+            ec.redirect("planningRouteCreation.xhtml");
+            msg = new FacesMessage("","");
         }
+        
+
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -248,12 +302,12 @@ public class RouteManagedBean implements Serializable {
         distance = route.getDistance();
         Double speed = routeSession.getSpeed(distance);
         Double time = distance / speed;
-        routeSession.updateRouteTime(route, time);        
+        routeSession.updateRouteTime(route, time);
         Integer hours = time.intValue();
         Double i = 60 * (time - time.intValue());
         Integer minutes = i.intValue();
         String s = hours.toString() + "hours " + minutes.toString() + "minutes";
-        
+
         return s;
 
     }
@@ -270,6 +324,11 @@ public class RouteManagedBean implements Serializable {
         ec.redirect("planningAddRoute.xhtml");
     }
 
+    public Double calculateRevenue() {
+        Double revenue = totalPassengers * marketShare * avgFare + additionalTraffic * proratedFare;
+        revenue = revenue - 0.125 * distance;
+        return revenue;
+    }
 
     /*  public void onCountryChange() {
      if (country != null && !country.equals("")) {

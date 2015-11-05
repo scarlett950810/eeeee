@@ -215,20 +215,20 @@ public class TicketEntity implements Serializable {
         this.issued = issued;
     }
 
-    public PromotionEntity getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(PromotionEntity promotion) {
-        this.promotion = promotion;
-    }
-   
     public Double getMileage() {
         return mileage;
     }
 
     public void setMileage(Double mileage) {
         this.mileage = mileage;
+    }
+    
+    public PromotionEntity getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(PromotionEntity promotion) {
+        this.promotion = promotion;
     }
 
     @Override

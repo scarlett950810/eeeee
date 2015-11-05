@@ -61,5 +61,7 @@ public interface RouteSessionBeanLocal {
     Double getSpeed(Double range);
 
     RouteEntity getRouteForPreference();
+
+    
     
 }
