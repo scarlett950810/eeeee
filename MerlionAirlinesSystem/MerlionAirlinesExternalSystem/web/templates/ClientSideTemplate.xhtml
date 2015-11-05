@@ -103,6 +103,13 @@
             .ui-panelgrid .ui-panelgrid-cell{
                 border: none;
             }
+            .profileIcon {
+                background-image: url(../resources/img/profile.png)
+            }
+            .logoutIcon {
+                background-image: url(../resources/img/logout.png)
+            }
+
         </style>
     </h:head>
 
@@ -131,12 +138,19 @@
                 </p:panel>-->
 
                 <!--<p:outputLabel value="{externalLoginManagedBean.login}"></p:outputLabel>-->
-                
-                <p:panel id="top1" visible="#{externalLoginManagedBean.login}" style="display: inline-block; margin-left: 40%;">
+
+                <p:panel id="top1" visible="#{externalLoginManagedBean.login}" style="display: inline-block; margin-left: 60%;">
                     <h:form>
                         <p:outputLabel value="Welcome, #{externalLoginManagedBean.member.title} #{externalLoginManagedBean.member.firstName} #{externalLoginManagedBean.member.lastName}"></p:outputLabel>
-                        <p:commandButton actionListener="#{externalLoginManagedBean.viewProfile}" value="Member Profile" icon="fa fa-user"></p:commandButton>
-                        <p:commandButton actionListener="#{externalLoginManagedBean.doLogout}" value="Log Out" icon="fa-sign-out" update="top1"></p:commandButton>
+                        <!--                        <p:commandLink actionListener="{externalLoginManagedBean.viewProfile}">
+                                                    <h:graphicImage name="profile.png" />
+                                                </p:commandLink>-->
+                        <h:commandButton image="https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/profile.png" actionListener="#{externalLoginManagedBean.viewProfile}"></h:commandButton>
+                        <!--                        <p:commandLink actionListener="{externalLoginManagedBean.doLogout}" update="top1">
+                                                    <h:graphicImage name="logout.png" />
+                                                </p:commandLink>-->
+                        <h:commandButton image="https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/logout.png" actionListener="#{externalLoginManagedBean.doLogout}"></h:commandButton>
+
                     </h:form>
                 </p:panel>
 

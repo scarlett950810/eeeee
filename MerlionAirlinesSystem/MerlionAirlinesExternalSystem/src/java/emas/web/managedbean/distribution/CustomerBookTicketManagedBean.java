@@ -86,7 +86,6 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private int adultNo;
     private int childNo;
     private int infantNo;
-    private String approvalLinkStr;
 
     private Date departureMinDate;
     private Date departureMaxDate;
@@ -342,7 +341,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         List<Links> approvalLink = createdPayment.getLinks();
 
         Links link = approvalLink.get(1);
-        approvalLinkStr = link.getHref();
+        String approvalLinkStr = link.getHref();
 
         System.err.println("getHref:" + link.getHref());
         return approvalLinkStr;
@@ -1612,4 +1611,45 @@ public class CustomerBookTicketManagedBean implements Serializable {
         this.referenceNumber = referenceNumber;
     }
 
+    public double getUsedMileage() {
+        return usedMileage;
+    }
+
+    public void setUsedMileage(double usedMileage) {
+        this.usedMileage = usedMileage;
+    }
+
+    public MemberEntity getMember() {
+        return member;
+    }
+
+    public void setMember(MemberEntity member) {
+        this.member = member;
+    }
+
+    public String getMemberID() {
+        return memberID;
+    }
+
+    public void setMemberID(String memberID) {
+        this.memberID = memberID;
+    }
+
+    public boolean isLogined() {
+        return logined;
+    }
+
+    public void setLogined(boolean logined) {
+        this.logined = logined;
+    }
+
+    public int getRedeemtion() {
+        return redeemtion;
+    }
+
+    public void setRedeemtion(int redeemtion) {
+        this.redeemtion = redeemtion;
+    }
+
+    
 }
