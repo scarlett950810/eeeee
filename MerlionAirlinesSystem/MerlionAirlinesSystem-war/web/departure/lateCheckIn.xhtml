@@ -14,6 +14,7 @@
                 <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
                 <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
                 <li><a href="passengerService.xhtml">Passenger Service</a></li>
+                <li><a href="lateCheckIn.xhtml">Passenger Late Check In</a></li>
             </ul>
         </div>
     </ui:define>
@@ -112,7 +113,7 @@
 
                     </p:panelGrid>
 
-                    <p:commandButton value="Submit" actionListener="#{passengerCheckInManagedBean.update}" disabled="#{passengerCheckInManagedBean.selectedTicket.issued}"
+                    <p:commandButton value="Submit" actionListener="#{passengerCheckInManagedBean.lateUpdate()}" disabled="#{passengerCheckInManagedBean.selectedTicket.issued}"
                                      icon="ui-icon-check" class="btn-sm btn-success" style="margin-top: 15px;" update="comingFlight viewTicketForm">
                         <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                     </p:commandButton>
@@ -122,7 +123,7 @@
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no btn-danger" icon="ui-icon-close" />
                     </p:confirmDialog>
                 </p:outputPanel>
-               
+
             </h:form>
         </p:dialog>
     </ui:define>

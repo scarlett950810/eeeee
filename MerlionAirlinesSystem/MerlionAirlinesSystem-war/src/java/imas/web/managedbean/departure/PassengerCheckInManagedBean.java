@@ -46,9 +46,12 @@ public class PassengerCheckInManagedBean implements Serializable {
     private TicketEntity selectedTicket;
     private TicketEntity issuedSelectedTicket;
     private List<TicketEntity> selectedTickets = new ArrayList<TicketEntity>();
-    private Double actualBaggageWeight;
+    private Double actualBaggageWeight = 0.0;
     private Boolean issued;
     private Boolean boarded;
+    private Double additionalFee;
+    private Date checkInStartTime;
+    private Date checkInCloseTime;
 
     @PostConstruct
     public void init() {
@@ -60,19 +63,79 @@ public class PassengerCheckInManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", comingFlights);
     }
 
+    public Double getAdditionalCost(Double weight) {
+        Double cost;
+        if (weight <= 0) {
+            cost = 0.0;
+        } else if (weight <= 20) {
+            cost = 100.0;
+        } else {
+            cost = 100.0 + (weight.intValue() + 1 - 20) * 25;
+        }
+
+        return cost;
+    }
+
     public void update() throws IOException {
+        checkInStartTime = new Date(flight.getDepartureDate().getTime() - (1000 * 60 * 60 * 3));
+        checkInCloseTime = new Date(flight.getDepartureDate().getTime() - (1000 * 60 * 30));
+        System.out.print(checkInStartTime);
+        System.out.print(checkInCloseTime);
+        Date currentDate = new Date();
+        System.out.print(currentDate);
+        if (currentDate.before(checkInCloseTime) && currentDate.after(checkInStartTime)) {
+
+            if (actualBaggageWeight == null) {
+                actualBaggageWeight = 0.0;
+                additionalFee = 0.0;
+            }
+//        System.out.print("WEUEUREUEUREU");
+//        System.out.print(additionalFee);
+            if (actualBaggageWeight > selectedTicket.getBaggageWeight() && additionalFee == null) {
+                additionalFee = getAdditionalCost(actualBaggageWeight - selectedTicket.getBaggageWeight());
+                FacesMessage msg = new FacesMessage("Reminder", "Please Pay the additional S$ " + additionalFee);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+
+            } else {
+                System.out.print(actualBaggageWeight);
+                int result = passengerCheckInSessionBean.update(selectedTicket, actualBaggageWeight);
+                System.out.print(result);
+
+                //    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticket", selectedTicket);
+                //     FacesContext.getCurrentInstance().getExternalContext().redirect("../BoardingPassController");
+                RequestContext requestContext = RequestContext.getCurrentInstance();
+                requestContext.execute("PF('ticketDialog').hide()");
+                tickets = flight.getTickets();
+            }
+        } else {
+            FacesMessage msg = new FacesMessage("Sorry", "The check in period is from " + checkInStartTime + " to " + checkInCloseTime);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
+    public void lateUpdate() throws IOException {
+
         if (actualBaggageWeight == null) {
             actualBaggageWeight = 0.0;
+            additionalFee = 0.0;
         }
-        System.out.print(actualBaggageWeight);
-        int result = passengerCheckInSessionBean.update(selectedTicket, actualBaggageWeight);
-        System.out.print(result);
+        if (actualBaggageWeight > selectedTicket.getBaggageWeight() && additionalFee == null) {
+            additionalFee = getAdditionalCost(actualBaggageWeight - selectedTicket.getBaggageWeight());
+            FacesMessage msg = new FacesMessage("Reminder", "Please Pay the additional S$ " + additionalFee);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
 
-    //    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticket", selectedTicket);
-  //     FacesContext.getCurrentInstance().getExternalContext().redirect("../BoardingPassController");
-        RequestContext requestContext = RequestContext.getCurrentInstance();
-        requestContext.execute("PF('ticketDialog').hide()");
-        tickets = flight.getTickets();
+        } else {
+            System.out.print(actualBaggageWeight);
+            int result = passengerCheckInSessionBean.update(selectedTicket, actualBaggageWeight);
+            System.out.print(result);
+
+                //    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticket", selectedTicket);
+            //     FacesContext.getCurrentInstance().getExternalContext().redirect("../BoardingPassController");
+            RequestContext requestContext = RequestContext.getCurrentInstance();
+            requestContext.execute("PF('ticketDialog').hide()");
+            tickets = flight.getTickets();
+        }
+
     }
 
     public void updateNew() {
@@ -130,7 +193,17 @@ public class PassengerCheckInManagedBean implements Serializable {
         selectedTicket = (TicketEntity) event.getComponent().getAttributes().get("ticket");
         actualBaggageWeight = selectedTicket.getActualBaggageWeight();
         issued = selectedTicket.getIssued();
+        if (actualBaggageWeight == null) {
+            additionalFee = null;
+        } else {
+            additionalFee = getAdditionalCost(actualBaggageWeight - selectedTicket.getBaggageWeight());
+        }
 
+//        System.out.print("asasjsdjjkas");
+//        System.out.print(selectedTicket);
+//        System.out.print(actualBaggageWeight);
+//        System.out.print(additionalFee);
+//        additionalFee = getAdditionalCost(actualBaggageWeight - selectedTicket.getBaggageWeight());
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("PF('ticketDialog').show()");
 
@@ -238,6 +311,14 @@ public class PassengerCheckInManagedBean implements Serializable {
 
     public void setSelectedTickets(List<TicketEntity> selectedTickets) {
         this.selectedTickets = selectedTickets;
+    }
+
+    public Double getAdditionalFee() {
+        return additionalFee;
+    }
+
+    public void setAdditionalFee(Double additionalFee) {
+        this.additionalFee = additionalFee;
     }
 
 }

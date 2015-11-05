@@ -46,7 +46,7 @@ public class FillInOpenSeatSessionBean implements FillInOpenSeatSessionBeanLocal
 
         Calendar cal = Calendar.getInstance();
         Date currentDate = new Date();
-        currentDate = new Date(currentDate.getTime() - (1000 * 60 * 60));
+        currentDate = new Date(currentDate.getTime() - (1000 * 60 * 60 * 24));
         cal.add(Calendar.YEAR, 3);
 //        cal.add(Calendar.HOUR, 24);
         Date limitDate = cal.getTime();
@@ -66,28 +66,38 @@ public class FillInOpenSeatSessionBean implements FillInOpenSeatSessionBeanLocal
 
     @Override
     public Map<String, String> getMissingCabinCrew(FlightEntity selectedFlight) {
-        map = new HashMap<String, String>();
+        System.out.print("missing cabin crew");
+        map = new HashMap<>();
         allCrews = selectedFlight.getCabinCrews();
         for (int i = 0; i < allCrews.size(); i++) {
             if (Objects.equals(allCrews.get(i).getWorking(), Boolean.FALSE) && allCrews.get(i).getWorkingStatus().equals("available")) {
                 name = allCrews.get(i).getDisplayName() + "-" + allCrews.get(i).getStaffNo();
+                System.out.print(name);
                 map.put(name, name);
 
             }
         }
-        System.out.print(map);
+
         return map;
     }
 
     @Override
     public Map<String, String> getMissingPilot(FlightEntity selectedFlight) {
-        map = new HashMap<String, String>();
+        System.out.print("missing pilot");
+        Query query = em.createQuery("SELECT f FROM PilotEntity f");
+        List<PilotEntity> list = query.getResultList();
+        if (!list.isEmpty()) {
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).setWorking(Boolean.FALSE);
+            }
+        }
+
+        map = new HashMap<>();
         allPilots = selectedFlight.getPilots();
 
         for (int i = 0; i < allPilots.size(); i++) {
             System.out.println(allPilots.get(i).getWorking());
             if (Objects.equals(allPilots.get(i).getWorking(), Boolean.FALSE) && allPilots.get(i).getWorkingStatus().equals("available")) {
-
                 name = allPilots.get(i).getDisplayName() + "-" + allPilots.get(i).getStaffNo();
                 map.put(name, name);
             }
