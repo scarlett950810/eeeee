@@ -27,7 +27,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     
     @Override
     public MemberEntity getMember(String memberID) {
-        memberID = "M1e571164";
+        memberID = "M889befee";
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
         
@@ -49,7 +49,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
     @Override
     public boolean resetPassword(String oldPassword, String newPassword, String memberID) {
-        memberID = "M1e571164";
+        memberID = "M889befee";
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
         
@@ -73,7 +73,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
     @Override
     public List<TicketEntity> getMemberTickets(String memberID) {
-        memberID = "M1e571164";
+        memberID = "M889befee";
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
         List<MemberEntity> members = (List<MemberEntity>)query.getResultList();

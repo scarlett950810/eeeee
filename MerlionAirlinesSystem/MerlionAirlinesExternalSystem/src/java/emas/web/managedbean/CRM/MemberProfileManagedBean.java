@@ -55,6 +55,8 @@ public class MemberProfileManagedBean implements Serializable {
     private List<FlightEntity> filteredFlights;
     private List<TicketEntity> tickets;
     private List<TicketEntity> filteredTickets;
+    private List<TicketEntity> historicalTickets;
+    private List<TicketEntity> filteredHistoricalTickets;
 
     private boolean edit;
 
@@ -334,6 +336,30 @@ public class MemberProfileManagedBean implements Serializable {
 
     public void setFilteredTickets(List<TicketEntity> filteredTickets) {
         this.filteredTickets = filteredTickets;
+    }
+
+    public List<TicketEntity> getHistoricalTickets() {
+        Date today = new Date();
+        historicalTickets = new ArrayList<>();
+        for(TicketEntity t: tickets){
+            if(t.getFlight().getArrivalDate().before(today))
+                historicalTickets.add(t);
+        }
+        if(historicalTickets.isEmpty())
+            return null;
+        return historicalTickets;
+    }
+
+    public void setHistoricalTickets(List<TicketEntity> historicalTickets) {
+        this.historicalTickets = historicalTickets;
+    }
+
+    public List<TicketEntity> getFilteredHistoricalTickets() {
+        return filteredHistoricalTickets;
+    }
+
+    public void setFilteredHistoricalTickets(List<TicketEntity> filteredHistoricalTickets) {
+        this.filteredHistoricalTickets = filteredHistoricalTickets;
     }
     
 

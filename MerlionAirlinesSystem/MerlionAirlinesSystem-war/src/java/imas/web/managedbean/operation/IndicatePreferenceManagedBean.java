@@ -39,6 +39,7 @@ public class IndicatePreferenceManagedBean implements Serializable {
     AccountManagementSessionBeanLocal accountManagementSessionBean;
     @EJB
     LoginSessionBeanLocal loginSessionBean;
+    private List<RouteEntity> routesInBase;
     private List<RouteEntity> selectedRoutes;
     private List<RouteEntity> currentRoutes;
     private String staffNo;
@@ -161,6 +162,29 @@ public class IndicatePreferenceManagedBean implements Serializable {
 
     public void setStaff(StaffEntity staff) {
         this.staff = staff;
+    }
+
+    public List<RouteEntity> getRoutesInBase() {
+        List<RouteEntity> routesAll = routeSessionBean.retrieveAllRoutes();
+        List<RouteEntity> connectionsAll = routeSessionBean.filterRoutesToConnections(routesAll);
+        routesInBase = new ArrayList<>();
+        if(staff.getBase()==null){
+            System.err.println("Null base");
+            return null;
+        }
+            
+        for(RouteEntity r: connectionsAll){
+            if(r.getOriginAirport().equals(staff.getBase())||r.getDestinationAirport().equals(staff.getBase())){
+                System.err.println("route is "+r);
+                routesInBase.add(r);
+            }
+        }
+        if(routesInBase.isEmpty()) return null; 
+        return routesInBase;
+    }
+
+    public void setRoutesInBase(List<RouteEntity> routesInBase) {
+        this.routesInBase = routesInBase;
     }
 
 }
