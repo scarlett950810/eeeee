@@ -59,6 +59,7 @@ public class MemberProfileManagedBean implements Serializable {
     private List<TicketEntity> filteredHistoricalTickets;
 
     private boolean edit;
+    private int index = 0;
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -112,6 +113,7 @@ public class MemberProfileManagedBean implements Serializable {
         member.setAddress(address);
         memberProfileManagementSessionBean.updateProfile(member);
         edit = false;
+        index = 4;
         System.out.print(edit);
     }
 
@@ -127,6 +129,7 @@ public class MemberProfileManagedBean implements Serializable {
         contact = member.getContactNumber();
         address = member.getAddress();
         edit = false;
+        index = 4;
         System.out.print(edit);
     }
 
@@ -363,4 +366,11 @@ public class MemberProfileManagedBean implements Serializable {
     }
     
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }

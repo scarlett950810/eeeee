@@ -18,11 +18,11 @@
                 <li class="sidebar-h1">Aircraft Management </li> 
                 <li><a href="viewMaintenanceSchedule.xhtml">Aircraft Maintenance </a></li> 
                 <li><a href="operationDisplayFlights.xhtml">Flight Display </a></li> 
-                 
+
                 <li class="sidebar-h1">Flight Management </li>
                 <li><a href="operationCrewCheckIn.xhtml"> Crew Check-in </a></li> 
                 <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
-                 
+
                 <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li>  
                 <li class="sidebar-h1">Staff Management</li> 
                 <li><a href="operationCabinCrewScheduling.xhtml">Cabin Crew Schedule</a></li> 
@@ -48,6 +48,7 @@
                                       style="font-weight:bold;"/>
                     </f:facet>
 
+
                     <h:graphicImage value="../resources/img/displayFlights/airplane.png" style="display:inline; vertical-align:middle;" alt="Flight"/>  
                     <h:outputText value=" Aircraft #{flight.aircraft.tailId}"/>
 
@@ -69,6 +70,7 @@
                     <h:graphicImage value="../resources/img/displayFlights/airplane.png" style="display:inline; vertical-align:middle;" alt="Flight"/>  
 
                     <h:outputText value="Ari: #{flight.route.destinationAirport.cityName}"/> 
+
                 </pe:timeline>
             </p:tab>
             <p:tab title="Display Flights by Aircraft (Calendar View)">

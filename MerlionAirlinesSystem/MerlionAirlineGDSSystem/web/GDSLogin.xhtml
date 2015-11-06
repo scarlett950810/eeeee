@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title><ui:insert name="title">Merlion Airlines Global Distribution System</ui:insert></title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <p:panel header="Log in">
+
+                <p:messages id="logIn" showDetail="true"/>
+
+                <h:panelGrid columns="2">
+
+                    <p:outputLabel for="account" value="Account:"/>
+                    <p:inputText id="account" value="#{gDSLoginManagedBean.logInAccount}" required="true"/>
+
+                    <p:outputLabel for="password" value="Password:"/>
+                    <p:password id="password" value="#{gDSLoginManagedBean.logInPassword}" required="true"/>
+
+                    <p:commandButton value="Log in" actionListener="#{gDSLoginManagedBean.logIn()}" update="@form"/>
+
+                </h:panelGrid>
+
+            </p:panel>
+
+        </h:form>
+        
+        <h:form>
+
+            <p:panel header="Register">
+
+                <p:messages id="register" showDetail="true"/>
+
+                <h:panelGrid columns="2">
+
+                    <p:outputLabel for="newAccount" value="Account"/>
+                    <p:inputText id="newAccount" required="true" value="#{gDSLoginManagedBean.account}"/>
+
+                    <p:outputLabel for="password1" value="Password:"/>
+                    <p:password id="password1" required="true" value="#{gDSLoginManagedBean.password1}"/>
+
+                    <p:outputLabel for="password2" value="Enter password again:"/>
+                    <p:password id="password2" required="true"  value="#{gDSLoginManagedBean.password2}"/>
+
+                    <p:outputLabel for="name" value="Airline Name:"/>
+                    <p:inputText id="name" required="true" value="#{gDSLoginManagedBean.name}"/>
+
+                    <p:outputLabel for="HQCountry" value="Head Quarter:"/>
+                    <p:inputText id="HQCountry" value="#{gDSLoginManagedBean.HQCountry}"/>
+
+                    <p:outputLabel for="mainPage" value="Main Page url:"/>
+                    <p:inputText id="mainPage" value="#{gDSLoginManagedBean.mainPage}"/>
+
+                    <p:outputLabel for="email" value="Company Email:"/>
+                    <p:inputText id="email" required="true" value="#{gDSLoginManagedBean.email}"/>
+
+                    <p:outputLabel for="contactNo" value="Company Contact No:"/>
+                    <p:inputText id="contactNo" required="true"  value="#{gDSLoginManagedBean.contactNo}"/>
+
+                    <p:commandButton value="Register" actionListener="#{gDSLoginManagedBean.registerCompany()}" update="@form"/>
+
+                </h:panelGrid>
+
+            </p:panel>
+
+        </h:form>
+
+    </h:body>
+
+</html>

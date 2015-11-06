@@ -246,6 +246,12 @@ public class ScheduleDevelopmentManagedBean implements Serializable {
                 if(max.compareTo(f.getDepartureDate())<0)
                     max = f.getDepartureDate();
             }
+            Calendar now = Calendar.getInstance();
+            now.add(Calendar.YEAR, 1);
+            
+            if(max.compareTo(now.getTime())<0){
+                max = now.getTime();
+            }
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         Calendar cal = Calendar.getInstance();
         cal.setTime(max);
