@@ -23,11 +23,14 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author Scarlett
  */
+
 @Stateless
 public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
 

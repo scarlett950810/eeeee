@@ -7,10 +7,14 @@ package emas.web.managedbean.CRM;
 
 import imas.crm.entity.MemberEntity;
 import imas.crm.sessionbean.MemberProfileManagementSessionBeanLocal;
+import imas.distribution.entity.TicketEntity;
+import imas.planning.entity.FlightEntity;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -47,8 +51,13 @@ public class MemberProfileManagedBean implements Serializable {
     private String oldPassword;
     private String newPassword;
     private String repeatNewPassword;
+    private List<FlightEntity> flights;
+    private List<FlightEntity> filteredFlights;
+    private List<TicketEntity> tickets;
+    private List<TicketEntity> filteredTickets;
 
     private boolean edit;
+    private int index = 0;
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -78,6 +87,8 @@ public class MemberProfileManagedBean implements Serializable {
         contact = member.getContactNumber();
         address = member.getAddress();
         edit = false;
+        tickets = new ArrayList<>();
+        tickets = memberProfileManagementSessionBean.getMemberTickets(memberID);
 //        }
 
     }
@@ -100,6 +111,7 @@ public class MemberProfileManagedBean implements Serializable {
         member.setAddress(address);
         memberProfileManagementSessionBean.updateProfile(member);
         edit = false;
+        index = 4;
         System.out.print(edit);
     }
 
@@ -115,6 +127,7 @@ public class MemberProfileManagedBean implements Serializable {
         contact = member.getContactNumber();
         address = member.getAddress();
         edit = false;
+        index = 4;
         System.out.print(edit);
     }
 
@@ -292,4 +305,46 @@ public class MemberProfileManagedBean implements Serializable {
         this.repeatNewPassword = repeatNewPassword;
     }
 
+    public List<FlightEntity> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(List<FlightEntity> flights) {
+        this.flights = flights;
+    }
+
+    public List<FlightEntity> getFilteredFlights() {
+        return filteredFlights;
+    }
+
+    public void setFilteredFlights(List<FlightEntity> filteredFlights) {
+        this.filteredFlights = filteredFlights;
+    }
+
+    public List<TicketEntity> getTickets() {
+        if(tickets.isEmpty())
+            return null;
+        return tickets;
+    }
+
+    public void setTickets(List<TicketEntity> tickets) {
+        this.tickets = tickets;
+    }
+
+    public List<TicketEntity> getFilteredTickets() {
+        return filteredTickets;
+    }
+
+    public void setFilteredTickets(List<TicketEntity> filteredTickets) {
+        this.filteredTickets = filteredTickets;
+    }
+    
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }

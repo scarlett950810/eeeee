@@ -20,7 +20,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface CrewSchedulingCheckLocal {
-    List<FlightEntity> pilotScheduling(List<FlightEntity> flights, List<PilotEntity> pilots);
+    List<FlightEntity> pilotSchedulingCapacityCheck(List<FlightEntity> flights, List<PilotEntity> pilots);
 
     List<FlightEntity> pilotSchedulingForShortDistance(List<FlightEntity> shortFlights, List<PilotEntity> pilots);
 
@@ -39,7 +39,7 @@ public interface CrewSchedulingCheckLocal {
     
 
     List<FlightEntity> oneCabinCrewScheduling(List<FlightEntity> flights, CabinCrewEntity cabinCrew);
-    List<FlightEntity> CabinCrewScheduling(List<FlightEntity> flights, List<CabinCrewEntity> cabinCrews);
+    List<FlightEntity> CabinCrewSchedulingCapacityCheck(List<FlightEntity> flights, List<CabinCrewEntity> cabinCrews);
     List<FlightEntity> CabinScheduling(List<FlightEntity> flights, List<CabinCrewEntity> cabinCrews);
  List<FlightEntity> fleetAssignmentCheck(List<FlightEntity> flights, List<AircraftEntity> aircrafts);
 Double calculateMaintenanceHours(AircraftEntity aircraft, Date mtAcc);

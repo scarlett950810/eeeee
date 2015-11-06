@@ -98,8 +98,8 @@ public class ExternalLoginManagedBean implements Serializable {
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             ec.getSessionMap().put("memberID", memberID);
-
-            ec.redirect("https://localhost:8181/" + ((HttpServletRequest) ec.getRequest()).getRequestURI());
+            System.out.print("here"+login);
+//            ec.redirect("https://localhost:8181/" + ((HttpServletRequest) ec.getRequest()).getRequestURI());
         }
     }
 
@@ -111,5 +111,6 @@ public class ExternalLoginManagedBean implements Serializable {
         memberID = null;
         pin = null;
         login = false;
+        System.out.print("log out "+login);
     }
 }

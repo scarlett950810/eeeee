@@ -26,6 +26,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -35,6 +37,9 @@ import org.joda.time.format.DateTimeFormatter;
  *
  * @author Lei
  */
+
+@XmlRootElement
+@XmlType
 @Entity
 public class FlightEntity implements Serializable, Comparable<FlightEntity> {
 
@@ -58,9 +63,9 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
     @OneToMany(mappedBy = "flight")
     private List<TicketEntity> tickets;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date actualDepartureDate;
+    private Date   actualDepartureDate;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date actualArrivalDate;
+    private Date   actualArrivalDate;
     private String emergencyOfAtcViolation;//9
     private String mechanicalFailures;//10
     private String fuelDumping;//11
@@ -111,6 +116,10 @@ public class FlightEntity implements Serializable, Comparable<FlightEntity> {
         this.counterCheckInClosed = false;
         this.departured = false;
 
+    }
+    //test
+    public FlightEntity(String test) {
+        this.flightNo = test;
     }
 
     public FlightEntity(Integer yearSelected) {

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Planning - Route Management</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="planningAddAircraft.xhtml">Fleet Planning</a></li>
+                <li><a href="planningAircraftType.xhtml">Manage Aircraft Type</a></li>
+                <li><a href="planningEditDeleteAircraft.xhtml">Manage Aircraft</a></li>
+
+
+                <li class="sidebar-h1"><a href="planningAddRoute.xhtml">Route Planning</a></li>
+                <li><a href="planningAirport.xhtml">Manage Airport</a></li>
+                <li><a href="planningRoute.xhtml">Manage Route</a></li>
+
+                <li class="sidebar-h1">Flight Planning</li>
+                <li><a href="planningFlightManagement.xhtml">Manage Flight</a></li>
+                <li><a href="planningSetFrequency.xhtml">Schedule Development</a></li>
+                <li><a style="#{fleetAssignmentManagedBean.color}" href="planningFleetAssignment.xhtml">Fleet Assignment</a></li>
+
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <h:form>
+            <p:panel header="Route Details" style="margin-bottom:10px;" class="panel panel-success">
+                <h:outputLabel value="Please double check details your input and basic route cost-benefit analysis to confirm!"/><br/>
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">               
+                    <h:outputLabel value="Origin: "/><h:outputText value="#{routeCreationManagedBean.hub}"/>
+                    <h:outputLabel value="Destination: "/><h:outputText value="#{routeCreationManagedBean.spoke}"/>
+                    <h:outputLabel value="Distance: "/><h:outputText value="#{routeCreationManagedBean.spoke} Miles"/>
+                    <h:outputLabel value="Estimated Flight Hours: "/>
+                    <h:outputLabel value="Expected revenue: "/><h:outputText value="#{routeCreationManagedBean.revenue} Million SGD"/>
+                </h:panelGrid>
+
+                <p:commandButton value="Confirm to Create the Route" actionListener="#{routeCreationManagedBean.confirmRoute()}"
+                                 icon="ui-icon-check" class="btn-sm btn-success"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
