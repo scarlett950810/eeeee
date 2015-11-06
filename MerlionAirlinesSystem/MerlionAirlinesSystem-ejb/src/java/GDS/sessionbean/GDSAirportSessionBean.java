@@ -337,14 +337,10 @@ public class GDSAirportSessionBean implements GDSAirportSessionBeanLocal {
         em.persist(a3196);
         GDSAirportEntity a3199 = new GDSAirportEntity("Noibai Intl", "Hanoi", "Vietnam", "HAN", "VVNB", 21.221192, 105.807178, 39.0, 7.0, 'U', "Asia/Saigon");
         em.persist(a3199);
-        GDSAirportEntity a3204 = new GDSAirportEntity("Phu Quoc", "Phuquoc", "Vietnam", "", "VVPQ", 10.227025, 103.967169, 23.0, 7.0, 'U', "Asia/Saigon");
-        em.persist(a3204);
         GDSAirportEntity a3205 = new GDSAirportEntity("Tansonnhat Intl", "Ho Chi Minh City", "Vietnam", "SGN", "VVTS", 10.818797, 106.651856, 33.0, 7.0, 'U', "Asia/Saigon");
         em.persist(a3205);
         GDSAirportEntity a3222 = new GDSAirportEntity("Mandalay Intl", "Mandalay", "Burma", "MDL", "VYMD", 21.702156, 95.977928, 300.0, 6.5, 'U', "Asia/Rangoon");
         em.persist(a3222);
-        GDSAirportEntity a3247 = new GDSAirportEntity("Jalaluddin", "Gorontalo", "Indonesia", "GTO", "WAMG", 0.637119, 122.849858, 105.0, 8.0, 'N', "Asia/Makassar");
-        em.persist(a3247);
         GDSAirportEntity a3930 = new GDSAirportEntity("Incheon Intl", "Seoul", "South Korea", "ICN", "RKSI", 37.469075, 126.450517, 23.0, 9.0, 'U', "Asia/Seoul");
         em.persist(a3930);
         GDSAirportEntity a3263 = new GDSAirportEntity("Kuching Intl", "Kuching", "Malaysia", "KCH", "WBGG", 1.484697, 110.346933, 89.0, 8.0, 'N', "Asia/Kuala_Lumpur");
@@ -359,10 +355,6 @@ public class GDSAirportSessionBean implements GDSAirportSessionBeanLocal {
         em.persist(a3304);
         GDSAirportEntity a3305 = new GDSAirportEntity("Langkawi Intl", "Pulau", "Malaysia", "LGK", "WMKL", 6.329728, 99.728667, 29.0, 8.0, 'N', "Asia/Kuala_Lumpur");
         em.persist(a3305);
-        GDSAirportEntity a3306 = new GDSAirportEntity("Malacca", "Malacca", "Malaysia", "MKZ", "WMKM", 2.263361, 102.251553, 35.0, 8.0, 'N', "Asia/Kuala_Lumpur");
-        em.persist(a3306);
-        GDSAirportEntity a3307 = new GDSAirportEntity("Sultan Mahmud", "Kuala Terengganu", "Malaysia", "TGG", "WMKN", 5.382639, 103.10336, 21.0, 8.0, 'N', "Asia/Kuala_Lumpur");
-        em.persist(a3307);
         GDSAirportEntity a3308 = new GDSAirportEntity("Penang Intl", "Penang", "Malaysia", "PEN", "WMKP", 5.297139, 100.276864, 11.0, 8.0, 'N', "Asia/Kuala_Lumpur");
         em.persist(a3308);
         GDSAirportEntity a3309 = new GDSAirportEntity("Suai", "Suai", "East Timor", "", "WPDB", -9.303306, 125.286753, 96.0, 9.0, 'U', "Asia/Dili");
