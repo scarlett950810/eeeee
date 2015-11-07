@@ -26,7 +26,7 @@
                     <p:outputLabel value="PIN: "  />
                     <p:password value="#{externalLoginManagedBean.pin}" label="pin" requiredMessage="Please enter your PIN"/><br/><br/>                   
 
-                    <p:commandButton id="externalLogin"  update="messages top1"  value="Log In" actionListener="#{externalLoginManagedBean.doLogin()}" style="width: 100px; color: black;"/>
+                    <p:commandButton id="externalLogin" update="messages" value="Log In" actionListener="#{externalLoginManagedBean.doLogin()}" style="width: 100px; color: black;"/>
 
                 </h:panelGrid>
 

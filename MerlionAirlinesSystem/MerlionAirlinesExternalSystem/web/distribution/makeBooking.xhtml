@@ -70,7 +70,7 @@
             <p:outputLabel value="(Includes taxes and surcharges)" />
         </p:panel>
 
-        <p:panel visible="#{customerBookTicketManagedBean.logined}">
+        <p:panel visible="#{customerBookTicketManagedBean.logined}" style="margin-top: 5%; border: #000000 2px solid; height: auto">
 
             <p:growl id="redeemStatus"></p:growl>
             <p:outputLabel value="Merlion Member: #{customerBookTicketManagedBean.member.title} #{customerBookTicketManagedBean.member.firstName} #{customerBookTicketManagedBean.member.lastName}"></p:outputLabel>
@@ -80,15 +80,9 @@
             <br></br>
             <br></br>
             <h:form>
-                <!--                <h:outputText value="Each one mile out of your mileage can be used to reduce your ticket price by S$0.5"></h:outputText>
-                                <h:outputText value="You are going to redeem "></h:outputText>
-                                <p:inputText value="{customerBookTicketManagedBean.usedMileage}"></p:inputText>-->
-
-                <h:outputText value="You can choose to following options to redeem: "></h:outputText>
-                <p:selectOneMenu value="#{customerBookTicketManagedBean.redeemtion}">
-                    <f:selectItem itemLabel="Select One" itemDisabled="true"/>
-                    <f:selectItem itemLabel="#{customerBookTicketManagedBean}" itemDisabled="true"/>
-                </p:selectOneMenu>
+                <h:outputText value="Each one mile out of your mileage can be used to reduce your ticket price by S$0.5"></h:outputText>
+                <h:outputText value="You are going to redeem "></h:outputText>
+                <p:inputText value="{customerBookTicketManagedBean.usedMileage}"></p:inputText>
 
                 <p:commandButton value="Redeem" actionListener="#{customerBookTicketManagedBean.redeemMileage}" update="redeemStatus, flightsDetail"></p:commandButton>
             </h:form>

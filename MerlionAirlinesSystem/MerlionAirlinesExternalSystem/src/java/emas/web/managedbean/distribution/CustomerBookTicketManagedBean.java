@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.paypal.api.payments.*;
 import imas.crm.entity.MemberEntity;
+import imas.crm.sessionbean.CustomerAccountManagementSessionBeanLocal;
 import imas.crm.sessionbean.MemberProfileManagementSessionBeanLocal;
 import java.io.File;
 import java.io.Serializable;
@@ -64,6 +65,8 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @SessionScoped
 public class CustomerBookTicketManagedBean implements Serializable {
+    @EJB
+    private CustomerAccountManagementSessionBeanLocal customerAccountManagementSessionBean;
 
     @EJB
     private MemberProfileManagementSessionBeanLocal memberProfileManagementSessionBean;
@@ -136,6 +139,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private String memberID;
     private boolean logined;
     private int redeemtion;
+    private String pin;
 
     // for displaying booking class options
     private List<BookingClassEntity> departureDirectFlightBookingClassCandidates;
@@ -363,19 +367,41 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
 
     public void redeemMileage() {
-
+        
         if (usedMileage > member.getMileage()) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "You have exceed the amount of mileage you can redeem", "");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            System.out.print(totalPrice);
             totalPrice = totalPrice - usedMileage*0.5;
-            System.out.print(usedMileage);
-            System.out.print(totalPrice);
+            memberProfileManagementSessionBean.redeemMileage(usedMileage, memberID);
         }
     }
 
+    public void forgetPIN() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberResetPIN.xhtml");
+    }
+    
+    public void nonmemberLogin() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("makeBooking.xhtml");
+    }
+    
+    public void memberLogin() throws IOException{
+        FacesMessage msg;
+        member = customerAccountManagementSessionBean.checkValidity(memberID, pin);
+        if (member == null) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid match between account and PIN", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else {
+            logined = true;
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            ec.getSessionMap().put("memberID", memberID);
+//            ec.redirect("https://localhost:8181/" + ((HttpServletRequest) ec.getRequest()).getRequestURI());
+        }
+        FacesContext.getCurrentInstance().getExternalContext().redirect("makeBooking.xhtml");
+    }
+    
     @PostRemove
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("airportList");
@@ -1501,7 +1527,14 @@ public class CustomerBookTicketManagedBean implements Serializable {
             }
 
 //            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("passengerList", passengers);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("makeBooking.xhtml");
+            memberID = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID");
+            if(member == null){
+                FacesContext.getCurrentInstance().getExternalContext().redirect("memberLogin.xhtml");
+            }else{
+                member = memberProfileManagementSessionBean.getMember(memberID);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("makeBooking.xhtml");
+            }
+            
 
         }
 
@@ -1651,5 +1684,11 @@ public class CustomerBookTicketManagedBean implements Serializable {
         this.redeemtion = redeemtion;
     }
 
-    
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
 }

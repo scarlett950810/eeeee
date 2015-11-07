@@ -15,11 +15,21 @@
     </ui:define>
 
     <ui:define name="main">
-        <p:panel style="margin-top: 5%">
-            <p:outputLabel value="Merflion Membership Number | #{memberProfileManagedBean.member.memberID}"></p:outputLabel>
-            <br></br>
-            <h:outputText value="#{memberProfileManagedBean.member.mileage} Merfilon Miles" style="font-size: 200%"></h:outputText>
+        #{memberProfileManagedBean.checkUser()}
 
+        <p:panel style="margin-top: 5%">
+            <p:panel style="display: inline-block">
+                <p:outputLabel value="Merflion Membership Number | #{memberProfileManagedBean.member.memberID}"></p:outputLabel>
+                <br></br>
+                <h:outputText value="#{memberProfileManagedBean.member.mileage} Merfilon Miles" style="font-size: 200%"></h:outputText>
+            </p:panel>
+            
+            <h:form style="display: inline-block; float: right">
+                <p:panel id="top1">
+                    <p:outputLabel value="Welcome, #{memberProfileManagedBean.member.title} #{memberProfileManagedBean.member.firstName} #{memberProfileManagedBean.member.lastName}"></p:outputLabel>
+                    <h:commandButton image="https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/logout.png" actionListener="#{memberProfileManagedBean.doLogout}"></h:commandButton>
+                </p:panel>
+            </h:form>
             <br></br>
 
             <p:tabView id="tabViewMain" activeIndex="#{memberProfileManagedBean.index}">
@@ -28,7 +38,7 @@
                         <h:outputLabel value="My Mileage History"/>
                     </h:panelGrid>
                 </p:tab>
-                <p:tab title="Miles">
+                <p:tab title="Mileage Management">
                     <p:dataTable id="tickets" var="ticket" value="#{memberProfileManagedBean.tickets}" style="margin-bottom:20px"
                                  paginator="true" widgetVar="flightTable" filteredValue="#{memberProfileManagedBean.filteredTickets}"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -40,15 +50,15 @@
                         <p:column headerText="Date" filterBy="#{ticket.flight.departureDate}">
                             <h:outputText value="#{ticket.flight.departureDate}" />
                         </p:column>
-                        
+
                         <p:column headerText="Flight No" filterBy="#{ticket.flight.flightNo}">
                             <h:outputText value="#{ticket.flight.flightNo}" />
                         </p:column>
-                        
+
                         <p:column headerText="Description" filterBy="#{ticket.flight.route}">
                             <h:outputText value="#{ticket.flight.route}" />
                         </p:column>
-                        
+
                         <p:column headerText="Miles Accumulated" filterBy="#{ticket.mileage}">
                             <h:outputText value="#{ticket.mileage}" />
                         </p:column>
@@ -136,7 +146,7 @@
 
                     <p:panel style="margin-top: 5%; border: #000000 2px solid; height: auto" visible="#{memberProfileManagedBean.edit}">
                         <p:messages autoUpdate="true" />
-                        
+
                         <h:form id="formMain">
                             <p:panel style="border-bottom: 2px #000000 solid">
                                 <p:outputLabel value="Title and last / family name"></p:outputLabel>

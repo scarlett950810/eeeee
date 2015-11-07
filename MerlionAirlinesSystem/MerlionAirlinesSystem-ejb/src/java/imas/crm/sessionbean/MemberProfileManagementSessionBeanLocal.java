@@ -25,5 +25,7 @@ public interface MemberProfileManagementSessionBeanLocal {
     boolean resetPassword(String oldPassword, String newPassword, String memberID);
 
     List<TicketEntity> getMemberTickets(String memberID);
+
+    void redeemMileage(double usedMileage, String memberID);
     
 }

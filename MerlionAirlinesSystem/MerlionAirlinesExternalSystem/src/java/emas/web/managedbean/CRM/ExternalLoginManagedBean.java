@@ -99,7 +99,7 @@ public class ExternalLoginManagedBean implements Serializable {
             ExternalContext ec = fc.getExternalContext();
             ec.getSessionMap().put("memberID", memberID);
             System.out.print("here"+login);
-//            ec.redirect("https://localhost:8181/" + ((HttpServletRequest) ec.getRequest()).getRequestURI());
+            ec.redirect("crmMemberProfile.xhtml");
         }
     }
 

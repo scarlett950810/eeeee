@@ -231,6 +231,10 @@ public class BookingClassEntity implements Serializable {
         this.bookingClassRuleSet = bookingClassRuleSet;
     }
 
+    public double getMileage(){
+        return this.bookingClassRuleSet.getMileageAccrual()*this.getFlight().getRoute().getDistance();
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
