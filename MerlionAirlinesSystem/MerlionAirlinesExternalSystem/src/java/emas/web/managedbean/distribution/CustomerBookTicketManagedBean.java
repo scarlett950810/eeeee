@@ -360,7 +360,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void afterPay() throws IOException {
         //        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
         if (memberID != null) {
-                        
+
             memberProfileManagementSessionBean.accumulateMileage(memberID, accumulatedMileage);
             if (usedMileage != 0) {
                 memberProfileManagementSessionBean.redeemMileage(usedMileage, memberID);
@@ -1503,7 +1503,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
             }
 
             System.out.print("accumulatedMileage = " + accumulatedMileage);
-            
+
             for (int i = 0; i < adultNo + childNo + infantNo; i++) {
                 PassengerEntity passenger = new PassengerEntity();
                 TicketEntity ticket1 = null, ticket2 = null, ticket3 = null, ticket4 = null, ticket5 = null, ticket6 = null;
