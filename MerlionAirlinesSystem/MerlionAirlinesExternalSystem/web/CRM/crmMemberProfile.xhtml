@@ -23,7 +23,7 @@
                 <br></br>
                 <h:outputText value="#{memberProfileManagedBean.member.mileage} Merfilon Miles" style="font-size: 200%"></h:outputText>
             </p:panel>
-            
+
             <h:form style="display: inline-block; float: right">
                 <p:panel id="top1">
                     <p:outputLabel value="Welcome, #{memberProfileManagedBean.member.title} #{memberProfileManagedBean.member.firstName} #{memberProfileManagedBean.member.lastName}"></p:outputLabel>
@@ -39,31 +39,54 @@
                     </h:panelGrid>
                 </p:tab>
                 <p:tab title="Mileage Management">
-                    <p:dataTable id="tickets" var="ticket" value="#{memberProfileManagedBean.tickets}" style="margin-bottom:20px"
-                                 paginator="true" widgetVar="flightTable" filteredValue="#{memberProfileManagedBean.filteredTickets}"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="15, 30, 50" rows="15">
-                        <f:facet name="header">
-                            Mileage Accumulation from Historical Flights
-                        </f:facet>
+                    <p:panel header="Mileage Accumulation" style="margin-top: 2%; border: #000000 2px solid; height: auto">
+                        <p:dataTable id="tickets" var="ticket" value="#{memberProfileManagedBean.historicalTickets}" style="margin-bottom:20px"
+                                     paginator="true" widgetVar="flightTable" filteredValue="#{memberProfileManagedBean.filteredTickets}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="15, 30, 50" rows="15">
+                            <f:facet name="header">
+                                Mileage Accumulation from Historical Flights
+                            </f:facet>
 
-                        <p:column headerText="Date" filterBy="#{ticket.flight.departureDate}">
-                            <h:outputText value="#{ticket.flight.departureDate}" />
-                        </p:column>
+                            <p:column headerText="Date" filterBy="#{ticket.flight.departureDate}">
+                                <h:outputText value="#{ticket.flight.departureDate}" />
+                            </p:column>
 
-                        <p:column headerText="Flight No" filterBy="#{ticket.flight.flightNo}">
-                            <h:outputText value="#{ticket.flight.flightNo}" />
-                        </p:column>
+                            <p:column headerText="Flight No" filterBy="#{ticket.flight.flightNo}">
+                                <h:outputText value="#{ticket.flight.flightNo}" />
+                            </p:column>
 
-                        <p:column headerText="Description" filterBy="#{ticket.flight.route}">
-                            <h:outputText value="#{ticket.flight.route}" />
-                        </p:column>
+                            <p:column headerText="Description" filterBy="#{ticket.flight.route}">
+                                <h:outputText value="#{ticket.flight.route}" />
+                            </p:column>
 
-                        <p:column headerText="Miles Accumulated" filterBy="#{ticket.mileage}">
-                            <h:outputText value="#{ticket.mileage}" />
-                        </p:column>
+                            <p:column headerText="Miles Accumulated" filterBy="#{ticket.mileage}">
+                                <h:outputText value="#{ticket.mileage}" />
+                            </p:column>
 
-                    </p:dataTable>
+                        </p:dataTable>
+                    </p:panel>
+
+                    <p:panel header="Mileage Redeemtion" style="margin-top: 2%; border: #000000 2px solid; height: auto" >
+                        <p:dataTable var="ticket" value="#{memberProfileManagedBean.unissuedTickets}">
+                            <p:column headerText="Date" filterBy="#{ticket.flight.departureDate}">
+                                <h:outputText value="#{ticket.flight.departureDate}" />
+                            </p:column>
+
+                            <p:column headerText="Flight No" filterBy="#{ticket.flight.flightNo}">
+                                <h:outputText value="#{ticket.flight.flightNo}" />
+                            </p:column>
+
+                            <p:column headerText="Description" filterBy="#{ticket.flight.route}">
+                                <h:outputText value="#{ticket.flight.route}" />
+                            </p:column>
+
+                            <p:column headerText="Miles Accumulated" filterBy="#{ticket.mileage}">
+                                <h:outputText value="#{ticket.mileage}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+
                 </p:tab>
                 <p:tab title="Check-ins">
                     <h:panelGrid columns="2" cellpadding="10">
@@ -79,7 +102,7 @@
                 </p:tab>
                 <p:tab id="profile" title="Profile">
                     <p:outputLabel value="Personal Details"></p:outputLabel>
-                    <p:panel  style="margin-top: 2%; border: #000000 2px solid; height: auto" visible="#{!memberProfileManagedBean.edit}">
+                    <p:panel style="margin-top: 2%; border: #000000 2px solid; height: auto" visible="#{!memberProfileManagedBean.edit}">
                         <p:panel style="border-bottom: 2px #000000 solid">
                             <p:outputLabel value="Title and last / family name"></p:outputLabel>
                             <br></br>

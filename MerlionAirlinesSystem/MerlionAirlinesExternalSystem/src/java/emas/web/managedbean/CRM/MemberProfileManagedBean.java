@@ -53,7 +53,8 @@ public class MemberProfileManagedBean implements Serializable {
     private String repeatNewPassword;
     private List<FlightEntity> flights;
     private List<FlightEntity> filteredFlights;
-    private List<TicketEntity> tickets;
+    private List<TicketEntity> historicalTickets;
+    private List<TicketEntity> unissuedTickets;
     private List<TicketEntity> filteredTickets;
     
     private boolean edit;
@@ -90,8 +91,10 @@ public class MemberProfileManagedBean implements Serializable {
             contact = member.getContactNumber();
             address = member.getAddress();
             edit = false;
-            tickets = new ArrayList<>();
-            tickets = memberProfileManagementSessionBean.getMemberTickets(memberID);
+            unissuedTickets = new ArrayList<>();
+            historicalTickets = new ArrayList<>();
+            unissuedTickets = memberProfileManagementSessionBean.getFutureTicket(memberID);
+            historicalTickets = memberProfileManagementSessionBean.getHistoricalTickets(memberID);
         }
         
     }
@@ -336,16 +339,21 @@ public class MemberProfileManagedBean implements Serializable {
     public void setFilteredFlights(List<FlightEntity> filteredFlights) {
         this.filteredFlights = filteredFlights;
     }
-    
-    public List<TicketEntity> getTickets() {
-        if (tickets == null) {
-            return null;
-        }
-        return tickets;
+
+    public List<TicketEntity> getHistoricalTickets() {
+        return historicalTickets;
     }
-    
-    public void setTickets(List<TicketEntity> tickets) {
-        this.tickets = tickets;
+
+    public void setHistoricalTickets(List<TicketEntity> historicalTickets) {
+        this.historicalTickets = historicalTickets;
+    }
+
+    public List<TicketEntity> getUnissuedTickets() {
+        return unissuedTickets;
+    }
+
+    public void setUnissuedTickets(List<TicketEntity> unissuedTickets) {
+        this.unissuedTickets = unissuedTickets;
     }
     
     public List<TicketEntity> getFilteredTickets() {

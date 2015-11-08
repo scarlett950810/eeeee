@@ -71,7 +71,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
     }
 
-    @Override
+    @Override //To get the tickets associated with a specific member
     public List<TicketEntity> getMemberTickets(String memberID) {
         
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
@@ -89,13 +89,51 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
         query.setParameter("memberID", memberID);
         List<MemberEntity> members = (List<MemberEntity>) query.getResultList();
 
-        if (members.isEmpty()) {
+        if (!members.isEmpty()) {
             MemberEntity member = members.get(0);
             //List<FlightEntity> flights = new ArrayList<>();
             member.setMileage(member.getMileage() - usedMileage);
-            
+            System.out.println("redeemed " + member.getMileage());
         }
-
     }
+
+    @Override
+    public List<TicketEntity> getHistoricalTickets(String memberID) {
+        List<TicketEntity> tickets = getMemberTickets(memberID);
+        for(int i=0; i< tickets.size(); i++){
+            TicketEntity ticket = tickets.get(i);
+            if(ticket.getIssued() == false){
+                tickets.remove(ticket);
+            }
+        }
+        return tickets;
+    }
+
+    @Override
+    public List<TicketEntity> getFutureTicket(String memberID) {
+        List<TicketEntity> tickets = getMemberTickets(memberID);
+        for(int i=0; i< tickets.size(); i++){
+            TicketEntity ticket = tickets.get(i);
+            if(ticket.getIssued() == true){
+                tickets.remove(ticket);
+            }
+        }
+        return tickets;
+    }
+
+    @Override
+    public void accumulateMileage(String memberID, double mileage) {
+        Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
+        query.setParameter("memberID", memberID);
+        List<MemberEntity> members = (List<MemberEntity>) query.getResultList();
+
+        if (!members.isEmpty()) {
+            MemberEntity member = members.get(0);
+            member.setMileage(member.getMileage() + mileage);
+            System.out.print("new Mileage = " + member.getMileage());
+        }
+    }
+    
+    
 
 }

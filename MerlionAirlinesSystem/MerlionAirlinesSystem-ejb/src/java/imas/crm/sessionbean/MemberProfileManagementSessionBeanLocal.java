@@ -27,5 +27,11 @@ public interface MemberProfileManagementSessionBeanLocal {
     List<TicketEntity> getMemberTickets(String memberID);
 
     void redeemMileage(double usedMileage, String memberID);
+
+    List<TicketEntity> getHistoricalTickets(String memberID);
+
+    List<TicketEntity> getFutureTicket(String memberID);
+
+    void accumulateMileage(String memberID, double mileage);
     
 }
