@@ -187,7 +187,7 @@ public class EmailManager {
         }
     }//run
     
-    public static void runMemberActivationEmail(String addressedTo, String name, String activationLink){
+    public static void runMemberActivationEmail(String addressedTo, String name, String activationLink, String memberID){
         
         //String toAddress = "winexpress.noreply@gmail.com"; // set the email address to send to
         String recipients = addressedTo.trim(); // trim the recipients address to avoid space
@@ -227,7 +227,7 @@ public class EmailManager {
                     + "choices of destination all over the world and we have the newest and safeest aircrafts "
                     + "in the world. With you being a member of Merflion Member Club, you can accuumalate "
                     + "mileages every time you fly with Merflion Airlines and enjoy exclusive benefits.</p>" 
-                    + "<br>" + "<p>Please click the activation below to activate your account:</p>" + "<br>"
+                    + "<br>" + "<p>Your member ID: " + memberID + "</p><br><br><p>Please click the activation below to activate your account:</p>" + "<br>"
                     + activationLink + "<br>" + "<h3>Your sincerely</h3>" + "<h4>Merlion Airlines</h4>" + "</body>";
 
             messageBodyPart.setContent(htmlText, "text/html");

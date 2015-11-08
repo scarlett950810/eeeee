@@ -33,5 +33,9 @@ public interface MemberProfileManagementSessionBeanLocal {
     List<TicketEntity> getFutureTicket(String memberID);
 
     void accumulateMileage(String memberID, double mileage);
+
+    boolean deductMileage(String memberID, double deductAmount);
+
+    void upgradeSeatClassWithMileage(TicketEntity ticket);
     
 }

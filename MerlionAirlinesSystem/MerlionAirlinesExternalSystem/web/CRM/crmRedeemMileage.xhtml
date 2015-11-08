@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="main">
+        <p:panel header="Redeem Your Mileage" style="margin-top: 5%; border: #000000 2px solid; height: auto">
+            <p:outputLabel value="#{mileageRedeemManagedBean.member.title} #{mileageRedeemManagedBean.member.firstName} #{mileageRedeemManagedBean.member.lastName}"></p:outputLabel>
+            <h:outputText value="You currect accumulated mileage is #{mileageRedeemManagedBean.member.mileage}"></h:outputText>
+            <p:panelGrid columns="2" style="margin-top: 5%">
+                <p:outputLabel value="Flight No: "></p:outputLabel>
+                <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.flight.flightNo}"></h:outputText>
+
+                <br></br>
+                <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.flight.route.originAirport.cityName} (#{mileageRedeemManagedBean.selectedTicket.flight.route.originAirport.airportCode}) - #{mileageRedeemManagedBean.selectedTicket.flight.route.destinationAirport}"
+
+                              <br></br>
+                    <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.flight.departureDate} - #{mileageRedeemManagedBean.selectedTicket.flight.arrivalDate}"></h:outputText>
+
+                    <br></br>
+                    <br></br>
+
+                    <p:outputLabel value="Seat Class: "></p:outputLabel>
+                    <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.seat.seatClass}"></h:outputText>
+            </p:panelGrid>
+
+            <p:panel style="margin-top: 5%;">
+                <h:form>
+                    <p:outputLabel value="You can upgrade your seat class with your mileage:"></p:outputLabel>
+                    <br></br>
+
+                    <p:selectOneRadio value="#{mileageRedeemManagedBean.option}">
+                        <f:selectItem itemLabel="Upgrade from #{mileageRedeemManagedBean.currentSeatClass} to First Class: #{mileageRedeemManagedBean.upgradeToFirstClass} miles" itemValue="1" rendered="#{mileageRedeemManagedBean.upgradeToFirstClass==0}||#{mileageRedeemManagedBean.upgradeToFirstClass > mileageRedeemManagedBean.member.mileage}" />
+                        <f:selectItem itemLabel="Upgrade from #{mileageRedeemManagedBean.currentSeatClass} to Business Class: #{mileageRedeemManagedBean.upgradeToBusinessClass} miles" itemValue="2" rendered="#{mileageRedeemManagedBean.upgradeToBusinessClass==0}||#{mileageRedeemManagedBean.upgradeToBusinessClass > mileageRedeemManagedBean.member.mileage}" />
+                        <f:selectItem itemLabel="Upgrade from #{mileageRedeemManagedBean.currentSeatClass} to Premium Economy Class: #{mileageRedeemManagedBean.upgradeToPremiumEconomyClass} miles" itemValue="3" rendered="#{mileageRedeemManagedBean.upgradeToPremiumEconomyClass==0}||#{mileageRedeemManagedBean.upgradeToBusinessClass > mileageRedeemManagedBean.member.mileage}" />
+                    </p:selectOneRadio>
+                    
+                    <p:commandButton value="Confirm" actionListener=""
+                </h:form>
+            </p:panel>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

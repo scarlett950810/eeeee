@@ -133,6 +133,31 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
             System.out.print("new Mileage = " + member.getMileage());
         }
     }
+
+    @Override
+    public boolean deductMileage(String memberID, double deductAmount) {
+        Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
+        query.setParameter("memberID", memberID);
+        List<MemberEntity> members = (List<MemberEntity>) query.getResultList();
+
+        if (!members.isEmpty()) {
+            MemberEntity member = members.get(0);
+            if(member.getMileage() - deductAmount >= 0){
+                member.setMileage(member.getMileage() - deductAmount);
+                System.out.print("new Mileage = " + member.getMileage());
+                return true;
+            }else{
+                return false;
+            }
+            
+        }
+        return false;
+    }
+
+    @Override
+    public void upgradeSeatClassWithMileage(TicketEntity ticket) {
+        em.merge(ticket);
+    }
     
     
 

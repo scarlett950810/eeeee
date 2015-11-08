@@ -33,7 +33,7 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
         newCustomer.setToken(token);
         em.persist(newCustomer);
         EmailManager.runMemberActivationEmail(newCustomer.getEmail(), newCustomer.getTitle() + " " + newCustomer.getFirstName() + " "
-                + newCustomer.getLastName(), "https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberActivation.xhtml?token=" + token);
+                + newCustomer.getLastName(), "https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberActivation.xhtml?token=" + token, newCustomer.getMemberID());
         EmailManager.run(newCustomer.getEmail(), "Welcome to MerFlion | Fly more with Merlion and get more benefits", "");
     }
 
