@@ -115,16 +115,13 @@
 
     <h:body>
 
-
         <f:facet name="last">
             <h:outputStylesheet name="./css/cssLayout.css"/>
             <h:outputStylesheet name="./css/simple-sidebar.css"/>
             <h:outputScript name="./js/bootstrap.min.js"/>
             <h:outputStylesheet name="./css/flaty.css"/>
         </f:facet>
-
-
-
+        
         <p:layout fullPage="true">
 
             <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70" style="display: inline-block">
@@ -132,27 +129,6 @@
                 <a href="https://localhost:8181/MerlionAirlinesExternalSystem/index.xhtml">
                     <p:graphicImage name="img/NEW_LOGO.png" height="100%" style="width: 15%; margin-left: 10%; margin-top: 10px; z-index: 9999"/>
                 </a>
-
-                <!--                <p:panel visible="" style="float: right; margin-top: 40px; margin-right: 5%; color: #001F5F">
-            
-                </p:panel>-->
-
-                <!--<p:outputLabel value="{externalLoginManagedBean.login}"></p:outputLabel>-->
-
-                <p:panel id="top1" visible="#{externalLoginManagedBean.login}" style="display: inline-block; margin-left: 60%;">
-                    <h:form>
-                        <p:outputLabel value="Welcome, #{externalLoginManagedBean.member.title} #{externalLoginManagedBean.member.firstName} #{externalLoginManagedBean.member.lastName}"></p:outputLabel>
-                        <!--                        <p:commandLink actionListener="{externalLoginManagedBean.viewProfile}">
-                                                    <h:graphicImage name="profile.png" />
-                                                </p:commandLink>-->
-                        <h:commandButton image="https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/profile.png" actionListener="#{externalLoginManagedBean.viewProfile}"></h:commandButton>
-                        <!--                        <p:commandLink actionListener="{externalLoginManagedBean.doLogout}" update="top1">
-                                                    <h:graphicImage name="logout.png" />
-                                                </p:commandLink>-->
-                        <h:commandButton image="https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/logout.png" actionListener="#{externalLoginManagedBean.doLogout}"></h:commandButton>
-
-                    </h:form>
-                </p:panel>
 
             </p:layoutUnit>
 

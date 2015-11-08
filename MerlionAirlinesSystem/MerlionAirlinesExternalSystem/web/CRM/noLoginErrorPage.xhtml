@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        
+    </ui:define>
+
+    <ui:define name="head">
+        <script>
+            function redirect() {
+                window.location.assign("https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmCustomerLogin.xhtml");
+            }
+        </script>
+    </ui:define>
+
+    <ui:define name="main">
+        <p:panel style="margin-top: 5%; border: #000000 2px solid; height: auto; text-align: center">
+            <br></br>
+            <br></br>
+            
+            <p:outputLabel value="Sorry, you have to log in so as to access this page">
+            </p:outputLabel>
+            
+            <br></br>
+            
+            <p:commandButton onclick="redirect()" value="Go to log in page" style="margin-top: 10%"></p:commandButton>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
