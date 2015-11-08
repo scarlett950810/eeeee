@@ -15,6 +15,7 @@
         <p:growl id="growl" autoUpdate="true"/>
 
         <p:tabView id="tabView" activeIndex="#{gDSFlightLookupManagedBean.activeIndex}">
+            
             <p:tab title="1 Search creiteria" class="panel panel-primary" disabled="#{gDSFlightLookupManagedBean.tab1Disabled}">
 
                 <p:messages />
@@ -102,7 +103,7 @@
                 </h:form>
             </p:tab>
 
-            <p:tab id="selectFlightTab" title="2 Select Flight" class="panel panel-primary" disabled="#{gDSFlightLookupManagedBean.tab2Disabled}" rendered="#{not gDSFlightLookupManagedBean.tab2Disabled}">
+            <p:tab id="selectFlightTab" title="2 Select Flight" class="panel panel-primary" disabled="#{gDSFlightLookupManagedBean.tab2Disabled}">
 
                 <h:form id="selectFlightForm">
 
@@ -369,7 +370,176 @@
 
             </p:tab>
 
+            <p:tab title="3 Select Booking Class" class="panel panel-primary" disabled="#{gDSFlightLookupManagedBean.tab3Disabled}">
 
+                <h:form>
+
+                    <c:if test="#{gDSFlightLookupManagedBean.selectedDepartureDirectFlight()}">
+
+                        <p:dataTable value="#{gDSFlightLookupManagedBean.departureDirectFlight.GDSBookingClassEntities}" var="bookingClass" 
+                                     selection="#{gDSFlightLookupManagedBean.departureDirectFlightBookingClass}" rowKey="#{bookingClass.id}" 
+                                     disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
+                            
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{gDSFlightLookupManagedBean.departureDirectFlight}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{gDSFlightLookupManagedBean.GDSBookingClassPrice(bookingClass)}" />
+                            </p:column>
+
+                            <p:column headerText="Notes">
+                                <h:outputText value="#{bookingClass.notes}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </c:if>
+
+                    <c:if test="#{gDSFlightLookupManagedBean.selectedDepartureTransferFlight()}">
+
+                        <p:dataTable value="#{gDSFlightLookupManagedBean.departureTransferFlight1.GDSBookingClassEntities}" var="bookingClass" 
+                                     selection="#{gDSFlightLookupManagedBean.departureTransferFlight1BookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
+                            
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{gDSFlightLookupManagedBean.departureDirectFlight}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{gDSFlightLookupManagedBean.GDSBookingClassPrice(bookingClass)}" />
+                            </p:column>
+
+                            <p:column headerText="Notes">
+                                <h:outputText value="#{bookingClass.notes}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:dataTable value="#{gDSFlightLookupManagedBean.departureTransferFlight2.GDSBookingClassEntities}" var="bookingClass" 
+                                     selection="#{gDSFlightLookupManagedBean.departureTransferFlight2BookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
+                            
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{gDSFlightLookupManagedBean.departureDirectFlight}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{gDSFlightLookupManagedBean.GDSBookingClassPrice(bookingClass)}" />
+                            </p:column>
+
+                            <p:column headerText="Notes">
+                                <h:outputText value="#{bookingClass.notes}" />
+                            </p:column>
+                            
+                        </p:dataTable>
+
+                    </c:if>
+
+                    <c:if test="#{gDSFlightLookupManagedBean.selectedReturnDirectFlight()}">
+
+                        <p:dataTable value="#{gDSFlightLookupManagedBean.returnDirectFlight.GDSBookingClassEntities}" var="bookingClass" 
+                                     selection="#{gDSFlightLookupManagedBean.returnDirectFlightBookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
+                            
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{gDSFlightLookupManagedBean.departureDirectFlight}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{gDSFlightLookupManagedBean.GDSBookingClassPrice(bookingClass)}" />
+                            </p:column>
+
+                            <p:column headerText="Notes">
+                                <h:outputText value="#{bookingClass.notes}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </c:if>
+
+                    <c:if test="#{gDSFlightLookupManagedBean.selectedReturnTransferFlight()}">
+
+                        <p:dataTable value="#{gDSFlightLookupManagedBean.returnTransferFlight1.GDSBookingClassEntities}" var="bookingClass" 
+                                     selection="#{gDSFlightLookupManagedBean.returnTransferFlight1BookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
+                            
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{gDSFlightLookupManagedBean.departureDirectFlight}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{gDSFlightLookupManagedBean.GDSBookingClassPrice(bookingClass)}" />
+                            </p:column>
+
+                            <p:column headerText="Notes">
+                                <h:outputText value="#{bookingClass.notes}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:dataTable value="#{gDSFlightLookupManagedBean.returnTransferFlight2.GDSBookingClassEntities}" var="bookingClass" 
+                                     selection="#{gDSFlightLookupManagedBean.returnTransferFlight2BookingClass}" rowKey="#{bookingClass.id}"
+                                     disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
+                            
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <f:facet name="header">
+                                #{gDSFlightLookupManagedBean.departureDirectFlight}
+                            </f:facet>
+
+                            <p:column headerText="Booking Class Name">
+                                <h:outputText value="#{bookingClass.name}" />
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{gDSFlightLookupManagedBean.GDSBookingClassPrice(bookingClass)}" />
+                            </p:column>
+
+                            <p:column headerText="Notes">
+                                <h:outputText value="#{bookingClass.notes}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </c:if>
+                    
+                    <p:commandButton class="btn-sm btn-primary" value="Proceed" actionListener="#{gDSFlightLookupManagedBean.submitBookingClasses()}"/>
+
+                </h:form>
+
+            </p:tab>
+            
         </p:tabView>
 
     </h:body>

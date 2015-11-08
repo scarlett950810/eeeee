@@ -93,14 +93,6 @@ public class GDSFlightLookupManagedBean implements Serializable {
     private List<GDSTransferFlight> departureTransferFlightCandidates;
     private List<GDSTransferFlight> returnTransferFlightCandidates;
 
-    // for displaying booking class options
-    private List<GDSBookingClassEntity> departureDirectFlightBookingClassCandidates;
-    private List<GDSBookingClassEntity> departureTransferFlight1BookingClassCandidates;
-    private List<GDSBookingClassEntity> departureTransferFlight2BookingClassCandidates;
-    private List<GDSBookingClassEntity> returnDirectFlightBookingClassCandidates;
-    private List<GDSBookingClassEntity> returnTransferFlight1BookingClassCandidates;
-    private List<GDSBookingClassEntity> returnTransferFlight2BookingClassCandidates;
-
     public GDSFlightLookupManagedBean() {
     }
 
@@ -408,54 +400,6 @@ public class GDSFlightLookupManagedBean implements Serializable {
         this.returnTransferFlightCandidates = returnTransferFlightCandidates;
     }
 
-    public List<GDSBookingClassEntity> getDepartureDirectFlightBookingClassCandidates() {
-        return departureDirectFlightBookingClassCandidates;
-    }
-
-    public void setDepartureDirectFlightBookingClassCandidates(List<GDSBookingClassEntity> departureDirectFlightBookingClassCandidates) {
-        this.departureDirectFlightBookingClassCandidates = departureDirectFlightBookingClassCandidates;
-    }
-
-    public List<GDSBookingClassEntity> getDepartureTransferFlight1BookingClassCandidates() {
-        return departureTransferFlight1BookingClassCandidates;
-    }
-
-    public void setDepartureTransferFlight1BookingClassCandidates(List<GDSBookingClassEntity> departureTransferFlight1BookingClassCandidates) {
-        this.departureTransferFlight1BookingClassCandidates = departureTransferFlight1BookingClassCandidates;
-    }
-
-    public List<GDSBookingClassEntity> getDepartureTransferFlight2BookingClassCandidates() {
-        return departureTransferFlight2BookingClassCandidates;
-    }
-
-    public void setDepartureTransferFlight2BookingClassCandidates(List<GDSBookingClassEntity> departureTransferFlight2BookingClassCandidates) {
-        this.departureTransferFlight2BookingClassCandidates = departureTransferFlight2BookingClassCandidates;
-    }
-
-    public List<GDSBookingClassEntity> getReturnDirectFlightBookingClassCandidates() {
-        return returnDirectFlightBookingClassCandidates;
-    }
-
-    public void setReturnDirectFlightBookingClassCandidates(List<GDSBookingClassEntity> returnDirectFlightBookingClassCandidates) {
-        this.returnDirectFlightBookingClassCandidates = returnDirectFlightBookingClassCandidates;
-    }
-
-    public List<GDSBookingClassEntity> getReturnTransferFlight1BookingClassCandidates() {
-        return returnTransferFlight1BookingClassCandidates;
-    }
-
-    public void setReturnTransferFlight1BookingClassCandidates(List<GDSBookingClassEntity> returnTransferFlight1BookingClassCandidates) {
-        this.returnTransferFlight1BookingClassCandidates = returnTransferFlight1BookingClassCandidates;
-    }
-
-    public List<GDSBookingClassEntity> getReturnTransferFlight2BookingClassCandidates() {
-        return returnTransferFlight2BookingClassCandidates;
-    }
-
-    public void setReturnTransferFlight2BookingClassCandidates(List<GDSBookingClassEntity> returnTransferFlight2BookingClassCandidates) {
-        this.returnTransferFlight2BookingClassCandidates = returnTransferFlight2BookingClassCandidates;
-    }
-
     @PostConstruct
     public void init() {
         fetchAllAirports();
@@ -697,8 +641,11 @@ public class GDSFlightLookupManagedBean implements Serializable {
         if (GDSBookingClassDisabled(bc)) {
             return "Quota not enough";
         } else {
-            return Double.toString(CostManagementSessionBean.round(bc.getPrice(), 2));
+            return "S$ " + Double.toString(CostManagementSessionBean.round(bc.getPrice(), 2));
         }
     }
     
+    public void submitBookingClasses() {
+        
+    }
 }

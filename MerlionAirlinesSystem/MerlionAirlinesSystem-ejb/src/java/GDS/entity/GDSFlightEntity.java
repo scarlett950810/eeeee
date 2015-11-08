@@ -40,7 +40,7 @@ public class GDSFlightEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date arrivalDate;
     @OneToMany(mappedBy = "GDSflight")
-    private List<GDSBookingClassEntity> GDSBookingClassEntitys;
+    private List<GDSBookingClassEntity> GDSBookingClassEntities;
     private String aircraftITATCode;
 
     public GDSFlightEntity() {
@@ -64,12 +64,12 @@ public class GDSFlightEntity implements Serializable {
         this.id = id;
     }
 
-    public List<GDSBookingClassEntity> getGDSBookingClassEntitys() {
-        return GDSBookingClassEntitys;
+    public List<GDSBookingClassEntity> getGDSBookingClassEntities() {
+        return GDSBookingClassEntities;
     }
 
-    public void setGDSBookingClassEntitys(List<GDSBookingClassEntity> GDSBookingClassEntitys) {
-        this.GDSBookingClassEntitys = GDSBookingClassEntitys;
+    public void setGDSBookingClassEntities(List<GDSBookingClassEntity> GDSBookingClassEntities) {
+        this.GDSBookingClassEntities = GDSBookingClassEntities;
     }
 
     public GDSCompanyEntity getGDSCompanyEntity() {
