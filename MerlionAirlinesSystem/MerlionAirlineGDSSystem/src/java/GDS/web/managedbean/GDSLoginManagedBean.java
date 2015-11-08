@@ -7,6 +7,7 @@ package GDS.web.managedbean;
 
 import GDS.sessionbean.GDSAirportSessionBeanLocal;
 import GDS.sessionbean.GDSCompanySessionBeanLocal;
+import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,6 +23,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @SessionScoped
 public class GDSLoginManagedBean implements Serializable {
+    
     @EJB
     private GDSAirportSessionBeanLocal gDSAirportSessionBean;
     
@@ -63,10 +65,11 @@ public class GDSLoginManagedBean implements Serializable {
         }
     }
     
-    public void logIn() {
+    public void logIn() throws IOException {
         System.out.println("log in");
         if (gDSCompanySessionBean.logIn(logInAccount, logInPassword)) {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("account", logInAccount);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("GDSAddFlight.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage("logIn", 
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Log in failed", "Account does not exist or password does not match."));  

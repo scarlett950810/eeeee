@@ -29,7 +29,7 @@ public class GDSCompanySessionBean implements GDSCompanySessionBeanLocal {
     }
 
     @Override
-    public void register(String account, String password, String name, String HQCountry, 
+    public void register(String account, String password, String name, String HQCountry,
             String mainPage, String email, String contactNo) {
         GDSCompanyEntity company = new GDSCompanyEntity(account, password, name, HQCountry, mainPage, email, contactNo);
         em.persist(company);
@@ -43,4 +43,14 @@ public class GDSCompanySessionBean implements GDSCompanySessionBeanLocal {
         return !q.getResultList().isEmpty();
     }
 
+    @Override
+    public GDSCompanyEntity getCompany(String account) {
+        Query q = em.createQuery("SELECT c FROM GDSCompanyEntity c WHERE c.account = :account");
+        q.setParameter("account", account);
+        if (q.getResultList().isEmpty()) {
+            return null;
+        } else {
+            return (GDSCompanyEntity) q.getResultList().get(0);
+        }
+    }
 }

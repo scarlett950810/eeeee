@@ -35,13 +35,26 @@ public class GDSFlightEntity implements Serializable {
     private GDSAirportEntity origin;
     @ManyToOne
     private GDSAirportEntity destination;    
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date departureDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date arrivalDate;
     @OneToMany(mappedBy = "GDSflight")
-    private List<GDSBookingClassEntity> GDSBookingClassEntitys;    
-    
+    private List<GDSBookingClassEntity> GDSBookingClassEntities;
+    private String aircraftITATCode;
+
+    public GDSFlightEntity() {
+    }
+
+    public GDSFlightEntity(GDSCompanyEntity GDSCompanyEntity, String flightNo, GDSAirportEntity origin, GDSAirportEntity destination, Date departureDate, Date arrivalDate, String aircraftITATCode) {
+        this.GDSCompanyEntity = GDSCompanyEntity;
+        this.flightNo = flightNo;
+        this.origin = origin;
+        this.destination = destination;
+        this.departureDate = departureDate;
+        this.arrivalDate = arrivalDate;
+        this.aircraftITATCode = aircraftITATCode;
+    }
 
     public Long getId() {
         return id;
@@ -51,12 +64,12 @@ public class GDSFlightEntity implements Serializable {
         this.id = id;
     }
 
-    public List<GDSBookingClassEntity> getGDSBookingClassEntitys() {
-        return GDSBookingClassEntitys;
+    public List<GDSBookingClassEntity> getGDSBookingClassEntities() {
+        return GDSBookingClassEntities;
     }
 
-    public void setGDSBookingClassEntitys(List<GDSBookingClassEntity> GDSBookingClassEntitys) {
-        this.GDSBookingClassEntitys = GDSBookingClassEntitys;
+    public void setGDSBookingClassEntities(List<GDSBookingClassEntity> GDSBookingClassEntities) {
+        this.GDSBookingClassEntities = GDSBookingClassEntities;
     }
 
     public GDSCompanyEntity getGDSCompanyEntity() {
@@ -99,6 +112,22 @@ public class GDSFlightEntity implements Serializable {
         this.arrivalDate = arrivalDate;
     }
 
+    public String getFlightNo() {
+        return flightNo;
+    }
+
+    public void setFlightNo(String flightNo) {
+        this.flightNo = flightNo;
+    }
+
+    public String getAircraftITATCode() {
+        return aircraftITATCode;
+    }
+
+    public void setAircraftITATCode(String aircraftITATCode) {
+        this.aircraftITATCode = aircraftITATCode;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -121,7 +150,7 @@ public class GDSFlightEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "dds.entity.DDSFlightEntity[ id=" + id + " ]";
+        return "From " + origin + " to " + destination + ", departured at " + departureDate;
     }
     
 }
