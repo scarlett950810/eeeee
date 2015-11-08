@@ -1,12 +1,102 @@
-<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
-</html>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <h:head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title><ui:insert name="title">Merlion Airlines Global Distribution System</ui:insert></title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form id="form">
+
+            <p:wizard flowListener="#{gDSFlightManagedBean.onFlowProcess}">
+
+                <p:tab title="Add Flight">
+
+                    <p:messages id="addflight" showDetail="true"/>
+
+                    <h:panelGrid columns="2">
+
+                        <p:outputLabel for="flightNo" value="Flight No:"/>
+                        <p:inputText id="flightNo" value="#{gDSFlightManagedBean.flightNo}" required="true"/>
+                        
+                        <p:outputLabel for="origin" value="Origin:"/>
+                        <p:selectOneMenu id="origin" value="#{gDSFlightManagedBean.origin}"
+                                         converter="gDSAirportConverter" filter="true" filterMatchMode="contains">
+                            <p:ajax listener="#{gDSFlightManagedBean.onOriginChange()}" update="form:origin form:destination"/>
+                            <f:selectItem itemLabel="Select Airport" itemDisabled="true" />
+                            <f:selectItems value="#{gDSFlightManagedBean.originCandidates}" var="airport" 
+                                           itemLabel="#{airport.toString()}" itemValue="#{airport}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="destination" value="Destination:"/>
+                        <p:selectOneMenu id="destination" value="#{gDSFlightManagedBean.destination}"
+                                         converter="gDSAirportConverter" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="Select Airport" itemDisabled="true" />
+                            <f:selectItems value="#{gDSFlightManagedBean.destinationCandidates}" var="airport" 
+                                           itemLabel="#{airport.toString()}" itemValue="#{airport}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="departureTime" value="Departure Time:"/>
+                        <p:calendar id="departureTime" value="#{gDSFlightManagedBean.departureDate}" pattern="dd/MM/yyyy HH:mm" required="true"
+                                    mindate="#{gDSFlightManagedBean.today}">
+                            <p:ajax listener="#{gDSFlightManagedBean.onDepartureDateSelected()}" update="form:ArrivalTime"/>
+                        </p:calendar>
+
+                        <p:outputLabel for="ArrivalTime" value="To:" />
+                        <p:calendar id="ArrivalTime" value="#{gDSFlightManagedBean.arrivalDate}" pattern="dd/MM/yyyy HH:mm" required="true"
+                                    mindate="#{gDSFlightManagedBean.arrivalMinDate}"/>
+
+                        <p:outputLabel for="bookingClassNo" value="Total Booking Classes No:"/>
+                        <p:inputText id="bookingClassNo" value="#{gDSFlightManagedBean.bookingClassNo}" type="number" required="true"/>
+                        
+                        <p:outputLabel for="aircraftITATCode" value="ITATCode of the Flying Aircraft:"/>
+                        <p:inputText id="aircraftITATCode" value="#{gDSFlightManagedBean.aircraftITATCode}" required="true"/>
+                        
+                    </h:panelGrid>
+
+                </p:tab>
+
+                <p:tab title="Add Booking Classes">
+
+                    <p:dataTable value="#{gDSFlightManagedBean.bookingClasses}" var="bc">
+                        
+                        <f:facet name="header">
+                            List of Booking Classes to Generate
+                        </f:facet>
+
+                        <p:column headerText="Booking Class Name">
+                            <h:inputText value="#{bc.name}" required="true"/>
+                        </p:column>
+
+                        <p:column headerText="Price">
+                            <h:inputText value="#{bc.price}" required="true"/>
+                        </p:column>
+                        
+                        <p:column headerText="Quota">
+                            <h:inputText value="#{bc.quota}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Additional Note">
+                            <h:inputText value="#{bc.notes}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:commandButton value="Completed" actionListener="#{gDSFlightManagedBean.addFlightAndBookingClasses()}"/>
+                </p:tab>
+
+            </p:wizard>
+
+        </h:form>
+
+    </h:body>
+
+</html>

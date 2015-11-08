@@ -6,6 +6,7 @@
 package GDS.sessionbean;
 
 import GDS.entity.GDSAirportEntity;
+import imas.planning.entity.AirportEntity;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -781,7 +782,7 @@ public class GDSAirportSessionBean implements GDSAirportSessionBeanLocal {
         em.persist(a7430);
         GDSAirportEntity a7431 = new GDSAirportEntity("Kyoto", "Kyoto", "Japan", "UKY", "", 35.016667, 135.766667, 262.0, 9.0, 'N', "Asia/Tokyo");
         em.persist(a7431);
-        
+
         em.flush();
     }
 
@@ -793,6 +794,24 @@ public class GDSAirportSessionBean implements GDSAirportSessionBeanLocal {
             insertAllGDSAirportData();
         }
         return allGDSAirports;
+    }
+
+    @Override
+    public List<String> getAllCountries() {
+        Query queryForAllCountryNames = em.createQuery("SELECT DISTINCT a.country FROM GDSAirportEntity a ORDER BY a.country ASC");
+        List<String> allCountryNames = queryForAllCountryNames.getResultList();
+
+        return allCountryNames;
+    }
+
+    @Override
+    public List<GDSAirportEntity> getGDSAirportInCountry(String countryName) {
+
+        Query queryForAllAirportsInCountry = em.createQuery("SELECT a FROM GDSAirportEntity a where a.country = :country");
+        queryForAllAirportsInCountry.setParameter("country", countryName);
+        List<GDSAirportEntity> allAirportsInCountry = queryForAllAirportsInCountry.getResultList();
+
+        return allAirportsInCountry;
     }
 
 }

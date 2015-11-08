@@ -24,8 +24,10 @@ public class GDSBookingClassEntity implements Serializable {
     private Long id;
     @ManyToOne
     private GDSFlightEntity GDSflight;
+    private String name;
     private Double price;
-    
+    private String notes;
+    private Integer quota;
 
     public Long getId() {
         return id;
@@ -33,6 +35,46 @@ public class GDSBookingClassEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public GDSFlightEntity getGDSflight() {
+        return GDSflight;
+    }
+
+    public void setGDSflight(GDSFlightEntity GDSflight) {
+        this.GDSflight = GDSflight;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public Integer getQuota() {
+        return quota;
+    }
+
+    public void setQuota(Integer quota) {
+        this.quota = quota;
     }
 
     @Override
