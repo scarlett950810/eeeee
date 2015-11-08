@@ -35,9 +35,9 @@ public class GDSFlightEntity implements Serializable {
     private GDSAirportEntity origin;
     @ManyToOne
     private GDSAirportEntity destination;    
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date departureDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date arrivalDate;
     @OneToMany(mappedBy = "GDSflight")
     private List<GDSBookingClassEntity> GDSBookingClassEntitys;

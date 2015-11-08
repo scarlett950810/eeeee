@@ -66,6 +66,16 @@ public class GDSFlightSessionBean implements GDSFlightSessionBeanLocal {
 
     @Override
     public List<GDSFlightEntity> getDirectFlights(GDSAirportEntity origin, GDSAirportEntity destination, Date startTime) {
+        Query test0 = em.createQuery("SELECT f FROM GDSFlightEntity f");
+        System.out.println("test get all flights = " + test0.getResultList());
+        
+        Query test = em.createQuery("SELECT f FROM GDSFlightEntity f where f.origin = :origin AND f.destination = :destination");
+        test.setParameter("origin", origin);
+        test.setParameter("destination", destination);
+        System.out.println("origin id = " + origin.getId());
+        System.out.println("destination id = " + destination.getId());
+        System.out.println("test with no time requirements: " + test.getResultList());
+        
         Query queryForAvailableFlights = em.createQuery("SELECT f FROM GDSFlightEntity f where f.origin = :origin AND f.destination = :destination AND"
                 + " f.departureDate > :lowerBound AND f.departureDate < :upperBound ORDER BY f.departureDate ASC");
         queryForAvailableFlights.setParameter("origin", origin);
@@ -73,6 +83,7 @@ public class GDSFlightSessionBean implements GDSFlightSessionBeanLocal {
         queryForAvailableFlights.setParameter("lowerBound", startTime);
         queryForAvailableFlights.setParameter("upperBound", flightLookupSessionBean.getDateAfterDays(startTime, 1));
 
+        System.out.println("upper bound " + flightLookupSessionBean.getDateAfterDays(startTime, 1));
         List<GDSFlightEntity> availableFlights = queryForAvailableFlights.getResultList();
         return availableFlights;
     }

@@ -27,9 +27,9 @@ import org.primefaces.event.FlowEvent;
  *
  * @author Scarlett
  */
-@ManagedBean
+@ManagedBean(name = "gDSAddFlightManagedBean")
 @SessionScoped
-public class GDSFlightManagedBean implements Serializable {
+public class GDSAddFlightManagedBean implements Serializable {
     
     @EJB
     private GDSCompanySessionBeanLocal gDSCompanySessionBean;
@@ -54,7 +54,7 @@ public class GDSFlightManagedBean implements Serializable {
     private int bookingClassNo;
     private List<GDSBookingClassEntity> bookingClasses;
 
-    public GDSFlightManagedBean() {
+    public GDSAddFlightManagedBean() {
     }
 
     @PostConstruct
@@ -75,20 +75,18 @@ public class GDSFlightManagedBean implements Serializable {
     }
 
     public void onOriginChange() {
-        System.out.println("origin = " + origin);
-//        for (GDSAirportEntity a: destinationCandidates) {
-//            if (a.getIATAorFAA().equals(origin.getIATAorFAA())) {
-//                destinationCandidates.remove(a);
-//            }
-//        }
+        System.out.println("origin = " + origin.getId());
+
         GDSAirportEntity a = origin;
         destinationCandidates = gDSAirportSessionBean.getAllGDSAirport();
         destinationCandidates.remove(a);
         System.out.println("origin = " + origin);
-//        destinationCandidates.remove(origin);
     }
+
     public void onDepartureDateSelected() {
-        System.out.println("departureDate = " + departureDate);
+        if (departureDate.after(arrivalDate)) {
+            arrivalDate = null;
+        }
         arrivalMinDate = departureDate;
     }
     
