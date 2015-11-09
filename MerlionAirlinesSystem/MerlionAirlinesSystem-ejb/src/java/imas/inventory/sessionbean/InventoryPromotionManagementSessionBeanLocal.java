@@ -5,6 +5,7 @@
  */
 package imas.inventory.sessionbean;
 
+import imas.crm.entity.MemberEntity;
 import imas.inventory.entity.PromotionEntity;
 import java.util.Date;
 import java.util.List;
@@ -24,4 +25,7 @@ public interface InventoryPromotionManagementSessionBeanLocal {
     public boolean checkPromoCodeNotExist(String promoCode);
     public List<PromotionEntity> getAllOngoingPromotion();
     public void deletePromotion(PromotionEntity promotion);
+    public boolean memberHasUsedPromotion(MemberEntity member, PromotionEntity promotion);
+    public void memberUsePromotion(MemberEntity member, PromotionEntity promotion);
+    public boolean promotionWithinTime(PromotionEntity promotion);
 }

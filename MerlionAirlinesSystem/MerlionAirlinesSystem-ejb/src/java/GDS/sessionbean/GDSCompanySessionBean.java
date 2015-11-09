@@ -53,4 +53,19 @@ public class GDSCompanySessionBean implements GDSCompanySessionBeanLocal {
             return (GDSCompanyEntity) q.getResultList().get(0);
         }
     }
+    
+    @Override
+    public GDSCompanyEntity getMerlionAirline() {
+        Query q = em.createQuery("SELECT c FROM GDSCompanyEntity c WHERE c.account = :account");
+        q.setParameter("account", "Merlion Airlines");
+        if (q.getResultList().isEmpty()) {
+            GDSCompanyEntity merlion = new GDSCompanyEntity("Merlion Airlines", "merlion1234", "Merlion Airlines", "Singapore",
+                    "https://localhost:8181/MerlionAirlinesExternalSystem/", "scarlett.dongyan@gmail.com", "84316002");
+            em.persist(merlion);
+            return merlion;
+        } else {
+            return (GDSCompanyEntity) q.getResultList().get(0);
+        }
+    }
+    
 }

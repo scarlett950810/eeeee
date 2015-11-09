@@ -813,5 +813,17 @@ public class GDSAirportSessionBean implements GDSAirportSessionBeanLocal {
 
         return allAirportsInCountry;
     }
+    
+    @Override
+    public GDSAirportEntity getGDSAirport(String IATAorFAA) {
+        Query queryForGDSAirport = em.createQuery("SELECT a FROM GDSAirportEntity a where a.IATAorFAA = :IATAorFAA");
+        queryForGDSAirport.setParameter("IATAorFAA", IATAorFAA);
+        if (queryForGDSAirport.getResultList().isEmpty()) {
+            return null;
+        } else {
+            return (GDSAirportEntity) queryForGDSAirport.getResultList().get(0);
+        }
+
+    }
 
 }

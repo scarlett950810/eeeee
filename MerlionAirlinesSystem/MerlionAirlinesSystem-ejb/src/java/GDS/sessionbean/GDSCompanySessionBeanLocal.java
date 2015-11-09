@@ -18,4 +18,5 @@ public interface GDSCompanySessionBeanLocal {
     public void register(String account, String password, String name, String HQCountry, String mainPage, String email, String contactNo);
     public boolean logIn(String account, String password);
     public GDSCompanyEntity getCompany(String account);
+    public GDSCompanyEntity getMerlionAirline();
 }
