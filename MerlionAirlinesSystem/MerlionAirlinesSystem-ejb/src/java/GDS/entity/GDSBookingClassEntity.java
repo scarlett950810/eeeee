@@ -29,6 +29,17 @@ public class GDSBookingClassEntity implements Serializable {
     private String notes;
     private Integer quota;
 
+    public GDSBookingClassEntity() {
+    }
+
+    public GDSBookingClassEntity(GDSFlightEntity GDSflight, String name, Double price, String notes, Integer quota) {
+        this.GDSflight = GDSflight;
+        this.name = name;
+        this.price = price;
+        this.notes = notes;
+        this.quota = quota;
+    }
+
     public Long getId() {
         return id;
     }

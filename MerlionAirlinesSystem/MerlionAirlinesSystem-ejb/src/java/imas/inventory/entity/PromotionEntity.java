@@ -128,6 +128,14 @@ public class PromotionEntity implements Serializable {
         this.tickets = tickets;
     }
 
+    public List<MemberEntity> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<MemberEntity> members) {
+        this.members = members;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

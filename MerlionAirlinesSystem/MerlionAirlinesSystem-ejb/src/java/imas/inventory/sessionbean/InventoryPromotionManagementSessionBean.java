@@ -5,6 +5,7 @@
  */
 package imas.inventory.sessionbean;
 
+import imas.crm.entity.MemberEntity;
 import imas.inventory.entity.PromotionEntity;
 import java.util.Date;
 import java.util.List;
@@ -72,5 +73,30 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
     public void deletePromotion(PromotionEntity promotion) {
         PromotionEntity promotionToDelete = em.find(PromotionEntity.class, promotion.getId());
         em.remove(promotionToDelete);
+    }
+    
+    @Override
+    public boolean memberHasUsedPromotion(MemberEntity member, PromotionEntity promotion) {
+        List<PromotionEntity> promotions = member.getPromotionEntities();
+        return (promotions.contains(promotion));
+    }
+    
+    @Override
+    public boolean promotionWithinTime(PromotionEntity promotion) {
+        Date now = new Date();
+        return (now.after(promotion.getStartDate()) && promotion.getEndDate().after(now));
+    }
+    
+    @Override
+    public void memberUsePromotion(MemberEntity member, PromotionEntity promotion) {
+        MemberEntity memberManaged = em.find(MemberEntity.class, member.getId());
+        PromotionEntity promotionManaged = em.find(PromotionEntity.class, promotion.getId());
+        List<PromotionEntity> originalPromotions = memberManaged.getPromotionEntities();
+        originalPromotions.add(promotion);
+        memberManaged.setPromotionEntities(originalPromotions);
+        List<MemberEntity> originalMembers = promotionManaged.getMembers();
+        originalMembers.add(member);
+        promotionManaged.setMembers(originalMembers);
+        em.flush();
     }
 }

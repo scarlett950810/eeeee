@@ -24,6 +24,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class MemberEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +49,7 @@ public class MemberEntity implements Serializable {
     private String contactNumber;
     private String token;
     private Boolean activationStatus;
-    
+
     @OneToMany
     private List<TicketEntity> ticketList;
     @ManyToMany
@@ -62,33 +63,8 @@ public class MemberEntity implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MemberEntity)) {
-            return false;
-        }
-        MemberEntity other = (MemberEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    public MemberEntity(){
+    public MemberEntity() {
         this.mileage = 0.0;
-    }
-    
-    @Override
-    public String toString() {
-        return "imas.crm.entity.MemberEntity[ id=" + id + " ]";
     }
 
     public String getLastName() {
@@ -242,4 +218,38 @@ public class MemberEntity implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public List<PromotionEntity> getPromotionEntities() {
+        return promotionEntities;
+    }
+
+    public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
+        this.promotionEntities = promotionEntities;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof MemberEntity)) {
+            return false;
+        }
+        MemberEntity other = (MemberEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "imas.crm.entity.MemberEntity[ id=" + id + " ]";
+    }
+
 }
