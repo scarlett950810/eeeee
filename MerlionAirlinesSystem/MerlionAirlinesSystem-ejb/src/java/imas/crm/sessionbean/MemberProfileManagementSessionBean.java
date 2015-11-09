@@ -165,16 +165,9 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     @Override
     public void upgradeSeatClassWithMileage(TicketEntity ticket) {
         em.merge(ticket);
-    public List<TicketEntity> getMemberTickets(String memberID) {
-        memberID = "M889befee";
-        Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
-        query.setParameter("memberID", memberID);
-        List<MemberEntity> members = (List<MemberEntity>)query.getResultList();
-        MemberEntity member = members.get(0);
-        //List<FlightEntity> flights = new ArrayList<>();
-        List<TicketEntity> tickets = member.getTicketList();
-        return tickets;
     }
+    
+
 
     @Override
     public void setTicketToMember(MemberEntity member, List<TicketEntity> newTickets) {
