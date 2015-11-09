@@ -65,6 +65,7 @@ public class MemberEntity implements Serializable {
 
     public MemberEntity() {
         this.mileage = 0.0;
+        this.ticketList = null;
     }
 
     public String getLastName() {
@@ -156,7 +157,11 @@ public class MemberEntity implements Serializable {
     }
 
     public List<TicketEntity> getTicketList() {
-        return ticketList;
+        if(this.ticketList == null){
+            return null;
+        }else{
+            return ticketList;
+        }
     }
 
     public void setTicketList(List<TicketEntity> ticketList) {

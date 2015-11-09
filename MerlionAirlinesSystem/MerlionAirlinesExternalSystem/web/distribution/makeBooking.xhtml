@@ -30,10 +30,10 @@
 
         <script type="text/javascript">
 
-            function Redirect() {
-                window.location.assign("#{customerBookTicketManagedBean.confirm()}")
-//                window.open("");
-            }
+//            function Redirect() {
+//                window.location.assign("{customerBookTicketManagedBean.confirm()}")
+////                window.open("");
+//            }
 
         </script>
     </ui:define>
@@ -76,7 +76,7 @@
             <p:outputLabel value="Merlion Member: #{customerBookTicketManagedBean.member.title} #{customerBookTicketManagedBean.member.firstName} #{customerBookTicketManagedBean.member.lastName}"></p:outputLabel>
             <br></br>
 
-            <h:outputText value="Mileage: #{customerBookTicketManagedBean.member.mileage}"></h:outputText>
+            <h:outputText id="mileage" value="Mileage: #{customerBookTicketManagedBean.mileage}"></h:outputText>
             <br></br>
             <br></br>
             <h:form>
@@ -85,7 +85,7 @@
                 <h:outputText value="You are going to redeem "></h:outputText>
                 <p:inputText value="#{customerBookTicketManagedBean.usedMileage}"></p:inputText>
 
-                <p:commandButton value="Redeem" actionListener="#{customerBookTicketManagedBean.redeemMileage}" update="redeemStatus, flightsDetail"></p:commandButton>
+                <p:commandButton value="Redeem" actionListener="#{customerBookTicketManagedBean.redeemMileage}" update="redeemStatus, flightsDetail, mileage"></p:commandButton>
             </h:form>
         </p:panel>
 
@@ -264,7 +264,7 @@
                     <p:panel header="Payment Details">
                         
                             <h:panelGrid columns="2" columnClasses="label, value">
-                                <p:commandButton value="Proceed to payment" onclick="Redirect();"></p:commandButton>
+                                <p:commandButton value="Proceed to payment" actionListener="#{customerBookTicketManagedBean.completeBooking}"></p:commandButton>
                             </h:panelGrid>
                         
                     </p:panel>

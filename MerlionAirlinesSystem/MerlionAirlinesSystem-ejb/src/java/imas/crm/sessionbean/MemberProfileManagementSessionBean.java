@@ -85,6 +85,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
         MemberEntity member = members.get(0);
         //List<FlightEntity> flights = new ArrayList<>();
         List<TicketEntity> tickets = member.getTicketList();
+        System.out.print("get member tickets: " + tickets);
         return tickets;
     }
 
@@ -109,6 +110,8 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
             TicketEntity ticket = tickets.get(i);
             if(ticket.getIssued() == false){
                 tickets.remove(ticket);
+            }else{
+                System.out.println(ticket);
             }
         }
         return tickets;

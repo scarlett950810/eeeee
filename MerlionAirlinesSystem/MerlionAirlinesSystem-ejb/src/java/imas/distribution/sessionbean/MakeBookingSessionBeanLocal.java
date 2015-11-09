@@ -5,6 +5,7 @@
  */
 package imas.distribution.sessionbean;
 
+import imas.crm.entity.MemberEntity;
 import imas.distribution.entity.PassengerEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
@@ -18,9 +19,7 @@ import javax.ejb.Local;
 @Local
 public interface MakeBookingSessionBeanLocal {
 
-    String generateItinerary(List<FlightEntity> flights, List<PassengerEntity> passengers, 
-            String title, String firstName, String lastName, String address, String city, String country, 
-            String email, String contactNumber, String zipCode, String status, double totalPrice);
+    String generateItinerary(List<FlightEntity> flights, List<PassengerEntity> passengers, String title, String firstName, String lastName, String address, String city, String country, String email, String contactNumber, String zipCode, String status, double totalPrice, MemberEntity member);
 
     List<TicketEntity> retrieveCheckInTicket(String passportNumber, String referenceNumber);
     
