@@ -45,7 +45,6 @@ public class ExternalLoginManagedBean implements Serializable {
      */
     public ExternalLoginManagedBean() {
         login = false;
-        System.out.println(login);
     }
 
     public String getPin() {
@@ -86,6 +85,16 @@ public class ExternalLoginManagedBean implements Serializable {
         ec.redirect("https://localhost:8181//MerlionAirlinesExternalSystem/CRM/crmMemberProfile.xhtml");
 
     }
+    
+    public void checkLogin() throws IOException{
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        memberID = (String)ec.getSessionMap().get("memberID");
+        if(memberID != null){
+            ec.redirect("https://localhost:8181//MerlionAirlinesExternalSystem/CRM/crmMemberProfile.xhtml");
+        }
+        
+    }
 
     public void doLogin() throws IOException {
         FacesMessage msg;
@@ -99,7 +108,7 @@ public class ExternalLoginManagedBean implements Serializable {
             ExternalContext ec = fc.getExternalContext();
             ec.getSessionMap().put("memberID", memberID);
             System.out.print("here"+login);
-//            ec.redirect("https://localhost:8181/" + ((HttpServletRequest) ec.getRequest()).getRequestURI());
+            ec.redirect("crmMemberProfile.xhtml");
         }
     }
 

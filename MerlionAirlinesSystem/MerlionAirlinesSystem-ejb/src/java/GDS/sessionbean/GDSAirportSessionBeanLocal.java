@@ -18,5 +18,8 @@ public interface GDSAirportSessionBeanLocal {
 
     public void insertAllGDSAirportData();
     public List<GDSAirportEntity> getAllGDSAirport();
+    public List<String> getAllCountries();
+    public List<GDSAirportEntity> getGDSAirportInCountry(String countryName);
+    public GDSAirportEntity getGDSAirport(String IATAorFAA);
     
 }

@@ -5,6 +5,7 @@
  */
 package imas.distribution.sessionbean;
 
+import imas.crm.entity.MemberEntity;
 import imas.distribution.entity.PNREntity;
 import imas.distribution.entity.PassengerEntity;
 import imas.distribution.entity.TicketEntity;
@@ -35,7 +36,7 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
     private EntityManager entityManager;
 
     @Override
-    public String generateItinerary(List<FlightEntity> flights, List<PassengerEntity> passengers, String title, String firstName, String lastName, String address, String city, String country, String email, String contactNumber, String zipCode, String status, double totalPrice) {
+    public String generateItinerary(List<FlightEntity> flights, List<PassengerEntity> passengers, String title, String firstName, String lastName, String address, String city, String country, String email, String contactNumber, String zipCode, String status, double totalPrice, MemberEntity member) {
 
         String referenceNumber = UUID.randomUUID().toString();
         referenceNumber = referenceNumber.replaceAll("-", "").substring(0, 8);
@@ -46,6 +47,31 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
             for (int j = 0; j < tickets.size(); j++) {
                 tickets.get(j).setReferenceNumber(referenceNumber);
                 entityManager.persist(tickets.get(j));
+            }
+        }
+
+        if (member != null) {
+            System.out.print(member);
+            for (int i = 0; i < passengers.size(); i++) {
+                System.out.print(passengers.get(i).getPassportNumber());
+                System.out.print(member.getPassportNumber());
+                if (passengers.get(i).getPassportNumber().equals(member.getPassportNumber())) {
+                    System.out.println("Enter add ticket");
+                    
+                    if(member.getTicketList() == null){
+                        List<TicketEntity> tickets = passengers.get(i).getTickets();
+                        System.out.println(tickets);
+                        member.setTicketList(tickets);
+                    }else{
+                        List<TicketEntity> tickets = member.getTicketList();
+                        tickets.addAll(passengers.get(i).getTickets());
+                        System.out.println(tickets);
+                        member.setTicketList(tickets);
+                    }
+                    
+                    entityManager.merge(member);
+                }
+
             }
         }
 
@@ -70,18 +96,18 @@ public class MakeBookingSessionBean implements MakeBookingSessionBeanLocal {
         for (int i = 0; i < flights.size(); i++) {
             FlightEntity flightEntity = flights.get(i);
             flight = flight + "<tr><td>" + flightEntity.getFlightNo() + "</td><td>" + flightEntity.getRoute().getOriginAirport().getCityName() + "," + flightEntity.getRoute().getOriginAirport().getAirportCode()
-                    + "</td><td>" + flightEntity.getDepartureDate() + "</td><td>" + flightEntity.getRoute().getDestinationAirport().getCityName() + "," + flightEntity.getRoute().getDestinationAirport().getAirportCode() + "</td><td>" 
+                    + "</td><td>" + flightEntity.getDepartureDate() + "</td><td>" + flightEntity.getRoute().getDestinationAirport().getCityName() + "," + flightEntity.getRoute().getDestinationAirport().getAirportCode() + "</td><td>"
                     + flightEntity.getArrivalDate() + "</td></tr>";
 
         }
-        
+
         String passenger = "";
-        for(int j=0; j<passengers.size(); j++){
+        for (int j = 0; j < passengers.size(); j++) {
             PassengerEntity passengerEntity = passengers.get(j);
-            passenger = passenger + "<tr><td>" + passengerEntity.getTitle() + " " + passengerEntity.getFirstName() + " " + passengerEntity.getLastName() + "</td><td>" 
+            passenger = passenger + "<tr><td>" + passengerEntity.getTitle() + " " + passengerEntity.getFirstName() + " " + passengerEntity.getLastName() + "</td><td>"
                     + passengerEntity.getPassportNumber() + "</td><td>" + passengerEntity.getNationality() + "</td></tr>";
         }
-        
+
         EmailManager.runBookingConfirmation(email, "Merlion Airlines|Itineary for your upcoming flight", flight, passenger, referenceNumber);
 
         return referenceNumber;

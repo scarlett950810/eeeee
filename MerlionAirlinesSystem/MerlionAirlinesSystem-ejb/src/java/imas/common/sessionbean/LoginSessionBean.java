@@ -50,6 +50,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
      * @param password
      * @return staffId
      */
+    
+    
     @Override
     public String doLogin(String staffNo, String oldpassword) {
 
@@ -159,6 +161,9 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
 
     @Override
     public void insertData() {
+        
+        
+        
         AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double) 10000, (double) 550, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 60);
         AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double) 5000, (double) 400, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
         AircraftTypeEntity aircraftType3 = new AircraftTypeEntity("B777", (double) 10000, (double) 600, (double) 550, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 65);
@@ -396,6 +401,8 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
             p28.setBase(a1);
             p29.setBase(a1);
             p30.setBase(a1);
+            
+            
 
             CabinCrewEntity c1 = new CabinCrewEntity("c" + i + "001", "Steve", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
             CabinCrewEntity c2 = new CabinCrewEntity("c" + i + "002", "Steven", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
@@ -714,6 +721,13 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
         System.out.print(staffs);
         return staffs.get(0);
+    }
+
+    @Override
+    public void tempUseInsertPilot() {
+      
+        
+        
     }
 
 }

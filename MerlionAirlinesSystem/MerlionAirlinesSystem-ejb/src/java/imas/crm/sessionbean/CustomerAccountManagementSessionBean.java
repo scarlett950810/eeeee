@@ -10,6 +10,7 @@ import imas.utility.sessionbean.EmailManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,9 +32,13 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
         String token = UUID.randomUUID().toString();
         token = token.replaceAll("-", "").substring(0, 8);
         newCustomer.setToken(token);
+        Date currentDate = new Date();
+        Random randomno = new Random();
+        String memberID = currentDate.getTime() + "" + randomno.nextInt(100);
+        newCustomer.setMemberID(memberID);
         em.persist(newCustomer);
         EmailManager.runMemberActivationEmail(newCustomer.getEmail(), newCustomer.getTitle() + " " + newCustomer.getFirstName() + " "
-                + newCustomer.getLastName(), "https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberActivation.xhtml?token=" + token);
+                + newCustomer.getLastName(), "https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberActivation.xhtml?token=" + token, newCustomer.getMemberID());
         EmailManager.run(newCustomer.getEmail(), "Welcome to MerFlion | Fly more with Merlion and get more benefits", "");
     }
 
