@@ -85,7 +85,8 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
         }
     }
 
-    private PromotionEntity getPromotionEntity(String promoCode) {
+    @Override
+    public PromotionEntity getPromotionEntity(String promoCode) {
         Query queryForPromotion = em.createQuery("SELECT p FROM PromotionEntity p WHERE p.promoCode = :promoCode");
         queryForPromotion.setParameter("promoCode", promoCode);
         if (queryForPromotion.getResultList().isEmpty()) {
@@ -96,6 +97,11 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
     }
     
     @Override
+    public boolean promotionNotInTimeRange(String promoCode) {
+        return promotionWithinTime(getPromotionEntity(promoCode));
+    }
+    
+    @Override
     public boolean memberHasUsedPromotion(String memberID, String promoCode) {
         MemberEntity member = getMemberEntity(memberID);
         PromotionEntity promotion = getPromotionEntity(promoCode);
@@ -103,8 +109,7 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
         return (promotions.contains(promotion));
     }
 
-    @Override
-    public boolean promotionWithinTime(PromotionEntity promotion) {
+    private boolean promotionWithinTime(PromotionEntity promotion) {
         Date now = new Date();
         return (now.after(promotion.getStartDate()) && promotion.getEndDate().after(now));
     }

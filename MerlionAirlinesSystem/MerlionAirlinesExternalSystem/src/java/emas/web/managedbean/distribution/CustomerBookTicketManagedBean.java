@@ -50,6 +50,10 @@ import com.paypal.api.payments.*;
 import imas.crm.entity.MemberEntity;
 import imas.crm.sessionbean.CustomerAccountManagementSessionBeanLocal;
 import imas.crm.sessionbean.MemberProfileManagementSessionBeanLocal;
+import imas.distribution.sessionbean.ModifyBookingSessionBeanLocal;
+import imas.inventory.entity.PromotionEntity;
+import imas.inventory.sessionbean.CostManagementSessionBean;
+import imas.inventory.sessionbean.InventoryPromotionManagementSessionBeanLocal;
 import java.io.File;
 import java.io.Serializable;
 import java.io.IOException;
@@ -65,6 +69,12 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @SessionScoped
 public class CustomerBookTicketManagedBean implements Serializable {
+
+    @EJB
+    private ModifyBookingSessionBeanLocal modifyBookingSessionBean;
+
+    @EJB
+    private InventoryPromotionManagementSessionBeanLocal inventoryPromotionManagementSessionBean;
 
     @EJB
     private CustomerAccountManagementSessionBeanLocal customerAccountManagementSessionBean;
@@ -165,7 +175,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private String postCode;
     private String email;
     private String contactNumber;
-    private double totalPrice = 0;
+    private double totalPrice;
     private String referenceNumber;
 
     public CustomerBookTicketManagedBean() {
@@ -398,10 +408,52 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
 
     public void applyPromoCode() {
-        System.out.println("promoCode = " + promoCode);
-        System.out.println("customerID = " + memberID);
+//        System.out.println("promoCode = " + promoCode);
+//        System.out.println("customerID = " + memberID);
+        if (inventoryPromotionManagementSessionBean.checkPromoCodeNotExist(promoCode)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "PromoCode does not exist.");
+            FacesContext.getCurrentInstance().addMessage("promotion", msg);
+        } else if (inventoryPromotionManagementSessionBean.memberHasUsedPromotion(memberID, promoCode)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "You have already used this PromoCode.");
+            FacesContext.getCurrentInstance().addMessage("promotion", msg);
+        } else if (inventoryPromotionManagementSessionBean.promotionNotInTimeRange(promoCode)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "Now is not within the valid range of PromoCode.");
+            FacesContext.getCurrentInstance().addMessage("promotion", msg);
+        } else {
+            inventoryPromotionManagementSessionBean.memberUsePromotion(memberID, promoCode);
+            PromotionEntity promotion = inventoryPromotionManagementSessionBean.getPromotionEntity(promoCode);
+            if (promotion.isDiscount()) {
+                double disountedAmount = totalPrice * promotion.getDiscountRate();
+                disountedAmount = CostManagementSessionBean.round(disountedAmount, 2);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Promotion applied", promotion.toString() + ". S$" + disountedAmount + " are discounted.");
+                FacesContext.getCurrentInstance().addMessage("promotion", msg);
+                int totalPassengers = passengers.size();
+                int ticketsPerPassenger = passengers.get(0).getTickets().size();
+                double discountPerPassenger = disountedAmount / (totalPassengers * ticketsPerPassenger);
+                for (PassengerEntity passenger : passengers) {
+                    for (TicketEntity ticket : passenger.getTickets()) {
+                        modifyBookingSessionBean.changeTicketPrice(ticket, ticket.getPrice() - discountPerPassenger);
+                    }
+                }
+            } else {
+                double waivedAmount = CostManagementSessionBean.round(promotion.getWaiveAmount(), 2);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Promotion applied", promotion.toString() + ". S$" + waivedAmount + " are waived.");
+                FacesContext.getCurrentInstance().addMessage("promotion", msg);
+                int totalPassengers = passengers.size();
+                int ticketsPerPassenger = passengers.get(0).getTickets().size();
+                double waivePerPassenger = waivedAmount / (totalPassengers * ticketsPerPassenger);
+                for (PassengerEntity passenger : passengers) {
+                    for (TicketEntity ticket : passenger.getTickets()) {
+                        modifyBookingSessionBean.changeTicketPrice(ticket, ticket.getPrice() - waivePerPassenger);
+                    }
+                }
+            }
+        }
+
     }
-    
+
     public void forgetPIN() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberResetPIN.xhtml");
     }
@@ -1561,6 +1613,8 @@ public class CustomerBookTicketManagedBean implements Serializable {
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             memberID = (String) ec.getSessionMap().get("memberID");
+
+            totalPrice = 0.0;
 
             if (memberID != null) {
                 member = memberProfileManagementSessionBean.getMember(memberID);

@@ -25,7 +25,8 @@ public interface InventoryPromotionManagementSessionBeanLocal {
     public void editPromotion(PromotionEntity promotion);
     public void deletePromotion(PromotionEntity promotion);
     public boolean memberHasUsedPromotion(String memberID, String promoCode);
-    public boolean promotionWithinTime(PromotionEntity promotion);
     public void memberUsePromotion(String memberID, String promoCode);
+    public boolean promotionNotInTimeRange(String promoCode);
+    public PromotionEntity getPromotionEntity(String promoCode);
     
 }
