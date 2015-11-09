@@ -6,6 +6,8 @@
 package webservice;
 
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.FlightEntity;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,4 +35,15 @@ public class AppFlightLookup implements AppFlightLookupLocal {
         else
             return airportList.get(0);
     }
+    public List<FlightEntity> getPromotedFlights(AirportEntity origin,Date lowerBound, Date upperBound ){
+        
+        Query queryForAvailableFlights = em.createQuery("SELECT f FROM FlightEntity f where f.route.originAirport = :origin and f.departureDate > :lowerBound AND f.departureDate < :upperBound ORDER BY f.departureDate ASC");
+        queryForAvailableFlights.setParameter("origin", origin);
+        queryForAvailableFlights.setParameter("lowerBound", lowerBound);
+        queryForAvailableFlights.setParameter("upperBound", upperBound);
+
+        List<FlightEntity> availableFlights = queryForAvailableFlights.getResultList();
+        return availableFlights;
+    }
+
 }

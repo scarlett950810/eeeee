@@ -5,6 +5,7 @@
  */
 package webservice;
 
+import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
 import javax.ejb.Local;
 
@@ -16,5 +17,7 @@ import javax.ejb.Local;
 public interface AppGenerateItineraryLocal {
 
     FlightEntity findFlightById(long id);
+
+    TicketEntity findTicketById(long id);
     
 }
