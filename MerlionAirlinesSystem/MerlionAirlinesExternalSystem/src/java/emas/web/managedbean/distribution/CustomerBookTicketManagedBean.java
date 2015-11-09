@@ -358,17 +358,22 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
 
     public void afterPay() throws IOException {
-        //        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
+        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
         if (memberID != null) {
+            for (int i = 0; i < passengers.size(); i++) {
+                if (passengers.get(i).getPassportNumber().equals(member.getPassportNumber())) {
+                    memberProfileManagementSessionBean.setTicketToMember(member, passengers.get(i).getTickets());
+                }
 
+            }
             memberProfileManagementSessionBean.accumulateMileage(memberID, accumulatedMileage);
             if (usedMileage != 0) {
                 memberProfileManagementSessionBean.redeemMileage(usedMileage, memberID);
             }
         }
 //        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?referenceNumber=" + referenceNumber);
-//        RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + "\")");
-//        FacesContext.getCurrentInstance().getExternalContext().redirect("bookingConfirmation.xhtml");
+        RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + "\")");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("bookingConfirmation.xhtml");
     }
 
     public void makeBooking() throws IOException {
@@ -1509,15 +1514,21 @@ public class CustomerBookTicketManagedBean implements Serializable {
                 TicketEntity ticket1 = null, ticket2 = null, ticket3 = null, ticket4 = null, ticket5 = null, ticket6 = null;
                 if (selectedDepartureDirectFlight()) {
                     ticket1 = new TicketEntity(departureDirectFlight, departureDirectFlightBookingClass.getName(), departureDirectFlightBookingClass.getPrice(), passenger);
+                    ticket1.setMileage(departureDirectFlightBookingClass.getMileage());
                 } else if (selectedDepartureTransferFlight()) {
                     ticket2 = new TicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
                     ticket3 = new TicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
+                    ticket2.setMileage(departureTransferFlight1BookingClass.getMileage());
+                    ticket3.setMileage(departureTransferFlight2BookingClass.getMileage());
                 }
                 if (selectedReturnDirectFlight()) {
                     ticket4 = new TicketEntity(returnDirectFlight, returnDirectFlightBookingClass.getName(), returnDirectFlightBookingClass.getPrice(), passenger);
+                    ticket4.setMileage(returnDirectFlightBookingClass.getMileage());
                 } else if (selectedReturnTransferFlight()) {
                     ticket5 = new TicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
                     ticket6 = new TicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
+                    ticket5.setMileage(returnTransferFlight1BookingClass.getMileage());
+                    ticket6.setMileage(returnTransferFlight2BookingClass.getMileage());
                 }
 
                 // add all tickets to list and set to passenger

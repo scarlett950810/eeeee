@@ -8,20 +8,22 @@ package emas.web.managedbean.CRM;
 import imas.crm.entity.MemberEntity;
 import imas.crm.sessionbean.MemberProfileManagementSessionBeanLocal;
 import imas.distribution.entity.TicketEntity;
+import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Howard
  */
 @Named(value = "mileageRedeemManagedBean")
-@ViewScoped
+@SessionScoped
 public class MileageRedeemManagedBean implements Serializable {
     @EJB
     private MemberProfileManagementSessionBeanLocal memberProfileManagementSessionBean;
@@ -31,7 +33,7 @@ public class MileageRedeemManagedBean implements Serializable {
     private MemberEntity member;
     private String currentSeatClass;
     private double usedMileage;
-    private int option;
+    private String option;
     private double upgradeToPremiumEconomyClass = 0;
     private double upgradeToBusinessClass = 0;
     private double upgradeToFirstClass = 0;
@@ -58,14 +60,21 @@ public class MileageRedeemManagedBean implements Serializable {
         }
     }
     
-    public void redeem(){
-        if(option == 1){
-            
-        }else if(option == 2){
-            
-        }else if(option == 3){
-            
+    public void redeem() throws IOException{
+        if(option.equals("First Class")){
+            memberProfileManagementSessionBean.upgradeToFirstClass(selectedTicket, member, upgradeToFirstClass);
+        }else if(option.equals("Business Class")){
+            memberProfileManagementSessionBean.upgradeToBusinessClass(selectedTicket, member, upgradeToBusinessClass);
+        }else if(option.equals("Premium Economy Class")){
+            memberProfileManagementSessionBean.upgradeToPremiumEconomyClass(selectedTicket, member, upgradeToPremiumEconomyClass);
         }
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("crmRedeemStatus.xhtml");
+    }
+    
+    public void clear(){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedTicket");
     }
 
     public TicketEntity getSelectedTicket() {
@@ -132,11 +141,12 @@ public class MileageRedeemManagedBean implements Serializable {
         this.currentSeatClass = currentSeatClass;
     }
 
-    public int getOption() {
+    public String getOption() {
         return option;
     }
 
-    public void setOption(int option) {
+    public void setOption(String option) {
         this.option = option;
     }
+    
 }

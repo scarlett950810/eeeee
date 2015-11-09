@@ -6,10 +6,13 @@
 package imas.crm.sessionbean;
 
 import imas.crm.entity.MemberEntity;
+import imas.inventory.entity.BookingClassEntity;
 import imas.distribution.entity.TicketEntity;
+import imas.inventory.sessionbean.InventoryRevenueManagementSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,6 +24,8 @@ import javax.persistence.Query;
  */
 @Stateless
 public class MemberProfileManagementSessionBean implements MemberProfileManagementSessionBeanLocal {
+    @EJB
+    private InventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
 
     @PersistenceContext
     private EntityManager em;
@@ -158,6 +163,73 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     public void upgradeSeatClassWithMileage(TicketEntity ticket) {
         em.merge(ticket);
     }
+
+    @Override
+    public void setTicketToMember(MemberEntity member, List<TicketEntity> newTickets) {
+        List<TicketEntity> tickets = member.getTicketList();
+        tickets.addAll(tickets);
+        member.setTicketList(tickets);
+        em.merge(member);
+    }
+
+    @Override
+    public boolean upgradeToFirstClass(TicketEntity ticket, MemberEntity member, double deductMileage) {
+        List<BookingClassEntity> bookingClasses = ticket.getFlight().getBookingClasses();
+        BookingClassEntity bookingClass;
+        for(int i=0; i<bookingClasses.size(); i++){
+            bookingClass = bookingClasses.get(i);
+            if(bookingClass.getName().equals("First Class")){
+                if(bookingClass.getQuota() - inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClass.getId()) > 0){
+                    ticket.setBookingClassName("First Class");
+                    member.setMileage(member.getMileage() - deductMileage);
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean upgradeToBusinessClass(TicketEntity ticket, MemberEntity member, double deductMileage) {
+        List<BookingClassEntity> bookingClasses = ticket.getFlight().getBookingClasses();
+        BookingClassEntity bookingClass;
+        for(int i=0; i<bookingClasses.size(); i++){
+            bookingClass = bookingClasses.get(i);
+            if(bookingClass.getName().equals("Business Class")){
+                if(bookingClass.getQuota() - inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClass.getId()) > 0){
+                    ticket.setBookingClassName("Business Class");
+                    member.setMileage(member.getMileage() - deductMileage);
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean upgradeToPremiumEconomyClass(TicketEntity ticket, MemberEntity member, double deductMileage) {
+        List<BookingClassEntity> bookingClasses = ticket.getFlight().getBookingClasses();
+        BookingClassEntity bookingClass;
+        for(int i=0; i<bookingClasses.size(); i++){
+            bookingClass = bookingClasses.get(i);
+            if(bookingClass.getName().equals("Premium Economy Class")){
+                if(bookingClass.getQuota() - inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClass.getId()) > 0){
+                    ticket.setBookingClassName("Premium Economy Class");
+                    member.setMileage(member.getMileage() - deductMileage);
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+    
+    
     
     
 

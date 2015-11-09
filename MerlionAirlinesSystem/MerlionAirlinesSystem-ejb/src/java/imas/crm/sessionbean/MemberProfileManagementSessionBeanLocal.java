@@ -37,5 +37,13 @@ public interface MemberProfileManagementSessionBeanLocal {
     boolean deductMileage(String memberID, double deductAmount);
 
     void upgradeSeatClassWithMileage(TicketEntity ticket);
+
+    void setTicketToMember(MemberEntity member, List<TicketEntity> newTickets);
+
+    boolean upgradeToFirstClass(TicketEntity ticket, MemberEntity member, double deductMileage);
+
+    boolean upgradeToBusinessClass(TicketEntity ticket, MemberEntity member, double deductMileage);
+
+    boolean upgradeToPremiumEconomyClass(TicketEntity ticket, MemberEntity member, double deductMileage);
     
 }
