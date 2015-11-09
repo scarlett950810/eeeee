@@ -20,7 +20,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class InventoryPromotionManagementSessionBean implements InventoryPromotionManagementSessionBeanLocal {
-    
+
     @PersistenceContext
     private EntityManager em;
 
@@ -30,7 +30,7 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
         queryFoDuplicateCode.setParameter("promoCode", promoCode);
         return queryFoDuplicateCode.getResultList().isEmpty();
     }
-            
+
     @Override
     public void createDiscountPromotion(String promoCode, Date startDate, Date enddate, double discountRate) {
         PromotionEntity p = new PromotionEntity().createDiscountPromotion(promoCode, startDate, enddate, discountRate);
@@ -56,7 +56,7 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
         System.out.println("ongoing: " + queryForAllOngoingPromotion.getResultList());
         return queryForAllOngoingPromotion.getResultList();
     }
-    
+
     @Override
     public void editPromotion(PromotionEntity promotion) {
         PromotionEntity promotionToUpdate = em.find(PromotionEntity.class, promotion.getId());
@@ -68,35 +68,58 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
             promotionToUpdate.setWaiveAmount(promotion.getWaiveAmount());
         }
     }
-    
+
     @Override
     public void deletePromotion(PromotionEntity promotion) {
         PromotionEntity promotionToDelete = em.find(PromotionEntity.class, promotion.getId());
         em.remove(promotionToDelete);
     }
+
+    private MemberEntity getMemberEntity(String memberID) {
+        Query queryForMember = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
+        queryForMember.setParameter("memberID", memberID);
+        if (queryForMember.getResultList().isEmpty()) {
+            return null;
+        } else {
+            return (MemberEntity) queryForMember.getResultList().get(0);
+        }
+    }
+
+    private PromotionEntity getPromotionEntity(String promoCode) {
+        Query queryForPromotion = em.createQuery("SELECT p FROM PromotionEntity p WHERE p.promoCode = :promoCode");
+        queryForPromotion.setParameter("promoCode", promoCode);
+        if (queryForPromotion.getResultList().isEmpty()) {
+            return null;
+        } else {
+            return (PromotionEntity) queryForPromotion.getResultList().get(0);
+        }
+    }
     
     @Override
-    public boolean memberHasUsedPromotion(MemberEntity member, PromotionEntity promotion) {
+    public boolean memberHasUsedPromotion(String memberID, String promoCode) {
+        MemberEntity member = getMemberEntity(memberID);
+        PromotionEntity promotion = getPromotionEntity(promoCode);
         List<PromotionEntity> promotions = member.getPromotionEntities();
         return (promotions.contains(promotion));
     }
-    
+
     @Override
     public boolean promotionWithinTime(PromotionEntity promotion) {
         Date now = new Date();
         return (now.after(promotion.getStartDate()) && promotion.getEndDate().after(now));
     }
-    
+
     @Override
-    public void memberUsePromotion(MemberEntity member, PromotionEntity promotion) {
-        MemberEntity memberManaged = em.find(MemberEntity.class, member.getId());
-        PromotionEntity promotionManaged = em.find(PromotionEntity.class, promotion.getId());
+    public void memberUsePromotion(String memberID, String promoCode) {
+        MemberEntity memberManaged = getMemberEntity(memberID);
+        PromotionEntity promotionManaged = getPromotionEntity(promoCode);
         List<PromotionEntity> originalPromotions = memberManaged.getPromotionEntities();
-        originalPromotions.add(promotion);
+        originalPromotions.add(promotionManaged);
         memberManaged.setPromotionEntities(originalPromotions);
         List<MemberEntity> originalMembers = promotionManaged.getMembers();
-        originalMembers.add(member);
+        originalMembers.add(memberManaged);
         promotionManaged.setMembers(originalMembers);
         em.flush();
     }
+
 }

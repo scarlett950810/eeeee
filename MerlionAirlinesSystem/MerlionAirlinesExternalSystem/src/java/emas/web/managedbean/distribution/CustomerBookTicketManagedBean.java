@@ -357,7 +357,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
 
     public void afterPay() throws IOException {
-        //        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
+//        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
         if (memberID != null) {
 
             memberProfileManagementSessionBean.accumulateMileage(memberID, accumulatedMileage);
@@ -392,6 +392,11 @@ public class CustomerBookTicketManagedBean implements Serializable {
         }
     }
 
+    public void applyPromoCode() {
+        System.out.println("promoCode = " + promoCode);
+        System.out.println("customerID = " + memberID);
+    }
+    
     public void forgetPIN() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmMemberResetPIN.xhtml");
     }
@@ -976,7 +981,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
                 AirportEntity airport = airportsInCountry.get(i);
                 SelectItem selectItem = new SelectItem(airport, airport.toString());
 
-                if (airport.equals(destinationAirport) || (!flightLookupSessionBean.reachable(destinationAirport, airport))) {
+                if (airport.equals(destinationAirport) || (!flightLookupSessionBean.reachableWithin1Stop(destinationAirport, airport))) {
                     selectItem.setDisabled(true);
                 }
 
@@ -1003,7 +1008,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
                 AirportEntity airport = airportsInCountry.get(i);
                 SelectItem selectItem = new SelectItem(airport, airport.toString());
 
-                if (airport.equals(originAirport) || (!flightLookupSessionBean.reachable(originAirport, airport))) {
+                if (airport.equals(originAirport) || (!flightLookupSessionBean.reachableWithin1Stop(originAirport, airport))) {
                     selectItem.setDisabled(true);
                 }
 
@@ -1466,7 +1471,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         accumulatedMileage = 0;
 
         if (checkBookingClassesSubmitted()) {
-            
+
             if (selectedDepartureDirectFlight()) {
                 flights.add(departureDirectFlight);
                 accumulatedMileage = accumulatedMileage + departureDirectFlightBookingClass.getMileage();
@@ -1709,4 +1714,5 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void setPin(String pin) {
         this.pin = pin;
     }
+
 }

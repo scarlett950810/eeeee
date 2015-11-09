@@ -5,7 +5,6 @@
  */
 package imas.inventory.sessionbean;
 
-import imas.crm.entity.MemberEntity;
 import imas.inventory.entity.PromotionEntity;
 import java.util.Date;
 import java.util.List;
@@ -17,15 +16,16 @@ import javax.ejb.Local;
  */
 @Local
 public interface InventoryPromotionManagementSessionBeanLocal {
-    
+
+    public boolean checkPromoCodeNotExist(String promoCode);
     public void createDiscountPromotion(String promoCode, Date startDate, Date enddate, double discountRate);
     public void createWaivePromotion(String promoCode, Date startDate, Date enddate, double waiveAmount);
     public List<PromotionEntity> getAllPromotion();
-    public void editPromotion(PromotionEntity promotion);
-    public boolean checkPromoCodeNotExist(String promoCode);
     public List<PromotionEntity> getAllOngoingPromotion();
+    public void editPromotion(PromotionEntity promotion);
     public void deletePromotion(PromotionEntity promotion);
-    public boolean memberHasUsedPromotion(MemberEntity member, PromotionEntity promotion);
-    public void memberUsePromotion(MemberEntity member, PromotionEntity promotion);
+    public boolean memberHasUsedPromotion(String memberID, String promoCode);
     public boolean promotionWithinTime(PromotionEntity promotion);
+    public void memberUsePromotion(String memberID, String promoCode);
+    
 }

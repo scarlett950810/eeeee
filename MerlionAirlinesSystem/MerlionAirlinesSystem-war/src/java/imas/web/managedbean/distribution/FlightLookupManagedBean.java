@@ -937,7 +937,7 @@ public class FlightLookupManagedBean implements Serializable {
                 AirportEntity airport = airportsInCountry.get(i);
                 SelectItem selectItem = new SelectItem(airport, airport.toString());
 
-                if (airport.equals(destinationAirport) || (!flightLookupSessionBean.reachable(destinationAirport, airport))) {
+                if (airport.equals(destinationAirport) || (!flightLookupSessionBean.reachableWithin1Stop(destinationAirport, airport))) {
                     selectItem.setDisabled(true);
                 }
 
@@ -964,7 +964,7 @@ public class FlightLookupManagedBean implements Serializable {
                 AirportEntity airport = airportsInCountry.get(i);
                 SelectItem selectItem = new SelectItem(airport, airport.toString());
 
-                if (airport.equals(originAirport) || (!flightLookupSessionBean.reachable(originAirport, airport))) {
+                if (airport.equals(originAirport) || (!flightLookupSessionBean.reachableWithin1Stop(originAirport, airport))) {
                     selectItem.setDisabled(true);
                 }
 

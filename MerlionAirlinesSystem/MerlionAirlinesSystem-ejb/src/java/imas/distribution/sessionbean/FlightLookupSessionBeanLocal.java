@@ -53,7 +53,7 @@ public interface FlightLookupSessionBeanLocal {
      */
     public List<BookingClassEntity> getAvailableBookingClassUnderFlightUnderSeatClass(FlightEntity flight, String seatClass, int totalPurchaseNo);
 
-    public boolean reachable(AirportEntity origin, AirportEntity destination);
+    public boolean reachableWithin1Stop(AirportEntity origin, AirportEntity destination);
 
     public void setAllFlightYearsBack(boolean departured, int year);
 
@@ -62,5 +62,7 @@ public interface FlightLookupSessionBeanLocal {
     public void addTicketsToAllDeparturedFlights();
 
     public void randomSetTicketsIssued();
+
+    public boolean reachableDirectly(AirportEntity origin, AirportEntity destination);
 
 }

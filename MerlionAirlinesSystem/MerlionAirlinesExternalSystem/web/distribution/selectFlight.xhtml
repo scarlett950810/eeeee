@@ -594,15 +594,6 @@
 
                     </c:if>
 
-                    <c:if test="#{customerBookTicketManagedBean.logined}">
-
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:outputLabel for="prmoCode" value="Apply Promo Code:"/>
-                            <p:inputText id="prmoCode" value="#{customerBookTicketManagedBean.promoCode}"/>
-                        </h:panelGrid>
-                        
-                    </c:if>
-
                     <p:commandButton class="btn-sm btn-primary" value="Proceed" actionListener="#{customerBookTicketManagedBean.submitBookingClasses()}"/>
 
                 </h:form>
