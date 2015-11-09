@@ -180,14 +180,14 @@ public class AccountActivationManagedBean implements Serializable {
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect old password", "Contact admin."));
-            System.out.print("here");
+//            System.out.print("here");
         }
         passwordReset = false;
         System.out.print(passwordReset);
     }
 
     public void setSecurityQuestionAnswer() {
-        System.out.println(securityAnswer);
+//        System.out.println(securityAnswer);
         userProfileManagementSessionBean.setSequrityQuestion(staffNo, securityAnswer, questionIndex);
 //        FacesContext fc = FacesContext.getCurrentInstance();
 //        FacesMessage msg = new FacesMessage("Success", "you have set the security answer");

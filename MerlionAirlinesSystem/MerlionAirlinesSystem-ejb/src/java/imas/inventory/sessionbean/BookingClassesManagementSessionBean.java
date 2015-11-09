@@ -5,6 +5,13 @@
  */
 package imas.inventory.sessionbean;
 
+import GDS.entity.GDSAirportEntity;
+import GDS.entity.GDSBookingClassEntity;
+import GDS.entity.GDSCompanyEntity;
+import GDS.entity.GDSFlightEntity;
+import GDS.sessionbean.GDSAirportSessionBeanLocal;
+import GDS.sessionbean.GDSCompanySessionBeanLocal;
+import GDS.sessionbean.GDSFlightSessionBeanLocal;
 import imas.inventory.entity.BookingClassEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassRuleSetEntity;
@@ -28,6 +35,15 @@ import javax.persistence.Query;
  */
 @Stateless
 public class BookingClassesManagementSessionBean implements BookingClassesManagementSessionBeanLocal {
+    
+    @EJB
+    private GDSFlightSessionBeanLocal gDSFlightSessionBean;
+    
+    @EJB
+    private GDSAirportSessionBeanLocal gDSAirportSessionBean;
+    
+    @EJB
+    private GDSCompanySessionBeanLocal gDSCompanySessionBean;
 
     @EJB
     private YieldManagementSessionBeanLocal yieldManagementSessionBean;
@@ -352,6 +368,21 @@ public class BookingClassesManagementSessionBean implements BookingClassesManage
         generatePremiumEconomyClassAgencyBookingClassEntityAndTAndC(flight, 4 * baseFare, premiumEconomyClassAgencyBCQuota);
         generateEconomyClassAgencyBookingClassEntityAndTAndC(flight, 1.5 * baseFare, (int) (0.1 * economyClassComputedOverbookingLevel));
 
+        GDSCompanyEntity merlion = gDSCompanySessionBean.getMerlionAirline();
+        GDSAirportEntity originAirport = gDSAirportSessionBean.getGDSAirport(flight.getRoute().getOriginAirport().getAirportCode());
+        GDSAirportEntity destinationAirport = gDSAirportSessionBean.getGDSAirport(flight.getRoute().getDestinationAirport().getAirportCode());
+        
+        GDSFlightEntity gDSFlight = new GDSFlightEntity(merlion, flight.getFlightNo(), originAirport, destinationAirport,
+                flight.getDepartureDate(), flight.getArrivalDate(), flight.getAircraft().getAircraftType().getIATACode());
+        List<GDSBookingClassEntity> GDSBookingClasses = new ArrayList<>();
+        entityManager.refresh(flightManaged);
+        List<BookingClassEntity> bcs = flightManaged.getBookingClasses();
+        for (BookingClassEntity bc : bcs) {
+            GDSBookingClassEntity gdsbc = new GDSBookingClassEntity(gDSFlight, bc.getName(), bc.getPrice(), bc.getBookingClassRuleSet().toString(), bc.getQuota());
+            GDSBookingClasses.add(gdsbc);
+        }
+        gDSFlightSessionBean.generateFlightsAndBookingClasses(gDSFlight, GDSBookingClasses);
+        
         entityManager.flush();
     }
 

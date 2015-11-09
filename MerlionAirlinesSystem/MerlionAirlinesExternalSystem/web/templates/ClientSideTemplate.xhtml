@@ -103,11 +103,17 @@
             .ui-panelgrid .ui-panelgrid-cell{
                 border: none;
             }
+            .profileIcon {
+                background-image: url(../resources/img/profile.png)
+            }
+            .logoutIcon {
+                background-image: url(../resources/img/logout.png)
+            }
+
         </style>
     </h:head>
 
     <h:body>
-
 
         <f:facet name="last">
             <h:outputStylesheet name="./css/cssLayout.css"/>
@@ -115,45 +121,16 @@
             <h:outputScript name="./js/bootstrap.min.js"/>
             <h:outputStylesheet name="./css/flaty.css"/>
         </f:facet>
-
-
-
+        
         <p:layout fullPage="true">
 
-            <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70">
+            <p:layoutUnit id="layoutUnit_top" position="north" resizable="false" collapsible="false" size="70" style="display: inline-block">
+
                 <a href="https://localhost:8181/MerlionAirlinesExternalSystem/index.xhtml">
-                    <p:graphicImage name="img/NEW_LOGO.png" height="100%" style="margin-left: 10%; margin-top: 10px; z-index: 9999"/>
+                    <p:graphicImage name="img/NEW_LOGO.png" height="100%" style="width: 15%; margin-left: 10%; margin-top: 10px; z-index: 9999"/>
                 </a>
 
-                <!--                <p:panel visible="" style="float: right; margin-top: 40px; margin-right: 5%; color: #001F5F">
-                                </p:panel>-->
-                <p:outputLabel value="#{externalLoginManagedBean.login}"></p:outputLabel>
-                <p:outputLabel value="Welcome, #{externalLoginManagedBean.member.title} #{externalLoginManagedBean.member.firstName} #{externalLoginManagedBean.member.lastName}" rendered="#{externalLoginManagedBean.login}"></p:outputLabel>
-                <p:commandButton actionListener="#{externalLoginManagedBean.viewProfile}" value="Member Profile" icon="fa fa-user" rendered="#{externalLoginManagedBean.login}"></p:commandButton>
-                <p:commandButton actionListener="#{externalLoginManagedBean.doLogout}" value="Log Out" icon="fa-sign-out" rendered="#{externalLoginManagedBean.login}"></p:commandButton>
-
-
-                <p:commandLink value="Merflion Member Log in" onclick="PF('loginBox').show();" style="margin-left: 60%; font-size: 70%" rendered="#{!externalLoginManagedBean.login}"></p:commandLink>
-
-
             </p:layoutUnit>
-
-            <p:dialog header="Merflion Member Log In" widgetVar="loginBox">
-                <p:growl id="loginStatus"></p:growl>
-                <h:form style="text-align: center">
-                    <p:panelGrid columns="2">
-                        <h:outputText value="Member ID: " />
-                        <p:inputText value="#{externalLoginManagedBean.memberID}" rendered="true" required="Please enter member ID"></p:inputText>
-
-                        <h:outputText value="PIN: " />
-                        <p:inputText value="#{externalLoginManagedBean.pin}" rendered="true" required="Please enter PIN"></p:inputText>
-
-                    </p:panelGrid>
-                    <br></br>
-
-                    <p:commandButton value="Log In" actionListener="#{externalLoginManagedBean.doLogin}" style="width: 50%" update="loginStatus"></p:commandButton>
-                </h:form>
-            </p:dialog>
 
             <p:layoutUnit id="layoutUnit_center" position="center" size="70%"
                           style="background-color: #001F5F; margin-top: 20px;">

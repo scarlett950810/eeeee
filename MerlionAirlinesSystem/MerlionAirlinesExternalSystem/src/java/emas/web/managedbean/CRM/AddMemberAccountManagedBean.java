@@ -37,6 +37,7 @@ public class AddMemberAccountManagedBean implements Serializable {
     private String email;
     private String confirmEmail;
     private String contactNumber;
+    private String passportNumber;
     private String pin;
     private String confirmPin;
     private int securityQuestionIndex;
@@ -163,6 +164,14 @@ public class AddMemberAccountManagedBean implements Serializable {
         this.answer = answer;
     }
 
+    public String getPassportNumber() {
+        return passportNumber;
+    }
+
+    public void setPassportNumber(String passportNumber) {
+        this.passportNumber = passportNumber;
+    }
+
     public void create() throws IOException {
         System.err.println("Enter create account page");
         FacesMessage msg;
@@ -173,8 +182,8 @@ public class AddMemberAccountManagedBean implements Serializable {
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Please input the same pin number twice");
 
         } else {
-            String memberID = UUID.randomUUID().toString();
-            memberID = "M" + memberID.replaceAll("-", "").substring(0, 8);
+            
+            
             member = new MemberEntity();
             member.setTitle(title);
             member.setLastName(lastName);
@@ -187,7 +196,7 @@ public class AddMemberAccountManagedBean implements Serializable {
             member.setBirthDate(birthdate);
             member.setPinNumber(pin);
             member.setContactNumber(contactNumber);
-            member.setMemberID(memberID);
+            member.setPassportNumber(passportNumber);
             customerAccountManagementSession.createCustomer(member);
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Added successfully", "");
 
