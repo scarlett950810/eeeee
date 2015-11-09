@@ -22,4 +22,6 @@ public interface LoginSessionBeanLocal {
     public StaffEntity fetchStaff(String staffNo);
 
     public Integer getLeftChance();
+
+    void tempUseInsertPilot();
 }

@@ -54,6 +54,11 @@
                     <h:outputText value="Birth date " />
                     <p:calendar value="#{addMemberAccountManagedBean.birthdate}" navigator="true" pattern="yyyy-MM-dd" required="true" yearRange="c-100:c">
                     </p:calendar><br/>
+                    
+                    <h:outputText value="Passport Number" />                
+                    <p:inputText style="width: 50%" id="passportNumber" value="#{addMemberAccountManagedBean.passportNumber}" label="passportNumber" required="true" requiredMessage="Please input your passport number">
+                        <p:watermark for="passportNumber" value="passport number" />
+                    </p:inputText><br/>
 
                     <h:outputText value="Nationality" />                
                     <p:inputText style="width: 50%" id="nationality" value="#{addMemberAccountManagedBean.nationality}" label="nationality" required="true" requiredMessage="Please input your nationality">

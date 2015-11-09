@@ -56,6 +56,7 @@ public class MemberProfileManagedBean implements Serializable {
     private List<TicketEntity> historicalTickets;
     private List<TicketEntity> unissuedTickets;
     private List<TicketEntity> filteredTickets;
+    private TicketEntity selectedTicket;
     
     private boolean edit;
     private int index = 0;
@@ -170,6 +171,10 @@ public class MemberProfileManagedBean implements Serializable {
         member = null;
         memberID = null;
         ec.redirect("crmHomePage.xhtml");
+    }
+    
+    public void redeemMileage(){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedTicket", selectedTicket);
     }
     
     public MemberEntity getMember() {

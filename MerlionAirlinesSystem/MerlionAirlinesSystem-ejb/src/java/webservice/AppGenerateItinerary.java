@@ -5,6 +5,7 @@
  */
 package webservice;
 
+import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,7 +28,16 @@ public class AppGenerateItinerary implements AppGenerateItineraryLocal {
     }
     
     
+    
+    
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public TicketEntity findTicketById(long id) {
+        
+        TicketEntity t = em.find(TicketEntity.class ,id);
+        return t;
+    }
 }
