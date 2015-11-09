@@ -150,7 +150,6 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private List<BookingClassEntity> returnTransferFlight1BookingClassCandidates;
     private List<BookingClassEntity> returnTransferFlight2BookingClassCandidates;
 
-    private MemberEntity loggedInMember;
     private String promoCode;
     private double accumulatedMileage;
 
@@ -869,14 +868,6 @@ public class CustomerBookTicketManagedBean implements Serializable {
         this.return7DayPricing = return7DayPricing;
     }
 
-    public MemberEntity getLoggedInMember() {
-        return loggedInMember;
-    }
-
-    public void setLoggedInMember(MemberEntity loggedInMember) {
-        this.loggedInMember = loggedInMember;
-    }
-
     public String getPromoCode() {
         return promoCode;
     }
@@ -1475,7 +1466,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         accumulatedMileage = 0;
 
         if (checkBookingClassesSubmitted()) {
-
+            
             if (selectedDepartureDirectFlight()) {
                 flights.add(departureDirectFlight);
                 accumulatedMileage = accumulatedMileage + departureDirectFlightBookingClass.getMileage();
