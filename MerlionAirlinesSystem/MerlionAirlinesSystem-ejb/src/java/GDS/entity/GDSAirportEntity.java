@@ -174,7 +174,7 @@ public class GDSAirportEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.planning.entity.GDSAirportEntity[ id=" + id + " ]";
+        return name + " ("+IATAorFAA+"), " + city + ", " + country;
     }
 
 }

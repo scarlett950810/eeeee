@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <style>
+            table.jqplot-table-legend, table.jqplot-cursor-legend {
+                border: none !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Revenue Dashboard</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="adminViewStaff.xhtml">Staff Management</a></li>
+                <li class="sidebar-h1"><a href="adminRevenueDashboard.xhtml">Revenue Dashboard</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+
+        <h:form id="all">
+            <h:panelGrid columns="4" cellpadding="5" class="panel-success" style="position: fixed; z-index: 9999; background-color: #ffffff" width="76%">
+                <p:outputLabel for="allfromDate" value="From:" />
+                <p:calendar id="allfromDate" value="#{systemAdminDashBoardManagedBean.allFromDate}" required="true"
+                            maxdate="#{systemAdminDashBoardManagedBean.allFromMaxDate}">
+                    <p:ajax event="dateSelect" listener="#{systemAdminDashBoardManagedBean.onAllFromDateSelect}" 
+                            update="all:bar all:pie all:table"/>
+                </p:calendar>
+
+                <p:outputLabel for="allToDate" value="To:" />
+                <p:calendar id="allToDate" value="#{systemAdminDashBoardManagedBean.allToDate}" required="true"
+                            maxdate="#{systemAdminDashBoardManagedBean.today}">
+                    <p:ajax event="dateSelect" listener="#{systemAdminDashBoardManagedBean.onAllToDateSelect}"
+                            update="all:bar all:pie all:table"/>
+                </p:calendar>
+            </h:panelGrid>
+            
+            <br/>
+            <br/>
+
+            <p:chart id="pie" type="pie" model="#{systemAdminDashBoardManagedBean.allByRoutePieModel}" style="width:100%;"/>
+
+            <p:chart id="bar" type="bar" model="#{systemAdminDashBoardManagedBean.allDetailsByRouteCombinedModel}" style="width:100%;"/>
+
+            <p:dataTable id="table" value="#{systemAdminDashBoardManagedBean.byRouteTable}" var="rowData"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
+                <p:column headerText="Route" width="40%">
+                    <h:outputText value="#{rowData[0]}" />
+                </p:column>
+                <p:column headerText="Total Cost (S$)">
+                    <h:outputText value="#{rowData[1]}" />
+                </p:column>
+                <p:column headerText="Total Revenue (S$)">
+                    <h:outputText value="#{rowData[2]}" />
+                </p:column>
+                <p:column headerText="Profit Margin (%)">
+                    <h:outputText value="#{rowData[3]}" />
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

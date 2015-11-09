@@ -36,12 +36,25 @@
         <h:form>
             <p:panel header="Route Details" style="margin-bottom:10px;" class="panel panel-success">
                 <h:outputLabel value="Please double check details your input and basic route cost-benefit analysis to confirm!"/><br/>
-                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">               
+
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <h:outputLabel style="font-size: 200%" value="Basic Route Information"/><br/>
                     <h:outputLabel value="Origin: "/><h:outputText value="#{routeCreationManagedBean.hub}"/>
                     <h:outputLabel value="Destination: "/><h:outputText value="#{routeCreationManagedBean.spoke}"/>
-                    <h:outputLabel value="Distance: "/><h:outputText value="#{routeCreationManagedBean.spoke} Miles"/>
-                    <h:outputLabel value="Estimated Flight Hours: "/>
-                    <h:outputLabel value="Expected revenue: "/><h:outputText value="#{routeCreationManagedBean.revenue} Million SGD"/>
+                    <h:outputLabel value="Distance: "/><h:outputText value="#{routeCreationManagedBean.distance} Miles"/>
+
+                    <h:outputLabel style="font-size: 200%" value="Cost Benefit Inputs"/><br/>
+                    <h:outputLabel value="Total annual local O-D passengers (both directions): "/><h:outputText value="#{routeCreationManagedBean.totalPassengers}"/>
+                    <h:outputLabel value="Expected market share for one daily flight (%): "/><h:outputText value="#{routeCreationManagedBean.marketShare}%"/>
+                    <h:outputLabel value="Additional annual traffic by connecting flights: "/><h:outputText value="#{routeCreationManagedBean.additionalTraffic}"/>
+                    <h:outputLabel value="Expected average fare (S$): "/><h:outputText value="S$#{routeCreationManagedBean.avgFare}"/>
+                    <h:outputLabel value="Prorated average fare (S$): "/><h:outputText value="S$#{routeCreationManagedBean.proratedFare}"/>
+
+                    <h:outputLabel style="font-size: 200%" value="Cost Benefit Analysis"/><br/>
+                    <h:outputLabel value="Estimated profit (S$): "/><h:outputText value="S$#{routeCreationManagedBean.profit}MM"/>
+                    <h:outputLabel value="Estimated Cost (S$0.1398/Seat/Mile) (S$): "/><h:outputText value="S$#{routeCreationManagedBean.cost}"/>
+                    <h:outputLabel value="Expected revenue (S$): "/><h:outputText value="S$#{routeCreationManagedBean.revenue}MM"/>
+                    <h:outputLabel value="(Benchmark: Average revenue (S$): "/><h:outputText value="S$#{routeCreationManagedBean.avgRevenue}MM)"/>
                 </h:panelGrid>
 
                 <p:commandButton value="Confirm to Create the Route" actionListener="#{routeCreationManagedBean.confirmRoute()}"
