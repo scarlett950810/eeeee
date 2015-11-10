@@ -15,7 +15,7 @@
         <p:growl id="growl" autoUpdate="true"/>
 
         <p:tabView id="tabView" activeIndex="#{gDSFlightLookupManagedBean.activeIndex}">
-            
+
             <p:tab title="1 Search creiteria" class="panel panel-primary" disabled="#{gDSFlightLookupManagedBean.tab1Disabled}">
 
                 <p:messages />
@@ -133,6 +133,10 @@
 
                                 <p:column selectionMode="single" width="5%"/>
 
+                                <p:column headerText="Airlines">
+                                    <h:outputText value="#{departureDirectFlight.GDSCompany.name}"/>
+                                </p:column>
+
                                 <p:column headerText="Departure Time">
                                     <h:outputText value="#{departureDirectFlight.departureDate}" />
                                 </p:column>
@@ -179,6 +183,10 @@
                                             #{transferFlight.route1}
                                         </f:facet>
 
+                                        <p:column headerText="Airlines">
+                                            <h:outputText value="#{departureTransferFlight1.GDSCompany.name}"/>
+                                        </p:column>
+
                                         <p:column headerText="Departure Time">
                                             <h:outputText value="#{departureTransferFlight1.departureDate}" />
                                         </p:column>
@@ -207,6 +215,11 @@
                                         <f:facet name="header">
                                             #{transferFlight.route2}
                                         </f:facet>
+
+                                        <p:column headerText="Airlines">
+                                            <h:outputText value="#{departureTransferFlight2.GDSCompany.name}"/>
+                                        </p:column>
+
                                         <p:column headerText="Departure Time">
                                             <h:outputText value="#{departureTransferFlight2.departureDate}" />
                                         </p:column>
@@ -254,6 +267,10 @@
 
                                     <p:column selectionMode="single" width="5%"/>
 
+                                    <p:column headerText="Airlines">
+                                        <h:outputText value="#{returnDirectFlight.GDSCompany.name}"/>
+                                    </p:column>
+
                                     <p:column headerText="Departure Time">
                                         <h:outputText value="#{returnDirectFlight.departureDate}" />
                                     </p:column>
@@ -300,6 +317,10 @@
                                                 #{transferFlight.route1}
                                             </f:facet>
 
+                                            <p:column headerText="Airlines">
+                                                <h:outputText value="#{returnTransferFlight1.GDSCompany.name}"/>
+                                            </p:column>
+
                                             <p:column headerText="Departure Time">
                                                 <h:outputText value="#{returnTransferFlight1.departureDate}" />
                                             </p:column>
@@ -328,6 +349,10 @@
                                             <f:facet name="header">
                                                 #{transferFlight.route2}
                                             </f:facet>
+
+                                            <p:column headerText="Airlines">
+                                                <h:outputText value="#{returnTransferFlight2.GDSCompany.name}"/>
+                                            </p:column>
 
                                             <p:column headerText="Departure Time">
                                                 <h:outputText value="#{returnTransferFlight2.departureDate}" />
@@ -379,7 +404,7 @@
                         <p:dataTable value="#{gDSFlightLookupManagedBean.departureDirectFlight.GDSBookingClassEntities}" var="bookingClass" 
                                      selection="#{gDSFlightLookupManagedBean.departureDirectFlightBookingClass}" rowKey="#{bookingClass.id}" 
                                      disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
-                            
+
                             <p:column selectionMode="single" width="5%"/>
 
                             <f:facet name="header">
@@ -395,7 +420,8 @@
                             </p:column>
 
                             <p:column headerText="Notes">
-                                <h:outputText value="#{bookingClass.notes}" />
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{gDSFlightLookupManagedBean.showNotes(bookingClass)}"/>
                             </p:column>
 
                         </p:dataTable>
@@ -407,7 +433,7 @@
                         <p:dataTable value="#{gDSFlightLookupManagedBean.departureTransferFlight1.GDSBookingClassEntities}" var="bookingClass" 
                                      selection="#{gDSFlightLookupManagedBean.departureTransferFlight1BookingClass}" rowKey="#{bookingClass.id}"
                                      disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
-                            
+
                             <p:column selectionMode="single" width="5%"/>
 
                             <f:facet name="header">
@@ -423,7 +449,8 @@
                             </p:column>
 
                             <p:column headerText="Notes">
-                                <h:outputText value="#{bookingClass.notes}" />
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{gDSFlightLookupManagedBean.showNotes(bookingClass)}"/>
                             </p:column>
 
                         </p:dataTable>
@@ -431,7 +458,7 @@
                         <p:dataTable value="#{gDSFlightLookupManagedBean.departureTransferFlight2.GDSBookingClassEntities}" var="bookingClass" 
                                      selection="#{gDSFlightLookupManagedBean.departureTransferFlight2BookingClass}" rowKey="#{bookingClass.id}"
                                      disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
-                            
+
                             <p:column selectionMode="single" width="5%"/>
 
                             <f:facet name="header">
@@ -447,9 +474,10 @@
                             </p:column>
 
                             <p:column headerText="Notes">
-                                <h:outputText value="#{bookingClass.notes}" />
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{gDSFlightLookupManagedBean.showNotes(bookingClass)}"/>
                             </p:column>
-                            
+
                         </p:dataTable>
 
                     </c:if>
@@ -459,7 +487,7 @@
                         <p:dataTable value="#{gDSFlightLookupManagedBean.returnDirectFlight.GDSBookingClassEntities}" var="bookingClass" 
                                      selection="#{gDSFlightLookupManagedBean.returnDirectFlightBookingClass}" rowKey="#{bookingClass.id}"
                                      disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
-                            
+
                             <p:column selectionMode="single" width="5%"/>
 
                             <f:facet name="header">
@@ -475,7 +503,8 @@
                             </p:column>
 
                             <p:column headerText="Notes">
-                                <h:outputText value="#{bookingClass.notes}" />
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{gDSFlightLookupManagedBean.showNotes(bookingClass)}"/>
                             </p:column>
 
                         </p:dataTable>
@@ -487,7 +516,7 @@
                         <p:dataTable value="#{gDSFlightLookupManagedBean.returnTransferFlight1.GDSBookingClassEntities}" var="bookingClass" 
                                      selection="#{gDSFlightLookupManagedBean.returnTransferFlight1BookingClass}" rowKey="#{bookingClass.id}"
                                      disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
-                            
+
                             <p:column selectionMode="single" width="5%"/>
 
                             <f:facet name="header">
@@ -503,7 +532,8 @@
                             </p:column>
 
                             <p:column headerText="Notes">
-                                <h:outputText value="#{bookingClass.notes}" />
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{gDSFlightLookupManagedBean.showNotes(bookingClass)}"/>
                             </p:column>
 
                         </p:dataTable>
@@ -511,7 +541,7 @@
                         <p:dataTable value="#{gDSFlightLookupManagedBean.returnTransferFlight2.GDSBookingClassEntities}" var="bookingClass" 
                                      selection="#{gDSFlightLookupManagedBean.returnTransferFlight2BookingClass}" rowKey="#{bookingClass.id}"
                                      disabledSelection="#{gDSFlightLookupManagedBean.GDSBookingClassDisabled(bookingClass)}">
-                            
+
                             <p:column selectionMode="single" width="5%"/>
 
                             <f:facet name="header">
@@ -527,19 +557,20 @@
                             </p:column>
 
                             <p:column headerText="Notes">
-                                <h:outputText value="#{bookingClass.notes}" />
+                                <p:commandButton icon="ui-icon-comment" 
+                                                 actionListener="#{gDSFlightLookupManagedBean.showNotes(bookingClass)}"/>
                             </p:column>
 
                         </p:dataTable>
 
                     </c:if>
-                    
+
                     <p:commandButton class="btn-sm btn-primary" value="Proceed" actionListener="#{gDSFlightLookupManagedBean.submitBookingClasses()}"/>
 
                 </h:form>
 
             </p:tab>
-            
+
         </p:tabView>
 
     </h:body>

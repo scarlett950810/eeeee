@@ -33,7 +33,7 @@ public class GDSCompanyEntity implements Serializable {
     private String email;
     private String contactNo;
     
-    @OneToMany(mappedBy = "GDSCompanyEntity")
+    @OneToMany(mappedBy = "GDSCompany")
     private List<GDSFlightEntity> flights;
 
     public GDSCompanyEntity() {
