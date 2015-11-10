@@ -7,6 +7,8 @@ package imas.distribution.sessionbean;
 
 import imas.distribution.entity.PNREntity;
 import imas.distribution.entity.TicketEntity;
+import imas.inventory.entity.BookingClassEntity;
+import imas.planning.entity.FlightEntity;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -64,8 +66,26 @@ public class ModifyBookingSessionBean implements ModifyBookingSessionBeanLocal {
         System.out.print("success");
     }
     
-    
-    
-
+    @Override
+    public TicketEntity modifyTicket(TicketEntity originalTicket, FlightEntity newFlight, BookingClassEntity newBookingClass) {
+        TicketEntity originalTicketManaged = entityManager.find(TicketEntity.class, originalTicket.getId());
+        FlightEntity newFlightManaged = entityManager.find(FlightEntity.class, newFlight.getId());
+        BookingClassEntity newBookingClassManaged = entityManager.find(BookingClassEntity.class, newBookingClass.getId());
+        
+        FlightEntity oldFlightManaged = entityManager.find(FlightEntity.class, originalTicket.getFlight().getId());
+        List<TicketEntity> oldFlightTickets = oldFlightManaged.getTickets();
+        oldFlightTickets.remove(originalTicket);
+        oldFlightManaged.setTickets(oldFlightTickets);
+        
+        originalTicketManaged.setFlight(newFlightManaged);
+        originalTicketManaged.setBookingClassName(newBookingClassManaged.getName());
+        originalTicketManaged.setPrice(newBookingClassManaged.getPrice());
+        List<TicketEntity> newFlightTickets = newFlight.getTickets();
+        newFlightTickets.add(originalTicketManaged);
+        newFlightManaged.setTickets(newFlightTickets);
+        entityManager.flush();
+        
+        return originalTicketManaged;
+    }
     
 }

@@ -14,10 +14,10 @@
                 <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
                 <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
                 <li><a href="passengerService.xhtml">Passenger Service</a></li>
+                <li><a href="lateCheckIn.xhtml">Passenger Late Check In</a></li>
             </ul>
         </div>
     </ui:define>
-
     <ui:define name="head">
 
         <script type="text/javascript">
@@ -28,8 +28,6 @@
 
         </script>
     </ui:define>
-
-
     <ui:define name="centerPanel">
         <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
         <h:form id="comingFlight">
@@ -124,7 +122,7 @@
 
                     </p:panelGrid>
 
-                    <p:commandButton value="Submit" actionListener="#{passengerCheckInManagedBean.update}" disabled="#{passengerCheckInManagedBean.selectedTicket.issued}"
+                    <p:commandButton value="Submit" actionListener="#{passengerCheckInManagedBean.lateUpdate()}" disabled="#{passengerCheckInManagedBean.selectedTicket.issued}"
                                      icon="ui-icon-check" class="btn-sm btn-success" style="margin-top: 15px;" update="comingFlight viewTicketForm">
                         <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                     </p:commandButton>

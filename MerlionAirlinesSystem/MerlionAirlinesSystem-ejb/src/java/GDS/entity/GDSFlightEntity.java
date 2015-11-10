@@ -29,7 +29,7 @@ public class GDSFlightEntity implements Serializable {
     private Long id;
     
     @ManyToOne
-    private GDSCompanyEntity GDSCompanyEntity;
+    private GDSCompanyEntity GDSCompany;
     private String flightNo;
     @ManyToOne
     private GDSAirportEntity origin;
@@ -47,7 +47,7 @@ public class GDSFlightEntity implements Serializable {
     }
 
     public GDSFlightEntity(GDSCompanyEntity GDSCompanyEntity, String flightNo, GDSAirportEntity origin, GDSAirportEntity destination, Date departureDate, Date arrivalDate, String aircraftITATCode) {
-        this.GDSCompanyEntity = GDSCompanyEntity;
+        this.GDSCompany = GDSCompanyEntity;
         this.flightNo = flightNo;
         this.origin = origin;
         this.destination = destination;
@@ -72,12 +72,12 @@ public class GDSFlightEntity implements Serializable {
         this.GDSBookingClassEntities = GDSBookingClassEntities;
     }
 
-    public GDSCompanyEntity getGDSCompanyEntity() {
-        return GDSCompanyEntity;
+    public GDSCompanyEntity getGDSCompany() {
+        return GDSCompany;
     }
 
-    public void setGDSCompanyEntity(GDSCompanyEntity GDSCompanyEntity) {
-        this.GDSCompanyEntity = GDSCompanyEntity;
+    public void setGDSCompany(GDSCompanyEntity GDSCompany) {
+        this.GDSCompany = GDSCompany;
     }
 
     public GDSAirportEntity getOrigin() {

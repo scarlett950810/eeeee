@@ -50,6 +50,10 @@ import com.paypal.api.payments.*;
 import imas.crm.entity.MemberEntity;
 import imas.crm.sessionbean.CustomerAccountManagementSessionBeanLocal;
 import imas.crm.sessionbean.MemberProfileManagementSessionBeanLocal;
+import imas.distribution.sessionbean.ModifyBookingSessionBeanLocal;
+import imas.inventory.entity.PromotionEntity;
+import imas.inventory.sessionbean.CostManagementSessionBean;
+import imas.inventory.sessionbean.InventoryPromotionManagementSessionBeanLocal;
 import java.io.File;
 import java.io.Serializable;
 import java.io.IOException;
@@ -65,6 +69,12 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @SessionScoped
 public class CustomerBookTicketManagedBean implements Serializable {
+
+    @EJB
+    private ModifyBookingSessionBeanLocal modifyBookingSessionBean;
+
+    @EJB
+    private InventoryPromotionManagementSessionBeanLocal inventoryPromotionManagementSessionBean;
 
     @EJB
     private CustomerAccountManagementSessionBeanLocal customerAccountManagementSessionBean;
@@ -152,6 +162,9 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private List<BookingClassEntity> returnTransferFlight2BookingClassCandidates;
 
     private String promoCode;
+    private boolean promotionApplied;
+    private double totalDiscountedPrice; // total amount of price that is discounted or waived.
+    private double totalPriceBeforeDiscount;
     private double accumulatedMileage;
 
     List<PassengerEntity> passengers;
@@ -166,7 +179,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private String postCode;
     private String email;
     private String contactNumber;
-    private double totalPrice = 0;
+    private double totalPrice = 0.0;
     private String referenceNumber;
 
     public CustomerBookTicketManagedBean() {
@@ -195,6 +208,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         return7DayPricing = new LineChartModel();
         departureDate = flightLookupSessionBean.getDateAfterDays(new Date(), 60);
         returnDate = flightLookupSessionBean.getDateAfterDays(departureDate, 7);
+        promotionApplied = false;
     }
 
     public String confirm() throws PayPalRESTException, IOException {
@@ -230,6 +244,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         Item item = new Item();
         item.setName("Merlion Airline Ticket");
         DecimalFormat df = new DecimalFormat("0.00");
+        System.out.println("2 total price" + totalPrice);
         String priceFormat = df.format(totalPrice);
         System.out.println("2");
         item.setPrice(priceFormat);
@@ -358,9 +373,8 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
 
     public void afterPay() throws IOException {
-        System.out.println(member);
+        applyPromotion();
         referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice, member);
-        
         if (memberID != null) {
             
             memberProfileManagementSessionBean.accumulateMileage(memberID, accumulatedMileage);
@@ -392,6 +406,69 @@ public class CustomerBookTicketManagedBean implements Serializable {
             mileage = mileage - usedMileage;
             if (totalPrice < 0) {
                 totalPrice = 0;
+            }
+        }
+    }
+
+    public void applyPromoCode() {
+        if (inventoryPromotionManagementSessionBean.checkPromoCodeNotExist(promoCode)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "PromoCode does not exist.");
+            FacesContext.getCurrentInstance().addMessage("promotion", msg);
+        } else if (inventoryPromotionManagementSessionBean.memberHasUsedPromotion(memberID, promoCode)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "You have already used this PromoCode.");
+            FacesContext.getCurrentInstance().addMessage("promotion", msg);
+        } else if (inventoryPromotionManagementSessionBean.promotionNotInTimeRange(promoCode)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "Now is not within the valid range of PromoCode.");
+            FacesContext.getCurrentInstance().addMessage("promotion", msg);
+        } else {
+            PromotionEntity promotion = inventoryPromotionManagementSessionBean.getPromotionEntity(promoCode);
+            promotionApplied = true;
+            if (promotion.isDiscount()) {
+                double disountedAmount = totalPrice * promotion.getDiscountRate();
+                totalDiscountedPrice = CostManagementSessionBean.round(disountedAmount, 2);
+                totalPriceBeforeDiscount = CostManagementSessionBean.round(totalPrice, 2);
+                totalPrice = CostManagementSessionBean.round(totalPrice - totalDiscountedPrice, 2);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Promotion applied", promotion.toString() + ". S$" + disountedAmount + " are discounted.");
+                FacesContext.getCurrentInstance().addMessage("promotion", msg);
+            } else {
+                double waivedAmount = CostManagementSessionBean.round(promotion.getWaiveAmount(), 2);
+                totalDiscountedPrice = CostManagementSessionBean.round(waivedAmount, 2);
+                totalPriceBeforeDiscount = CostManagementSessionBean.round(totalPrice, 2);
+                totalPrice = CostManagementSessionBean.round(totalPrice - totalDiscountedPrice, 2);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Promotion applied", promotion.toString() + ". S$" + waivedAmount + " are waived.");
+                FacesContext.getCurrentInstance().addMessage("promotion", msg);
+            }
+        }
+    }
+
+    private void applyPromotion() {
+        if (promotionApplied) {
+            PromotionEntity promotion = inventoryPromotionManagementSessionBean.getPromotionEntity(promoCode);
+            if (promotion.isDiscount()) {
+                inventoryPromotionManagementSessionBean.memberUsePromotion(memberID, promoCode);
+                double disountedAmount = totalPrice * promotion.getDiscountRate();
+                disountedAmount = CostManagementSessionBean.round(disountedAmount, 2);
+                int totalPassengers = passengers.size();
+                int ticketsPerPassenger = passengers.get(0).getTickets().size();
+                double discountPerPassenger = disountedAmount / (totalPassengers * ticketsPerPassenger);
+                for (PassengerEntity passenger : passengers) {
+                    for (TicketEntity ticket : passenger.getTickets()) {
+                        System.out.println("ticket = " + ticket);
+                        ticket.setPrice(ticket.getPrice() - discountPerPassenger);
+                    }
+                }
+            } else {
+                double waivedAmount = CostManagementSessionBean.round(promotion.getWaiveAmount(), 2);
+                int totalPassengers = passengers.size();
+                int ticketsPerPassenger = passengers.get(0).getTickets().size();
+                double waivePerPassenger = waivedAmount / (totalPassengers * ticketsPerPassenger);
+                for (PassengerEntity passenger : passengers) {
+                    for (TicketEntity ticket : passenger.getTickets()) {
+                        ticket.setPrice(ticket.getPrice() - waivePerPassenger);
+                    }
+                }
             }
         }
     }
@@ -981,7 +1058,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
                 AirportEntity airport = airportsInCountry.get(i);
                 SelectItem selectItem = new SelectItem(airport, airport.toString());
 
-                if (airport.equals(destinationAirport) || (!flightLookupSessionBean.reachable(destinationAirport, airport))) {
+                if (airport.equals(destinationAirport) || (!flightLookupSessionBean.reachableWithin1Stop(destinationAirport, airport))) {
                     selectItem.setDisabled(true);
                 }
 
@@ -1008,7 +1085,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
                 AirportEntity airport = airportsInCountry.get(i);
                 SelectItem selectItem = new SelectItem(airport, airport.toString());
 
-                if (airport.equals(originAirport) || (!flightLookupSessionBean.reachable(originAirport, airport))) {
+                if (airport.equals(originAirport) || (!flightLookupSessionBean.reachableWithin1Stop(originAirport, airport))) {
                     selectItem.setDisabled(true);
                 }
 
@@ -1471,6 +1548,9 @@ public class CustomerBookTicketManagedBean implements Serializable {
         accumulatedMileage = 0;
 
         if (checkBookingClassesSubmitted()) {
+
+            totalPrice = 0.0;
+            promotionApplied = false;
             
             if (selectedDepartureDirectFlight()) {
                 flights.add(departureDirectFlight);
@@ -1548,6 +1628,8 @@ public class CustomerBookTicketManagedBean implements Serializable {
                     tickets.add(ticket6);
                     totalPrice = totalPrice + ticket6.getPrice();
                 }
+
+                System.out.println("1 total price = " + totalPrice);
                 passenger.setTickets(tickets);
 
                 passengers.add(passenger);
@@ -1731,4 +1813,36 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
     
     
+    public boolean isPromotionApplied() {
+        return promotionApplied;
+    }
+
+    public void setPromotionApplied(boolean promotionApplied) {
+        this.promotionApplied = promotionApplied;
+    }
+
+    public double getAccumulatedMileage() {
+        return accumulatedMileage;
+    }
+
+    public void setAccumulatedMileage(double accumulatedMileage) {
+        this.accumulatedMileage = accumulatedMileage;
+    }
+
+    public double getTotalDiscountedPrice() {
+        return totalDiscountedPrice;
+    }
+
+    public void setTotalDiscountedPrice(double totalDiscountedPrice) {
+        this.totalDiscountedPrice = totalDiscountedPrice;
+    }
+
+    public double getTotalPriceBeforeDiscount() {
+        return totalPriceBeforeDiscount;
+    }
+
+    public void setTotalPriceBeforeDiscount(double totalPriceBeforeDiscount) {
+        this.totalPriceBeforeDiscount = totalPriceBeforeDiscount;
+    }
+
 }

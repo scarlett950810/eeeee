@@ -58,3 +58,32 @@
     </ui:define>
     
 </ui:composition>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <title><ui:insert name="title">System Admin - Merlion Airlines Internal System</ui:insert></title>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="systemAdminAddStaff.xhtml">Account Management</a></li>
+                <li><a href="systemAdminAddStaff.xhtml">Add Airline Staff</a></li>
+                <li><a href="systemAdminViewStaff.xhtml">View Airline Staff</a></li>
+                 <li><a href="systemAdminUnlockStaff.xhtml">Unlock Airline Staff</a></li>
+<!--                <li><a href="">Membership Customers</a></li>
+                <li><a href="">Travel Agencies</a></li>-->
+                <li class="sidebar-h1"><a href="systemAdminSendAnnouncement.xhtml">Send Announcement</a></li><br/>
+                <li class="sidebar-h1"><a href="systemAdminRevenueDashboard.xhtml">Revenue Dashboard</a></li>
+            </ul>
+        </div>
+    </ui:define>
+    
+</ui:composition>

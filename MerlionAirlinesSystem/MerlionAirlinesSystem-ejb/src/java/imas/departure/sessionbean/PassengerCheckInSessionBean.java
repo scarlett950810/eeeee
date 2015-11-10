@@ -39,7 +39,7 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
 
         Calendar cal = Calendar.getInstance();
         Date currentDate = new Date();
-        currentDate = new Date(currentDate.getTime() - (1000 * 60 * 60));
+        currentDate = new Date(currentDate.getTime() - (1000 * 60 * 60 * 24));
         cal.add(Calendar.YEAR, 3);
 //        cal.add(Calendar.HOUR, 24);
         Date limitDate = cal.getTime();
@@ -95,11 +95,16 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
         t3.setExclusiveService(Boolean.FALSE);
         t4.setExclusiveService(Boolean.FALSE);
         t5.setExclusiveService(Boolean.FALSE);
-        t1.setReferenceNumber("AAAAAAAAAAAA");
-        t2.setReferenceNumber("BBBBBBBBBBBB");
-        t3.setReferenceNumber("CCCCCCCCCCCC");
-        t4.setReferenceNumber("DDDDDDDDDDDD");
-        t5.setReferenceNumber("EEEEEEEEEEEE");
+        t1.setReferenceNumber("AAAAAAAA");
+        t2.setReferenceNumber("BBBBBBBB");
+        t3.setReferenceNumber("CCCCCCCC");
+        t4.setReferenceNumber("DDDDDDDD");
+        t5.setReferenceNumber("EEEEEEEE");
+        t1.setBaggageWeight(20.0);
+        t2.setBaggageWeight(20.0);
+        t3.setBaggageWeight(20.0);
+        t4.setBaggageWeight(20.0);
+        t5.setBaggageWeight(20.0);
         em.persist(t1);
         em.persist(t2);
         em.persist(t3);

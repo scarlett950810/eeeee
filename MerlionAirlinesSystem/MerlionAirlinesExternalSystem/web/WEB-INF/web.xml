@@ -27,4 +27,19 @@
         <local>imas.crm.sessionbean.CustomerFeedbackSessionBeanLocal</local>
         <ejb-link>MerlionAirlinesSystem-ejb.jar#CustomerFeedbackSessionBean</ejb-link>
     </ejb-local-ref>
+    <security-constraint>
+        <display-name>SSL Protection</display-name>
+        <web-resource-collection>
+            <web-resource-name>Default Secure Pages</web-resource-name>
+            <description>Default Secure Pages</description>
+            <url-pattern>/index.xhtml</url-pattern>   
+            <url-pattern>/MerlionAirlinesExternalSystem </url-pattern>  
+                       
+        </web-resource-collection>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
 </web-app>

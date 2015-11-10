@@ -7,6 +7,7 @@ package imas.operation.sessionbean;
 
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.MaintenanceScheduleEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -78,8 +79,8 @@ public class ViewFlightScheduleSessionBean implements ViewFlightScheduleSessionB
                 flightNo = list.get(i).getFlightNo();
                 startDate = list.get(i).getDepartureDate();
                 endDate = list.get(i).getArrivalDate();
-                if ( flightNo!=null&&startDate != null && endDate != null) {
-                    event = new DefaultScheduleEvent(flightNo, startDate, endDate);
+                if (flightNo != null && startDate != null && endDate != null) {
+                    event = new DefaultScheduleEvent(flightNo + " " + list.get(i).getRoute().getOriginAirport().getAirportCode() + " to " + list.get(i).getRoute().getDestinationAirport().getAirportCode(), startDate, endDate);
                     lazyEventModel.addEvent(event);
                 }
 
@@ -88,6 +89,49 @@ public class ViewFlightScheduleSessionBean implements ViewFlightScheduleSessionB
         } else {
             return null;
         }
+    }
+
+    @Override
+    public ScheduleModel createAllEvent(String aircraft) {
+        Query query;
+        query = em.createQuery("SELECT f FROM AircraftEntity f WHERE f.tailId=:aircraft");
+        query.setParameter("aircraft", aircraft);
+        AircraftEntity selectedAircraft;
+        selectedAircraft = (AircraftEntity) query.getResultList().get(0);
+        query = em.createQuery("SELECT f FROM FlightEntity f WHERE f.aircraft=:aircraft");
+        query.setParameter("aircraft", selectedAircraft);
+        List<FlightEntity> flights = query.getResultList();
+        lazyEventModel = new DefaultScheduleModel();
+        if (!flights.isEmpty()) {
+            for (int i = 0; i < flights.size(); i++) {
+                flightNo = flights.get(i).getFlightNo();
+                startDate = flights.get(i).getDepartureDate();
+                endDate = flights.get(i).getArrivalDate();
+                if (flightNo != null && startDate != null && endDate != null) {
+                    event = new DefaultScheduleEvent(flightNo + " " + flights.get(i).getRoute().getOriginAirport().getAirportCode() + " to " + flights.get(i).getRoute().getDestinationAirport().getAirportCode(), startDate, endDate);
+                    lazyEventModel.addEvent(event);
+                }
+            }
+        }
+        query = em.createQuery("SELECT f FROM MaintenanceScheduleEntity f WHERE f.aircraft=:aircraft");
+        query.setParameter("aircraft", selectedAircraft);
+        List<MaintenanceScheduleEntity> list = query.getResultList();
+        if (!list.isEmpty()) {
+            for (int i = 0; i < list.size(); i++) {
+                String maintenanceName = list.get(i).getMaintenanceType();
+                startDate = list.get(i).getStartingTime();
+                endDate = list.get(i).getEndingTime();
+                if (maintenanceName != null & startDate != null & endDate != null) {
+                    event = new DefaultScheduleEvent(maintenanceName, startDate, endDate);
+                    lazyEventModel.addEvent(event);
+                }
+
+            }
+            return lazyEventModel;
+        } else {
+            return null;
+        }
+
     }
 
     public Date getStartDate() {

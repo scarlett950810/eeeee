@@ -67,18 +67,26 @@
                 </p:column>
             </p:dataTable>
 
-            <br/>
+            <h:form id="DiscountDetailsForm">
 
-            <p:outputLabel value="Total Price: S$#{customerBookTicketManagedBean.totalPrice}" style="font-size: 150%; color: red;"></p:outputLabel>
-            <br/>
-            <p:outputLabel value="(Includes taxes and surcharges)" />
+                <h:panelGrid id="DiscountDetails" columns="2" cellpadding="5" rendered="#{customerBookTicketManagedBean.promotionApplied}">
+                    <h:outputText value="Original Price:"/>
+                    <h:outputText value="#{customerBookTicketManagedBean.totalPriceBeforeDiscount}"/>
+                    <h:outputText value="Total amount discounted/waived:"/>
+                    <h:outputText value="#{customerBookTicketManagedBean.totalDiscountedPrice}"/>
+                </h:panelGrid>
+
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:outputLabel id="totalPrice" value="Total Price: S$ #{customerBookTicketManagedBean.totalPrice}" style="font-size: 150%; color: red;" />
+                    <p:outputLabel value="(Includes taxes and surcharges)" />
+                </h:panelGrid>
+
+            </h:form>
         </p:panel>
 
         <p:panel visible="#{customerBookTicketManagedBean.logined}" style="margin-top: 5%; border: #000000 2px solid; height: auto">
 
-            <p:growl id="redeemStatus"></p:growl>
-            <p:outputLabel value="Merlion Member: #{customerBookTicketManagedBean.member.title} #{customerBookTicketManagedBean.member.firstName} #{customerBookTicketManagedBean.member.lastName}"></p:outputLabel>
-            <br></br>
+            <h:panelGrid columns="2">
 
             <h:outputText id="mileage" value="Mileage: #{customerBookTicketManagedBean.mileage}"></h:outputText>
             <br></br>
@@ -271,6 +279,11 @@
                                 <p:commandButton value="Proceed to payment" actionListener="#{customerBookTicketManagedBean.completeBooking}"></p:commandButton>
                             </h:panelGrid>
                         
+
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <p:commandButton value="Proceed to payment" onclick="Redirect();"></p:commandButton>
+                        </h:panelGrid>
+
                     </p:panel>
                 </p:tab>
             </p:wizard>

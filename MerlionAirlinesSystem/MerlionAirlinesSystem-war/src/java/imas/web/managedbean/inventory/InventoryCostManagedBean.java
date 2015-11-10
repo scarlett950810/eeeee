@@ -54,7 +54,7 @@ public class InventoryCostManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("routesRangeList", routes);
 
 //        costTable = costSession.createTable();
-        List<CostPairEntity> list = new ArrayList<CostPairEntity>();
+        List<CostPairEntity> list = new ArrayList<>();
         list.add(new CostPairEntity("Cost per seat per mile", 0.0, 0));//0*
         list.add(new CostPairEntity("Fixed cost per seat per mile", 0.0, 1));//1*
         list.add(new CostPairEntity("Flight distance per seat per day", 0.0, 2));//2

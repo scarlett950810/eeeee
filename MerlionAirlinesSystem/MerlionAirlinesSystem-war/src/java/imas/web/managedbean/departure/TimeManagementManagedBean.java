@@ -56,7 +56,7 @@ public class TimeManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", comingFlights);
     }
 
-    public void onFlightChange() {
+    public void onFlightChange() {        
         if (flight != null) {
 //            departureTime = flight.getDepartureDate();
 //            arriveTime = flight.getArrivalDate();

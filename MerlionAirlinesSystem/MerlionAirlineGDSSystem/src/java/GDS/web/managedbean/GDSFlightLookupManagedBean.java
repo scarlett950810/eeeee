@@ -30,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.persistence.PostRemove;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -631,6 +632,11 @@ public class GDSFlightLookupManagedBean implements Serializable {
         returnDirectFlightBookingClass = null;
         returnTransferFlight1BookingClass = null;
         returnTransferFlight2BookingClass = null;
+    }
+    
+    public void showNotes(GDSBookingClassEntity bookingClass) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, bookingClass.getName(), bookingClass.getNotes());
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
     
     public boolean GDSBookingClassDisabled(GDSBookingClassEntity bc) {

@@ -29,6 +29,7 @@ import org.primefaces.model.ScheduleModel;
 public class ViewFlightScheduleManagedBean implements Serializable {
 
     private ScheduleModel lazyEventModel;
+    private ScheduleModel eventModel;
     private ScheduleEvent event = new DefaultScheduleEvent();
     private Map<String, String> aircrafts;
     private String aircraft = null;
@@ -63,12 +64,41 @@ public class ViewFlightScheduleManagedBean implements Serializable {
 
     }
 
+    public void displayAll() {
+        FacesMessage msg;
+        if (aircraft == null || aircraft.equals("Select Aircraft")) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid", "aircraft is not selected.");
+
+        } else {
+            eventModel = viewFlightScheduleSessionBean.createAllEvent(aircraft);;
+            if (eventModel != null && eventModel.getEventCount() != 0) {
+                msg = new FacesMessage("Selected", "Tail No:" + aircraft);
+                RequestContext requestContext = RequestContext.getCurrentInstance();
+                requestContext.execute("PF('newDialog').show()");
+            } else {
+                msg = new FacesMessage("Warning", "Tail No:" + aircraft + "  has no schedule");
+            }
+
+        }
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    }
+
     public ScheduleModel getLazyEventModel() {
         return lazyEventModel;
     }
 
     public void setLazyEventModel(ScheduleModel lazyEventModel) {
         this.lazyEventModel = lazyEventModel;
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
     }
 
     public ScheduleEvent getEvent() {

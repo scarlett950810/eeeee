@@ -56,3 +56,32 @@
     </ui:define>
 
 </ui:composition>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Distribution Home Page</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><a href="timeManagement.xhtml">Time Management</a></li>                     
+                <li><a href="delayManagement.xhtml">Delay Management</a></li>         
+                <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
+                <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
+                <li><a href="passengerService.xhtml">Passenger Service</a></li>
+                <li><a href="lateCheckIn.xhtml">Passenger Late Check In</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+
+
+</ui:composition>

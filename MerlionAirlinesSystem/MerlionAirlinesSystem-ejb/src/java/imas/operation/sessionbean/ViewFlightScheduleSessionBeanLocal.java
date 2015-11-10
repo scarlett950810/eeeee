@@ -19,5 +19,7 @@ public interface ViewFlightScheduleSessionBeanLocal {
     public Map<String, String> getAircrafts();
 
     public ScheduleModel createEvent(String aircraft);
+
+    public ScheduleModel createAllEvent(String aircraft);
     
 }
