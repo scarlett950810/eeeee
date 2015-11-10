@@ -5,7 +5,6 @@
  */
 package imas.distribution.sessionbean;
 
-import imas.crm.entity.MemberEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.entity.YieldManagementRuleEntity;
@@ -23,8 +22,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -246,7 +243,7 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
         List<BookingClassEntity> allBookingClassUnderFlightUnderSeatClass = new ArrayList<>();
 
         for (BookingClassEntity bookingClassEntity : allBookingClassesUnderFlight) {
-            if (bookingClassEntity.getSeatClass().equals(seatClass) && getQuotaLeft(bookingClassEntity) > totalPurchaseNo) {
+            if (bookingClassEntity.getSeatClass().equals(seatClass) && getQuotaLeft(bookingClassEntity) >= totalPurchaseNo) {
                 allBookingClassUnderFlightUnderSeatClass.add(bookingClassEntity);
             }
         }
@@ -254,9 +251,9 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
         return allBookingClassUnderFlightUnderSeatClass;
     }
 
-    // return whether two airports are reachable within 1 stop of transfer.
+    // return whether two airports are reachableWithin1Stop within 1 stop of transfer.
     @Override
-    public boolean reachable(AirportEntity origin, AirportEntity destination) {
+    public boolean reachableWithin1Stop(AirportEntity origin, AirportEntity destination) {
         Query queryForDirectRoute = entityManager.createQuery("select r from RouteEntity r where r.originAirport = :originAirport and r.destinationAirport = :destinationAirport");
         queryForDirectRoute.setParameter("originAirport", origin);
         queryForDirectRoute.setParameter("destinationAirport", destination);
@@ -279,6 +276,15 @@ public class FlightLookupSessionBean implements FlightLookupSessionBeanLocal {
             return false;
         }
 
+    }
+    
+    // return whether two airports are directly connected.
+    @Override
+    public boolean reachableDirectly(AirportEntity origin, AirportEntity destination) {
+        Query queryForDirectRoute = entityManager.createQuery("select r from RouteEntity r where r.originAirport = :originAirport and r.destinationAirport = :destinationAirport");
+        queryForDirectRoute.setParameter("originAirport", origin);
+        queryForDirectRoute.setParameter("destinationAirport", destination);
+        return (queryForDirectRoute.getResultList().size() > 0);
     }
 
     @Override

@@ -7,11 +7,11 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">
-        CRM - Add Member Account
+        Add Member Account
     </ui:define>
 
     <ui:define name="head">
-        head
+        
     </ui:define>
 
     <ui:define name="main">
@@ -22,7 +22,7 @@
             <p:panel style="border-bottom: #000000 2px solid" header="Personal Details">
                 <p:panelGrid columns="3" layout="grid">       
                     <h:outputText value="Title " />
-                    <p:selectOneMenu value="#{addMemberAccountManagedBean.title}" style="width: 50%" required="true" label="title">
+                    <p:selectOneMenu value="#{addMemberAccountManagedBean.title}" style="width: 100%" required="true" label="title">
                         <f:selectItem itemLabel="Select your title" itemValue="" noSelectionOption="true" />
                         <f:selectItem itemLabel="Dr" itemValue="Dr" />
                         <f:selectItem itemLabel="Mdm" itemValue="Mdm" />
@@ -35,33 +35,33 @@
                     </p:selectOneMenu><br/>
 
                     <h:outputText value="First/Given name" />                
-                    <p:inputText style="width: 50%" id="firstName" value="#{addMemberAccountManagedBean.firstName}" label="firstName" required="true" requiredMessage="Please input your first name">
+                    <p:inputText style="width: 100%" id="firstName" value="#{addMemberAccountManagedBean.firstName}" label="firstName" required="true" requiredMessage="Please input your first name">
                         <p:watermark for="firstName" value="in full, per passport" />
                     </p:inputText><br/>
 
                     <h:outputText value="Last/Family name" />                
-                    <p:inputText style="width: 50%" id="lastName" value="#{addMemberAccountManagedBean.lastName}" label="lastName" required="true" requiredMessage="Please input your last name">
+                    <p:inputText style="width: 100%" id="lastName" value="#{addMemberAccountManagedBean.lastName}" label="lastName" required="true" requiredMessage="Please input your last name">
                         <p:watermark for="lastName" value="in full, per passport" />
                     </p:inputText><br/>
 
                     <h:outputText value="Gender" />
-                    <p:selectOneMenu value="#{addMemberAccountManagedBean.gender}" style="width: 50%" required="true" label="gender">
+                    <p:selectOneMenu value="#{addMemberAccountManagedBean.gender}" style="width: 100%" required="true" label="gender">
                         <f:selectItem itemLabel="Select your gender" itemValue="" noSelectionOption="true" />
                         <f:selectItem itemLabel="Male" itemValue="Male" />
                         <f:selectItem itemLabel="Female" itemValue="Female" />
                     </p:selectOneMenu><br/>
 
                     <h:outputText value="Birth date " />
-                    <p:calendar value="#{addMemberAccountManagedBean.birthdate}" navigator="true" pattern="yyyy-MM-dd" required="true" yearRange="c-100:c">
+                    <p:calendar value="#{addMemberAccountManagedBean.birthdate}" style="width: 100%" navigator="true" pattern="yyyy-MM-dd" required="true" yearRange="c-100:c">
                     </p:calendar><br/>
                     
                     <h:outputText value="Passport Number" />                
-                    <p:inputText style="width: 50%" id="passportNumber" value="#{addMemberAccountManagedBean.passportNumber}" label="passportNumber" required="true" requiredMessage="Please input your passport number">
+                    <p:inputText style="width: 100%" id="passportNumber" value="#{addMemberAccountManagedBean.passportNumber}" label="passportNumber" required="true" requiredMessage="Please input your passport number">
                         <p:watermark for="passportNumber" value="passport number" />
                     </p:inputText><br/>
 
                     <h:outputText value="Nationality" />                
-                    <p:inputText style="width: 50%" id="nationality" value="#{addMemberAccountManagedBean.nationality}" label="nationality" required="true" requiredMessage="Please input your nationality">
+                    <p:inputText style="width: 100%" id="nationality" value="#{addMemberAccountManagedBean.nationality}" label="nationality" required="true" requiredMessage="Please input your nationality">
                         <p:watermark for="nationality" value="in full, per passport" />
                     </p:inputText><br/>
 
@@ -71,17 +71,21 @@
             <p:panel style="border-bottom: #000000 2px solid" header="Contact information">
                 <p:panelGrid columns="3" layout="grid">
                     <h:outputText value="Email" />                
-                    <p:inputText style="width: 50%" id="email" value="#{addMemberAccountManagedBean.email}" label="email" required="true" requiredMessage="Please input your email">
+                    <p:inputText style="width: 100%" id="email" value="#{addMemberAccountManagedBean.email}" label="email" required="true" requiredMessage="Please input your email" validatorMessage="Invalid email format">
                         <p:watermark for="email" value="e-mail address" />
+                        <f:validateRegex
+                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                     </p:inputText><br/>
 
                     <h:outputText value="Confirm email" />                
-                    <p:inputText style="width: 50%" id="confirmEmail" value="#{addMemberAccountManagedBean.confirmEmail}" label="confirmEmail" required="true" requiredMessage="Please confirm you email address">
+                    <p:inputText style="width: 100%" id="confirmEmail" value="#{addMemberAccountManagedBean.confirmEmail}" label="confirmEmail" required="true" requiredMessage="Please confirm you email address" validatorMessage="Invalid email format">
                         <p:watermark for="confirmEmail" value="e-mail address" />
+                        <f:validateRegex
+                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                     </p:inputText><br/>
 
                     <h:outputText value="Contact number" />                
-                    <p:inputText style="width: 50%" id="contactNumber" value="#{addMemberAccountManagedBean.contactNumber}" label="contactNumber" required="true" requiredMessage="Please input your contact number">
+                    <p:inputText style="width: 100%" id="contactNumber" value="#{addMemberAccountManagedBean.contactNumber}" label="contactNumber" required="true" requiredMessage="Please input your contact number">
                         <p:watermark for="contactNumber" value="add country and area code" />
                     </p:inputText><br/>
                 </p:panelGrid>
@@ -91,21 +95,21 @@
                 <p:panelGrid columns="3"  layout="grid">
                     
                     <h:outputText value="Create 6-character PIN" />   
-                    <p:password style="width: 50%" id="pin" value="#{addMemberAccountManagedBean.pin}" label="pin" requiredMessage="Please enter your PIN">
+                    <p:password style="width: 100%" id="pin" value="#{addMemberAccountManagedBean.pin}" label="pin" requiredMessage="Please enter your PIN">
                         <f:validateLength minimum="6" />
                     </p:password>
                     
                     <br/><br/>                
                     
                     <h:outputText value="Confirm 6-character PIN" />                
-                    <p:password style="width: 50%" id="confirmPin" value="#{addMemberAccountManagedBean.confirmPin}" label="confirmPin" requiredMessage="Please confirm your PIN">
+                    <p:password style="width: 100%" id="confirmPin" value="#{addMemberAccountManagedBean.confirmPin}" label="confirmPin" requiredMessage="Please confirm your PIN">
                         <f:validateLength minimum="6" />
                     </p:password>
                     
                     <br/>
 
                     <h:outputText value="Security question"/>
-                    <p:selectOneMenu value="#{addMemberAccountManagedBean.securityQuestionIndex}" style="width: 50%" required="true" label="securityQuestion">
+                    <p:selectOneMenu value="#{addMemberAccountManagedBean.securityQuestionIndex}" style="width: 100%" required="true" label="securityQuestion">
                         <f:selectItem itemLabel="Select security question" itemValue="" noSelectionOption="true" />
                         <f:selectItem itemLabel="In what city were you born?" itemValue="0" />
                         <f:selectItem itemLabel="What is the name of your first pet?" itemValue="1" />
@@ -116,7 +120,7 @@
                     </p:selectOneMenu><br/>
 
                     <h:outputText value="Answer"/>
-                    <p:inputText style="width: 50%" id="answer" value="#{addMemberAccountManagedBean.answer}" label="answer" requiredMessage="Please enter your answer to security question"/><br/>
+                    <p:inputText style="width: 100%" id="answer" value="#{addMemberAccountManagedBean.answer}" label="answer" requiredMessage="Please enter your answer to security question"/><br/>
 
                 </p:panelGrid>
             </p:panel>

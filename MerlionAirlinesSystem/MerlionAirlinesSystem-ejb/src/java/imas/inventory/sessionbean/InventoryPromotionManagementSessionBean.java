@@ -75,28 +75,56 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
         em.remove(promotionToDelete);
     }
 
+    private MemberEntity getMemberEntity(String memberID) {
+        Query queryForMember = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
+        queryForMember.setParameter("memberID", memberID);
+        if (queryForMember.getResultList().isEmpty()) {
+            return null;
+        } else {
+            return (MemberEntity) queryForMember.getResultList().get(0);
+        }
+    }
+
     @Override
-    public boolean memberHasUsedPromotion(MemberEntity member, PromotionEntity promotion) {
+    public PromotionEntity getPromotionEntity(String promoCode) {
+        Query queryForPromotion = em.createQuery("SELECT p FROM PromotionEntity p WHERE p.promoCode = :promoCode");
+        queryForPromotion.setParameter("promoCode", promoCode);
+        if (queryForPromotion.getResultList().isEmpty()) {
+            return null;
+        } else {
+            return (PromotionEntity) queryForPromotion.getResultList().get(0);
+        }
+    }
+    
+    @Override
+    public boolean promotionNotInTimeRange(String promoCode) {
+        return !promotionWithinTime(getPromotionEntity(promoCode));
+    }
+    
+    @Override
+    public boolean memberHasUsedPromotion(String memberID, String promoCode) {
+        MemberEntity member = getMemberEntity(memberID);
+        PromotionEntity promotion = getPromotionEntity(promoCode);
         List<PromotionEntity> promotions = member.getPromotionEntities();
         return (promotions.contains(promotion));
     }
 
-    @Override
-    public boolean promotionWithinTime(PromotionEntity promotion) {
+    private boolean promotionWithinTime(PromotionEntity promotion) {
         Date now = new Date();
         return (now.after(promotion.getStartDate()) && promotion.getEndDate().after(now));
     }
 
     @Override
-    public void memberUsePromotion(MemberEntity member, PromotionEntity promotion) {
-        MemberEntity memberManaged = em.find(MemberEntity.class, member.getId());
-        PromotionEntity promotionManaged = em.find(PromotionEntity.class, promotion.getId());
+    public void memberUsePromotion(String memberID, String promoCode) {
+        MemberEntity memberManaged = getMemberEntity(memberID);
+        PromotionEntity promotionManaged = getPromotionEntity(promoCode);
         List<PromotionEntity> originalPromotions = memberManaged.getPromotionEntities();
-        originalPromotions.add(promotion);
+        originalPromotions.add(promotionManaged);
         memberManaged.setPromotionEntities(originalPromotions);
         List<MemberEntity> originalMembers = promotionManaged.getMembers();
-        originalMembers.add(member);
+        originalMembers.add(memberManaged);
         promotionManaged.setMembers(originalMembers);
         em.flush();
     }
+
 }

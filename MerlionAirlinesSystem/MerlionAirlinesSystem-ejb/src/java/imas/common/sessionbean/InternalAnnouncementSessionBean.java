@@ -56,66 +56,45 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
         System.out.println("departments: " + departments);
         System.out.println("bases: " + bases);
         
-        if (departments.size() > 0 && bases.size() > 0) {
-            // filter receiver by department and base
-            
-            for (StaffEntity s : allStaff) {
-                if (s.getBase() != null && s.getRole() != null) {
-                    if (departments.contains(s.getRole().getBusinessUnit()) && bases.contains(s.getBase())) {
-                        InternalAnnouncementEntity newAnnouncement = new InternalAnnouncementEntity(s, title, content);
-                        entityManager.persist(newAnnouncement);
-                    }
-                }
-            }
-        } else if (departments.size() > 0) {
-            // filter receiver only by departemnt
-
-            for (StaffEntity s : allStaff) {                                        
-                if (s.getRole() != null) {
-                    if (departments.contains(s.getRole().getBusinessUnit())) {
-                        InternalAnnouncementEntity newAnnouncement = new InternalAnnouncementEntity(s, title, content);
-                        entityManager.persist(newAnnouncement);
-                    }
-                }
-
-            }
-        } else if (bases.size() > 0) {
-            // filter receiver only by base
-            
-            
-            for (StaffEntity s : allStaff) {
-                if (s.getBase() != null) {
-                    System.out.println("s.getBase() = " + s.getBase());
-                    System.out.println("bases.contains(s.getBase()) = " + bases.contains(s.getBase()));
-                    
-                    if (bases.contains(s.getBase())) {
-                        InternalAnnouncementEntity newAnnouncement = new InternalAnnouncementEntity(s, title, content);
-                        entityManager.persist(newAnnouncement);
-                    }
-                }
-            }
-        } else {
-            // no criteria chosen, send to all.
-            
-            for (StaffEntity s : allStaff) {
-                InternalAnnouncementEntity newAnnouncement = new InternalAnnouncementEntity(s, title, content);
-                entityManager.persist(newAnnouncement);
-            }
+        List<StaffEntity> staffs = filterStaffList(departments, bases, allStaff);
+        
+        for(StaffEntity s : staffs){
+            InternalAnnouncementEntity newAnnouncement = new InternalAnnouncementEntity(s, title, content);
+            entityManager.persist(newAnnouncement);
         }
 
         return "Message has been sent to all selected staff.";
 
     }
+    
+    
 
     @Override
-    public
-            void toggleRead(InternalAnnouncementEntity internalAnnouncementEntity) {
+    public void toggleRead(InternalAnnouncementEntity internalAnnouncementEntity) {
         InternalAnnouncementEntity internalAnnouncementEntityToUpdate = entityManager.find(InternalAnnouncementEntity.class, internalAnnouncementEntity.getId());
         if (internalAnnouncementEntityToUpdate.isIsRead()) {
             internalAnnouncementEntityToUpdate.setIsRead(false);
         } else {
             internalAnnouncementEntityToUpdate.setIsRead(true);
         }
+    }
+
+    
+    private List<StaffEntity> filterStaffList(List<String> department, List<AirportEntity> base, List<StaffEntity> staffs) {
+        List<StaffEntity> filteredStaff = new ArrayList<>();
+        for(int i=0; i<staffs.size(); i++){
+            StaffEntity staff = staffs.get(i);
+            if(department.contains(staff.getRole().getBusinessUnit())){
+                if(staff.getBase() != null){
+                    if(base.contains(staff.getBase())){
+                        filteredStaff.add(staff);
+                    }
+                }else{
+                    filteredStaff.add(staff);
+                }
+            }
+        }
+        return filteredStaff;
     }
 
 }

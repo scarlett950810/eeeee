@@ -84,7 +84,7 @@ public class GDSAddFlightManagedBean implements Serializable {
     }
 
     public void onDepartureDateSelected() {
-        if (departureDate.after(arrivalDate)) {
+        if (arrivalDate != null && departureDate.after(arrivalDate)) {
             arrivalDate = null;
         }
         arrivalMinDate = departureDate;
