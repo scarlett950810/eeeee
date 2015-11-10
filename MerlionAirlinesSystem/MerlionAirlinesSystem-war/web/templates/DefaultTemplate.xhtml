@@ -55,7 +55,7 @@
                     <p:graphicImage name="img/merlionLogo.jpg" height="100%" style="float: left; z-index: 9999"/>
                 </a>
                 <p:outputLabel value="Welcome, #{internalMessageManagedBean.loggedInStaff.displayName}" style="float: right; margin-top: 40px; margin-right: 10px; color: white"/>
-                
+
             </p:layoutUnit>
 
             <p:layoutUnit position="south" size="5%" style="text-align: center;">
@@ -103,16 +103,17 @@
                                 <h:outputText value="#{announcement.title}" />
                             </p:column>
 
-                            <p:column headerText="Content">
+                            <p:column headerText="Content" width="80px;">
                                 <p:commandButton icon="ui-icon-comment" 
                                                  actionListener="#{internalAnnouncementManagedBean.showAnnouncement(announcement.title, announcement.content)}"/>
                             </p:column>
 
-                            <p:column headerText="Read" sortBy="#{announcement.isRead}">
+                            <p:column headerText="Read" sortBy="#{announcement.isRead}" width="80px;">
                                 <p:selectBooleanCheckbox value="#{announcement.isRead}" >                                       
                                     <p:ajax update="@form" listener="#{internalAnnouncementManagedBean.toggleRead(announcement)}" />
                                 </p:selectBooleanCheckbox>
                             </p:column>
+
                         </p:dataTable>
                     </h:form>
                 </p:dialog>
@@ -140,7 +141,7 @@
                                                  autoResize="flase" />
                                 <h:outputText id="display" />
 
-                                <p:commandButton id="sendAnnouncement" value="Send"
+                                <p:commandButton id="sendMessageBtn" value="Send"
                                                  actionListener="#{internalMessageManagedBean.send}" update="@form viewMessages"
                                                  class="btn-sm btn-success"/>
 
@@ -164,19 +165,38 @@
                                     <h:outputText value="#{message.sender.displayName}" />
                                 </p:column>
 
-                                <p:column headerText="Content">
-                                    <p:commandButton icon="ui-icon-comment" 
-                                                     actionListener="#{internalMessageManagedBean.showMessage(message.sender.displayName, message.content)}"
-                                                     class="icon-only"/>
+                                <p:column headerText="Content" width="80px;">
+                                    <p:commandButton actionListener="#{internalMessageManagedBean.showMessage(message.sender.displayName, message.content)}"
+                                                     icon="ui-icon-comment" class="icon-only"/>
                                 </p:column>
 
-                                <p:column headerText="Read" sortBy="#{message.isRead}">
+                                <p:column headerText="Read" sortBy="#{message.isRead}" width="80px;">
                                     <p:selectBooleanCheckbox value="#{message.isRead}" >                                       
                                         <p:ajax update="@form" listener="#{internalMessageManagedBean.toggleRead(message)}" />
                                     </p:selectBooleanCheckbox>
                                 </p:column>
+
+                                <p:column headerText="Reply" width="80px;">
+                                    <p:commandButton actionListener="#{internalMessageManagedBean.reply(message.sender)}"
+                                                     icon="ui-icon-transferthick-e-w" class="icon-only" update="@form"/>
+                                </p:column>
+
                             </p:dataTable>                       
                         </p:panel>
+
+                        <p:growl id="reply" showDetail="true" autoUpdate="false" />
+                        
+                        <p:dialog widgetVar="reply">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel for="replyTo" value="Reply to:"/>
+                                <h:outputText id="replyTo" value="#{internalMessageManagedBean.staffToReply.displayName}
+                                              (#{internalMessageManagedBean.staffToReply.role} at #{internalMessageManagedBean.staffToReply.base})"/>
+                                <p:outputLabel for="replyContent" value="Content:"/>
+                                <h:inputTextarea id="replyContent" value="#{internalMessageManagedBean.replyContent}"/>
+                                <p:commandButton value="Reply" class="btn-sm btn-success" actionListener="#{internalMessageManagedBean.sendReply}" update="@form"/>
+                            </h:panelGrid>
+                        </p:dialog>
+
                     </h:form>
                 </p:dialog>
 
@@ -185,7 +205,7 @@
             </p:layoutUnit>
 
         </p:layout>
-        
+
         <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
 
         </p:ajaxStatus>

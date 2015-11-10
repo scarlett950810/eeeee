@@ -5,14 +5,10 @@
  */
 package imas.web.managedbean.common;
 
-import imas.common.entity.InternalAnnouncementEntity;
 import imas.common.entity.InternalMessageEntity;
 import imas.common.entity.StaffEntity;
 import imas.common.sessionbean.InternalMessageSessionBeanLocal;
-import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -37,13 +33,11 @@ public class InternalMessageManagedBean implements Serializable {
     private InternalMessageSessionBeanLocal internalMessageSessionBean;
 
     private StaffEntity loggedInStaff;
-
     private StaffEntity receiver;
-
     private String content;
-
+    private StaffEntity staffToReply;
+    private String replyContent;
     private List<StaffEntity> staffList;
-
     private List<InternalMessageEntity> allMessages;
 
     /**
@@ -57,9 +51,9 @@ public class InternalMessageManagedBean implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         String staffNo = (String) ec.getSessionMap().get("staffNo");
-        
+
         loggedInStaff = internalMessageSessionBean.getStaffEntityByStaffNo(staffNo);
-        
+
         staffList = internalMessageSessionBean.getAllStaff();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("staffList", staffList);
         allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
@@ -110,6 +104,22 @@ public class InternalMessageManagedBean implements Serializable {
         this.allMessages = allMessages;
     }
 
+    public StaffEntity getStaffToReply() {
+        return staffToReply;
+    }
+
+    public void setStaffToReply(StaffEntity staffToReply) {
+        this.staffToReply = staffToReply;
+    }
+
+    public String getReplyContent() {
+        return replyContent;
+    }
+
+    public void setReplyContent(String replyContent) {
+        this.replyContent = replyContent;
+    }
+
     public void send() {
         internalMessageSessionBean.sendMessage(loggedInStaff, receiver, content);
         allMessages = internalMessageSessionBean.getAllMessages(loggedInStaff);
@@ -129,6 +139,18 @@ public class InternalMessageManagedBean implements Serializable {
     public void showMessage(String sender, String content) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, sender, content);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
+
+    public void reply(StaffEntity staff) {
+        staffToReply = staff;
+        RequestContext.getCurrentInstance().execute("PF('reply').show();");
+        System.out.println(staffToReply.getDisplayName());
+    }
+    public void sendReply() {
+        internalMessageSessionBean.sendMessage(loggedInStaff, staffToReply, replyContent);
+        FacesMessage msg = new FacesMessage("Successful", "You have replied " + staffToReply.getDisplayName() + ".");
+        FacesContext.getCurrentInstance().addMessage("reply", msg);
+        RequestContext.getCurrentInstance().execute("PF('reply').hide();");
     }
 
 }
