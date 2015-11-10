@@ -18,6 +18,18 @@
         </div>
     </ui:define>
 
+    <ui:define name="head">
+
+        <script type="text/javascript">
+
+            function Redirect() {
+                window.open("passengerCheckIn.xhtml", "_blank");
+            }
+
+        </script>
+    </ui:define>
+
+
     <ui:define name="centerPanel">
         <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"/>
         <h:form id="comingFlight">
@@ -118,11 +130,11 @@
                     </p:commandButton>
 
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes btn-success" icon="ui-icon-check" />
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes btn-success" icon="ui-icon-check" onclick="Redirect();"/>
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no btn-danger" icon="ui-icon-close" />
                     </p:confirmDialog>
                 </p:outputPanel>
-               
+
             </h:form>
         </p:dialog>
     </ui:define>

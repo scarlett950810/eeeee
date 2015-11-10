@@ -24,6 +24,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class MemberEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +49,8 @@ public class MemberEntity implements Serializable {
     private String contactNumber;
     private String token;
     private Boolean activationStatus;
-    
+    private String salt;
+
     @OneToMany
     private List<TicketEntity> ticketList;
     @ManyToMany
@@ -82,10 +84,10 @@ public class MemberEntity implements Serializable {
         return true;
     }
 
-    public MemberEntity(){
+    public MemberEntity() {
         this.mileage = 0.0;
     }
-    
+
     @Override
     public String toString() {
         return "imas.crm.entity.MemberEntity[ id=" + id + " ]";
@@ -233,6 +235,14 @@ public class MemberEntity implements Serializable {
 
     public void setPassportExpiryDate(Date passportExpiryDate) {
         this.passportExpiryDate = passportExpiryDate;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getAddress() {

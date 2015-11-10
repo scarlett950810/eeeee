@@ -34,7 +34,7 @@ import util.security.CryptographicHelper;
  * @author Howard
  */
 @Stateful
-public class LoginSessionBean implements LoginSessionBeanLocal {
+public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanRemote{
 
     @PersistenceContext
     private EntityManager entityManager;
