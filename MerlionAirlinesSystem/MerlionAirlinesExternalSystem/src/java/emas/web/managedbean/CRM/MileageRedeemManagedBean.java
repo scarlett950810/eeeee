@@ -37,6 +37,7 @@ public class MileageRedeemManagedBean implements Serializable {
     private double upgradeToPremiumEconomyClass = 0;
     private double upgradeToBusinessClass = 0;
     private double upgradeToFirstClass = 0;
+    private boolean status;
     
     /**
      * Creates a new instance of MileageRedeemManagedBean
@@ -50,6 +51,7 @@ public class MileageRedeemManagedBean implements Serializable {
         memberID = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID");
         member = memberProfileManagementSessionBean.getMember(memberID);
         currentSeatClass = selectedTicket.getSeat().getSeatClass();
+        status = false;
         
         if(currentSeatClass.equals("Business Class")){
             upgradeToFirstClass = 5 * selectedTicket.getFlight().getRoute().getDistance();
@@ -62,11 +64,11 @@ public class MileageRedeemManagedBean implements Serializable {
     
     public void redeem() throws IOException{
         if(option.equals("First Class")){
-            memberProfileManagementSessionBean.upgradeToFirstClass(selectedTicket, member, upgradeToFirstClass);
+            status = memberProfileManagementSessionBean.upgradeToFirstClass(selectedTicket, member, upgradeToFirstClass);
         }else if(option.equals("Business Class")){
-            memberProfileManagementSessionBean.upgradeToBusinessClass(selectedTicket, member, upgradeToBusinessClass);
+            status = memberProfileManagementSessionBean.upgradeToBusinessClass(selectedTicket, member, upgradeToBusinessClass);
         }else if(option.equals("Premium Economy Class")){
-            memberProfileManagementSessionBean.upgradeToPremiumEconomyClass(selectedTicket, member, upgradeToPremiumEconomyClass);
+            status = memberProfileManagementSessionBean.upgradeToPremiumEconomyClass(selectedTicket, member, upgradeToPremiumEconomyClass);
         }
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
@@ -148,5 +150,12 @@ public class MileageRedeemManagedBean implements Serializable {
     public void setOption(String option) {
         this.option = option;
     }
-    
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }

@@ -57,6 +57,8 @@ public class MemberProfileManagedBean implements Serializable {
     private List<TicketEntity> filteredTickets;
     private List<TicketEntity> historicalTickets;
     private List<TicketEntity> filteredHistoricalTickets;
+    private List<TicketEntity> unissuedTickets;
+    private TicketEntity selectedTicket;
 
     private boolean edit;
     private int index = 0;
@@ -65,38 +67,58 @@ public class MemberProfileManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+
+    }
+
+    public void checkUser() throws IOException {
         memberID = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID");
-//        if(memberID == null){
-//            System.out.print("You have not logged in");
-//        }else{
-        member = memberProfileManagementSessionBean.getMember(memberID);
-        title = member.getTitle();
-        lastName = member.getLastName();
-        firstName = member.getFirstName();
-        birthdate = member.getBirthDate();
-        if (birthdate != null) {
-            birthdateString = format.format(birthdate);
+        if (memberID == null) {
+            noLoginRedirect();
+        } else {
+            member = memberProfileManagementSessionBean.getMember(memberID);
+            title = member.getTitle();
+            lastName = member.getLastName();
+            firstName = member.getFirstName();
+            birthdate = member.getBirthDate();
+            if (birthdate != null) {
+                birthdateString = format.format(birthdate);
+            }
+
+            nationality = member.getNationality();
+            passportNumber = member.getPassportNumber();
+            passportExpiration = member.getPassportExpiryDate();
+            if (passportExpiration != null) {
+                passportExpirationString = format.format(passportExpiration);
+            }
+
+            email = member.getEmail();
+            contact = member.getContactNumber();
+            address = member.getAddress();
+            edit = false;
+            tickets = new ArrayList<>();
+            tickets = memberProfileManagementSessionBean.getMemberTickets(memberID);
+            unissuedTickets = new ArrayList<>();
+            unissuedTickets = memberProfileManagementSessionBean.getFutureTicket(memberID);
+            historicalTickets = new ArrayList<>();
+            Date today = new Date();
+
+            if (tickets != null) {
+                for (TicketEntity t : tickets) {
+                    if (t.getFlight().getArrivalDate().before(today)) {
+                        historicalTickets.add(t);
+                    }
+                }
+            }
+
         }
-
-        nationality = member.getNationality();
-        passportNumber = member.getPassportNumber();
-        passportExpiration = member.getPassportExpiryDate();
-        if (passportExpiration != null) {
-            passportExpirationString = format.format(passportExpiration);
-        }
-
-        email = member.getEmail();
-        contact = member.getContactNumber();
-        address = member.getAddress();
-        edit = false;
-        tickets = new ArrayList<>();
-        tickets = memberProfileManagementSessionBean.getMemberTickets(memberID);
-//        }
-
     }
 
     public MemberProfileManagedBean() {
 
+    }
+
+    private void noLoginRedirect() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("noLoginErrorPage.xhtml");
     }
 
     public void editProfile() {
@@ -112,9 +134,12 @@ public class MemberProfileManagedBean implements Serializable {
         member.setContactNumber(contact);
         member.setAddress(address);
         memberProfileManagementSessionBean.updateProfile(member);
+        if (passportExpiration != null) {
+            passportExpirationString = format.format(passportExpiration);
+        }
         edit = false;
         index = 4;
-        System.out.print(edit);
+
     }
 
     public void cancel() {
@@ -130,7 +155,7 @@ public class MemberProfileManagedBean implements Serializable {
         address = member.getAddress();
         edit = false;
         index = 4;
-        System.out.print(edit);
+
     }
 
     public void changePassword() throws IOException {
@@ -153,6 +178,20 @@ public class MemberProfileManagedBean implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please repeat the new password again", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+    public void doLogout() throws IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.getSessionMap().remove("memberID");
+        member = null;
+        memberID = null;
+        ec.redirect("crmHomePage.xhtml");
+    }
+
+    public void redeemMileage() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedTicket", selectedTicket);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("crmRedeemMileage.xhtml");
     }
 
     public MemberEntity getMember() {
@@ -324,8 +363,9 @@ public class MemberProfileManagedBean implements Serializable {
     }
 
     public List<TicketEntity> getTickets() {
-        if(tickets.isEmpty())
+        if (tickets.isEmpty()) {
             return null;
+        }
         return tickets;
     }
 
@@ -342,14 +382,6 @@ public class MemberProfileManagedBean implements Serializable {
     }
 
     public List<TicketEntity> getHistoricalTickets() {
-        Date today = new Date();
-        historicalTickets = new ArrayList<>();
-        for(TicketEntity t: tickets){
-            if(t.getFlight().getArrivalDate().before(today))
-                historicalTickets.add(t);
-        }
-        if(historicalTickets.isEmpty())
-            return null;
         return historicalTickets;
     }
 
@@ -364,7 +396,6 @@ public class MemberProfileManagedBean implements Serializable {
     public void setFilteredHistoricalTickets(List<TicketEntity> filteredHistoricalTickets) {
         this.filteredHistoricalTickets = filteredHistoricalTickets;
     }
-    
 
     public int getIndex() {
         return index;
@@ -372,5 +403,21 @@ public class MemberProfileManagedBean implements Serializable {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public List<TicketEntity> getUnissuedTickets() {
+        return unissuedTickets;
+    }
+
+    public void setUnissuedTickets(List<TicketEntity> unissuedTickets) {
+        this.unissuedTickets = unissuedTickets;
+    }
+
+    public TicketEntity getSelectedTicket() {
+        return selectedTicket;
+    }
+
+    public void setSelectedTicket(TicketEntity selectedTicket) {
+        this.selectedTicket = selectedTicket;
     }
 }
