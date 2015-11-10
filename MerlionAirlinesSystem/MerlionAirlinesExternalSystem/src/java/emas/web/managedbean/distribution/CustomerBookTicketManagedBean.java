@@ -1271,6 +1271,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         return flightsAvailableOnDate_LowestFare;
     }
 
+    // filter out agency booking classes
     private List<BookingClassEntity> filterNonAgencyBookingClasses(List<BookingClassEntity> originalBCList) {
         List<BookingClassEntity> nonAgencyBCList = new ArrayList<>();
         for (BookingClassEntity bc : originalBCList) {

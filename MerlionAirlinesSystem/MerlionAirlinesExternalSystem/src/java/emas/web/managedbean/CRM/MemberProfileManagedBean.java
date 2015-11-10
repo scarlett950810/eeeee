@@ -65,7 +65,7 @@ public class MemberProfileManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-//        memberID = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID");
+        memberID = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID");
 //        if(memberID == null){
 //            System.out.print("You have not logged in");
 //        }else{
