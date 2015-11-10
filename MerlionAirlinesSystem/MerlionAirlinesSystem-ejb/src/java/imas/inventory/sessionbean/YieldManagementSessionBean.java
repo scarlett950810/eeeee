@@ -25,7 +25,7 @@ import org.joda.time.*;
  * @author Scarlett
  */
 @Stateless
-public class YieldManagementSessionBean implements YieldManagementSessionBeanLocal {
+public class YieldManagementSessionBean implements YieldManagementSessionBeanLocal, YieldManagementSessionBeanRemote{
 
     @PersistenceContext
     private EntityManager entityManager;

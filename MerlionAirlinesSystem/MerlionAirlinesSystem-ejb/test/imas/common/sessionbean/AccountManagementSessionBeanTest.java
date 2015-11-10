@@ -70,10 +70,10 @@ public class AccountManagementSessionBeanTest {
 
     @Test
     public void testAddStaff02() {
-        System.out.println("testAddStaff01");
-        String staffNo = "true00";
+        System.out.println("testAddStaff02");
+        String staffNo = "true06";
         String name = "Vincent Sun";
-        String email = "vincent.Sun001@MerlionAirlines.com.sg";
+        String email = "vincent.Sun061@MerlionAirlines.com.sg";
         String contactNumber = "86843344";
         String address = "#27 Changi Road, Merlion Complex";
         String gender = "male";
@@ -88,6 +88,7 @@ public class AccountManagementSessionBeanTest {
         Boolean isPilot = false;
         Boolean isCabinCrew = false;
         boolean result = amsbl.addStaff(staffNo, name, email, contactNumber, address, gender, businessUnit, division, position, location, base, workingStatus, aircraftTypeCapabilities, mileageLimit, isPilot, isCabinCrew);
+//        System.out.print(result);
         assertTrue(result);
     }
 
@@ -133,7 +134,7 @@ public class AccountManagementSessionBeanTest {
     @Test
     public void testFetchBase01() throws Exception {
         System.out.println("testFetchBase01");
-        String base = "CAN";
+        String base = "SIN";
         AirportEntity result = amsbl.fetchBase(base);
         assertNotNull(result);
     }

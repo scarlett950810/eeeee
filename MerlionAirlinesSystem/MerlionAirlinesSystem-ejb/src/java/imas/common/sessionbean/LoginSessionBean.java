@@ -211,7 +211,9 @@ public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanR
         }
 
         System.out.println("150 aircrafts added");
-
+        
+        
+        
         List<String> l1 = new ArrayList<String>();
         l1.add("A380");
         l1.add("A880");

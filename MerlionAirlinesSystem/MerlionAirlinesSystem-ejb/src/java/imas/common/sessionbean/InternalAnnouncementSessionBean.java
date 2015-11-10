@@ -20,7 +20,7 @@ import javax.persistence.Query;
  * @author Scarlett
  */
 @Stateful
-public class InternalAnnouncementSessionBean implements InternalAnnouncementSessionBeanLocal {
+public class InternalAnnouncementSessionBean implements InternalAnnouncementSessionBeanLocal,InternalAnnouncementSessionBeanRemote{
 
     @PersistenceContext
     private EntityManager entityManager;

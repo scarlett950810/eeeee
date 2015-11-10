@@ -20,7 +20,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class InventoryPromotionManagementSessionBean implements InventoryPromotionManagementSessionBeanLocal {
-    
+
     @PersistenceContext
     private EntityManager em;
 
@@ -30,7 +30,7 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
         queryFoDuplicateCode.setParameter("promoCode", promoCode);
         return queryFoDuplicateCode.getResultList().isEmpty();
     }
-            
+
     @Override
     public void createDiscountPromotion(String promoCode, Date startDate, Date enddate, double discountRate) {
         PromotionEntity p = new PromotionEntity().createDiscountPromotion(promoCode, startDate, enddate, discountRate);
@@ -56,7 +56,7 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
         System.out.println("ongoing: " + queryForAllOngoingPromotion.getResultList());
         return queryForAllOngoingPromotion.getResultList();
     }
-    
+
     @Override
     public void editPromotion(PromotionEntity promotion) {
         PromotionEntity promotionToUpdate = em.find(PromotionEntity.class, promotion.getId());
@@ -68,25 +68,25 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
             promotionToUpdate.setWaiveAmount(promotion.getWaiveAmount());
         }
     }
-    
+
     @Override
     public void deletePromotion(PromotionEntity promotion) {
         PromotionEntity promotionToDelete = em.find(PromotionEntity.class, promotion.getId());
         em.remove(promotionToDelete);
     }
-    
+
     @Override
     public boolean memberHasUsedPromotion(MemberEntity member, PromotionEntity promotion) {
         List<PromotionEntity> promotions = member.getPromotionEntities();
         return (promotions.contains(promotion));
     }
-    
+
     @Override
     public boolean promotionWithinTime(PromotionEntity promotion) {
         Date now = new Date();
         return (now.after(promotion.getStartDate()) && promotion.getEndDate().after(now));
     }
-    
+
     @Override
     public void memberUsePromotion(MemberEntity member, PromotionEntity promotion) {
         MemberEntity memberManaged = em.find(MemberEntity.class, member.getId());

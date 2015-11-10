@@ -1,4 +1,3 @@
-
 package imas.departure.sessionbean;
 
 import imas.common.entity.CabinCrewEntity;
@@ -34,7 +33,7 @@ public class TimeManagementSessionBean implements TimeManagementSessionBeanLocal
 
         Calendar cal = Calendar.getInstance();
         Date currentDate = new Date();
-        currentDate = new Date(currentDate.getTime() - (1000 * 60 * 60));
+        currentDate = new Date(currentDate.getTime() - (1000 * 60 * 60 * 24));
 //        System.out.print(currentDate);
         cal.add(Calendar.YEAR, 2);
         cal.add(Calendar.HOUR, 24);
