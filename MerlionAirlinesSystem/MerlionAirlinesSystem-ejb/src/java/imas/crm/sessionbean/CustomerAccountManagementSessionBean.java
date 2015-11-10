@@ -16,6 +16,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -26,6 +27,7 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
 
     @PersistenceContext
     private EntityManager em;
+    CryptographicHelper cp = new CryptographicHelper();
 
     @Override
     public void createCustomer(MemberEntity newCustomer) {
@@ -62,6 +64,8 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
             return null;
         } else {
             member = memberList.get(0);
+            String salt = member.getSalt();
+            pin = cp.doMD5Hashing(pin + salt);
             String correctPin = member.getPinNumber();
             if (pin.equals(correctPin)) {
                 return member;
@@ -123,6 +127,8 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
             System.out.print("This member does not exist");
         } else {
             MemberEntity member = members.get(0);
+            String salt = member.getSalt();
+            newPIN = cp.doMD5Hashing(newPIN + salt);
             member.setPinNumber(newPIN);
             System.out.print(newPIN);
         }

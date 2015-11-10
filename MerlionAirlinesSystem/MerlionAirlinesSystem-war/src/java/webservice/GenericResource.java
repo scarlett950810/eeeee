@@ -180,7 +180,7 @@ public class GenericResource {
         
         List<PassengerEntity> ps = new ArrayList<>();
         ps.add(p);
-        String referenceN = makeBooking.generateItinerary(chosenFlights, ps, title, firstN, lastN, address, city, country, email, contactN, zipCode,"paid", price);
+        String referenceN = makeBooking.generateItinerary(chosenFlights, ps, title, firstN, lastN, address, city, country, email, contactN, zipCode,"paid", price, null);
         return referenceN;
     }
 @GET
@@ -210,7 +210,7 @@ public class GenericResource {
         
         List<PassengerEntity> ps = new ArrayList<>();
         ps.add(p);
-        String referenceN = makeBooking.generateItinerary(chosenFlights, ps, title, firstN, lastN, address, city, country, email, contactN, zipCode,"paid", price);
+        String referenceN = makeBooking.generateItinerary(chosenFlights, ps, title, firstN, lastN, address, city, country, email, contactN, zipCode,"paid", price, null);
         return referenceN;
     }
 

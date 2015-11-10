@@ -17,6 +17,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -29,6 +30,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
     @PersistenceContext
     private EntityManager em;
+    CryptographicHelper cp = new CryptographicHelper();
 
     @Override
     public MemberEntity getMember(String memberID) {
@@ -64,6 +66,9 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
             return false;
         } else {
             MemberEntity member = members.get(0);
+            String salt = member.getSalt();
+            oldPassword = cp.doMD5Hashing(oldPassword + salt);
+            newPassword = cp.doMD5Hashing(newPassword + salt);
             if (member.getPinNumber().equals(oldPassword)) {
                 member.setPinNumber(newPassword);
                 System.out.print(member.getPinNumber());
@@ -85,6 +90,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
         MemberEntity member = members.get(0);
         //List<FlightEntity> flights = new ArrayList<>();
         List<TicketEntity> tickets = member.getTicketList();
+        System.out.print("get member tickets: " + tickets);
         return tickets;
     }
 
@@ -109,6 +115,8 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
             TicketEntity ticket = tickets.get(i);
             if(ticket.getIssued() == false){
                 tickets.remove(ticket);
+            }else{
+                System.out.println(ticket);
             }
         }
         return tickets;
@@ -151,10 +159,10 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
                 member.setMileage(member.getMileage() - deductAmount);
                 System.out.print("new Mileage = " + member.getMileage());
                 return true;
-            }else{
+            } else {
                 return false;
             }
-            
+
         }
         return false;
     }
@@ -163,6 +171,8 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     public void upgradeSeatClassWithMileage(TicketEntity ticket) {
         em.merge(ticket);
     }
+    
+
 
     @Override
     public void setTicketToMember(MemberEntity member, List<TicketEntity> newTickets) {

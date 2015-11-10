@@ -56,7 +56,7 @@
                     
                     <p:selectManyMenu id="routes" value="#{indicatePreferenceManagedBean.selectedRoutes}" converter="routeConverter"
                                       var="r" filter="true" filterMatchMode="contains" showCheckbox="true">
-                        <f:selectItems value="#{scheduleDevelopmentManagedBean.connectionsAll}" itemLabel="#{connection.returnRoutesName}" itemValue="#{connection}" />
+                        <f:selectItems value="#{indicatePreferenceManagedBean.routesInBase}" itemLabel="#{connection.returnRoutesName}" itemValue="#{connection}" />
                         <p:column>
                             <h:outputText value="#{r}" />
                         </p:column>

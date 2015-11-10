@@ -59,13 +59,13 @@
 
                     <p:outputLabel for="totalPassengers" value="Total annual local O-D passengers (both directions): " />
                     <p:inputText id="totalPassengers" value="#{routeManagedBean.totalPassengers}" required="true" requiredMessage="Please provide total annual demand"/>                        
-                    <p:outputLabel for="marketShare" value="Expected market share for one daily flight: "/>
+                    <p:outputLabel for="marketShare" value="Expected market share for one daily flight (%): "/>
                     <p:inputText id="marketShare" value="#{routeManagedBean.marketShare}" required="true" requiredMessage="Please provide expected market share"/>
                     <p:outputLabel for="additionalTraffic" value="Additional annual traffic by connecting flights: "/>
                     <p:inputText id="additionalTraffic" value="#{routeManagedBean.additionalTraffic}" required="true" requiredMessage="Please provide additional traffic from connecting flights"/>
-                    <p:outputLabel for="avgFare" value="Expected average fare: "/>
+                    <p:outputLabel for="avgFare" value="Expected average fare (S$): "/>
                     <p:inputText id="avgFare" value="#{routeManagedBean.avgFare}" required="true" requiredMessage="Please provide expected average fare"/>
-                    <p:outputLabel for="proratedFare" value="Prorated average fare: "/>
+                    <p:outputLabel for="proratedFare" value="Prorated average fare (S$): "/>
                     <p:inputText id="proratedFare" value="#{routeManagedBean.proratedFare}" required="true" requiredMessage="Please provide prorated average fare"/>
 
                 </h:panelGrid>

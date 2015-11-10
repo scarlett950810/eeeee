@@ -11,6 +11,7 @@ import imas.operation.sessionbean.FillInOpenSeatSessionBeanLocal;
 import imas.planning.entity.FlightEntity;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +34,11 @@ public class FillInOpenSeatManagedBean implements Serializable {
     private FillInOpenSeatSessionBeanLocal fillInOpenSeatSessionBean;
 
     private String base = "SGC";
+
     private List<FlightEntity> flights;
     private FlightEntity flight;
 
+    private Map<FlightEntity, Map<String, Map<String, String>>> result;
     private Map<String, Map<String, String>> data;
     private Map<String, String> map;
     private String position;
@@ -55,51 +58,59 @@ public class FillInOpenSeatManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-
         fetchFlights();
     }
+//
 
     public void fetchFlights() {
+        System.out.print("start start");
         flights = fillInOpenSeatSessionBean.fetchComingFlights(base);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("allFlights", flights);
-        System.out.print("AAAAAAAAAAAAAAAAAAAA");
+        data = new HashMap<>();
+        positions = new HashMap<>();
+        names = new HashMap<>();
+        map = new HashMap<>();
+        position = null;
+        name = null;
     }
 //event="change" process="@this position"   name, position   
 //    
 
     public void onFlightChange() {
-        System.out.print("BBBBBBBBBBBBBBAAAAAAAAAAA");
+        System.out.print("flight flight ");
         displayCabinCrew = false;
         displayPilot = false;
+        data = new HashMap<>();
+        positions = new HashMap<>();
+        names = new HashMap<>();
+        position=null;
+        name=null;
         if (flight != null) {
-            data = new HashMap<String, Map<String, String>>();
-            positions = new HashMap<String, String>();
             positions.put("Pilot", "Pilot");
             positions.put("Cabin Crew", "Cabin Crew");
             map = fillInOpenSeatSessionBean.getMissingPilot(flight);
             data.put("Pilot", map);
-//            map = new HashMap<String, String>();
             map = fillInOpenSeatSessionBean.getMissingCabinCrew(flight);
             data.put("Cabin Crew", map);
 
         } else {
-            data = new HashMap<String, Map<String, String>>();
+
         }
     }
 
     public void onPositionChange() {
-        System.out.print("ccccccccccccccccc");
+        System.out.print("position");
         displayCabinCrew = false;
         displayPilot = false;
         if (position != null && !position.equals("") && !position.equals("Select Position")) {
             names = data.get(position);
         } else {
-            names = new HashMap<String, String>();
+            names = new HashMap<>();
         }
     }
 
     public void onNameChange() {
-        System.out.print("ddddddddddddddddd");
+        System.out.print("name name name");
         if (name != null && !name.equals("") && !name.equals("Select Staff")) {
             if (position.equals("Pilot")) {
                 System.out.print("sdfffffffffff");
@@ -119,7 +130,7 @@ public class FillInOpenSeatManagedBean implements Serializable {
                     System.out.print("fffffff");
                     availableCrews = fillInOpenSeatSessionBean.doCrewFillIn(crew, flight);
                 }
-                
+
             } else {
                 System.out.print("scvxxcvcv");
                 displayCabinCrew = false;
@@ -137,9 +148,9 @@ public class FillInOpenSeatManagedBean implements Serializable {
         if (selectedPilot != null && position.equals("Pilot")) {
             fillInOpenSeatSessionBean.replacePilot(pilot, selectedPilot, flight);
         }
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        ec.redirect("operationFillInOpenSeat.xhtml");
+//        FacesContext fc = FacesContext.getCurrentInstance();
+//        ExternalContext ec = fc.getExternalContext();
+//        ec.redirect("operationFillInOpenSeat.xhtml");
 
     }
 
@@ -151,18 +162,10 @@ public class FillInOpenSeatManagedBean implements Serializable {
         if (selectedCrew != null && position.equals("Cabin Crew")) {
             fillInOpenSeatSessionBean.replaceCrew(crew, selectedCrew, flight);
         }
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        ec.redirect("operationFillInOpenSeat.xhtml");
+//        FacesContext fc = FacesContext.getCurrentInstance();
+//        ExternalContext ec = fc.getExternalContext();
+//        ec.redirect("operationFillInOpenSeat.xhtml");
 
-    }
-
-    public String getBase() {
-        return base;
-    }
-
-    public void setBase(String base) {
-        this.base = base;
     }
 
     public List<FlightEntity> getFlights() {

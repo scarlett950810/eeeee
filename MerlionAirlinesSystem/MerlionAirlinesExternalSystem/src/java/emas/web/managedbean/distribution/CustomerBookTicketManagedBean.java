@@ -151,6 +151,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private boolean logined;
     private int redeemtion;
     private String pin;
+    private double mileage;
 
     // for displaying booking class options
     private List<BookingClassEntity> departureDirectFlightBookingClassCandidates;
@@ -245,7 +246,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         DecimalFormat df = new DecimalFormat("0.00");
         System.out.println("2 total price" + totalPrice);
         String priceFormat = df.format(totalPrice);
-        System.out.println(priceFormat);
+        System.out.println("2");
         item.setPrice(priceFormat);
         item.setQuantity("1");
         item.setCurrency("SGD");
@@ -375,20 +376,15 @@ public class CustomerBookTicketManagedBean implements Serializable {
         applyPromotion();
         referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
         if (memberID != null) {
-            for (int i = 0; i < passengers.size(); i++) {
-                if (passengers.get(i).getPassportNumber().equals(member.getPassportNumber())) {
-                    memberProfileManagementSessionBean.setTicketToMember(member, passengers.get(i).getTickets());
-                }
-
-            }
+            
             memberProfileManagementSessionBean.accumulateMileage(memberID, accumulatedMileage);
             if (usedMileage != 0) {
                 memberProfileManagementSessionBean.redeemMileage(usedMileage, memberID);
             }
         }
-//        FacesContext.getCurrentInstance().getExternalContext().redirect("../ReportController?referenceNumber=" + referenceNumber);
+
         RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + "\")");
-        FacesContext.getCurrentInstance().getExternalContext().redirect("bookingConfirmation.xhtml");
+        
     }
 
     public void makeBooking() throws IOException {
@@ -401,12 +397,13 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     public void redeemMileage() {
 
-        if (usedMileage > member.getMileage()) {
+        if (usedMileage > mileage) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "You have exceed the amount of mileage you can redeem", "");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
             totalPrice = totalPrice - usedMileage * 0.5;
+            mileage = mileage - usedMileage;
             if (totalPrice < 0) {
                 totalPrice = 0;
             }
@@ -494,6 +491,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         } else {
             System.out.print("log in successful");
             logined = true;
+            mileage = member.getMileage();
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             ec.getSessionMap().put("memberID", memberID);
@@ -1644,6 +1642,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
             if (memberID != null) {
                 member = memberProfileManagementSessionBean.getMember(memberID);
                 logined = true;
+                mileage = member.getMileage();
                 FacesContext.getCurrentInstance().getExternalContext().redirect("makeBooking.xhtml");
             } else {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("memberLogin.xhtml");
@@ -1805,6 +1804,15 @@ public class CustomerBookTicketManagedBean implements Serializable {
         this.pin = pin;
     }
 
+    public double getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(double mileage) {
+        this.mileage = mileage;
+    }
+    
+    
     public boolean isPromotionApplied() {
         return promotionApplied;
     }

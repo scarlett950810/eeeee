@@ -27,6 +27,7 @@ public class AirportEntity implements Serializable {
     private String airportName;  
     private String airportCode;
     private String nationName;
+    private String timezone;
 
 
   /*@OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "airportHub")
@@ -46,7 +47,17 @@ public class AirportEntity implements Serializable {
         this.cityName = cityName;
         this.airportName = airportName;
         this.airportCode = airportCode;
+        this.nationName = nationName;        
+        
+    }
+    
+    public AirportEntity(Boolean hubOrSpoke, String cityName, String airportName, String airportCode, String nationName, String timezone) {
+        this.hubOrSpoke = hubOrSpoke;
+        this.cityName = cityName;
+        this.airportName = airportName;
+        this.airportCode = airportCode;
         this.nationName = nationName;
+        this.timezone = timezone;
         
     }
     
@@ -136,6 +147,14 @@ public class AirportEntity implements Serializable {
      */
     public void setHubOrSpoke(Boolean hubOrSpoke) {
         this.hubOrSpoke = hubOrSpoke;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 
     

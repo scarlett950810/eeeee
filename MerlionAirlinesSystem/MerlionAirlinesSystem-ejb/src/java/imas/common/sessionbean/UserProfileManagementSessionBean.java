@@ -18,7 +18,7 @@ import util.security.CryptographicHelper;
  * @author Howard
  */
 @Stateless
-public class UserProfileManagementSessionBean implements UserProfileManagementSessionBeanLocal {
+public class UserProfileManagementSessionBean implements UserProfileManagementSessionBeanLocal,UserProfileManagementSessionBeanRemote {
 
     @PersistenceContext
     private EntityManager entityManager;

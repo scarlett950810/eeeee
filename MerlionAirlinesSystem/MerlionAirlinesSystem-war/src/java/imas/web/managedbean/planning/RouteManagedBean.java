@@ -275,6 +275,11 @@ public class RouteManagedBean implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("hubAdded", hub);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("spokeAdded", spoke);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("distAdded", distance);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("totalPassengers", totalPassengers);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("additionalTraffic", additionalTraffic);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("marketShare", marketShare);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("avgFare", avgFare);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("proratedFare", proratedFare);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("revenue", revenue);
             ec.redirect("planningRouteCreation.xhtml");
             msg = new FacesMessage("","");
@@ -325,10 +330,12 @@ public class RouteManagedBean implements Serializable {
     }
 
     public Double calculateRevenue() {
-        Double revenue = totalPassengers * marketShare * avgFare + additionalTraffic * proratedFare;
-        revenue = revenue - 0.125 * distance;
+        Double revenue = totalPassengers * (marketShare/100) * avgFare + additionalTraffic * proratedFare;
+        revenue = revenue - 0.1398 * distance * (totalPassengers * (marketShare/100)+additionalTraffic);
         return revenue;
     }
+    
+
 
     /*  public void onCountryChange() {
      if (country != null && !country.equals("")) {
