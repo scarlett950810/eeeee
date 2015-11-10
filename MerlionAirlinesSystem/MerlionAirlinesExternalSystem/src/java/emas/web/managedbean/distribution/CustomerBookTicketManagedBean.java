@@ -374,7 +374,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     public void afterPay() throws IOException {
         applyPromotion();
-        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
+        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice, member);
         if (memberID != null) {
             
             memberProfileManagementSessionBean.accumulateMileage(memberID, accumulatedMileage);
