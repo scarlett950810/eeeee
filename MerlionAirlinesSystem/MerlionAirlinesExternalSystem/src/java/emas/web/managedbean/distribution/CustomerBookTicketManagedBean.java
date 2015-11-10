@@ -402,7 +402,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            totalPrice = totalPrice - usedMileage * 0.5;
+            totalPrice = totalPrice - usedMileage * 0.001;
             mileage = mileage - usedMileage;
             if (totalPrice < 0) {
                 totalPrice = 0;

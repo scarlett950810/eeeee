@@ -11,7 +11,6 @@
     </ui:define>
 
     <ui:define name="head">
-
     </ui:define>
 
     <ui:define name="main">
@@ -26,7 +25,7 @@
 
             <h:form style="display: inline-block; float: right">
                 <p:panel id="top1">
-                    <p:outputLabel value="Welcome, #{memberProfileManagedBean.member.title} #{memberProfileManagedBean.member.firstName} #{memberProfileManagedBean.member.lastName}"></p:outputLabel>
+                    <p:outputLabel value="Welcome, #{memberProfileManagedBean.member.title} #{memberProfileManagedBean.member.firstName} #{memberProfileManagedBean.member.lastName}  "></p:outputLabel>
                     <h:commandButton image="https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/logout.png" actionListener="#{memberProfileManagedBean.doLogout}"></h:commandButton>
                 </p:panel>
             </h:form>
@@ -242,7 +241,8 @@
 
                                 <p:outputLabel value="Passport expiry date"></p:outputLabel>
                                 <br></br>
-                                <p:inputText value="#{memberProfileManagedBean.passportExpirationString}" style="width: 30%"></p:inputText>
+                                <p:calendar value="#{memberProfileManagedBean.passportExpiration}" style="width: 30%"></p:calendar>
+                                
                                 <br></br>
                                 <br></br>
                             </p:panel>

@@ -99,6 +99,17 @@ public class MemberProfileManagedBean implements Serializable {
             tickets = memberProfileManagementSessionBean.getMemberTickets(memberID);
             unissuedTickets = new ArrayList<>();
             unissuedTickets = memberProfileManagementSessionBean.getFutureTicket(memberID);
+            historicalTickets = new ArrayList<>();
+            Date today = new Date();
+
+            if (tickets != null) {
+                for (TicketEntity t : tickets) {
+                    if (t.getFlight().getArrivalDate().before(today)) {
+                        historicalTickets.add(t);
+                    }
+                }
+            }
+
         }
     }
 
@@ -123,9 +134,12 @@ public class MemberProfileManagedBean implements Serializable {
         member.setContactNumber(contact);
         member.setAddress(address);
         memberProfileManagementSessionBean.updateProfile(member);
+        if (passportExpiration != null) {
+            passportExpirationString = format.format(passportExpiration);
+        }
         edit = false;
         index = 4;
-        
+
     }
 
     public void cancel() {
@@ -141,7 +155,7 @@ public class MemberProfileManagedBean implements Serializable {
         address = member.getAddress();
         edit = false;
         index = 4;
-       
+
     }
 
     public void changePassword() throws IOException {
@@ -165,7 +179,7 @@ public class MemberProfileManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    
+
     public void doLogout() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
@@ -174,8 +188,8 @@ public class MemberProfileManagedBean implements Serializable {
         memberID = null;
         ec.redirect("crmHomePage.xhtml");
     }
-    
-    public void redeemMileage(){
+
+    public void redeemMileage() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedTicket", selectedTicket);
     }
 
@@ -367,16 +381,6 @@ public class MemberProfileManagedBean implements Serializable {
     }
 
     public List<TicketEntity> getHistoricalTickets() {
-        Date today = new Date();
-        historicalTickets = new ArrayList<>();
-        for (TicketEntity t : tickets) {
-            if (t.getFlight().getArrivalDate().before(today)) {
-                historicalTickets.add(t);
-            }
-        }
-        if (historicalTickets.isEmpty()) {
-            return null;
-        }
         return historicalTickets;
     }
 

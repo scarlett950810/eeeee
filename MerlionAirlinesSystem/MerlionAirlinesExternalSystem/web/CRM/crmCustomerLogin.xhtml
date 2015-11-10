@@ -28,7 +28,8 @@
                     <p:password value="#{externalLoginManagedBean.pin}" label="pin" requiredMessage="Please enter your PIN"/><br/><br/>                   
 
                     <p:commandButton id="externalLogin" update="messages" value="Log In" actionListener="#{externalLoginManagedBean.doLogin()}" style="width: 100px; color: black;"/>
-
+                    <br></br>
+                    <p:commandLink action="crmMemberResetPIN.xhtml" value="Forget PIN" style="text-decoration: none;"></p:commandLink>
                 </h:panelGrid>
 
             </h:form>

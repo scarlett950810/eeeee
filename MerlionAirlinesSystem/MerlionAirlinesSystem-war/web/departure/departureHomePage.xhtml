@@ -14,11 +14,12 @@
     <ui:define name="menubar">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-h1"><a href="timeManagement.xhtml">Time Management</a></li><br/>
-                <li class="sidebar-h1"><a href="delayManagement.xhtml">Delay Management</a></li><br/>
-                <li class="sidebar-h1"><a href="passengerCheckIn.xhtml">Passenger Check In</a></li><br/>
-                <li class="sidebar-h1"><a href="passengerBoarding.xhtml">Passenger Boarding</a></li><br/>
-                <li class="sidebar-h1"><a href="passengerService.xhtml">Passenger Service</a></li>
+                <li><a href="timeManagement.xhtml">Time Management</a></li>                     
+                <li><a href="delayManagement.xhtml">Delay Management</a></li>         
+                <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
+                <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
+                <li><a href="passengerService.xhtml">Passenger Service</a></li>
+                <li><a href="lateCheckIn.xhtml">Passenger Late Check In</a></li>
             </ul>
         </div>
     </ui:define>
@@ -31,7 +32,7 @@
 
         <div class="ui-grid ui-grid-responsive" style="margin-top: 10%">
             <div class="ui-grid-row">
-                
+
                 <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%; text-align: center; box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
                     <a href="https://localhost:8181/MerlionAirlinesSystem-war/departure/delayManagement.xhtml">
                         <h3>Delay Management</h3>
@@ -54,34 +55,5 @@
         </div>
 
     </ui:define>
-
-</ui:composition>
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../templates/DefaultTemplate.xhtml"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <ui:define name="head">
-        <!--insert customized import here-->
-    </ui:define>
-
-    <ui:define name="title">Distribution Home Page</ui:define>
-
-    <ui:define name="menubar">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li><a href="timeManagement.xhtml">Time Management</a></li>                     
-                <li><a href="delayManagement.xhtml">Delay Management</a></li>         
-                <li><a href="passengerCheckIn.xhtml">Passenger Check In</a></li>
-                <li><a href="passengerBoarding.xhtml">Passenger Boarding</a></li>
-                <li><a href="passengerService.xhtml">Passenger Service</a></li>
-                <li><a href="lateCheckIn.xhtml">Passenger Late Check In</a></li>
-            </ul>
-        </div>
-    </ui:define>
-
-
 
 </ui:composition>
