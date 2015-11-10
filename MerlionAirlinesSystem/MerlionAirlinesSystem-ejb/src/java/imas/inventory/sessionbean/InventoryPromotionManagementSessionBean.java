@@ -98,7 +98,7 @@ public class InventoryPromotionManagementSessionBean implements InventoryPromoti
     
     @Override
     public boolean promotionNotInTimeRange(String promoCode) {
-        return promotionWithinTime(getPromotionEntity(promoCode));
+        return !promotionWithinTime(getPromotionEntity(promoCode));
     }
     
     @Override

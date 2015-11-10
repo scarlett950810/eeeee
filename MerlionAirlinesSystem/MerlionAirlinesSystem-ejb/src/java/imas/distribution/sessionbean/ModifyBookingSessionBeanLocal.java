@@ -27,6 +27,4 @@ public interface ModifyBookingSessionBeanLocal {
 
     public TicketEntity modifyTicket(TicketEntity originalTicket, FlightEntity newFlight, BookingClassEntity newBookingClass);
 
-    public void changeTicketPrice(TicketEntity ticket, double newPrice);
-    
 }

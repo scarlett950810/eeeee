@@ -161,6 +161,9 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private List<BookingClassEntity> returnTransferFlight2BookingClassCandidates;
 
     private String promoCode;
+    private boolean promotionApplied;
+    private double totalDiscountedPrice; // total amount of price that is discounted or waived.
+    private double totalPriceBeforeDiscount;
     private double accumulatedMileage;
 
     List<PassengerEntity> passengers;
@@ -175,7 +178,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private String postCode;
     private String email;
     private String contactNumber;
-    private double totalPrice;
+    private double totalPrice = 0.0;
     private String referenceNumber;
 
     public CustomerBookTicketManagedBean() {
@@ -204,6 +207,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         return7DayPricing = new LineChartModel();
         departureDate = flightLookupSessionBean.getDateAfterDays(new Date(), 60);
         returnDate = flightLookupSessionBean.getDateAfterDays(departureDate, 7);
+        promotionApplied = false;
     }
 
     public String confirm() throws PayPalRESTException, IOException {
@@ -239,6 +243,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         Item item = new Item();
         item.setName("Merlion Airline Ticket");
         DecimalFormat df = new DecimalFormat("0.00");
+        System.out.println("2 total price" + totalPrice);
         String priceFormat = df.format(totalPrice);
         System.out.println(priceFormat);
         item.setPrice(priceFormat);
@@ -367,6 +372,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
 
     public void afterPay() throws IOException {
+        applyPromotion();
         referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice);
         if (memberID != null) {
             for (int i = 0; i < passengers.size(); i++) {
@@ -408,8 +414,6 @@ public class CustomerBookTicketManagedBean implements Serializable {
     }
 
     public void applyPromoCode() {
-//        System.out.println("promoCode = " + promoCode);
-//        System.out.println("customerID = " + memberID);
         if (inventoryPromotionManagementSessionBean.checkPromoCodeNotExist(promoCode)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "PromoCode does not exist.");
             FacesContext.getCurrentInstance().addMessage("promotion", msg);
@@ -420,38 +424,56 @@ public class CustomerBookTicketManagedBean implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed", "Now is not within the valid range of PromoCode.");
             FacesContext.getCurrentInstance().addMessage("promotion", msg);
         } else {
-            inventoryPromotionManagementSessionBean.memberUsePromotion(memberID, promoCode);
             PromotionEntity promotion = inventoryPromotionManagementSessionBean.getPromotionEntity(promoCode);
+            promotionApplied = true;
             if (promotion.isDiscount()) {
                 double disountedAmount = totalPrice * promotion.getDiscountRate();
-                disountedAmount = CostManagementSessionBean.round(disountedAmount, 2);
+                totalDiscountedPrice = CostManagementSessionBean.round(disountedAmount, 2);
+                totalPriceBeforeDiscount = CostManagementSessionBean.round(totalPrice, 2);
+                totalPrice = CostManagementSessionBean.round(totalPrice - totalDiscountedPrice, 2);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Promotion applied", promotion.toString() + ". S$" + disountedAmount + " are discounted.");
                 FacesContext.getCurrentInstance().addMessage("promotion", msg);
+            } else {
+                double waivedAmount = CostManagementSessionBean.round(promotion.getWaiveAmount(), 2);
+                totalDiscountedPrice = CostManagementSessionBean.round(waivedAmount, 2);
+                totalPriceBeforeDiscount = CostManagementSessionBean.round(totalPrice, 2);
+                totalPrice = CostManagementSessionBean.round(totalPrice - totalDiscountedPrice, 2);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Promotion applied", promotion.toString() + ". S$" + waivedAmount + " are waived.");
+                FacesContext.getCurrentInstance().addMessage("promotion", msg);
+            }
+        }
+    }
+
+    private void applyPromotion() {
+        if (promotionApplied) {
+            PromotionEntity promotion = inventoryPromotionManagementSessionBean.getPromotionEntity(promoCode);
+            if (promotion.isDiscount()) {
+                inventoryPromotionManagementSessionBean.memberUsePromotion(memberID, promoCode);
+                double disountedAmount = totalPrice * promotion.getDiscountRate();
+                disountedAmount = CostManagementSessionBean.round(disountedAmount, 2);
                 int totalPassengers = passengers.size();
                 int ticketsPerPassenger = passengers.get(0).getTickets().size();
                 double discountPerPassenger = disountedAmount / (totalPassengers * ticketsPerPassenger);
                 for (PassengerEntity passenger : passengers) {
                     for (TicketEntity ticket : passenger.getTickets()) {
-                        modifyBookingSessionBean.changeTicketPrice(ticket, ticket.getPrice() - discountPerPassenger);
+                        System.out.println("ticket = " + ticket);
+                        ticket.setPrice(ticket.getPrice() - discountPerPassenger);
                     }
                 }
             } else {
                 double waivedAmount = CostManagementSessionBean.round(promotion.getWaiveAmount(), 2);
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Promotion applied", promotion.toString() + ". S$" + waivedAmount + " are waived.");
-                FacesContext.getCurrentInstance().addMessage("promotion", msg);
                 int totalPassengers = passengers.size();
                 int ticketsPerPassenger = passengers.get(0).getTickets().size();
                 double waivePerPassenger = waivedAmount / (totalPassengers * ticketsPerPassenger);
                 for (PassengerEntity passenger : passengers) {
                     for (TicketEntity ticket : passenger.getTickets()) {
-                        modifyBookingSessionBean.changeTicketPrice(ticket, ticket.getPrice() - waivePerPassenger);
+                        ticket.setPrice(ticket.getPrice() - waivePerPassenger);
                     }
                 }
             }
         }
-
     }
 
     public void forgetPIN() throws IOException {
@@ -1529,6 +1551,9 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
         if (checkBookingClassesSubmitted()) {
 
+            totalPrice = 0.0;
+            promotionApplied = false;
+            
             if (selectedDepartureDirectFlight()) {
                 flights.add(departureDirectFlight);
                 accumulatedMileage = accumulatedMileage + departureDirectFlightBookingClass.getMileage();
@@ -1605,6 +1630,8 @@ public class CustomerBookTicketManagedBean implements Serializable {
                     tickets.add(ticket6);
                     totalPrice = totalPrice + ticket6.getPrice();
                 }
+
+                System.out.println("1 total price = " + totalPrice);
                 passenger.setTickets(tickets);
 
                 passengers.add(passenger);
@@ -1613,8 +1640,6 @@ public class CustomerBookTicketManagedBean implements Serializable {
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             memberID = (String) ec.getSessionMap().get("memberID");
-
-            totalPrice = 0.0;
 
             if (memberID != null) {
                 member = memberProfileManagementSessionBean.getMember(memberID);
@@ -1778,6 +1803,38 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     public void setPin(String pin) {
         this.pin = pin;
+    }
+
+    public boolean isPromotionApplied() {
+        return promotionApplied;
+    }
+
+    public void setPromotionApplied(boolean promotionApplied) {
+        this.promotionApplied = promotionApplied;
+    }
+
+    public double getAccumulatedMileage() {
+        return accumulatedMileage;
+    }
+
+    public void setAccumulatedMileage(double accumulatedMileage) {
+        this.accumulatedMileage = accumulatedMileage;
+    }
+
+    public double getTotalDiscountedPrice() {
+        return totalDiscountedPrice;
+    }
+
+    public void setTotalDiscountedPrice(double totalDiscountedPrice) {
+        this.totalDiscountedPrice = totalDiscountedPrice;
+    }
+
+    public double getTotalPriceBeforeDiscount() {
+        return totalPriceBeforeDiscount;
+    }
+
+    public void setTotalPriceBeforeDiscount(double totalPriceBeforeDiscount) {
+        this.totalPriceBeforeDiscount = totalPriceBeforeDiscount;
     }
 
 }

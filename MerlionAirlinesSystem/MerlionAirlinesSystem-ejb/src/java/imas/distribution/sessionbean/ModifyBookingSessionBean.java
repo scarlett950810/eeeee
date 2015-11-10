@@ -88,11 +88,4 @@ public class ModifyBookingSessionBean implements ModifyBookingSessionBeanLocal {
         return originalTicketManaged;
     }
     
-    @Override
-    public void changeTicketPrice(TicketEntity ticket, double newPrice) {
-        TicketEntity ticketManaged = entityManager.find(TicketEntity.class, ticket.getId());
-        ticketManaged.setPrice(newPrice);
-        entityManager.flush();
-    }
-    
 }

@@ -63,45 +63,60 @@
                 </p:column>
             </p:dataTable>
 
-            <br/>
+            <h:form id="DiscountDetailsForm">
 
-            <p:outputLabel value="Total Price: S$ #{customerBookTicketManagedBean.totalPrice}" style="font-size: 150%; color: red;" />
-            <br/>
-            <p:outputLabel value="(Includes taxes and surcharges)" />
+                <h:panelGrid id="DiscountDetails" columns="2" cellpadding="5" rendered="#{customerBookTicketManagedBean.promotionApplied}">
+                    <h:outputText value="Original Price:"/>
+                    <h:outputText value="#{customerBookTicketManagedBean.totalPriceBeforeDiscount}"/>
+                    <h:outputText value="Total amount discounted/waived:"/>
+                    <h:outputText value="#{customerBookTicketManagedBean.totalDiscountedPrice}"/>
+                </h:panelGrid>
+
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:outputLabel id="totalPrice" value="Total Price: S$ #{customerBookTicketManagedBean.totalPrice}" style="font-size: 150%; color: red;" />
+                    <p:outputLabel value="(Includes taxes and surcharges)" />
+                </h:panelGrid>
+
+            </h:form>
         </p:panel>
 
         <p:panel visible="#{customerBookTicketManagedBean.logined}" style="margin-top: 5%; border: #000000 2px solid; height: auto">
 
-            <p:panel header="Redeem Mileage">
-                <h:form>
-                    <p:growl id="redeemStatus"></p:growl>
+            <h:panelGrid columns="2">
 
-                    <h:panelGrid columns="1" cellpadding="5">
-                        <p:outputLabel value="Merlion Member: #{customerBookTicketManagedBean.member.title} 
-                                       #{customerBookTicketManagedBean.member.firstName} #{customerBookTicketManagedBean.member.lastName}"/>
-                        <h:outputText value="Mileage: #{customerBookTicketManagedBean.member.mileage}"></h:outputText>
-                        <h:outputText value="Each one mile out of your mileage can be used to reduce your ticket price by S$0.5"/>
-                    </h:panelGrid>
-                    <h:panelGrid columns="3" cellpadding="5">
-                        <h:outputText value="You are going to redeem "></h:outputText>
-                        <p:inputText value="#{customerBookTicketManagedBean.usedMileage}"></p:inputText>
-                        <p:commandButton value="Redeem" actionListener="#{customerBookTicketManagedBean.redeemMileage}"
-                                         update="redeemStatus, flightsDetail"/>
-                    </h:panelGrid>
-                </h:form>
-            </p:panel>
+                <p:panel header="Redeem Mileage">
+                    <h:form>
+                        <p:growl id="redeemStatus"></p:growl>
 
-            <p:panel header="Apply PromoCode">
-                <h:form>
-                    <p:messages id="promotion" />
-                    <h:panelGrid columns="3" cellpadding="5">
-                        <h:outputLabel value="PromoCode:"/>
-                        <p:inputText value="#{customerBookTicketManagedBean.promoCode}"/>
-                        <p:commandButton value="Apply" actionListener="#{customerBookTicketManagedBean.applyPromoCode}"/>
-                    </h:panelGrid>
-                </h:form>
-            </p:panel>
-            
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <p:outputLabel value="Merlion Member: #{customerBookTicketManagedBean.member.title} 
+                                           #{customerBookTicketManagedBean.member.firstName} #{customerBookTicketManagedBean.member.lastName}"/>
+                            <h:outputText value="Mileage: #{customerBookTicketManagedBean.member.mileage}"></h:outputText>
+                            <h:outputText value="Each one mile out of your mileage can be used to reduce your ticket price by S$0.5"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <h:outputText value="You are going to redeem "></h:outputText>
+                            <p:inputText value="#{customerBookTicketManagedBean.usedMileage}"></p:inputText>
+                            <p:commandButton value="Redeem" actionListener="#{customerBookTicketManagedBean.redeemMileage}"
+                                             update="redeemStatus, flightsDetail"/>
+                        </h:panelGrid>
+                    </h:form>
+                </p:panel>
+
+                <p:panel header="Apply PromoCode">
+                    <h:form id="promotionForm">
+                        <p:messages id="promotion" showDetail="true"/>
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <h:outputLabel value="PromoCode:"/>
+                            <p:inputText value="#{customerBookTicketManagedBean.promoCode}"/>
+                            <p:commandButton value="Apply" actionListener="#{customerBookTicketManagedBean.applyPromoCode}"
+                                             disabled="#{customerBookTicketManagedBean.promotionApplied}" update="@form DiscountDetailsForm"/>
+                        </h:panelGrid>
+                    </h:form>
+                </p:panel>
+
+            </h:panelGrid>
+
         </p:panel>
 
         <h:form id="makeBooking">
