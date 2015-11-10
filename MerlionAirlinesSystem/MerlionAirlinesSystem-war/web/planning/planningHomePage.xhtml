@@ -10,6 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
         <title><ui:insert name="title">Merlion Airlines Internal System</ui:insert></title>
+        
         <ui:insert name="head"></ui:insert>
     </h:head>
 
@@ -73,11 +74,6 @@
 
                     </p:stack>
                 </h:form>
-
-
-
-
-                <p:graphicImage name="img/homepage/planning.png" style="width: 100%"/>
 
                 <p:dialog header="Annoucements" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip"
                           width="60%">
@@ -172,7 +168,35 @@
                     </h:form>
                 </p:dialog>
 
-                <ui:insert name="centerPanel"></ui:insert>
+                <ui:insert name="centerPanel">
+                    <div style="text-align: center; margin-top: 5%">
+                        <h2 style="font-family: fantasy; font-size: 300%">Merlion Airlines Planning System</h2>
+                    </div>
+                    
+                    <div class="ui-grid ui-grid-responsive" style="margin-top: 10%">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%; text-align: center;  box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
+                                <a href="https://localhost:8181/MerlionAirlinesSystem-war/planning/planningAddAircraft.xhtml">
+                                    <h3>Fleet Planning</h3>
+                                    <img src="../resources/img/PlanningHome_1.jpg" width="70%"></img>
+                                </a>
+                            </div>
+                            <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%; text-align: center; box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
+                                <a href="https://localhost:8181/MerlionAirlinesExternalSystem/CRM/crmCustomerLogin.xhtml">
+                                    <h3>Route Planning</h3>
+                                    <img src="../resources/img/PlanningHome_2.jpg" width="70%"></img>
+                                </a>
+                            </div>
+                            <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%;text-align: center; box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
+                                <a href="https://localhost:8181/MerlionAirlinesSystem-war/planning/planningFlightManagement.xhtml">
+                                    <h3>Flight Planning</h3>
+                                    <img src="../resources/img/PlanningHome_3.jpg" width="70%"></img>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </ui:insert>
 
             </p:layoutUnit>
 

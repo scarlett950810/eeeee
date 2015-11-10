@@ -63,6 +63,7 @@
 .sidebar-nav li {
     text-indent: 20px;
     line-height: 2em;
+    font-size: 13px;
 }
 
 .sidebar-nav li a {
@@ -85,8 +86,10 @@
 .sidebar-nav > .sidebar-h1 {
     font-weight: bold;
     height: 50px;
-    font-size: 1.3em;
+    font-size: 19px;
     line-height: 3em;
+    font-style: oblique;
+    color: white;
 }
 
 .sidebar-nav > .sidebar-h1 a {

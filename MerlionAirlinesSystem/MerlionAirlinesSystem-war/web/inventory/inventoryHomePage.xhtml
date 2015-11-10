@@ -5,7 +5,11 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
     <ui:define name="head">
-        <!--insert customized import here-->
+        <style>
+            .sidebar-nav > .sidebar-h1{
+                font-size: 18px;
+            }
+        </style>
     </ui:define>
 
     <ui:define name="title">Inventory Home Page</ui:define>
@@ -25,9 +29,34 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        
-        <p:graphicImage name="img/homepage/inventory.jpeg" style="padding-left: 15%; height: 100%"/>
-        
+
+        <div style="text-align: center; margin-top: 5%">
+            <h2 style="font-family: fantasy; font-size: 300%">Merlion Airlines Inventory System</h2>
+        </div>
+
+        <div class="ui-grid ui-grid-responsive" style="margin-top: 10%">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%; text-align: center;  box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
+                    <a href="https://localhost:8181/MerlionAirlinesSystem-war/inventory/inventoryCost.xhtml">
+                        <h3>Manage Cost</h3>
+                        <img src="../resources/img/InventoryHome_1.jpg" width="70%"></img>
+                    </a>
+                </div>
+                <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%; text-align: center; box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
+                    <a href="https://localhost:8181/MerlionAirlinesSystem-war/inventory/inventoryOpenForSaleTimerManagement.xhtml">
+                        <h3>Manage Selling Flight</h3>
+                        <img src="../resources/img/InventoryHome_2.jpg" width="70%"></img>
+                    </a>
+                </div>
+                <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%;text-align: center; box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
+                    <a href="https://localhost:8181/MerlionAirlinesSystem-war/planning/planningFlightManagement.xhtml">
+                        <h3>Revenue Dashboard</h3>
+                        <img src="../resources/img/InventoryHome_3.jpg" width="70%"></img>
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </ui:define>
 
 </ui:composition>
