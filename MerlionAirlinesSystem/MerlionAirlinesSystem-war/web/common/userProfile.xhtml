@@ -9,54 +9,58 @@
     </ui:define>
 
     <ui:define name="centerPanel">
-        
-        <p:panelGrid columns="2">
-            <f:facet name="header">
-                <h:outputText value="Account Information" />
-            </f:facet>
+        <p:panel style="text-align: center">
+            <p:panelGrid columns="2" style="display: inline-block;">
+                <f:facet name="header">
+                    <h:outputText value="Account Information" />
+                </f:facet>
 
-            <h:outputText value="Name:" />
-            <h:outputText value="#{userProfileManagedBean.staff.displayName}" />
+                <h:outputText value="Name:" />
+                <h:outputText value="#{userProfileManagedBean.staff.displayName}" />
 
-            <h:outputText value="Staff Number:" />
-            <h:outputText value="#{userProfileManagedBean.staff.staffNo}" />
+                <h:outputText value="Staff Number:" />
+                <h:outputText value="#{userProfileManagedBean.staff.staffNo}" />
 
-            <h:outputText value="Business Unit:" />
-            <h:outputText value="#{userProfileManagedBean.staff.role.businessUnit}" />
-            
-            <h:outputText value="Division:" />
-            <h:outputText value="#{userProfileManagedBean.staff.role.division}" />
-            
-            <h:outputText value="Position:" />
-            <h:outputText value="#{userProfileManagedBean.staff.role.position}" />
-            
-            <h:outputText value="Location:" />
-            <h:outputText value="#{userProfileManagedBean.staff.role.location}" />
-            
+                <h:outputText value="Business Unit:" />
+                <h:outputText value="#{userProfileManagedBean.staff.role.businessUnit}" />
 
-            <h:outputText value="Email Address:" />
-            <h:outputText value="#{userProfileManagedBean.staff.email}" />
+                <h:outputText value="Division:" />
+                <h:outputText value="#{userProfileManagedBean.staff.role.division}" />
 
-            <h:outputText value="Contact Number:" />
-            <h:outputText value="#{userProfileManagedBean.staff.contactNumber}" />
+                <h:outputText value="Position:" />
+                <h:outputText value="#{userProfileManagedBean.staff.role.position}" />
 
-            <h:outputText value="Address:" />
-            <h:outputText value="#{userProfileManagedBean.staff.address}" />
+                <h:outputText value="Location:" />
+                <h:outputText value="#{userProfileManagedBean.staff.role.location}" />
 
-            <h:outputText value="Base:" rendered="#{userProfileManagedBean.staff.base!=null}"/>
-            <h:outputText value="#{userProfileManagedBean.staff.base.airportName}" rendered="#{userProfileManagedBean.staff.base!=null}"/>
 
-        </p:panelGrid>
+                <h:outputText value="Email Address:" />
+                <h:outputText value="#{userProfileManagedBean.staff.email}" />
 
-        <h:panelGrid columns="3" cellpadding="5" style="margin-top: 20px">
-            <p:commandButton value="Change Password" type="button" onclick="PF('changePassword').show();" />
+                <h:outputText value="Contact Number:" />
+                <h:outputText value="#{userProfileManagedBean.staff.contactNumber}" />
 
-            <p:commandButton value="Change Email" type="button" onclick="PF('changeEmail').show();" />
+                <h:outputText value="Address:" />
+                <h:outputText value="#{userProfileManagedBean.staff.address}" />
 
-            <p:commandButton value="Change Contact" type="button" onclick="PF('changeContact').show();" />
-            
-            <p:commandButton value="Report Working" type="button" onclick="PF('reportWorking').show();" />
-        </h:panelGrid>
+                <h:outputText value="Base:" rendered="#{userProfileManagedBean.staff.base!=null}"/>
+                <h:outputText value="#{userProfileManagedBean.staff.base.airportName}" rendered="#{userProfileManagedBean.staff.base!=null}"/>
+
+            </p:panelGrid>
+
+            <h:panelGrid cellpadding="5" style="margin-left: 25%; display: inline-block">
+                <p:commandButton value="Change Password" type="button" onclick="PF('changePassword').show();" style="width: 150%" />
+                <br />
+                
+                <p:commandButton value="Change Email" type="button" onclick="PF('changeEmail').show();" style="width: 150%"/>
+                <br />
+                
+                <p:commandButton value="Change Contact" type="button" onclick="PF('changeContact').show();" style="width: 150%"/>
+                <br />
+                
+                <p:commandButton value="Report Working" type="button" onclick="PF('reportWorking').show();" style="width: 150%"/>
+            </h:panelGrid>
+        </p:panel>
 
         <p:dialog header="Change Password" widgetVar="changePassword" height="200">
             <h:form>
@@ -99,7 +103,7 @@
 
             </h:form>
         </p:dialog>
-        
+
         <p:dialog header="Change Contact" widgetVar="changeContact" height="200">
             <h:form>
                 <p:outputLabel for="newContact" value="Please input your new contact number" />
@@ -119,24 +123,24 @@
 
         <p:dialog header="Report Working" widgetVar="reportWorking" height="200">
             <h:form>
-            <h:outputText value="#{userProfileManagedBean.workingMessage}" />
-            <br/><br/>
-            <p:commandButton value="Save" actionListener="#{userProfileManagedBean.updateWorkingStatus()}"
+                <h:outputText value="#{userProfileManagedBean.workingMessage}" />
+                <br/><br/>
+                <p:commandButton value="Save" actionListener="#{userProfileManagedBean.updateWorkingStatus()}"
                                  class="btn-sm btn-danger" ajax="false"/>
             </h:form>
         </p:dialog>
 
         <script type = "text/javascript" src = "http://jzaefferer.github.com/jquery-validation/jquery.validate.js" />
         <script type = "text/javascript">
-                $(document).ready(function () {
-                    $("#myform").validate({
-                        rules: {
-                            'myform:emailAddr': {
-                                email: true
+                    $(document).ready(function () {
+                        $("#myform").validate({
+                            rules: {
+                                'myform:emailAddr': {
+                                    email: true
+                                }
                             }
-                        }
+                        });
                     });
-                });
 
 
         </script>

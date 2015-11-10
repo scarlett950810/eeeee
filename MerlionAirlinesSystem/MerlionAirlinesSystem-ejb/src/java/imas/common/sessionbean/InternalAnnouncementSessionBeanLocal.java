@@ -6,7 +6,6 @@
 package imas.common.sessionbean;
 
 import imas.common.entity.InternalAnnouncementEntity;
-import imas.common.entity.InternalMessageEntity;
 import imas.planning.entity.AirportEntity;
 import java.util.List;
 import javax.ejb.Local;
