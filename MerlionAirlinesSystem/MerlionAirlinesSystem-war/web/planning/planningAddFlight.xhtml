@@ -54,12 +54,7 @@
                         <p:ajax listener="#{flightManagedBean.onRouteChange()}" update="aircraft" />
                         <f:selectItem itemLabel="Select Route" itemDisabled="true" />
                         <f:selectItems value="#{scheduleDevelopmentManagedBean.connectionsAll}" var="connection" itemLabel="#{connection.returnRoutesName}" itemValue="#{connection}" />
-                    </p:selectOneMenu>
-                   
-                    
-                    
-                    
-                    
+                    </p:selectOneMenu>        
                     
                     <p:outputLabel value="Departure time " />
                     <p:calendar id="departureDate" value="#{flightManagedBean.departureDate}" required="true" requiredMessage="Please select departure time" pattern="MM/dd/yyyy HH:mm">                                            

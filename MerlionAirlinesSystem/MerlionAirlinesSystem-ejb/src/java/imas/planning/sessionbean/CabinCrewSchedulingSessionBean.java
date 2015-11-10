@@ -10,6 +10,8 @@ import imas.common.entity.CabinCrewEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
+import imas.planning.entity.RouteEntity;
+import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,17 +52,55 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
     public List<FlightEntity> CabinScheduling(List<FlightEntity> flights, List<CabinCrewEntity> cabinCrews) {
         System.err.println("enter for short");
         for (CabinCrewEntity c : cabinCrews) {
-            if (!flights.isEmpty()) {
+            if(c.getSeniority()!=null){
+            if (!flights.isEmpty()&&c.getSeniority().equals("A")) {
                 flights = oneCabinCrewScheduling(flights, c);
             }
+           }
         }
+        for (CabinCrewEntity c : cabinCrews) {
+            if(c.getSeniority()!=null){
+            if (!flights.isEmpty()&&c.getSeniority().equals("B")) {
+                flights = oneCabinCrewScheduling(flights, c);
+            }
+           }
+        }
+        for (CabinCrewEntity c : cabinCrews) {
+            if(c.getSeniority()!=null){
+            if (!flights.isEmpty()&&c.getSeniority().equals("C")) {
+                flights = oneCabinCrewScheduling(flights, c);
+            }
+           }
+        }
+        for (CabinCrewEntity c : cabinCrews) {
+            if(c.getSeniority()!=null){
+            if (!flights.isEmpty()&&c.getSeniority().equals("D")) {
+                flights = oneCabinCrewScheduling(flights, c);
+            }
+           }
+        }
+        for (CabinCrewEntity c : cabinCrews) {
+            if(c.getSeniority()!=null){
+            if (!flights.isEmpty()&&c.getSeniority().equals("E")) {
+                flights = oneCabinCrewScheduling(flights, c);
+            }
+           }
+        }
+        for (CabinCrewEntity c : cabinCrews) {
+            
+            if (!flights.isEmpty()&&c.getSeniority()==null) {
+                flights = oneCabinCrewScheduling(flights, c);
+            }
+           
+        }
+        
         return flights;
     }
 
     @Override
     public List<FlightEntity> oneCabinCrewScheduling(List<FlightEntity> flights, CabinCrewEntity cabinCrew) {
         counter = 0;
-
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
         System.err.println("enter one for short");
         List<FlightEntity> flightsAvai = new ArrayList<FlightEntity>();
         for (FlightEntity f : flights) {
@@ -93,49 +133,151 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
             cal.add(Calendar.YEAR, 50);
             earliestDep = cal.getTime();
 
+            
+            if (cabinCrew.getPreferredDay()!=null&&cabinCrew.getPreferredRoutes()!=null) {
+                    
+
             for (FlightEntity f : flightsAvai) {
                 Date depTemp = f.getDepartureDate();
-                if (depTemp.compareTo(earliestDep) < 0 && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+
+                if (formatter.format(depTemp).equals(cabinCrew.getPreferredDay())
+                        && depTemp.compareTo(earliestDep) < 0
+                        && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                     //Find the earliest flight which departs at the aircraft's hub
-                    earliestFlight = em.find(FlightEntity.class, f.getId());
-                    earliestDep = f.getDepartureDate();
-                    hasHubOrNot = true;
+                    boolean findPreferedRoute = false;
+                    for (RouteEntity r : cabinCrew.getPreferredRoutes()) {
+                        if (f.getRoute().getOriginAirport().getAirportName().equals(r.getOriginAirport().getAirportName())
+                                && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                            findPreferedRoute = true;
+                        }
+
+                        if (f.getRoute().getOriginAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())
+                                && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                            findPreferedRoute = true;
+                        }
+
+                    }
+                    if (findPreferedRoute) {
+                        earliestFlight = em.find(FlightEntity.class, f.getId());
+                        earliestDep = f.getDepartureDate();
+                        hasHubOrNot = true;
+                    }
 
                 }
 
             }
+        }  
+        if (cabinCrew.getPreferredDay()!=null) {
+                    
+            if (!hasHubOrNot) {
+                for (FlightEntity f : flightsAvai) {
+                    Date depTemp = f.getDepartureDate();
+
+                    if (formatter.format(depTemp).equals(cabinCrew.getPreferredDay())
+                            && depTemp.compareTo(earliestDep) < 0
+                            && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                        //Find the earliest flight which departs at the aircraft's hub
+
+                        earliestFlight = em.find(FlightEntity.class, f.getId());
+                        earliestDep = f.getDepartureDate();
+                        hasHubOrNot = true;
+
+                    }
+
+                }
+            }
+        }
+            if (!hasHubOrNot) {
+                for (FlightEntity f : flightsAvai) {
+                    Date depTemp = f.getDepartureDate();
+
+                    if (depTemp.compareTo(earliestDep) < 0 && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                        //Find the earliest flight which departs at the aircraft's hub
+                        earliestFlight = em.find(FlightEntity.class, f.getId());
+                        earliestDep = f.getDepartureDate();
+                        hasHubOrNot = true;
+
+                    }
+
+                }
+            }
+
             System.err.println("1st assign job");
         } else {
-             earliestDep = cabinCrew.getCabinCrewFlights().get(0).getArrivalDate();
+              Calendar cal = Calendar.getInstance();
+            cal.setTime(earliestDep);
+            cal.add(Calendar.YEAR, 50);
+            earliestDep = cal.getTime();
+
             Date latestDate = cabinCrew.getCabinCrewFlights().get(0).getArrivalDate();
             FlightEntity lastFlight = cabinCrew.getCabinCrewFlights().get(0);
             for (FlightEntity f : cabinCrew.getCabinCrewFlights()) {
-                if (f.getArrivalDate().compareTo(earliestDep) > 0) {
-                    earliestDep = f.getArrivalDate();
+                if (f.getArrivalDate().compareTo(latestDate) > 0) {
                     latestDate = f.getArrivalDate();
-                    earliestFlight = f;
                     lastFlight = f;
-                   
-                }
-            }
-
-           
-            for (FlightEntity f : flightsAvai) {
-                Date depTemp = f.getDepartureDate();
-                if (depTemp.compareTo(latestDate) > 0 && lastFlight.getRoute().getDestinationAirport().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
-                    //Find the earliest flight which departs at the aircraft's hub
                     earliestFlight = f;
-                    earliestDep = f.getDepartureDate();
-                    hasHubOrNot = true;
+
+                }
+            }
+            if (cabinCrew.getPreferredDay()!=null&&cabinCrew.getPreferredRoutes()!=null) {
+                    
+            for (FlightEntity f : flightsAvai) {
+                if (formatter.format(f.getDepartureDate()).equals(cabinCrew.getPreferredDay())
+                        && f.getDepartureDate().compareTo(latestDate) > 0
+                        && f.getDepartureDate().compareTo(earliestDep) < 0
+                        && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                    //Find the earliest flight which departs at the aircraft's hub
+                    boolean findPreferedRoute = false;
+                    for (RouteEntity r : cabinCrew.getPreferredRoutes()) {
+                        if (f.getRoute().getOriginAirport().getAirportName().equals(r.getOriginAirport().getAirportName())
+                                && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                            findPreferedRoute = true;
+                        }
+
+                        if (f.getRoute().getOriginAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())
+                                && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                            findPreferedRoute = true;
+                        }
+
+                    }
+                    if (findPreferedRoute) {
+                        earliestFlight = em.find(FlightEntity.class, f.getId());
+                        earliestDep = f.getDepartureDate();
+                        hasHubOrNot = true;
+                    }
 
                 }
 
             }
-
-            if (hasHubOrNot) {
+        }
+        if (cabinCrew.getPreferredDay()!=null) {
+                    
+            
+            if (!hasHubOrNot) {
                 for (FlightEntity f : flightsAvai) {
-                    if (f.getDepartureDate().compareTo(latestDate) > 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && f.getDepartureDate().compareTo(earliestDep) < 0 && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                    if (formatter.format(f.getDepartureDate()).equals(cabinCrew.getPreferredDay())
+                            && f.getDepartureDate().compareTo(latestDate) > 0
+                            && f.getDepartureDate().compareTo(earliestDep) < 0
+                            && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
                         //Find the earliest flight which departs at the aircraft's hub
+
+                        earliestFlight = em.find(FlightEntity.class, f.getId());
+                        earliestDep = f.getDepartureDate();
+                        hasHubOrNot = true;
+
+                    }
+
+                }
+
+            }
+        }
+            if (!hasHubOrNot) {
+                for (FlightEntity f : flightsAvai) {
+                    if (f.getDepartureDate().compareTo(latestDate) > 0
+                            && f.getDepartureDate().compareTo(earliestDep) < 0
+                            && cabinCrew.getBase().getAirportCode().equals(f.getRoute().getOriginAirport().getAirportCode())) {
+                        //Find the earliest flight which departs at the aircraft's hub
+
                         earliestFlight = em.find(FlightEntity.class, f.getId());
                         earliestDep = f.getDepartureDate();
                         hasHubOrNot = true;
@@ -173,6 +315,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         earliestDep = earliestFlight.getArrivalDate();
         if (earliestFlight.getCabinCrews().size() >= getFlightCapacity(earliestFlight)) {
             flightsAvai.remove(earliestFlight);
+            flights.remove(earliestFlight);
            
         }
 
@@ -194,43 +337,158 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
 //            System.err.println("earliestDep"+earliestDep);
             findNextFlight = false;
             Date findSoonest = null;
+            if (cabinCrew.getPreferredRoutes()!=null) {
+                    
             for (FlightEntity f : flightsAvai) {
 
                 if (currentLoc.equals(cabinCrew.getBase())) {
                     if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
+                        boolean findPreferedRoute = false;
+                        for (RouteEntity r : cabinCrew.getPreferredRoutes()) {
+                            if (f.getRoute().getOriginAirport().getAirportName().equals(r.getOriginAirport().getAirportName())
+                                    && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                                findPreferedRoute = true;
+                            }
+
+                            if (f.getRoute().getOriginAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())
+                                    && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                                findPreferedRoute = true;
+                            }
+
+                        }
+                        if (findPreferedRoute) {
+                            findSoonest = f.getDepartureDate();
+                            flightAssigned = em.find(FlightEntity.class, f.getId());
+                            findNextFlight = true;
+                        }
+                    }
+                } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(cabinCrew.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
+                    boolean findPreferedRoute = false;
+                    for (RouteEntity r : cabinCrew.getPreferredRoutes()) {
+                        if (f.getRoute().getOriginAirport().getAirportName().equals(r.getOriginAirport().getAirportName())
+                                && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                            findPreferedRoute = true;
+                        }
+
+                        if (f.getRoute().getOriginAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())
+                                && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                            findPreferedRoute = true;
+                        }
+
+                    }
+                    if (findPreferedRoute) {
                         findSoonest = f.getDepartureDate();
                         flightAssigned = em.find(FlightEntity.class, f.getId());
                         findNextFlight = true;
                     }
-                } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(cabinCrew.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
-                    findSoonest = f.getDepartureDate();
-                    flightAssigned = em.find(FlightEntity.class, f.getId());
-                   findNextFlight = true;
                 }
 
             }
-            System.err.println("find a suitable flight cabin");
-            //find a suitable flight
-            if (findSoonest == null) {
-                findNextFlight = false;
-            } else {
-
+        }
+            if (!findNextFlight) {
                 for (FlightEntity f : flightsAvai) {
 
                     if (currentLoc.equals(cabinCrew.getBase())) {
-                        if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
+                        if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
+
+                            findSoonest = f.getDepartureDate();
+                            flightAssigned = em.find(FlightEntity.class, f.getId());
+                            findNextFlight = true;
+
+                        }
+                    } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(cabinCrew.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0) {
+
+                        findSoonest = f.getDepartureDate();
+                        flightAssigned = em.find(FlightEntity.class, f.getId());
+                        findNextFlight = true;
+
+                    }
+
+                }
+            }
+            System.err.println("find a suitable flight");
+            //find a suitable flight
+            if (findNextFlight) {
+                
+            boolean findPreferedRoute = false;
+                if (cabinCrew.getPreferredRoutes()!=null) {
+                
+                for (FlightEntity f : flightsAvai) {
+
+                    if (currentLoc.equals(cabinCrew.getBase())) {
+                        if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode())
+                                && f.getDepartureDate().compareTo(earliestDep) > 0
+                                && f.getDepartureDate().compareTo(findSoonest) < 0) {
+
+                            for (RouteEntity r : cabinCrew.getPreferredRoutes()) {
+                                if (f.getRoute().getOriginAirport().getAirportName().equals(r.getOriginAirport().getAirportName())
+                                        && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                                    findPreferedRoute = true;
+                                }
+
+                                if (f.getRoute().getOriginAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())
+                                        && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                                    findPreferedRoute = true;
+                                }
+
+                            }
+                            if (findPreferedRoute) {
+
+                                flightAssigned = em.find(FlightEntity.class, f.getId());
+                                findSoonest = f.getDepartureDate();
+                                findNextFlight = true;
+                            }
+                        }
+                    } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(cabinCrew.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
+                        for (RouteEntity r : cabinCrew.getPreferredRoutes()) {
+                            if (f.getRoute().getOriginAirport().getAirportName().equals(r.getOriginAirport().getAirportName())
+                                    && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                                findPreferedRoute = true;
+                            }
+
+                            if (f.getRoute().getOriginAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())
+                                    && f.getRoute().getDestinationAirport().getAirportName().equals(r.getDestinationAirport().getAirportName())) {
+                                findPreferedRoute = true;
+                            }
+
+                        }
+                        if (findPreferedRoute) {
                             flightAssigned = em.find(FlightEntity.class, f.getId());
                             findSoonest = f.getDepartureDate();
                             findNextFlight = true;
                         }
-                    } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(cabinCrew.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
-                        flightAssigned = em.find(FlightEntity.class, f.getId());
-                        findSoonest = f.getDepartureDate();
-                        findNextFlight = true;
                     }
 
                 }
             }
+                if (!findPreferedRoute) {
+                    for (FlightEntity f : flightsAvai) {
+
+                    if (currentLoc.equals(cabinCrew.getBase())) {
+                        if (f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode())
+                                && f.getDepartureDate().compareTo(earliestDep) > 0
+                                && f.getDepartureDate().compareTo(findSoonest) < 0) {
+
+                            
+
+                                flightAssigned = em.find(FlightEntity.class, f.getId());
+                                findSoonest = f.getDepartureDate();
+                                findNextFlight = true;
+                            
+                        }
+                    } else if (f.getRoute().getDestinationAirport().getAirportCode().equals(cabinCrew.getBase().getAirportCode()) && f.getRoute().getOriginAirport().getAirportCode().equals(currentLoc.getAirportCode()) && f.getDepartureDate().compareTo(earliestDep) > 0 && f.getDepartureDate().compareTo(findSoonest) < 0) {
+                        
+                            flightAssigned = em.find(FlightEntity.class, f.getId());
+                            findSoonest = f.getDepartureDate();
+                            findNextFlight = true;
+                        
+                    }
+
+                }
+
+                }
+            }
+
             System.err.println("find nearest flight");
             //find the nearest flight
 //         System.err.println("7");
@@ -242,6 +500,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
                 flightAssigned.getCabinCrews().add(cabinCrew);
                 if (flightAssigned.getCabinCrews().size() >= getFlightCapacity(flightAssigned)) {
                     flightsAvai.remove(flightAssigned);
+                    flights.remove(flightAssigned);
                 }
                 em.merge(cabinCrew);
 
@@ -270,7 +529,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         }
 
         em.merge(cabinCrew);
-        return flightsAvai;
+        return flights;
         //route with higher demand operate with larger aircraft
         //longer distance larger aircraft
         //maintenance time 
@@ -297,51 +556,7 @@ public class CabinCrewSchedulingSessionBean implements CabinCrewSchedulingSessio
         } else {
             return 0;
         }
-
-//        Integer sum = 0;
-//        
-//        System.err.println("getFlightCapacity before query");
-//        Query q1 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q1.setParameter("aircraft", a);
-//        q1.setParameter("seatClass", "First Class");
-//        Integer n1 = q1.getResultList().size();
-//                System.err.println("getFlightCapacity after query");
-//
-//        int a1 = n1 / 20;
-//        if (n1 % 20 > 0) {
-//            a1++;
-//        }
-//        sum = sum + a1;
-//
-//        Query q2 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q2.setParameter("aircraft", a);
-//        q2.setParameter("seatClass", "Premium Economy Class");
-//        Integer n2 = q2.getResultList().size();
-//        int a2 = n2 / 35;
-//        if (n2 % 35 > 0) {
-//            a2++;
-//        }
-//        sum = sum + a2;
-//
-//        Query q3 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q3.setParameter("aircraft", a);
-//        q3.setParameter("seatClass", "Economy Class");
-//        Integer n3 = q3.getResultList().size();
-//        int a3 = n3 / 50;
-//        if (n3 % 50 > 0) {
-//            a3++;
-//        }
-//        sum = sum + a3;
-//
-//        Query q4 = em.createQuery("SELECT s FROM SeatEntity s WHERE s.aircraft = :aircraft AND s.seatClass = :seatClass");
-//        q4.setParameter("aircraft", a);
-//        q4.setParameter("seatClass", "Business Class");
-//        Integer n4 = q4.getResultList().size();
-//        int a4 = n4 / 30;
-//        if (n4 % 30 > 0) {
-//            a4++;
-//        }
-//        sum = sum + a4;
+    
     }
 
     @Override

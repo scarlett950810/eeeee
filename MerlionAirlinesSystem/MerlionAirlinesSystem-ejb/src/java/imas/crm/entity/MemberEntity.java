@@ -64,33 +64,9 @@ public class MemberEntity implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MemberEntity)) {
-            return false;
-        }
-        MemberEntity other = (MemberEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
     public MemberEntity() {
         this.mileage = 0.0;
-    }
-
-    @Override
-    public String toString() {
-        return "imas.crm.entity.MemberEntity[ id=" + id + " ]";
+        this.ticketList = null;
     }
 
     public String getLastName() {
@@ -182,7 +158,11 @@ public class MemberEntity implements Serializable {
     }
 
     public List<TicketEntity> getTicketList() {
-        return ticketList;
+        if(this.ticketList == null){
+            return null;
+        }else{
+            return ticketList;
+        }
     }
 
     public void setTicketList(List<TicketEntity> ticketList) {
@@ -252,4 +232,38 @@ public class MemberEntity implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public List<PromotionEntity> getPromotionEntities() {
+        return promotionEntities;
+    }
+
+    public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
+        this.promotionEntities = promotionEntities;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof MemberEntity)) {
+            return false;
+        }
+        MemberEntity other = (MemberEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "imas.crm.entity.MemberEntity[ id=" + id + " ]";
+    }
+
 }

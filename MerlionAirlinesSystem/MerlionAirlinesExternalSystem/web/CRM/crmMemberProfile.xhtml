@@ -15,11 +15,21 @@
     </ui:define>
 
     <ui:define name="main">
-        <p:panel style="margin-top: 5%">
-            <p:outputLabel value="Merflion Membership Number | #{memberProfileManagedBean.member.memberID}"></p:outputLabel>
-            <br></br>
-            <h:outputText value="#{memberProfileManagedBean.member.mileage} Merfilon Miles" style="font-size: 200%"></h:outputText>
+        #{memberProfileManagedBean.checkUser()}
 
+        <p:panel style="margin-top: 5%">
+            <p:panel style="display: inline-block">
+                <p:outputLabel value="Merflion Membership Number | #{memberProfileManagedBean.member.memberID}"></p:outputLabel>
+                <br></br>
+                <h:outputText value="#{memberProfileManagedBean.member.mileage} Merfilon Miles" style="font-size: 200%"></h:outputText>
+            </p:panel>
+
+            <h:form style="display: inline-block; float: right">
+                <p:panel id="top1">
+                    <p:outputLabel value="Welcome, #{memberProfileManagedBean.member.title} #{memberProfileManagedBean.member.firstName} #{memberProfileManagedBean.member.lastName}"></p:outputLabel>
+                    <h:commandButton image="https://localhost:8181/MerlionAirlinesExternalSystem/resources/img/logout.png" actionListener="#{memberProfileManagedBean.doLogout}"></h:commandButton>
+                </p:panel>
+            </h:form>
             <br></br>
 
             <p:tabView id="tabViewMain" activeIndex="#{memberProfileManagedBean.index}">
@@ -28,32 +38,67 @@
                         <h:outputLabel value="My Mileage History"/>
                     </h:panelGrid>
                 </p:tab>
-                <p:tab title="Miles">
-                    <p:dataTable id="tickets" var="ticket" value="#{memberProfileManagedBean.tickets}" style="margin-bottom:20px"
-                                 paginator="true" widgetVar="flightTable" filteredValue="#{memberProfileManagedBean.filteredTickets}"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="15, 30, 50" rows="15">
-                        <f:facet name="header">
-                            Mileage Accumulation from Historical Flights
-                        </f:facet>
+                <p:tab title="Mileage Management">
+                    <p:panel header="Mileage Accumulation" style="margin-top: 2%; border: #000000 2px solid; height: auto">
+                        <p:dataTable id="tickets" var="ticket" value="#{memberProfileManagedBean.historicalTickets}" style="margin-bottom:20px"
+                                     paginator="true" widgetVar="flightTable" filteredValue="#{memberProfileManagedBean.filteredTickets}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="15, 30, 50" rows="15">
+                            <f:facet name="header">
+                                Mileage Accumulation from Historical Flights
+                            </f:facet>
 
                         <p:column headerText="Date" filterBy="#{ticket.flight.departureDate}">
                             <h:outputText value="#{ticket.flight.departureDate}" />
                         </p:column>
-                        
+
                         <p:column headerText="Flight No" filterBy="#{ticket.flight.flightNo}">
                             <h:outputText value="#{ticket.flight.flightNo}" />
                         </p:column>
-                        
+
                         <p:column headerText="Description" filterBy="#{ticket.flight.route}">
                             <h:outputText value="#{ticket.flight.route}" />
                         </p:column>
-                        
+
                         <p:column headerText="Miles Accumulated" filterBy="#{ticket.mileage}">
                             <h:outputText value="#{ticket.mileage}" />
                         </p:column>
 
-                    </p:dataTable>
+                            <p:column headerText="Flight No" filterBy="#{ticket.flight.flightNo}">
+                                <h:outputText value="#{ticket.flight.flightNo}" />
+                            </p:column>
+
+                            <p:column headerText="Description" filterBy="#{ticket.flight.route}">
+                                <h:outputText value="#{ticket.flight.route}" />
+                            </p:column>
+
+                            <p:column headerText="Miles Accumulated" filterBy="#{ticket.mileage}">
+                                <h:outputText value="#{ticket.mileage}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:panel>
+
+                    <p:panel header="Mileage Redeemtion" style="margin-top: 2%; border: #000000 2px solid; height: auto" >
+                        <p:dataTable var="ticket" value="#{memberProfileManagedBean.unissuedTickets}">
+                            <p:column headerText="Date" filterBy="#{ticket.flight.departureDate}">
+                                <h:outputText value="#{ticket.flight.departureDate}" />
+                            </p:column>
+
+                            <p:column headerText="Flight No" filterBy="#{ticket.flight.flightNo}">
+                                <h:outputText value="#{ticket.flight.flightNo}" />
+                            </p:column>
+
+                            <p:column headerText="Description" filterBy="#{ticket.flight.route}">
+                                <h:outputText value="#{ticket.flight.route}" />
+                            </p:column>
+
+                            <p:column headerText="Miles Accumulated" filterBy="#{ticket.mileage}">
+                                <h:outputText value="#{ticket.mileage}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+
                 </p:tab>
                 <p:tab title="Check-ins">
                     <h:panelGrid columns="2" cellpadding="10">
@@ -62,14 +107,41 @@
                     </h:panelGrid>
                 </p:tab>
                 <p:tab title="Bookings">
-                    <h:panelGrid columns="2" cellpadding="10">
-                        <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                        <h:outputText value="After a break of more than 15 years..." />
+                    <h:panelGrid columns="2" cellpadding="10">                        
+                        <p:accordionPanel multiple="true">
+                            <p:tab title="Manage Booking">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:graphicImage name="demo/images/godfather/godfather1.jpg" />
+                                    <h:outputText
+                                        value="The story begins as Don Vito Corleone..." />
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Travel History">
+                                <p:dataTable id="historicalTickets" var="historicalTicket" value="#{memberProfileManagedBean.historicalTickets}" style="margin-bottom:20px"
+                                             paginator="true" widgetVar="historicalFlightTable" filteredValue="#{memberProfileManagedBean.filteredHistoricalTickets}"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="15, 30, 50" rows="15">
+                                    <p:column headerText="Date" filterBy="#{historicalTicket.flight.departureDate}">
+                                        <h:outputText value="#{historicalTicket.flight.departureDate}" />
+                                    </p:column>
+                                    
+                                    <p:column headerText="Flight Segments">
+                                        <h:outputText value="#{historicalTicket.flight.flightNo} #{historicalTicket.flight.route.originAirport.cityName} to #{historicalTicket.flight.route.destinationAirport.cityName}" />
+                                    </p:column>
+                                    
+                                    <p:column headerText="Cabin Class">
+                                        <h:outputText value="#{historicalTicket.seat.seatClass}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:tab>
+
+                        </p:accordionPanel>
                     </h:panelGrid>
                 </p:tab>
                 <p:tab id="profile" title="Profile">
                     <p:outputLabel value="Personal Details"></p:outputLabel>
-                    <p:panel  style="margin-top: 2%; border: #000000 2px solid; height: auto" visible="#{!memberProfileManagedBean.edit}">
+                    <p:panel style="margin-top: 2%; border: #000000 2px solid; height: auto" visible="#{!memberProfileManagedBean.edit}">
                         <p:panel style="border-bottom: 2px #000000 solid">
                             <p:outputLabel value="Title and last / family name"></p:outputLabel>
                             <br></br>
@@ -136,7 +208,7 @@
 
                     <p:panel style="margin-top: 5%; border: #000000 2px solid; height: auto" visible="#{memberProfileManagedBean.edit}">
                         <p:messages autoUpdate="true" />
-                        
+
                         <h:form id="formMain">
                             <p:panel style="border-bottom: 2px #000000 solid">
                                 <p:outputLabel value="Title and last / family name"></p:outputLabel>

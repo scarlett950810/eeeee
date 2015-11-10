@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <title><ui:insert name="title">System Admin - Merlion Airlines Internal System</ui:insert></title>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="adminViewStaff.xhtml">View Airline Staff</a></li>
+                <li class="sidebar-h1"><a href="adminRevenueDashboard.xhtml">Revenue Dashboard</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+
+
+        <h:form id="form" rendered="#{adminViewStaffManagedBean.table}">
+
+            <p:dataTable id="staffList" var="staff" value="#{adminViewStaffManagedBean.staffList}" rowKey="#{staff.staffNo}"
+                         selection="#{adminViewStaffManagedBean.staff}" selectionMode="single" widgetVar="staffTable"
+                         emptyMessage="No staff found with given criteria" filteredValue="#{adminViewStaffManagedBean.filteredStaff}" class="panel-primary"
+                         paginator="true" 
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="15, 30, 50" rows="15" >
+                <f:facet name="header">
+                    Merlion Airline Staff List
+                </f:facet>
+                <p:column headerText="Staff No" filterBy="#{staff.staffNo}" filterMatchMode="contains" style="width: 10%">
+                    <h:outputText value="#{staff.staffNo}" />
+                </p:column>
+                <p:column headerText="Staff Name" filterBy="#{staff.displayName}" filterMatchMode="contains" style="width: 10%">
+                    <h:outputText value="#{staff.displayName}" />
+                </p:column>
+                <p:column headerText="Business Unit" filterBy="#{staff.role.businessUnit}" filterMatchMode="exact">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('staffTable').filter()"  >
+                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Administration" itemValue="Administration" />
+                            <f:selectItem itemLabel="Operation Control" itemValue="Operation Control" />
+                            <f:selectItem itemLabel="Sales and Marketing" itemValue="Sales and Marketing" />
+                            <f:selectItem itemLabel="Maintenance" itemValue="Maintenance" />
+                            <f:selectItem itemLabel="Operation" itemValue="Operation" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{staff.role.businessUnit}" />
+                </p:column>
+                <p:column headerText="Division" filterBy="#{staff.role.division}" filterMatchMode="contains">
+                    <h:outputText value="#{staff.role.division}" />
+                </p:column>
+                <p:column headerText="Position" filterBy="#{staff.role.position}" filterMatchMode="contains">
+                    <h:outputText value="#{staff.role.position}" />
+                </p:column>
+                <p:column headerText="Location" filterBy="#{staff.role.location}" filterMatchMode="contains">
+                    <h:outputText value="#{staff.role.location}" />
+                </p:column>
+
+                <p:column style="width: 5%; text-align: center">
+                    <p:commandButton icon="ui-icon-search" action="#{adminViewStaffManagedBean.viewStaffAccount()}" class="icon-only">
+                        <f:setPropertyActionListener value="#{staff}" target="#{adminViewStaffManagedBean.staff}" />
+                    </p:commandButton>
+                </p:column>
+
+                <p:column style="width: 5%; text-align: center">
+                    <p:commandButton icon="ui-icon-trash" onclick="PF('deleteStaff').show();" update="staffList" class="icon-only">
+                        <f:setPropertyActionListener value="#{staff}" target="#{adminViewStaffManagedBean.staff}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog widgetVar="deleteStaff" minHeight="40">
+            
+            <h:form>
+                <p:commandButton value="Confirm" actionListener="#{adminViewStaffManagedBean.deleteStaffAccount()}" class="btn-sm btn-danger"/>
+            </h:form>
+        </p:dialog>
+
+
+        <p:panel visible="#{adminViewStaffManagedBean.view}" class="panel">
+            <p:panelGrid columns="2">
+                <f:facet name="header">
+                    <h:outputText value="Account Information" />
+                </f:facet>
+
+                <h:outputText value="Name:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.displayName}" />
+
+                <h:outputText value="Staff Number:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.staffNo}" />
+
+                <h:outputText value="Gender:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.gender}" />
+
+                <h:outputText value="Business Unit:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.role.businessUnit}" />
+
+                <h:outputText value="Division:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.role.division}" />
+
+                <h:outputText value="Position:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.role.position}" />
+
+                <h:outputText value="Lication:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.role.location}" />
+
+                <h:outputText value="" />
+                <h:outputText value="" />
+
+                <h:outputText value="Email Address:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.email}" />
+
+                <h:outputText value="Contact Number:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.contactNumber}" />
+
+                <h:outputText value="Address:" />
+                <h:outputText value="#{adminViewStaffManagedBean.staff.address}" />
+
+                <h:outputText value="Base:" rendered="#{adminViewStaffManagedBean.staff.base != null}"/>
+                <h:outputText value="#{adminViewStaffManagedBean.staff.base}" rendered="#{adminViewStaffManagedBean.staff.base != null}"/>
+
+            </p:panelGrid>
+
+            <h:form>
+                <p:commandButton value="Return" actionListener="#{adminViewStaffManagedBean.returnBack}" style="margin-top: 20px" class="btn-sm btn-primary"/>
+                <p:commandButton value="Update Information" onclick="PF('updateStaff').show();" style="margin-top: 20px" class="btn-sm btn-success"/>
+            </h:form>
+        </p:panel>
+
+        <p:dialog header="Update Staff Information" widgetVar="updateStaff" minHeight="40">
+            <h:form id="updateInformation">
+                <p:growl id="growl" showDetail="true"/>
+
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+
+                    <p:outputLabel  value="Staff No" />
+                    <p:outputLabel  value="#{adminViewStaffManagedBean.staff.staffNo}" />
+
+                    <p:outputLabel value="Staff Name" />
+                    <p:outputLabel value="#{adminViewStaffManagedBean.staff.displayName}" />
+
+                    <p:outputLabel value="Staff Gender" />
+                    <p:outputLabel value="#{adminViewStaffManagedBean.staff.gender}" />
+
+                    <p:outputLabel for="email" value="Email Address: " />
+                    <p:inputText style="width:100%;" id="email" value="#{adminViewStaffManagedBean.staff.email}" validatorMessage="Invalid email format">
+                        <f:validateRegex
+                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+
+                    </p:inputText>
+
+                    <p:outputLabel for="contactNumber" value="Contact Number: " />
+                    <p:inputText style="width:100%;" id="contactNumber" value="#{adminViewStaffManagedBean.staff.contactNumber}">
+                    </p:inputText>
+
+                    <p:outputLabel for="address" value="Staff Address: " />
+                    <p:inputText style="width:100%;" id="address" value="#{adminViewStaffManagedBean.staff.address}">
+                    </p:inputText>
+
+                    <p:outputLabel for="unit" value="Business Unit/Division: " />
+                    <p:selectOneMenu id="unit" value="#{adminViewStaffManagedBean.unit}">
+                        <f:selectItem itemLabel="Select One" itemValue="" itemDisabled="true"/>
+                        <f:selectItems var="unit" value="#{addStaffManagedBean.businessUnits}" itemValue="#{unit}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="position" value="Position: " />
+                    <p:inputText style="width:100%;" id="position" value="#{adminViewStaffManagedBean.staff.role.position}">
+                    </p:inputText>
+
+                    <p:outputLabel for="newBase" value="Base: " />
+                    <p:selectOneMenu id="newBase" value="#{adminViewStaffManagedBean.base}" panelStyle="width:180px" effect="fade">
+                        <f:selectItems value="#{adminViewStaffManagedBean.bases}"/>
+                    </p:selectOneMenu>
+
+                    <p:commandButton id="updateStaff" value="confirm" actionListener="#{adminViewStaffManagedBean.updateStaff}" update="growl"/>
+
+                </h:panelGrid>
+
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>

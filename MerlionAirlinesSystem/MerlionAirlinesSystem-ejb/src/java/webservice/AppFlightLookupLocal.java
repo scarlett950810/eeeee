@@ -6,6 +6,9 @@
 package webservice;
 
 import imas.planning.entity.AirportEntity;
+import imas.planning.entity.FlightEntity;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,5 +18,5 @@ import javax.ejb.Local;
 @Local
 public interface AppFlightLookupLocal {
     AirportEntity getOneAirportFromCityName(String cityName);
-    
+    List<FlightEntity> getPromotedFlights(AirportEntity origin,Date lowerBound, Date upperBound );
 }

@@ -370,6 +370,45 @@ public class RouteSessionBean implements RouteSessionBeanLocal {
         return routes.get(0);
     }
 
+    @Override
+    public void addRevenueForecast(String hub, String spoke, Double totalPassengers, Double marketShare, Double additionalTraffic, Double avgFare, Double proratedFare, Double revenue) {
+        Query query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.originAirport.airportName =:hub AND a.destinationAirport.airportName = :spoke ");
+        query.setParameter("hub", hub);
+        query.setParameter("spoke", spoke);
+        RouteEntity route1 = (RouteEntity) query.getSingleResult();
+        route1.setTotalPassengers(totalPassengers);
+        route1.setAdditionalTraffic(additionalTraffic);
+        route1.setAvgFare(avgFare);
+        route1.setMarketShare(marketShare);
+        route1.setProratedFare(proratedFare);
+        route1.setRevenue(revenue);
+        
+        query = em.createQuery("SELECT a FROM RouteEntity a WHERE a.destinationAirport.airportName =:hub AND a.originAirport.airportName = :spoke ");
+        query.setParameter("hub", hub);
+        query.setParameter("spoke", spoke);
+        RouteEntity route2 = (RouteEntity) query.getSingleResult();
+        route2.setTotalPassengers(totalPassengers);
+        route2.setAdditionalTraffic(additionalTraffic);
+        route2.setAvgFare(avgFare);
+        route2.setMarketShare(marketShare);
+        route2.setProratedFare(proratedFare);
+        route2.setRevenue(revenue);
+        
+        
+    }
+
+    @Override
+    public Double getAvgRevenue() {
+        Query q = em.createQuery("SELECT a FROM RouteEntity a");
+        if(q.getResultList().isEmpty()) return 0.0;
+        List<RouteEntity> routes = q.getResultList();
+        Double total = 0.0;
+        for(RouteEntity r: routes){
+            total = total + r.getRevenue();
+        }
+        return total/routes.size();
+    }
+
 
 
 }

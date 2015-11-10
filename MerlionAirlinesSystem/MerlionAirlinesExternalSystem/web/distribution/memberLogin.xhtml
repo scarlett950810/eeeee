@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">
+    </ui:define>
+
+    <ui:define name="head">
+    </ui:define>
+
+    <ui:define name="main">
+        <p:panel style="margin-top: 5%; border: #000000 2px solid; height: auto;">
+            <h:form style="text-align: center">
+                
+                <p:panel style="display: inline-block; border-bottom: #000000 2px solid">
+                    <h:panelGrid columns="2" cellpadding="5" style="margin-top: 5%; margin-bottom: 10px; color: black; text-align: center;">
+                        <p:outputLabel value="" />
+                        <p:outputLabel value="" />
+                        <p:outputLabel value="" />
+                        <p:outputLabel value="" />
+                        <p:commandButton value="I am not a Member" style="width: 120%; display: inline-block" actionListener="#{customerBookTicketManagedBean.nonmemberLogin}"></p:commandButton>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+            <h:form style="text-align: center">    
+                <p:panel style="display: inline-block">
+                    <p:growl id="bookingLogin" />
+                    <h:panelGrid columns="2" cellpadding="5" style="margin-top: 5%; margin-bottom: 10px; color: black; text-align: center">
+                        <p:outputLabel value="Member ID: " />
+                        <p:inputText value="#{customerBookTicketManagedBean.memberID}" required="true" requiredMessage="Please input your member ID">
+                        </p:inputText>                       
+
+                        <p:outputLabel value="PIN: "  />
+                        <p:password value="#{customerBookTicketManagedBean.pin}" label="pin" requiredMessage="Please enter your PIN"/><br/><br/>                   
+
+                        <p:commandButton update="bookingLogin" value="Member Log In" actionListener="#{customerBookTicketManagedBean.memberLogin}" style="width: 100%; color: black;"/>
+                        
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+            
+            <h:form style="text-align: center">
+                <p:commandLink actionListener="#{customerBookTicketManagedBean.forgetPIN}" value="Forget PIN"></p:commandLink>
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

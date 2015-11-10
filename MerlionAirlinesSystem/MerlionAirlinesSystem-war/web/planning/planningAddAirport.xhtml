@@ -3,7 +3,8 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../templates/DefaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="head">
         <!--insert customized import here-->
     </ui:define>
@@ -38,25 +39,28 @@
             <p:panel header="Add Airport" class="panel panel-success">
                 <p:messages />
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
-                    <p:outputLabel for="cityName" value="City Name" />
-                    <p:inputText style="width:100%;" id="cityName" value="#{airportManagedBean.cityName}" label="cityName" required="true" requiredMessage="Please input city name">
-                        <p:watermark for="cityName" value="Please enter city name" />
-                    </p:inputText>
+                    <h:outputLabel value="Please choose the airport: "/>
+                    <p:selectOneMenu id="GDSAirport" value="#{airportManagedBean.GDSAirport}" required="true" requiredMessage="Please select an airport before proceeding" converter="gdsAirportConverter" filter="true" filterMatchMode="startsWith">
+                        <p:ajax listener="#{airportManagedBean.onGDSAirportSelect}" update="cityName nationName airportName airportCode timezone"/>
+                        <f:selectItem itemLabel="Select Airport from the List" itemDisabled="true" />
+                        <f:selectItems value="#{airportManagedBean.GDSNewAirports}" itemValue="#{possibleAirport}"/>
+                    </p:selectOneMenu>
                     
-                    <p:outputLabel for="nationName" value="Nation Name" />
-                    <p:inputText style="width:100%;" id="nationName" value="#{airportManagedBean.nationName}" label="nationName" required="true" requiredMessage="Please input nation name">
-                        <p:watermark for="nationName" value="Please enter nation name" />
-                    </p:inputText> 
+                    <p:outputLabel for="cityName" value="City Name" />
+                    <h:outputText id="cityName" value="#{airportManagedBean.cityName}"/>
+                    
+                    
+                    <p:outputLabel for="nationName" value="Nation Name:" />
+                    <h:outputText id="nationName" value="#{airportManagedBean.nationName}"/>
 
-                    <p:outputLabel for="airportName" value="Airport Name" />
-                    <p:inputText style="width:100%;" id="airportName" value="#{airportManagedBean.airportName}" label="airportName" required="true" requiredMessage="Please input airport name">
-                        <p:watermark for="airportName" value="Please enter airport name" />
-                    </p:inputText>
+                    <p:outputLabel for="airportName" value="Airport Name:" />
+                    <h:outputText id="airportName" value="#{airportManagedBean.airportName}"/>
 
                     <p:outputLabel for="airportCode" value="Airport Code" />
-                    <p:inputText style="width:100%;" id="airportCode" value="#{airportManagedBean.airportCode}" label="airportCode" required="true" requiredMessage="Please input airport code">
-                        <p:watermark for="airportCode" value="Please enter airport code" />
-                    </p:inputText>
+                    <h:outputText id="airportCode" value="#{airportManagedBean.airportCode}"/>
+                    
+                    <p:outputLabel for="timezone" value="Timezone" />
+                    <h:outputText id="timezone" value="#{airportManagedBean.tz}"/>
 
                     <h:outputText value="This airport is a hub: " />
                     <h:selectBooleanCheckbox value="#{airportManagedBean.hubOrSpoke}" required="true" label="hubOrSpoke"/>

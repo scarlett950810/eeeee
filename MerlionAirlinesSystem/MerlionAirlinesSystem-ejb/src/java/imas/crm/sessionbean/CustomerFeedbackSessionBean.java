@@ -17,7 +17,17 @@ public class CustomerFeedbackSessionBean implements CustomerFeedbackSessionBeanL
 
     @Override
     public void createFeedback(String content, String title, String feedbackType, String customerEmail) {
-        EmailManager.run("cairui0112@gmail.com", "From " + customerEmail + ": " + title , content);
+        String addressTo = "";
+        if(feedbackType.equals("General Enquiry")){
+            addressTo = "howe0819@gmail.com";
+        }else if(feedbackType.equals("Ticketing Office")){
+            addressTo = "cairui0112@gmail.com";
+        }else if(feedbackType.equals("Customer Service")){
+            addressTo = "Scarlett.Dongyan@gmail.com ";
+        }else if(feedbackType.equals("Membereship Service")){
+            addressTo = "yinlei1993@gmail.com ";
+        }
+        EmailManager.run(addressTo, "From " + customerEmail + ": " + title , content);
 //        EmailManager.run("A0119509@u.nus.edu", "From "+ customerEmail + ": " + title, content);
     }
 

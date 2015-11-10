@@ -62,6 +62,10 @@ public interface RouteSessionBeanLocal {
 
     RouteEntity getRouteForPreference();
 
+    void addRevenueForecast(String hub, String spoke, Double totalPassengers, Double marketShare, Double additionalTraffic, Double avgFare, Double proratedFare, Double revenue);
+
+    Double getAvgRevenue();
+
     
     
 }
