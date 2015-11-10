@@ -189,8 +189,9 @@ public class MemberProfileManagedBean implements Serializable {
         ec.redirect("crmHomePage.xhtml");
     }
 
-    public void redeemMileage() {
+    public void redeemMileage() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedTicket", selectedTicket);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("crmRedeemMileage.xhtml");
     }
 
     public MemberEntity getMember() {
