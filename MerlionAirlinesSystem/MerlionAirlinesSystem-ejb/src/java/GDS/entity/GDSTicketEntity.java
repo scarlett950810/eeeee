@@ -5,6 +5,7 @@
  */
 package GDS.entity;
 
+import imas.distribution.entity.PassengerEntity;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -53,7 +54,7 @@ public class GDSTicketEntity implements Serializable {
         this.price = price;
         this.passenger = passengerEntity;
     }
-    
+
     public Long getId() {
         return id;
     }

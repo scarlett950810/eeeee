@@ -114,6 +114,7 @@ public class InventoryTnCManagementManagedBean implements Serializable {
     public void onFlightChange() {
         if (flight != null) {
             bookingClasses = flight.getBookingClasses();
+            bookingClass = null;
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", null);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", this.bookingClasses);
         }
