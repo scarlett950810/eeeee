@@ -93,6 +93,18 @@ public class GDSFlightLookupManagedBean implements Serializable {
     private List<GDSFlightEntity> returnDirectFlightCandidates;
     private List<GDSTransferFlight> departureTransferFlightCandidates;
     private List<GDSTransferFlight> returnTransferFlightCandidates;
+    
+    private String title;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String city;
+    private String country;
+    private String postCode;
+    private String email;
+    private String contactNumber;
+    private double totalPrice = 0.0;
+    private String referenceNumber;
 
     public GDSFlightLookupManagedBean() {
     }
