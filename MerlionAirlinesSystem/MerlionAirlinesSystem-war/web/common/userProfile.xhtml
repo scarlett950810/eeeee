@@ -5,7 +5,11 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
     <ui:define name="head">
-
+        <style>
+            .ui-widget-content {
+                border: none !important;
+            }
+        </style>
     </ui:define>
 
     <ui:define name="centerPanel">
@@ -49,20 +53,20 @@
             </p:panelGrid>
 
             <h:panelGrid cellpadding="5" style="margin-left: 25%; display: inline-block">
-                <p:commandButton value="Change Password" type="button" onclick="PF('changePassword').show();" style="width: 150%" />
+                <p:commandButton value="Change Password" type="button" onclick="PF('changePassword').show();" class="btn-sm btn-success" style="width: 150%" />
                 <br />
                 
-                <p:commandButton value="Change Email" type="button" onclick="PF('changeEmail').show();" style="width: 150%"/>
+                <p:commandButton value="Change Email" type="button" onclick="PF('changeEmail').show();" class="btn-sm btn-success" style="width: 150%"/>
                 <br />
                 
-                <p:commandButton value="Change Contact" type="button" onclick="PF('changeContact').show();" style="width: 150%"/>
+                <p:commandButton value="Change Contact" type="button" onclick="PF('changeContact').show();" class="btn-sm btn-success" style="width: 150%"/>
                 <br />
                 
-                <p:commandButton value="Report Working" type="button" onclick="PF('reportWorking').show();" style="width: 150%"/>
+                <p:commandButton value="Report Working" type="button" onclick="PF('reportWorking').show();" class="btn-sm btn-success" style="width: 150%"/>
             </h:panelGrid>
         </p:panel>
 
-        <p:dialog header="Change Password" widgetVar="changePassword" height="200">
+        <p:dialog header="Change Password" widgetVar="changePassword" height="200" width="50%">
             <h:form>
                 <p:messages id="errorMsg" />
                 <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
@@ -78,12 +82,13 @@
                     <p:password style="width:100%;" id="newRepeatPassword" value="#{userProfileManagedBean.newRepeatPassword}" label="newRepeatPassword" required="true" requiredMessage="Please repeat the new password">
                     </p:password>
                 </h:panelGrid>
-                <p:commandButton id="changePassword" value="Save" actionListener="#{userProfileManagedBean.changePassword}" update="errorMsg"/>
+                <p:commandButton id="changePassword" value="Save" actionListener="#{userProfileManagedBean.changePassword}"
+                                 class="btn-sm btn-success" update="errorMsg"/>
 
             </h:form>
         </p:dialog>   
 
-        <p:dialog header="Change Email" widgetVar="changeEmail" height="200">
+        <p:dialog header="Change Email" widgetVar="changeEmail" height="200" width="50%">
             <h:form>
                 <p:outputLabel for="newEmail" value="Please input your new email address" />
                 <p:inputText id="newEmail" required="true" label="email" size="40"
@@ -98,13 +103,13 @@
                 <p:watermark for="newEmail" value="Email Address *" />
                 <p:message for="newEmail" />
 
-                <p:commandButton value="Save" style="margin:20px"
+                <p:commandButton value="Save" style="margin:20px" class="btn-sm btn-success"
                                  action="#{userProfileManagedBean.changeEmail}" ajax="false" />
 
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Change Contact" widgetVar="changeContact" height="200">
+        <p:dialog header="Change Contact" widgetVar="changeContact" height="200" width="50%">
             <h:form>
                 <p:outputLabel for="newContact" value="Please input your new contact number" />
                 <p:inputText id="newContact" required="true" label="new contact" size="40"
@@ -115,18 +120,18 @@
                 <p:watermark for="newContact" value="New Contact Number" />
                 <p:message for="newContact" />
 
-                <p:commandButton value="Save" style="margin:20px"
+                <p:commandButton value="Save" style="margin:20px" class="btn-sm btn-success"
                                  action="#{userProfileManagedBean.changeContact}" ajax="false" />
 
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Report Working" widgetVar="reportWorking" height="200">
+        <p:dialog header="Report Working" widgetVar="reportWorking" height="200" width="50%">
             <h:form>
                 <h:outputText value="#{userProfileManagedBean.workingMessage}" />
                 <br/><br/>
                 <p:commandButton value="Save" actionListener="#{userProfileManagedBean.updateWorkingStatus()}"
-                                 class="btn-sm btn-danger" ajax="false"/>
+                                 class="btn-sm btn-success" ajax="false"/>
             </h:form>
         </p:dialog>
 
