@@ -16,6 +16,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface InternalMessageSessionBeanRemote {
+
     public List<StaffEntity> getAllStaff();
 
     public StaffEntity getStaffEntityByStaffNo(String staffNo);
@@ -25,6 +26,5 @@ public interface InternalMessageSessionBeanRemote {
     public List<InternalMessageEntity> getAllMessages(StaffEntity staff);
 
     public void toggleRead(InternalMessageEntity message);
-    
-    
+
 }
