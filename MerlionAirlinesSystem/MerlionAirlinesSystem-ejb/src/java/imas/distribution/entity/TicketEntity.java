@@ -5,6 +5,7 @@
  */
 package imas.distribution.entity;
 
+import DDS.entity.AgencyEntity;
 import imas.inventory.entity.PromotionEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
@@ -55,6 +56,8 @@ public class TicketEntity implements Serializable {
     private Boolean issued; // if the ticket is issued at either the check in counter or web check-in
     @ManyToOne
     private PromotionEntity promotion;
+    @ManyToOne
+    private AgencyEntity agency;
 
     public TicketEntity() {
     }
@@ -229,6 +232,14 @@ public class TicketEntity implements Serializable {
 
     public void setPromotion(PromotionEntity promotion) {
         this.promotion = promotion;
+    }
+
+    public AgencyEntity getAgency() {
+        return agency;
+    }
+
+    public void setAgency(AgencyEntity agency) {
+        this.agency = agency;
     }
 
     @Override

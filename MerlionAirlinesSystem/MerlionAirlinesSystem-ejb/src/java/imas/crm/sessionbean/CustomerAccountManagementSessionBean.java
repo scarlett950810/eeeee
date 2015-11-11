@@ -134,4 +134,14 @@ public class CustomerAccountManagementSessionBean implements CustomerAccountMana
         }
     }
 
+    @Override
+    public List<MemberEntity> retrieveMembers() {
+        Query query = em.createQuery("SELECT m FROM MemberEntity m");
+        List<MemberEntity> members = (List<MemberEntity>) query.getResultList();
+        if(members.isEmpty())
+            return null;
+        else
+            return members;
+    }
+
 }

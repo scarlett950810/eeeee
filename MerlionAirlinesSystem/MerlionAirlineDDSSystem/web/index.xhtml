@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:body>
+        <p:panel style="margin-top: 5%; border: #000000 2px solid; height: auto;">
+            <h:form style="text-align: center">    
+                <p:panel style="display: inline-block">
+                    <p:growl id="bookingLogin" />
+                    <h:panelGrid columns="2" cellpadding="5" style="margin-top: 5%; margin-bottom: 10px; color: black; text-align: center">
+                        <p:outputLabel value="Agency ID: " />
+                        <p:inputText value="#{agencyBookTicketManagedBean.agencyID}" required="true" requiredMessage="Please input agency ID"/>                      
+
+                        <p:outputLabel value="PIN: "  />
+                        <p:password value="#{agencyBookTicketManagedBean.pin}" label="pin" requiredMessage="Please enter PIN"/>
+                        
+                        <br/>
+                        <p:commandButton update="bookingLogin" value="Log In" actionListener="#{agencyBookTicketManagedBean.agencyLogin}" style="width: 100%; color: black;"/>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </p:panel>
+    </h:body>
+
+</html>

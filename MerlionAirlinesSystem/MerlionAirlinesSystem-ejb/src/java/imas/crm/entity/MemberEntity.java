@@ -49,6 +49,7 @@ public class MemberEntity implements Serializable {
     private String contactNumber;
     private String token;
     private Boolean activationStatus;
+    private int age;
     private String salt;
 
     @OneToMany
@@ -66,6 +67,30 @@ public class MemberEntity implements Serializable {
 
     public MemberEntity() {
         this.mileage = 0.0;
+        this.ticketList = null;
+    }
+
+    public MemberEntity(String lastName, String firstName, String gender, String nationality, String passportNumber, String email, int age) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.gender = gender;
+        this.nationality = nationality;
+        this.passportNumber = passportNumber;
+        this.age = age;
+        this.email = email;
+        this.mileage = 0.0;
+        this.ticketList = null;
+    }
+    
+    public MemberEntity(String memberID, String lastName, String firstName, String gender, String nationality, String passportNumber, String email, int age, Double milleage) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.gender = gender;
+        this.nationality = nationality;
+        this.passportNumber = passportNumber;
+        this.age = age;
+        this.email = email;
+        this.mileage = milleage;
         this.ticketList = null;
     }
 
@@ -158,9 +183,9 @@ public class MemberEntity implements Serializable {
     }
 
     public List<TicketEntity> getTicketList() {
-        if(this.ticketList == null){
+        if (this.ticketList == null) {
             return null;
-        }else{
+        } else {
             return ticketList;
         }
     }
@@ -217,14 +242,6 @@ public class MemberEntity implements Serializable {
         this.passportExpiryDate = passportExpiryDate;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -240,6 +257,23 @@ public class MemberEntity implements Serializable {
     public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
         this.promotionEntities = promotionEntities;
     }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
 
     @Override
     public int hashCode() {
