@@ -22,7 +22,7 @@ import javax.persistence.Query;
  * @author Howard
  */
 @Stateless
-public class InventoryRevenueManagementSessionBean implements InventoryRevenueManagementSessionBeanLocal {
+public class InventoryRevenueManagementSessionBean implements InventoryRevenueManagementSessionBeanLocal,InventoryRevenueManagementSessionBeanRemote {
     
     @EJB
     private CostManagementSessionBeanLocal costManagementSessionBean;
