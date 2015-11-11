@@ -5,9 +5,12 @@
  */
 package imas.web.managedbean.systemAdmin;
 
-import GDS.sessionbean.GDSCompanySessionBeanLocal;
+import DDS.sessionbean.AgencySessionBeanLocal;
+import java.io.IOException;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -24,6 +27,8 @@ public class AddAgencyManagedBean implements Serializable {
     private String contactNumber;
     private String pin;
     private String name;
+    @EJB
+    private AgencySessionBeanLocal agencySessionBeanLocal;
 
     /**
      * Creates a new instance of AddAgencyManagedBean
@@ -70,5 +75,19 @@ public class AddAgencyManagedBean implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    public void save() throws IOException{
+        String pin = "";
+        for (int i = 0; i < 6; i++) {
+            int random = (int) (Math.random() * 9);
+            pin = pin + String.valueOf(random);
+        }
+        System.err.println("Pin number generated" + pin);
+        agencySessionBeanLocal.createAgency(account, pin, name, contactNumber, email);
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        ec.redirect("systemAdminHome.xhtml");
+
+    }
+
 }

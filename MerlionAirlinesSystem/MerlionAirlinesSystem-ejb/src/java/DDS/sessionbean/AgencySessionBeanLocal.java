@@ -19,5 +19,7 @@ public interface AgencySessionBeanLocal {
     public boolean checkLogin(String account, String pin);
     public void createAgency(String account, String pin, String name, String contactNumber, String email);
     public AgencyEntity getAgency(String account);
+
+    
     
 }
