@@ -197,6 +197,12 @@ public class AddMemberAccountManagedBean implements Serializable {
             member.setPinNumber(pin);
             member.setContactNumber(contactNumber);
             member.setPassportNumber(passportNumber);
+            Date today = new Date();
+            long diff = today.getTime() - birthdate.getTime();
+            long diffYears = diff / (24 * 60 * 60 * 1000 * 365);
+            System.err.println("Long diff: "+ diff + "Long diffYears" + diffYears);
+            int age = (int) diffYears;
+            member.setAge(age);
             customerAccountManagementSession.createCustomer(member);
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Added successfully", "");
 

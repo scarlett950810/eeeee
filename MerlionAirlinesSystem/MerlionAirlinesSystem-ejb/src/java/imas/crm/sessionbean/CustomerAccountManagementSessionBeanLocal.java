@@ -7,6 +7,7 @@ package imas.crm.sessionbean;
 
 import imas.crm.entity.MemberEntity;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -27,5 +28,7 @@ public interface CustomerAccountManagementSessionBeanLocal {
     boolean checkSequrityAnswer(int questionIndex, String answer, String memberID);
 
     void resetPIN(String memberID, String newPIN);
+
+    List<MemberEntity> retrieveMembers();
     
 }

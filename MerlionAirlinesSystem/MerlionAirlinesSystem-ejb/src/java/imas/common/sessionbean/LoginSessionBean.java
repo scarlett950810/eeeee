@@ -8,6 +8,7 @@ package imas.common.sessionbean;
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
 import imas.common.entity.StaffEntity;
+import imas.crm.entity.MemberEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftTypeEntity;
@@ -18,6 +19,7 @@ import imas.planning.sessionbean.AircraftGroupSessionBeanLocal;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
 import imas.planning.sessionbean.AirportSessionBeanLocal;
 import imas.planning.sessionbean.RouteSessionBeanLocal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.ejb.Stateful;
 import java.util.Date;
@@ -158,7 +160,29 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     private RouteSessionBeanLocal routeSessionBean;
 
     @Override
-    public void insertData() {
+    public void insertData(){
+
+        MemberEntity member1 = new MemberEntity("Tan","David","Male","Singapore","H011", "tan.david@gmail.com", 20);
+        MemberEntity member2 = new MemberEntity("Tan","Cherry","Female","Singapore","H012", "tan.david@gmail.com", 15);
+        MemberEntity member3 = new MemberEntity("Tan","Richard","Male","Hong Kong","H013", "tan.david@gmail.com", 30);
+        MemberEntity member4 = new MemberEntity("Tan","Ivan","Male","Indonesia","H014", "tan.david@gmail.com", 33);
+        MemberEntity member5 = new MemberEntity("Tan","Cheryl","Female","Indonesia","H015", "tan.david@gmail.com", 37);
+        MemberEntity member6 = new MemberEntity("Tan","Star","Female","China","H016", "tan.david@gmail.com", 21);
+        MemberEntity member7 = new MemberEntity("Tan","Mike","Male","Hong Kong","H017", "tan.david@gmail.com", 45);
+        MemberEntity member8 = new MemberEntity("Tan","Xin Kai","Male","U.S.","H018", "tan.david@gmail.com", 51);
+        MemberEntity member9 = new MemberEntity("Tan","Andrew","Male","U.S.","H019", "tan.david@gmail.com", 23);
+        MemberEntity member10 = new MemberEntity("Tan","Jean Samuel","Male","France","H018", "tan.david@gmail.com", 39);
+
+        entityManager.persist(member1);
+        entityManager.persist(member2);
+        entityManager.persist(member3);
+        entityManager.persist(member4);
+        entityManager.persist(member5);
+        entityManager.persist(member6);
+        entityManager.persist(member7);
+        entityManager.persist(member8);
+        entityManager.persist(member9);
+        entityManager.persist(member10);
 
         AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double) 10000, (double) 550, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 60);
         AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double) 5000, (double) 400, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);

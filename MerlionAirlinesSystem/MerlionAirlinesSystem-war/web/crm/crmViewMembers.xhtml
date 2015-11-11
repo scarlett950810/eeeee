@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <title><ui:insert name="title">CRM - Member List</ui:insert></title>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="crmViewMembers.xhtml">Member List</a></li>
+                <li class="sidebar-h1"><a href="crmViewMembersByGraph.xhtml">Statistics Dashboard</a></li> 
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+
+
+        <h:form id="form" rendered="#{crmViewMembersManagedBean.table}">
+
+            <p:dataTable id="memberList" var="member" value="#{crmViewMembersManagedBean.memberList}" widgetVar="memberTable"
+                         emptyMessage="No member information" filteredValue="#{crmViewMembersManagedBean.filteredMemberList}" class="panel-primary"
+                         paginator="true" 
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="15, 30, 50" rows="15" >
+
+                <f:facet name="header">
+                    Merlion Airline Registered Member List
+                </f:facet>
+
+                <p:column headerText="Member ID" filterBy="#{member.memberID}" filterMatchMode="contains" style="width: 18%">
+                    <h:outputText value="#{member.memberID}" />
+                </p:column>
+
+                <p:column headerText="Name" filterBy="#{member.firstName}" filterMatchMode="contains" style="width: 18%">
+                    <h:outputText value="#{member.firstName}, #{member.lastName}" />
+                </p:column>
+
+
+                <p:column headerText="Nationality" filterBy="#{member.nationality}" filterMatchMode="contains">
+                    <h:outputText value="#{member.nationality}" />
+                </p:column>
+
+                <p:column headerText="Mileage (miles)">
+                    <h:outputText value="#{member.mileage}" />
+                </p:column>
+
+                <p:column headerText="Email">
+                    <h:outputText value="#{member.email}" />
+                </p:column>
+
+                <p:column style="width: 5%; text-align: center">
+                    <p:commandButton icon="ui-icon-search" action="#{crmViewMembersManagedBean.viewStaffAccount()}" class="icon-only">
+                        <f:setPropertyActionListener value="#{member}" target="#{crmViewMembersManagedBean.member}" />
+                    </p:commandButton>
+                </p:column>
+
+
+            </p:dataTable>
+        </h:form>
+
+
+
+
+        <p:panel visible="#{crmViewMembersManagedBean.view}" class="panel">
+            <p:panelGrid columns="2">
+                <f:facet name="header">
+                    <h:outputText value="Member Account Information" />
+                </f:facet>
+
+                <h:outputText value="Name:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.memberID}" />
+
+                <h:outputText value="Title:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.title}" />
+
+                <h:outputText value="Last Name:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.lastName}" />
+
+                <h:outputText value="First Name:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.firstName}" />
+
+                <h:outputText value="Gender:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.gender}" />
+
+                <h:outputText value="Birth Date:" />
+                <h:outputText value="#{crmViewMembersManagedBean.dateString}" />
+
+                <h:outputText value="Passport:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.passportNumber}" />
+
+                <h:outputText value="Address:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.address}" />
+
+                <h:outputText value="Contact Number:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.contactNumber}" />
+
+                <h:outputText value="Email:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.email}" />
+
+                <h:outputText value="Mileage:" />
+                <h:outputText value="#{crmViewMembersManagedBean.member.mileage} miles" />
+
+            </p:panelGrid>
+
+            <h:form>
+                <p:commandButton value="Return" actionListener="#{crmViewMembersManagedBean.returnBack}" style="margin-top: 20px" class="btn-sm btn-primary"/>                
+            </h:form>
+        </p:panel>
+
+    </ui:define>
+
+</ui:composition>
