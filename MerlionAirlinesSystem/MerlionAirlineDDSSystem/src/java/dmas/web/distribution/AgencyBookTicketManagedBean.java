@@ -49,13 +49,7 @@ import com.paypal.base.rest.PayPalRESTException;
 import java.util.ArrayList;
 import java.util.List;
 import com.paypal.api.payments.*;
-import imas.crm.entity.MemberEntity;
-import imas.crm.sessionbean.CustomerAccountManagementSessionBeanLocal;
 import imas.crm.sessionbean.MemberProfileManagementSessionBeanLocal;
-import imas.distribution.sessionbean.ModifyBookingSessionBeanLocal;
-import imas.inventory.entity.PromotionEntity;
-import imas.inventory.sessionbean.CostManagementSessionBean;
-import imas.inventory.sessionbean.InventoryPromotionManagementSessionBeanLocal;
 import java.io.File;
 import java.io.Serializable;
 import java.io.IOException;
@@ -71,11 +65,9 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @SessionScoped
 public class AgencyBookTicketManagedBean implements Serializable {
-    @EJB
-    private AgencySessionBeanLocal agencySessionBean;
 
     @EJB
-    private MemberProfileManagementSessionBeanLocal memberProfileManagementSessionBean;
+    private AgencySessionBeanLocal agencySessionBean;
 
     @EJB
     private MakeBookingSessionBeanLocal makeBookingSessionBean;
@@ -366,15 +358,8 @@ public class AgencyBookTicketManagedBean implements Serializable {
     }
 
     public void afterPay() throws IOException {
-//        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice, member);
-        if (agencyID != null) {
-            
-            memberProfileManagementSessionBean.accumulateMileage(agencyID, accumulatedMileage);
-            if (usedMileage != 0) {
-                memberProfileManagementSessionBean.redeemMileage(usedMileage, agencyID);
-            }
-        }
-
+        referenceNumber = makeBookingSessionBean.generateItineraryForAgency(flights, passengers, 
+                title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice, agency);
         RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + "\")");
     }
 
@@ -386,7 +371,7 @@ public class AgencyBookTicketManagedBean implements Serializable {
         return event.getNewStep();
     }
 
-    public void memberLogin() throws IOException {
+    public void agencyLogin() throws IOException {
         FacesMessage msg;
         if (agencySessionBean.checkLogin(agencyID, pin)) {
             logined = true;
@@ -1147,7 +1132,6 @@ public class AgencyBookTicketManagedBean implements Serializable {
         return flightsAvailableOnDate_LowestFare;
     }
 
-    
     private List<BookingClassEntity> filterAgencyBookingClasses(List<BookingClassEntity> originalBCList) {
         List<BookingClassEntity> nonAgencyBCList = new ArrayList<>();
         for (BookingClassEntity bc : originalBCList) {
@@ -1417,40 +1401,24 @@ public class AgencyBookTicketManagedBean implements Serializable {
         flights = new ArrayList<>();
         passengers = new ArrayList<>();
 
-        accumulatedMileage = 0;
-
         if (checkBookingClassesSubmitted()) {
 
             totalPrice = 0.0;
             promotionApplied = false;
-            
+
             if (selectedDepartureDirectFlight()) {
                 flights.add(departureDirectFlight);
-                accumulatedMileage = accumulatedMileage + departureDirectFlightBookingClass.getMileage();
-                System.out.print("1:" + accumulatedMileage);
             } else if (selectedDepartureTransferFlight()) {
                 flights.add(departureTransferFlight1);
                 flights.add(departureTransferFlight1);
-                accumulatedMileage = accumulatedMileage + departureTransferFlight1BookingClass.getMileage();
-                System.out.print("2:" + accumulatedMileage);
-                accumulatedMileage = accumulatedMileage + departureTransferFlight2BookingClass.getMileage();
-                System.out.print("3:" + accumulatedMileage);
             }
             if (selectedReturnDirectFlight()) {
                 flights.add(returnDirectFlight);
-                accumulatedMileage = accumulatedMileage + returnDirectFlightBookingClass.getMileage();
-                System.out.print("4:" + accumulatedMileage);
 
             } else if (selectedReturnTransferFlight()) {
                 flights.add(returnTransferFlight1);
                 flights.add(returnTransferFlight1);
-                accumulatedMileage = accumulatedMileage + returnTransferFlight1BookingClass.getMileage();
-                System.out.print("5:" + accumulatedMileage);
-                accumulatedMileage = accumulatedMileage + returnTransferFlight2BookingClass.getMileage();
-                System.out.print("6:" + accumulatedMileage);
             }
-
-            System.out.print("accumulatedMileage = " + accumulatedMileage);
 
             for (int i = 0; i < number; i++) {
                 PassengerEntity passenger = new PassengerEntity();
@@ -1510,14 +1478,9 @@ public class AgencyBookTicketManagedBean implements Serializable {
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
 
-            if (agencyID != null) {
-                agency = agencySessionBean.getAgency(agencyID);
-                logined = true;
-                FacesContext.getCurrentInstance().getExternalContext().redirect("makeBooking.xhtml");
-            } else {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("memberLogin.xhtml");
-            }
-
+            agency = agencySessionBean.getAgency(agencyID);
+            logined = true;
+            FacesContext.getCurrentInstance().getExternalContext().redirect("makeBooking.xhtml");
         }
 
     }
@@ -1673,8 +1636,7 @@ public class AgencyBookTicketManagedBean implements Serializable {
     public void setMileage(double mileage) {
         this.mileage = mileage;
     }
-    
-    
+
     public boolean isPromotionApplied() {
         return promotionApplied;
     }
