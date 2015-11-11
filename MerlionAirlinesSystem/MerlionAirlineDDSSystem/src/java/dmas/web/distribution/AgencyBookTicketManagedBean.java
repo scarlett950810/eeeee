@@ -273,7 +273,7 @@ public class AgencyBookTicketManagedBean implements Serializable {
         if (agencySessionBean.checkLogin(agencyID, pin)) {
             logined = true;
             agency = agencySessionBean.getAgency(agencyID);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("distribution/makeBooking.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("distribution/selectFlight.xhtml");
         } else {
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid account or invalid match between account and PIN", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
