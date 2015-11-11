@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title><ui:insert name="title">Your Flights</ui:insert></title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form id="viewFlightForm">
+
+            <p:panel header="View all flights from your company">
+
+                <p:dataTable value="#{gDSCompanyViewFlightsManagedBean.companyFlights}" var="flight"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
+                    
+                    <p:column headerText="Origin">
+                        <h:outputText value="#{flight.origin}" />
+                    </p:column>
+                    <p:column headerText="Destination">
+                        <h:outputText value="#{flight.destination}" />
+                    </p:column>
+                    <p:column headerText="Departure Date">
+                        <h:outputText value="#{flight.departureDate}" />
+                    </p:column>
+                    <p:column headerText="Arrival Date">
+                        <h:outputText value="#{flight.arrivalDate}" />
+                    </p:column>
+                    <p:column headerText="Booking Classes" width="10%">
+                        <p:commandButton value="View" update="viewFlightForm:companyFlightBookingClasses"
+                                         actionListener="#{gDSCompanyViewFlightsManagedBean.viewFlightBookingClasses(flight)}"/>
+                    </p:column>
+                    
+                </p:dataTable>
+
+            </p:panel>
+
+            <p:dialog header="#{gDSCompanyViewFlightsManagedBean.selectedFlight}" width="50%"
+                      id="companyFlightBookingClasses" widgetVar="companyFlightBookingClasses">
+                <p:dataTable value="#{gDSCompanyViewFlightsManagedBean.companyFlightsBookingClasses}" var="bc">
+                    <p:column headerText="Booking Class Name" width="40%">
+                        <h:outputText value="#{bc.name}" />
+                    </p:column>
+                    <p:column headerText="Price">
+                        <h:outputText value="S$ #{bc.price}" />
+                    </p:column>
+                    <p:column headerText="Quota">
+                        <h:outputText value="#{bc.quota}" />
+                    </p:column>
+                    <p:column headerText="Additional Notes">
+                        <p:commandButton icon="ui-icon-comment" 
+                                         actionListener="#{gDSCompanyViewFlightsManagedBean.showBCAdditionalNotes(bc)}"/>                        
+                    </p:column>
+                </p:dataTable>
+            </p:dialog>
+        </h:form>
+
+    </h:body>
+
+</html>

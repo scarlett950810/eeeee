@@ -30,7 +30,7 @@
         <script type="text/javascript">
 
 //            function Redirect() {
-//                window.location.assign("{customerBookTicketManagedBean.confirm()}")
+//                window.location.assign("{agencyBookTicketManagedBean.confirm()}")
 ////                window.open("");
 //            }
 
@@ -40,7 +40,7 @@
     <h:body>
         <p:panel id="flightsDetail" header="Flight Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
 
-            <p:dataTable value="#{customerBookTicketManagedBean.flights}" var="flight" style="border: none;">
+            <p:dataTable value="#{agencyBookTicketManagedBean.flights}" var="flight" style="border: none;">
                 <p:column headerText="Flight No.">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
@@ -64,15 +64,15 @@
 
             <h:form id="DiscountDetailsForm">
 
-                <h:panelGrid id="DiscountDetails" columns="2" cellpadding="5" rendered="#{customerBookTicketManagedBean.promotionApplied}">
+                <h:panelGrid id="DiscountDetails" columns="2" cellpadding="5" rendered="#{agencyBookTicketManagedBean.promotionApplied}">
                     <h:outputText value="Original Price:"/>
-                    <h:outputText value="#{customerBookTicketManagedBean.totalPriceBeforeDiscount}"/>
+                    <h:outputText value="#{agencyBookTicketManagedBean.totalPriceBeforeDiscount}"/>
                     <h:outputText value="Total amount discounted/waived:"/>
-                    <h:outputText value="#{customerBookTicketManagedBean.totalDiscountedPrice}"/>
+                    <h:outputText value="#{agencyBookTicketManagedBean.totalDiscountedPrice}"/>
                 </h:panelGrid>
 
                 <h:panelGrid columns="1" cellpadding="5">
-                    <p:outputLabel id="totalPrice" value="Total Price: S$ #{customerBookTicketManagedBean.totalPrice}" style="font-size: 150%; color: red;" />
+                    <p:outputLabel id="totalPrice" value="Total Price: S$ #{agencyBookTicketManagedBean.totalPrice}" style="font-size: 150%; color: red;" />
                     <p:outputLabel value="(Includes taxes and surcharges)" />
                 </h:panelGrid>
 
@@ -83,13 +83,13 @@
 
             <p:growl id="growl" sticky="true" showDetail="true"/>
 
-            <p:wizard flowListener="#{customerBookTicketManagedBean.onFlowProcess}" nextLabel="Continue" showStepStatus="false">
+            <p:wizard flowListener="#{agencyBookTicketManagedBean.onFlowProcess}" nextLabel="Continue" showStepStatus="false">
 
 
                 <p:tab id="passengerInformation" title="Passengers Information">
 
                     <!--                    <p:messages />-->
-                    <ui:repeat value="#{customerBookTicketManagedBean.passengers}" var="passenger">
+                    <ui:repeat value="#{agencyBookTicketManagedBean.passengers}" var="passenger">
                         <p:panel header="Passenger" style="margin-top: 5%; border: #000000 2px solid; height: auto">
                             <h:panelGrid columns="2" columnClasses="label, value" style="display: inline-block;">
                                 <h:outputText value="Title " />
@@ -210,7 +210,7 @@
                     <p:panel header="Contact Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
                         <h:panelGrid columns="2" columnClasses="label, value">
                             <h:outputText value="Title " />
-                            <p:selectOneMenu value="#{customerBookTicketManagedBean.title}" style="width: 100%" required="true" label="title">
+                            <p:selectOneMenu value="#{agencyBookTicketManagedBean.title}" style="width: 100%" required="true" label="title">
                                 <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
                                 <f:selectItem itemLabel="Dr" itemValue="Dr" />
                                 <f:selectItem itemLabel="Mdm" itemValue="Mdm" />
@@ -223,28 +223,28 @@
                             </p:selectOneMenu>
 
                             <h:outputText value="First / given name (as in passport) " />
-                            <p:inputText value="#{customerBookTicketManagedBean.firstName}" required="true" label="firstName"/>
+                            <p:inputText value="#{agencyBookTicketManagedBean.firstName}" required="true" label="firstName"/>
 
                             <h:outputText value="Family name (as in passport) " />
-                            <p:inputText value="#{customerBookTicketManagedBean.lastName}" required="true" label="familyName"/>
+                            <p:inputText value="#{agencyBookTicketManagedBean.lastName}" required="true" label="familyName"/>
 
                             <h:outputText value="Street Address " />
-                            <p:inputText value="#{customerBookTicketManagedBean.address}" required="true" label="streetAddress"/>
+                            <p:inputText value="#{agencyBookTicketManagedBean.address}" required="true" label="streetAddress"/>
 
                             <h:outputText value="City " />
-                            <p:inputText value="#{customerBookTicketManagedBean.city}" required="true" label="city"/>
+                            <p:inputText value="#{agencyBookTicketManagedBean.city}" required="true" label="city"/>
 
                             <h:outputText value="Country " />
-                            <p:inputText value="#{customerBookTicketManagedBean.country}" required="true" label="country"/>
+                            <p:inputText value="#{agencyBookTicketManagedBean.country}" required="true" label="country"/>
 
                             <h:outputText value="Post code " />
-                            <p:inputText value="#{customerBookTicketManagedBean.postCode}" required="true" label="postCode"/>
+                            <p:inputText value="#{agencyBookTicketManagedBean.postCode}" required="true" label="postCode"/>
 
                             <h:outputText value="Contact number" />
-                            <p:inputText value="#{customerBookTicketManagedBean.contactNumber}" required="true" label="contactNumber"/>
+                            <p:inputText value="#{agencyBookTicketManagedBean.contactNumber}" required="true" label="contactNumber"/>
 
                             <h:outputText value="Email address" />
-                            <p:inputText value="#{customerBookTicketManagedBean.email}" required="true" label="emailAddress"/>
+                            <p:inputText value="#{agencyBookTicketManagedBean.email}" required="true" label="emailAddress"/>
 
                         </h:panelGrid>
                     </p:panel>
@@ -254,14 +254,10 @@
                     <p:panel header="Payment Details">
 
                         <h:panelGrid columns="2" columnClasses="label, value">
-                            <p:commandButton value="Proceed to payment" actionListener="#{customerBookTicketManagedBean.completeBooking}"></p:commandButton>
+                            <p:commandButton value="Proceed to payment" onclick="Redirect();"
+                                             actionListener="#{agencyBookTicketManagedBean.completeBooking}"></p:commandButton>
                         </h:panelGrid>
-
-
-                        <h:panelGrid columns="2" columnClasses="label, value">
-                            <p:commandButton value="Proceed to payment" onclick="Redirect();"></p:commandButton>
-                        </h:panelGrid>
-
+                        
                     </p:panel>
                 </p:tab>
             </p:wizard>
