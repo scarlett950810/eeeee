@@ -55,6 +55,10 @@ public class ReportController extends HttpServlet {
             parameters.put("passengerName", passengerName);
             parameters.put("passportNumber", passportNumber);
 //            JasperRunManager.runReportToPdf(reportStream, parameters, merlionAirlineDataSource.getConnection());
+            System.out.print(reportStream);
+            System.out.print(outputStream);
+            System.out.print(parameters);
+            System.out.println(merlionAirlineDataSource.getConnection());
             JasperRunManager.runReportToPdfStream(reportStream, outputStream,
                     parameters, merlionAirlineDataSource.getConnection());
             outputStream.flush();

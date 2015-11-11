@@ -181,16 +181,16 @@
                                         <p:selectOneMenu value="#{ticket.baggageWeight}" style="width: 100%" required="true">
                                             <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
                                             <f:selectItem itemLabel="No Extra Baggage" itemValue="-1" />
-                                            <f:selectItem itemLabel="Extra 10kg" itemValue="10.0" />
-                                            <f:selectItem itemLabel="Extra 25kg" itemValue="25.0" />
-                                            <f:selectItem itemLabel="Extra 50kg" itemValue="50.0" />
+                                            <f:selectItem itemLabel="Extra 10kg at $20" itemValue="10.0" />
+                                            <f:selectItem itemLabel="Extra 25kg at $30" itemValue="25.0" />
+                                            <f:selectItem itemLabel="Extra 50kg at $40" itemValue="50.0" />
                                         </p:selectOneMenu>
                                     </ui:repeat>
                                     <h:outputText value="" />
                                     <h:outputText value="" />
                                     <h:outputText value="" />
 
-                                    <h:outputText value="Enjoy Premium Meal In Flight: " />
+                                    <h:outputText value="Enjoy Premium Meal In Flight ($20/pax): " />
                                     <h:outputText value="" />
 
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
@@ -204,7 +204,7 @@
                                     <h:outputText value="" />
                                     <h:outputText value="" />
 
-                                    <h:outputText value="Enjoy Exclusive Service: " />
+                                    <h:outputText value="Enjoy Exclusive Service ($30/pax): " />
                                     <h:outputText value="(including special check-in counter, exclusive lounge and priority boarding)" style="font-size: small"/>
 
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
@@ -218,7 +218,7 @@
                                     <h:outputText value="" />
                                     <h:outputText value="" />
 
-                                    <h:outputText value="Enjoy In-flight WIFI: " />
+                                    <h:outputText value="Enjoy In-flight WIFI ($25/pax): " />
                                     <h:outputText value="" />
 
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
@@ -232,7 +232,7 @@
                                     <h:outputText value="" />
                                     <h:outputText value="" />
 
-                                    <h:outputText value="Enjoy Affordable Insurance: " />
+                                    <h:outputText value="Enjoy Affordable Insurance ($25/pax): " />
                                     <h:outputText value="" />
 
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">

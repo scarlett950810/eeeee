@@ -257,7 +257,7 @@ public class AgencyBookTicketManagedBean implements Serializable {
         System.out.println("after pay");
         referenceNumber = makeBookingSessionBean.generateItineraryForAgency(flights, passengers, 
                 title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice, agency);
-//        RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + "\")");
+//        RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlineDDSSystem/ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + "\")");
     }
 
     public void makeBooking() throws IOException {
@@ -273,7 +273,7 @@ public class AgencyBookTicketManagedBean implements Serializable {
         if (agencySessionBean.checkLogin(agencyID, pin)) {
             logined = true;
             agency = agencySessionBean.getAgency(agencyID);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("distribution/makeBooking.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("distribution/selectFlight.xhtml");
         } else {
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid account or invalid match between account and PIN", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
