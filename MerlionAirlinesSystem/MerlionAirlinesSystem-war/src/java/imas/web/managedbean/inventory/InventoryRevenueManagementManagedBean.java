@@ -69,13 +69,9 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     public void init() {
         flightList = flightLookupSessionBean.getAllSellingFlights();
     }
-    
-    public void refresh() {
-        flightList = flightLookupSessionBean.getAllSellingFlights();
-    }
 
     public List<FlightEntity> getFlightList() {
-        return flightList;
+        return flightLookupSessionBean.getAllSellingFlights();
     }
 
     public void setFlightList(List<FlightEntity> flightList) {
