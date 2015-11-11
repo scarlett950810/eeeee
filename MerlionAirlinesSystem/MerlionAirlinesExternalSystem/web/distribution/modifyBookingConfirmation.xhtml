@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="main">
+        <p:outputLabel value="Congratulations! You Have Successfully Modified the Booking" style="margin-top: 7%; font-size: 150%;"></p:outputLabel>
+        <h:outputText value="Reference Number: #{modifyBookingManagedBean.ticket.referenceNumber}"></h:outputText>
+        <br></br>
+
+
+        <p:panel header="Flight Information" style="margin-top: 5%; border: #000000 2px solid; height: auto" visible="#{modifyBookingManagedBean.changedFlight}">
+            <p:panelGrid columns="2" style="border: none;">
+                <p:outputLabel value="Flight No."></p:outputLabel>
+                <h:outputText value="#{modifyBookingManagedBean.ticket.flight.flightNo}" />
+
+                <p:outputLabel value="Departure City"></p:outputLabel>
+                <h:outputText value="#{modifyBookingManagedBean.ticket.flight.route.originAirport.cityName} (#{modifyBookingManagedBean.ticket.flight.route.originAirport.airportCode})" />
+
+                <p:outputLabel value="Departure Time"></p:outputLabel>
+                <h:outputText value="#{modifyBookingManagedBean.ticket.flight.departureDate}" />
+
+                <p:outputLabel value="Arrival City"></p:outputLabel>
+                <h:outputText value="#{modifyBookingManagedBean.ticket.flight.route.destinationAirport.cityName} (#{modifyBookingManagedBean.ticket.flight.route.destinationAirport.airportCode})" />
+
+                <p:outputLabel value="Arrival Time"></p:outputLabel>
+                <h:outputText value="#{modifyBookingManagedBean.ticket.flight.arrivalDate}" />
+            </p:panelGrid>
+
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

@@ -23,9 +23,9 @@ public class CustomerFeedbackSessionBean implements CustomerFeedbackSessionBeanL
         }else if(feedbackType.equals("Ticketing Office")){
             addressTo = "cairui0112@gmail.com";
         }else if(feedbackType.equals("Customer Service")){
-            addressTo = "Scarlett.Dongyan@gmail.com ";
+            addressTo = "Scarlett.Dongyan@gmail.com";
         }else if(feedbackType.equals("Membereship Service")){
-            addressTo = "yinlei1993@gmail.com ";
+            addressTo = "yinlei1993@gmail.com";
         }
         EmailManager.run(addressTo, "From " + customerEmail + ": " + title , content);
 //        EmailManager.run("A0119509@u.nus.edu", "From "+ customerEmail + ": " + title, content);

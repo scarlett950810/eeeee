@@ -36,6 +36,15 @@ public class GDSPassengerEntity implements Serializable {
     private Date passportExpiry;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date birthdate;
+
+    public GDSPassengerEntity() {
+    }
+    
+    public GDSPassengerEntity(String firstName, String lastName, String passportNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.passportNumber = passportNumber;
+    }
     
     public Long getId() {
         return id;

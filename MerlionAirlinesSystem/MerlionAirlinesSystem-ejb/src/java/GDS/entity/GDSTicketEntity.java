@@ -5,6 +5,7 @@
  */
 package GDS.entity;
 
+import imas.distribution.entity.PassengerEntity;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -37,7 +38,23 @@ public class GDSTicketEntity implements Serializable {
     @ManyToOne
     private GDSPassengerEntity passenger;
     private Double price;
+
+    public GDSTicketEntity() {
+    }
     
+    public GDSTicketEntity(GDSFlightEntity flight, String bookingClassName, double price) {
+        this.flight = flight;
+        this.bookingClassName = bookingClassName;
+        this.price = price;
+    }
+
+    public GDSTicketEntity(GDSFlightEntity flight, String bookingClassName, double price, GDSPassengerEntity passengerEntity) {
+        this.flight = flight;
+        this.bookingClassName = bookingClassName;
+        this.price = price;
+        this.passenger = passengerEntity;
+    }
+
     public Long getId() {
         return id;
     }

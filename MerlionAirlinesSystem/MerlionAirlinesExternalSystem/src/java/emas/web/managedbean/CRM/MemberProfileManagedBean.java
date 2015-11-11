@@ -190,6 +190,7 @@ public class MemberProfileManagedBean implements Serializable {
     }
 
     public void redeemMileage() throws IOException {
+        System.out.println("member profile: " + selectedTicket);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedTicket", selectedTicket);
         FacesContext.getCurrentInstance().getExternalContext().redirect("crmRedeemMileage.xhtml");
     }

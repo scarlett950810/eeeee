@@ -81,19 +81,23 @@
                     <p:panel header="Mileage Redeemtion" style="margin-top: 2%; border: #000000 2px solid; height: auto" >
                         <h:form>
                             <p:dataTable id="redeemMileage" value="#{memberProfileManagedBean.unissuedTickets}" var="ticket" selectionMode="single" selection="#{memberProfileManagedBean.selectedTicket}" rowKey="#{ticket.id}">
-                                <p:column headerText="Date" filterBy="#{ticket.flight.departureDate}">
+                                <p:column headerText="Date">
                                     <h:outputText value="#{ticket.flight.departureDate}" />
                                 </p:column>
 
-                                <p:column headerText="Flight No" filterBy="#{ticket.flight.flightNo}">
+                                <p:column headerText="Flight No">
                                     <h:outputText value="#{ticket.flight.flightNo}" />
                                 </p:column>
 
-                                <p:column headerText="Description" filterBy="#{ticket.flight.route}">
+                                <p:column headerText="Route">
                                     <h:outputText value="#{ticket.flight.route}" />
                                 </p:column>
+                                
+                                <p:column headerText="Booking Class">
+                                    <h:outputText value="#{ticket.bookingClassName}" />
+                                </p:column>
 
-                                <p:column headerText="Miles Accumulated" filterBy="#{ticket.mileage}">
+                                <p:column headerText="Miles Accumulated">
                                     <h:outputText value="#{ticket.mileage}" />
                                 </p:column>
 
