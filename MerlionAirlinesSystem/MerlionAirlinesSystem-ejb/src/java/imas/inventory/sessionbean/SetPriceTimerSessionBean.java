@@ -14,7 +14,7 @@ import javax.ejb.Stateless;
  * @author Scarlett
  */
 @Stateless
-public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal {
+public class SetPriceTimerSessionBean implements SetPriceTimerSessionBeanLocal{
     
     @EJB
     private BookingClassesManagementSessionBeanLocal bookingClassesManagementSessionBean;

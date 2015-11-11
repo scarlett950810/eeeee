@@ -19,7 +19,7 @@ import javax.persistence.Query;
  * @author Howard
  */
 @Stateful
-public class AirportSessionBean implements AirportSessionBeanLocal {
+public class AirportSessionBean implements AirportSessionBeanLocal, AirportSessionBeanRemote {
     @PersistenceContext
     private EntityManager em;
 

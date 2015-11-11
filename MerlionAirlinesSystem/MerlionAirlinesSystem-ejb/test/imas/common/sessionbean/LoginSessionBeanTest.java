@@ -44,7 +44,7 @@ public class LoginSessionBeanTest {
      * Test of doLogin method, of class LoginSessionBean.
      */
     @Test
-    public void testDoLogin01() throws Exception {
+    public void testDoLogin01() {
         System.out.println("testDoLogin01");
         String staffNo = "Admin";
         String oldpassword = "123";
@@ -53,7 +53,7 @@ public class LoginSessionBeanTest {
     }
 
     @Test
-    public void testDoLogin02() throws Exception {
+    public void testDoLogin02() {
         System.out.println("testDoLogin02");
         String staffNo = "dummyStaff";
         String oldpassword = "correctPasword";
@@ -62,7 +62,7 @@ public class LoginSessionBeanTest {
     }
 
     @Test
-    public void testDoLogin03() throws Exception {
+    public void testDoLogin03() {
         System.out.println("testDoLogin03");
         String staffNo = "admin";
         String oldpassword = "correctPasword";

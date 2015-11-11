@@ -34,8 +34,8 @@ import javax.persistence.Query;
  * @author Scarlett
  */
 @Stateless
-public class BookingClassesManagementSessionBean implements BookingClassesManagementSessionBeanLocal {
-
+public class BookingClassesManagementSessionBean implements BookingClassesManagementSessionBeanLocal,BookingClassesManagementSessionBeanRemote {
+    
     @EJB
     private GDSFlightSessionBeanLocal gDSFlightSessionBean;
 

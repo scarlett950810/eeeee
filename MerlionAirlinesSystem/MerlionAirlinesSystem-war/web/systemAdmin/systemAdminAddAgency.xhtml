@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <title><ui:insert name="title">System Admin - Add Travel Agency Account</ui:insert></title>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1">Account Management</li>
+                <li><a href="systemAdminAddStaff.xhtml">Add Airline Staff</a></li>
+                <li><a href="systemAdminViewStaff.xhtml">View Airline Staff</a></li>
+<!--                <li><a href="">Membership Customers</a></li>
+                <li><a href="">Travel Agencies</a></li>-->
+                <li class="sidebar-h1"><a href="systemAdminSendAnnouncement.xhtml">Send Announcement</a></li>
+                <li class="sidebar-h1"><a href="systemAdminRevenueDashboard.xhtml">Revenue Dashboard</a></li>
+            </ul>
+        </div>
+    </ui:define>
+    
+    <ui:define name="centerPanel">
+        
+        <p:panel header="Add Agency Account" class="panel panel-success">
+            <h:form id="staffAddition">
+                <p:growl id="growl" showDetail="true"/>
+
+                <h:panelGrid columns="2" cellpadding="5" style="margin-bottom: 10px;">
+                    <p:outputLabel for="unit" value="Business Unit/Division: " />
+                    <p:selectOneMenu id="unit" value="#{addStaffManagedBean.unit}" required="true" requiredMessage="Please input business unit/division">
+                        <p:ajax listener="#{addStaffManagedBean.onPilotChange}" update="staffAddition:pilot" />
+                        <f:selectItem itemLabel="Select One" itemValue="" itemDisabled="true"/>
+                        <f:selectItems var="unit" value="#{addStaffManagedBean.businessUnits}" itemValue="#{unit}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="staffNo" value="Staff No: " />
+                    <p:inputText style="width:100%;" id="staffNo" value="#{addStaffManagedBean.staffNo}" label="staffNo" required="true" requiredMessage="Please input staff number">
+                        <p:watermark for="staffNo" value="Please enter staff Number" />
+                    </p:inputText> 
+
+                    <p:outputLabel for="staffName" value="Staff Name: " />
+                    <p:inputText style="width:100%;" id="staffName" value="#{addStaffManagedBean.name}" label="staffName" required="true" requiredMessage="Please input staff name">
+                        <p:watermark for="staffName" value="Please enter staff name" />
+                    </p:inputText> 
+
+                    <p:outputLabel for="gender" value="Gender: " />
+                    <p:inputText style="width:100%;" id="gender" value="#{addStaffManagedBean.gender}" label="gender" required="true" requiredMessage="Please input staff gender">
+                        <p:watermark for="gender" value="Please enter gender" />
+                    </p:inputText>
+
+                    <p:outputLabel for="email" value="Email Address: " />
+                    <p:inputText style="width:100%;" id="email" value="#{addStaffManagedBean.email}" label="email" required="true" 
+                                 requiredMessage="Please input staff email address" validatorMessage="Invalid email format">
+                        <f:validateRegex
+                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+
+                        <p:watermark for="email" value="Please enter email address" />
+                    </p:inputText>
+
+                    <p:outputLabel for="contactNumber" value="Contact Number: " />
+                    <p:inputText style="width:100%;" id="contactNumber" value="#{addStaffManagedBean.contactNumber}" label="contactNumber" required="true" requiredMessage="Please input contact number">
+                        <p:watermark for="contactNumber" value="Please enter contact number" />
+                    </p:inputText>
+
+                    <p:outputLabel for="address" value="Staff Address: " />
+                    <p:inputText style="width:100%;" id="address" value="#{addStaffManagedBean.address}" label="address" required="true" requiredMessage="Please input staff address">
+                        <p:watermark for="address" value="Please enter staff address" />
+                    </p:inputText>
+
+                    <p:outputLabel for="position" value="Position: " />
+                    <p:inputText style="width:100%;" id="position" value="#{addStaffManagedBean.position}" label="position" required="true" requiredMessage="Please input staff position">
+                        <p:watermark for="position" value="Please enter staff position" />
+                    </p:inputText>
+
+                    <p:outputLabel for="location" value="Location: " />
+                    <p:inputText style="width:100%;" id="location" value="#{addStaffManagedBean.location}" label="location" required="true" requiredMessage="Please input staff location">
+                        <p:watermark for="location" value="Please enter staff location" />
+                    </p:inputText>
+
+                    <p:outputLabel for="base" value="Base: " />
+                    <p:selectOneMenu id="base" value="#{addStaffManagedBean.base}">
+                        <f:selectItem itemLabel="Select One" itemValue="" itemDisabled="true"/>
+                        <f:selectItem itemLabel="Not Applicable" itemValue=""/>
+                        <f:selectItems value="#{addStaffManagedBean.bases}" />
+                        
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:panel id="pilot" style="margin-top: 10px;" visible="#{addStaffManagedBean.isPilot}">
+                    <p:outputLabel for="aircraftType" value="Check all the aircraft type that a pilot can fly" />
+                    <p:selectManyCheckbox id="aircraftType" value="#{addStaffManagedBean.aircraftType}" layout="grid" columns="3">
+
+                        <f:selectItem itemLabel="A380" itemValue="A380" />
+                        <f:selectItem itemLabel="A330" itemValue="A330" />
+                        <f:selectItem itemLabel="A320" itemValue="A320" />
+                        <f:selectItem itemLabel="B787" itemValue="B787" />
+                        <f:selectItem itemLabel="B777" itemValue="B777" />
+                        <f:selectItem itemLabel="B747" itemValue="B747" />
+                        <f:selectItem itemLabel="B737" itemValue="B737" />
+                    </p:selectManyCheckbox>
+
+                    <p:outputLabel for="mileageLimit" value="Mileage Limit for the Pilot: " />
+                    <p:selectOneMenu id="mileageLimit" value="#{addStaffManagedBean.mileageLimit}" style="width:125px">
+                        <f:selectItem itemLabel="Select One" itemValue="" itemDisabled="true"/>
+                        <f:selectItem itemLabel="5000" itemValue="false" />
+                        <f:selectItem itemLabel="10000" itemValue="true" />
+                    </p:selectOneMenu>
+                </p:panel>
+
+                <p:commandButton id="addStaff" value="confirm" actionListener="#{addStaffManagedBean.addStaff()}" update="growl"
+                                 class="btn-sm btn-success"/>
+
+            </h:form>
+
+
+        </p:panel>
+    </ui:define>
+    
+</ui:composition>

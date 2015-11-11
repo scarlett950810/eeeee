@@ -26,7 +26,7 @@ import org.primefaces.model.TreeNode;
  */
 @Stateless
 
-public class CostManagementSessionBean implements CostManagementSessionBeanLocal {
+public class CostManagementSessionBean implements CostManagementSessionBeanLocal,CostManagementSessionBeanRemote{
 
     @PersistenceContext
     private EntityManager em;

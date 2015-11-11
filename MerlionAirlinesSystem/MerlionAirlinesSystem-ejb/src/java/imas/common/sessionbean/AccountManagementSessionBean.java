@@ -34,7 +34,7 @@ import util.security.CryptographicHelper;
  * @author Howard
  */
 @Stateless
-public class AccountManagementSessionBean implements AccountManagementSessionBeanLocal,AccountManagementSessionBeanRemote {
+public class AccountManagementSessionBean implements AccountManagementSessionBeanLocal, AccountManagementSessionBeanRemote {
 
     private static final Random RANDOM = new SecureRandom();
     public static final int SALT_LENGTH = 8;
@@ -363,8 +363,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     }
 
     @Override
-    public AirportEntity fetchBase(String base
-    ) {
+    public AirportEntity fetchBase(String base) {
         Query query = entityManager.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :base");
         query.setParameter("base", base);
 
