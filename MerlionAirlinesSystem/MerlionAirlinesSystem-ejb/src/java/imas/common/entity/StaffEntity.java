@@ -61,7 +61,7 @@ public class StaffEntity implements Serializable {
     private Boolean deleteStatus;
 
     private List<Date> loginAttempt;
-
+    
     private String salt;
 
     private Boolean working;

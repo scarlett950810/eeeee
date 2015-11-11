@@ -155,7 +155,7 @@ public class ViewMaintenanceScheduleSessionBean implements ViewMaintenanceSchedu
     }
 
     public void setAircraftList(List<AircraftEntity> aircraftList) {
-        this.aircraftList = aircraftList;
+        this.aircraftList = aircraftList;   
     }
 
     public Date getStartDate() {

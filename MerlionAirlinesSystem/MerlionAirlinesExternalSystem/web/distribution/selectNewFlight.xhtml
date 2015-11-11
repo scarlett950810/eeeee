@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/ClientSideTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Distribution - Select New Flight</ui:define>
+
+    <ui:define name="main">
+        <p:growl id="growl" autoUpdate="true"/>
+
+        <p:tabView id="tabView" activeIndex="#{modifyBookingManagedBean.activeIndex}">
+            <p:tab title="1 Search creiteria" class="panel panel-primary" disabled="#{modifyBookingManagedBean.tab1Disabled}">
+
+                <p:messages />
+
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="5">
+
+                        <p:outputLabel for="origin" value="From:" />
+                        <p:selectOneMenu id="origin" value="#{modifyBookingManagedBean.originAirport}" converter="airportConverter"
+                                         filter="true" filterMatchMode="contains" required="true" requiredMessage="Please specify departure airport">
+                            <p:ajax listener="#{modifyBookingManagedBean.onOriginChange}" update="destination" />
+                            <f:selectItem itemLabel="Select Origin Airport" itemDisabled="true" />
+                            <f:selectItems value="#{modifyBookingManagedBean.originAirportsByCountry}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="destination" value="To:" />
+                        <p:selectOneMenu id="destination" value="#{modifyBookingManagedBean.destinationAirport}" converter="airportConverter"
+                                         filter="true" filterMatchMode="contains" required="true" requiredMessage="Please specify return airport">
+                            <f:selectItem itemLabel="Select Destination Airport" itemDisabled="true" />
+                            <f:selectItems value="#{modifyBookingManagedBean.destinationAirportsByCountry}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="departureDate" value="Select Departure Date" />
+                        <p:calendar id="departureDate" value="#{modifyBookingManagedBean.departureDate}" required="true" requiredMessage="Please specify departure date"
+                                    mindate="#{modifyBookingManagedBean.departureMinDate}"/>
+
+                        <h:outputLabel for="seatClass" value="Seat Class"/>                    
+                        <p:selectOneMenu id="seatClass" value="#{modifyBookingManagedBean.seatClass}" required="true">
+                            <f:selectItem itemValue="First Class" itemLabel="First Class"/>
+                            <f:selectItem itemValue="Business Class" itemLabel="Business Class"/>
+                            <f:selectItem itemValue="Premium Economy Class" itemLabel="Premium Economy Class"/>
+                            <f:selectItem itemValue="Economy Class" itemLabel="Economy Class"/>
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+
+                    <p:commandButton value="Search" class="btn-sm btn-primary" actionListener="#{modifyBookingManagedBean.searchFlight}"
+                                     update="tabView" />
+                </h:form>
+            </p:tab>
+
+            <p:tab id="selectFlightTab" title="2 Select Flight" class="panel panel-primary" disabled="#{modifyBookingManagedBean.tab2Disabled}">
+
+                <h:form id="selectFlightForm">
+
+                    <p:messages id="selectFlightTabMsg"/>
+
+                    <p:panel header="#{modifyBookingManagedBean.originAirport} to #{modifyBookingManagedBean.destinationAirport} on #{modifyBookingManagedBean.getDate(modifyBookingManagedBean.departureDate)}"
+                             class="panel panel-primary" style="margin-top: 0.2%;">
+
+                        <p:chart type="line" model="#{modifyBookingManagedBean.flight7DayPricing}" style="height:300px;">
+                            <!--<p:ajax event="itemSelect" listener="{modifyBookingManagedBean.select7DayPricing}" update="growl" />-->
+                        </p:chart>
+                        
+                        <p:dataTable value="#{modifyBookingManagedBean.flightCandidates}" var="flight"
+                                     rowKey="#{flight.id}" selection="#{modifyBookingManagedBean.selectedFlight}" 
+                                     disabledSelection="#{modifyBookingManagedBean.flightSelectionDisabled(flight)}">
+                            
+                            <p:column selectionMode="single" width="5%"/>
+
+                            <p:column headerText="Departure Time">
+                                <h:outputText value="#{flight.departureDate}" />
+                            </p:column>
+
+                            <p:column headerText="Arrival Time">
+                                <h:outputText value="#{flight.arrivalDate}" />
+                            </p:column>
+
+                            <p:column headerText="Duration (hours)">
+                                <h:outputText value="#{modifyBookingManagedBean.getUserFriendlyTime(flight.route.flightHours)}" />
+                            </p:column>
+
+                            <p:column headerText="Aircraft Type">
+                                <h:outputText value="#{flight.aircraft.aircraftType}" />
+                            </p:column>
+
+                            <p:column headerText="Lowest fare under #{modifyBookingManagedBean.seatClass}">
+                                <h:outputText value="#{modifyBookingManagedBean.getLowestFareString(flight)}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>
+
+                    <p:commandButton value="Select Booking Class" class="btn-sm btn-primary" 
+                                     actionListener="#{modifyBookingManagedBean.submitFlightsToSelectBookingClasses}" update="tabView" />
+                </h:form>
+            </p:tab>
+
+            <p:tab title="3 Select Booking Class" class="panel panel-primary" disabled="#{modifyBookingManagedBean.tab3Disabled}">
+
+                <h:form>
+
+                    <p:dataTable value="#{modifyBookingManagedBean.bookingClassCandidates}" var="bookingClass" 
+                                 selection="#{modifyBookingManagedBean.selectedBookingClass}" rowKey="#{bookingClass.id}" 
+                                 disabledSelection="#{modifyBookingManagedBean.bookingClassSelectionDisabled(bookingClass)}">
+                        <p:column selectionMode="single" width="5%"/>
+
+                        <f:facet name="header">
+                            #{modifyBookingManagedBean.selectedFlight}
+                        </f:facet>
+
+                        <p:column headerText="Booking Class Name">
+                            <h:outputText value="#{bookingClass.name}" />
+                        </p:column>
+
+                        <p:column headerText="Price">
+                            <h:outputText value="S$ #{bookingClass.price}" />
+                        </p:column>
+
+                        <p:column headerText="Rules">
+                            <p:commandButton icon="ui-icon-comment" 
+                                             actionListener="#{modifyBookingManagedBean.showBCRules(bookingClass)}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+
+                    <p:commandButton class="btn-sm btn-primary" value="Proceed" actionListener="#{modifyBookingManagedBean.submitBookingClass()}"/>
+
+                </h:form>
+
+            </p:tab>
+
+        </p:tabView>
+
+    </ui:define>
+
+</ui:composition>

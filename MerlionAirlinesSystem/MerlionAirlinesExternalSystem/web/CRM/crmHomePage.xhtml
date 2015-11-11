@@ -6,6 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <ui:define name="title">
+        MerFlion Home | Frequent Flyer Program
     </ui:define>
 
     <ui:define name="head">
@@ -37,7 +38,7 @@
             a.captionOrange:hover
             {
                 color: #eb5100;
-                text-decoration: underline;
+                text-decoration: none;
                 background-color: #eeeeee;
                 background-color: rgba(238, 238, 238, 0.7);
             }
@@ -129,13 +130,13 @@
 
     <ui:define name="main">
         <div style="display: block; margin:3% auto 0 auto; padding: 10px 5px 5px 10px; width: 96%; max-width:940px; min-width: 240px;">
-            <p:outputLabel value="Welcome to MerFlion, Merlion Airlines' Frequent Flyer Programme"></p:outputLabel>
+            <p:outputLabel value="Welcome to MerFlion, Merlion Airlines' Frequent Flyer Programme" style="font-size: 150%"></p:outputLabel>
             <br></br>
-            <br></br>
+            
             <h:outputText value="Merlion Airlines brings you fly"></h:outputText>
         </div>
 
-        <div style="display: block; margin:5% auto 0 auto; padding: 10px 5px 5px 10px; width: 96%; max-width:940px; min-width: 240px; border: 1px solid #ccc; background-color: #fff; box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd; font-size: .8em; line-height: 1.5em; height: 350px">
+        <div style="display: block; margin:3% auto 0 auto; padding: 10px 5px 5px 10px; width: 96%; max-width:940px; min-width: 240px; border: 1px solid #ccc; background-color: #fff; box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd; font-size: .8em; line-height: 1.5em; height: 320px">
             <!-- Jssor Slider Begin -->
             <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
             <div id="slider1_container" style="position: relative; margin: 0px 5px 5px 0px; float: left; top: 0px; left: 0px; width: 600px;
@@ -143,10 +144,8 @@
                 <!-- Slides Container -->
                 <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 600px; height: 300px;
                      overflow: hidden;">
-                    <div><img u="image" src="../resources/img/banners/01.jpg" />
-                        <div u="caption" t="CLIP|L" style="position:absolute;left:100px;top:80px;width:110px;height:40px;font-size:36px;color:#fff;line-height:40px;">Resize</div>
-                        <div u="caption" t="CLIP|L" style="position:absolute;left:230px;top:80px;width:120px;height:40px;font-size:36px;color:#fff;line-height:40px;">Window</div>
-                        <div u="caption" t="CLIP|L" style="position:absolute;left:380px;top:80px;width:130px;height:40px;font-size:36px;color:#fff;line-height:40px;">Please!</div>
+                    <div>
+                        <img u="image" src="../resources/img/banners/01.jpg" />
                     </div>
                     <div>
                         <img u="image" src="../resources/img/banners/02.jpg" />
@@ -154,10 +153,8 @@
                     <div>
                         <img u="image" src="../resources/img/banners/03.jpg" />
                     </div>
-                    <div><img u="image" src="../resources/img/banners/05.jpg" />
-                        <div u="caption" t="FLTTR|R" style="position:absolute;left:100px;top:80px;width:110px;height:40px;font-size:36px;color:#fff;line-height:40px;">Resize</div>
-                        <div u="caption" t="FLTTR|R" style="position:absolute;left:230px;top:80px;width:120px;height:40px;font-size:36px;color:#fff;line-height:40px;">Window</div>
-                        <div u="caption" t="FLTTR|R" style="position:absolute;left:380px;top:80px;width:130px;height:40px;font-size:36px;color:#fff;line-height:40px;">Please!</div>
+                    <div>
+                        <img u="image" src="../resources/img/banners/05.jpg" />
                     </div>
                 </div>
 
@@ -167,11 +164,13 @@
                 </script>
             </div>
             <!-- Jssor Slider End -->
-            <h3>The more you fly, the more benefits you receive</h3>
-            <p style="margin-top:2%; margin-left: 5%;">When you fly more often, your membership can be upgraded to higher tiers.</p>
-            <p style="margin-top:2%;">With the mileage you accumulate, you can redeem air tickets or upgrade your seat class or premium services</p>
-            <br></br>
-            <br></br>
+            <div style="padding: 2% 2% 2% 2%">
+                <h3>The more you fly, the more benefits you receive</h3>
+                <p style="margin-top:2%; margin-left: 5%;">When you fly more often, your membership can be upgraded to higher tiers.</p>
+                <p style="margin-top:2%;">With the mileage you accumulate, you can redeem air tickets or upgrade your seat class or premium services</p>
+                <br></br>
+                <br></br>
+            </div>
         </div>
 
         <div class="ui-grid ui-grid-responsive" style="margin-top: 5%">

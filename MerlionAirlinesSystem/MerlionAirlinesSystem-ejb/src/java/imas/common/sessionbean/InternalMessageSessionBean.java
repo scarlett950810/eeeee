@@ -18,7 +18,7 @@ import javax.persistence.Query;
  * @author Scarlett
  */
 @Stateless
-public class InternalMessageSessionBean implements InternalMessageSessionBeanLocal {
+public class InternalMessageSessionBean implements InternalMessageSessionBeanLocal,InternalMessageSessionBeanRemote {
     
     @PersistenceContext
     private EntityManager entityManager;

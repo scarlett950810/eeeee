@@ -9,7 +9,9 @@ import imas.crm.entity.MemberEntity;
 import imas.crm.sessionbean.CustomerAccountManagementSessionBeanLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -18,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.persistence.Temporal;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -27,6 +30,9 @@ import javax.persistence.Temporal;
 @ViewScoped
 public class AddMemberAccountManagedBean implements Serializable {
 
+    private static final Random RANDOM = new SecureRandom();
+    CryptographicHelper cp = new CryptographicHelper();
+    public static final int SALT_LENGTH = 8;
     private String title;
     private String lastName;
     private String firstName;
@@ -194,6 +200,16 @@ public class AddMemberAccountManagedBean implements Serializable {
             member.setSequrityQuestionIndex(securityQuestionIndex);
             member.setSequrityQuestionanswer(answer);
             member.setBirthDate(birthdate);
+            String salt = "";
+            String letters = "0123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
+            for (int i = 0; i < SALT_LENGTH; i++) {
+                int index = (int) (RANDOM.nextDouble() * letters.length());
+                salt += letters.substring(index, index + 1);
+            }
+            member.setSalt(salt);
+            System.out.print(salt);
+            pin = cp.doMD5Hashing(pin + salt);
+            System.out.print(pin);
             member.setPinNumber(pin);
             member.setContactNumber(contactNumber);
             member.setPassportNumber(passportNumber);

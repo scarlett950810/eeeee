@@ -5,6 +5,7 @@
  */
 package imas.common.sessionbean;
 
+import GDS.sessionbean.GDSAirportSessionBeanLocal;
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
 import imas.common.entity.StaffEntity;
@@ -36,7 +37,10 @@ import util.security.CryptographicHelper;
  * @author Howard
  */
 @Stateful
-public class LoginSessionBean implements LoginSessionBeanLocal {
+public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanRemote{
+    
+    @EJB
+    private GDSAirportSessionBeanLocal gDSAirportSessionBean;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -183,6 +187,9 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         entityManager.persist(member8);
         entityManager.persist(member9);
         entityManager.persist(member10);
+    public void insertData() {
+        
+        gDSAirportSessionBean.getAllGDSAirport();
 
         AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double) 10000, (double) 550, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 60);
         AircraftTypeEntity aircraftType2 = new AircraftTypeEntity("A330", (double) 5000, (double) 400, (double) 450, (double) 3800, (double) 6400, (double) 28, "Gas", (double) 55);
@@ -235,7 +242,9 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
         }
 
         System.out.println("150 aircrafts added");
-
+        
+        
+        
         List<String> l1 = new ArrayList<String>();
         l1.add("A380");
         l1.add("A880");
@@ -712,6 +721,10 @@ public class LoginSessionBean implements LoginSessionBeanLocal {
     @Override
     public void tempUseInsertPilot() {
 
+    }
+
+    public void persist(Object object) {
+        entityManager.persist(object);
     }
 
 }

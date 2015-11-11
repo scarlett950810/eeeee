@@ -19,10 +19,10 @@ import javax.ejb.Local;
 public interface AccountManagementSessionBeanLocal {
 
     void resetStaffPassword(String email);
-    
-    Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address, 
-            String gender, String businessUnit, String division, String position, String location, 
-            String base, String workingStatus, List<String> aircraftTypeCapabilities, Boolean mileageLimit, 
+
+    Boolean addStaff(String staffNo, String name, String email, String contactNumber, String address,
+            String gender, String businessUnit, String division, String position, String location,
+            String base, String workingStatus, List<String> aircraftTypeCapabilities, Boolean mileageLimit,
             Boolean isPilot, Boolean isCabinCrew);
 
     Boolean checkEmailExistence(String email);
@@ -54,5 +54,9 @@ public interface AccountManagementSessionBeanLocal {
     void resetPassword(String password, String staffNo);
 
     void updatePreference(List<RouteEntity> selectedRoutes, String selectedDay, String staffNo);
+
+    public List<StaffEntity> fetchLockStaffs();
+
+    public void unlockStaff(StaffEntity selectedStaff);
 
 }

@@ -45,7 +45,7 @@
                             <li><a href="operationCrewCheckIn.xhtml"> Crew Check-in </a></li> 
                             <li><a href="operationCrewBoarding.xhtml"> Crew Boarding </a></li> 
                             <li><a href="operationPostFlightReport.xhtml">Post-Flight Report</a></li><br/>
-                            
+
                             <li class="sidebar-h1"><a href="operationCabinCrewScheduling.xhtml">Staff Management</a></li> 
                             <li><a href="operationCabinCrewInformation.xhtml">Cabin Crew Information</a></li>
                             <li><a href="operationCabinCrewScheduling.xhtml">Cabin Crew Schedule</a></li>
@@ -59,6 +59,33 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="layoutUnit_center" position="center" style="margin: 0 !important; padding: 0px !important;">
+
+                <div style="text-align: center; margin-top: 5%">
+                    <h2 style="font-family: fantasy; font-size: 300%">Merlion Airlines Operation System</h2>
+                </div>
+
+                <div class="ui-grid ui-grid-responsive" style="margin-top: 10%">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%; text-align: center;  box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
+                            <a href="https://localhost:8181/MerlionAirlinesSystem-war/operation/viewMaintenanceSchedule.xhtml">
+                                <h3>Aircraft Management</h3>
+                                <img src="../resources/img/OperationHome_1.jpeg" width="70%"></img>
+                            </a>
+                        </div>
+                        <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%; text-align: center; box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
+                            <a href="https://localhost:8181/MerlionAirlinesSystem-war/operation/operationFillInOpenSeat.xhtml">
+                                <h3>Flight Management</h3>
+                                <img src="../resources/img/OperationHome_2.jpg" width="70%"></img>
+                            </a>
+                        </div>
+                        <div class="ui-grid-col-4" style="height: 250px;margin-left: 1%; margin-right: 1%;text-align: center; box-shadow: 2px 2px 10px 2px #dddddd; -webkit-box-shadow: 0px 0px 5px 0px #dddddd;">
+                            <a href="https://localhost:8181/MerlionAirlinesSystem-war/operation/operationCabinCrewScheduling.xhtml">
+                                <h3>Staff Management</h3>
+                                <img src="../resources/img/OperationHome_3.jpg" width="70%"></img>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
                 <h:form id="toolBox" style="margin: 0px !important;">
 
@@ -74,8 +101,6 @@
 
                     </p:stack>
                 </h:form>
-
-                <p:graphicImage name="img/homepage/operation.png" style="width: 100%"/>
 
                 <p:dialog header="Annoucements" widgetVar="announcement" minHeight="40" showEffect="clip" hideEffect="clip"
                           width="60%">
@@ -169,9 +194,6 @@
                         </p:panel>
                     </h:form>
                 </p:dialog>
-
-
-
             </p:layoutUnit>
 
         </p:layout>

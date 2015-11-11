@@ -34,7 +34,7 @@ import util.security.CryptographicHelper;
  * @author Howard
  */
 @Stateless
-public class AccountManagementSessionBean implements AccountManagementSessionBeanLocal {
+public class AccountManagementSessionBean implements AccountManagementSessionBeanLocal, AccountManagementSessionBeanRemote {
 
     private static final Random RANDOM = new SecureRandom();
     public static final int SALT_LENGTH = 8;
@@ -213,8 +213,53 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
         return staff;
     }
 
+    public void createLate(StaffEntity staff) {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s ");
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        if (!staffs.isEmpty()) {
+            for (int i = 0; i < staffs.size(); i++) {
+                if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10 || i == 11 || i == 12 || i == 13) {
+                    staffs.get(i).setLoginAttempt(staff.getLoginAttempt());
+                }
+            }
+        }
+    }
+
     @Override
-    public void deleteStaff(String staffNo) {
+    public List<StaffEntity> fetchLockStaffs() {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s ");
+
+        List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
+        List<StaffEntity> delayStaffs = new ArrayList<>();
+
+        if (!staffs.isEmpty()) {
+            for (StaffEntity staff : staffs) {
+//                System.out.print(staff.getLoginAttempt());
+                if (staff.getLoginAttempt() != null) {
+                    if (!staff.getLoginAttempt().isEmpty()) {
+                        if (staff.getLoginAttempt().size() >= 10) {
+                            // createLate(staff);
+                            delayStaffs.add(staff);
+                        }
+                    }
+                }
+//                if (staff.getLoginAttempt()!=null&&!staff.getLoginAttempt().isEmpty() && staff.getLoginAttempt().size() >= 10) {
+//                    delayStaffs.add(staff);
+//                }
+            }
+        }
+        return delayStaffs;
+    }
+
+    @Override
+    public void unlockStaff(StaffEntity selectedStaff) {
+        selectedStaff.setLoginAttempt(null);
+        entityManager.merge(selectedStaff);
+    }
+
+    @Override
+    public void deleteStaff(String staffNo
+    ) {
         Query query = entityManager.createQuery("DELETE FROM StaffEntity s WHERE s.staffNo = :staffNo");
         query.setParameter("staffNo", staffNo);
         query.executeUpdate();
@@ -222,7 +267,8 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     }
 
     @Override
-    public void updateStaff(StaffEntity staffEntity) {
+    public void updateStaff(StaffEntity staffEntity
+    ) {
 //        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNo");
 //        query.setParameter("staffNo", staffNo);
 
@@ -317,8 +363,7 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     }
 
     @Override
-    public AirportEntity fetchBase(String base
-    ) {
+    public AirportEntity fetchBase(String base) {
         Query query = entityManager.createQuery("SELECT a FROM AirportEntity a WHERE a.airportCode = :base");
         query.setParameter("base", base);
 
@@ -417,7 +462,8 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     }
 
     @Override
-    public boolean forgetPassword(String staffNo) {
+    public boolean forgetPassword(String staffNo
+    ) {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
 
@@ -439,61 +485,61 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
     }
 
     @Override
-    public boolean checkSecurityAnswer(String staffNo, String answer, int questionIndex) {
+    public boolean checkSecurityAnswer(String staffNo, String answer, int questionIndex
+    ) {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
         StaffEntity staff = staffs.get(0);
-        if(staff.getSequrityQuestionAnswer().toLowerCase().equals(answer.toLowerCase()) && staff.getSequrityQuestionIndex() == questionIndex){
+        if (staff.getSequrityQuestionAnswer().toLowerCase().equals(answer.toLowerCase()) && staff.getSequrityQuestionIndex() == questionIndex) {
             System.out.println("true");
             return true;
-        }else{
+        } else {
             System.out.println("false");
             return false;
         }
     }
 
     @Override
-    public StaffEntity getStaffBasedOnToken(String token) {
+    public StaffEntity getStaffBasedOnToken(String token
+    ) {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.token = :token");
         query.setParameter("token", token);
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
-        if(staffs.isEmpty()){
+        if (staffs.isEmpty()) {
             return null;
-        }else{
+        } else {
             return staffs.get(0);
         }
     }
 
     @Override
-    public void resetPassword(String password, String staffNo) {
+    public void resetPassword(String password, String staffNo
+    ) {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
         StaffEntity staff = staffs.get(0);
+        String salt = staff.getSalt();
+        password = cp.doMD5Hashing(password + salt);
         staff.setPassword(password);
         staff.setToken(null);
     }
 
     @Override
-    public void updatePreference(List<RouteEntity> selectedRoutes, String selectedDay, String staffNo) {
+    public void updatePreference(List<RouteEntity> selectedRoutes, String selectedDay, String staffNo
+    ) {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.staffNo = :staffNumber");
         query.setParameter("staffNumber", staffNo);
 
         List<StaffEntity> staffs = (List<StaffEntity>) query.getResultList();
         StaffEntity staff = staffs.get(0);
-        
+
         staff.setPreferredDay(selectedDay);
         staff.setPreferredRoutes(selectedRoutes);
     }
-    
-    
-    
-    
-    
-    
 
 }
