@@ -85,6 +85,12 @@ public class ModifyBookingManagedBean {
     private List<FlightEntity> flightCandidates;
     private List<BookingClassEntity> bookingClassCandidates;
 
+    private double oldPrice;
+    private double newPrice;
+    private double changeFee;
+    private boolean changedFlight;
+    private String changeFlightDetails;
+
     /**
      * Creates a new instance of ModifyBookingManagedBean
      */
@@ -93,6 +99,7 @@ public class ModifyBookingManagedBean {
 
     @PostConstruct
     public void init() {
+        changedFlight = false;
     }
 
     public void seachTicket() throws IOException {
@@ -443,12 +450,69 @@ public class ModifyBookingManagedBean {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, bookingClass.getName(), bookingClassRuleSet.toString());
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-    
+
     public void submitBookingClass() throws IOException {
-        ticket = modifyBookingSessionBean.modifyTicket(ticket, selectedFlight, selectedBookingClass);
+        TicketEntity oldTicket = ticket;
+        oldPrice = ticket.getPrice();
+        newPrice = selectedBookingClass.getPrice();
+        BookingClassRuleSetEntity bcrs = getTicketBookingClassRuleSet(oldTicket);
+        changedFlight = true;
+        changeFee = changeFlightFee(oldTicket, selectedFlight, bcrs);
+        changeFlightDetails = changeFlightDetails(oldTicket, selectedFlight, bcrs);
         FacesContext.getCurrentInstance().getExternalContext().redirect("modifyBooking.xhtml");
     }
+
+    private BookingClassRuleSetEntity getTicketBookingClassRuleSet(TicketEntity ticket) {
+        List<BookingClassEntity> flightBookingClasses = ticket.getFlight().getBookingClasses();
+        for (BookingClassEntity bc : flightBookingClasses) {
+            if (bc.getName().equals(ticket.getBookingClassName())) {
+                return bc.getBookingClassRuleSet();
+            }
+        }
+        return new BookingClassRuleSetEntity();
+    }
+
+    private double changeFlightFee(TicketEntity oldTicket, FlightEntity newFlight, BookingClassRuleSetEntity rule) {
+        Date oldDeparture = oldTicket.getFlight().getDepartureDate();
+        Date newDeparture = newFlight.getDepartureDate();
+        double diffInDays = (newDeparture.getTime() - oldDeparture.getTime() / (1000 * 60 * 60 * 24.0));
+        double feePercent;
+        if (diffInDays > 60) {
+            feePercent = rule.getChangeFlightFeeForMoreThan60Days();
+        } else {
+            feePercent = rule.getChangeFlightFeeForLessThan60Days();
+        }
+        return feePercent * oldTicket.getPrice();
+    }
     
+    private String changeFlightDetails(TicketEntity oldTicket, FlightEntity newFlight, BookingClassRuleSetEntity rule) {
+        Date oldDeparture = oldTicket.getFlight().getDepartureDate();
+        Date newDeparture = newFlight.getDepartureDate();
+        double diffInDays = (newDeparture.getTime() - oldDeparture.getTime() / (1000 * 60 * 60 * 24.0));
+        String changeFlight = "Change flight ";
+        if (diffInDays > 60) {
+            Double changeFeePercent = 100 * rule.getChangeFlightFeeForMoreThan60Days();
+            changeFlight = changeFlight + "before 60 days to departure: " + changeFeePercent.toString() + "%";
+        } else {
+            Double changeFeePercent = 100 * rule.getChangeFlightFeeForLessThan60Days();
+            changeFlight = changeFlight + "less than 60 days to departure: " + changeFeePercent.toString() + "%";
+        }
+        return changeFlight;
+    }
+    
+    public void payment() {
+        double totalPriceTopay = 0.0;
+        if (changedFlight) {
+            totalPriceTopay = totalPriceTopay + newPrice - oldPrice + changeFee;
+        }
+        
+    }
+
+    public void afterPay() {
+        if (changedFlight) {
+            ticket = modifyBookingSessionBean.modifyTicket(ticket, selectedFlight, selectedBookingClass);
+        }        
+    }
     public RouteEntity getDirectRoute() {
         return directRoute;
     }
@@ -680,4 +744,45 @@ public class ModifyBookingManagedBean {
     public void setBookingClassCandidates(List<BookingClassEntity> bookingClassCandidates) {
         this.bookingClassCandidates = bookingClassCandidates;
     }
+
+    public double getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(double oldPrice) {
+        this.oldPrice = oldPrice;
+    }
+
+    public double getNewPrice() {
+        return newPrice;
+    }
+
+    public void setNewPrice(double newPrice) {
+        this.newPrice = newPrice;
+    }
+
+    public double getChangeFee() {
+        return changeFee;
+    }
+
+    public void setChangeFee(double changeFee) {
+        this.changeFee = changeFee;
+    }
+
+    public boolean isChangedFlight() {
+        return changedFlight;
+    }
+
+    public void setChangedFlight(boolean changedFlight) {
+        this.changedFlight = changedFlight;
+    }
+
+    public String getChangeFlightDetails() {
+        return changeFlightDetails;
+    }
+
+    public void setChangeFlightDetails(String changeFlightDetails) {
+        this.changeFlightDetails = changeFlightDetails;
+    }
+    
 }
