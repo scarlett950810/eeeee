@@ -18,9 +18,11 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 
 /**
@@ -30,13 +32,13 @@ import org.primefaces.event.FlowEvent;
 @ManagedBean(name = "gDSAddFlightManagedBean")
 @SessionScoped
 public class GDSAddFlightManagedBean implements Serializable {
-    
+
     @EJB
     private GDSCompanySessionBeanLocal gDSCompanySessionBean;
-    
+
     @EJB
     private GDSFlightSessionBeanLocal gDSFlightSessionBean;
-    
+
     @EJB
     private GDSAirportSessionBeanLocal gDSAirportSessionBean;
 
@@ -53,6 +55,9 @@ public class GDSAddFlightManagedBean implements Serializable {
     private String aircraftITATCode;
     private int bookingClassNo;
     private List<GDSBookingClassEntity> bookingClasses;
+    private List<GDSFlightEntity> companyFlights;
+    private GDSFlightEntity selectedFlight;
+    private List<GDSBookingClassEntity> companyFlightsBookingClasses;
 
     public GDSAddFlightManagedBean() {
     }
@@ -89,7 +94,7 @@ public class GDSAddFlightManagedBean implements Serializable {
         }
         arrivalMinDate = departureDate;
     }
-    
+
     public void generateEmptyBookingClasses() {
         bookingClasses = new ArrayList<>();
         for (int i = 0; i < bookingClassNo; i++) {
@@ -104,11 +109,20 @@ public class GDSAddFlightManagedBean implements Serializable {
         generateEmptyBookingClasses();
         return event.getNewStep();
     }
-    
+
     public void addFlightAndBookingClasses() {
         System.out.println("origin" + origin);
-        GDSFlightEntity flight = new GDSFlightEntity(company, flightNo, origin, destination, departureDate, arrivalDate,aircraftITATCode);
+        GDSFlightEntity flight = new GDSFlightEntity(company, flightNo, origin, destination, departureDate, arrivalDate, aircraftITATCode);
         gDSFlightSessionBean.generateFlightsAndBookingClasses(flight, bookingClasses);
+        FacesMessage msg = new FacesMessage("Flights added successfully", "");
+        FacesContext.getCurrentInstance().addMessage("addFlight", msg);
+    }
+
+    public void viewFlightBookingClasses(GDSFlightEntity flight) {
+        selectedFlight = flight;
+        companyFlightsBookingClasses = new ArrayList<>();
+        companyFlightsBookingClasses = selectedFlight.getGDSBookingClassEntities();
+        RequestContext.getCurrentInstance().execute("PF('companyFlightBookingClasses').show();");
     }
 
     public GDSCompanyEntity getCompany() {
@@ -213,6 +227,31 @@ public class GDSAddFlightManagedBean implements Serializable {
 
     public void setFlightNo(String flightNo) {
         this.flightNo = flightNo;
+    }
+
+    public List<GDSFlightEntity> getCompanyFlights() {
+        getLoggedinCompany();
+        return gDSFlightSessionBean.getGDSCompanyFlights(company);
+    }
+
+    public void setCompanyFlights(List<GDSFlightEntity> companyFlights) {
+        this.companyFlights = companyFlights;
+    }
+
+    public List<GDSBookingClassEntity> getCompanyFlightsBookingClasses() {
+        return companyFlightsBookingClasses;
+    }
+
+    public void setCompanyFlightsBookingClasses(List<GDSBookingClassEntity> companyFlightsBookingClasses) {
+        this.companyFlightsBookingClasses = companyFlightsBookingClasses;
+    }
+
+    public GDSFlightEntity getSelectedFlight() {
+        return selectedFlight;
+    }
+
+    public void setSelectedFlight(GDSFlightEntity selectedFlight) {
+        this.selectedFlight = selectedFlight;
     }
 
 }

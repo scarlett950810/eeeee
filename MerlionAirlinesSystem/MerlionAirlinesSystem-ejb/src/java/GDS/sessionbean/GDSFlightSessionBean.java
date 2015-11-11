@@ -7,6 +7,7 @@ package GDS.sessionbean;
 
 import GDS.entity.GDSAirportEntity;
 import GDS.entity.GDSBookingClassEntity;
+import GDS.entity.GDSCompanyEntity;
 import GDS.entity.GDSFlightEntity;
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import java.util.ArrayList;
@@ -106,4 +107,24 @@ public class GDSFlightSessionBean implements GDSFlightSessionBeanLocal {
         return transferFlightList;
     }
 
+    @Override
+    public List<GDSFlightEntity> getAllGDSFlights(Date start, Date end) {
+        Query q = em.createQuery("SELECT f FROM GDSFlightEntity f "
+                + "WHERE f.departureDate > :lowerBound AND f.departureDate < :upperBound ORDER BY f.departureDate ASC");
+        q.setParameter("lowerBound", start);
+        q.setParameter("upperBound", end);
+
+        List<GDSFlightEntity> availableFlights = q.getResultList();
+        return availableFlights;
+    }
+    
+    @Override
+    public List<GDSFlightEntity> getGDSCompanyFlights(GDSCompanyEntity company) {
+        Query q = em.createQuery("SELECT f FROM GDSFlightEntity f WHERE f.GDSCompany = :GDSCompany ORDER BY f.departureDate ASC");
+        q.setParameter("GDSCompany", company);
+
+        List<GDSFlightEntity> availableFlights = q.getResultList();
+        return availableFlights;
+    }
+    
 }

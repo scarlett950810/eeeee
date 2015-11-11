@@ -49,7 +49,6 @@ import com.paypal.base.rest.PayPalRESTException;
 import java.util.ArrayList;
 import java.util.List;
 import com.paypal.api.payments.*;
-import imas.crm.sessionbean.MemberProfileManagementSessionBeanLocal;
 import java.io.File;
 import java.io.Serializable;
 import java.io.IOException;
@@ -197,41 +196,16 @@ public class AgencyBookTicketManagedBean implements Serializable {
     }
 
     public String confirm() throws PayPalRESTException, IOException {
-//
-//        ((LoggerContext) LoggerFactory.getILoggerFactory()).getLogger(Logger.ROOT_LOGGER_NAME).setLevel(Level.DEBUG);
-//
-//        ((ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(Level.DEBUG);
 
         String clientID = "AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io";
         String clientSecret = "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR";
-        System.err.println("test");
 
         OAuthTokenCredential tokenCredential = Payment.initConfig(new File("sdk_config.properties"));
-        System.err.println("test");
-//        OAuthTokenCredential tokenCredential
-//                = new OAuthTokenCredential("AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io", "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR");
-        System.err.println("test1");
         String accessToken = tokenCredential.getAccessToken();
-        //  String accessToken = new OAuthTokenCredential(clientID, clientSecret).getAccessToken();
-
-//APIContext apiContext = new APIContext(accessToken, requestId);
-//Payment payment = new Payment();
-//payment.setIntent("sale");
-        System.err.println("test1");
-//        Address billingAddress = new Address();
-//        
-//        billingAddress.setLine1("52 N Main ST");
-//        billingAddress.setCity("Johnstown");
-//        billingAddress.setCountryCode("US");
-//        billingAddress.setPostalCode("43210");
-//        billingAddress.setState("OH");
-        System.err.println("test2");
         Item item = new Item();
         item.setName("Merlion Airline Ticket");
         DecimalFormat df = new DecimalFormat("0.00");
-        System.out.println("2 total price" + totalPrice);
         String priceFormat = df.format(totalPrice);
-        System.out.println("2");
         item.setPrice(priceFormat);
         item.setQuantity("1");
         item.setCurrency("SGD");
@@ -240,27 +214,9 @@ public class AgencyBookTicketManagedBean implements Serializable {
         List<Item> items = new ArrayList<Item>();
         items.add(item);
         itemList.setItems(items);
-//        CreditCard creditCard = new CreditCard();
-//        creditCard.setNumber("4417119669820331");
-//        creditCard.setType("visa");
-//        creditCard.setExpireMonth(11);
-//        creditCard.setExpireYear(2018);
-//        creditCard.setCvv2(123);
-//        creditCard.setFirstName("Joe");
-//        creditCard.setLastName("Shopper");
-//        creditCard.setBillingAddress(billingAddress);
-        System.err.println("test3");
-
-//        Details details = new Details();
-//        details.setSubtotal("7.41");
-//        details.setTax("0.03");
-//        details.setShipping("0.03");
-        System.err.println("test4");
 
         Amount amount = new Amount();
 
-//        amount.setDetails(details);
-        System.err.println("test5");
         amount.setCurrency(item.getCurrency());
         amount.setTotal(item.getPrice());
 
@@ -268,88 +224,28 @@ public class AgencyBookTicketManagedBean implements Serializable {
         transaction.setAmount(amount);
         transaction.setItemList(itemList);
         transaction.setDescription("This is the payment for Merlion Airline Ticket.");
-        System.err.println("test6");
-
+        
         List<Transaction> transactions = new ArrayList<Transaction>();
         transactions.add(transaction);
-        System.err.println("test7");
-
-//        FundingInstrument fundingInstrument = new FundingInstrument();
-//       fundingInstrument.setCreditCard(creditCard);
-//        System.err.println("test8");
-//        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
-//        fundingInstruments.add(fundingInstrument);
-//        System.err.println("test9");
+        
         Payer payer = new Payer();
-//        payer.setFundingInstruments(fundingInstruments);
         payer.setPaymentMethod("paypal");
-        System.err.println("test10");
 
         Payment payment = new Payment();
         payment.setIntent("sale");
         payment.setPayer(payer);
         payment.setTransactions(transactions);
-        System.err.println("test");
         RedirectUrls urls = new RedirectUrls();
         urls.setReturnUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/bookingConfirmation.xhtml");
         urls.setCancelUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/makeBooking.xhtml");
         payment.setRedirectUrls(urls);
 
-//        Address billingAddress = new Address();
-//        billingAddress.setLine1("52 N Main ST");
-//        billingAddress.setCity("Johnstown");
-//        billingAddress.setCountryCode("US");
-//        billingAddress.setPostalCode("43210");
-//        billingAddress.setState("OH");
-//
-//        CreditCard creditCard = new CreditCard();
-//        creditCard.setNumber("4417119669820331");
-//        creditCard.setType("visa");
-//        creditCard.setExpireMonth(11);
-//        creditCard.setExpireYear(2018);
-//        creditCard.setCvv2(874);
-//        creditCard.setFirstName("Joe");
-//        creditCard.setLastName("Shopper");
-//        creditCard.setBillingAddress(billingAddress);
-//
-//        Details amountDetails = new Details();
-//        amountDetails.setTax("0.03");
-//        amountDetails.setShipping("0.03");
-//
-//        Amount amount = new Amount();
-//        amount.setTotal("7.47");
-//        amount.setCurrency("USD");
-//        amount.setDetails(amountDetails);
-//
-//        Transaction transaction = new Transaction();
-//        transaction.setAmount(amount);
-//        transaction.setDescription("This is the payment transaction description.");
-//
-//        List<Transaction> transactions = new ArrayList<Transaction>();
-//        transactions.add(transaction);
-//
-//        FundingInstrument fundingInstrument = new FundingInstrument();
-//        fundingInstrument.setCreditCard(creditCard);
-//
-//        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
-//        fundingInstruments.add(fundingInstrument);
-//
-//        Payer payer = new Payer();
-//        payer.setFundingInstruments(fundingInstruments);
-//        payer.setPaymentMethod("credit_card");
-//
-//        Payment payment = new Payment();
-//        payment.setIntent("sale");
-//        payment.setPayer(payer);
-//        payment.setTransactions(transactions);
         Payment createdPayment = payment.create(accessToken);
-        System.err.println("test12345");
         List<Links> approvalLink = createdPayment.getLinks();
 
         Links link = approvalLink.get(1);
         String approvalLinkStr = link.getHref();
 
-        System.err.println("getHref:" + link.getHref());
         return approvalLinkStr;
     }
 

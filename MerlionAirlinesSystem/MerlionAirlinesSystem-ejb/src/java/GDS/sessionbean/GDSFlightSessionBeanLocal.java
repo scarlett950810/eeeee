@@ -7,6 +7,7 @@ package GDS.sessionbean;
 
 import GDS.entity.GDSAirportEntity;
 import GDS.entity.GDSBookingClassEntity;
+import GDS.entity.GDSCompanyEntity;
 import GDS.entity.GDSFlightEntity;
 import java.util.Date;
 import java.util.List;
@@ -22,4 +23,6 @@ public interface GDSFlightSessionBeanLocal {
     public boolean haveDirectFlight(GDSAirportEntity origin, GDSAirportEntity destination, Date startTime);
     public List<GDSFlightEntity> getDirectFlights(GDSAirportEntity origin, GDSAirportEntity destination, Date startTime);
     public List<GDSTransferFlight> getTransferFlightSet(GDSAirportEntity origin, GDSAirportEntity destination, Date startTime);
+    public List<GDSFlightEntity> getGDSCompanyFlights(GDSCompanyEntity company);
+    public List<GDSFlightEntity> getAllGDSFlights(Date start, Date end);
 }
