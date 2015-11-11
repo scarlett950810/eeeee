@@ -187,7 +187,6 @@ public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanR
         entityManager.persist(member8);
         entityManager.persist(member9);
         entityManager.persist(member10);
-    public void insertData() {
         
         gDSAirportSessionBean.getAllGDSAirport();
 

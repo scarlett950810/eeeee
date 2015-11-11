@@ -27,7 +27,7 @@ import javax.persistence.Query;
  * @author Scarlett
  */
 @Stateless
-public class AircraftSessionBean implements AircraftSessionBeanLocal {
+public class AircraftSessionBean implements AircraftSessionBeanLocal, AircraftSessionBeanRemote{
 
     @PersistenceContext
     private EntityManager em;
