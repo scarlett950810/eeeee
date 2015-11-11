@@ -1,29 +1,27 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../templates/ClientSideTemplate.xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <ui:define name="head">
+    <h:head>
         <style>
             #j_idt22 .ui-panelgrid .ui-panelgrid-cell{
                 border: none;
             }
         </style>
-    </ui:define>
+    </h:head>
 
-    <ui:define name="main">
-        #{customerBookTicketManagedBean.afterPay()}
+    <h:body>
+        #{agencyBookTicketManagedBean.afterPay()}
 
         <p:outputLabel value="Congratulations! You Have Successfully Made the Booking" style="margin-top: 7%; font-size: 150%;"></p:outputLabel>
         <br></br>
-        <p:outputLabel value="Reference Number: #{customerBookTicketManagedBean.referenceNumber}"></p:outputLabel>
-        
+        <p:outputLabel value="Reference Number: #{agencyBookTicketManagedBean.referenceNumber}"></p:outputLabel>
+
         <p:panel header="Flight Information" style="margin-top: 5%; border: #000000 2px solid; height: auto">
-            <p:dataTable value="#{customerBookTicketManagedBean.flights}" var="flight" style="border: none;">
+            <p:dataTable value="#{agencyBookTicketManagedBean.flights}" var="flight" style="border: none;">
                 <p:column headerText="Flight No.">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
@@ -45,7 +43,7 @@
                 </p:column>
             </p:dataTable>
 
-            <p:dataTable value="#{customerBookTicketManagedBean.passengers}" var="passenger" style="border: none;">
+            <p:dataTable value="#{agencyBookTicketManagedBean.passengers}" var="passenger" style="border: none;">
                 <p:column headerText="Name">
                     <h:outputText value="#{passenger.title} #{passenger.firstName} #{passenger.lastName}" />
                 </p:column>
@@ -60,8 +58,8 @@
 
             </p:dataTable>
 
-            <p:outputLabel value="A confirmation Email has been sent to #{customerBookTicketManagedBean.email}"></p:outputLabel>
+            <p:outputLabel value="A confirmation Email has been sent to #{agencyBookTicketManagedBean.email}"></p:outputLabel>
         </p:panel>
-    </ui:define>
+    </h:body>
 
-</ui:composition>
+</html>
