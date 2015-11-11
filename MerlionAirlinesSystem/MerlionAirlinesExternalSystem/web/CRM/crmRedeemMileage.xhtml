@@ -15,24 +15,23 @@
     </ui:define>
 
     <ui:define name="main">
+        #{mileageRedeemManagedBean.fetchTicket()}
+
         <p:panel header="Redeem Your Mileage" style="margin-top: 5%; border: #000000 2px solid; height: auto">
-            <p:outputLabel value="#{mileageRedeemManagedBean.member.title} #{mileageRedeemManagedBean.member.firstName} #{mileageRedeemManagedBean.member.lastName}"></p:outputLabel>
+            <p:outputLabel value="#{mileageRedeemManagedBean.member.title} #{mileageRedeemManagedBean.member.firstName} #{mileageRedeemManagedBean.member.lastName}, "></p:outputLabel>
             <h:outputText value="You currect accumulated mileage is #{mileageRedeemManagedBean.member.mileage}"></h:outputText>
             <p:panelGrid columns="2" style="margin-top: 5%">
-                <p:outputLabel value="Flight No: "></p:outputLabel>
+                <p:outputLabel value="Flight Details: "></p:outputLabel>
                 <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.flight.flightNo}"></h:outputText>
 
                 <br></br>
                 <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.flight.route.originAirport.cityName} (#{mileageRedeemManagedBean.selectedTicket.flight.route.originAirport.airportCode}) - #{mileageRedeemManagedBean.selectedTicket.flight.route.destinationAirport}"></h:outputText>
 
-                              <br></br>
-                    <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.flight.departureDate} - #{mileageRedeemManagedBean.selectedTicket.flight.arrivalDate}"></h:outputText>
+                <br></br>
+                <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.flight.departureDate} - #{mileageRedeemManagedBean.selectedTicket.flight.arrivalDate}"></h:outputText>
 
-                    <br></br>
-                    <br></br>
-
-                    <p:outputLabel value="Booking Class: "></p:outputLabel>
-                    <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.bookingClassName}"></h:outputText>
+                <p:outputLabel value="Booking Class: "></p:outputLabel>
+                <h:outputText value="#{mileageRedeemManagedBean.selectedTicket.bookingClassName}"></h:outputText>
             </p:panelGrid>
 
             <p:panel style="margin-top: 5%;">
@@ -41,11 +40,11 @@
                     <br></br>
 
                     <p:selectOneRadio value="#{mileageRedeemManagedBean.option}" layout="pageDirection">
-                        <f:selectItem itemLabel="Upgrade from #{mileageRedeemManagedBean.currentSeatClass} to First Class: #{mileageRedeemManagedBean.upgradeToFirstClass} miles" itemValue="First Class" rendered="#{mileageRedeemManagedBean.upgradeToFirstClass==0}||#{mileageRedeemManagedBean.upgradeToFirstClass > mileageRedeemManagedBean.member.mileage}" />
-                        <f:selectItem itemLabel="Upgrade from #{mileageRedeemManagedBean.currentSeatClass} to Business Class: #{mileageRedeemManagedBean.upgradeToBusinessClass} miles" itemValue="Business Class" rendered="#{mileageRedeemManagedBean.upgradeToBusinessClass==0}||#{mileageRedeemManagedBean.upgradeToBusinessClass > mileageRedeemManagedBean.member.mileage}" />
-                        <f:selectItem itemLabel="Upgrade from #{mileageRedeemManagedBean.currentSeatClass} to Premium Economy Class: #{mileageRedeemManagedBean.upgradeToPremiumEconomyClass} miles" itemValue="Premium Economy Class" rendered="#{mileageRedeemManagedBean.upgradeToPremiumEconomyClass==0}||#{mileageRedeemManagedBean.upgradeToBusinessClass > mileageRedeemManagedBean.member.mileage}" />
+                        <f:selectItem itemLabel="Upgrade from #{mileageRedeemManagedBean.currentSeatClass} to First Class: #{mileageRedeemManagedBean.upgradeToFirstClass} miles" itemValue="First Class" itemDisabled="#{mileageRedeemManagedBean.upgradeToFirstClass==0 || mileageRedeemManagedBean.upgradeToFirstClass > mileageRedeemManagedBean.member.mileage}" />
+                        <f:selectItem itemLabel="Upgrade from #{mileageRedeemManagedBean.currentSeatClass} to Business Class: #{mileageRedeemManagedBean.upgradeToBusinessClass} miles" itemValue="Business Class" itemDisabled="#{mileageRedeemManagedBean.upgradeToBusinessClass==0 || mileageRedeemManagedBean.upgradeToBusinessClass > mileageRedeemManagedBean.member.mileage}" />
+                        <f:selectItem itemLabel="Upgrade from #{mileageRedeemManagedBean.currentSeatClass} to Premium Economy Class: #{mileageRedeemManagedBean.upgradeToPremiumEconomyClass} miles" itemValue="Premium Economy Class" itemDisabled="#{mileageRedeemManagedBean.upgradeToPremiumEconomyClass==0 || mileageRedeemManagedBean.upgradeToBusinessClass > mileageRedeemManagedBean.member.mileage}" />
                     </p:selectOneRadio>
-                    
+
                     <p:commandButton value="Confirm" actionListener="#{mileageRedeemManagedBean.redeem}"></p:commandButton>
                 </h:form>
             </p:panel>

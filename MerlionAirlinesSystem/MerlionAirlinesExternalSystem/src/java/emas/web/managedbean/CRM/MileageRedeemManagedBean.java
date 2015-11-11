@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -22,9 +24,10 @@ import javax.faces.context.FacesContext;
  *
  * @author Howard
  */
-@Named(value = "mileageRedeemManagedBean")
+@ManagedBean
 @SessionScoped
 public class MileageRedeemManagedBean implements Serializable {
+
     @EJB
     private MemberProfileManagementSessionBeanLocal memberProfileManagementSessionBean;
 
@@ -38,46 +41,78 @@ public class MileageRedeemManagedBean implements Serializable {
     private double upgradeToBusinessClass = 0;
     private double upgradeToFirstClass = 0;
     private boolean status;
-    
+    private String bookingClass;
+
     /**
      * Creates a new instance of MileageRedeemManagedBean
      */
     public MileageRedeemManagedBean() {
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
+
+    }
+
+    public void fetchTicket() {
+        System.out.println("enter fetch ticket");
         selectedTicket = (TicketEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedTicket");
+
+        System.out.print("mileage redeem managed bean: " + selectedTicket);
         memberID = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("memberID");
         member = memberProfileManagementSessionBean.getMember(memberID);
-        currentSeatClass = selectedTicket.getSeat().getSeatClass();
-        status = false;
-        
-        if(currentSeatClass.equals("Business Class")){
+        bookingClass = selectedTicket.getBookingClassName();
+        if (bookingClass.indexOf("First Class") != -1) {
+            currentSeatClass = "First Class";
+        } else if (bookingClass.indexOf("Business Class") != -1) {
+            currentSeatClass = "Business Class";
             upgradeToFirstClass = 5 * selectedTicket.getFlight().getRoute().getDistance();
-        }else if(currentSeatClass.equals("Premium Economy Class")){
+        } else if (bookingClass.indexOf("Premium Economy Class") != -1) {
+            currentSeatClass = "Premium Economy Class";
             upgradeToBusinessClass = 3 * selectedTicket.getFlight().getRoute().getDistance();
-        }else if(currentSeatClass.equals("Economy Class")){
+            upgradeToFirstClass = 5 * selectedTicket.getFlight().getRoute().getDistance();
+        } else {
+            currentSeatClass = "Economy Class";
             upgradeToPremiumEconomyClass = 1.5 * selectedTicket.getFlight().getRoute().getDistance();
+            upgradeToBusinessClass = 3 * selectedTicket.getFlight().getRoute().getDistance();
+            upgradeToFirstClass = 5 * selectedTicket.getFlight().getRoute().getDistance();
         }
+        status = false;
+
     }
-    
-    public void redeem() throws IOException{
-        if(option.equals("First Class")){
+
+    public void redeem() throws IOException {
+        System.out.print(status);
+        if (option.equals("First Class")) {
             status = memberProfileManagementSessionBean.upgradeToFirstClass(selectedTicket, member, upgradeToFirstClass);
-        }else if(option.equals("Business Class")){
+            usedMileage = upgradeToFirstClass;
+        } else if (option.equals("Business Class")) {
             status = memberProfileManagementSessionBean.upgradeToBusinessClass(selectedTicket, member, upgradeToBusinessClass);
-        }else if(option.equals("Premium Economy Class")){
+            usedMileage = upgradeToBusinessClass;
+        } else if (option.equals("Premium Economy Class")) {
             status = memberProfileManagementSessionBean.upgradeToPremiumEconomyClass(selectedTicket, member, upgradeToPremiumEconomyClass);
+            usedMileage = upgradeToPremiumEconomyClass;
         }
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        ec.redirect("crmRedeemStatus.xhtml");
+
+        System.out.print(status);
+        if (status == true) {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            ec.redirect("crmRedeemStatus.xhtml");
+        }else{
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Redeem unsuccessful due to insufficient " + option + " quota", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
     
-    public void clear(){
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedTicket");
+    public void returnToMenberProfile() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("crmMemberProfile.xhtml");
     }
+    
+//    
+//    public void clear(){
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedTicket");
+//    }
 
     public TicketEntity getSelectedTicket() {
         return selectedTicket;
