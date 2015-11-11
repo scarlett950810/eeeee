@@ -5,6 +5,9 @@
  */
 package imas.web.managedbean.systemAdmin;
 
+import GDS.sessionbean.GDSCompanySessionBeanLocal;
+import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -14,7 +17,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "addAgencyManagedBean")
 @ViewScoped
-public class AddAgencyManagedBean {
+public class AddAgencyManagedBean implements Serializable {
     
     private String account;
     private String email;
