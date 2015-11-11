@@ -45,5 +45,7 @@ public interface MemberProfileManagementSessionBeanLocal {
     boolean upgradeToBusinessClass(TicketEntity ticket, MemberEntity member, double deductMileage);
 
     boolean upgradeToPremiumEconomyClass(TicketEntity ticket, MemberEntity member, double deductMileage);
+
+    TicketEntity retrieveTicket(Long ticketID);
     
 }
