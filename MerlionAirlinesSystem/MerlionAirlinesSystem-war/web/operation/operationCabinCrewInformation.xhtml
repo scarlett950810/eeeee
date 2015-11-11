@@ -36,14 +36,6 @@
 
     <ui:define name="centerPanel">
 
-        <h:form>
-            <p:commandButton value="Delete Flight"  actionListener="#{flightManagedBean.goDeleteFlight()}"
-                             class="btn-sm btn-danger" style="display: inline-block; float: right;" ajax="false"/>
-            <p:commandButton value="Add Flight"  actionListener="#{flightManagedBean.goAddFlight()}"
-                             class="btn-sm btn-success" style="display: inline-block; float: right;" ajax="false"/>
-        </h:form>
-        
-        <br/>
 
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" life="2000"/>

@@ -5,6 +5,7 @@
  */
 package imas.web.managedbean.systemAdmin;
 
+import java.io.Serializable;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -14,8 +15,8 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "addAgencyManagedBean")
 @ViewScoped
-public class AddAgencyManagedBean {
-    
+public class AddAgencyManagedBean implements Serializable {
+
     private String account;
     private String email;
     private String contactNumber;
@@ -67,5 +68,5 @@ public class AddAgencyManagedBean {
     public void setName(String name) {
         this.name = name;
     }
-    
+
 }

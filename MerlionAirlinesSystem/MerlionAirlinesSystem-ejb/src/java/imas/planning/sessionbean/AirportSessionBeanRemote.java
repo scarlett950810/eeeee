@@ -13,10 +13,10 @@ import javax.ejb.Remote;
  *
  * @author wutong
  */
-
 @Remote
 public interface AirportSessionBeanRemote {
-      void addAirport(AirportEntity airport);
+
+    void addAirport(AirportEntity airport);
 
     Boolean checkAirport(String airportCode);
 

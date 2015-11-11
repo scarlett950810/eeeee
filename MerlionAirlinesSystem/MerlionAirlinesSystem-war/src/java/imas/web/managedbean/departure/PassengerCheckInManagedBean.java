@@ -38,7 +38,7 @@ public class PassengerCheckInManagedBean implements Serializable {
     PassengerCheckInSessionBeanLocal passengerCheckInSessionBean;
     private List<FlightEntity> comingFlights;
     private List<FlightEntity> filteredFlights;
-    private String base = "SGC";
+    private String base = "SIN";
     private FlightEntity flight;
     private boolean display = false;
     private List<TicketEntity> tickets;
