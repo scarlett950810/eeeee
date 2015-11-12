@@ -9,11 +9,15 @@ import imas.distribution.entity.PassengerEntity;
 import imas.distribution.entity.TicketEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.SeatEntity;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -70,6 +74,32 @@ public class PassengerCheckInSessionBean implements PassengerCheckInSessionBeanL
         p3.setTitle("MR");
         p4.setTitle("MR");
         p5.setTitle("MR");
+        p1.setNationality("Chinese");
+        p2.setNationality("Chinese");
+        p3.setNationality("Chinese");
+        p4.setNationality("Chinese");
+        p5.setNationality("Chinese");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
+        String dateInString01 = "31-08-1982";
+        String dateInString02 = "31-08-2020";
+        try {
+            Date date = sdf.parse(dateInString01);
+            p1.setBirthdate(date);
+            p2.setBirthdate(date);
+            p3.setBirthdate(date);
+            p4.setBirthdate(date);
+            p5.setBirthdate(date);
+            Date date2 = sdf.parse(dateInString02);
+            p1.setPassportExpiry(date2);
+            p2.setPassportExpiry(date2);
+            p3.setPassportExpiry(date2);
+            p4.setPassportExpiry(date2);
+            p5.setPassportExpiry(date2);
+
+        } catch (ParseException ex) {
+            Logger.getLogger(PassengerCheckInSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         em.persist(p1);
         em.persist(p2);
         em.persist(p3);

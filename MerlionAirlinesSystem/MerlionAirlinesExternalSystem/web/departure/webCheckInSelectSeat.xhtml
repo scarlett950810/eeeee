@@ -1,4 +1,4 @@
-   <?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../templates/ClientSideTemplate.xhtml"
@@ -73,7 +73,7 @@
 
                                     <h:outputLabel value="Premium Meal: " />
                                     <c:choose>
-                                        <c:when test="#{webCheckInManagedBean.ticket.premiumMeal} == false">
+                                        <c:when test="#{not webCheckInManagedBean.ticket.premiumMeal}">
                                             <h:outputLabel value="No" />
                                         </c:when>
                                         <c:otherwise>
@@ -83,7 +83,7 @@
 
                                     <h:outputLabel value="Exclusive Airport Service: " />
                                     <c:choose>
-                                        <c:when test="#{webCheckInManagedBean.ticket.exclusiveService} == false">
+                                        <c:when test="#{not webCheckInManagedBean.ticket.exclusiveService}">
                                             <h:outputLabel value="No" />
                                         </c:when>
                                         <c:otherwise>
@@ -93,7 +93,7 @@
 
                                     <h:outputLabel value="Insurance: " />
                                     <c:choose>
-                                        <c:when test="#{webCheckInManagedBean.ticket.insurance} == false">
+                                        <c:when test="#{not webCheckInManagedBean.ticket.insurance}">
                                             <h:outputLabel value="No" />
                                         </c:when>
                                         <c:otherwise>
@@ -103,7 +103,7 @@
 
                                     <h:outputLabel value="Flight Wi-Fi: " />
                                     <c:choose>
-                                        <c:when test="#{webCheckInManagedBean.ticket.flightWiFi} == false">
+                                        <c:when test="#{not webCheckInManagedBean.ticket.flightWiFi}">
                                             <h:outputLabel value="No" />
                                         </c:when>
                                         <c:otherwise>

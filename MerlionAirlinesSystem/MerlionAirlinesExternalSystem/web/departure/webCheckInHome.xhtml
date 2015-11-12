@@ -16,7 +16,7 @@
                 color: #000000;
                 font-size: 100%;
                 vertical-align: middle;
-                
+
             }
         </style>
     </ui:define>
@@ -29,11 +29,11 @@
                 <h:panelGrid columns="2" style="display: inline-block;">
                     <h:outputText value="Booking Reference"></h:outputText>
                     <p:inputText value="#{webCheckInManagedBean.referenceNumber}" required="true" />
-                    
-                    
+
+
                     <h:outputText value="Passport Number"></h:outputText>
                     <p:inputText value="#{webCheckInManagedBean.passportNumber}" required="true" />
-                    
+
                     <p:commandButton value="Retrieve Flight" actionListener="#{webCheckInManagedBean.seachTicket}" update="growl"></p:commandButton>
                 </h:panelGrid>
             </p:panel>
