@@ -184,7 +184,7 @@
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
                                         <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
                                         <p:selectOneMenu value="#{ticket.baggageWeight}" style="width: 100%" required="true">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
+                                            <p:ajax listener="#{customerBookTicketManagedBean.updateServiceCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
                                             <f:selectItem itemLabel="No Extra Baggage" itemValue="-1" />
                                             <f:selectItem itemLabel="Extra 10kg at $20" itemValue="10.0" />
@@ -202,7 +202,7 @@
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
                                         <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
                                         <p:selectOneRadio id="premiumMeal" value="#{ticket.premiumMeal}" style="margin-left: auto; margin-right: auto">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
+                                            <p:ajax listener="#{customerBookTicketManagedBean.updateServiceCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Yes" itemValue="true" />
                                             <f:selectItem itemLabel="No" itemValue="false" />
                                         </p:selectOneRadio>
@@ -217,7 +217,7 @@
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
                                         <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
                                         <p:selectOneRadio id="service" value="#{ticket.exclusiveService}" style="margin-left: auto; margin-right: auto">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
+                                            <p:ajax listener="#{customerBookTicketManagedBean.updateServiceCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Yes" itemValue="true" />
                                             <f:selectItem itemLabel="No" itemValue="false" />
                                         </p:selectOneRadio>
@@ -232,7 +232,7 @@
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
                                         <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
                                         <p:selectOneRadio id="wifi" value="#{ticket.flightWiFi}" style="margin-left: auto; margin-right: auto">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
+                                            <p:ajax listener="#{customerBookTicketManagedBean.updateServiceCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Yes" itemValue="true" />
                                             <f:selectItem itemLabel="No" itemValue="false" />
                                         </p:selectOneRadio>
@@ -247,7 +247,7 @@
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
                                         <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
                                         <p:selectOneRadio id="insurance" value="#{ticket.insurance}" style="margin-left: auto; margin-right: auto">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
+                                            <p:ajax listener="#{customerBookTicketManagedBean.updateServiceCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Yes" itemValue="true" />
                                             <f:selectItem itemLabel="No" itemValue="false" />
                                         </p:selectOneRadio>

@@ -146,4 +146,8 @@ public class InventoryRevenueManagementSessionBean implements InventoryRevenueMa
         return totalCost;
     }
     
+    @Override
+    public FlightEntity getRefreshedFlight(FlightEntity flight) {
+        return em.find(FlightEntity.class, flight.getId());
+    }
 }

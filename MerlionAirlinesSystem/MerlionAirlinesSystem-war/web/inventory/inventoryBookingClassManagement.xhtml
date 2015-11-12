@@ -163,17 +163,23 @@
                 <br/>
                 <p:commandButton value="Submit" update="display1" oncomplete="PF('confirmation1').show();" class="btn-sm btn-success"/>
 
-                <p:dialog showEffect="fade" hideEffect="fade" widgetVar="confirmation1">
-                    <h:panelGrid id="display1" columns="1" cellpadding="5">
-                        <h:outputText value="You are changing price of #{inventoryRevenueManagementManagedBean.bookingClass.name} to: #{inventoryRevenueManagementManagedBean.newPricing}" />
-                    </h:panelGrid>
 
-                    <p:commandButton value="Confirm" actionListener="#{inventoryRevenueManagementManagedBean.updatePricing()}"
-                                     class="btn-sm btn-success" update="bookingClasses"/>
-
-                </p:dialog>
             </h:form>
         </p:dialog>
+        
+        <h:form id="display1">
+
+            <p:dialog showEffect="fade" hideEffect="fade" widgetVar="confirmation1">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputText value="You are changing price of #{inventoryRevenueManagementManagedBean.bookingClass.name} to: #{inventoryRevenueManagementManagedBean.newPricing}" />
+                </h:panelGrid>
+
+                <p:commandButton value="Confirm" actionListener="#{inventoryRevenueManagementManagedBean.updatePricing()}"
+                                 class="btn-sm btn-success" update="bookingClasses"/>
+
+            </p:dialog>
+
+        </h:form>
     </ui:define>
 
 </ui:composition>

@@ -178,28 +178,31 @@
 
                                 <p:column headerText="Reply" width="80px;">
                                     <p:commandButton actionListener="#{internalMessageManagedBean.reply(message.sender)}"
-                                                     icon="ui-icon-transferthick-e-w" class="icon-only" update="@form"/>
+                                                     icon="ui-icon-transferthick-e-w" class="icon-only" update="@form reply"/>
                                 </p:column>
 
                             </p:dataTable>                       
                         </p:panel>
 
                         <p:growl id="reply" showDetail="true" autoUpdate="false" />
-                        
-                        <p:dialog widgetVar="reply">
-                            <h:panelGrid columns="2">
-                                <p:outputLabel for="replyTo" value="Reply to:"/>
-                                <h:outputText id="replyTo" value="#{internalMessageManagedBean.staffToReply.displayName}
-                                              (#{internalMessageManagedBean.staffToReply.role} at #{internalMessageManagedBean.staffToReply.base})"/>
-                                <p:outputLabel for="replyContent" value="Content:"/>
-                                <h:inputTextarea id="replyContent" value="#{internalMessageManagedBean.replyContent}"/>
-                                <p:commandButton value="Reply" class="btn-sm btn-success" actionListener="#{internalMessageManagedBean.sendReply}" update="@form"/>
-                            </h:panelGrid>
-                        </p:dialog>
 
                     </h:form>
                 </p:dialog>
 
+                <h:form id="reply">
+                    <p:dialog widgetVar="reply" showEffect="clip" hideEffect="clip" >
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="replyTo" value="Reply to:"/>
+                            <h:outputText id="replyTo" value="#{internalMessageManagedBean.staffToReply.displayName}
+                                          (#{internalMessageManagedBean.staffToReply.role} at #{internalMessageManagedBean.staffToReply.base})"/>
+                            <p:outputLabel for="replyContent" value="Content:"/>
+                            <h:inputTextarea id="replyContent" value="#{internalMessageManagedBean.replyContent}"/>
+                            <p:commandButton value="Reply" class="btn-sm btn-success" actionListener="#{internalMessageManagedBean.sendReply}"
+                                             update="@form viewMessages"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                
                 <ui:insert name="centerPanel"></ui:insert>
 
             </p:layoutUnit>

@@ -57,11 +57,11 @@
                     <h:outputText value="#{flight.arrivalDateConverted}" />
                 </p:column>
                 
-                <p:column headerText="Time to Departure"  style="width: 14%">
+                <p:column headerText="Time to Departure"  style="width: 12%">
                     <h:outputText value="#{flightBookingClassesManagementManagedBean.getToDepartureString(flight)}" />
                 </p:column>
                 
-                <p:column headerText="Open for Sale"  style="width: 6%">
+                <p:column headerText="Open for Sale"  style="width: 8%">
                     <p:commandButton value="Open" class="btn-sm btn-success" update="@form"
                                      actionListener="#{flightBookingClassesManagementManagedBean.automaticallyCreateBookingClassAndYieldManagementRules(flight)}" /> 
                 </p:column>

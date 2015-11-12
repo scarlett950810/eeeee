@@ -49,6 +49,7 @@ import com.paypal.base.rest.PayPalRESTException;
 import java.util.ArrayList;
 import java.util.List;
 import com.paypal.api.payments.*;
+import imas.inventory.sessionbean.CostManagementSessionBean;
 import java.io.File;
 import java.io.Serializable;
 import java.io.IOException;
@@ -163,9 +164,11 @@ public class AgencyBookTicketManagedBean implements Serializable {
     private String postCode;
     private String email;
     private String contactNumber;
-    private double totalPrice = 0.0;
+    private double totalFlightPrice = 0.0;
     private String referenceNumber;
 
+    private double serviceCharge;
+    private double totalPrice;
     public AgencyBookTicketManagedBean() {
     }
 
@@ -205,7 +208,7 @@ public class AgencyBookTicketManagedBean implements Serializable {
         Item item = new Item();
         item.setName("Merlion Airline Ticket");
         DecimalFormat df = new DecimalFormat("0.00");
-        String priceFormat = df.format(totalPrice);
+        String priceFormat = df.format(this.getTotalPrice());
         item.setPrice(priceFormat);
         item.setQuantity("1");
         item.setCurrency("SGD");
@@ -256,7 +259,7 @@ public class AgencyBookTicketManagedBean implements Serializable {
     public void afterPay() throws IOException {
         System.out.println("after pay");
         referenceNumber = makeBookingSessionBean.generateItineraryForAgency(flights, passengers, 
-                title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice, agency);
+                title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalFlightPrice, agency);
         RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + "\")");
     }
 
@@ -1293,7 +1296,7 @@ public class AgencyBookTicketManagedBean implements Serializable {
             
             System.out.println("number = " + number);
 
-            totalPrice = 0.0;
+            totalFlightPrice = 0.0;
             promotionApplied = false;
 
             if (selectedDepartureDirectFlight()) {
@@ -1336,30 +1339,30 @@ public class AgencyBookTicketManagedBean implements Serializable {
                 List<TicketEntity> tickets = new ArrayList<>();
                 if (ticket1 != null) {
                     tickets.add(ticket1);
-                    totalPrice = totalPrice + ticket1.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket1.getPrice();
                 }
                 if (ticket2 != null) {
                     tickets.add(ticket2);
-                    totalPrice = totalPrice + ticket2.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket2.getPrice();
                 }
                 if (ticket3 != null) {
                     tickets.add(ticket3);
-                    totalPrice = totalPrice + ticket3.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket3.getPrice();
                 }
                 if (ticket4 != null) {
                     tickets.add(ticket4);
-                    totalPrice = totalPrice + ticket4.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket4.getPrice();
                 }
                 if (ticket5 != null) {
                     tickets.add(ticket5);
-                    totalPrice = totalPrice + ticket5.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket5.getPrice();
                 }
                 if (ticket6 != null) {
                     tickets.add(ticket6);
-                    totalPrice = totalPrice + ticket6.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket6.getPrice();
                 }
 
-                System.out.println("1 total price = " + totalPrice);
+                System.out.println("1 total price = " + totalFlightPrice);
                 passenger.setTickets(tickets);
 
                 passengers.add(passenger);
@@ -1371,6 +1374,38 @@ public class AgencyBookTicketManagedBean implements Serializable {
             agency = agencySessionBean.getAgency(agencyID);
             logined = true;
             FacesContext.getCurrentInstance().getExternalContext().redirect("makeBooking.xhtml");
+        }
+
+    }
+    
+    public void updateServiceCharge() {
+        serviceCharge = 0.0;
+        for (PassengerEntity p : passengers) {
+            for (TicketEntity t : p.getTickets()) {
+                if (t.getBaggageWeight() != null) {
+                    int baggagePrice = 0;
+                    if (t.getBaggageWeight() == 10) {
+                        baggagePrice = 20;
+                    } else if (t.getBaggageWeight() == 25) {
+                        baggagePrice = 30;
+                    } else if (t.getBaggageWeight() == 50) {
+                        baggagePrice = 40;
+                    }
+                    serviceCharge = serviceCharge + baggagePrice;
+                }
+                if (t.getPremiumMeal() != null && t.getPremiumMeal()) {
+                    serviceCharge = serviceCharge + 20;
+                }
+                if (t.getExclusiveService() != null && t.getExclusiveService()) {
+                    serviceCharge = serviceCharge + 30;
+                }
+                if (t.getFlightWiFi() != null && t.getFlightWiFi()) {
+                    serviceCharge = serviceCharge + 25;
+                }
+                if (t.getInsurance() != null && t.getInsurance()) {
+                    serviceCharge = serviceCharge + 25;
+                }
+            }
         }
 
     }
@@ -1463,12 +1498,12 @@ public class AgencyBookTicketManagedBean implements Serializable {
         this.contactNumber = contactNumber;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public double getTotalFlightPrice() {
+        return totalFlightPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setTotalFlightPrice(double totalFlightPrice) {
+        this.totalFlightPrice = totalFlightPrice;
     }
 
     public String getReferenceNumber() {
@@ -1557,6 +1592,22 @@ public class AgencyBookTicketManagedBean implements Serializable {
 
     public void setTotalPriceBeforeDiscount(double totalPriceBeforeDiscount) {
         this.totalPriceBeforeDiscount = totalPriceBeforeDiscount;
+    }
+    
+    public double getTotalPrice() {
+        return CostManagementSessionBean.round(totalFlightPrice + serviceCharge, 2);
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public double getServiceCharge() {
+        return serviceCharge;
+    }
+
+    public void setServiceCharge(double serviceCharge) {
+        this.serviceCharge = serviceCharge;
     }
 
 }
