@@ -34,7 +34,7 @@
                     <h:outputText value="Passport Number"></h:outputText>
                     <p:inputText value="#{webCheckInManagedBean.passportNumber}" required="true" />
                     
-                    <p:commandButton value="Retrieve Flight" actionListener="#{webCheckInManagedBean.seachTicket}" update="growl"></p:commandButton>
+                    <p:commandButton value="Retrieve Flight" actionListener="#{webCheckInManagedBean.seachTicket}" style="width: 100%; padding: 5px" update="growl"></p:commandButton>
                 </h:panelGrid>
             </p:panel>
         </h:form>

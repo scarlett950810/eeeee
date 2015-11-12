@@ -27,6 +27,7 @@ import org.junit.Test;
  * @author wutong
  */
 public class AircraftTypeSessionBeanTest {
+
     AircraftTypeSessionBeanRemote a = lookupRemote();
 
     @BeforeClass
@@ -47,29 +48,46 @@ public class AircraftTypeSessionBeanTest {
 
     @Test
     public void testCheckAircraftType01() {
-        boolean result = true;
+        System.out.println("testCheckAircraftType01");
+        String type = "A380";
+        boolean result = a.checkAircraftType(type);
+        assertFalse(result);
+    }
+
+    @Test
+    public void testCheckAircraftType02() {
+        System.out.println("testCheckAircraftType02");
+        String type = "dummydummy";
+        boolean result = a.checkAircraftType(type);
         assertTrue(result);
     }
 
     @Test
     public void testDeleteAircraftType01() {
-        
-        boolean result = false;
-        assertFalse (result);
+        System.out.println("testDeleteAircraftType01");
+        String type = "A380";
+        boolean result = a.deleteAircraftType(type);
+        assertFalse(result);
+    }
+
+    @Test
+    public void testGetAllAircraftTypes() {
+        System.out.println("testGetAllAircraftTypes");
+        List<AircraftTypeEntity> result = a.getAllAircraftTypes();
+        assertNotNull(result);
     }
 
     @Test
     public void testGetAircraftsFromAircraftType() {
-        String al = "test";
-        assertNotNull(al);
+        System.out.println("testGetAircraftsFromAircraftType");
+        List<AircraftTypeEntity> result = a.getAllAircraftTypes();
+        assertNotNull(result);
     }
-
-    
 
     private AircraftTypeSessionBeanRemote lookupRemote() {
         try {
             Context c = new InitialContext();
-            return (AircraftTypeSessionBeanRemote) c.lookup("java:global/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/AircraftTypeSessionBean!imas.inventory.sessionbean.AircraftTypeSessionBeanRemote");
+            return (AircraftTypeSessionBeanRemote) c.lookup("java:global/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/AircraftTypeSessionBean!imas.planning.sessionbean.AircraftTypeSessionBeanRemote");
         } catch (NamingException ne) {
             throw new RuntimeException(ne);
         }

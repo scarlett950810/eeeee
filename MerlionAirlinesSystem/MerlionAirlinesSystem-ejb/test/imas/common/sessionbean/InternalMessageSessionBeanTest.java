@@ -5,13 +5,17 @@
  */
 package imas.common.sessionbean;
 
+import imas.common.entity.StaffEntity;
+import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
@@ -35,6 +39,37 @@ public class InternalMessageSessionBeanTest {
 
     @After
     public void tearDown() {
+    }
+
+    @Test
+    public void testGetAllStaff() {
+        System.out.println("testGetAllStaff");
+        List<StaffEntity> result = iasbr.getAllStaff();
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testGetStaffEntityByStaffNo01() {
+        System.out.println("testGetStaffEntityByStaffNo01");
+        String staffNo = "admin";
+        StaffEntity result = iasbr.getStaffEntityByStaffNo(staffNo);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testGetStaffEntityByStaffNo02() {
+        System.out.println("testGetStaffEntityByStaffNo02");
+        String staffNo = "dummystaffdummy";
+        StaffEntity result = iasbr.getStaffEntityByStaffNo(staffNo);
+        assertNull(result);
+    }
+
+    @Test
+    public void testGetAllMessages() {
+        System.out.println("testGetAllMessages");
+        StaffEntity staff = new StaffEntity();
+        int result = 1;
+        assertNotNull(result);
     }
 
     private InternalMessageSessionBeanRemote lookupRemote() {
