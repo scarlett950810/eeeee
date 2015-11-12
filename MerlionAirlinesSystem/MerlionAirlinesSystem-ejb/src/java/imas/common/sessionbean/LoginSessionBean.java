@@ -37,8 +37,8 @@ import util.security.CryptographicHelper;
  * @author Howard
  */
 @Stateful
-public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanRemote{
-    
+public class LoginSessionBean implements LoginSessionBeanLocal, LoginSessionBeanRemote {
+
     @EJB
     private GDSAirportSessionBeanLocal gDSAirportSessionBean;
 
@@ -164,18 +164,18 @@ public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanR
     private RouteSessionBeanLocal routeSessionBean;
 
     @Override
-    public void insertData(){
+    public void insertData() {
 
-        MemberEntity member1 = new MemberEntity("Tan","David","Male","Singapore","H011", "tan.david@gmail.com", 20);
-        MemberEntity member2 = new MemberEntity("Tan","Cherry","Female","Singapore","H012", "tan.david@gmail.com", 15);
-        MemberEntity member3 = new MemberEntity("Tan","Richard","Male","Hong Kong","H013", "tan.david@gmail.com", 30);
-        MemberEntity member4 = new MemberEntity("Tan","Ivan","Male","Indonesia","H014", "tan.david@gmail.com", 33);
-        MemberEntity member5 = new MemberEntity("Tan","Cheryl","Female","Indonesia","H015", "tan.david@gmail.com", 37);
-        MemberEntity member6 = new MemberEntity("Tan","Star","Female","China","H016", "tan.david@gmail.com", 21);
-        MemberEntity member7 = new MemberEntity("Tan","Mike","Male","Hong Kong","H017", "tan.david@gmail.com", 45);
-        MemberEntity member8 = new MemberEntity("Tan","Xin Kai","Male","U.S.","H018", "tan.david@gmail.com", 51);
-        MemberEntity member9 = new MemberEntity("Tan","Andrew","Male","U.S.","H019", "tan.david@gmail.com", 23);
-        MemberEntity member10 = new MemberEntity("Tan","Jean Samuel","Male","France","H018", "tan.david@gmail.com", 39);
+        MemberEntity member1 = new MemberEntity("Tan", "David", "Male", "Singapore", "H011", "tan.david@gmail.com", 20);
+        MemberEntity member2 = new MemberEntity("Tan", "Cherry", "Female", "Singapore", "H012", "tan.david@gmail.com", 15);
+        MemberEntity member3 = new MemberEntity("Tan", "Richard", "Male", "Hong Kong", "H013", "tan.david@gmail.com", 30);
+        MemberEntity member4 = new MemberEntity("Tan", "Ivan", "Male", "Indonesia", "H014", "tan.david@gmail.com", 33);
+        MemberEntity member5 = new MemberEntity("Tan", "Cheryl", "Female", "Indonesia", "H015", "tan.david@gmail.com", 37);
+        MemberEntity member6 = new MemberEntity("Tan", "Star", "Female", "China", "H016", "tan.david@gmail.com", 21);
+        MemberEntity member7 = new MemberEntity("Tan", "Mike", "Male", "Hong Kong", "H017", "tan.david@gmail.com", 45);
+        MemberEntity member8 = new MemberEntity("Tan", "Xin Kai", "Male", "U.S.", "H018", "tan.david@gmail.com", 51);
+        MemberEntity member9 = new MemberEntity("Tan", "Andrew", "Male", "U.S.", "H019", "tan.david@gmail.com", 23);
+        MemberEntity member10 = new MemberEntity("Tan", "Jean Samuel", "Male", "France", "H018", "tan.david@gmail.com", 39);
 
         entityManager.persist(member1);
         entityManager.persist(member2);
@@ -187,7 +187,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanR
         entityManager.persist(member8);
         entityManager.persist(member9);
         entityManager.persist(member10);
-        
+
         gDSAirportSessionBean.getAllGDSAirport();
 
         AircraftTypeEntity aircraftType1 = new AircraftTypeEntity("A380", (double) 10000, (double) 550, (double) 600, (double) 3000, (double) 4400, (double) 20, "Gas", (double) 60);
@@ -241,9 +241,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanR
         }
 
         System.out.println("150 aircrafts added");
-        
-        
-        
+
         List<String> l1 = new ArrayList<String>();
         l1.add("A380");
         l1.add("A880");
@@ -320,23 +318,25 @@ public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanR
             PilotEntity p21 = new PilotEntity("p" + i + "021", "Sandz", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l1, null, true);
             PilotEntity p22 = new PilotEntity("p" + i + "022", "William", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l2, null, false);
             PilotEntity p23 = new PilotEntity("p" + i + "023", "Betty", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l3, null, true);
-            PilotEntity p24 = new PilotEntity("p" + i + "024", "Francios", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l4, null, false);
-            PilotEntity p25 = new PilotEntity("p" + i + "025", "Houng", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l5, null, true);
-            PilotEntity p26 = new PilotEntity("p" + i + "026", "Long", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l6, null, false);
-            PilotEntity p27 = new PilotEntity("p" + i + "027", "Eugene", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l7, null, true);
-            PilotEntity p28 = new PilotEntity("p" + i + "028", "Yi Fu", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l8, null, false);
-            PilotEntity p29 = new PilotEntity("p" + i + "029", "Franklin", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l9, null, true);
-            PilotEntity p30 = new PilotEntity("p" + i + "030", "Zens", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l10, null, false);
+            PilotEntity p24 = new PilotEntity("p" + i + "024", "Francios", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+            PilotEntity p25 = new PilotEntity("p" + i + "025", "Houng", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
+            PilotEntity p26 = new PilotEntity("p" + i + "026", "Long", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+            PilotEntity p27 = new PilotEntity("p" + i + "027", "Eugene", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, true);
+            PilotEntity p28 = new PilotEntity("p" + i + "028", "Yi Fu", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
+            PilotEntity p29 = new PilotEntity("p" + i + "029", "Franklin", "123456", "abc@163.com", "123", "Street No 1", "female", "available", l3, null, true);
+            PilotEntity p30 = new PilotEntity("p" + i + "030", "Zens", "123456", "abc@163.com", "123", "Street No 1", "male", "available", l3, null, false);
 
-            p30.setWorking(Boolean.TRUE);
-            p30.setWorkingStatus("available");
-            p29.setWorking(Boolean.TRUE);
-            p29.setWorkingStatus("available");
-            p28.setWorking(Boolean.TRUE);
-            p28.setWorkingStatus("available");
-            p27.setWorking(Boolean.TRUE);
-            p27.setWorkingStatus("available");
-
+            p11.setWorking(Boolean.TRUE);
+            p11.setWorkingStatus("available");
+            p12.setWorking(Boolean.TRUE);
+            p12.setWorkingStatus("available");
+            p13.setWorking(Boolean.TRUE);
+            p13.setWorkingStatus("available");
+            p14.setWorking(Boolean.TRUE);
+            p14.setWorkingStatus("available");
+            p15.setWorking(Boolean.TRUE);
+            p15.setWorkingStatus("available");
+            
             entityManager.persist(p1);
             entityManager.persist(p2);
             entityManager.persist(p3);
@@ -499,6 +499,23 @@ public class LoginSessionBean implements LoginSessionBeanLocal,LoginSessionBeanR
             CabinCrewEntity c98 = new CabinCrewEntity("c" + i + "098", "Sam", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
             CabinCrewEntity c99 = new CabinCrewEntity("c" + i + "099", "Sadam", "123", "hahaha@merlion.com", "123", "Earth", "Male", "available", null);
             CabinCrewEntity c100 = new CabinCrewEntity("c" + i + "00", "Fiona", "123", "hahaha@merlion.com", "123", "Earth", "Female", "available", null);
+
+            c100.setWorking(Boolean.TRUE);
+            c100.setWorkingStatus("available");
+            c99.setWorking(Boolean.TRUE);
+            c99.setWorkingStatus("available");
+            c98.setWorking(Boolean.TRUE);
+            c98.setWorkingStatus("available");
+            c97.setWorking(Boolean.TRUE);
+            c97.setWorkingStatus("available");
+            c96.setWorking(Boolean.TRUE);
+            c96.setWorkingStatus("available");
+            c95.setWorking(Boolean.TRUE);
+            c95.setWorkingStatus("available");
+            c94.setWorking(Boolean.TRUE);
+            c94.setWorkingStatus("available");
+            c93.setWorking(Boolean.TRUE);
+            c93.setWorkingStatus("available");
 
             entityManager.persist(c1);
             entityManager.persist(c2);

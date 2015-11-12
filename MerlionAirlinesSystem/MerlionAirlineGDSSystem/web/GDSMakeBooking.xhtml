@@ -1,17 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../templates/ClientSideTemplate.xhtml"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:define name="title">
-        Book Air Tickets
-    </ui:define>
-
-    <ui:define name="head">
+    <h:head>
+        <title>Book Air Tickets</title>
         <style>
             .label{
                 color: black;
@@ -35,23 +31,23 @@
         <script type="text/javascript">
 
 //            function Redirect() {
-//                window.location.assign("{customerBookTicketManagedBean.confirm()}")
+//                window.location.assign("{gDSFlightLookupManagedBean.confirm()}")
 ////                window.open("");
 //            }
 
         </script>
-    </ui:define>
+    </h:head>
 
-    <ui:define name="main">
+    <h:body>
         <p:panel id="flightsDetail" header="Flight Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
 
-            <p:dataTable value="#{customerBookTicketManagedBean.flights}" var="flight" style="border: none;">
+            <p:dataTable value="#{gDSFlightLookupManagedBean.flights}" var="flight" style="border: none;">
                 <p:column headerText="Flight No.">
                     <h:outputText value="#{flight.flightNo}" />
                 </p:column>
 
                 <p:column headerText="Departure City">
-                    <h:outputText value="#{flight.route.originAirport.cityName} (#{flight.route.originAirport.airportCode})" />
+                    <h:outputText value="#{flight.origin.name} (#{flight.origin.IATAorFAA})" />
                 </p:column>
 
                 <p:column headerText="Departure Date">
@@ -59,7 +55,7 @@
                 </p:column>
 
                 <p:column headerText="Arrival City">
-                    <h:outputText value="#{flight.route.destinationAirport.cityName} (#{flight.route.destinationAirport.airportCode})" />
+                    <h:outputText value="#{flight.destination.name} (#{flight.destination.IATAorFAA})" />
                 </p:column>
 
                 <p:column headerText="Arrival Date">
@@ -67,77 +63,19 @@
                 </p:column>
             </p:dataTable>
 
-            <h:form id="DiscountDetailsForm">
-
-                <h:panelGrid id="DiscountDetails" columns="2" cellpadding="5" rendered="#{customerBookTicketManagedBean.promotionApplied}">
-                    <h:outputText value="Original Price:"/>
-                    <h:outputText value="S$ #{customerBookTicketManagedBean.totalPriceBeforeDiscount}"/>
-                    <h:outputText value="Total amount discounted/waived:"/>
-                    <h:outputText value="S$ #{customerBookTicketManagedBean.totalDiscountedPrice}"/>
-                </h:panelGrid>
-
-                <h:panelGrid columns="2">
-                    <h:outputText value="Total Service Charge:"/>
-                    <h:outputText value="S$ #{customerBookTicketManagedBean.serviceCharge}"/>
-                </h:panelGrid>
-                
-                <h:panelGrid columns="1" cellpadding="5">
-                    <p:outputLabel id="totalPrice"  style="font-size: 150%; color: red;" value="Total Price: S$ #{customerBookTicketManagedBean.totalPrice}" />
-                    <p:outputLabel value="(Includes taxes and surcharges)" />
-                </h:panelGrid>
-
-            </h:form>
-        </p:panel>
-
-        <p:panel visible="#{customerBookTicketManagedBean.logined}" style="margin-top: 5%; border: #000000 2px solid; height: auto">
-
-            <h:panelGrid columns="2">
-                <p:panel header="Redeem Mileage">
-                    <h:form>
-                        <p:growl id="redeemStatus"></p:growl>
-
-                        <h:panelGrid columns="1" cellpadding="5">
-                            <p:outputLabel value="Merlion Member: #{customerBookTicketManagedBean.member.title} 
-                                           #{customerBookTicketManagedBean.member.firstName} #{customerBookTicketManagedBean.member.lastName}"/>
-                            <h:outputText value="Mileage: #{customerBookTicketManagedBean.member.mileage}"></h:outputText>
-                            <h:outputText value="Each one mile out of your mileage can be used to reduce your ticket price by S$0.5"/>
-                        </h:panelGrid>
-                        <h:panelGrid columns="3" cellpadding="5">
-                            <h:outputText value="You are going to redeem "></h:outputText>
-                            <p:inputText value="#{customerBookTicketManagedBean.usedMileage}"></p:inputText>
-                            <p:commandButton value="Redeem" actionListener="#{customerBookTicketManagedBean.redeemMileage}"
-                                             update="redeemStatus, flightsDetail"/>
-                        </h:panelGrid>
-                    </h:form>
-                </p:panel>
-
-                <p:panel header="Apply PromoCode">
-                    <h:form id="promotionForm">
-                        <p:messages id="promotion" showDetail="true"/>
-                        <h:panelGrid columns="3" cellpadding="5">
-                            <h:outputLabel value="PromoCode:"/>
-                            <p:inputText value="#{customerBookTicketManagedBean.promoCode}"/>
-                            <p:commandButton value="Apply" actionListener="#{customerBookTicketManagedBean.applyPromoCode}"
-                                             disabled="#{customerBookTicketManagedBean.promotionApplied}" update="@form DiscountDetailsForm"/>
-                        </h:panelGrid>
-                    </h:form>
-                </p:panel>
-
-            </h:panelGrid>
-
         </p:panel>
 
         <h:form id="makeBooking">
 
             <p:growl id="growl" sticky="true" showDetail="true"/>
 
-            <p:wizard flowListener="#{customerBookTicketManagedBean.onFlowProcess}" nextLabel="Continue" showStepStatus="false">
+            <p:wizard flowListener="#{gDSFlightLookupManagedBean.onFlowProcess}" nextLabel="Continue" showStepStatus="false">
 
 
                 <p:tab id="passengerInformation" title="Passengers Information">
 
                     <!--                    <p:messages />-->
-                    <ui:repeat value="#{customerBookTicketManagedBean.passengers}" var="passenger">
+                    <ui:repeat value="#{gDSFlightLookupManagedBean.passengers}" var="passenger">
                         <p:panel header="Passenger" style="margin-top: 5%; border: #000000 2px solid; height: auto">
                             <h:panelGrid columns="2" columnClasses="label, value" style="display: inline-block;">
                                 <h:outputText value="Title " />
@@ -182,9 +120,8 @@
                                     <h:outputText value="" />
 
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
-                                        <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
+                                        <h:outputText value="#{ticket.flight.origin.IATAorFAA} - #{ticket.flight.destination.IATAorFAA})" />
                                         <p:selectOneMenu value="#{ticket.baggageWeight}" style="width: 100%" required="true">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
                                             <f:selectItem itemLabel="No Extra Baggage" itemValue="-1" />
                                             <f:selectItem itemLabel="Extra 10kg at $20" itemValue="10.0" />
@@ -200,9 +137,8 @@
                                     <h:outputText value="" />
 
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
-                                        <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
+                                        <h:outputText value="#{ticket.flight.origin.IATAorFAA} - #{ticket.flight.destination.IATAorFAA})" />
                                         <p:selectOneRadio id="premiumMeal" value="#{ticket.premiumMeal}" style="margin-left: auto; margin-right: auto">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Yes" itemValue="true" />
                                             <f:selectItem itemLabel="No" itemValue="false" />
                                         </p:selectOneRadio>
@@ -215,9 +151,8 @@
                                     <h:outputText value="(including special check-in counter, exclusive lounge and priority boarding)" style="font-size: small"/>
 
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
-                                        <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
+                                        <h:outputText value="#{ticket.flight.origin.IATAorFAA} - #{ticket.flight.destination.IATAorFAA})" />
                                         <p:selectOneRadio id="service" value="#{ticket.exclusiveService}" style="margin-left: auto; margin-right: auto">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Yes" itemValue="true" />
                                             <f:selectItem itemLabel="No" itemValue="false" />
                                         </p:selectOneRadio>
@@ -230,9 +165,8 @@
                                     <h:outputText value="" />
 
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
-                                        <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
+                                        <h:outputText value="#{ticket.flight.origin.IATAorFAA} - #{ticket.flight.destination.IATAorFAA})" />
                                         <p:selectOneRadio id="wifi" value="#{ticket.flightWiFi}" style="margin-left: auto; margin-right: auto">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Yes" itemValue="true" />
                                             <f:selectItem itemLabel="No" itemValue="false" />
                                         </p:selectOneRadio>
@@ -245,9 +179,8 @@
                                     <h:outputText value="" />
 
                                     <ui:repeat value="#{passenger.tickets}" var="ticket">
-                                        <h:outputText value="#{ticket.flight.route.originAirport.airportCode}-#{ticket.flight.route.destinationAirport.airportCode}" />
+                                        <h:outputText value="#{ticket.flight.origin.IATAorFAA} - #{ticket.flight.destination.IATAorFAA})" />
                                         <p:selectOneRadio id="insurance" value="#{ticket.insurance}" style="margin-left: auto; margin-right: auto">
-                                            <p:ajax listener="#{customerBookTicketManagedBean.updateSericeCharge()}" update="DiscountDetailsForm"/>
                                             <f:selectItem itemLabel="Yes" itemValue="true" />
                                             <f:selectItem itemLabel="No" itemValue="false" />
                                         </p:selectOneRadio>
@@ -257,14 +190,13 @@
                             </p:panel>
                         </p:panel>
                     </ui:repeat>
-                    
                 </p:tab>
 
                 <p:tab id="contactDetails" title="Contact Details">
                     <p:panel header="Contact Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
                         <h:panelGrid columns="2" columnClasses="label, value">
                             <h:outputText value="Title " />
-                            <p:selectOneMenu value="#{customerBookTicketManagedBean.title}" style="width: 100%" required="true" label="title">
+                            <p:selectOneMenu value="#{gDSFlightLookupManagedBean.title}" style="width: 100%" required="true" label="title">
                                 <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
                                 <f:selectItem itemLabel="Dr" itemValue="Dr" />
                                 <f:selectItem itemLabel="Mdm" itemValue="Mdm" />
@@ -277,28 +209,28 @@
                             </p:selectOneMenu>
 
                             <h:outputText value="First / given name (as in passport) " />
-                            <p:inputText value="#{customerBookTicketManagedBean.firstName}" required="true" label="firstName"/>
+                            <p:inputText value="#{gDSFlightLookupManagedBean.firstName}" required="true" label="firstName"/>
 
                             <h:outputText value="Family name (as in passport) " />
-                            <p:inputText value="#{customerBookTicketManagedBean.lastName}" required="true" label="familyName"/>
+                            <p:inputText value="#{gDSFlightLookupManagedBean.lastName}" required="true" label="familyName"/>
 
                             <h:outputText value="Street Address " />
-                            <p:inputText value="#{customerBookTicketManagedBean.address}" required="true" label="streetAddress"/>
+                            <p:inputText value="#{gDSFlightLookupManagedBean.address}" required="true" label="streetAddress"/>
 
                             <h:outputText value="City " />
-                            <p:inputText value="#{customerBookTicketManagedBean.city}" required="true" label="city"/>
+                            <p:inputText value="#{gDSFlightLookupManagedBean.city}" required="true" label="city"/>
 
                             <h:outputText value="Country " />
-                            <p:inputText value="#{customerBookTicketManagedBean.country}" required="true" label="country"/>
+                            <p:inputText value="#{gDSFlightLookupManagedBean.country}" required="true" label="country"/>
 
                             <h:outputText value="Post code " />
-                            <p:inputText value="#{customerBookTicketManagedBean.postCode}" required="true" label="postCode"/>
+                            <p:inputText value="#{gDSFlightLookupManagedBean.postCode}" required="true" label="postCode"/>
 
                             <h:outputText value="Contact number" />
-                            <p:inputText value="#{customerBookTicketManagedBean.contactNumber}" required="true" label="contactNumber"/>
+                            <p:inputText value="#{gDSFlightLookupManagedBean.contactNumber}" required="true" label="contactNumber"/>
 
                             <h:outputText value="Email address" />
-                            <p:inputText value="#{customerBookTicketManagedBean.email}" required="true" label="emailAddress"/>
+                            <p:inputText value="#{gDSFlightLookupManagedBean.email}" required="true" label="emailAddress"/>
 
                         </h:panelGrid>
                     </p:panel>
@@ -308,7 +240,7 @@
                     <p:panel header="Payment Details">
 
                         <h:panelGrid columns="2" columnClasses="label, value">
-                            <p:commandButton value="Proceed to payment" actionListener="#{customerBookTicketManagedBean.completeBooking}"></p:commandButton>
+                            <p:commandButton value="Proceed to payment" actionListener="#{gDSFlightLookupManagedBean.completeBooking}"></p:commandButton>
                         </h:panelGrid>
 
                     </p:panel>
@@ -316,6 +248,6 @@
             </p:wizard>
 
         </h:form>
-    </ui:define>
+    </h:body>
 
-</ui:composition>
+</html>

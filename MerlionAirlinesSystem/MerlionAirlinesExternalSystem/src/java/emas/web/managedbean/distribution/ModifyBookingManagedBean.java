@@ -5,17 +5,31 @@
  */
 package emas.web.managedbean.distribution;
 
+import com.paypal.api.payments.Amount;
+import com.paypal.api.payments.Item;
+import com.paypal.api.payments.ItemList;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payer;
+import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.RedirectUrls;
+import com.paypal.api.payments.Transaction;
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
 import imas.distribution.entity.TicketEntity;
 import imas.distribution.sessionbean.FlightLookupSessionBeanLocal;
 import imas.distribution.sessionbean.ModifyBookingSessionBeanLocal;
 import imas.inventory.entity.BookingClassEntity;
 import imas.inventory.entity.BookingClassRuleSetEntity;
+import imas.inventory.sessionbean.CostManagementSessionBean;
+import static imas.inventory.sessionbean.CostManagementSessionBean.round;
 import imas.planning.entity.AirportEntity;
 import imas.planning.entity.FlightEntity;
 import imas.planning.entity.RouteEntity;
 import imas.planning.sessionbean.AircraftSessionBeanLocal;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,8 +102,20 @@ public class ModifyBookingManagedBean {
     private double oldPrice;
     private double newPrice;
     private double changeFee;
+    private double changeFlightPrice;
     private boolean changedFlight;
+    private String approvalLinkStr;
     private String changeFlightDetails;
+
+    private boolean upgrade;
+    private double upgradePrice;
+    private double upgradeBaggage;
+    private double upgradeMeal;
+    private double upgradeInsurance;
+    private double upgradeService;
+    private double upgradeFlightWifi;
+    
+    private double totalPriceToPay;
 
     /**
      * Creates a new instance of ModifyBookingManagedBean
@@ -99,7 +125,7 @@ public class ModifyBookingManagedBean {
 
     @PostConstruct
     public void init() {
-        changedFlight = false;
+
     }
 
     public void seachTicket() throws IOException {
@@ -114,10 +140,43 @@ public class ModifyBookingManagedBean {
     }
 
     public void upgradePremiumService() {
-        System.out.print(extraBaggageWeight + "," + premiumMeal + "," + insurance + "," + exclusiveService + "," + flightWifi);
-    }
+        upgrade = true;
 
-    public void completeModifyBooking() throws IOException {
+        if (extraBaggageWeight != 0) {
+            if (extraBaggageWeight != ticket.getBaggageWeight()) {
+                System.out.print("extra baggage weight: " + extraBaggageWeight);
+                System.out.print("actual baggage weight: " + ticket.getBaggageWeight());
+                upgradeBaggage = (extraBaggageWeight - ticket.getBaggageWeight()) * 2;
+                upgradePrice += upgradeBaggage;
+
+            }
+        }
+
+        if (premiumMeal != ticket.getPremiumMeal()) {
+            upgradeMeal = 50;
+            upgradePrice += upgradeMeal;
+        }
+
+        if (insurance != ticket.getInsurance()) {
+            upgradeInsurance = 25;
+            upgradePrice += upgradeInsurance;
+        }
+
+        if (exclusiveService != ticket.getExclusiveService()) {
+            upgradeService = 30;
+            upgradePrice += upgradeService;
+        }
+
+        if (flightWifi != ticket.getFlightWiFi()) {
+            upgradeFlightWifi = 25;
+            upgradePrice += upgradeFlightWifi;
+        }
+
+        totalPriceToPay = upgradePrice + changeFlightPrice;
+        totalPriceToPay = round(totalPriceToPay, 2); 
+    }
+    
+    public void completeModifyBooking() throws IOException, PayPalRESTException {
         ticket.setBaggageWeight(extraBaggageWeight);
         ticket.setPremiumMeal(premiumMeal);
         ticket.setInsurance(insurance);
@@ -129,8 +188,7 @@ public class ModifyBookingManagedBean {
         passportNumber = null;
         flight = null;
         tickets = null;
-        ticket = null;
-        FacesContext.getCurrentInstance().getExternalContext().redirect("https://localhost:8181/MerlionAirlinesExternalSystem/index.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect(pay(changeFlightPrice + upgradePrice));
     }
 
     public void startModifyBooking() throws IOException {
@@ -140,7 +198,15 @@ public class ModifyBookingManagedBean {
         exclusiveService = ticket.getExclusiveService();
         flightWifi = ticket.getFlightWiFi();
         System.out.print(extraBaggageWeight + "," + premiumMeal + "," + insurance + "," + exclusiveService + "," + flightWifi);
-
+        changedFlight = false;
+        upgrade = false;
+        upgradeBaggage = 0;
+        upgradeMeal = 0;
+        upgradeInsurance = 0;
+        upgradeService = 0;
+        upgradeFlightWifi = 0;
+        upgradePrice = 0;
+        changeFlightPrice = 0;
         FacesContext.getCurrentInstance().getExternalContext().redirect("modifyBooking.xhtml");
 
     }
@@ -164,6 +230,157 @@ public class ModifyBookingManagedBean {
         }
 
         destinationAirportsByCountry = originAirportsByCountry;
+    }
+
+    public String pay(double totalPrice) throws PayPalRESTException {
+        String clientID = "AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io";
+        String clientSecret = "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR";
+        System.err.println("test");
+
+        OAuthTokenCredential tokenCredential = Payment.initConfig(new File("sdk_config.properties"));
+        System.err.println("test");
+//        OAuthTokenCredential tokenCredential
+//                = new OAuthTokenCredential("AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io", "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR");
+        System.err.println("test1");
+        String accessToken = tokenCredential.getAccessToken();
+        //  String accessToken = new OAuthTokenCredential(clientID, clientSecret).getAccessToken();
+
+//APIContext apiContext = new APIContext(accessToken, requestId);
+//Payment payment = new Payment();
+//payment.setIntent("sale");
+        System.err.println("test1");
+//        Address billingAddress = new Address();
+//        
+//        billingAddress.setLine1("52 N Main ST");
+//        billingAddress.setCity("Johnstown");
+//        billingAddress.setCountryCode("US");
+//        billingAddress.setPostalCode("43210");
+//        billingAddress.setState("OH");
+        System.err.println("test2");
+        Item item = new Item();
+        item.setName("Merlion Airline Modify Booking");
+        DecimalFormat df = new DecimalFormat("0.00");
+        String priceFormat = df.format(totalPrice);
+        System.out.println(priceFormat);
+        item.setPrice(priceFormat);
+        item.setQuantity("1");
+        item.setCurrency("SGD");
+
+        ItemList itemList = new ItemList();
+        List<Item> items = new ArrayList<Item>();
+        items.add(item);
+        itemList.setItems(items);
+//        CreditCard creditCard = new CreditCard();
+//        creditCard.setNumber("4417119669820331");
+//        creditCard.setType("visa");
+//        creditCard.setExpireMonth(11);
+//        creditCard.setExpireYear(2018);
+//        creditCard.setCvv2(123);
+//        creditCard.setFirstName("Joe");
+//        creditCard.setLastName("Shopper");
+//        creditCard.setBillingAddress(billingAddress);
+        System.err.println("test3");
+
+//        Details details = new Details();
+//        details.setSubtotal("7.41");
+//        details.setTax("0.03");
+//        details.setShipping("0.03");
+        System.err.println("test4");
+
+        Amount amount = new Amount();
+
+//        amount.setDetails(details);
+        System.err.println("test5");
+        amount.setCurrency(item.getCurrency());
+        amount.setTotal(item.getPrice());
+
+        Transaction transaction = new Transaction();
+        transaction.setAmount(amount);
+        transaction.setItemList(itemList);
+        transaction.setDescription("This is the payment for Merlion Airline Modify Booking.");
+        System.err.println("test6");
+
+        List<Transaction> transactions = new ArrayList<Transaction>();
+        transactions.add(transaction);
+        System.err.println("test7");
+
+//        FundingInstrument fundingInstrument = new FundingInstrument();
+//       fundingInstrument.setCreditCard(creditCard);
+//        System.err.println("test8");
+//        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
+//        fundingInstruments.add(fundingInstrument);
+//        System.err.println("test9");
+        Payer payer = new Payer();
+//        payer.setFundingInstruments(fundingInstruments);
+        payer.setPaymentMethod("paypal");
+        System.err.println("test10");
+
+        Payment payment = new Payment();
+        payment.setIntent("sale");
+        payment.setPayer(payer);
+        payment.setTransactions(transactions);
+        System.err.println("test");
+        RedirectUrls urls = new RedirectUrls();
+        urls.setReturnUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/modifyBookingConfirmation.xhtml");
+        urls.setCancelUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/modifyBooking.xhtml");
+        payment.setRedirectUrls(urls);
+
+//        Address billingAddress = new Address();
+//        billingAddress.setLine1("52 N Main ST");
+//        billingAddress.setCity("Johnstown");
+//        billingAddress.setCountryCode("US");
+//        billingAddress.setPostalCode("43210");
+//        billingAddress.setState("OH");
+//
+//        CreditCard creditCard = new CreditCard();
+//        creditCard.setNumber("4417119669820331");
+//        creditCard.setType("visa");
+//        creditCard.setExpireMonth(11);
+//        creditCard.setExpireYear(2018);
+//        creditCard.setCvv2(874);
+//        creditCard.setFirstName("Joe");
+//        creditCard.setLastName("Shopper");
+//        creditCard.setBillingAddress(billingAddress);
+//
+//        Details amountDetails = new Details();
+//        amountDetails.setTax("0.03");
+//        amountDetails.setShipping("0.03");
+//
+//        Amount amount = new Amount();
+//        amount.setTotal("7.47");
+//        amount.setCurrency("USD");
+//        amount.setDetails(amountDetails);
+//
+//        Transaction transaction = new Transaction();
+//        transaction.setAmount(amount);
+//        transaction.setDescription("This is the payment transaction description.");
+//
+//        List<Transaction> transactions = new ArrayList<Transaction>();
+//        transactions.add(transaction);
+//
+//        FundingInstrument fundingInstrument = new FundingInstrument();
+//        fundingInstrument.setCreditCard(creditCard);
+//
+//        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
+//        fundingInstruments.add(fundingInstrument);
+//
+//        Payer payer = new Payer();
+//        payer.setFundingInstruments(fundingInstruments);
+//        payer.setPaymentMethod("credit_card");
+//
+//        Payment payment = new Payment();
+//        payment.setIntent("sale");
+//        payment.setPayer(payer);
+//        payment.setTransactions(transactions);
+        Payment createdPayment = payment.create(accessToken);
+        System.err.println("test12345");
+        List<Links> approvalLink = createdPayment.getLinks();
+
+        Links link = approvalLink.get(1);
+        approvalLinkStr = link.getHref();
+
+        System.err.println("getHref:" + link.getHref());
+        return approvalLinkStr;
     }
 
     public void selectNewFlight() throws IOException {
@@ -459,6 +676,15 @@ public class ModifyBookingManagedBean {
         changedFlight = true;
         changeFee = changeFlightFee(oldTicket, selectedFlight, bcrs);
         changeFlightDetails = changeFlightDetails(oldTicket, selectedFlight, bcrs);
+        ticket = modifyBookingSessionBean.modifyTicket(ticket, selectedFlight, selectedBookingClass);
+        changeFee = round(changeFee, 2); 
+        if(oldPrice > newPrice){
+            changeFlightPrice = changeFee;
+        }else{
+            changeFlightPrice = newPrice - oldPrice + changeFee;
+        }
+        totalPriceToPay = upgradePrice + changeFlightPrice;
+        totalPriceToPay = round(totalPriceToPay, 2); 
         FacesContext.getCurrentInstance().getExternalContext().redirect("modifyBooking.xhtml");
     }
 
@@ -484,7 +710,7 @@ public class ModifyBookingManagedBean {
         }
         return feePercent * oldTicket.getPrice();
     }
-    
+
     private String changeFlightDetails(TicketEntity oldTicket, FlightEntity newFlight, BookingClassRuleSetEntity rule) {
         Date oldDeparture = oldTicket.getFlight().getDepartureDate();
         Date newDeparture = newFlight.getDepartureDate();
@@ -499,20 +725,7 @@ public class ModifyBookingManagedBean {
         }
         return changeFlight;
     }
-    
-    public void payment() {
-        double totalPriceTopay = 0.0;
-        if (changedFlight) {
-            totalPriceTopay = totalPriceTopay + newPrice - oldPrice + changeFee;
-        }
-        
-    }
 
-    public void afterPay() {
-        if (changedFlight) {
-            ticket = modifyBookingSessionBean.modifyTicket(ticket, selectedFlight, selectedBookingClass);
-        }        
-    }
     public RouteEntity getDirectRoute() {
         return directRoute;
     }
@@ -746,7 +959,7 @@ public class ModifyBookingManagedBean {
     }
 
     public double getOldPrice() {
-        return oldPrice;
+        return CostManagementSessionBean.round(oldPrice, 2);
     }
 
     public void setOldPrice(double oldPrice) {
@@ -754,7 +967,7 @@ public class ModifyBookingManagedBean {
     }
 
     public double getNewPrice() {
-        return newPrice;
+        return CostManagementSessionBean.round(newPrice, 2);
     }
 
     public void setNewPrice(double newPrice) {
@@ -762,7 +975,7 @@ public class ModifyBookingManagedBean {
     }
 
     public double getChangeFee() {
-        return changeFee;
+        return CostManagementSessionBean.round(changeFee, 2);
     }
 
     public void setChangeFee(double changeFee) {
@@ -784,5 +997,76 @@ public class ModifyBookingManagedBean {
     public void setChangeFlightDetails(String changeFlightDetails) {
         this.changeFlightDetails = changeFlightDetails;
     }
-    
+
+    public boolean isUpgrade() {
+        return upgrade;
+    }
+
+    public void setUpgrade(boolean upgrade) {
+        this.upgrade = upgrade;
+    }
+
+    public double getUpgradePrice() {
+        return upgradePrice;
+    }
+
+    public void setUpgradePrice(double upgradePrice) {
+        this.upgradePrice = upgradePrice;
+    }
+
+    public double getUpgradeBaggage() {
+        return upgradeBaggage;
+    }
+
+    public void setUpgradeBaggage(double upgradeBaggage) {
+        this.upgradeBaggage = upgradeBaggage;
+    }
+
+    public double getUpgradeMeal() {
+        return upgradeMeal;
+    }
+
+    public void setUpgradeMeal(double upgradeMeal) {
+        this.upgradeMeal = upgradeMeal;
+    }
+
+    public double getUpgradeInsurance() {
+        return upgradeInsurance;
+    }
+
+    public void setUpgradeInsurance(double upgradeInsurance) {
+        this.upgradeInsurance = upgradeInsurance;
+    }
+
+    public double getUpgradeService() {
+        return upgradeService;
+    }
+
+    public void setUpgradeService(double upgradeService) {
+        this.upgradeService = upgradeService;
+    }
+
+    public double getUpgradeFlightWifi() {
+        return upgradeFlightWifi;
+    }
+
+    public void setUpgradeFlightWifi(double upgradeFlightWifi) {
+        this.upgradeFlightWifi = upgradeFlightWifi;
+    }
+
+    public double getChangeFlightPrice() {
+        return CostManagementSessionBean.round(changeFlightPrice, 2) ;
+    }
+
+    public void setChangeFlightPrice(double changeFlightPrice) {
+        this.changeFlightPrice = changeFlightPrice;
+    }
+
+    public double getTotalPriceToPay() {
+        return CostManagementSessionBean.round(totalPriceToPay, 2);
+    }
+
+    public void setTotalPriceToPay(double totalPriceToPay) {
+        this.totalPriceToPay = totalPriceToPay;
+    }
 }

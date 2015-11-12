@@ -8,13 +8,32 @@ package GDS.web.managedbean;
 import GDS.entity.GDSAirportEntity;
 import GDS.entity.GDSBookingClassEntity;
 import GDS.entity.GDSFlightEntity;
+import GDS.entity.GDSPassengerEntity;
+import GDS.entity.GDSTicketEntity;
 import GDS.sessionbean.GDSAirportSessionBeanLocal;
 import GDS.sessionbean.GDSFlightSessionBeanLocal;
+import GDS.sessionbean.GDSMakeBookingSessionBeanLocal;
 import GDS.sessionbean.GDSTransferFlight;
+import com.paypal.api.payments.Amount;
+import com.paypal.api.payments.Item;
+import com.paypal.api.payments.ItemList;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payer;
+import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.RedirectUrls;
+import com.paypal.api.payments.Transaction;
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
+import imas.distribution.entity.PassengerEntity;
+import imas.distribution.entity.TicketEntity;
 import imas.distribution.sessionbean.MakeBookingSessionBeanLocal;
 import imas.inventory.sessionbean.CostManagementSessionBean;
+import imas.planning.entity.FlightEntity;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +50,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.persistence.PostRemove;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FlowEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -40,6 +60,9 @@ import org.primefaces.event.SelectEvent;
 @ManagedBean
 @SessionScoped
 public class GDSFlightLookupManagedBean implements Serializable {
+
+    @EJB
+    private GDSMakeBookingSessionBeanLocal gDSMakeBookingSessionBean;
 
     @EJB
     private GDSFlightSessionBeanLocal gDSFlightSessionBean;
@@ -93,6 +116,21 @@ public class GDSFlightLookupManagedBean implements Serializable {
     private List<GDSFlightEntity> returnDirectFlightCandidates;
     private List<GDSTransferFlight> departureTransferFlightCandidates;
     private List<GDSTransferFlight> returnTransferFlightCandidates;
+
+    List<GDSPassengerEntity> passengers = new ArrayList<>();
+    List<GDSFlightEntity> flights = new ArrayList<>();
+
+    private String title;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String city;
+    private String country;
+    private String postCode;
+    private String email;
+    private String contactNumber;
+    private double totalPrice = 0;
+    private String referenceNumber;
 
     public GDSFlightLookupManagedBean() {
     }
@@ -417,7 +455,7 @@ public class GDSFlightLookupManagedBean implements Serializable {
         tab2Disabled = true;
         tab3Disabled = true;
     }
-    
+
     @PostRemove
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("GDSAirportList");
@@ -514,8 +552,7 @@ public class GDSFlightLookupManagedBean implements Serializable {
         int minNo = (int) ((end.getTime() - start.getTime() - hourNo * 3600000) / 60000);
         return hourNo + " hour " + minNo + " mins";
     }
-    
-    
+
     public void onDepartureDirectFlightSelect(SelectEvent event) {
         departureTransferFlight1 = null;
         departureTransferFlight2 = null;
@@ -554,6 +591,114 @@ public class GDSFlightLookupManagedBean implements Serializable {
 
     }
 
+    public List<GDSPassengerEntity> getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(List<GDSPassengerEntity> passengers) {
+        this.passengers = passengers;
+    }
+
+    public List<GDSFlightEntity> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(List<GDSFlightEntity> flights) {
+        this.flights = flights;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
+    }
+
+    public String onFlowProcess(FlowEvent event) {
+        return event.getNewStep();
+    }
+    
     public boolean selectedNoDepartureFlights() {
         return departureDirectFlight == null && departureTransferFlight1 == null && departureTransferFlight2 == null;
     }
@@ -591,7 +736,7 @@ public class GDSFlightLookupManagedBean implements Serializable {
             tab3Disabled = true;
         }
     }
-    
+
     private boolean checkFlightsSubmitted() {
         boolean flag = true;
 
@@ -633,16 +778,16 @@ public class GDSFlightLookupManagedBean implements Serializable {
         returnTransferFlight1BookingClass = null;
         returnTransferFlight2BookingClass = null;
     }
-    
+
     public void showNotes(GDSBookingClassEntity bookingClass) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, bookingClass.getName(), bookingClass.getNotes());
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-    
+
     public boolean GDSBookingClassDisabled(GDSBookingClassEntity bc) {
         return (bc.getQuota() < (adultNo + childNo + infantNo));
     }
-    
+
     public String GDSBookingClassPrice(GDSBookingClassEntity bc) {
         if (GDSBookingClassDisabled(bc)) {
             return "Quota not enough";
@@ -650,8 +795,267 @@ public class GDSFlightLookupManagedBean implements Serializable {
             return "S$ " + Double.toString(CostManagementSessionBean.round(bc.getPrice(), 2));
         }
     }
-    
-    public void submitBookingClasses() {
-        
+
+    public boolean checkBookingClassesSubmitted() {
+        boolean flag = true;
+
+        if (selectedDepartureDirectFlight() && departureDirectFlightBookingClass == null) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your departure flight, please select booking class", ""));
+        } else if (selectedDepartureTransferFlight() && (returnTransferFlight1BookingClass == null || returnTransferFlight2BookingClass == null)) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your departure flight, please select booking class for both transfer flights", ""));
+        }
+        if (selectedReturnDirectFlight() && returnDirectFlightBookingClass == null) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your return flight, please select booking class", ""));
+        } else if (selectedReturnTransferFlight() && (returnTransferFlight1BookingClass == null || returnTransferFlight2BookingClass == null)) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your return flight, please select booking class for both transfer flights", ""));
+        }
+        return flag;
     }
+
+    public void submitBookingClasses() throws IOException {
+
+        if (checkBookingClassesSubmitted()) {
+
+            if (selectedDepartureDirectFlight()) {
+                flights.add(departureDirectFlight);
+            } else if (selectedDepartureTransferFlight()) {
+                flights.add(departureTransferFlight1);
+                flights.add(departureTransferFlight1);
+            }
+            if (selectedReturnDirectFlight()) {
+                flights.add(returnDirectFlight);
+            } else if (selectedReturnTransferFlight()) {
+                flights.add(returnTransferFlight1);
+                flights.add(returnTransferFlight1);
+            }
+
+            for (int i = 0; i < adultNo + childNo + infantNo; i++) {
+                GDSPassengerEntity passenger = new GDSPassengerEntity();
+                GDSTicketEntity ticket1 = null, ticket2 = null, ticket3 = null, ticket4 = null, ticket5 = null, ticket6 = null;
+                if (selectedDepartureDirectFlight()) {
+                    ticket1 = new GDSTicketEntity(departureDirectFlight, departureDirectFlightBookingClass.getName(), departureDirectFlightBookingClass.getPrice(), passenger);
+                } else if (selectedDepartureTransferFlight()) {
+                    ticket2 = new GDSTicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
+                    ticket3 = new GDSTicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
+                }
+                if (selectedReturnDirectFlight()) {
+                    ticket4 = new GDSTicketEntity(returnDirectFlight, returnDirectFlightBookingClass.getName(), returnDirectFlightBookingClass.getPrice(), passenger);
+                } else if (selectedReturnTransferFlight()) {
+                    ticket5 = new GDSTicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
+                    ticket6 = new GDSTicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
+                }
+
+                // add all tickets to list and set to passenger
+                List<GDSTicketEntity> tickets = new ArrayList<>();
+                if (ticket1 != null) {
+                    tickets.add(ticket1);
+                    totalPrice = totalPrice + ticket1.getPrice();
+                }
+                if (ticket2 != null) {
+                    tickets.add(ticket2);
+                    totalPrice = totalPrice + ticket2.getPrice();
+                }
+                if (ticket3 != null) {
+                    tickets.add(ticket3);
+                    totalPrice = totalPrice + ticket3.getPrice();
+                }
+                if (ticket4 != null) {
+                    tickets.add(ticket4);
+                    totalPrice = totalPrice + ticket4.getPrice();
+                }
+                if (ticket5 != null) {
+                    tickets.add(ticket5);
+                    totalPrice = totalPrice + ticket5.getPrice();
+                }
+                if (ticket6 != null) {
+                    tickets.add(ticket6);
+                    totalPrice = totalPrice + ticket6.getPrice();
+                }
+                passenger.setTickets(tickets);
+
+                passengers.add(passenger);
+            }
+
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("passengerList", passengers);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("GDSMakeBooking.xhtml");
+
+        }
+
+    }
+
+    public String confirm() throws PayPalRESTException, IOException {
+//
+//        ((LoggerContext) LoggerFactory.getILoggerFactory()).getLogger(Logger.ROOT_LOGGER_NAME).setLevel(Level.DEBUG);
+//
+//        ((ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(Level.DEBUG);
+
+        String clientID = "AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io";
+        String clientSecret = "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR";
+        System.err.println("test");
+
+        OAuthTokenCredential tokenCredential = Payment.initConfig(new File("sdk_config.properties"));
+        System.err.println("test");
+//        OAuthTokenCredential tokenCredential
+//                = new OAuthTokenCredential("AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io", "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR");
+        System.err.println("test1");
+        String accessToken = tokenCredential.getAccessToken();
+        //  String accessToken = new OAuthTokenCredential(clientID, clientSecret).getAccessToken();
+
+//APIContext apiContext = new APIContext(accessToken, requestId);
+//Payment payment = new Payment();
+//payment.setIntent("sale");
+        System.err.println("test1");
+//        Address billingAddress = new Address();
+//        
+//        billingAddress.setLine1("52 N Main ST");
+//        billingAddress.setCity("Johnstown");
+//        billingAddress.setCountryCode("US");
+//        billingAddress.setPostalCode("43210");
+//        billingAddress.setState("OH");
+        System.err.println("test2");
+        Item item = new Item();
+        item.setName("Merlion Airline Ticket");
+        DecimalFormat df = new DecimalFormat("0.00");
+        System.out.println("2 total price" + totalPrice);
+        String priceFormat = df.format(totalPrice);
+        System.out.println("2");
+        item.setPrice(priceFormat);
+        item.setQuantity("1");
+        item.setCurrency("SGD");
+
+        ItemList itemList = new ItemList();
+        List<Item> items = new ArrayList<Item>();
+        items.add(item);
+        itemList.setItems(items);
+//        CreditCard creditCard = new CreditCard();
+//        creditCard.setNumber("4417119669820331");
+//        creditCard.setType("visa");
+//        creditCard.setExpireMonth(11);
+//        creditCard.setExpireYear(2018);
+//        creditCard.setCvv2(123);
+//        creditCard.setFirstName("Joe");
+//        creditCard.setLastName("Shopper");
+//        creditCard.setBillingAddress(billingAddress);
+        System.err.println("test3");
+
+//        Details details = new Details();
+//        details.setSubtotal("7.41");
+//        details.setTax("0.03");
+//        details.setShipping("0.03");
+        System.err.println("test4");
+
+        Amount amount = new Amount();
+
+//        amount.setDetails(details);
+        System.err.println("test5");
+        amount.setCurrency(item.getCurrency());
+        amount.setTotal(item.getPrice());
+
+        Transaction transaction = new Transaction();
+        transaction.setAmount(amount);
+        transaction.setItemList(itemList);
+        transaction.setDescription("This is the payment for Merlion Airline Ticket.");
+        System.err.println("test6");
+
+        List<Transaction> transactions = new ArrayList<Transaction>();
+        transactions.add(transaction);
+        System.err.println("test7");
+
+//        FundingInstrument fundingInstrument = new FundingInstrument();
+//       fundingInstrument.setCreditCard(creditCard);
+//        System.err.println("test8");
+//        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
+//        fundingInstruments.add(fundingInstrument);
+//        System.err.println("test9");
+        Payer payer = new Payer();
+//        payer.setFundingInstruments(fundingInstruments);
+        payer.setPaymentMethod("paypal");
+        System.err.println("test10");
+
+        Payment payment = new Payment();
+        payment.setIntent("sale");
+        payment.setPayer(payer);
+        payment.setTransactions(transactions);
+        System.err.println("test");
+        RedirectUrls urls = new RedirectUrls();
+        urls.setReturnUrl("https://localhost:8181/MerlionAirlineGDSSystem/bookingConfirmation.xhtml");
+        urls.setCancelUrl("https://localhost:8181/MerlionAirlineGDSSystem/GDSMakeBooking.xhtml");
+        payment.setRedirectUrls(urls);
+
+//        Address billingAddress = new Address();
+//        billingAddress.setLine1("52 N Main ST");
+//        billingAddress.setCity("Johnstown");
+//        billingAddress.setCountryCode("US");
+//        billingAddress.setPostalCode("43210");
+//        billingAddress.setState("OH");
+//
+//        CreditCard creditCard = new CreditCard();
+//        creditCard.setNumber("4417119669820331");
+//        creditCard.setType("visa");
+//        creditCard.setExpireMonth(11);
+//        creditCard.setExpireYear(2018);
+//        creditCard.setCvv2(874);
+//        creditCard.setFirstName("Joe");
+//        creditCard.setLastName("Shopper");
+//        creditCard.setBillingAddress(billingAddress);
+//
+//        Details amountDetails = new Details();
+//        amountDetails.setTax("0.03");
+//        amountDetails.setShipping("0.03");
+//
+//        Amount amount = new Amount();
+//        amount.setTotal("7.47");
+//        amount.setCurrency("USD");
+//        amount.setDetails(amountDetails);
+//
+//        Transaction transaction = new Transaction();
+//        transaction.setAmount(amount);
+//        transaction.setDescription("This is the payment transaction description.");
+//
+//        List<Transaction> transactions = new ArrayList<Transaction>();
+//        transactions.add(transaction);
+//
+//        FundingInstrument fundingInstrument = new FundingInstrument();
+//        fundingInstrument.setCreditCard(creditCard);
+//
+//        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
+//        fundingInstruments.add(fundingInstrument);
+//
+//        Payer payer = new Payer();
+//        payer.setFundingInstruments(fundingInstruments);
+//        payer.setPaymentMethod("credit_card");
+//
+//        Payment payment = new Payment();
+//        payment.setIntent("sale");
+//        payment.setPayer(payer);
+//        payment.setTransactions(transactions);
+        Payment createdPayment = payment.create(accessToken);
+        System.err.println("test12345");
+        List<Links> approvalLink = createdPayment.getLinks();
+
+        Links link = approvalLink.get(1);
+        String approvalLinkStr = link.getHref();
+
+        System.err.println("getHref:" + link.getHref());
+        return approvalLinkStr;
+    }
+
+    public void completeBooking() throws IOException, PayPalRESTException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(confirm());
+    }
+
+    public void afterPay() throws IOException {
+        referenceNumber = gDSMakeBookingSessionBean.generateGDSItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, title, totalPrice);
+    
+        RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + "\")");
+    }
+
 }

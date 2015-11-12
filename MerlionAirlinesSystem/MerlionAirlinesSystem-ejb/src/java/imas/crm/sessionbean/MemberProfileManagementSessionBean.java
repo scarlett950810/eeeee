@@ -25,6 +25,7 @@ import util.security.CryptographicHelper;
  */
 @Stateless
 public class MemberProfileManagementSessionBean implements MemberProfileManagementSessionBeanLocal {
+
     @EJB
     private InventoryRevenueManagementSessionBeanLocal inventoryRevenueManagementSessionBean;
 
@@ -34,7 +35,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
     @Override
     public MemberEntity getMember(String memberID) {
-        
+
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
 
@@ -56,7 +57,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
     @Override
     public boolean resetPassword(String oldPassword, String newPassword, String memberID) {
-        
+
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
 
@@ -83,7 +84,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
     @Override //To get the tickets associated with a specific member
     public List<TicketEntity> getMemberTickets(String memberID) {
-        
+
         Query query = em.createQuery("SELECT m FROM MemberEntity m WHERE m.memberID = :memberID");
         query.setParameter("memberID", memberID);
         List<MemberEntity> members = (List<MemberEntity>) query.getResultList();
@@ -111,11 +112,11 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     @Override
     public List<TicketEntity> getHistoricalTickets(String memberID) {
         List<TicketEntity> tickets = getMemberTickets(memberID);
-        for(int i=0; i< tickets.size(); i++){
+        for (int i = 0; i < tickets.size(); i++) {
             TicketEntity ticket = tickets.get(i);
-            if(ticket.getIssued() == false){
+            if (ticket.getIssued() == false) {
                 tickets.remove(ticket);
-            }else{
+            } else {
                 System.out.println(ticket);
             }
         }
@@ -125,9 +126,9 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     @Override
     public List<TicketEntity> getFutureTicket(String memberID) {
         List<TicketEntity> tickets = getMemberTickets(memberID);
-        for(int i=0; i< tickets.size(); i++){
+        for (int i = 0; i < tickets.size(); i++) {
             TicketEntity ticket = tickets.get(i);
-            if(ticket.getIssued() == true){
+            if (ticket.getIssued() == true) {
                 tickets.remove(ticket);
             }
         }
@@ -155,7 +156,7 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
         if (!members.isEmpty()) {
             MemberEntity member = members.get(0);
-            if(member.getMileage() - deductAmount >= 0){
+            if (member.getMileage() - deductAmount >= 0) {
                 member.setMileage(member.getMileage() - deductAmount);
                 System.out.print("new Mileage = " + member.getMileage());
                 return true;
@@ -171,8 +172,6 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     public void upgradeSeatClassWithMileage(TicketEntity ticket) {
         em.merge(ticket);
     }
-    
-
 
     @Override
     public void setTicketToMember(MemberEntity member, List<TicketEntity> newTickets) {
@@ -186,14 +185,14 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     public boolean upgradeToFirstClass(TicketEntity ticket, MemberEntity member, double deductMileage) {
         List<BookingClassEntity> bookingClasses = ticket.getFlight().getBookingClasses();
         BookingClassEntity bookingClass;
-        for(int i=0; i<bookingClasses.size(); i++){
+        for (int i = 0; i < bookingClasses.size(); i++) {
             bookingClass = bookingClasses.get(i);
-            if(bookingClass.getName().equals("First Class")){
-                if(bookingClass.getQuota() - inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClass.getId()) > 0){
+            if (bookingClass.getName().equals("First Class")) {
+                if (bookingClass.getQuota() - inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClass.getId()) > 0) {
                     ticket.setBookingClassName("First Class");
                     member.setMileage(member.getMileage() - deductMileage);
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -203,16 +202,22 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
 
     @Override
     public boolean upgradeToBusinessClass(TicketEntity ticket, MemberEntity member, double deductMileage) {
+        System.out.println("Enter method");
         List<BookingClassEntity> bookingClasses = ticket.getFlight().getBookingClasses();
         BookingClassEntity bookingClass;
-        for(int i=0; i<bookingClasses.size(); i++){
+        for (int i = 0; i < bookingClasses.size(); i++) {
+            System.out.print("enter for loop");
             bookingClass = bookingClasses.get(i);
-            if(bookingClass.getName().equals("Business Class")){
-                if(bookingClass.getQuota() - inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClass.getId()) > 0){
+            System.out.println(bookingClass);
+            if (bookingClass.getName().equals("Business Class")) {
+                if (bookingClass.getQuota() - inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClass.getId()) > 0) {
                     ticket.setBookingClassName("Business Class");
                     member.setMileage(member.getMileage() - deductMileage);
+                    System.out.print("new mileage: " + member.getMileage());
+                    em.merge(member);
+                    em.merge(ticket);
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -224,23 +229,33 @@ public class MemberProfileManagementSessionBean implements MemberProfileManageme
     public boolean upgradeToPremiumEconomyClass(TicketEntity ticket, MemberEntity member, double deductMileage) {
         List<BookingClassEntity> bookingClasses = ticket.getFlight().getBookingClasses();
         BookingClassEntity bookingClass;
-        for(int i=0; i<bookingClasses.size(); i++){
+        for (int i = 0; i < bookingClasses.size(); i++) {
             bookingClass = bookingClasses.get(i);
-            if(bookingClass.getName().equals("Premium Economy Class")){
-                if(bookingClass.getQuota() - inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClass.getId()) > 0){
+            
+            if (bookingClass.getName().equals("Premium Economy Class")) {
+                if (bookingClass.getQuota() - inventoryRevenueManagementSessionBean.computeSoldSeats(bookingClass.getId()) > 0) {
                     ticket.setBookingClassName("Premium Economy Class");
                     member.setMileage(member.getMileage() - deductMileage);
+                    System.out.print("new mileage: " + member.getMileage());
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
         }
         return false;
     }
-    
-    
-    
-    
+
+    @Override
+    public TicketEntity retrieveTicket(Long ticketID) {
+        Query query = em.createQuery("SELECT m FROM TicketEntity t WHERE t.id = :ticketID");
+        query.setParameter("ticketID", ticketID);
+        List<TicketEntity> tickets = (List<TicketEntity>) query.getResultList();
+        if (tickets.isEmpty()) {
+            return null;
+        } else {
+            return tickets.get(0);
+        }
+    }
 
 }

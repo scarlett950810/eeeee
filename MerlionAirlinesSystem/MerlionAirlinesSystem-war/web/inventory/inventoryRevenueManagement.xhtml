@@ -28,10 +28,7 @@
     <ui:define name="centerPanel">
         
         <h:form>
-            
-            <p:commandButton value="Refresh List" class="btn-sm btn-default"
-                             actionListener="#{inventoryRevenueManagementManagedBean.refresh}" update="@form"/>
-            
+
             <p:dataTable id="flightList" var="flight" value="#{inventoryRevenueManagementManagedBean.flightList}" rowKey="#{flight.id}"
                          widgetVar="flightTable" emptyMessage="No flight found with given criteria" filteredValue="#{inventoryRevenueManagementManagedBean.fliteredFlight}" 
                          selection="#{inventoryRevenueManagementManagedBean.selectedFlight}" selectionMode="single"

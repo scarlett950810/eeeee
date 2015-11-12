@@ -8,13 +8,17 @@ package imas.planning.sessionbean;
 import imas.planning.entity.AircraftEntity;
 import imas.planning.entity.AircraftTypeEntity;
 import java.util.List;
+import javax.ejb.Remote;
 
 /**
  *
  * @author wutong
  */
-interface AircraftTypeSessionBeanRemote {
+@Remote
+public interface AircraftTypeSessionBeanRemote {
+
     List<AircraftTypeEntity> getAllAircraftTypes();
+
     void updateAircraftType(AircraftTypeEntity aircraftType);
 
     Boolean checkAircraftType(String IATACode);
@@ -24,5 +28,5 @@ interface AircraftTypeSessionBeanRemote {
     Boolean deleteAircraftType(String IATACode);
 
     List<AircraftEntity> getAircraftsFromAircraftType(AircraftTypeEntity aircraftType);
-   
+
 }

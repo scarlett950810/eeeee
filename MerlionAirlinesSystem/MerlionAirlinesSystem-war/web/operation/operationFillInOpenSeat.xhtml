@@ -116,7 +116,7 @@
                         <h:outputText value=" #{crew.working? 'True': 'False'}"  />
                     </p:column>
                 </p:dataTable>
-                <p:commandButton  update=":selectedFlight:position, :selectedFlight:name , :selectedFlight:pilot" value="Crew Fill In" actionListener="#{fillInOpenSeatManagedBean.doCrewFillIn()}" icon="ui-icon-check"  />
+                <p:commandButton  update="position name crew" value="Crew Fill In" actionListener="#{fillInOpenSeatManagedBean.doCrewFillIn()}" icon="ui-icon-check"  />
 
             </p:panel>
 

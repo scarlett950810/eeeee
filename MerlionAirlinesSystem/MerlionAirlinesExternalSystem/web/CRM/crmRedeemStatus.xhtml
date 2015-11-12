@@ -10,7 +10,7 @@
     </ui:define>
 
     <ui:define name="head">
-        
+
     </ui:define>
 
     <ui:define name="main">
@@ -23,13 +23,19 @@
             <h:outputText value="Upgraded from #{mileageRedeemManagedBean.currentSeatClass} to #{mileageRedeemManagedBean.option} "></h:outputText>
             <p:outputLabel value="with #{mileageRedeemManagedBean.usedMileage} Miles"></p:outputLabel>
         </p:panel>
-        
+
         <p:panel style="margin-top: 5%; border: #000000 2px solid; height: auto; text-align: center" visible="#{!mileageRedeemManagedBean.status}">
             <p:outputLabel value="Redeemtion Unsuccessful"></p:outputLabel>
             <br></br>
             <h:outputText value="Your redeemtion is unsuccessful due to not enought quota for the seat class that you are going to upgrade to."></h:outputText>
-            
+            <br></br>
+            <br></br>
+            <h:form>
+                <p:commandButton actionListener="#{mileageRedeemManagedBean.returnToMenberProfile}" value="Return to member profile"></p:commandButton>
+            </h:form>
         </p:panel>
+
+
     </ui:define>
 
 </ui:composition>
