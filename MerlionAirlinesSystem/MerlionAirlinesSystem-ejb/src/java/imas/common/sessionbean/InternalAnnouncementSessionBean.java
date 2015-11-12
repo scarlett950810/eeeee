@@ -84,6 +84,9 @@ public class InternalAnnouncementSessionBean implements InternalAnnouncementSess
         List<StaffEntity> filteredStaff = new ArrayList<>();
         for(int i=0; i<staffs.size(); i++){
             StaffEntity staff = staffs.get(i);
+            System.out.print("name: " + staff.getDisplayName() + ", " + staff.getId());
+            System.out.print("department: " + department);
+            System.out.print("businessUnit: " + staff.getRole().getBusinessUnit());
             if(department.contains(staff.getRole().getBusinessUnit())){
                 if(staff.getBase() != null){
                     if(base.contains(staff.getBase())){

@@ -9,6 +9,7 @@ import GDS.sessionbean.GDSAirportSessionBeanLocal;
 import imas.common.entity.CabinCrewEntity;
 import imas.common.entity.PilotEntity;
 import imas.common.entity.StaffEntity;
+import imas.common.entity.StaffRole;
 import imas.crm.entity.MemberEntity;
 import imas.inventory.entity.BookingClassEntity;
 import imas.planning.entity.AircraftEntity;
@@ -292,6 +293,12 @@ public class LoginSessionBean implements LoginSessionBeanLocal, LoginSessionBean
         l10.add("B700");
 
         System.out.println("List of aircraft types created for pilot scheduling testing");
+        
+        StaffRole pilotRole = new StaffRole("Operation", "senior pilot","Cockpit Crew", "Singapore", null);
+        entityManager.persist(pilotRole);
+        StaffRole cabinCrewRole = new StaffRole("Operation", "senior cabinCrew", "Cabin Crew", "Singapore", null);
+        entityManager.persist(cabinCrewRole);
+        
 
         for (int i = 0; i < 10; i++) {
 
@@ -336,7 +343,7 @@ public class LoginSessionBean implements LoginSessionBeanLocal, LoginSessionBean
             p14.setWorkingStatus("available");
             p15.setWorking(Boolean.TRUE);
             p15.setWorkingStatus("available");
-            
+
             entityManager.persist(p1);
             entityManager.persist(p2);
             entityManager.persist(p3);
@@ -368,6 +375,37 @@ public class LoginSessionBean implements LoginSessionBeanLocal, LoginSessionBean
             entityManager.persist(p29);
             entityManager.persist(p30);
 
+            p1.setRole(pilotRole);
+            p2.setRole(pilotRole);
+            p3.setRole(pilotRole);
+            p4.setRole(pilotRole);
+            p5.setRole(pilotRole);
+            p6.setRole(pilotRole);
+            p7.setRole(pilotRole);
+            p8.setRole(pilotRole);
+            p9.setRole(pilotRole);
+            p10.setRole(pilotRole);
+            p11.setRole(pilotRole);
+            p12.setRole(pilotRole);
+            p13.setRole(pilotRole);
+            p14.setRole(pilotRole);
+            p15.setRole(pilotRole);
+            p16.setRole(pilotRole);
+            p17.setRole(pilotRole);
+            p18.setRole(pilotRole);
+            p19.setRole(pilotRole);
+            p20.setRole(pilotRole);
+            p21.setRole(pilotRole);
+            p22.setRole(pilotRole);
+            p23.setRole(pilotRole);
+            p24.setRole(pilotRole);
+            p25.setRole(pilotRole);
+            p26.setRole(pilotRole);
+            p27.setRole(pilotRole);
+            p28.setRole(pilotRole);
+            p29.setRole(pilotRole);
+            p30.setRole(pilotRole);
+            
             p1.setBase(a1);
             p2.setBase(a1);
             p3.setBase(a1);
@@ -719,10 +757,137 @@ public class LoginSessionBean implements LoginSessionBeanLocal, LoginSessionBean
             c99.setBase(a2);
             c100.setBase(a1);
 
+            c1.setRole(cabinCrewRole);
+            c2.setRole(cabinCrewRole);
+            c3.setRole(cabinCrewRole);
+            c4.setRole(cabinCrewRole);
+            c5.setRole(cabinCrewRole);
+            c6.setRole(cabinCrewRole);
+            c7.setRole(cabinCrewRole);
+            c8.setRole(cabinCrewRole);
+            c9.setRole(cabinCrewRole);
+            c10.setRole(cabinCrewRole);
+            c11.setRole(cabinCrewRole);
+            c12.setRole(cabinCrewRole);
+            c13.setRole(cabinCrewRole);
+            c14.setRole(cabinCrewRole);
+            c15.setRole(cabinCrewRole);
+            c16.setRole(cabinCrewRole);
+            c17.setRole(cabinCrewRole);
+            c18.setRole(cabinCrewRole);
+            c19.setRole(cabinCrewRole);
+            c20.setRole(cabinCrewRole);
+            c21.setRole(cabinCrewRole);
+            c22.setRole(cabinCrewRole);
+            c23.setRole(cabinCrewRole);
+            c24.setRole(cabinCrewRole);
+            c25.setRole(cabinCrewRole);
+            c26.setRole(cabinCrewRole);
+            c27.setRole(cabinCrewRole);
+            c28.setRole(cabinCrewRole);
+            c29.setRole(cabinCrewRole);
+            c30.setRole(cabinCrewRole);
+            c31.setRole(cabinCrewRole);
+            c32.setRole(cabinCrewRole);
+            c33.setRole(cabinCrewRole);
+            c34.setRole(cabinCrewRole);
+            c35.setRole(cabinCrewRole);
+            c36.setRole(cabinCrewRole);
+            c37.setRole(cabinCrewRole);
+            c38.setRole(cabinCrewRole);
+            c39.setRole(cabinCrewRole);
+            c40.setRole(cabinCrewRole);
+            c41.setRole(cabinCrewRole);
+            c42.setRole(cabinCrewRole);
+            c43.setRole(cabinCrewRole);
+            c44.setRole(cabinCrewRole);
+            c45.setRole(cabinCrewRole);
+            c46.setRole(cabinCrewRole);
+            c47.setRole(cabinCrewRole);
+            c48.setRole(cabinCrewRole);
+            c49.setRole(cabinCrewRole);
+            c50.setRole(cabinCrewRole);
+            c51.setRole(cabinCrewRole);
+            c52.setRole(cabinCrewRole);
+            c53.setRole(cabinCrewRole);
+            c54.setRole(cabinCrewRole);
+            c55.setRole(cabinCrewRole);
+            c56.setRole(cabinCrewRole);
+            c57.setRole(cabinCrewRole);
+            c58.setRole(cabinCrewRole);
+            c59.setRole(cabinCrewRole);
+            c60.setRole(cabinCrewRole);
+            c61.setRole(cabinCrewRole);
+            c62.setRole(cabinCrewRole);
+            c63.setRole(cabinCrewRole);
+            c64.setRole(cabinCrewRole);
+            c65.setRole(cabinCrewRole);
+            c66.setRole(cabinCrewRole);
+            c67.setRole(cabinCrewRole);
+            c68.setRole(cabinCrewRole);
+            c69.setRole(cabinCrewRole);
+            c70.setRole(cabinCrewRole);
+            c71.setRole(cabinCrewRole);
+            c72.setRole(cabinCrewRole);
+            c73.setRole(cabinCrewRole);
+            c74.setRole(cabinCrewRole);
+            c75.setRole(cabinCrewRole);
+            c76.setRole(cabinCrewRole);
+            c77.setRole(cabinCrewRole);
+            c78.setRole(cabinCrewRole);
+            c79.setRole(cabinCrewRole);
+            c80.setRole(cabinCrewRole);
+            c81.setRole(cabinCrewRole);
+            c82.setRole(cabinCrewRole);
+            c83.setRole(cabinCrewRole);
+            c84.setRole(cabinCrewRole);
+            c85.setRole(cabinCrewRole);
+            c86.setRole(cabinCrewRole);
+            c87.setRole(cabinCrewRole);
+            c88.setRole(cabinCrewRole);
+            c89.setRole(cabinCrewRole);
+            c90.setRole(cabinCrewRole);
+            c91.setRole(cabinCrewRole);
+            c92.setRole(cabinCrewRole);
+            c93.setRole(cabinCrewRole);
+            c94.setRole(cabinCrewRole);
+            c95.setRole(cabinCrewRole);
+            c96.setRole(cabinCrewRole);
+            c97.setRole(cabinCrewRole);
+            c98.setRole(cabinCrewRole);
+            c99.setRole(cabinCrewRole);
+            c100.setRole(cabinCrewRole);
+            
         }
-
+        
         System.out.println("300 Pilots are created");
         System.out.println("1000 Cabin crew are created.");
+        
+//        setRole();
+    }
+    
+    private void setRole(){
+        StaffRole pilotRole = new StaffRole("Operation", "senior pilot","Cockpit Crew", "Singapore", null);
+        entityManager.persist(pilotRole);
+        StaffRole cabinCrewRole = new StaffRole("Operation", "senior cabinCrew", "Cabin Crew", "Singapore", null);
+        entityManager.persist(cabinCrewRole);
+        Query query1 = entityManager.createQuery("SELECT p FROM PilotEntity p");
+        Query query2 = entityManager.createQuery("SELECT c FROM CabinCrewEntity c");
+        
+        List<PilotEntity> pilots = (List<PilotEntity>) query1.getResultList();
+        List<CabinCrewEntity> cabinCrews = (List<CabinCrewEntity>) query2.getResultList();
+        
+        if(!pilots.isEmpty()){
+            for(int i=0; i<pilots.size(); i++){
+                pilots.get(i).setRole(pilotRole);
+            }
+        }
+        
+        if(!cabinCrews.isEmpty()){
+            for(int i=0; i<cabinCrews.size(); i++){
+                cabinCrews.get(i).setRole(cabinCrewRole);
+            }
+        }
     }
 
     @Override
