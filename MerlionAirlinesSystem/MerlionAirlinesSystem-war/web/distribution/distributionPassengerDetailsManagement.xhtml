@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/DefaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="head">
+        <!--insert customized import here-->
+    </ui:define>
+
+    <ui:define name="title">Distribution - View Passenger Details</ui:define>
+
+    <ui:define name="menubar">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-h1"><a href="https://localhost:8181/MerlionAirlinesSystem-war/distribution/flightLookup.xhtml">Flight Look up</a></li>                     
+                <li class="sidebar-h1"><a href="https://localhost:8181/MerlionAirlinesSystem-war/distribution/modifyBooking.xhtml">Modify Booking</a></li>
+                <li class="sidebar-h1"><a href="https://localhost:8181/MerlionAirlinesSystem-war/distribution/viewPassengerDetails.xhtml">View Reservation Details</a></li>
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="centerPanel">
+        <p:dataTable var="ticket" value="#{viewPassengerDetailsManagedBean.ticketsList}"  rowKey="#{flight.id}" widgetVar="flightTable" emptyMessage="No flight found with given criteria" 
+                     paginator="true" rows="10"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="10,25,50">
+            <f:facet name="header">
+                Merlion Airline Ticket List
+            </f:facet>
+            <p:column headerText="Ticket Id">
+                <h:outputText value="#{ticket.id}" />
+            </p:column>
+
+            <p:column headerText="Ticket Reference Number">
+                <h:outputText value="#{ticket.referenceNumber}" />
+            </p:column>
+
+            <p:column headerText="Price" width="15%">
+                <h:outputText value="$ #{ticket.price}" />
+            </p:column>
+
+            <p:column headerText="Passenger Name" width="15%">
+                <h:outputText value="#{ticket.passenger.title} #{ticket.passenger.firstName} #{ticket.passenger.lastName}" />
+            </p:column>
+
+            <p:column headerText="Passenger Nationality" width="15%">
+                <h:outputText value="#{ticket.passenger.nationality}" />
+            </p:column>
+
+            <p:column headerText="Passport Number" width="15%">
+                <h:outputText value="#{ticket.passenger.passportNumber}" />
+            </p:column>
+
+
+        </p:dataTable>
+        <h:form>
+            <p:commandButton value="Return" actionListener="#{viewPassengerDetailsManagedBean.returnBack}" class="btn-sm btn-default"/>            
+
+        </h:form>
+    </ui:define>
+</ui:composition>
