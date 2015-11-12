@@ -70,7 +70,7 @@ public class FillInOpenSeatSessionBean implements FillInOpenSeatSessionBeanLocal
         map = new HashMap<>();
         allCrews = selectedFlight.getCabinCrews();
         for (int i = 0; i < allCrews.size(); i++) {
-            if (Objects.equals(allCrews.get(i).getWorking(), Boolean.FALSE) && allCrews.get(i).getWorkingStatus().equals("available")) {
+            if (!allCrews.get(i).getWorking() && allCrews.get(i).getWorkingStatus().equals("available")) {
                 name = allCrews.get(i).getDisplayName() + "-" + allCrews.get(i).getStaffNo();
                 System.out.print(name);
                 map.put(name, name);
@@ -84,20 +84,20 @@ public class FillInOpenSeatSessionBean implements FillInOpenSeatSessionBeanLocal
     @Override
     public Map<String, String> getMissingPilot(FlightEntity selectedFlight) {
         System.out.print("missing pilot");
-        Query query = em.createQuery("SELECT f FROM PilotEntity f");
-        List<PilotEntity> list = query.getResultList();
-        if (!list.isEmpty()) {
-            for (int i = 0; i < list.size(); i++) {
-                list.get(i).setWorking(Boolean.FALSE);
-            }
-        }
+//        Query query = em.createQuery("SELECT f FROM PilotEntity f");
+//        List<PilotEntity> list = query.getResultList();
+//        if (!list.isEmpty()) {
+//            for (int i = 0; i < list.size(); i++) {
+//                list.get(i).setWorking(Boolean.FALSE);
+//            }
+//        }
 
         map = new HashMap<>();
         allPilots = selectedFlight.getPilots();
 
         for (int i = 0; i < allPilots.size(); i++) {
             System.out.println(allPilots.get(i).getWorking());
-            if (Objects.equals(allPilots.get(i).getWorking(), Boolean.FALSE) && allPilots.get(i).getWorkingStatus().equals("available")) {
+            if (!allPilots.get(i).getWorking() && allPilots.get(i).getWorkingStatus().equals("available")) {
                 name = allPilots.get(i).getDisplayName() + "-" + allPilots.get(i).getStaffNo();
                 map.put(name, name);
             }
@@ -231,36 +231,27 @@ public class FillInOpenSeatSessionBean implements FillInOpenSeatSessionBeanLocal
         Date startDate;
         Date endDate;
         Boolean result = Boolean.TRUE;
-
-        System.out.print("lalalalalalalala");
         startDate = selectedFlight.getDepartureDate();
         System.out.print(startDate);
         endDate = getReturnDate(selectedFlight);
         System.out.print(endDate);
         //aircraft type,working,  current working status
         if (!pilots.isEmpty()) {
-            System.out.print("hahahahahahahah");
             System.out.print(pilots.size());
-
             pilots.remove(selectedPilot);
-
             for (int i = 0; i < pilots.size(); i++) {
-//                System.out.print(pilots.get(i).getAircraftTypeCapabilities());
-//                System.out.print(selectedFlight.getAircraft().getAircraftType().getIATACode());
-//                System.out.print(pilots.get(i).getWorking());
-//                System.out.print(pilots.get(i).getWorkingStatus());
-
-                pilots.get(i).setWorking(Boolean.TRUE);
-
+                System.err.println(pilots.get(i).getAircraftTypeCapabilities().contains(selectedFlight.getAircraft().getAircraftType().getIATACode()));
+                System.err.println(pilots.get(i).getWorking());
+                System.err.println(pilots.get(i).getWorkingStatus().equals("available"));
                 if (pilots.get(i).getAircraftTypeCapabilities().contains(selectedFlight.getAircraft().getAircraftType().getIATACode())
                         && pilots.get(i).getWorking() && pilots.get(i).getWorkingStatus().equals("available")) {
-
+                    System.out.print("yi ge yi ge");
                     flights = pilots.get(i).getPilotFlights();
                     if (flights.isEmpty()) {
                         availablePilots.add(pilots.get(i));
                     } else {
                         for (int j = 0; j < flights.size(); j++) {
-                            System.out.print("yi ge yi ge");
+
                             System.out.print(flights.get(j).getDepartureDate());
                             System.out.print(flights.get(j).getArrivalDate());
 
@@ -271,6 +262,7 @@ public class FillInOpenSeatSessionBean implements FillInOpenSeatSessionBeanLocal
                             }
                         }
                         if (result) {
+
                             availablePilots.add(pilots.get(i));
                         }
                     }
@@ -309,9 +301,9 @@ public class FillInOpenSeatSessionBean implements FillInOpenSeatSessionBeanLocal
             crews.remove(selectedCrew);
 
             for (int i = 0; i < crews.size(); i++) {
-                if (i == 11 || i == 12 || i == 13 || i == 14 || i == 21 || i == 22 || i == 23 || i == 28) {
-                    crews.get(i).setWorking(Boolean.TRUE);
-                }
+//                if (i == 11 || i == 12 || i == 13 || i == 14 || i == 21 || i == 22 || i == 23 || i == 28) {
+//                    crews.get(i).setWorking(Boolean.TRUE);
+//                }
 
                 if (crews.get(i).getWorking() && crews.get(i).getWorkingStatus().equals("available")) {
 

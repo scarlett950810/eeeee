@@ -5,20 +5,14 @@
  */
 package imas.planning.sessionbean;
 
-import imas.inventory.sessionbean.YieldManagementSessionBeanRemote;
 import imas.planning.entity.AirportEntity;
-import imas.planning.entity.FlightEntity;
-import imas.planning.entity.RouteEntity;
-import java.util.Date;
 import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -28,7 +22,8 @@ import org.junit.Test;
  * @author wutong
  */
 public class AirportSessionBeanTest {
-     AirportSessionBeanRemote a = lookupRemote();
+
+    AirportSessionBeanRemote a = lookupRemote();
 
     @BeforeClass
     public static void setUpClass() {
@@ -48,43 +43,72 @@ public class AirportSessionBeanTest {
 
     @Test
     public void testCheckAirport01() {
-        System.out.println("testComputeRoutePopularity01");
-        AirportEntity airport = new AirportEntity();
-        boolean result = true;
+        System.out.println("testCheckAirport01");
+        String code = "SIN";
+        boolean result = a.checkAirport(code);
+        assertFalse(result);
+    }
+
+    @Test
+    public void testCheckAirport02() {
+        System.out.println("testCheckAirport02");
+        String code = "FAKE";
+        boolean result = a.checkAirport(code);
         assertTrue(result);
     }
 
     @Test
     public void testDeleteAirport() {
-        System.out.println("testComputeRoutePopularity02");
-       
-        boolean result = true;
-        assertTrue(result);
+        System.out.println("testDeleteAirport");
+        String code = "SIN";
+        boolean result = a.deleteAirport(code);
+        assertFalse(result);
     }
 
     @Test
     public void testFetchAirport01() {
+        System.out.println("testFetchAirport01");
         List<AirportEntity> al = a.fetchAirport();
         assertNotNull(al);
     }
 
     @Test
     public void testGetAirport01() {
-        AirportEntity result = new AirportEntity();
+        System.out.println("testGetAirport01");
+        String code = "Dummy";
+        AirportEntity result = a.getAirport(code);
+        assertNull(result);
+    }
+
+    @Test
+    public void testGetAirport02() {
+        System.out.println("testGetAirport02");
+        String code = "SIN";
+        AirportEntity result = a.getAirport(code);
         assertNotNull(result);
     }
 
     @Test
     public void testCheckRelatedRoute01() {
-        boolean result = true;
+        System.out.println("testCheckRelatedRoute01");
+        AirportEntity airport1 = new AirportEntity();
+        boolean result = a.checkRelatedRoute(airport1);
         assertTrue(result);
 
+    }
+
+    @Test
+    public void testCheckRelatedAircraft() {
+        System.out.println("testCheckRelatedAircraft");
+        AirportEntity airport = new AirportEntity();
+        boolean result = a.checkRelatedAircraft(airport);
+        assertTrue(result);
     }
 
     private AirportSessionBeanRemote lookupRemote() {
         try {
             Context c = new InitialContext();
-            return (AirportSessionBeanRemote) c.lookup("java:global/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/AirportSessionBean!imas.inventory.sessionbean.AirportSessionBeanRemote");
+            return (AirportSessionBeanRemote) c.lookup("java:global/MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/AirportSessionBean!imas.planning.sessionbean.AirportSessionBeanRemote");
         } catch (NamingException ne) {
             throw new RuntimeException(ne);
         }

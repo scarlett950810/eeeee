@@ -22,7 +22,7 @@ import javax.inject.Named;
 @ViewScoped
 public class DelayManagementManagedBean implements Serializable {
 
-    private String base = "SGC";
+    private String base = "SIN";
     private List<FlightEntity> delayFlights;
     private FlightEntity flight;
     @EJB

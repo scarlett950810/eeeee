@@ -31,7 +31,7 @@ public class TimeManagementManagedBean implements Serializable {
     TimeManagementSessionBeanLocal timeManagementSessionBean;
     @EJB
     DelayManagementSessionBeanLocal delayManagementSessionBean;
-    private String base = "SGC";
+    private String base = "SIN";
     private List<FlightEntity> comingFlights;
     private List<FlightEntity> flyingFlights;
     private List<FlightEntity> unprocessFlights;

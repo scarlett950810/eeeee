@@ -349,7 +349,12 @@ public class AccountManagementSessionBean implements AccountManagementSessionBea
             ArrayList<String> accessRight = new ArrayList<>();
             accessRight.add("all");
             StaffEntity staff1 = new StaffEntity("admin", "System Administrator", tempPassword, "systemadmin@merlionairline.sg", "12345678", "ABC Street", "male");
-
+            query = entityManager.createQuery("SELECT f FROM AirportEntity f WHERE f.airportCode = :base");
+            query.setParameter("base", "SIN");
+            AirportEntity airport = (AirportEntity) query.getSingleResult();
+            if (airport != null) {
+                staff1.setBase(airport);
+            }
             entityManager.persist(staff1);
 
             StaffRole role1 = new StaffRole("Administration", "Manager", "Information Technology", "Singapore", accessRight);
