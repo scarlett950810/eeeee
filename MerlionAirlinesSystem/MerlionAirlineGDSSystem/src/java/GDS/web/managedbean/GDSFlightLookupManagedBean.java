@@ -885,7 +885,7 @@ public class GDSFlightLookupManagedBean implements Serializable {
             }
 
 //            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("passengerList", passengers);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("GDSmakeBooking.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("GDSMakeBooking.xhtml");
 
         }
 
