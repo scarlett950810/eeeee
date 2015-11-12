@@ -143,6 +143,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
     }
 
     public void refreshBCTable() {
+        selectedFlight = inventoryRevenueManagementSessionBean.getRefreshedFlight(selectedFlight);
         bookingClassList = selectedFlight.getBookingClasses();
     }
 
@@ -161,6 +162,9 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         inventoryRevenueManagementSessionBean.updateBookingClassQuota(economyOne.getId(), economyOneQuota);
         inventoryRevenueManagementSessionBean.updateBookingClassQuota(economyTwo.getId(), economyTwoQuota);
         inventoryRevenueManagementSessionBean.updateBookingClassQuota(economyThree.getId(), economyThreeQuota);
+        inventoryRevenueManagementSessionBean.updateBookingClassQuota(economyFour.getId(), economyFourQuota);
+        inventoryRevenueManagementSessionBean.updateBookingClassQuota(economyFive.getId(), economyFiveQuota);
+        inventoryRevenueManagementSessionBean.updateBookingClassQuota(economyAgency.getId(), economyAgencyQuota);
         bookingClassList = selectedFlight.getBookingClasses();
         System.out.print("update quota method called");
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -211,6 +215,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     public void updatePricing() throws IOException {
         inventoryRevenueManagementSessionBean.updateBookingClassPricing(bookingClass.getId(), newPricing);
+        selectedFlight = inventoryRevenueManagementSessionBean.getRefreshedFlight(selectedFlight);
         bookingClassList = selectedFlight.getBookingClasses();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", bookingClassList);
         FacesContext fc = FacesContext.getCurrentInstance();

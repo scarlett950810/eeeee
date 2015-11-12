@@ -32,5 +32,7 @@ public interface InventoryRevenueManagementSessionBeanLocal {
     public Double getRouteTotalRevenueDuringDuration(RouteEntity route, Date from, Date to);
 
     public Double getRouteTotalCostDuringDuration(RouteEntity route, Date from, Date to);
+
+    public FlightEntity getRefreshedFlight(FlightEntity flight);
     
 }
