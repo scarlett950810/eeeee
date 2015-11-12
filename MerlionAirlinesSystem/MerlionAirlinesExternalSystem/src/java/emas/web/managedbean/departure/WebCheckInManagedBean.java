@@ -47,8 +47,13 @@ public class WebCheckInManagedBean implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Sorry, this flight does not exist", ""));
         } else {
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticketList", tickets);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("webCheckInTicketResult.xhtml");
+            if (!tickets.isEmpty()) {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ticketList", tickets);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("webCheckInTicketResult.xhtml");
+            } else {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("You have already checked in to your flights", ""));
+            }
         }
     }
 
