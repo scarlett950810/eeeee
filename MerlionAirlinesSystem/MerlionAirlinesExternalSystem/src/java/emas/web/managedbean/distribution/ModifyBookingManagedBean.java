@@ -959,7 +959,7 @@ public class ModifyBookingManagedBean {
     }
 
     public double getOldPrice() {
-        return oldPrice;
+        return CostManagementSessionBean.round(oldPrice, 2);
     }
 
     public void setOldPrice(double oldPrice) {
@@ -967,7 +967,7 @@ public class ModifyBookingManagedBean {
     }
 
     public double getNewPrice() {
-        return newPrice;
+        return CostManagementSessionBean.round(newPrice, 2);
     }
 
     public void setNewPrice(double newPrice) {
@@ -975,7 +975,7 @@ public class ModifyBookingManagedBean {
     }
 
     public double getChangeFee() {
-        return changeFee;
+        return CostManagementSessionBean.round(changeFee, 2);
     }
 
     public void setChangeFee(double changeFee) {
@@ -1055,7 +1055,7 @@ public class ModifyBookingManagedBean {
     }
 
     public double getChangeFlightPrice() {
-        return changeFlightPrice;
+        return CostManagementSessionBean.round(changeFlightPrice, 2) ;
     }
 
     public void setChangeFlightPrice(double changeFlightPrice) {
@@ -1063,7 +1063,7 @@ public class ModifyBookingManagedBean {
     }
 
     public double getTotalPriceToPay() {
-        return totalPriceToPay;
+        return CostManagementSessionBean.round(totalPriceToPay, 2);
     }
 
     public void setTotalPriceToPay(double totalPriceToPay) {
