@@ -31,3 +31,11 @@ hs_err_pid*
 /MerlionAirlinesSystem/MerlionAirlinesSystem-war/build.xml
 /MerlionAirlinesSystem/build.xml
 /MerlionAirlinesSystem/MerlionAirlinesSystem-ejb/build.xml
+/MerlionAirlinesDDSSystem/nbproject/private/
+/MerlionAirlinesSystem/MerlionAirlineDDSSystem/nbproject/private/
+/MerlionAirlinesSystem/MerlionAirlineDDSSystem/build/
+/MerlionAirlinesDDSSystem/dist/
+/MerlionAirlinesDDSSystem/build/
+/MerlionAirlinesSystem/MerlionAirlineDDSSystem/dist/
+/MerlionAirlinesSystem/MerlionAirlineDDSSystem/nbproject/
+/MerlionAirlinesSystem/MerlionAirlineDDSSystem/build.xml
