@@ -179,9 +179,12 @@ public class CustomerBookTicketManagedBean implements Serializable {
     private String postCode;
     private String email;
     private String contactNumber;
-    private double totalPrice = 0.0;
+    private double totalFlightPrice = 0.0;
     private String referenceNumber;
 
+    private double serviceCharge;
+    private double totalPrice;
+    
     public CustomerBookTicketManagedBean() {
     }
 
@@ -209,44 +212,23 @@ public class CustomerBookTicketManagedBean implements Serializable {
         departureDate = flightLookupSessionBean.getDateAfterDays(new Date(), 60);
         returnDate = flightLookupSessionBean.getDateAfterDays(departureDate, 7);
         promotionApplied = false;
+        serviceCharge = 0.0;
     }
 
     public String confirm() throws PayPalRESTException, IOException {
-//
-//        ((LoggerContext) LoggerFactory.getILoggerFactory()).getLogger(Logger.ROOT_LOGGER_NAME).setLevel(Level.DEBUG);
-//
-//        ((ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(Level.DEBUG);
+        System.out.println("in confirm");
+        System.out.println("total price to pay = " + this.getTotalPrice());
 
         String clientID = "AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io";
         String clientSecret = "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR";
-        System.err.println("test");
 
         OAuthTokenCredential tokenCredential = Payment.initConfig(new File("sdk_config.properties"));
-        System.err.println("test");
-//        OAuthTokenCredential tokenCredential
-//                = new OAuthTokenCredential("AWvE0BAwWOfvkR-_atNy8TpEKW-Gv0-vU20BzcO6MN_gQFibDWOtUb3SCGpmjQpoYYpvru_TsIA-V_io", "EIVHw-0paOwS1TAXrUyF8EU1VWH1ROvNIN4f6orXJZn4NNtRBCagQsokw1Mx8wsyzwR2dewdHTDEyWkR");
-        System.err.println("test1");
         String accessToken = tokenCredential.getAccessToken();
-        //  String accessToken = new OAuthTokenCredential(clientID, clientSecret).getAccessToken();
 
-//APIContext apiContext = new APIContext(accessToken, requestId);
-//Payment payment = new Payment();
-//payment.setIntent("sale");
-        System.err.println("test1");
-//        Address billingAddress = new Address();
-//        
-//        billingAddress.setLine1("52 N Main ST");
-//        billingAddress.setCity("Johnstown");
-//        billingAddress.setCountryCode("US");
-//        billingAddress.setPostalCode("43210");
-//        billingAddress.setState("OH");
-        System.err.println("test2");
         Item item = new Item();
         item.setName("Merlion Airline Ticket");
         DecimalFormat df = new DecimalFormat("0.00");
-        System.out.println("2 total price" + totalPrice);
-        String priceFormat = df.format(totalPrice);
-        System.out.println("2");
+        String priceFormat = df.format(this.getTotalPrice());
         item.setPrice(priceFormat);
         item.setQuantity("1");
         item.setCurrency("SGD");
@@ -255,27 +237,8 @@ public class CustomerBookTicketManagedBean implements Serializable {
         List<Item> items = new ArrayList<Item>();
         items.add(item);
         itemList.setItems(items);
-//        CreditCard creditCard = new CreditCard();
-//        creditCard.setNumber("4417119669820331");
-//        creditCard.setType("visa");
-//        creditCard.setExpireMonth(11);
-//        creditCard.setExpireYear(2018);
-//        creditCard.setCvv2(123);
-//        creditCard.setFirstName("Joe");
-//        creditCard.setLastName("Shopper");
-//        creditCard.setBillingAddress(billingAddress);
-        System.err.println("test3");
-
-//        Details details = new Details();
-//        details.setSubtotal("7.41");
-//        details.setTax("0.03");
-//        details.setShipping("0.03");
-        System.err.println("test4");
 
         Amount amount = new Amount();
-
-//        amount.setDetails(details);
-        System.err.println("test5");
         amount.setCurrency(item.getCurrency());
         amount.setTotal(item.getPrice());
 
@@ -283,88 +246,27 @@ public class CustomerBookTicketManagedBean implements Serializable {
         transaction.setAmount(amount);
         transaction.setItemList(itemList);
         transaction.setDescription("This is the payment for Merlion Airline Ticket.");
-        System.err.println("test6");
 
         List<Transaction> transactions = new ArrayList<Transaction>();
         transactions.add(transaction);
-        System.err.println("test7");
 
-//        FundingInstrument fundingInstrument = new FundingInstrument();
-//       fundingInstrument.setCreditCard(creditCard);
-//        System.err.println("test8");
-//        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
-//        fundingInstruments.add(fundingInstrument);
-//        System.err.println("test9");
         Payer payer = new Payer();
-//        payer.setFundingInstruments(fundingInstruments);
         payer.setPaymentMethod("paypal");
-        System.err.println("test10");
 
         Payment payment = new Payment();
         payment.setIntent("sale");
         payment.setPayer(payer);
         payment.setTransactions(transactions);
-        System.err.println("test");
         RedirectUrls urls = new RedirectUrls();
         urls.setReturnUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/bookingConfirmation.xhtml");
         urls.setCancelUrl("https://localhost:8181/MerlionAirlinesExternalSystem/distribution/makeBooking.xhtml");
         payment.setRedirectUrls(urls);
-
-//        Address billingAddress = new Address();
-//        billingAddress.setLine1("52 N Main ST");
-//        billingAddress.setCity("Johnstown");
-//        billingAddress.setCountryCode("US");
-//        billingAddress.setPostalCode("43210");
-//        billingAddress.setState("OH");
-//
-//        CreditCard creditCard = new CreditCard();
-//        creditCard.setNumber("4417119669820331");
-//        creditCard.setType("visa");
-//        creditCard.setExpireMonth(11);
-//        creditCard.setExpireYear(2018);
-//        creditCard.setCvv2(874);
-//        creditCard.setFirstName("Joe");
-//        creditCard.setLastName("Shopper");
-//        creditCard.setBillingAddress(billingAddress);
-//
-//        Details amountDetails = new Details();
-//        amountDetails.setTax("0.03");
-//        amountDetails.setShipping("0.03");
-//
-//        Amount amount = new Amount();
-//        amount.setTotal("7.47");
-//        amount.setCurrency("USD");
-//        amount.setDetails(amountDetails);
-//
-//        Transaction transaction = new Transaction();
-//        transaction.setAmount(amount);
-//        transaction.setDescription("This is the payment transaction description.");
-//
-//        List<Transaction> transactions = new ArrayList<Transaction>();
-//        transactions.add(transaction);
-//
-//        FundingInstrument fundingInstrument = new FundingInstrument();
-//        fundingInstrument.setCreditCard(creditCard);
-//
-//        List<FundingInstrument> fundingInstruments = new ArrayList<FundingInstrument>();
-//        fundingInstruments.add(fundingInstrument);
-//
-//        Payer payer = new Payer();
-//        payer.setFundingInstruments(fundingInstruments);
-//        payer.setPaymentMethod("credit_card");
-//
-//        Payment payment = new Payment();
-//        payment.setIntent("sale");
-//        payment.setPayer(payer);
-//        payment.setTransactions(transactions);
         Payment createdPayment = payment.create(accessToken);
-        System.err.println("test12345");
         List<Links> approvalLink = createdPayment.getLinks();
 
         Links link = approvalLink.get(1);
         String approvalLinkStr = link.getHref();
 
-        System.err.println("getHref:" + link.getHref());
         return approvalLinkStr;
     }
 
@@ -374,9 +276,10 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     public void afterPay() throws IOException {
         applyPromotion();
-        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalPrice, member);
+
+        referenceNumber = makeBookingSessionBean.generateItinerary(flights, passengers, title, firstName, lastName, address, city, country, email, contactNumber, postCode, "paid", totalFlightPrice, member);
         if (memberID != null) {
-            
+
             memberProfileManagementSessionBean.accumulateMileage(memberID, accumulatedMileage);
             if (usedMileage != 0) {
                 memberProfileManagementSessionBean.redeemMileage(usedMileage, memberID);
@@ -384,7 +287,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         }
 
         RequestContext.getCurrentInstance().execute("window.open(\"https://localhost:8181/MerlionAirlinesExternalSystem/ReportController?referenceNumber=" + referenceNumber + "&passportNumber=" + passengers.get(0).getPassportNumber() + "&passengerName=" + passengers.get(0).getTitle() + " " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + "\")");
-        
+
     }
 
     public void makeBooking() throws IOException {
@@ -402,10 +305,10 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            totalPrice = totalPrice - usedMileage * 0.001;
+            totalFlightPrice = totalFlightPrice - usedMileage * 0.001;
             mileage = mileage - usedMileage;
-            if (totalPrice < 0) {
-                totalPrice = 0;
+            if (totalFlightPrice < 0) {
+                totalFlightPrice = 0;
             }
         }
     }
@@ -424,18 +327,18 @@ public class CustomerBookTicketManagedBean implements Serializable {
             PromotionEntity promotion = inventoryPromotionManagementSessionBean.getPromotionEntity(promoCode);
             promotionApplied = true;
             if (promotion.isDiscount()) {
-                double disountedAmount = totalPrice * promotion.getDiscountRate();
+                double disountedAmount = totalFlightPrice * promotion.getDiscountRate();
                 totalDiscountedPrice = CostManagementSessionBean.round(disountedAmount, 2);
-                totalPriceBeforeDiscount = CostManagementSessionBean.round(totalPrice, 2);
-                totalPrice = CostManagementSessionBean.round(totalPrice - totalDiscountedPrice, 2);
+                totalPriceBeforeDiscount = CostManagementSessionBean.round(totalFlightPrice, 2);
+                totalFlightPrice = CostManagementSessionBean.round(totalFlightPrice - totalDiscountedPrice, 2);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Promotion applied", promotion.toString() + ". S$" + disountedAmount + " are discounted.");
                 FacesContext.getCurrentInstance().addMessage("promotion", msg);
             } else {
                 double waivedAmount = CostManagementSessionBean.round(promotion.getWaiveAmount(), 2);
                 totalDiscountedPrice = CostManagementSessionBean.round(waivedAmount, 2);
-                totalPriceBeforeDiscount = CostManagementSessionBean.round(totalPrice, 2);
-                totalPrice = CostManagementSessionBean.round(totalPrice - totalDiscountedPrice, 2);
+                totalPriceBeforeDiscount = CostManagementSessionBean.round(totalFlightPrice, 2);
+                totalFlightPrice = CostManagementSessionBean.round(totalFlightPrice - totalDiscountedPrice, 2);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Promotion applied", promotion.toString() + ". S$" + waivedAmount + " are waived.");
                 FacesContext.getCurrentInstance().addMessage("promotion", msg);
@@ -448,7 +351,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
             PromotionEntity promotion = inventoryPromotionManagementSessionBean.getPromotionEntity(promoCode);
             if (promotion.isDiscount()) {
                 inventoryPromotionManagementSessionBean.memberUsePromotion(memberID, promoCode);
-                double disountedAmount = totalPrice * promotion.getDiscountRate();
+                double disountedAmount = totalFlightPrice * promotion.getDiscountRate();
                 disountedAmount = CostManagementSessionBean.round(disountedAmount, 2);
                 int totalPassengers = passengers.size();
                 int ticketsPerPassenger = passengers.get(0).getTickets().size();
@@ -471,6 +374,39 @@ public class CustomerBookTicketManagedBean implements Serializable {
                 }
             }
         }
+    }
+
+    public void updateSericeCharge() {
+        System.out.println("updateSericeCharge");
+        serviceCharge = 0.0;
+        for (PassengerEntity p : passengers) {
+            for (TicketEntity t : p.getTickets()) {
+                if (t.getBaggageWeight() != null) {
+                    int baggagePrice = 0;
+                    if (t.getBaggageWeight() == 10) {
+                        baggagePrice = 20;
+                    } else if (t.getBaggageWeight() == 25) {
+                        baggagePrice = 30;
+                    } else if (t.getBaggageWeight() == 50) {
+                        baggagePrice = 40;
+                    }
+                    serviceCharge = serviceCharge + baggagePrice;
+                }
+                if (t.getPremiumMeal() != null && t.getPremiumMeal()) {
+                    serviceCharge = serviceCharge + 20;
+                }
+                if (t.getExclusiveService() != null && t.getExclusiveService()) {
+                    serviceCharge = serviceCharge + 30;
+                }
+                if (t.getFlightWiFi() != null && t.getFlightWiFi()) {
+                    serviceCharge = serviceCharge + 25;
+                }
+                if (t.getInsurance() != null && t.getInsurance()) {
+                    serviceCharge = serviceCharge + 25;
+                }
+            }
+        }
+
     }
 
     public void forgetPIN() throws IOException {
@@ -808,6 +744,14 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     public void setTab3Disabled(boolean tab3Disabled) {
         this.tab3Disabled = tab3Disabled;
+    }
+
+    public double getServiceCharge() {
+        return serviceCharge;
+    }
+
+    public void setServiceCharge(double serviceCharge) {
+        this.serviceCharge = serviceCharge;
     }
 
     public String getReturnDateDisplay() {
@@ -1550,37 +1494,37 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
         if (checkBookingClassesSubmitted()) {
 
-            totalPrice = 0.0;
+            serviceCharge = 0.0;
+            totalFlightPrice = 0.0;
             promotionApplied = false;
-            
+
             if (selectedDepartureDirectFlight()) {
                 flights.add(departureDirectFlight);
                 accumulatedMileage = accumulatedMileage + departureDirectFlightBookingClass.getMileage();
-                System.out.print("1:" + accumulatedMileage);
+//                System.out.print("1:" + accumulatedMileage);
             } else if (selectedDepartureTransferFlight()) {
                 flights.add(departureTransferFlight1);
                 flights.add(departureTransferFlight1);
                 accumulatedMileage = accumulatedMileage + departureTransferFlight1BookingClass.getMileage();
-                System.out.print("2:" + accumulatedMileage);
+//                System.out.print("2:" + accumulatedMileage);
                 accumulatedMileage = accumulatedMileage + departureTransferFlight2BookingClass.getMileage();
-                System.out.print("3:" + accumulatedMileage);
+//                System.out.print("3:" + accumulatedMileage);
             }
             if (selectedReturnDirectFlight()) {
                 flights.add(returnDirectFlight);
                 accumulatedMileage = accumulatedMileage + returnDirectFlightBookingClass.getMileage();
-                System.out.print("4:" + accumulatedMileage);
+//                System.out.print("4:" + accumulatedMileage);
 
             } else if (selectedReturnTransferFlight()) {
                 flights.add(returnTransferFlight1);
                 flights.add(returnTransferFlight1);
                 accumulatedMileage = accumulatedMileage + returnTransferFlight1BookingClass.getMileage();
-                System.out.print("5:" + accumulatedMileage);
+//                System.out.print("5:" + accumulatedMileage);
                 accumulatedMileage = accumulatedMileage + returnTransferFlight2BookingClass.getMileage();
-                System.out.print("6:" + accumulatedMileage);
+//                System.out.print("6:" + accumulatedMileage);
             }
 
-            System.out.print("accumulatedMileage = " + accumulatedMileage);
-
+//            System.out.print("accumulatedMileage = " + accumulatedMileage);
             for (int i = 0; i < adultNo + childNo + infantNo; i++) {
                 PassengerEntity passenger = new PassengerEntity();
                 TicketEntity ticket1 = null, ticket2 = null, ticket3 = null, ticket4 = null, ticket5 = null, ticket6 = null;
@@ -1607,30 +1551,30 @@ public class CustomerBookTicketManagedBean implements Serializable {
                 List<TicketEntity> tickets = new ArrayList<>();
                 if (ticket1 != null) {
                     tickets.add(ticket1);
-                    totalPrice = totalPrice + ticket1.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket1.getPrice();
                 }
                 if (ticket2 != null) {
                     tickets.add(ticket2);
-                    totalPrice = totalPrice + ticket2.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket2.getPrice();
                 }
                 if (ticket3 != null) {
                     tickets.add(ticket3);
-                    totalPrice = totalPrice + ticket3.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket3.getPrice();
                 }
                 if (ticket4 != null) {
                     tickets.add(ticket4);
-                    totalPrice = totalPrice + ticket4.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket4.getPrice();
                 }
                 if (ticket5 != null) {
                     tickets.add(ticket5);
-                    totalPrice = totalPrice + ticket5.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket5.getPrice();
                 }
                 if (ticket6 != null) {
                     tickets.add(ticket6);
-                    totalPrice = totalPrice + ticket6.getPrice();
+                    totalFlightPrice = totalFlightPrice + ticket6.getPrice();
                 }
 
-                System.out.println("1 total price = " + totalPrice);
+//                System.out.println("1 total price = " + totalFlightPrice);
                 passenger.setTickets(tickets);
 
                 passengers.add(passenger);
@@ -1741,12 +1685,12 @@ public class CustomerBookTicketManagedBean implements Serializable {
         this.contactNumber = contactNumber;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public double getTotalFlightPrice() {
+        return totalFlightPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setTotalFlightPrice(double totalFlightPrice) {
+        this.totalFlightPrice = totalFlightPrice;
     }
 
     public String getReferenceNumber() {
@@ -1812,8 +1756,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
     public void setMileage(double mileage) {
         this.mileage = mileage;
     }
-    
-    
+
     public boolean isPromotionApplied() {
         return promotionApplied;
     }
@@ -1844,6 +1787,14 @@ public class CustomerBookTicketManagedBean implements Serializable {
 
     public void setTotalPriceBeforeDiscount(double totalPriceBeforeDiscount) {
         this.totalPriceBeforeDiscount = totalPriceBeforeDiscount;
+    }
+
+    public double getTotalPrice() {
+        return CostManagementSessionBean.round(totalFlightPrice + serviceCharge, 2);
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
 }

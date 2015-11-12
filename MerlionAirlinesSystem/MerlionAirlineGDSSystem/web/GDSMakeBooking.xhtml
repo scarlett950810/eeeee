@@ -1,17 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../templates/ClientSideTemplate.xhtml"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:define name="title">
-        Book Air Tickets
-    </ui:define>
-
-    <ui:define name="head">
+    <h:head>
+        <title>Book Air Tickets</title>
         <style>
             .label{
                 color: black;
@@ -40,9 +36,9 @@
 //            }
 
         </script>
-    </ui:define>
+    </h:head>
 
-    <ui:define name="main">
+    <h:body>
         <p:panel id="flightsDetail" header="Flight Details" style="margin-top: 5%; border: #000000 2px solid; height: auto">
 
             <p:dataTable value="#{gDSFlightLookupManagedBean.flights}" var="flight" style="border: none;">
@@ -252,6 +248,6 @@
             </p:wizard>
 
         </h:form>
-    </ui:define>
+    </h:body>
 
-</ui:composition>
+</html>
