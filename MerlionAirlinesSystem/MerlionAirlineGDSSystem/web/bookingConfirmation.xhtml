@@ -1,25 +1,25 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../templates/ClientSideTemplate.xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    
-    <ui:define name="title">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>
         Booking Confirmation
-    </ui:define>
+    </title>
     
-    <ui:define name="head">
+   
         <style>
             #j_idt22 .ui-panelgrid .ui-panelgrid-cell{
                 border: none;
             }
         </style>
-    </ui:define>
+    </h:head>
 
-    <ui:define name="main">
+    <h:body>
         #{gDSFlightLookupManagedBean.afterPay()}
 
         <p:outputLabel value="Congratulations! You Have Successfully Made the Booking" style="margin-top: 7%; font-size: 150%;"></p:outputLabel>
@@ -66,6 +66,6 @@
 
             <p:outputLabel value="A confirmation Email has been sent to #{gDSFlightLookupManagedBean.email}"></p:outputLabel>
         </p:panel>
-    </ui:define>
+    </h:body>
 
-</ui:composition>
+</html>
