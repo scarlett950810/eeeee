@@ -69,7 +69,7 @@ public class GDSMakeBookingSessionBean implements GDSMakeBookingSessionBeanLocal
         String flight = "";
         for (int i = 0; i < flights.size(); i++) {
             GDSFlightEntity flightEntity = flights.get(i);
-            flight = flight + flight.toString() + "<br>";
+            flight = flight + flightEntity.toString() + "<br>";
 
         }
 
