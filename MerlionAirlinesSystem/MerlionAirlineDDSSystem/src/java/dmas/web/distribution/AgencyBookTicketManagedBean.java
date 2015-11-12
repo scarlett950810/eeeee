@@ -208,7 +208,7 @@ public class AgencyBookTicketManagedBean implements Serializable {
         Item item = new Item();
         item.setName("Merlion Airline Ticket");
         DecimalFormat df = new DecimalFormat("0.00");
-        String priceFormat = df.format(totalFlightPrice);
+        String priceFormat = df.format(this.getTotalPrice());
         item.setPrice(priceFormat);
         item.setQuantity("1");
         item.setCurrency("SGD");
