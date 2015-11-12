@@ -8,11 +8,17 @@ package GDS.web.managedbean;
 import GDS.entity.GDSAirportEntity;
 import GDS.entity.GDSBookingClassEntity;
 import GDS.entity.GDSFlightEntity;
+import GDS.entity.GDSPassengerEntity;
+import GDS.entity.GDSTicketEntity;
 import GDS.sessionbean.GDSAirportSessionBeanLocal;
 import GDS.sessionbean.GDSFlightSessionBeanLocal;
 import GDS.sessionbean.GDSTransferFlight;
+import imas.distribution.entity.PassengerEntity;
+import imas.distribution.entity.TicketEntity;
 import imas.distribution.sessionbean.MakeBookingSessionBeanLocal;
 import imas.inventory.sessionbean.CostManagementSessionBean;
+import imas.planning.entity.FlightEntity;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -93,7 +99,10 @@ public class GDSFlightLookupManagedBean implements Serializable {
     private List<GDSFlightEntity> returnDirectFlightCandidates;
     private List<GDSTransferFlight> departureTransferFlightCandidates;
     private List<GDSTransferFlight> returnTransferFlightCandidates;
-    
+
+    List<GDSPassengerEntity> passengers = new ArrayList<>();
+    List<GDSFlightEntity> flights = new ArrayList<>();
+
     private String title;
     private String firstName;
     private String lastName;
@@ -103,7 +112,7 @@ public class GDSFlightLookupManagedBean implements Serializable {
     private String postCode;
     private String email;
     private String contactNumber;
-    private double totalPrice = 0.0;
+    private double totalPrice = 0;
     private String referenceNumber;
 
     public GDSFlightLookupManagedBean() {
@@ -429,7 +438,7 @@ public class GDSFlightLookupManagedBean implements Serializable {
         tab2Disabled = true;
         tab3Disabled = true;
     }
-    
+
     @PostRemove
     public void destroy() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("GDSAirportList");
@@ -526,8 +535,7 @@ public class GDSFlightLookupManagedBean implements Serializable {
         int minNo = (int) ((end.getTime() - start.getTime() - hourNo * 3600000) / 60000);
         return hourNo + " hour " + minNo + " mins";
     }
-    
-    
+
     public void onDepartureDirectFlightSelect(SelectEvent event) {
         departureTransferFlight1 = null;
         departureTransferFlight2 = null;
@@ -603,7 +611,7 @@ public class GDSFlightLookupManagedBean implements Serializable {
             tab3Disabled = true;
         }
     }
-    
+
     private boolean checkFlightsSubmitted() {
         boolean flag = true;
 
@@ -645,16 +653,16 @@ public class GDSFlightLookupManagedBean implements Serializable {
         returnTransferFlight1BookingClass = null;
         returnTransferFlight2BookingClass = null;
     }
-    
+
     public void showNotes(GDSBookingClassEntity bookingClass) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, bookingClass.getName(), bookingClass.getNotes());
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-    
+
     public boolean GDSBookingClassDisabled(GDSBookingClassEntity bc) {
         return (bc.getQuota() < (adultNo + childNo + infantNo));
     }
-    
+
     public String GDSBookingClassPrice(GDSBookingClassEntity bc) {
         if (GDSBookingClassDisabled(bc)) {
             return "Quota not enough";
@@ -662,8 +670,100 @@ public class GDSFlightLookupManagedBean implements Serializable {
             return "S$ " + Double.toString(CostManagementSessionBean.round(bc.getPrice(), 2));
         }
     }
-    
-    public void submitBookingClasses() {
-        
+
+    public boolean checkBookingClassesSubmitted() {
+        boolean flag = true;
+
+        if (selectedDepartureDirectFlight() && departureDirectFlightBookingClass == null) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your departure flight, please select booking class", ""));
+        } else if (selectedDepartureTransferFlight() && (returnTransferFlight1BookingClass == null || returnTransferFlight2BookingClass == null)) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your departure flight, please select booking class for both transfer flights", ""));
+        }
+        if (selectedReturnDirectFlight() && returnDirectFlightBookingClass == null) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your return flight, please select booking class", ""));
+        } else if (selectedReturnTransferFlight() && (returnTransferFlight1BookingClass == null || returnTransferFlight2BookingClass == null)) {
+            flag = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "For your return flight, please select booking class for both transfer flights", ""));
+        }
+        return flag;
     }
+
+    public void submitBookingClasses() throws IOException {
+
+        if (checkBookingClassesSubmitted()) {
+
+            if (selectedDepartureDirectFlight()) {
+                flights.add(departureDirectFlight);
+            } else if (selectedDepartureTransferFlight()) {
+                flights.add(departureTransferFlight1);
+                flights.add(departureTransferFlight1);
+            }
+            if (selectedReturnDirectFlight()) {
+                flights.add(returnDirectFlight);
+            } else if (selectedReturnTransferFlight()) {
+                flights.add(returnTransferFlight1);
+                flights.add(returnTransferFlight1);
+            }
+
+            for (int i = 0; i < adultNo + childNo + infantNo; i++) {
+                GDSPassengerEntity passenger = new GDSPassengerEntity();
+                GDSTicketEntity ticket1 = null, ticket2 = null, ticket3 = null, ticket4 = null, ticket5 = null, ticket6 = null;
+                if (selectedDepartureDirectFlight()) {
+                    ticket1 = new GDSTicketEntity(departureDirectFlight, departureDirectFlightBookingClass.getName(), departureDirectFlightBookingClass.getPrice(), passenger);
+                } else if (selectedDepartureTransferFlight()) {
+                    ticket2 = new GDSTicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
+                    ticket3 = new GDSTicketEntity(departureTransferFlight1, departureTransferFlight1BookingClass.getName(), departureTransferFlight1BookingClass.getPrice(), passenger);
+                }
+                if (selectedReturnDirectFlight()) {
+                    ticket4 = new GDSTicketEntity(returnDirectFlight, returnDirectFlightBookingClass.getName(), returnDirectFlightBookingClass.getPrice(), passenger);
+                } else if (selectedReturnTransferFlight()) {
+                    ticket5 = new GDSTicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
+                    ticket6 = new GDSTicketEntity(returnTransferFlight1, returnTransferFlight1BookingClass.getName(), returnTransferFlight1BookingClass.getPrice(), passenger);
+                }
+
+                // add all tickets to list and set to passenger
+                List<GDSTicketEntity> tickets = new ArrayList<>();
+                if (ticket1 != null) {
+                    tickets.add(ticket1);
+                    totalPrice = totalPrice + ticket1.getPrice();
+                }
+                if (ticket2 != null) {
+                    tickets.add(ticket2);
+                    totalPrice = totalPrice + ticket2.getPrice();
+                }
+                if (ticket3 != null) {
+                    tickets.add(ticket3);
+                    totalPrice = totalPrice + ticket3.getPrice();
+                }
+                if (ticket4 != null) {
+                    tickets.add(ticket4);
+                    totalPrice = totalPrice + ticket4.getPrice();
+                }
+                if (ticket5 != null) {
+                    tickets.add(ticket5);
+                    totalPrice = totalPrice + ticket5.getPrice();
+                }
+                if (ticket6 != null) {
+                    tickets.add(ticket6);
+                    totalPrice = totalPrice + ticket6.getPrice();
+                }
+                passenger.setTickets(tickets);
+
+                passengers.add(passenger);
+            }
+
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("passengerList", passengers);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("GDSmakeBooking.xhtml");
+
+        }
+
+    }
+
 }

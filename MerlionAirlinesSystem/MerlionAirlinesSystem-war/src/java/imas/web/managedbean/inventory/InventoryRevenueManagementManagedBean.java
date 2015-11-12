@@ -104,38 +104,46 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
 
     public void viewBookingClass() throws IOException {
 
-        bookingClassList = selectedFlight.getBookingClasses();
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", bookingClassList);
-        economyClassSeats = inventoryRevenueManagementSessionBean.checkSeatsCapacity(selectedFlight);
-        close = true;
-        createHorizontalBarModel();
+        if (selectedFlight != null) {
 
-        for (BookingClassEntity bookingClassList1 : bookingClassList) {
-            if (bookingClassList1.isEconomyClass1BookingClassEntity()) {
-                economyOne = bookingClassList1;
-            } else if (bookingClassList1.isEconomyClass2BookingClassEntity()) {
-                economyTwo = bookingClassList1;
-            } else if (bookingClassList1.isEconomyClass3BookingClassEntity()) {
-                economyThree = bookingClassList1;
-            } else if (bookingClassList1.isEconomyClass4BookingClassEntity()) {
-                economyFour = bookingClassList1;
-            } else if (bookingClassList1.isEconomyClass5BookingClassEntity()) {
-                economyFive = bookingClassList1;
-            } else if (bookingClassList1.isEconomyClassAgencyBookingClassEntity()) {
-                economyAgency = bookingClassList1;
+            bookingClassList = selectedFlight.getBookingClasses();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingClassList", bookingClassList);
+            economyClassSeats = inventoryRevenueManagementSessionBean.checkSeatsCapacity(selectedFlight);
+            close = true;
+            createHorizontalBarModel();
+
+            for (BookingClassEntity bookingClassList1 : bookingClassList) {
+                if (bookingClassList1.isEconomyClass1BookingClassEntity()) {
+                    economyOne = bookingClassList1;
+                } else if (bookingClassList1.isEconomyClass2BookingClassEntity()) {
+                    economyTwo = bookingClassList1;
+                } else if (bookingClassList1.isEconomyClass3BookingClassEntity()) {
+                    economyThree = bookingClassList1;
+                } else if (bookingClassList1.isEconomyClass4BookingClassEntity()) {
+                    economyFour = bookingClassList1;
+                } else if (bookingClassList1.isEconomyClass5BookingClassEntity()) {
+                    economyFive = bookingClassList1;
+                } else if (bookingClassList1.isEconomyClassAgencyBookingClassEntity()) {
+                    economyAgency = bookingClassList1;
+                }
             }
+
+            economyOneQuota = economyOne.getQuota();
+            economyTwoQuota = economyTwo.getQuota();
+            economyThreeQuota = economyThree.getQuota();
+            economyFourQuota = economyFour.getQuota();
+            economyFiveQuota = economyFive.getQuota();
+            economyAgencyQuota = economyAgency.getQuota();
+
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            ec.redirect("inventoryBookingClassManagement.xhtml");
         }
 
-        economyOneQuota = economyOne.getQuota();
-        economyTwoQuota = economyTwo.getQuota();
-        economyThreeQuota = economyThree.getQuota();
-        economyFourQuota = economyFour.getQuota();
-        economyFiveQuota = economyFive.getQuota();
-        economyAgencyQuota = economyAgency.getQuota();
+    }
 
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        ec.redirect("inventoryBookingClassManagement.xhtml");
+    public void refreshBCTable() {
+        bookingClassList = selectedFlight.getBookingClasses();
     }
 
     public Integer getSoldSeats(Long bookingClassID) {
@@ -158,6 +166,7 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("inventoryBookingClassManagement.xhtml");
+        refreshBCTable();
     }
 
     public BookingClassEntity getEconomyOne() {
@@ -207,18 +216,14 @@ public class InventoryRevenueManagementManagedBean implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         ec.redirect("inventoryBookingClassManagement.xhtml");
-        System.out.print("invoked");
+        refreshBCTable();
     }
 
     public void closeQuotaForm() {
         if (close == true) {
-            System.out.print(economyOne.getQuota());
-            System.out.print(economyTwo.getQuota());
-            System.out.print(economyThree.getQuota());
             economyOneQuota = economyOne.getQuota();
             economyTwoQuota = economyTwo.getQuota();
             economyThreeQuota = economyThree.getQuota();
-            System.out.print("closeQuotaForm called");
         }
     }
 
