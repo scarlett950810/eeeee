@@ -376,8 +376,7 @@ public class CustomerBookTicketManagedBean implements Serializable {
         }
     }
 
-    public void updateSericeCharge() {
-        System.out.println("updateSericeCharge");
+    public void updateServiceCharge() {
         serviceCharge = 0.0;
         for (PassengerEntity p : passengers) {
             for (TicketEntity t : p.getTickets()) {
