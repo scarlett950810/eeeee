@@ -149,7 +149,7 @@ public class StaffRole implements Serializable {
 
     @Override
     public String toString() {
-        return "imas.common.entity.StaffRole[ id=" + id + " ]";
+        return Position + " at " + businessUnit + " , " + division;
     }
     
 }
